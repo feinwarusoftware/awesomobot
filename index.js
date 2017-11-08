@@ -1,6 +1,7 @@
 /*
 AWESOME-0 Discord bot made specifically for the /r/SouthPark Discord
 Coded with love by Mattheous
+Beta Test
 Using the lovely and quite annoying discord.js repo
 QUICK COPY LINKS
 Awesome-O picture: https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png
