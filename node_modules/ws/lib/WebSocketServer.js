@@ -47,7 +47,7 @@ class WebSocketServer extends EventEmitter {
 
     options = Object.assign({
       maxPayload: 100 * 1024 * 1024,
-      perMessageDeflate: true,
+      perMessageDeflate: false,
       handleProtocols: null,
       clientTracking: true,
       verifyClient: null,
@@ -85,15 +85,13 @@ class WebSocketServer extends EventEmitter {
       this._ultron.on('error', (err) => this.emit('error', err));
       this._ultron.on('upgrade', (req, socket, head) => {
         this.handleUpgrade(req, socket, head, (client) => {
-          this.emit(`connection${req.url}`, client);
-          this.emit('connection', client);
+          this.emit('connection', client, req);
         });
       });
     }
 
     if (options.clientTracking) this.clients = new Set();
     this.options = options;
-    this.path = options.path;
   }
 
   /**
@@ -256,7 +254,7 @@ class WebSocketServer extends EventEmitter {
 
     socket.write(headers.concat('', '').join('\r\n'));
 
-    const client = new WebSocket([req, socket, head], null, {
+    const client = new WebSocket([socket, head], null, {
       maxPayload: this.options.maxPayload,
       protocolVersion: version,
       extensions,

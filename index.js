@@ -21,7 +21,7 @@ function test() {
 
 const prefix = "-"
 //Discord Login Token
-client.login('');
+client.login('Mzc3OTE2MjY4OTc3ODQ4MzIx.DOT5fg._et-VkFihZh5TG4KtIlFijSIHgY');
 
 //Terminal Ready Message
 client.on('ready', () => {
@@ -154,4 +154,4 @@ client.on("message", function (message) {
             message.channel.sendEmbed(timesEmbed);
             break;
     }
-}, )
+});
