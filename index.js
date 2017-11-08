@@ -1,24 +1,40 @@
+/*
+AWESOME-0 Discord bot made specifically for the /r/SouthPark Discord
+Coded with love by Mattheous
+Using the lovely and quite annoying discord.js repo
+QUICK COPY LINKS
+Awesome-O picture: https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png
+*/
+
+
 //Import the required modules
 const Discord = require('discord.js');
-const request = require('request');
-const async = require('async');
 const client = new Discord.Client();
-const token = 'token';
-const prefix = "!"
+var moment = require('moment');
+var momentTz = require('moment-timezone');
+var embed = require("./embeds.js");
+
+function test() {
+    "use strict";
+    let a = 1;
+}
+
+const prefix = "-"
 //Discord Login Token
-client.login(token);
+client.login('');
 
 //Terminal Ready Message
 client.on('ready', () => {
-    console.log('Schweet! I am alive!');
+    console.log('Shweet! I am alive!');
 
     //Game Name (appears in the sidebar)
-    client.user.setGame("Mattheous Alpha");
+    client.user.setGame('v0.1 | -botinfo');
 
 });
 process.on("unhandledRejection", (err) => {
     console.error(`Uncaught Promise Rejection: \n${err.stack}`);
 });
+
 
 //Connection Messages
 client.on('disconnect', () => {
@@ -26,85 +42,116 @@ client.on('disconnect', () => {
 })
 
 client.on('error', () => {
-    console.log('Error 404 kms');
+    console.log('Error');
 })
 
 client.on('reconnecting', () => {
-    console.log('Reconnecting...');
+    console.log('Reconnecting');
 })
+
+client.on
 
 client.on("message", function (message) {
     if (message.author.equals(client.user)) return;
+
     if (!message.content.startsWith(prefix)) return;
-    //instead of setting the prefix each time, do this instead
+
     var args = message.content.substring(prefix.length).split(" ");
-    console.log(args);
-    //simple commands
+
+    //Allow Lower or Upper Case for the roles
+    var availableRoles = {
+        "europe": "Europe",
+        "americas": "Americas",
+        "guitar": "Guitar",
+        "bass": "Bass",
+        "keyboard": "Keyboard",
+        "vocals": "Vocals",
+        "drums": "Drums",
+
+    };
+
     switch (args[0].toLowerCase()) {
-        case "ping": //ping command
-            message.reply(args[0]);
+
+        //Ping
+        case "ping":
             var startTime = Date.now();
             const pingEmbed = new Discord.RichEmbed()
                 .setColor(0x85171d)
-                .setAuthor("Pong, my man!", 'https://a.thumbs.redditmedia.com/CK3mlJPLodayl_2bTbFkxC8FBuyevfeCTu0b6gK-_x8.png')
+                .setAuthor("Pong, my man!", 'https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png')
                 .setDescription("Time taken : ")
             message.channel.sendEmbed(pingEmbed).then((m) => {
-                m.delete();
+                m.delete()
                 pingEmbed.setDescription('Time taken : ' + Math.floor(Date.now() - startTime) + ' ms.');
                 pingEmbed.addField('Websocket Response Time : ', Math.floor(client.ping) + "ms")
                 message.channel.sendEmbed(pingEmbed)
             });
             break;
-
-        case "avatar": //avatar
+            //Avatar
+        case "avatar":
             message.reply(message.author.avatarURL);
             break;
 
+            //SELF APPLICABLE ROLES
+
+            //Europe
+        case "newkid":
+            let europe = message.guild.roles.find('name', 'New Kid');
+            message.member.addRole(europe).then(m => message.reply("I think it worked?")).catch(console.error);
+            break;
+
+            //stupid instrument that don't actually exist
+        case "harmonica":
+            message.reply("<:mangini_phonecall:293783988353368064> https://youtu.be/-w-58hQ9dLk?t=10s  <:mangini_phonecall:293783988353368064>");
+            break;
+
+            //END OF ROLES
+            //OTHER COMMANDS BELOW
+
+        case "botinfo":
+            message.channel.sendEmbed(embed.infoEmbed);
+            break;
+
         case "help":
-            message.channel.send(
-                new Discord.RichEmbed()
+            message.channel.sendEmbed(embed.helpEmbed);
+            break;
+
+        case "help2":
+            message.channel.sendEmbed(embed.helpEmbedTwo);
+            break;
+
+        case "sub":
+            message.reply("http://reddit.com/r/southpark");
+            break;
+
+        case "subreddit":
+            message.reply("http://reddit.com/r/southpark");
+            break
+
+        case "times":
+            current_time = moment().format('MMMM Do YYYY, h:mm a');
+            est = momentTz().tz("America/New_York").format('MMMM Do YYYY, h:mm a');
+            pst = momentTz().tz("America/Los_Angeles").format('MMMM Do YYYY, h:mm a');
+            mst = momentTz().tz("America/Boise").format('MMMM Do YYYY, h:mm a');
+            nst = momentTz().tz("America/St_Johns").format('MMMM Do YYYY, h:mm a');
+            cet = momentTz().tz("Europe/Stockholm").format('MMMM Do YYYY, h:mm a');
+            gmt = momentTz().tz("Europe/Dublin").format('MMMM Do YYYY, h:mm a');
+            ist = momentTz().tz("Asia/Kolkata").format('MMMM Do YYYY, h:mm a');
+            ast = momentTz().tz("Asia/Qatar").format('MMMM Do YYYY, h:mm a');
+            timesEmbed = new Discord.RichEmbed()
                 .setColor(0x85171d)
-                .setAuthor("NOMAC // Commands", 'https://a.thumbs.redditmedia.com/CK3mlJPLodayl_2bTbFkxC8FBuyevfeCTu0b6gK-_x8.png')
-                .setThumbnail("https://cdn.shopify.com/s/files/1/1061/1924/files/Thinking_Face_Emoji.png")
-                .addField("ping", "Pong!")
-                .addField("botinfo", "Displays a short description of the bot")
-                .addField("lyrics", "Displays lyrics for the song. Usage: -lyrics <song name>")
-                .addField("help", "Type this if you want to cause inception")
-                .addField("times", "Displays a list of times in different timezones.")
-                .addField("europe, americas, oceania, africa or asia", "Choose your region")
-                .addField("<instrument>", "Type -instrumentlist list of variables")
-                .addField("instrumentlist", "I just explained what this does, Do you listen?")
-                .setFooter("Page 1 of 2 :: Use -help2 to view page 2 (Non serious commands)")
-            );
+                .setAuthor("AWESOME-O // Times", 'https://a.thumbs.redditmedia.com/CK3mlJPLodayl_2bTbFkxC8FBuyevfeCTu0b6gK-_x8.png')
+                .setThumbnail("https://openclipart.org/image/2400px/svg_to_png/217068/6oclock.png")
+                .addField("CST (Central Standard Time)", current_time)
+                .addField("EST (Eastern Standard Time)", est)
+                .addField("PST (Pacific Standard Time)", pst)
+                .addField("MST (Mountain Standard Time)", mst)
+                .addField("NST (Newfoundland Standard Time)", nst)
+                .addField("CET (Central European Time)", cet)
+                .addField("GMT (Greenwich Mean Time)", gmt)
+                .addField("IST (Indian Standard Time)", ist)
+                .addField("AST (Arabia Standard Time)", ast)
+                .setFooter("Don't see your timezone? Ping Mattheous to get yours added!")
+            message.channel.sendEmbed(timesEmbed);
+            break;
     }
-
-    //self-applicable roles
-    if (args[0] == 'role') {
-        if (args[1] != undefined) {
-            let validRoles = ['americas', 'europe', 'asia', 'oceania', 'africa', 'bass', 'guitar', 'keyboard', 'vocals', 'drums', 'piano'];
-            let world = (args[1].toLowerCase()).charAt(0).toUpperCase() + args[1].slice(1);
-            let roles = {
-                'americas': 'I flew around the globe and landed here! :earth_americas:',
-                'europe': "You are now a :flag_eu: citizen. Unless you're from :flag_gb: because BREXIT!",
-                'asia': "I flew around the globe in search of music and landed here! :earth_asia:",
-                'oceania': ':ocean: ia, yay',
-                'africa': "I flew around the globe in search of music and landed here! :earth_africa:",
-                'guitar': '<:petrucci_scare:293783989288828928> :guitar:',
-                'bass': '<:myung_uwotm8:293783987812565003> :guitar:',
-                'drums': '<:portnoy_stroke:293786431934038017> :drum:',
-                'keyboard': '<:rudess_yeo:293783985689985024> :musical_keyboard:',
-                'piano': '<:rudess_yeo:293783985689985024> :musical_keyboard:',
-                'vocals': '<:labrie_nightmare:293790537880961024> :microphone:'
-            };
-
-            if (!validRoles.includes(args[1].toLowerCase())) {
-                message.reply("This role is not self applicable.")
-            } else {
-                let r_mes = eval(`roles.${args[1].toLowerCase()}`);
-                message.member.addRole(message.guild.roles.find('name', world)).then(m => message.reply(r_mes)).catch(console.error);
-            }
-        } else {
-            message.reply("Role help message.")
-        }
-    }
-});
+}, )
