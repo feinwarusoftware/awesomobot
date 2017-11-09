@@ -1,7 +1,6 @@
 /*
 AWESOME-0 Discord bot made specifically for the /r/SouthPark Discord
 Coded with love by Mattheous
-Beta Test
 Using the lovely and quite annoying discord.js repo
 QUICK COPY LINKS
 Awesome-O picture: https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png
@@ -92,9 +91,9 @@ client.on("message", function (message) {
             message.reply(message.author.avatarURL);
             break;
 
-            //SELF APPLICABLE ROLES
+            //COMMANDS
 
-            //Europe
+            //New Kid
         case "newkid":
             let europe = message.guild.roles.find('name', 'New Kid');
             message.member.addRole(europe).then(m => message.reply("I think it worked?")).catch(console.error);
