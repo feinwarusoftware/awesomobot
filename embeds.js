@@ -5,7 +5,7 @@ module.exports.infoEmbed = new Discord.RichEmbed()
 .setColor(0x85171d)
 .setAuthor(``, 'https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png')
 .setThumbnail('http://screeninvasion.com/wp-content/uploads/2013/03/Butters-Awesom-O.jpg')
-.setTitle('Your all purpose South Park! Crafted with love by Mattheous. ♥')
+.setTitle('Your all purpose South Park Bot! Crafted with love by Mattheous. ♥')
 .setDescription("-help for a list of commands")
 .setFooter("This bot is pretty schweet!")
 
