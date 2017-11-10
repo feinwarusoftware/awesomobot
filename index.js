@@ -21,8 +21,10 @@ function test() {
 
 const prefix = "-"
 const member = "member"
+const membercaps = "Member"
+
 //Discord Login Token
-client.login('');
+client.login('Mzc3OTE2MjY4OTc3ODQ4MzIx.DOcj1Q.yeclSXamf_i8gFrERjbGyQQYIho');
 
 //Terminal Ready Message
 client.on('ready', () => {
@@ -179,11 +181,20 @@ client.on("message", function (message) {
 client.on("message", function (message) {
     if (message.author.equals(client.user)) return;
 
-    if (!message.content.startsWith(member)) return;
+    if (!message.content.startsWith(member, membercaps)) return;
 
     var args = message.content.substring(member.length).split(" ");
+     switch (args[0].toLowerCase()) {} 
+     
+    var membermessage = ['Ooohhh I Member!', 'Me member!', 'I member!'];  
 
-    switch (args[0].toLowerCase()) {}
+    function randomItem(array) {
+        return array[Math.floor(Math.random() * array.length)];
+    }
 
-    message.reply("Oooohh I member!");
+    let memberresponse = randomItem(membermessage);
+
+   
+
+    message.reply(memberresponse);
 });
