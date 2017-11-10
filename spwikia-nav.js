@@ -18,7 +18,7 @@ module.exports = {
             try {
                 var id = page.items[0].id;
             } catch(e) {
-                console.log("Invalid search query: " + name);
+                //console.log("Invalid search query: " + name);
                 return;
             }
 
@@ -27,14 +27,29 @@ module.exports = {
             };
 
             spwikia.articleAsSimpleJson(dict2, function(simple) {
-                var title = simple.sections[0].title;
+                try {
+                    var title = simple.sections[0].title;
+                } catch(e) {
+                    //console.log("Invalid search query: " + name);
+                    return;
+                }
                 var desc = "";
 
                 if (simple.sections[1].title == "Synopsis") {
-                    desc = simple.sections[1].content[0].text;
+                    try {
+                        desc = simple.sections[1].content[0].text;
+                    } catch(e) {
+                        //console.log("Invalid search query: " + name);
+                        return;
+                    }
                 
                 } else {
-                    desc = simple.sections[0].content[0].text;
+                    try {
+                        desc = simple.sections[0].content[0].text;
+                    } catch(e) {
+                        //console.log("Invalid search query: " + name);
+                        return;
+                    }
                 }
 
                 var dict3 = {
@@ -42,7 +57,12 @@ module.exports = {
                 };
 
                 spwikia.articleDetails(dict3, function(detail) {
-                    var thumbnail = detail.items[id].thumbnail;
+                    try {
+                        var thumbnail = detail.items[id].thumbnail;
+                    } catch(e) {
+                        //console.log("Invalid search query: " + name);
+                        return;
+                    }
 
                     callback(title, desc, thumbnail);
                 });

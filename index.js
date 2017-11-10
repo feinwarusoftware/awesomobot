@@ -66,6 +66,35 @@ client.on("message", function (message) {
         message.reply(membermessage[Math.floor(Math.random() * membermessage.length)]);
     }
 
+    //Allow Lower or Upper Case for the swears
+    const swears = ["beaner", 
+    "chink",
+    "ching chong",
+    "gook",
+    "goy",
+    "jap",
+    "nigger",
+    "nigga",
+    "niggar",
+    "nigguh",
+    "sand nigger",
+    "wetback",
+    "fag",
+    "faggot",
+    "tranny",
+    "shemale",
+    "dyke"];
+    
+for (var i = 0; i < swears.length; i++) {
+if (message.content.toLowerCase().includes(swears[i])) {
+console.log(message.author + " said " + message.content + " at " + message.createdAt);
+message.delete();
+message.reply("what WHAT WHAT!!! - Don't be using those words young man");
+i = swears.length;
+}
+}
+
+
     if (!message.content.startsWith(prefix)) return;
 
     var args = message.content.substring(prefix.length).split(" ");
@@ -158,29 +187,35 @@ client.on("message", function (message) {
         case "microaggression":
             message.delete()
             message.channel.sendMessage("", {
-                file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"
+                file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png"
             });
             break
 
         case "micro":
             message.delete()
             message.channel.sendMessage("", {
-                file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"
+                file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png"
             });
             break
 
         case "aggression":
             message.delete()
             message.channel.sendMessage("", {
-                file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"
+                file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png"
             });
             break
 
         case "reminder":
             message.channel.sendMessage("", {
-                file: "https://cdn.discordapp.com/attachments/371762864790306820/378297627047100418/Discord_Ver.png"
+                file: "https://cdn.discordapp.com/attachments/378287210711220224/378648515959586816/Towelie_Logo2.png"
             });
             break
+
+        case "towel":
+            message.channel.sendMessage("", {
+                file: "https://cdn.discordapp.com/attachments/378287210711220224/378648515959586816/Towelie_Logo2.png"
+            });
+            break    
 
         case "welcome":
             message.channel.sendMessage("", {
