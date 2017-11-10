@@ -25,7 +25,7 @@ const prefix = "-"
 const member = "member"
 
 //Discord Login Token
-client.login("token's life matters");
+client.login("Mzc3OTE2MjY4OTc3ODQ4MzIx.DOd88Q.ya-VORjiWGa1SvoqhpuDwZL8wRw");
 
 //Terminal Ready Message
 client.on('ready', () => {
@@ -144,14 +144,15 @@ client.on("message", function (message) {
 
             spnav.getPageInfo(query, function(title, desc, thumbnail) {
                 const descEmbed = new Discord.RichEmbed()
-                .setColor(0xC0FF33)
+                .setColor(0xc19245)
                 .setAuthor("AWESOME-O // " + title, "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
                 .setThumbnail(thumbnail)
                 .setDescription(desc);
             
                 message.channel.send(descEmbed);
             });
-        
+            break
+
         case "microaggression":
             message.channel.sendMessage("", {
                 file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"
@@ -193,7 +194,7 @@ client.on("message", function (message) {
             ist = momentTz().tz("Asia/Kolkata").format('MMMM Do YYYY, h:mm a');
             ast = momentTz().tz("Asia/Qatar").format('MMMM Do YYYY, h:mm a');
             timesEmbed = new Discord.RichEmbed()
-                .setColor(0x85171d)
+                .setColor(0xc19245)
                 .setAuthor("AWESOME-O // Times", 'https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png')
                 .setThumbnail("https://openclipart.org/image/2400px/svg_to_png/217068/6oclock.png")
                 .addField("CST (Central Standard Time)", current_time)
