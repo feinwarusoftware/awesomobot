@@ -15,7 +15,12 @@ module.exports = {
         };
 
         spwikia.search(dict1, function(page) {
-            var id = page.items[0].id;
+            try {
+                var id = page.items[0].id;
+            } catch(e) {
+                console.log("Invalid search query: " + name);
+                return;
+            }
 
             var dict2 = {
                 id: id,

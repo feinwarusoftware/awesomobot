@@ -134,38 +134,43 @@ client.on("message", function (message) {
         case "search":
         case "wikia":
         case "wiki":
-            if (args[1] === undefined) { return; }
-        
+            if (args[1] === undefined) {
+                return;
+            }
+
             var query = args[1];
-        
+
             for (var i = 2; i < args.length; i++) {
                 query += (" " + args[i]);
             }
 
-            spnav.getPageInfo(query, function(title, desc, thumbnail) {
+            spnav.getPageInfo(query, function (title, desc, thumbnail) {
                 const descEmbed = new Discord.RichEmbed()
-                .setColor(0xc19245)
-                .setAuthor("AWESOME-O // " + title, "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
-                .setThumbnail(thumbnail)
-                .setDescription(desc);
-            
+                    .setColor(0xc19245)
+                    .setAuthor("AWESOME-O // " + title, "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+                    .setThumbnail(thumbnail)
+                    .setDescription(desc);
+
                 message.channel.send(descEmbed);
             });
             break
 
         case "microaggression":
+            message.delete()
             message.channel.sendMessage("", {
                 file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"
             });
             break
 
         case "micro":
+            message.delete()
             message.channel.sendMessage("", {
                 file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"
             });
             break
 
         case "aggression":
+            message.delete()
             message.channel.sendMessage("", {
                 file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"
             });
