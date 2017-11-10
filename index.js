@@ -14,6 +14,7 @@ const client = new Discord.Client();
 var moment = require('moment');
 var momentTz = require('moment-timezone');
 var embed = require("./embeds.js");
+var spwikia = require("./spwikia");
 
 function test() {
     "use strict";
@@ -22,7 +23,7 @@ function test() {
 
 const prefix = "-"
 //Discord Login Token
-client.login('Mzc3OTE2MjY4OTc3ODQ4MzIx.DOT5fg._et-VkFihZh5TG4KtIlFijSIHgY');
+client.login('MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac');
 
 //Terminal Ready Message
 client.on('ready', () => {
@@ -127,6 +128,33 @@ client.on("message", function (message) {
         case "subreddit":
             message.reply("http://reddit.com/r/southpark");
             break
+			
+		case "ep":
+			if (args[1] === undefined) { return; }
+			var query = args[1];
+			
+				for (var i = 2; i < args.length; i++) {
+					query += (" " + args[i]);
+				}
+				
+				spwikia.getPageId(query, function(id) {
+					spwikia.getEpTitle(id, function(title) {
+						spwikia.getEpDesc(id, function(desc) {
+							spwikia.getEpImage(id, function(url) {
+							
+								const descEmbed = new Discord.RichEmbed()
+									.setColor(0xC0FF33)
+									.setAuthor("AWESOME-O // " + title, "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+									.setThumbnail(url)
+									.setDescription(desc);
+							
+								message.channel.send(descEmbed);
+							});
+						});
+					});
+				});
+			
+			break;
 
         case "times":
             current_time = moment().format('MMMM Do YYYY, h:mm a');
