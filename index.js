@@ -21,17 +21,16 @@ function test() {
 
 const prefix = "-"
 const member = "member"
-const membercaps = "Member"
 
 //Discord Login Token
-client.login('Mzc3OTE2MjY4OTc3ODQ4MzIx.DOcj1Q.yeclSXamf_i8gFrERjbGyQQYIho');
+client.login('');
 
 //Terminal Ready Message
 client.on('ready', () => {
     console.log('Shweet! I am alive!');
 
     //Game Name (appears in the sidebar)
-    client.user.setGame('v0.1 | -botinfo');
+    client.user.setGame('v0.2 | -botinfo');
 
 });
 process.on("unhandledRejection", (err) => {
@@ -179,22 +178,10 @@ client.on("message", function (message) {
 });
 
 client.on("message", function (message) {
-    if (message.author.equals(client.user)) return;
-
-    if (!message.content.startsWith(member, membercaps)) return;
-
-    var args = message.content.substring(member.length).split(" ");
-     switch (args[0].toLowerCase()) {} 
-     
-    var membermessage = ['Ooohhh I Member!', 'Me member!', 'I member!'];  
-
-    function randomItem(array) {
-        return array[Math.floor(Math.random() * array.length)];
-    }
-
-    let memberresponse = randomItem(membermessage);
-
-   
-
-    message.reply(memberresponse);
+    if (message.content.toLowerCase().startsWith("member")) {
+        
+                var membermessage = ['Ooohhh I Member!', 'Me member!', 'I member!'];
+        
+                message.reply(membermessage[Math.floor(Math.random() * membermessage.length)]);
+            }
 });
