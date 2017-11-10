@@ -1,6 +1,7 @@
 /*
 AWESOME-0 Discord bot made specifically for the /r/SouthPark Discord
-Coded with love by Mattheous
+Coded with love by Mattheous & Dragon1320
+
 Using the lovely and quite annoying discord.js repo
 QUICK COPY LINKS
 Awesome-O picture: https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png
@@ -13,6 +14,7 @@ const client = new Discord.Client();
 var moment = require('moment');
 var momentTz = require('moment-timezone');
 var embed = require("./embeds.js");
+var spnav = require("./spwikia-nav");
 
 function test() {
     "use strict";
@@ -23,7 +25,7 @@ const prefix = "-"
 const member = "member"
 
 //Discord Login Token
-client.login('');
+client.login("token's life matters");
 
 //Terminal Ready Message
 client.on('ready', () => {
@@ -55,6 +57,14 @@ client.on
 
 client.on("message", function (message) {
     if (message.author.equals(client.user)) return;
+
+    // Stuff without prefixes.
+    if (message.content.toLowerCase().startsWith("member")) {
+
+        var membermessage = ['Ooohhh I Member!', 'Me member!', 'I member!'];
+
+        message.reply(membermessage[Math.floor(Math.random() * membermessage.length)]);
+    }
 
     if (!message.content.startsWith(prefix)) return;
 
@@ -118,6 +128,30 @@ client.on("message", function (message) {
             message.reply("http://reddit.com/r/southpark");
             break
 
+        case "w":
+        case "find":
+        case "lookup":
+        case "search":
+        case "wikia":
+        case "wiki":
+            if (args[1] === undefined) { return; }
+        
+            var query = args[1];
+        
+            for (var i = 2; i < args.length; i++) {
+                query += (" " + args[i]);
+            }
+
+            spnav.getPageInfo(query, function(title, desc, thumbnail) {
+                const descEmbed = new Discord.RichEmbed()
+                .setColor(0xC0FF33)
+                .setAuthor("AWESOME-O // " + title, "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+                .setThumbnail(thumbnail)
+                .setDescription(desc);
+            
+                message.channel.send(descEmbed);
+            });
+        
         case "microaggression":
             message.channel.sendMessage("", {
                 file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"
@@ -175,13 +209,4 @@ client.on("message", function (message) {
             message.channel.sendEmbed(timesEmbed);
             break;
     }
-});
-
-client.on("message", function (message) {
-    if (message.content.toLowerCase().startsWith("member")) {
-        
-                var membermessage = ['Ooohhh I Member!', 'Me member!', 'I member!'];
-        
-                message.reply(membermessage[Math.floor(Math.random() * membermessage.length)]);
-            }
 });
