@@ -7,7 +7,6 @@ QUICK COPY LINKS
 Awesome-O picture: https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png
 */
 
-
 //Import the required modules
 const Discord = require('discord.js');
 const client = new Discord.Client();
@@ -15,15 +14,33 @@ var moment = require('moment');
 var momentTz = require('moment-timezone');
 var embed = require("./embeds.js");
 var spnav = require("./spwikia-nav");
+const utils = require("./utils");
+
+// Constant globals.
+const logfp = "./data/logs.txt";
+const blacklistfp = "./data/blacklist.json";
+const configfp = "./data/config.json";
+const issuefp = "./data/issues.txt";
+
+const prefix = "-"
+
+var swears;
+utils.readFile(blacklistfp, function(data) {
+    swears = JSON.parse(data).words;
+});
+
+var config;
+utils.readFile(configfp, function(data) {
+    config = JSON.parse(data);
+
+    //Discord Login Token
+    client.login(config.token);
+});
 
 function test() {
     "use strict";
     let a = 1;
 }
-
-const prefix = "-"
-//Discord Login Token
-client.login("token's life matters");
 
 //Terminal Ready Message
 client.on('ready', () => {
@@ -37,21 +54,18 @@ process.on("unhandledRejection", (err) => {
     console.error(`Uncaught Promise Rejection: \n${err.stack}`);
 });
 
-
 //Connection Messages
 client.on('disconnect', () => {
     console.log('Disconnected');
-})
+});
 
 client.on('error', () => {
     console.log('Error');
-})
+});
 
 client.on('reconnecting', () => {
     console.log('Reconnecting');
-})
-
-client.on
+});
 
 client.on("message", function (message) {
     if (message.author.equals(client.user)) return;
@@ -62,6 +76,12 @@ client.on("message", function (message) {
         var membermessage = ['Ooohhh I Member!', 'Me member!', 'I member!'];
 
         message.reply(membermessage[Math.floor(Math.random() * membermessage.length)]);
+    }
+
+    if (utils.messageIncludes(message, swears)) {
+        utils.logMessage(logfp, message);
+        message.delete();
+        message.reply(" what WHAT WHAT!!! - Don't be using those words young man");
     }
 
     if (!message.content.startsWith(prefix)) return;
@@ -137,6 +157,10 @@ client.on("message", function (message) {
             message.reply("http://reddit.com/r/southpark");
             break
 
+        case "issue":
+            utils.logMessage(issuefp, message);
+            break;
+
         case "w":
         case "find":
         case "lookup":
@@ -151,10 +175,11 @@ client.on("message", function (message) {
                 query += (" " + args[i]);
             }
 
-            spnav.getPageInfo(query, function(title, desc, thumbnail) {
+            spnav.getPageInfo(query, function(title, url, desc, thumbnail) {
                 const descEmbed = new Discord.RichEmbed()
                 .setColor(0xC0FF33)
                 .setAuthor("AWESOME-O // " + title, "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+                .setURL(url)
                 .setThumbnail(thumbnail)
                 .setDescription(desc);
             

@@ -6,6 +6,9 @@
  */
 
 const spwikia = require("./spwikia");
+const utils = require("./utils");
+
+const badrequestfp = "./data/badrequests.txt";
 
 module.exports = {
     getPageInfo: function(name, callback) {
@@ -15,21 +18,48 @@ module.exports = {
         };
 
         spwikia.search(dict1, function(page) {
-            var id = page.items[0].id;
+            try {
+                var id = page.items[0].id;
+            } catch(e) {
+                utils.logString(badrequestfp, "Wikia error at id: " + name);
+                return;
+            }
+
+            try {
+                var url = page.items[0].url;
+            } catch(e) {
+                utils.logString(badrequestfp, "Wikia error at url: " + name);
+                return;
+            }
 
             var dict2 = {
                 id: id,
             };
 
             spwikia.articleAsSimpleJson(dict2, function(simple) {
-                var title = simple.sections[0].title;
+                try {
+                    var title = simple.sections[0].title;
+                } catch(e) {
+                    utils.logString(badrequestfp, "Wikia error at char title: " + name);
+                    return;
+                }
                 var desc = "";
 
                 if (simple.sections[1].title == "Synopsis") {
-                    desc = simple.sections[1].content[0].text;
+                    try {
+                        desc = simple.sections[1].content[0].text;
+                    } catch(e) {
+                        utils.logString(badrequestfp, "Wikia error at ep title: " + name);
+                        return;
+                    }
                 
                 } else {
-                    desc = simple.sections[0].content[0].text;
+                    try {
+                        desc = simple.sections[0].content[0].text;
+                    } catch(e) {
+                        utils.logString(badrequestfp, "Wikia error at desc: " + name);
+                        return;
+                    }
                 }
 
                 var dict3 = {
@@ -37,9 +67,14 @@ module.exports = {
                 };
 
                 spwikia.articleDetails(dict3, function(detail) {
-                    var thumbnail = detail.items[id].thumbnail;
+                    try {
+                        var thumbnail = detail.items[id].thumbnail;
+                    } catch(e) {
+                        utils.logString(badrequestfp, "Wikia error at thumbnail: " + name);
+                        return;
+                    }
 
-                    callback(title, desc, thumbnail);
+                    callback(title, url, desc, thumbnail);
                 });
             });
         });

@@ -2,10 +2,6 @@
  * Testing without using the discord.js api.
  */
 
-const spnav = require("./spwikia-nav");
+const utils = require("./utils");
 
-spnav.getEpDetails("kenny dies", function(title, details, thumbnail) {
-    console.log(title);
-    console.log(details);
-    console.log(thumbnail);
-});
+utils.log("./log.txt", "Hello logs!");
