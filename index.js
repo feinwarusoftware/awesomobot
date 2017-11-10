@@ -20,6 +20,7 @@ function test() {
 }
 
 const prefix = "-"
+const member = "member"
 //Discord Login Token
 client.login('');
 
@@ -173,4 +174,16 @@ client.on("message", function (message) {
             message.channel.sendEmbed(timesEmbed);
             break;
     }
+});
+
+client.on("message", function (message) {
+    if (message.author.equals(client.user)) return;
+
+    if (!message.content.startsWith(member)) return;
+
+    var args = message.content.substring(member.length).split(" ");
+
+    switch (args[0].toLowerCase()) {}
+
+    message.reply("Oooohh I member!");
 });
