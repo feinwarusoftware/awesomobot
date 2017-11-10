@@ -1,3 +1,7 @@
+/**
+ * Simple REST query implementation.
+ */
+
 const querystring = require("querystring");
 const https = require("https");
 

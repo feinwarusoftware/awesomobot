@@ -1,6 +1,6 @@
 /*
 AWESOME-0 Discord bot made specifically for the /r/SouthPark Discord
-Coded with love by Mattheous
+Coded with love by Mattheous & Dragon1320
 Beta Test
 Using the lovely and quite annoying discord.js repo
 QUICK COPY LINKS
@@ -128,26 +128,32 @@ client.on("message", function (message) {
         case "subreddit":
             message.reply("http://reddit.com/r/southpark");
             break
-			
-		case "ep":
-			if (args[1] === undefined) { return; }
-			var query = args[1];
-			
-				for (var i = 2; i < args.length; i++) {
-					query += (" " + args[i]);
-                }
-				
-                spnav.getEpDetails(query, function(title, desc, thumbnail) {
-                    const descEmbed = new Discord.RichEmbed()
-                    .setColor(0xC0FF33)
-                    .setAuthor("AWESOME-O // " + title, "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
-                    .setThumbnail(thumbnail)
-                    .setDescription(desc);
+
+        case "w":
+        case "find":
+        case "lookup":
+        case "search":
+        case "wikia":
+        case "wiki":
+            if (args[1] === undefined) { return; }
+        
+            var query = args[1];
+        
+            for (var i = 2; i < args.length; i++) {
+                query += (" " + args[i]);
+            }
+
+            spnav.getPageInfo(query, function(title, desc, thumbnail) {
+                const descEmbed = new Discord.RichEmbed()
+                .setColor(0xC0FF33)
+                .setAuthor("AWESOME-O // " + title, "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+                .setThumbnail(thumbnail)
+                .setDescription(desc);
             
-                    message.channel.send(descEmbed);
-                });
-			
-			break;
+                message.channel.send(descEmbed);
+            });
+
+            break;
 
         case "times":
             current_time = moment().format('MMMM Do YYYY, h:mm a');

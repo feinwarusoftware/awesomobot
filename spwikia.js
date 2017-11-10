@@ -1,3 +1,7 @@
+/**
+ * Wikia api designed specifically for south park.
+ */
+
 const rquest = require("./rquest");
 const utils = require("./utils");
 

@@ -1,3 +1,6 @@
+// This is not needed anymore.
+// If you come across it and its still here, you can delete it.
+
 var querystring = require('querystring');
 var https = require('https');
 
