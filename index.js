@@ -21,7 +21,7 @@ function test() {
 
 const prefix = "-"
 //Discord Login Token
-client.login('Mzc3OTE2MjY4OTc3ODQ4MzIx.DOT5fg._et-VkFihZh5TG4KtIlFijSIHgY');
+client.login('');
 
 //Terminal Ready Message
 client.on('ready', () => {
@@ -58,18 +58,6 @@ client.on("message", function (message) {
 
     var args = message.content.substring(prefix.length).split(" ");
 
-    //Allow Lower or Upper Case for the roles
-    var availableRoles = {
-        "europe": "Europe",
-        "americas": "Americas",
-        "guitar": "Guitar",
-        "bass": "Bass",
-        "keyboard": "Keyboard",
-        "vocals": "Vocals",
-        "drums": "Drums",
-
-    };
-
     switch (args[0].toLowerCase()) {
 
         //Ping
@@ -93,18 +81,19 @@ client.on("message", function (message) {
 
             //COMMANDS
 
-            //New Kid
+            /* Legacy Code
         case "newkid":
             let newkid = message.guild.roles.find('name', 'New Kid');
             message.member.addRole(newkid).then(m => message.reply("I think it worked?")).catch(console.error);
             break;
 
-            //stupid instrument that don't actually exist
+            //Stuff That I haven't organised Yet
         case "harmonica":
             message.reply("<:mangini_phonecall:293783988353368064> https://youtu.be/-w-58hQ9dLk?t=10s  <:mangini_phonecall:293783988353368064>");
             break;
+                    */
 
-            //END OF ROLES
+
             //OTHER COMMANDS BELOW
 
         case "botinfo":
@@ -128,29 +117,34 @@ client.on("message", function (message) {
             break
 
         case "microaggression":
-        message.channel.sendMessage("", {
-            file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"});
-            break
-        
-        case "micro":
-        message.channel.sendMessage("", {
-            file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"});
-            break
-        
-        case "aggression":
-        message.channel.sendMessage("", {
-            file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"});
-            break
-        
-        case "reminder":
-        message.channel.sendMessage("", {
-            file: "https://cdn.discordapp.com/attachments/371762864790306820/378297627047100418/Discord_Ver.png"});
-            break
-        
-            case "welcome":
             message.channel.sendMessage("", {
-                file: "https://cdn.discordapp.com/attachments/371762864790306820/378305844959248385/Welcome.png"});
-                break
+                file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"
+            });
+            break
+
+        case "micro":
+            message.channel.sendMessage("", {
+                file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"
+            });
+            break
+
+        case "aggression":
+            message.channel.sendMessage("", {
+                file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"
+            });
+            break
+
+        case "reminder":
+            message.channel.sendMessage("", {
+                file: "https://cdn.discordapp.com/attachments/371762864790306820/378297627047100418/Discord_Ver.png"
+            });
+            break
+
+        case "welcome":
+            message.channel.sendMessage("", {
+                file: "https://cdn.discordapp.com/attachments/371762864790306820/378305844959248385/Welcome.png"
+            });
+            break
 
         case "times":
             current_time = moment().format('MMMM Do YYYY, h:mm a');
