@@ -23,7 +23,7 @@ function test() {
 
 const prefix = "-"
 //Discord Login Token
-client.login('MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac');
+client.login("token's life matters");
 
 //Terminal Ready Message
 client.on('ready', () => {
@@ -55,6 +55,14 @@ client.on
 
 client.on("message", function (message) {
     if (message.author.equals(client.user)) return;
+
+    // Stuff without prefixes.
+    if (message.content.toLowerCase().startsWith("member")) {
+
+        var membermessage = ['Ooohhh I Member!', 'Me member!', 'I member!'];
+
+        message.reply(membermessage[Math.floor(Math.random() * membermessage.length)]);
+    }
 
     if (!message.content.startsWith(prefix)) return;
 
