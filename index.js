@@ -1,7 +1,7 @@
 /*
 AWESOME-0 Discord bot made specifically for the /r/SouthPark Discord
 Coded with love by Mattheous & Dragon1320
-Beta Test
+
 Using the lovely and quite annoying discord.js repo
 QUICK COPY LINKS
 Awesome-O picture: https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png
@@ -42,12 +42,21 @@ function test() {
     let a = 1;
 }
 
+<<<<<<< HEAD
+=======
+const prefix = "-"
+const member = "member"
+
+//Discord Login Token
+client.login("token's life matters");
+
+>>>>>>> dragon1320
 //Terminal Ready Message
 client.on('ready', () => {
     console.log('Shweet! I am alive!');
 
     //Game Name (appears in the sidebar)
-    client.user.setGame('v0.1 | -botinfo');
+    client.user.setGame('v0.2 | -botinfo');
 
 });
 process.on("unhandledRejection", (err) => {
@@ -88,18 +97,6 @@ client.on("message", function (message) {
 
     var args = message.content.substring(prefix.length).split(" ");
 
-    //Allow Lower or Upper Case for the roles
-    var availableRoles = {
-        "europe": "Europe",
-        "americas": "Americas",
-        "guitar": "Guitar",
-        "bass": "Bass",
-        "keyboard": "Keyboard",
-        "vocals": "Vocals",
-        "drums": "Drums",
-
-    };
-
     switch (args[0].toLowerCase()) {
 
         //Ping
@@ -121,20 +118,21 @@ client.on("message", function (message) {
             message.reply(message.author.avatarURL);
             break;
 
-            //SELF APPLICABLE ROLES
+            //COMMANDS
 
-            //Europe
+            /* Legacy Code
         case "newkid":
-            let europe = message.guild.roles.find('name', 'New Kid');
-            message.member.addRole(europe).then(m => message.reply("I think it worked?")).catch(console.error);
+            let newkid = message.guild.roles.find('name', 'New Kid');
+            message.member.addRole(newkid).then(m => message.reply("I think it worked?")).catch(console.error);
             break;
 
-            //stupid instrument that don't actually exist
+            //Stuff That I haven't organised Yet
         case "harmonica":
             message.reply("<:mangini_phonecall:293783988353368064> https://youtu.be/-w-58hQ9dLk?t=10s  <:mangini_phonecall:293783988353368064>");
             break;
+                    */
 
-            //END OF ROLES
+
             //OTHER COMMANDS BELOW
 
         case "botinfo":
@@ -185,8 +183,36 @@ client.on("message", function (message) {
             
                 message.channel.send(descEmbed);
             });
+        
+        case "microaggression":
+            message.channel.sendMessage("", {
+                file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"
+            });
+            break
 
-            break;
+        case "micro":
+            message.channel.sendMessage("", {
+                file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"
+            });
+            break
+
+        case "aggression":
+            message.channel.sendMessage("", {
+                file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"
+            });
+            break
+
+        case "reminder":
+            message.channel.sendMessage("", {
+                file: "https://cdn.discordapp.com/attachments/371762864790306820/378297627047100418/Discord_Ver.png"
+            });
+            break
+
+        case "welcome":
+            message.channel.sendMessage("", {
+                file: "https://cdn.discordapp.com/attachments/371762864790306820/378305844959248385/Welcome.png"
+            });
+            break
 
         case "times":
             current_time = moment().format('MMMM Do YYYY, h:mm a');
@@ -200,7 +226,7 @@ client.on("message", function (message) {
             ast = momentTz().tz("Asia/Qatar").format('MMMM Do YYYY, h:mm a');
             timesEmbed = new Discord.RichEmbed()
                 .setColor(0x85171d)
-                .setAuthor("AWESOME-O // Times", 'https://a.thumbs.redditmedia.com/CK3mlJPLodayl_2bTbFkxC8FBuyevfeCTu0b6gK-_x8.png')
+                .setAuthor("AWESOME-O // Times", 'https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png')
                 .setThumbnail("https://openclipart.org/image/2400px/svg_to_png/217068/6oclock.png")
                 .addField("CST (Central Standard Time)", current_time)
                 .addField("EST (Eastern Standard Time)", est)
