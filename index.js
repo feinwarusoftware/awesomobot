@@ -140,25 +140,6 @@ client.on("message", function(message) {
     command(message, "", "member", function(args) {        
         message.reply(membermessage[Math.floor(Math.random() * membermessage.length)]);
     });
-
-    //Allow Lower or Upper Case for the swears
-    const swears = ["beaner", 
-    "chink",
-    "ching chong",
-    "gook",
-    "goy",
-    "jap",
-    "nigger",
-    "nigga",
-    "niggar",
-    "nigguh",
-    "sand nigger",
-    "wetback",
-    "fag",
-    "faggot",
-    "tranny",
-    "shemale",
-    "dyke"];
     
 for (var i = 0; i < swears.length; i++) {
 if (message.content.toLowerCase().includes(swears[i])) {
