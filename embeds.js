@@ -6,8 +6,8 @@ module.exports.infoEmbed = new Discord.RichEmbed()
 .setAuthor(`AWESOME-O // Info`, 'https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png')
 .setThumbnail('http://screeninvasion.com/wp-content/uploads/2013/03/Butters-Awesom-O.jpg')
 .setTitle('Your all purpose South Park Bot!')
-.addField("-help for a list of commands")
-.addField("Crafted with love by Mattheous and Dragon1320. ♥")
+.addField("-help for a list of commands", "If a command is missing, feel free to inform us")
+.addField("Crafted with love by Mattheous and Dragon1320. ♥", "Additional credit goes out to TowelRoyale for the amazing art")
 .setFooter("This bot is pretty schweet!")
 
 //Help Embeds

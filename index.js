@@ -223,6 +223,7 @@ i = swears.length;
             });
             break
 
+
         case "times":
             current_time = moment().format('MMMM Do YYYY, h:mm a');
             est = momentTz().tz("America/New_York").format('MMMM Do YYYY, h:mm a');
@@ -249,5 +250,6 @@ i = swears.length;
                 .setFooter("Don't see your timezone? Ping Mattheous to get yours added!")
             message.channel.sendEmbed(timesEmbed);
             break;
-    }
+            
+}
 });
