@@ -6,7 +6,7 @@ const rquest = require("./rquest");
 const utils = require("./utils");
 
 const host = "southpark.wikia.com";
-const api = "/api/v1"
+const api = "/api/v1";
 
 // Activity.
 module.exports = {

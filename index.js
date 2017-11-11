@@ -7,7 +7,6 @@ QUICK COPY LINKS
 Awesome-O picture: https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png
 */
 
-
 //Import the required modules
 const Discord = require('discord.js');
 const client = new Discord.Client();
@@ -15,21 +14,71 @@ var moment = require('moment');
 var momentTz = require('moment-timezone');
 var embed = require("./embeds.js");
 var spnav = require("./spwikia-nav");
+const utils = require("./utils");
+const log = require("./log");
+const debug = require("./debug");
+
+// Constant globals.
+const chatlogfp = "./data/chatlogs.txt";
+const blacklistfp = "./data/blacklist.json";
+const configfp = "./data/config.json";
+const issuefp = "./data/issues.txt";
+
+const prefix = "-"
+
+const membermessage = ['Ooohhh I Member!', 'Me member!', 'I member!'];
+
+log.setLogLevel(log.DEBUG | log.ERROR | log.INFO | log.WARNING | log.FILEDUMP);
+
+var swears;
+utils.readFile(blacklistfp, function(data) {
+    swears = JSON.parse(data).words;
+});
+
+var config;
+utils.readFile(configfp, function(data) {
+    config = JSON.parse(data);
+
+    //Discord Login Token
+    client.login(config.token);
+});
+
+// Testing...
+function command(message, prefix, command, callback) {
+    if (!message.content.startsWith(prefix) && prefix != "") {
+        return;
+    }
+
+    var args = message.content.substring(prefix.length).toLowerCase().split(" ");
+
+    if (command.toLowerCase() != args[0]) {
+        return;
+    }
+
+    callback(args);
+}
+
+// Testing...
+function trigger(message, words, callback) {
+    if (words instanceof Array) {
+        if (utils.messageIncludes(message, words)) {
+            callback();
+        }
+    } else if (message.content.toLowerCase().includes(words)) {
+        callback();
+    }
+}
 
 function test() {
     "use strict";
     let a = 1;
 }
 
-const prefix = "-"
-const member = "member"
-
-//Discord Login Token
-client.login("Mzc3OTE2MjY4OTc3ODQ4MzIx.DOd88Q.ya-VORjiWGa1SvoqhpuDwZL8wRw");
-
 //Terminal Ready Message
 client.on('ready', () => {
     console.log('Shweet! I am alive!');
+    log.write(log.INFO, "Bot connected.", __function, __line);
+    log.write(log.DEBUG, "Name: " + client.user.username + ", Id: " + client.user.id + ", Token: " + client.token, __function, __line);
 
     //Game Name (appears in the sidebar)
     client.user.setGame('v0.2 | -botinfo');
@@ -39,32 +88,58 @@ process.on("unhandledRejection", (err) => {
     console.error(`Uncaught Promise Rejection: \n${err.stack}`);
 });
 
-
 //Connection Messages
 client.on('disconnect', () => {
     console.log('Disconnected');
-})
+});
 
 client.on('error', () => {
     console.log('Error');
-})
+});
 
 client.on('reconnecting', () => {
     console.log('Reconnecting');
-})
+});
 
-client.on
-
-client.on("message", function (message) {
+client.on("message", function(message) {
     if (message.author.equals(client.user)) return;
 
-    // Stuff without prefixes.
-    if (message.content.toLowerCase().startsWith("member")) {
+    trigger(message, swears, function() {
+        utils.logMessage(chatlogfp, message);
+        message.delete();
+        message.reply(" what WHAT WHAT!!! - Don't be using those words young man");
+        log.write(log.INFO, "User: " + message.author.username + ", has been logged for using a blacklisted word.");
+    });
 
-        var membermessage = ['Ooohhh I Member!', 'Me member!', 'I member!'];
+    command(message, prefix, "issue", function(args) {
+        utils.logMessage(issuefp, message);
+        log.write(log.INFO, "User: " + message.author.username + ", has logged an issue.");
+    });
 
+    command(message, prefix, "w", function(args) {
+        if (args[1] === undefined) { return; }
+        
+        var query = args[1];
+        
+        for (var i = 2; i < args.length; i++) {
+            query += (" " + args[i]);
+        }
+
+        spnav.getPageInfo(query, function(title, url, desc, thumbnail) {
+            const descEmbed = new Discord.RichEmbed()
+            .setColor(0xC0FF33)
+            .setAuthor("AWESOME-O // " + title, "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+            .setURL(url)
+            .setThumbnail(thumbnail)
+            .setDescription(desc);
+            
+            message.channel.send(descEmbed);
+        });
+    });
+
+    command(message, "", "member", function(args) {        
         message.reply(membermessage[Math.floor(Math.random() * membermessage.length)]);
-    }
+    });
 
     //Allow Lower or Upper Case for the swears
     const swears = ["beaner", 
@@ -115,27 +190,10 @@ i = swears.length;
                 message.channel.sendEmbed(pingEmbed)
             });
             break;
-            //Avatar
+            
         case "avatar":
             message.reply(message.author.avatarURL);
             break;
-
-            //COMMANDS
-
-            /* Legacy Code
-        case "newkid":
-            let newkid = message.guild.roles.find('name', 'New Kid');
-            message.member.addRole(newkid).then(m => message.reply("I think it worked?")).catch(console.error);
-            break;
-
-            //Stuff That I haven't organised Yet
-        case "harmonica":
-            message.reply("<:mangini_phonecall:293783988353368064> https://youtu.be/-w-58hQ9dLk?t=10s  <:mangini_phonecall:293783988353368064>");
-            break;
-                    */
-
-
-            //OTHER COMMANDS BELOW
 
         case "botinfo":
             message.channel.sendEmbed(embed.infoEmbed);
@@ -156,34 +214,7 @@ i = swears.length;
         case "subreddit":
             message.reply("http://reddit.com/r/southpark");
             break
-
-        case "w":
-        case "find":
-        case "lookup":
-        case "search":
-        case "wikia":
-        case "wiki":
-            if (args[1] === undefined) {
-                return;
-            }
-
-            var query = args[1];
-
-            for (var i = 2; i < args.length; i++) {
-                query += (" " + args[i]);
-            }
-
-            spnav.getPageInfo(query, function (title, desc, thumbnail) {
-                const descEmbed = new Discord.RichEmbed()
-                    .setColor(0xc19245)
-                    .setAuthor("AWESOME-O // " + title, "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
-                    .setThumbnail(thumbnail)
-                    .setDescription(desc);
-
-                message.channel.send(descEmbed);
-            });
-            break
-
+            
         case "microaggression":
             message.delete()
             message.channel.sendMessage("", {

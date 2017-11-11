@@ -6,6 +6,11 @@
  */
 
 const spwikia = require("./spwikia");
+const utils = require("./utils");
+const log = require("./log");
+const debug = require("./debug");
+
+const badrequestfp = "./data/badrequests.txt";
 
 module.exports = {
     getPageInfo: function(name, callback) {
@@ -18,7 +23,14 @@ module.exports = {
             try {
                 var id = page.items[0].id;
             } catch(e) {
-                //console.log("Invalid search query: " + name);
+                log.write(log.ERROR, "Bad wikia request (" + name + "), aborting search.", __function, __line);
+                return;
+            }
+
+            try {
+                var url = page.items[0].url;
+            } catch(e) {
+                log.write(log.ERROR, "Bad wikia request (" + name + "), aborting search.", __function, __line);              
                 return;
             }
 
@@ -30,24 +42,23 @@ module.exports = {
                 try {
                     var title = simple.sections[0].title;
                 } catch(e) {
-                    //console.log("Invalid search query: " + name);
+                    log.write(log.ERROR, "Bad wikia request (" + name + "), aborting search.", __function, __line);
                     return;
                 }
-                var desc = "";
 
                 if (simple.sections[1].title == "Synopsis") {
                     try {
-                        desc = simple.sections[1].content[0].text;
+                        var desc = simple.sections[1].content[0].text;
                     } catch(e) {
-                        //console.log("Invalid search query: " + name);
+                        log.write(log.ERROR, "Bad wikia request (" + name + "), aborting search.", __function, __line);
                         return;
                     }
                 
                 } else {
                     try {
-                        desc = simple.sections[0].content[0].text;
+                        var desc = simple.sections[0].content[0].text;
                     } catch(e) {
-                        //console.log("Invalid search query: " + name);
+                        log.write(log.ERROR, "Bad wikia request (" + name + "), aborting search.", __function, __line);
                         return;
                     }
                 }
@@ -60,11 +71,11 @@ module.exports = {
                     try {
                         var thumbnail = detail.items[id].thumbnail;
                     } catch(e) {
-                        //console.log("Invalid search query: " + name);
+                        log.write(log.ERROR, "Bad wikia request (" + name + "), aborting search.", __function, __line);
                         return;
                     }
 
-                    callback(title, desc, thumbnail);
+                    callback(title, url, desc, thumbnail);
                 });
             });
         });
