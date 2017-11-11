@@ -42,15 +42,6 @@ function test() {
     let a = 1;
 }
 
-<<<<<<< HEAD
-=======
-const prefix = "-"
-const member = "member"
-
-//Discord Login Token
-client.login("token's life matters");
-
->>>>>>> dragon1320
 //Terminal Ready Message
 client.on('ready', () => {
     console.log('Shweet! I am alive!');
@@ -183,6 +174,7 @@ client.on("message", function (message) {
             
                 message.channel.send(descEmbed);
             });
+            break;
         
         case "microaggression":
             message.channel.sendMessage("", {
