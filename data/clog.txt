@@ -1,0 +1,151 @@
+DEBUG >> [null, 10] --> a thing did a thing
+ERROR >> [null, 11] --> well, something went wrong
+DEBUG >> [null, 10] --> a thing did a thing
+ERROR >> [null, 11] --> well, something went wrong
+DEBUG >> [null, 10] --> a thing did a thing
+ERROR >> [null, 11] --> well, something went wrong
+DEBUG >> [null, 10] --> a thing did a thing
+ERROR >> [null, 11] --> well, something went wrong
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [logString, 26] --> Function 'utils.logString()' is deprecated and will be removed in the next patch; use file.writeString() instead.
+ERROR >> [null, 67] --> Bad wikia request, aborting search.
+WARNING >> [logString, 26] --> Function 'utils.logString()' is deprecated and will be removed in the next patch; use file.writeString() instead.
+ERROR >> [null, 67] --> Bad wikia request, aborting search.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 52] --> bot connected.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+DEBUG >> [client.on, 53] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+INFO >> [client.on, 52] --> Bot connected.
+ERROR >> [null, 62] --> Bad wikia request (social justice), aborting search.
+WARNING >> [logMessage, 38] --> Function 'utils.logMessage()' is deprecated and will be removed in the next patch; use file.writeMessage() instead.
+INFO >> [undef, undef] --> User: !Dragon1320, has been logged for using a blacklisted word.
+ERROR >> [null, 62] --> Bad wikia request (social justice), aborting search.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 52] --> Bot connected.
+DEBUG >> [client.on, 53] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [logMessage, 38] --> Function 'utils.logMessage()' is deprecated and will be removed in the next patch; use file.writeMessage() instead.
+INFO >> [undef, undef] --> User: !Dragon1320, has logged an issue.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 67] --> Bot connected.
+DEBUG >> [client.on, 68] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 69] --> Bot connected.
+DEBUG >> [client.on, 70] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 69] --> Bot connected.
+DEBUG >> [client.on, 70] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 69] --> Bot connected.
+DEBUG >> [client.on, 70] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 69] --> Bot connected.
+DEBUG >> [client.on, 70] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 69] --> Bot connected.
+DEBUG >> [client.on, 70] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 69] --> Bot connected.
+DEBUG >> [client.on, 70] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 67] --> Bot connected.
+DEBUG >> [client.on, 68] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 67] --> Bot connected.
+DEBUG >> [client.on, 68] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 67] --> Bot connected.
+DEBUG >> [client.on, 68] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 67] --> Bot connected.
+DEBUG >> [client.on, 68] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 67] --> Bot connected.
+DEBUG >> [client.on, 68] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [logMessage, 38] --> Function 'utils.logMessage()' is deprecated and will be removed in the next patch; use file.writeMessage() instead.
+INFO >> [undef, undef] --> User: !Dragon1320, has logged an issue.
+WARNING >> [logMessage, 38] --> Function 'utils.logMessage()' is deprecated and will be removed in the next patch; use file.writeMessage() instead.
+INFO >> [undef, undef] --> User: !Dragon1320, has logged an issue.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 67] --> Bot connected.
+DEBUG >> [client.on, 68] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 67] --> Bot connected.
+DEBUG >> [client.on, 68] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 67] --> Bot connected.
+DEBUG >> [client.on, 68] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 77] --> Bot connected.
+DEBUG >> [client.on, 78] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [logMessage, 38] --> Function 'utils.logMessage()' is deprecated and will be removed in the next patch; use file.writeMessage() instead.
+INFO >> [undef, undef] --> User: !Dragon1320, has been logged for using a blacklisted word.
+WARNING >> [logMessage, 38] --> Function 'utils.logMessage()' is deprecated and will be removed in the next patch; use file.writeMessage() instead.
+INFO >> [undef, undef] --> User: !Dragon1320, has been logged for using a blacklisted word.
+WARNING >> [logMessage, 38] --> Function 'utils.logMessage()' is deprecated and will be removed in the next patch; use file.writeMessage() instead.
+INFO >> [undef, undef] --> User: !Dragon1320, has been logged for using a blacklisted word.
+WARNING >> [logMessage, 38] --> Function 'utils.logMessage()' is deprecated and will be removed in the next patch; use file.writeMessage() instead.
+INFO >> [undef, undef] --> User: !Dragon1320, has been logged for using a blacklisted word.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 77] --> Bot connected.
+DEBUG >> [client.on, 78] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 77] --> Bot connected.
+DEBUG >> [client.on, 78] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [logMessage, 38] --> Function 'utils.logMessage()' is deprecated and will be removed in the next patch; use file.writeMessage() instead.
+INFO >> [undef, undef] --> User: !Dragon1320, has been logged for using a blacklisted word.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 77] --> Bot connected.
+DEBUG >> [client.on, 78] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [logMessage, 38] --> Function 'utils.logMessage()' is deprecated and will be removed in the next patch; use file.writeMessage() instead.
+INFO >> [undef, undef] --> User: !Dragon1320, has been logged for using a blacklisted word.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+DEBUG >> [client.on, 81] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+INFO >> [client.on, 80] --> Bot connected.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 82] --> Bot connected.
+DEBUG >> [client.on, 83] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 83] --> Bot connected.
+DEBUG >> [client.on, 84] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 83] --> Bot connected.
+DEBUG >> [client.on, 84] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 50] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 83] --> Bot connected.
+DEBUG >> [client.on, 84] --> Name: betabot, Id: 372462428690055169, Token: MzcyNDYyNDI4NjkwMDU1MTY5.DN1Chg.QuSCphjDe77D00cn_o0hX8iZ2Ac
+WARNING >> [logMessage, 38] --> Function 'utils.logMessage()' is deprecated and will be removed in the next patch; use file.writeMessage() instead.
+INFO >> [undef, undef] --> User: !Dragon1320, has been logged for using a blacklisted word.
+WARNING >> [logMessage, 38] --> Function 'utils.logMessage()' is deprecated and will be removed in the next patch; use file.writeMessage() instead.
+INFO >> [undef, undef] --> User: !Dragon1320, has logged an issue.
