@@ -30,7 +30,7 @@ module.exports = {
             try {
                 var url = page.items[0].url;
             } catch(e) {
-                log.write(log.ERROR, "Bad wikia request (" + name + "), aborting search.", __function, __line);
+                log.write(log.ERROR, "Bad wikia request (" + name + "), aborting search.", __function, __line);              
                 return;
             }
 

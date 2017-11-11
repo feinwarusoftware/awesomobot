@@ -141,6 +141,35 @@ client.on("message", function(message) {
         message.reply(membermessage[Math.floor(Math.random() * membermessage.length)]);
     });
 
+    //Allow Lower or Upper Case for the swears
+    const swears = ["beaner", 
+    "chink",
+    "ching chong",
+    "gook",
+    "goy",
+    "jap",
+    "nigger",
+    "nigga",
+    "niggar",
+    "nigguh",
+    "sand nigger",
+    "wetback",
+    "fag",
+    "faggot",
+    "tranny",
+    "shemale",
+    "dyke"];
+    
+for (var i = 0; i < swears.length; i++) {
+if (message.content.toLowerCase().includes(swears[i])) {
+console.log(message.author + " said " + message.content + " at " + message.createdAt);
+message.delete();
+message.reply("what WHAT WHAT!!! - Don't be using those words young man");
+i = swears.length;
+}
+}
+
+
     if (!message.content.startsWith(prefix)) return;
 
     var args = message.content.substring(prefix.length).split(" ");
@@ -185,36 +214,46 @@ client.on("message", function(message) {
         case "subreddit":
             message.reply("http://reddit.com/r/southpark");
             break
-        
+            
         case "microaggression":
+            message.delete()
             message.channel.sendMessage("", {
-                file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"
+                file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png"
             });
             break
 
         case "micro":
+            message.delete()
             message.channel.sendMessage("", {
-                file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"
+                file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png"
             });
             break
 
         case "aggression":
+            message.delete()
             message.channel.sendMessage("", {
-                file: "https://cdn.discordapp.com/attachments/371762864790306820/378288827745173506/Microaggression.png"
+                file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png"
             });
             break
 
         case "reminder":
             message.channel.sendMessage("", {
-                file: "https://cdn.discordapp.com/attachments/371762864790306820/378297627047100418/Discord_Ver.png"
+                file: "https://cdn.discordapp.com/attachments/378287210711220224/378648515959586816/Towelie_Logo2.png"
             });
             break
+
+        case "towel":
+            message.channel.sendMessage("", {
+                file: "https://cdn.discordapp.com/attachments/378287210711220224/378648515959586816/Towelie_Logo2.png"
+            });
+            break    
 
         case "welcome":
             message.channel.sendMessage("", {
                 file: "https://cdn.discordapp.com/attachments/371762864790306820/378305844959248385/Welcome.png"
             });
             break
+
 
         case "times":
             current_time = moment().format('MMMM Do YYYY, h:mm a');
@@ -227,7 +266,7 @@ client.on("message", function(message) {
             ist = momentTz().tz("Asia/Kolkata").format('MMMM Do YYYY, h:mm a');
             ast = momentTz().tz("Asia/Qatar").format('MMMM Do YYYY, h:mm a');
             timesEmbed = new Discord.RichEmbed()
-                .setColor(0x85171d)
+                .setColor(0xc19245)
                 .setAuthor("AWESOME-O // Times", 'https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png')
                 .setThumbnail("https://openclipart.org/image/2400px/svg_to_png/217068/6oclock.png")
                 .addField("CST (Central Standard Time)", current_time)
@@ -242,5 +281,6 @@ client.on("message", function(message) {
                 .setFooter("Don't see your timezone? Ping Mattheous to get yours added!")
             message.channel.sendEmbed(timesEmbed);
             break;
-    }
+            
+}
 });
