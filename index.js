@@ -23,12 +23,18 @@ const chatlogfp = "./data/chatlogs.txt";
 const blacklistfp = "./data/blacklist.json";
 const configfp = "./data/config.json";
 const issuefp = "./data/issues.txt";
+const groupsfp = "./data/groups.json";
 
 const prefix = "-"
 
 const membermessage = ['Ooohhh I Member!', 'Me member!', 'I member!'];
 
 log.setLogLevel(log.DEBUG | log.ERROR | log.INFO | log.WARNING | log.FILEDUMP);
+
+var devs;
+utils.readFile(groupsfp, function(data) {
+    devs = JSON.parse(data).dev;
+});
 
 var swears;
 utils.readFile(blacklistfp, function(data) {
@@ -58,8 +64,37 @@ function command(message, prefix, command, callback) {
     callback(args);
 }
 
+function groupCommand(group, message, prefix, command, callback) {
+    if (!message.content.startsWith(prefix) && prefix != "") {
+        return;
+    }
+
+    // Make helper for this.
+    var auth = false || message.author.id == 168690518899949569;
+    const roles = message.member.roles.array();
+    for (var i = 0; i < roles.length; i++) {
+        console.log(roles[i].name);
+        if (group.includes(roles[i].name)) {
+            auth = true;
+        }
+    }
+
+    if (auth == false) {
+        return;
+    }
+
+    var args = message.content.substring(prefix.length).toLowerCase().split(" ");
+
+    if (command.toLowerCase() != args[0]) {
+        return;
+    }
+
+    callback(args);
+}
+
 // Testing...
 function trigger(message, words, callback) {
+    // Theres a helper for this now!
     if (words instanceof Array) {
         if (utils.messageIncludes(message, words)) {
             callback();
@@ -140,16 +175,10 @@ client.on("message", function(message) {
     command(message, "", "member", function(args) {        
         message.reply(membermessage[Math.floor(Math.random() * membermessage.length)]);
     });
-    
-for (var i = 0; i < swears.length; i++) {
-if (message.content.toLowerCase().includes(swears[i])) {
-console.log(message.author + " said " + message.content + " at " + message.createdAt);
-message.delete();
-message.reply("what WHAT WHAT!!! - Don't be using those words young man");
-i = swears.length;
-}
-}
 
+    groupCommand(devs, message, prefix, "fuckyourself", function(args) {
+        message.channel.send("http://1.images.southparkstudios.com/blogs/southparkstudios.com/files/2014/09/1801_5a.gif");
+    });
 
     if (!message.content.startsWith(prefix)) return;
 
