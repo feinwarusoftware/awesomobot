@@ -28,7 +28,7 @@ function writeString(path, string) {
 }
 
 function writeMessage(path, message) {
-    fs.appendFile(fpath, moment().format("MMMM Do YYYY, h:mm a") + " [" + message.author.id + "]" + " (" + message.channel.name + ") " + message.author.username + " --> " + message.content + "\n", function(err) {
+    fs.appendFile(path, moment().format("MMMM Do YYYY, h:mm a") + " [" + message.author.id + "]" + " (" + message.channel.name + ") " + message.author.username + " --> " + message.content + "\n", function(err) {
         if(err) {
             console.error("Could not append file: %s", err);
             return;

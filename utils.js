@@ -12,9 +12,15 @@ module.exports = {
         return options && options[name]!==undefined ? options[name] : def;
     },
 
-    messageIncludes: function(message, array) {
-        for (var i = 0; i < array.length; i++) {
-            if (message.content.toLowerCase().includes(array[i])) {
+    messageIncludes: function(message, list) {
+        if (list instanceof Array) {
+            for (var i = 0; i < list.length; i++) {
+                if (message.content.toLowerCase().includes(list[i])) {
+                    return true;
+                }
+            }
+        } else {
+            if (message.content.toLowerCase().includes(list)) {
                 return true;
             }
         }

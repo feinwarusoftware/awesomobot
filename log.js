@@ -14,7 +14,7 @@ const ERROR = 4;
 const INFO = 8;
 const FILEDUMP = 16;
 
-var logLevel = INFO;
+var logLevel = ERROR;
 
 function setLogLevel(level) {
     logLevel = level;

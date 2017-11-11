@@ -45,11 +45,10 @@ module.exports = {
                     log.write(log.ERROR, "Bad wikia request (" + name + "), aborting search.", __function, __line);
                     return;
                 }
-                var desc = "";
 
                 if (simple.sections[1].title == "Synopsis") {
                     try {
-                        desc = simple.sections[1].content[0].text;
+                        var desc = simple.sections[1].content[0].text;
                     } catch(e) {
                         log.write(log.ERROR, "Bad wikia request (" + name + "), aborting search.", __function, __line);
                         return;
@@ -57,7 +56,7 @@ module.exports = {
                 
                 } else {
                     try {
-                        desc = simple.sections[0].content[0].text;
+                        var desc = simple.sections[0].content[0].text;
                     } catch(e) {
                         log.write(log.ERROR, "Bad wikia request (" + name + "), aborting search.", __function, __line);
                         return;
