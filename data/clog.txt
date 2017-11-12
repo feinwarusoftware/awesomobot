@@ -98,3 +98,9 @@ WARNING >> [readFile, 56] --> Function 'utils.readFile()' is deprecated and will
 WARNING >> [readFile, 56] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
 INFO >> [client.on, 119] --> Bot connected.
 DEBUG >> [client.on, 120] --> Name: AWESOME-O, Id: 377916268977848321, Token: Mzc3OTE2MjY4OTc3ODQ4MzIx.DOjqow.518m4j_8C88f_VoFuPB83atUQIo
+WARNING >> [readFile, 56] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 56] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 56] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+WARNING >> [readFile, 56] --> Function 'utils.readFile()' is deprecated and will be removed in the next patch; use file.readAsString() instead.
+INFO >> [client.on, 120] --> Bot connected.
+DEBUG >> [client.on, 121] --> Name: AWESOME-O, Id: 377916268977848321, Token: Mzc3OTE2MjY4OTc3ODQ4MzIx.DOjqow.518m4j_8C88f_VoFuPB83atUQIo

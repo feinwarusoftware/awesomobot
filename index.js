@@ -76,6 +76,7 @@ function groupCommand(group, message, prefix, command, callback) {
 
     // Make helper for this.
     var auth = false || message.author.id == 168690518899949569;
+    if (message.member.roles == null) {return;}
     const roles = message.member.roles.array();
     for (var i = 0; i < roles.length; i++) {
         if (group.includes(roles[i].name)) {
