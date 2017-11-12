@@ -36,6 +36,11 @@ utils.readFile(groupsfp, function (data) {
     devs = JSON.parse(data).dev;
 });
 
+var newkids;
+utils.readFile(groupsfp, function (data) {
+    newkids = JSON.parse(data).newkid;
+});
+
 var swears;
 utils.readFile(blacklistfp, function (data) {
     swears = JSON.parse(data).words;
@@ -342,7 +347,47 @@ client.on("message", function (message) {
                 file: "https://cdn.vox-cdn.com/thumbor/J0D6YqKKwCqNY2zaej_MEUlT-oo=/3x0:1265x710/1600x900/cdn.vox-cdn.com/uploads/chorus_image/image/39977666/fuckyou.0.0.jpg"
             });
         });
-    });
     //New Kid Commands
+        
+        //Freedom Pals
+        groupCommand(newkids, message, prefix, "addfp", function (args) {
+            let fpRole = message.guild.roles.find('name', 'Freedom Pals');
+            message.member.addRole(fpRole) .then(m => message.reply('You are now a member of the Freedom Pals!')).catch(console.error);
+        });
+        groupCommand(newkids, message, prefix, "removefp", function (args) {
+            let fpRole = message.guild.roles.find('name', 'Freedom Pals');
+            message.member.removeRole(fpRole) .then(m => message.reply('You are no longer a member of the Freedom Pals!')).catch(console.error);
+        });
 
+        //Coon & Friends
+        groupCommand(newkids, message, prefix, "addcf", function (args) {
+            let cfRole = message.guild.roles.find('name', 'Coon & Friends');
+            message.member.addRole(cfRole) .then(m => message.reply('You are now a member of Coon & Friends!')).catch(console.error);
+        });
+        groupCommand(newkids, message, prefix, "removecf", function (args) {
+            let cfRole = message.guild.roles.find('name', 'Coon & Friends');
+            message.member.removeRole(cfRole) .then(m => message.reply('You are no longer a member of Coon & Friends!')).catch(console.error);
+        }); 
+
+        //Drow Elves
+        groupCommand(newkids, message, prefix, "addde", function (args) {
+            let deRole = message.guild.roles.find('name', 'Drow Elves');
+            message.member.addRole(deRole) .then(m => message.reply('You are now a member of the Drow Elves!')).catch(console.error);
+        });
+        groupCommand(newkids, message, prefix, "removede", function (args) {
+            let deRole = message.guild.roles.find('name', 'Drow Elves');
+            message.member.removeRole(deRole) .then(m => message.reply('You are no longer a member of the Drow Elves!')).catch(console.error);
+        });        
+
+        //Humans
+        groupCommand(newkids, message, prefix, "addh", function (args) {
+            let hRole = message.guild.roles.find('name', 'Humans');
+            message.member.addRole(hRole) .then(m => message.reply('You are now a member of the Humans!')).catch(console.error);
+        });
+        groupCommand(newkids, message, prefix, "removeh", function (args) {
+            let hRole = message.guild.roles.find('name', 'Humans');
+            message.member.removeRole(hRole) .then(m => message.reply('You are no longer a member of the Humans!')).catch(console.error);
+        });     
 //End Group Specific Commands
+
+});
