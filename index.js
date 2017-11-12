@@ -73,7 +73,6 @@ function groupCommand(group, message, prefix, command, callback) {
     var auth = false || message.author.id == 168690518899949569;
     const roles = message.member.roles.array();
     for (var i = 0; i < roles.length; i++) {
-        console.log(roles[i].name);
         if (group.includes(roles[i].name)) {
             auth = true;
         }
@@ -176,8 +175,29 @@ client.on("message", function(message) {
         message.reply(membermessage[Math.floor(Math.random() * membermessage.length)]);
     });
 
+    command(message, prefix, "f", function(args) {        
+        message.reply("Respects have been paid.");
+    });
+
     groupCommand(devs, message, prefix, "fuckyourself", function(args) {
-        message.channel.send("http://1.images.southparkstudios.com/blogs/southparkstudios.com/files/2014/09/1801_5a.gif");
+        message.delete();
+        message.channel.send("", {
+            file: "http://1.images.southparkstudios.com/blogs/southparkstudios.com/files/2014/09/1801_5a.gif"
+        });
+    });
+
+    groupCommand(devs, message, prefix, "dick", function(args) {
+        message.delete();
+        message.channel.send("", {
+            file: "https://actualconversationswithmyhusband.files.wordpress.com/2017/01/stop-being-a-dick-scott.gif"
+        });
+    });
+
+    groupCommand(devs, message, prefix, "fuckyou", function(args) {
+        message.delete();
+        message.channel.send("", {
+            file: "https://cdn.vox-cdn.com/thumbor/J0D6YqKKwCqNY2zaej_MEUlT-oo=/3x0:1265x710/1600x900/cdn.vox-cdn.com/uploads/chorus_image/image/39977666/fuckyou.0.0.jpg"
+        });
     });
 
     if (!message.content.startsWith(prefix)) return;
