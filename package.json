@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "moment": "4.2.0",
+    "moment": "^2.19.2",
     "moment-timezone": "^0.5.14",
     "colors": "^1.1.2",
     "discord.js": "^11.1.0",
