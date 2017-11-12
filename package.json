@@ -1,5 +1,5 @@
 {
-  "name": "nomac",
+  "name": "awesome-o",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "moment": "4.2.0",
-    "moment-timezone": "4.2.0",
+    "moment-timezone": "^0.5.14",
     "colors": "^1.1.2",
     "discord.js": "^11.1.0",
     "intercept-stdout": "^0.1.2",
