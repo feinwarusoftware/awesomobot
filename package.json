@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "moment": "4.2.0",
     "moment-timezone": "4.2.0",
     "colors": "^1.1.2",
     "discord.js": "^11.1.0",
@@ -21,7 +20,9 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "discord": "^0.8.2",
     "jshint": "^2.9.5",
-    "mocha": "^4.0.1"
+    "mocha": "^4.0.1",
+    "moment": "^2.19.2"
   }
 }
