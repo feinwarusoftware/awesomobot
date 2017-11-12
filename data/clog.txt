@@ -103,3 +103,5 @@ WARNING >> [readFile, 56] --> Function 'utils.readFile()' is deprecated and will
 INFO >> [client.on, 119] --> Bot connected.
 DEBUG >> [client.on, 120] --> Name: AWESOME-O, Id: 377916268977848321, Token: Mzc3OTE2MjY4OTc3ODQ4MzIx.DOjqow.518m4j_8C88f_VoFuPB83atUQIo
 >>>>>>> master
+INFO >> [undef, undef] --> PUQyadTld9NU5LZo5rnM0nYxUWs6zz68
+INFO >> [undef, undef] --> GPubxxK5hra5d9DaLV66yX646z6RNqSh
