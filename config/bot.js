@@ -18,7 +18,7 @@ const config = {
 
     groups: {
         dev: ["Mods", "AWESOME-O Dev"],
-        newkid: ["New Kid"],
+        newkids: ["New Kid"],
 
     },
 };

@@ -93,9 +93,39 @@ client.on("message", function (message) {
         });
     });
 
+    cmd.command(message, config.prefix, "aggression", function (args) {
+        message.delete()
+        message.channel.sendMessage("", {
+            file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png"
+        });
+    });
+
+    cmd.command(message, config.prefix, "microaggression", function (args) {
+        message.delete()
+        message.channel.sendMessage("", {
+            file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png"
+        });
+    });
+
     cmd.command(message, config.prefix, "reminder", function(data) {
         message.channel.sendMessage("", {
             file: "https://cdn.discordapp.com/attachments/378287210711220224/378648515959586816/Towelie_Logo2.png"
+        });
+    });
+
+    cmd.command(message, config.prefix, "towel", function (args) {
+        message.channel.sendMessage("", {
+            file: "https://cdn.discordapp.com/attachments/378287210711220224/378648515959586816/Towelie_Logo2.png"
+        });
+    });
+
+    cmd.command(message, config.prefix, "f", function(args) {
+        message.reply("Respects have been paid.");
+    });
+
+    cmd.command(message, config.prefix, "welcome", function (args) {
+        message.channel.sendMessage("", {
+            file: "https://cdn.discordapp.com/attachments/371762864790306820/378305844959248385/Welcome.png"
         });
     });
 
@@ -142,6 +172,45 @@ client.on("message", function (message) {
         const embed = new discord.RichEmbed()
             .setImage("https://actualconversationswithmyhusband.files.wordpress.com/2017/01/stop-being-a-dick-scott.gif");
         message.channel.send(embed);
+    });
+
+    //New Kid Commands
+    
+    //Freedom Pals
+    cmd.groupCommand(config.groups.newkids, message, config.prefix, "addfp", function (args) {
+        let fpRole = message.guild.roles.find('name', 'Freedom Pals');
+        message.member.addRole(fpRole) .then(m => message.reply('You are now a member of the Freedom Pals!')).catch(console.error);
+    });
+    cmd.groupCommand(config.groups.newkids, message, config.prefix, "removefp", function (args) {
+        let fpRole = message.guild.roles.find('name', 'Freedom Pals');
+        message.member.removeRole(fpRole) .then(m => message.reply('You are no longer a member of the Freedom Pals!')).catch(console.error);
+    });
+    //Coon & Friends
+    cmd.groupCommand(config.groups.newkids, message, config.prefix, "addcf", function (args) {
+        let cfRole = message.guild.roles.find('name', 'Coon & Friends');
+        message.member.addRole(cfRole) .then(m => message.reply('You are now a member of Coon & Friends!')).catch(console.error);
+    });
+    cmd.groupCommand(config.groups.newkids, message, config.prefix, "removecf", function (args) {
+        let cfRole = message.guild.roles.find('name', 'Coon & Friends');
+        message.member.removeRole(cfRole) .then(m => message.reply('You are no longer a member of Coon & Friends!')).catch(console.error);
+    }); 
+    //Drow Elves
+    cmd.groupCommand(config.groups.newkids, message, config.prefix, "addde", function (args) {
+        let deRole = message.guild.roles.find('name', 'Drow Elves');
+        message.member.addRole(deRole) .then(m => message.reply('You are now a member of the Drow Elves!')).catch(console.error);
+    });
+    cmd.groupCommand(config.groups.newkids, message, config.prefix, "removede", function (args) {
+        let deRole = message.guild.roles.find('name', 'Drow Elves');
+        message.member.removeRole(deRole) .then(m => message.reply('You are no longer a member of the Drow Elves!')).catch(console.error);
+    });        
+    //Humans
+    cmd.groupCommand(config.groups.newkids, message, config.prefix, "addh", function (args) {
+        let hRole = message.guild.roles.find('name', 'Humans');
+        message.member.addRole(hRole) .then(m => message.reply('You are now a member of the Humans!')).catch(console.error);
+    });
+    cmd.groupCommand(config.groups.newkids, message, config.prefix, "removeh", function (args) {
+        let hRole = message.guild.roles.find('name', 'Humans');
+        message.member.removeRole(hRole) .then(m => message.reply('You are no longer a member of the Humans!')).catch(console.error);
     });
 });
 
