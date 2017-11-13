@@ -24,7 +24,8 @@ function groupCommand(group, message, prefix, command, callback) {
 
     // Make helper for this.
     var auth = false;
-    if (message.member.roles == null) {return;}
+    if (message.member == null || message.member === undefined) { return; };
+    if (message.member.roles == null || message.member.roles === undefined) { return; }
     const roles = message.member.roles.array();
     for (var i = 0; i < roles.length; i++) {
         if (group.includes(roles[i].name)) {
@@ -46,8 +47,9 @@ function groupCommand(group, message, prefix, command, callback) {
 }
 
 function trigger(message, blacklist, whitelist, callback) {
-    if (misc.messageIncludes(message, blacklist, whitelist)) {
-        callback();
+    const times = misc.messageIncludes(message, blacklist, whitelist);
+    if (times > 0) {
+        callback(times);
     }
 }
 

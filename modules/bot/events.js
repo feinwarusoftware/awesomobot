@@ -30,15 +30,22 @@ client.on("message", function (message) {
         message.reply(" what WHAT WHAT!!! - Don't be using those words young man");
     });
 
-    cmd.trigger(message, ["shit"], [], function() {
+    cmd.trigger(message, ["shit"], ["shitme", "shitlist"], function(times) {
 
-        console.log("shit detected!");
         fstream.readJson(__dirname + "/../../" + "data/storage/shit.json", function(json) {
-            var shit = json[message.author.id] == null || json[message.author.id] === undefined ? 0 : json[message.author.id];
+            var mem = json[message.author.id] == null || json[message.author.id] === undefined ? null : json[message.author.id];
 
-            shit += 1;
+            if (mem == null) {
+                mem = {
+                    shit: 0,
+                    name: message.author.username,
+                };
 
-            json[message.author.id] = shit;
+            }
+
+            mem.shit += (times > 3 ? 3 : times);
+
+            json[message.author.id] = mem;
 
             fstream.writeJson(__dirname + "/../../" + "data/storage/shit.json", json);
         });
@@ -46,9 +53,72 @@ client.on("message", function (message) {
 
     cmd.command(message, config.prefix, "shitme", function() {
         fstream.readJson(__dirname + "/../../" + "data/storage/shit.json", function(json) {
-            var shit = json[message.author.id] == null || json[message.author.id] === undefined ? 0 : json[message.author.id];
+            var mem = json[message.author.id] == null || json[message.author.id] === undefined ? null : json[message.author.id];
 
-            message.reply(shit);
+            if (mem == null) {
+                message.reply("you have said 'shit' " + 0 + " times!");
+                return;
+            }
+
+            message.reply("you have said 'shit' " + mem.shit + " times!");
+        });
+    });
+
+    cmd.command(message, config.prefix, "shitlist", function() {
+        var shits = 0;
+        const dummy = {
+            shit: 0,
+            name: "empty",
+        };
+        var top = [dummy, dummy, dummy, dummy, dummy];
+        var members = message.guild.members.array();
+
+        fstream.readJson(__dirname + "/../../" + "data/storage/shit.json", function(json) {
+            for (var i = 0; i < members.length; i++) {
+                var mem = json[members[i].id] == null || json[members[i].id] === undefined ? null : json[members[i].id];
+            
+                if (mem == null) {
+                    continue;
+                }
+
+                shits += mem.shit;
+
+                var index = -1;
+                for (var j = 0; j < 5; j++) {
+                    if (top[j].shit < mem.shit) {
+                        if (index != -1) {
+                            if (top[index].shit > top[j].shit) {
+                                index = j;
+
+                            }
+                        } else {
+                            index = j;
+
+                        }
+                    }
+                }
+
+                if (index != -1) {
+                    top[index] = mem;
+                    index = -1;
+                }
+
+                top.sort(function(a, b) {
+                    return b.shit - a.shit;
+                });
+            }
+
+            const embed = new discord.RichEmbed()
+            .setColor(0xc19245)
+            .setAuthor(config.name + " // " + "It Hits the Fan", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+            .addField("Total", shits, true)
+            .addField("#1", top[0].name + ": " + top[0].shit, true)
+            .addField("#2", top[1].name + ": " + top[1].shit, true)
+            .addField("#3", top[2].name + ": " + top[2].shit, true)
+            .addField("#4", top[3].name + ": " + top[3].shit, true)
+            .addField("#5", top[4].name + ": " + top[4].shit, true);
+
+            message.channel.send(embed);
         });
     });
 

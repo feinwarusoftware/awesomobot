@@ -1,7 +1,8 @@
 "use strict"
 
 const config = {
-    token: "MzcyNDYyNDI4NjkwMDU1MTY5.DOtZwQ.WGOdbzW642ViH79t6htgOO1f7Ug",
+    token: "Mzc5MzcwNTA2OTMzMTA4NzQ2.DOp9Lg.NoqL-DLeUViKGgv3ckKhjYVbdkw",
+    //token: "MzcyNDYyNDI4NjkwMDU1MTY5.DOtZwQ.WGOdbzW642ViH79t6htgOO1f7Ug",
     name: "AWESOM-O",
     prefix: "-",
     membermessage: ["Ooohhh I Member!", "Me member!", "I member!"],

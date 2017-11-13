@@ -12,17 +12,18 @@ function messageIncludes(message, blacklist, whitelist) {
         indices = indices.concat(occ);
     }
 
+    var times = indices.length;
     if (indices.length > 0) {
         for (var i = 0; i < indices.length; i++) {
             for (var j = 0; j < whitelist.length; j++) {
                 if (message.content.substring(indices[i], message.content.length).startsWith(whitelist[j])) {
 
-                    return false;
+                    times -= 1;
                 }
             }
         }
 
-        return true;
+        return times;
     }
 }
 
