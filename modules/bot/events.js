@@ -7,6 +7,7 @@ const momentTz = require('moment-timezone');
 const cmd = require("./cmd");
 const embeds = require("./embeds");
 const flog = require("../utils/flog");
+const fstream = require("../utils/fstream");
 const spnav = require("../spwikia/nav");
 const config = require("../../config/bot");
 
@@ -27,6 +28,28 @@ client.on("message", function (message) {
     cmd.trigger(message, config.blacklist.words, config.whitelist.words, function() {
         message.delete();
         message.reply(" what WHAT WHAT!!! - Don't be using those words young man");
+    });
+
+    cmd.trigger(message, ["shit"], [], function() {
+
+        console.log("shit detected!");
+        fstream.readJson(__dirname + "/../../" + "data/storage/shit.json", function(json) {
+            var shit = json[message.author.id] == null || json[message.author.id] === undefined ? 0 : json[message.author.id];
+
+            shit += 1;
+
+            json[message.author.id] = shit;
+
+            fstream.writeJson(__dirname + "/../../" + "data/storage/shit.json", json);
+        });
+    });
+
+    cmd.command(message, config.prefix, "shitme", function() {
+        fstream.readJson(__dirname + "/../../" + "data/storage/shit.json", function(json) {
+            var shit = json[message.author.id] == null || json[message.author.id] === undefined ? 0 : json[message.author.id];
+
+            message.reply(shit);
+        });
     });
 
     cmd.command(message, config.prefix, "issue", function(args) {
