@@ -1,12 +1,13 @@
 "use strict"
 
 const fs = require("fs");
+const pth = require("path");
 const config = require("../../config/utils");
 
 const format = config.fstream.format;
 
 function readString(path, callback) {
-    fs.readFile(path, format, function(err, data) {
+    fs.readFile(pth.join(path), format, function(err, data) {
         if (err) {
             // do something
             return;
@@ -17,7 +18,7 @@ function readString(path, callback) {
 }
 
 function writeString(path, string) {
-    fs.writeFile(path, string + "\n", function(err) {
+    fs.writeFile(pth.join(path), string + "\n", function(err) {
         if(err) {
             // do something
             return;
@@ -26,7 +27,7 @@ function writeString(path, string) {
 }
 
 function appendString(path, string) {
-    fs.appendFile(path, string + "\n", function(err) {
+    fs.appendFile(pth.join(path), string + "\n", function(err) {
         if(err) {
             // do something
             return;
@@ -35,7 +36,7 @@ function appendString(path, string) {
 }
 
 function clearFile(path) {
-    fs.clearFile(path, function(err) {
+    fs.clearFile(pth.join(path), function(err) {
         if (err) {
             // do something
             return;

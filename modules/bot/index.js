@@ -1,11 +1,11 @@
 "use strict"
 
-const commands = require("./commands");
+const cmd = require("./cmd");
 const embeds = require("./embeds");
 const events = require("./events");
 
 module.exports = {
-    commands,
+    cmd,
     embeds,
     events,
 

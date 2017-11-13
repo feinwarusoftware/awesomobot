@@ -7,6 +7,8 @@ const config = {
         warning: 2,
         error: 4,
         debug: 8,
+        console: __dirname + "/../" + "data/logs/console.txt",
+        chat: __dirname + "/../" + "data/logs/chat.txt",
 
     },
 

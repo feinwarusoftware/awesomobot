@@ -11,6 +11,10 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "colors": "^1.1.2",
-    "mocha": "^4.0.1"
+    "discord": "^0.8.2",
+    "discord.js": "^11.2.1",
+    "mocha": "^4.0.1",
+    "moment": "^2.19.2",
+    "moment-timezone": "^0.5.14"
   }
 }

@@ -8,9 +8,11 @@ function getPageInfo(name, callback) {
         limit: 1,
 
     }, function(page) {
+        var id;
+        var url;
         try {
-            const id = page.items[0].id;
-            const url = page.items[0].url;
+            id = page.items[0].id;
+            url = page.items[0].url;
 
         } catch (e) {
             // do something
@@ -23,13 +25,15 @@ function getPageInfo(name, callback) {
             id: id,
 
         }, function(simple) {
+            var title;
+            var desc;
             try {
-                const title = simple.sections[0].title;
+                title = simple.sections[0].title;
 
                 if (simple.sections[1].title == "Synopsis") {
-                    var desc = simple.sections[1].content[0].text;
+                    desc = simple.sections[1].content[0].text;
                 } else {
-                    var desc = simple.sections[0].content[0].text;
+                    desc = simple.sections[0].content[0].text;
                 }
 
             } catch (e) {
@@ -43,8 +47,9 @@ function getPageInfo(name, callback) {
                 ids: id,
 
             }, function(detail) {
+                var thumbnail;
                 try {
-                    const thumbnail = detail.items[id].thumbnail;
+                    thumbnail = detail.items[id].thumbnail;
 
                 } catch (e) {
                     // do something
@@ -58,3 +63,8 @@ function getPageInfo(name, callback) {
         });
     });
 }
+
+module.exports = {
+    getPageInfo,
+
+};
