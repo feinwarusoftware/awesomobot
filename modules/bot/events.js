@@ -49,7 +49,7 @@ client.on("message", function (message) {
             }
             const descEmbed = new discord.RichEmbed()
             .setColor(0xC0FF33)
-            .setAuthor("AWESOME-O // " + title, "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+            .setAuthor(config.name + " // " + title, "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
             .setURL(url)
             .setThumbnail(thumbnail)
             .setDescription(desc);
@@ -141,7 +141,7 @@ client.on("message", function (message) {
         const ast = momentTz().tz("Asia/Qatar").format('MMMM Do YYYY, h:mm a');
         const timesEmbed = new discord.RichEmbed()
             .setColor(0xc19245)
-            .setAuthor("AWESOME-O // Times", 'https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png')
+            .setAuthor(config.name + " // Times", 'https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png')
             .setThumbnail("https://openclipart.org/image/2400px/svg_to_png/217068/6oclock.png")
             .addField("CST (Central Standard Time)", current_time)
             .addField("EST (Eastern Standard Time)", est)

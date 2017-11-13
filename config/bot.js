@@ -1,7 +1,8 @@
 "use strict"
 
 const config = {
-    token: "MzcyNDYyNDI4NjkwMDU1MTY5.DOsw0w.kx3gagu5Ng83lW_c2Kpthm5PIqo",
+    token: "Mzc5MzcwNTA2OTMzMTA4NzQ2.DOp9Lg.NoqL-DLeUViKGgv3ckKhjYVbdkw",
+    name: "AWESOM-O",
     prefix: "-",
     membermessage: ["Ooohhh I Member!", "Me member!", "I member!"],
     version: "v0.4.0",
@@ -17,7 +18,7 @@ const config = {
     },
 
     groups: {
-        dev: ["Mods", "AWESOME-O Dev"],
+        dev: ["Mods", "AWESOM-O Dev"],
         newkids: ["New Kid"],
 
     },
