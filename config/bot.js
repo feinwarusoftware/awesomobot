@@ -6,7 +6,7 @@ const config = {
     name: "AWESOM-O",
     prefix: "-",
     membermessage: ["Ooohhh I Member!", "Me member!", "I member!"],
-    version: "v0.4.0",
+    version: "v0.9.0",
 
     blacklist: {
         words: ["beaner", "chink", "ching chong", "gook", "goy", "jap", "nigger", "nigga", "niggar", "nigguh", "sand nigger", "wetback", "fag", "faggot", "tranny", "shemale", "dyke"],

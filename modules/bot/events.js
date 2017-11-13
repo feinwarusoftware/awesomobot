@@ -122,6 +122,8 @@ client.on("message", function (message) {
         });
     });
 
+    cmd.trigger(message, ["i broke the dam"], [], function() {message.reply("No, I broke the dam")})
+
     cmd.command(message, config.prefix, "issue", function(args) {
         flog.message(message);
     });
