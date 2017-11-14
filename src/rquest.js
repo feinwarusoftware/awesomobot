@@ -1,3 +1,9 @@
+/**
+ * rquest.js
+ * Desc: Lightweight module for making REST api requests.
+ * Deps: None
+ */
+
 "use strict"
 
 const querystring = require("querystring");
@@ -37,7 +43,6 @@ function performRequest(host, endpoint, method, data, success) {
         });
         
         res.on("end", function() {
-            //console.log(responseString);
             var responseObject = JSON.parse(responseString);
             success(responseObject);
             

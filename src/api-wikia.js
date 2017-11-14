@@ -1,11 +1,17 @@
+/**
+ * api-wikia.js
+ * Desc: Complete implementation of the wikia REST api.
+ * Deps: rquest.js, utils.js
+ */
+
 "use strict"
 
-const misc = require("../utils/misc");
+const utils = require("./utils");
 const rquest = require("./rquest");
-const config = require("../../config/spwikia");
+const config = require("./config/config-main");
 
-const host = config.host;
-const api = config.api;
+const host = config.wikia.host;
+const api = config.wikia.api;
 
 /**
  * Get information about the latest user activity on the current wiki.
@@ -16,9 +22,9 @@ const api = config.api;
  * - allowDuplicates [type = bool, default = true]: Set if duplicate values of an article's revisions made by the same user are not allowed.
  */
 function latestActivity(options, callback) {
-    var limit = misc.opt(options, "limit", 10);
-    var namespaces = misc.opt(options, "namespaces", "0");
-    var allowDuplicates = misc.opt(options, "allowDuplicates", true);
+    var limit = utils.opt(options, "limit", 10);
+    var namespaces = utils.opt(options, "namespaces", "0");
+    var allowDuplicates = utils.opt(options, "allowDuplicates", true);
     // /Activity/LatestActivity
     rquest.performRequest(host, api + "/Activity/LatestActivity", "GET", {
         limit: limit,
@@ -38,14 +44,15 @@ function latestActivity(options, callback) {
  * - allowDuplicates [type = bool, default = true]: Set if duplicate values of an article's revisions made by the same user are not allowed.
  */
 function recentlyChangedArticles(options, callback) {
-    var limit = misc.opt(options, "limit", 10);
-    var namespaces = misc.opt(options, "namespaces", "0");
-    var allowDuplicates = misc.opt(options, "allowDuplicates", true);
+    var limit = utils.opt(options, "limit", 10);
+    var namespaces = utils.opt(options, "namespaces", "0");
+    var allowDuplicates = utils.opt(options, "allowDuplicates", true);
     // /Activity/RecentlyChangedArticles
     rquest.performRequest(host, api + "/Activity/RecentlyChangedArticles", "GET", {
         limit: limit,
         namespaces: namespaces,
         allowDuplicates: allowDuplicates,
+
     }, function(data) {
         callback(data);
     });
@@ -58,7 +65,7 @@ function recentlyChangedArticles(options, callback) {
  * - id [type = int, default = 50]: A single article ID.
  */
 function articleAsSimpleJson(options, callback) {
-    var id = misc.opt(options, "id", 50);
+    var id = utils.opt(options, "id", 50);
     // /Articles/AsSimpleJson
     rquest.performRequest(host, api + "/Articles/AsSimpleJson", "GET", {
         id: id,
@@ -79,11 +86,11 @@ function articleAsSimpleJson(options, callback) {
  * - height [type = int, default = 200]: The desired height for the thumbnail.
  */
 function articleDetails(options, callback) {
-    var ids = misc.opt(options, "ids", "50");
-    var titles = misc.opt(options, "titles", "");
-    var abstract = misc.opt(options, "abstract", 100);
-    var width = misc.opt(options, "width", 200);
-    var height = misc.opt(options, "height", 200);
+    var ids = utils.opt(options, "ids", "50");
+    var titles = utils.opt(options, "titles", "");
+    var abstract = utils.opt(options, "abstract", 100);
+    var width = utils.opt(options, "width", 200);
+    var height = utils.opt(options, "height", 200);
     // /Articles/Details
     rquest.performRequest(host, api + "/Articles/Details", "GET", {
         ids: ids,
@@ -107,10 +114,10 @@ function articleDetails(options, callback) {
  * - offset [type = string, default = ""]: 	Lexicographically minimal article title.
  */
 function articleList(options, callback) {
-    var category = misc.opt(options, "category", "");
-    var namespaces = misc.opt(options, "namespaces", "");
-    var limit = misc.opt(options, "limit", 25);
-    var offset = misc.opt(options, "offset", "");
+    var category = utils.opt(options, "category", "");
+    var namespaces = utils.opt(options, "namespaces", "");
+    var limit = utils.opt(options, "limit", 25);
+    var offset = utils.opt(options, "offset", "");
     // /Articles/List
     rquest.performRequest(host, api + "/Articles/List", "GET", {
         category: category,
@@ -134,10 +141,10 @@ function articleList(options, callback) {
  */
 function articleListExpand(options, callback) {
     var expand = 1;
-    var category = misc.opt(options, "category", "");
-    var namespaces = misc.opt(options, "namespaces", "");
-    var limit = misc.opt(options, "limit", 25);
-    var offset = misc.opt(options, "offset", "");
+    var category = utils.opt(options, "category", "");
+    var namespaces = utils.opt(options, "namespaces", "");
+    var limit = utils.opt(options, "limit", 25);
+    var offset = utils.opt(options, "offset", "");
     // /Articles/List
     rquest.performRequest(host, api + "/Articles/List", "GET", {
         expand: expand,
@@ -187,9 +194,9 @@ function mostLinkedArticlesExpand(callback) {
  * - minArticleQuality [type = int, default = 10]: Minimal value of article quality. Ranges from 0 to 99.
  */
 function newArticles(options, callback) {
-    var namespaces = misc.opt(options, "namespaces", "");
-    var limit = misc.opt(options, "limit", 20);
-    var minArticleQuality = misc.opt(options, "minArticleQuality", 10);
+    var namespaces = utils.opt(options, "namespaces", "");
+    var limit = utils.opt(options, "limit", 20);
+    var minArticleQuality = utils.opt(options, "minArticleQuality", 10);
     // /Articles/New
     rquest.performRequest(host, api + "/Articles/New", "GET", {
         namespaces: namespaces,
@@ -209,8 +216,8 @@ function newArticles(options, callback) {
  * - baseAtricleId [type = int, default = null]: Trending and popular related to article with given id.
  */
 function popularArticles(options, callback) {
-    var limit = misc.opt(options, "limit", 10);
-    var baseArticleId = misc.opt(options, "baseArticleId", null);
+    var limit = utils.opt(options, "limit", 10);
+    var baseArticleId = utils.opt(options, "baseArticleId", null);
     // /Articles/Popular
     rquest.performRequest(host, api + "/Articles/Popular", "GET", {
         limit: limit,
@@ -230,8 +237,8 @@ function popularArticles(options, callback) {
  */
 function popularArticlesExpand(options, callback) {
     var expand = 1;
-    var limit = misc.opt(options, "limit", 10);
-    var baseArticleId = misc.opt(options, "baseArticleId", null);
+    var limit = utils.opt(options, "limit", 10);
+    var baseArticleId = utils.opt(options, "baseArticleId", null);
     // /Articles/Popular
     rquest.performRequest(host, api + "/Articles/Popular", "GET", {
         expand: expand,
@@ -253,10 +260,10 @@ function popularArticlesExpand(options, callback) {
  * - baseArticleId [type = int, default = null]: Trending and popular related to article with given id.
  */
 function topArticles(options, callback) {
-    var namespaces = misc.opt(options, "namespaces", "");
-    var category = misc.opt(options, "category", "");
-    var limit = misc.opt(options, "limit", 10);
-    var baseArticleId = misc.opt(options, "baseArticleId", null);
+    var namespaces = utils.opt(options, "namespaces", "");
+    var category = utils.opt(options, "category", "");
+    var limit = utils.opt(options, "limit", 10);
+    var baseArticleId = utils.opt(options, "baseArticleId", null);
     // /Articles/Top
     rquest.performRequest(host, api + "/Articles/Top", "GET", {
         namespaces: namespaces,
@@ -280,10 +287,10 @@ function topArticles(options, callback) {
  */
 function topArticlesExpand(options, callback) {
     var expand = 1;
-    var namespaces = misc.opt(options, "namespaces", "");
-    var category = misc.opt(options, "category", "");
-    var limit = misc.opt(options, "limit", 10);
-    var baseArticleId = misc.opt(options, "baseArticleId", null);
+    var namespaces = utils.opt(options, "namespaces", "");
+    var category = utils.opt(options, "category", "");
+    var limit = utils.opt(options, "limit", 10);
+    var baseArticleId = utils.opt(options, "baseArticleId", null);
     // /Articles/Top
     rquest.performRequest(host, api + "/Articles/Top", "GET", {
         expand: expand,
@@ -306,9 +313,9 @@ function topArticlesExpand(options, callback) {
  * - namespaces [type = string, default = ""]: 	Comma-separated namespace ids, see more: http://community.wikia.com/wiki/Help:Namespaces.
  */
 function topArticlesByHub(options, callback) {
-    var hub = misc.opt(options, "hub", "gaming");
-    var lang = misc.opt(options, "lang", "");
-    var namespaces = misc.opt(options, "namespaces", "");
+    var hub = utils.opt(options, "hub", "gaming");
+    var lang = utils.opt(options, "lang", "");
+    var namespaces = utils.opt(options, "namespaces", "");
     // /Articles/TopByHub
     rquest.performRequest(host, api + "/Articles/TopByHub", "GET", {
         hub: hub,
@@ -352,8 +359,8 @@ function navigationData(callback) {
  * - limit [type = int, default = 3]: Limit the number of results.
  */
 function relatedPages(options, callback) {
-    var ids = misc.opt(options, "ids", 50);
-    var limit = misc.opt(options, "limit", 3);
+    var ids = utils.opt(options, "ids", 50);
+    var limit = utils.opt(options, "limit", 3);
     // /RelatedPages/List
     rquest.performRequest(host, api + "/RelatedPages/List", "GET", {
         ids: ids,
@@ -380,15 +387,15 @@ function relatedPages(options, callback) {
  */
 function crossWikiSearchExpand(options, callback) {
     var expand = 1;
-    var query = misc.opt(options, "query", "");
-    var hub = misc.opt(options, "hub", "");
-    var lang = misc.opt(options, "lang", "en");
-    var rank = misc.opt(options, "rank", "");
-    var limit = misc.opt(options, "limit", 25);
-    var batch = misc.opt(options, "batch", 1);
-    var height = misc.opt(options, "height", null);
-    var width = misc.opt(options, "width", null);
-    var snippet = misc.opt(options, "snippet", null);
+    var query = utils.opt(options, "query", "");
+    var hub = utils.opt(options, "hub", "");
+    var lang = utils.opt(options, "lang", "en");
+    var rank = utils.opt(options, "rank", "");
+    var limit = utils.opt(options, "limit", 25);
+    var batch = utils.opt(options, "batch", 1);
+    var height = utils.opt(options, "height", null);
+    var width = utils.opt(options, "width", null);
+    var snippet = utils.opt(options, "snippet", null);
     if (query == "") {
         return;
     }
@@ -423,13 +430,13 @@ function crossWikiSearchExpand(options, callback) {
  * - namespaces [type = string, default = "0,14"]: Page namespace number, see more: http://community.wikia.com/wiki/Help:Namespaces.
  */
 function search(options, callback) {
-    var query = misc.opt(options, "query", "");
-    var type = misc.opt(options, "type", "");
-    var rank = misc.opt(options, "rank", "");
-    var limit = misc.opt(options, "limit", 25);
-    var minArticleQuality = misc.opt(options, "minArticleQuality", 10);
-    var batch = misc.opt(options, "batch", 1);
-    var namespaces = misc.opt(options, "namespaces", "0,14");
+    var query = utils.opt(options, "query", "");
+    var type = utils.opt(options, "type", "");
+    var rank = utils.opt(options, "rank", "");
+    var limit = utils.opt(options, "limit", 25);
+    var minArticleQuality = utils.opt(options, "minArticleQuality", 10);
+    var batch = utils.opt(options, "batch", 1);
+    var namespaces = utils.opt(options, "namespaces", "0,14");
     if (query == "") {
         return;
     }
@@ -455,7 +462,7 @@ function search(options, callback) {
  * - query (required) [type = string, default = ""]: Search query.
  */
 function searchSuggestions(options, callback) {
-    var query = misc.opt(options, "query", "");
+    var query = utils.opt(options, "query", "");
     if (query == "") {
         return;
     }
@@ -476,8 +483,8 @@ function searchSuggestions(options, callback) {
  * - size [type = int, default = null]: The desired width (and height, because it is a square) for the thumbnail, defaults to 100, 0 for no thumbnail.
  */
 function userDetails(options, callback) {
-    var ids = misc.opt(options, "ids", "");
-    var size = misc.opt(options, "size", null);
+    var ids = utils.opt(options, "ids", "");
+    var size = utils.opt(options, "size", null);
     if (ids == "") {
         return;
     }
