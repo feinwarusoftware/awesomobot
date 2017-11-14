@@ -87,15 +87,8 @@ function trigger(message, include, callback) {
 }
 
 function advtrigger(content, include, exclude, callback) {
-    if (!content.includes(include)) {
-        return;
-    }
-
-    if (typeof include != "array" || typeof exclude != "array") {
-        return;
-    }
-
     var indices = [];
+
     for (var i = 0; i < include.length; i++) {
         const occ = utils.allIndicesOf(content, include[i]);
         indices = indices.concat(occ);
@@ -112,7 +105,8 @@ function advtrigger(content, include, exclude, callback) {
             }
         }
 
-        callback(times/*, flags*/);
+        callback(times);
+        return;
     }
 }
 

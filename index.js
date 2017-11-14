@@ -153,6 +153,8 @@ client.on("message", function(message) {
                 return;
             }
 
+            const json = JSON.parse(data);
+
             var logged = false;
             for (var i = 0; i < json.list.length; i++) {
                 if (json.list[i].id == message.author.id) {
@@ -180,6 +182,8 @@ client.on("message", function(message) {
             if (err) {
                 return;
             }
+
+            const json = JSON.parse(data);
 
             for (var i = 0; i < json.list.length; i++) {
                 var index = -1;
@@ -210,7 +214,7 @@ client.on("message", function(message) {
             const embed = new discord.RichEmbed()
                 .setColor(0xc19245)
                 .setAuthor(config.name + " // " + "It Hits the Fan", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
-                .addField("Total", shits, true)
+                .addField("Total", json.total, true)
                 .addField("#1", top[0].name + ": " + top[0].shits, true)
                 .addField("#2", top[1].name + ": " + top[1].shits, true)
                 .addField("#3", top[2].name + ": " + top[2].shits, true)
