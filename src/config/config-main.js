@@ -11,7 +11,7 @@ const config = {
     version: "0.9.8",
     prefix: "-",
 
-    token: "Mzc5MzcwNTA2OTMzMTA4NzQ2.DOp9Lg.NoqL-DLeUViKGgv3ckKhjYVbdkw", // sp-server
+    token: "Mzc5MzcwNTA2OTMzMTA4NzQ2.DO0IiA.O8dY76x-uEbmr2iOm8Wiw9QxtyY", // sp-server
     //token: "MzcyNDYyNDI4NjkwMDU1MTY5.DOtZwQ.WGOdbzW642ViH79t6htgOO1f7Ug", // test-server
 
     membermessage: ["Ooohhh I Member!", "Me member!", "I member!"],
