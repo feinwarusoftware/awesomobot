@@ -13,8 +13,18 @@ const moment = require("moment");
 const momentTz = require('moment-timezone');
 //
 
-var shits;
-var eplist;
+var shits = {
+    total: "-1",
+    list: [
+        {
+            id: "-1",
+            name: "undef",
+            shits: "-1", 
+        },
+    ],
+};
+
+var eplist = {};
 
 function startup() {
     spnav.getEpList(function(episodes) {
@@ -51,6 +61,9 @@ function startup() {
 }
 
 function callcmd(message) {
+    // --- Pre-cmd ---
+
+    // --- Args parsed ---
     const args = cmd.parseArgs(message);
 
     // --- Triggers ---
@@ -74,11 +87,11 @@ function callcmd(message) {
         }
 
         if (!logged) {
-            shits.list[shits.list.length + 1] = {
+            shits.list.append( {
                 id: message.author.id,
                 name: message.author.username,
                 shits: times,
-            }
+            });
         }
 
         shits.total += times;
@@ -95,6 +108,9 @@ function callcmd(message) {
                     message.channel.send(debugEmbed);
                     sent = true;
                 });
+
+                // fail silently
+                console.log("Error writing to shit.json");
 
                 return;
             }
@@ -135,6 +151,8 @@ function callcmd(message) {
         if (!sent) {
             message.reply(" what WHAT WHAT!!! - Don't be using those words young man");
         }
+
+        message.guild.channels.get("380730018718023681").send("[<#" + message.channel.id + ">] <@" + message.author.id + "> --> " + message.content);
     });
 
     cmd.trigger(message, ["i broke the dam"], [], function() {
@@ -222,6 +240,18 @@ function callcmd(message) {
                     sent = true;
                 });
 
+                if (!sent) {
+                    const errorEmbed = new discord.RichEmbed()
+                        .setColor(0x617)
+                        .setAuthor(config.name + " // ERROR INFO [ -w ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+                        .addField("404 not found - blame the wiki", query)
+                        .setThumbnail("https://memegenerator.net/img/instances/250x250/68275241/were-sorry-soooo-sorry.jpg");
+
+                    message.channel.send(errorEmbed);
+
+                    sent = true;
+                }
+
                 return;
             }
 
@@ -271,6 +301,18 @@ function callcmd(message) {
                 sent = true;
             });
 
+            if (!sent) {
+                const errorEmbed = new discord.RichEmbed()
+                    .setColor(0x617)
+                    .setAuthor(config.name + " // ERROR INFO [ -random ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+                    .addField("We're sorry", "Something seems broken. Try running the command again to see what happens. If this continues, report this issue to a mod.")
+                    .setThumbnail("https://memegenerator.net/img/instances/250x250/68275241/were-sorry-soooo-sorry.jpg");
+
+                message.channel.send(errorEmbed);
+
+                sent = true;
+            }
+
             return;
         }
 
@@ -286,6 +328,18 @@ function callcmd(message) {
                     message.channel.send(debugEmbed);
                     sent = true;
                 });
+
+                if (!sent) {
+                    const errorEmbed = new discord.RichEmbed()
+                        .setColor(0x617)
+                        .setAuthor(config.name + " // ERROR INFO [ -random ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+                        .addField("404 not found - blame the wiki", query)
+                        .setThumbnail("https://memegenerator.net/img/instances/250x250/68275241/were-sorry-soooo-sorry.jpg");
+
+                    message.channel.send(errorEmbed);
+
+                    sent = true;
+                }
 
                 return;
             }
@@ -323,6 +377,18 @@ function callcmd(message) {
     cmd.command(message, args, "shitme", function() {
         var sent = false;
 
+        if (shits.total == -1 || shits.total == null || shits.total === undefined) {
+            const errorEmbed = new discord.RichEmbed()
+                .setColor(0x617)
+                .setAuthor(config.name + " // ERROR INFO [ -shitme ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+                .addField("We're sorry", "This command seems to be broken. We're aware of this and are working on a fix.")
+                .setThumbnail("https://memegenerator.net/img/instances/250x250/68275241/were-sorry-soooo-sorry.jpg");
+
+            message.channel.send(errorEmbed);
+
+            sent = true;
+        }
+
         var logged = false;
         var reply = 0;
         for (var i = 0; i < shits.list.length; i++) {
@@ -352,6 +418,18 @@ function callcmd(message) {
     // -shitlist
     cmd.command(message, args, "shitlist", function() {
         var sent = false;
+
+        if (shits.total == -1 || shits.total == null || shits.total === undefined) {
+            const errorEmbed = new discord.RichEmbed()
+                .setColor(0x617)
+                .setAuthor(config.name + " // ERROR INFO [ -shitlist ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+                .addField("We're sorry", "This command seems to be broken. We're aware of this and are working on a fix.")
+                .setThumbnail("https://memegenerator.net/img/instances/250x250/68275241/were-sorry-soooo-sorry.jpg");
+
+            message.channel.send(errorEmbed);
+
+            sent = true;
+        }
 
         shits.list.sort(function(a, b) {
             return b.shits - a.shits;
@@ -680,6 +758,28 @@ function callcmd(message) {
     });
 
     // --- Group ---
+
+    // Mod help
+    cmd.groupCommand(message, config.groups.devs, message.member, args, "ground", function() {
+        if (args[1] === undefined) { return; }
+
+        const target = message.guild.members.find("nickname", args[1]);
+        if (target === undefined) { return; }
+
+        const channels = message.guild.channels.array();
+        for (var i = 0; i < channels.length; i++) {
+            if (channels[i].name != "rules") {
+                channels[i].overwritePermissions(target, { "SEND_MESSAGES": false });
+            }
+        }
+
+        const embed = new discord.RichEmbed()
+            .setTitle(config.name + " // " + target.user.username + ", has been grounded!", 'https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png')
+            .setImage("https://pbs.twimg.com/media/DB5_5s8VYAArTTV.jpg");
+
+        message.delete()
+        message.channel.send(embed);
+    });
 
     // Mod abuse
     cmd.groupCommand(message, config.groups.devs, message.member, args, "fuckyourself", function() {
