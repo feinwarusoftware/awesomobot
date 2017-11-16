@@ -11,8 +11,8 @@ const config = {
     version: "0.9.8",
     prefix: "-",
 
-    token: "Mzc5MzcwNTA2OTMzMTA4NzQ2.DO0IiA.O8dY76x-uEbmr2iOm8Wiw9QxtyY", // sp-server
-    //token: "MzcyNDYyNDI4NjkwMDU1MTY5.DOtZwQ.WGOdbzW642ViH79t6htgOO1f7Ug", // test-server
+    //token: "Mzc5MzcwNTA2OTMzMTA4NzQ2.DO0IiA.O8dY76x-uEbmr2iOm8Wiw9QxtyY", // sp-server
+    token: "MzcyNDYyNDI4NjkwMDU1MTY5.DOtZwQ.WGOdbzW642ViH79t6htgOO1f7Ug", // test-server
 
     membermessage: ["Ooohhh I Member!", "Me member!", "I member!"],
 
@@ -38,6 +38,12 @@ const config = {
         host: "en.wikipedia.org",
         api: "/w/api.php",
     },
+
+    status: {
+        member: "working",
+        avatar: "working",
+        botinfo: "working",
+    }
 }
 
 module.exports = config;

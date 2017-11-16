@@ -175,21 +175,47 @@ function callcmd(message) {
 
     // --- No prefix ---
 
-    cmd.command(message, args, "member", function() {
-        var sent = false;
+    // --- Simple ---
+    cmd.advCommand(message, args, "member", function(flags, info) {
+        if (flags & cmd.failure) {
+            return;
+        }
 
-        cmd.flag(args, "-d", function() {
-            const debugEmbed = new discord.RichEmbed()
+        if (flags & cmd.debug) {
+            var debugEmbed = new discord.RichEmbed()
                 .setColor(0x617)
-                .setAuthor(config.name + " // DEBUG INFO [ member ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
-                .addField("Info", "Member when you tried debugging this and got no useful info?");
+                .setAuthor(config.name + " // DEBUG [ member ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+                .setDescription("");
+
+            for (var i = 0; i < info.length; i++) {
+                debugEmbed.description += info[i] + "\n";
+            }
 
             message.channel.send(debugEmbed);
-            sent = true;
-        });
 
-        if (!sent) {
+            return;
+        }
+
+        if (flags & cmd.status) {
+            const statusEmbed = new discord.RichEmbed()
+                .setColor(0x617)
+                .setAuthor(config.name + " // STATUS [ member ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png");
+
+            var status = config.status.member;
+            statusEmbed.addField("Status", status);
+
+            var tests = "untested";
+            statusEmbed.addField("Tests", tests);
+
+            message.channel.send(statusEmbed);
+
+            return;
+        }
+
+        if (flags & cmd.success) {
             message.reply(config.membermessage[Math.floor(Math.random() * config.membermessage.length)]);
+
+            return;
         }
     });
 
@@ -197,6 +223,52 @@ function callcmd(message) {
     if (!message.content.startsWith(config.prefix)) { return; }
 
     // --- Prefix ---
+
+    // --- Simple ---
+    cmd.advCommand(message, args, "avatar", function(flags, info) {
+        if (flags & cmd.failure) {
+            return;
+        }
+
+        info.push("Url: " + message.author.avatarURL);
+
+        if (flags & cmd.debug) {
+            var debugEmbed = new discord.RichEmbed()
+                .setColor(0x617)
+                .setAuthor(config.name + " // DEBUG [ avatar ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+                .setDescription("");
+
+            for (var i = 0; i < info.length; i++) {
+                debugEmbed.description += info[i] + "\n";
+            }
+
+            message.channel.send(debugEmbed);
+
+            return;
+        }
+
+        if (flags & cmd.status) {
+            const statusEmbed = new discord.RichEmbed()
+                .setColor(0x617)
+                .setAuthor(config.name + " // STATUS [ avatar ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png");
+
+            var status = config.status.avatar;
+            statusEmbed.addField("Status", status);
+
+            var tests = "untested";
+            statusEmbed.addField("Tests", tests);
+
+            message.channel.send(statusEmbed);
+
+            return;
+        }
+
+        if (flags & cmd.success) {
+            message.reply(message.author.avatarURL);
+
+            return;
+        }
+    });
 
     // -w
     cmd.command(message, args, "w", function() {
@@ -466,6 +538,50 @@ function callcmd(message) {
         }
     });
 
+    cmd.advCommand(message, args, "botinfo", function(flags, info) {
+        if (flags & cmd.failure) {
+            return;
+        }
+
+        if (flags & cmd.debug) {
+            var debugEmbed = new discord.RichEmbed()
+                .setColor(0x617)
+                .setAuthor(config.name + " // DEBUG [ botinfo ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+                .setDescription("");
+
+            for (var i = 0; i < info.length; i++) {
+                debugEmbed.description += info[i] + "\n";
+            }
+
+            message.channel.send(debugEmbed);
+
+            return;
+        }
+
+        if (flags & cmd.status) {
+            const statusEmbed = new discord.RichEmbed()
+                .setColor(0x617)
+                .setAuthor(config.name + " // STATUS [ botinfo ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png");
+
+            var status = config.status.botinfo;
+            statusEmbed.addField("Status", status);
+
+            var tests = "untested";
+            statusEmbed.addField("Tests", tests);
+
+            message.channel.send(statusEmbed);
+
+            return;
+        }
+
+        if (flags & cmd.success) {
+            message.channel.send(embeds.info);
+
+            return;
+        }
+    });
+
+    /*
     cmd.command(message, args, "avatar", function() {
         var sent = false;
 
@@ -483,24 +599,7 @@ function callcmd(message) {
             message.reply(message.author.avatarURL);
         }
     });
-
-    cmd.command(message, args, "botinfo", function() {
-        var sent = false;
-
-        cmd.flag(args, "-d", function() {
-            const debugEmbed = new discord.RichEmbed()
-                .setColor(0x617)
-                .setAuthor(config.name + " // DEBUG INFO [ -botinfo ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
-                .addField("Info", "Don't debug this.")
-
-            message.channel.send(debugEmbed);
-            sent = true;
-        });
-
-        if (!sent) {
-            message.channel.send(embeds.info);
-        }
-    });
+    */
 
     cmd.command(message, args, "help1", function() {
         var sent = false;
@@ -595,48 +694,6 @@ function callcmd(message) {
         }
     });
 
-    cmd.command(message, args, "aggression", function() {
-        var sent = false;
-
-        cmd.flag(args, "-d", function() {
-            const debugEmbed = new discord.RichEmbed()
-                .setColor(0x617)
-                .setAuthor(config.name + " // DEBUG INFO [ -aggression ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
-                .addField("Info", "Don't debug this.")
-
-            message.channel.send(debugEmbed);
-            sent = true;
-        });
-
-        if (!sent) {
-            message.delete()            
-            message.channel.sendMessage("", {
-                file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png"
-            });
-        }
-    });
-
-    cmd.command(message, args, "microaggression", function() {
-        var sent = false;
-
-        cmd.flag(args, "-d", function() {
-            const debugEmbed = new discord.RichEmbed()
-                .setColor(0x617)
-                .setAuthor(config.name + " // DEBUG INFO [ -microaggression ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
-                .addField("Info", "Don't debug this.")
-
-            message.channel.send(debugEmbed);
-            sent = true;
-        });
-
-        if (!sent) {
-            message.delete()
-            message.channel.sendMessage("", {
-                file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png"
-            });
-        }
-    });
-
     cmd.command(message, args, "reminder", function() {
         var sent = false;
 
@@ -644,26 +701,6 @@ function callcmd(message) {
             const debugEmbed = new discord.RichEmbed()
                 .setColor(0x617)
                 .setAuthor(config.name + " // DEBUG INFO [ -reminder ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
-                .addField("Info", "Don't debug this.")
-
-            message.channel.send(debugEmbed);
-            sent = true;
-        });
-
-        if (!sent) {
-            message.channel.sendMessage("", {
-                file: "https://cdn.discordapp.com/attachments/378287210711220224/378648515959586816/Towelie_Logo2.png"
-            });
-        }
-    });
-
-    cmd.command(message, args, "towel", function () {
-        var sent = false;
-
-        cmd.flag(args, "-d", function() {
-            const debugEmbed = new discord.RichEmbed()
-                .setColor(0x617)
-                .setAuthor(config.name + " // DEBUG INFO [ -towel ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
                 .addField("Info", "Don't debug this.")
 
             message.channel.send(debugEmbed);
