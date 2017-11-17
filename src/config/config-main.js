@@ -39,10 +39,26 @@ const config = {
         api: "/w/api.php",
     },
 
-    status: {
-        member: "working",
-        avatar: "working",
-        botinfo: "working",
+    devstatus: {
+        member: "complete",
+        avatar: "complete",
+        botinfo: "complete",
+        help1: "complete",
+        help2: "complete",
+        sub: "complete",
+        micro: "complete",
+        reminder: "complete",
+        f: "complete",
+        welcome: "complete",
+        times: "complete",
+        w: "complete",
+        random: "issues confirmed - may not return all episodes, may fail at wikia lookup",
+        ibrokethedam: "complete",
+        profanityfilter: "complete",
+        shit: "issues confirmed - shit.json gets wiped, shit doesnt get recorded",
+        shitme: "issues confirmed - shit.json gets wiped, cannot lookup shits",
+        shitlist: "issues confirmed - shit.json gets wiped, cannot lookup shits",
+        issue: "testing",
     }
 }
 

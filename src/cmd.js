@@ -16,15 +16,6 @@ const failure = 2;
 const status = 4;
 const debug = 8;
 
-// Deprecated, will be removed soon.
-function command(message, args, command, callback) {
-    if (command.toLowerCase() != args[0]) {
-        return;
-    }
-
-    callback();
-}
-
 function advCommand(message, args, command, callback) {
     var info = [];
     var flags = 0;
@@ -57,6 +48,59 @@ function advCommand(message, args, command, callback) {
     callback(flags, info);
 }
 
+function advTrigger(message, args, include, exclude, callback) {
+    var info = [];
+    var flags = 0;
+
+    info.push("Blacklist: " + include);
+    info.push("Whitelist: " + exclude);
+
+    var indices = [];
+    for (var i = 0; i < include.length; i++) {
+        const occ = utils.allIndicesOf(message.content.toLowerCase(), include[i]);
+        indices = indices.concat(occ);
+    }
+
+    var times = indices.length;
+    if (indices.length > 0) {
+        for (var i = 0; i < indices.length; i++) {
+            for (var j = 0; j < exclude.length; j++) {
+                if (message.content.substring(indices[i], message.content.length).toLowerCase().startsWith(exclude[j].toLowerCase())) {
+
+                    times -= 1;
+                }
+            }
+        }
+    }
+
+    if (times <= 0) {
+        info.push("Found no instances of include in message");
+
+        flags |= failure;
+        
+        callback(failure);
+        return; 
+    }
+
+    info.push("Found [ " + times + " ] instances");
+
+    if (hasFlag(message, args, "-d")) {
+        info.push("Debug flag called");
+
+        flags |= debug;
+    }
+
+    if (hasFlag(message, args, "-s")) {
+        info.push("Status flag called");
+
+        flags |= status;
+    }
+
+    flags |= success;
+
+    callback(flags, info, times);
+}
+
 function hasFlag(message, args, flag) {
     for (var i = 0; i < args.length; i++) {
         if (args[i] == flag) {
@@ -68,6 +112,43 @@ function hasFlag(message, args, flag) {
     return false;
 }
 
+// Deprecated, will be removed soon.
+function trigger(message, include, exclude, callback) {
+    var indices = [];
+    
+    for (var i = 0; i < include.length; i++) {
+        const occ = utils.allIndicesOf(message.content.toLowerCase(), include[i]);
+        indices = indices.concat(occ);
+    }
+
+    var times = indices.length;
+    if (indices.length > 0) {
+        for (var i = 0; i < indices.length; i++) {
+            for (var j = 0; j < exclude.length; j++) {
+                if (message.content.substring(indices[i], message.content.length).toLowerCase().startsWith(exclude[j].toLowerCase())) {
+
+                    times -= 1;
+                }
+            }
+        }
+    }
+
+    if (times > 0) {
+
+        callback(times);
+    }
+}
+
+// Deprecated, will be removed soon.
+function command(message, args, command, callback) {
+    if (command.toLowerCase() != args[0]) {
+        return;
+    }
+
+    callback();
+}
+
+// Deprecated, will be removed soon.
 function groupCommand(message, group, member, args, command, callback) {
     if (command.toLowerCase() != args[0]) {
         return;
@@ -120,32 +201,7 @@ function groupCommand(message, group, member, args, command, callback) {
     }
 }
 
-function trigger(message, include, exclude, callback) {
-    var indices = [];
-    
-    for (var i = 0; i < include.length; i++) {
-        const occ = utils.allIndicesOf(message.content.toLowerCase(), include[i]);
-        indices = indices.concat(occ);
-    }
-
-    var times = indices.length;
-    if (indices.length > 0) {
-        for (var i = 0; i < indices.length; i++) {
-            for (var j = 0; j < exclude.length; j++) {
-                if (message.content.substring(indices[i], message.content.length).toLowerCase().startsWith(exclude[j].toLowerCase())) {
-
-                    times -= 1;
-                }
-            }
-        }
-    }
-
-    if (times > 0) {
-
-        callback(times);
-    }
-}
-
+// Deprecated, will be removed soon.
 function flag(args, flag, callback) {
     for (var i = 0; i < args.length; i++) {
         if (args[i].toLowerCase() == flag) {
@@ -162,15 +218,18 @@ function parseArgs(message) {
 }
 
 module.exports = {
-    command,
     advCommand,
-    groupCommand,
-    trigger,
-    flag,
-    parseArgs,
+    advTrigger,
+    hasFlag,
     success,
     failure,
     status,
     debug,
+
+    command,
+    groupCommand,
+    trigger,
+    flag,
+    parseArgs,
 
 };

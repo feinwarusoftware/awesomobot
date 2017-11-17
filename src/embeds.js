@@ -35,9 +35,20 @@ const help2 = new discord.RichEmbed()
     .setAuthor(config.name + ' // Commands', 'https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png')
     .setThumbnail("https://cdn.shopify.com/s/files/1/1061/1924/files/Thinking_Face_Emoji.png");
 
+function weresorry(cname) {
+    const sorryEmbed = new discord.RichEmbed()
+        .setColor(0x617)
+        .setAuthor(config.name + " // ERROR INFO [ " + cname + " ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+        .addField("We're sorry", "What you just did doesn't seem to work. Either you're doing it wrong or we fucked up. If you think the command is broken, you can report it with -issue")
+        .setThumbnail("https://memegenerator.net/img/instances/250x250/68275241/were-sorry-soooo-sorry.jpg");
+
+    return sorryEmbed;
+}
+
 module.exports = {
     info,
     help1,
     help2,
+    weresorry,
 
 };
