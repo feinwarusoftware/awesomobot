@@ -1232,48 +1232,50 @@ function callcmd(message) {
         }
     });
 
-    /*
-    cmd.command(message, args, "avatar", function() {
-        var sent = false;
-
-        cmd.flag(args, "-d", function() {
-            const debugEmbed = new discord.RichEmbed()
-                .setColor(0x617)
-                .setAuthor(config.name + " // DEBUG INFO [ -avatar ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
-                .addField("Info", "Don't debug this.")
-
-            message.channel.send(debugEmbed);
-            sent = true;
-        });
-
-        if (!sent) {
-            message.reply(message.author.avatarURL);
-        }
-    });
-    */
-
     // --- Group ---
 
     // Mod help
     cmd.groupCommand(message, config.groups.devs, message.member, args, "ground", function() {
         if (args[1] === undefined) { return; }
 
-        const target = message.guild.members.find("nickname", args[1]);
+        var target = message.guild.members.find("username", args[1]);
         if (target === undefined) { return; }
 
-        const channels = message.guild.channels.array();
-        for (var i = 0; i < channels.length; i++) {
-            if (channels[i].name != "rules") {
-                channels[i].overwritePermissions(target, { "SEND_MESSAGES": false });
+        target = message.guild.members.find("nickname", args[1]);
+        if (target === undefined) { return; }
+
+        const grounded = message.guild.roles.find("name", "grounded");
+        if (grounded === undefined) { return; }
+
+        const embed = new discord.RichEmbed()
+        .setTitle(config.name + " // " + target.user.username + ", has been grounded!", 'https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png')
+        .setImage("https://pbs.twimg.com/media/DB5_5s8VYAArTTV.jpg");
+
+        target.addRole(grounded);
+        message.channel.send(embed);
+    });
+
+    cmd.groupCommand(message, config.groups.devs, message.member, args, "unground", function() {
+        if (args[1] === undefined) { return; }
+
+        var target = message.guild.members.find("username", args[1]);
+        if (target === undefined) { return; }
+
+        target = message.guild.members.find("nickname", args[1]);
+        if (target === undefined) { return; }
+
+        var grounded;
+        const roles = target.roles.array();
+        for (var i = 0; i < roles.length; i++) {
+            if (roles[i].name == "grounded") {
+                grounded = roles[i];
             }
         }
 
-        const embed = new discord.RichEmbed()
-            .setTitle(config.name + " // " + target.user.username + ", has been grounded!", 'https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png')
-            .setImage("https://pbs.twimg.com/media/DB5_5s8VYAArTTV.jpg");
+        if (grounded === undefined) { return; }
 
-        message.delete()
-        message.channel.send(embed);
+        target.removeRole(grounded);
+        message.reply(" you have ungrounded " + target.user.username);
     });
 
     // Mod abuse
@@ -1314,7 +1316,7 @@ function callcmd(message) {
         let fpRole = message.guild.roles.find('name', 'Freedom Pals');
 
         if (!sent) {
-            message.member.addRole(fpRole) .then(m => message.reply('You are now a member of the Freedom Pals!')).catch(console.error);
+            message.member.addRole(fpRole).then(m => message.reply('You are now a member of the Freedom Pals!')).catch(console.error);
         }
     });
 
