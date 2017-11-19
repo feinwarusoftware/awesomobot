@@ -87,7 +87,7 @@ function startup() {
 
             } else if (shits.list[i].activity > 0) {
                 if (shits.list[i].lastmsg >= 576) {
-                    shits.list[i].activity -= (Math.log10(shits.list[i].lastmsg) * 200) / 288;
+                    shits.list[i].activity -= (Math.log10(shits.list[i].lastmsg - 575) * 70) / 288;
 
                 }
 
