@@ -4,6 +4,8 @@
  * Deps: None
  */
 
+const pth = require("path");
+
 "use strict"
 
 const config = {
@@ -14,6 +16,9 @@ const config = {
 
     //token: "Mzc5MzcwNTA2OTMzMTA4NzQ2.DO0IiA.O8dY76x-uEbmr2iOm8Wiw9QxtyY", // sp-server
     token: "MzcyNDYyNDI4NjkwMDU1MTY5.DOtZwQ.WGOdbzW642ViH79t6htgOO1f7Ug", // test-server
+
+    datapath: pth.join(__dirname + "../../.." + "/data/shit.json"),
+    eplistpath: pth.join(__dirname + "../../.." + "/data/episodes.json"),
 
     membermessage: ["Ooohhh I Member!", "Me member!", "I member!"],
 

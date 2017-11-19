@@ -15,7 +15,7 @@ const momentTz = require('moment-timezone');
 //
 
 var shits = {
-    total: "-1",
+    total: -1,
     list: [
         {
             id: "-1",
@@ -37,7 +37,7 @@ function startup() {
             episodes: episodes,
         }
 
-        jlite.writeJson("./src/data/episodes.json", json, function(err) {
+        jlite.writeJson(config.eplistpath, json, function(err) {
             //temp            
             if (err) {
                 console.log("error writing episode json")
@@ -46,7 +46,7 @@ function startup() {
         });
     });
 
-    jlite.readJson("./src/data/shit.json", function(data, err) {
+    jlite.readJson(config.datapath, function(data, err) {
         if (err) {
             console.log("error reading shit json")
             return;
@@ -92,13 +92,14 @@ function startup() {
                 }
 
             }
+
             if (shits.list[i].activity < 0) {
                 shits.list[i].activity = 0;
                 
             }
         }
 
-        jlite.writeJson("./src/data/shit.json", shits, function(err) {
+        jlite.writeJson(config.datapath, shits, function(err) {
             if (err) {
                 console.log("Cannot write to shit.json");
             }
@@ -1464,9 +1465,7 @@ function callcmd(message) {
 
         var target = message.guild.members.find("id", args[1]);
         if (target === undefined || target === null) { return; }
-
-        console.log(target);
-
+        
         var updated = false;
         for (var i = 0; i < shits.list.length; i++) {
             if (shits.list[i].id == target.id) {
@@ -1484,6 +1483,32 @@ function callcmd(message) {
             message.reply(0);
 
         }
+    });
+
+    cmd.groupCommand(message, config.groups.devs, message.member, args, "activelist", function() {
+        if (shits.list[0].id == -1 || shits === undefined || shits == null) {
+            return;
+        }
+
+        const len = args[1] === undefined ? 5 : args[1];
+        if (typeof len != "number") {
+            return;;
+        }
+
+        shits.list.sort(function(a, b) {
+            return b.activity - a.activity;
+        });
+
+        const embed = new discord.RichEmbed()
+            .setColor(0xc19245)
+            .setAuthor(config.name + " // " + "Activity", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png");
+
+            //embed.addField("#" + (i + 1), shits.list[i].name + ": " + shits.list[i].shits, true);
+        for (var i = 0; i < (shits.list.length < len ? shits.list.length : len); i++) {
+            embed.addField("#" + (i + 1), shits.list[i].name + ": " + (shits.list[i].activity === undefined ? 0 : shits.list[i].activity), true);
+        }
+
+        message.channel.send(embed);
     });
 
     // --- Post command ---
