@@ -21,6 +21,8 @@ var shits = {
             id: "-1",
             name: "undef",
             shits: "-1", 
+            activity: 0,
+            lastmsg: 0,
         },
     ],
 };
@@ -60,21 +62,88 @@ function startup() {
         shits = data;
     });
 
-    if (shits.list[0].id != -1) {
-        const minutes = 5;
-        const interval = minutes * 60 * 1000;
-        timers.setInterval(function() {
-            jlite.writeJson("./src/data/shit.json", shits, function(err) {
-                if (err) {
-                    console.log("Cannot write to shit.json");
+    const minutes = 5;
+    const interval = minutes * 60 * 1000;
+    timers.setInterval(function() {
+        for (var i = 0; i < shits.list.length; i++) {
+
+            // error catching
+            if (shits.list[0].id == -1 || shits === undefined || shits == null) { break; }
+
+            // conversion errors
+            if (shits.list[i].activity === undefined) {
+                shits.list[i].activity = 0;
+            }
+            if (shits.list[i].lastmsg === undefined) {
+                shits.list[i].lastmsg = 0;
+            }
+
+            // last message time
+            shits.list[i].lastmsg += 1;
+
+            // degenerate
+            if (shits.list[i].activity > 5000) {
+                shits.list[i].activity = 5000;
+
+            } else if (shits.list[i].activity > 0) {
+                if (shits.list[i].lastmsg >= 576) {
+                    shits.list[i].activity -= (Math.log10(shits.list[i].lastmsg) * 200) / 288;
+
                 }
-            });
-        }, interval);
+
+            }
+            if (shits.list[i].activity < 0) {
+                shits.list[i].activity = 0;
+                
+            }
+        }
+
+        jlite.writeJson("./src/data/shit.json", shits, function(err) {
+            if (err) {
+                console.log("Cannot write to shit.json");
+            }
+        });
+    }, interval);
+}
+
+function messageDeleted(message) {
+    try {
+        message.guild.channels.get("380730018718023681").send("[<#" + message.channel.id + ">] <@" + message.author.id + "> (deleted) --> " + message.content);
+
+    } catch (e) {
+
+        console.log("Error logging message deletion");
     }
 }
 
 function callcmd(message) {
     // --- Pre-cmd ---
+
+    var updated = false;
+    const activity = message.content.length > 20 ? (message.content.length > 100 ? 20 : 15) : 5;
+    for (var i = 0; i < shits.list.length; i++) {
+        if (shits.list[i].id == message.author.id) {
+            if (shits.list[i].activity === undefined) {
+                shits.list[i].activity = 0;
+            }
+            if (shits.list[i].lastmsg === undefined) {
+                shits.list[i].lastmsg = 0;
+            }
+
+            shits.list[i].activity += activity;
+            shits.list[i].lastmsg = 0;
+            updated = true;
+        }
+    }
+    if (!updated) {
+        shits.list.push({
+            id: message.author.id,
+            name: message.author.username,
+            shits: 0,
+            activity: activity,
+            lastmsg: 0,
+        });
+    }
 
     // --- Args parsed ---
     const args = cmd.parseArgs(message);
@@ -1389,10 +1458,40 @@ function callcmd(message) {
             message.member.removeRole(hRole) .then(m => message.reply('You are no longer a member of the Humans!')).catch(console.error);
         }
     });
+
+    cmd.groupCommand(message, config.groups.devs, message.member, args, "activity", function() {
+        if (args[1] === undefined) { return; }
+
+        var target = message.guild.members.find("id", args[1]);
+        if (target === undefined || target === null) { return; }
+
+        console.log(target);
+
+        var updated = false;
+        for (var i = 0; i < shits.list.length; i++) {
+            if (shits.list[i].id == target.id) {
+                if (shits.list[i].activity === undefined) {
+                    message.reply(0);
+                    return;
+                }
+    
+                updated = true;
+                message.reply(shits.list[i].activity);
+                return;
+            }
+        }
+        if (!updated) {
+            message.reply(0);
+
+        }
+    });
+
+    // --- Post command ---
 }
 
 module.exports = {
     startup,
+    messageDeleted,
     callcmd,
 
 };

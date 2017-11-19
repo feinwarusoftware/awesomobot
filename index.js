@@ -22,6 +22,11 @@ client.on("ready", () => {
     console.log('Shweet! I am alive!');
 });
 
+client.on("messageDelete", function(message) {
+
+    evnt.messageDeleted(message);
+});
+
 client.on("message", function(message) {
     if (message.author.equals(client.user)) { return; }
 
