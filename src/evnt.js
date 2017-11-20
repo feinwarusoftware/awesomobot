@@ -1296,6 +1296,57 @@ function callcmd(message) {
         }
     });
 
+    cmd.advCommand(message, args, "crunch", function(flags, info) {
+        if (flags & cmd.failure) {
+            return;
+        }
+
+        info.push("Response: %url% https://cdn.discordapp.com/attachments/371762864790306820/382297686100934656/Shablagoo.png");
+
+        if (flags & cmd.debug) {
+            var debugEmbed = new discord.RichEmbed()
+                .setColor(0x617)
+                .setAuthor(config.name + " // DEBUG [ crunch ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+                .setDescription("");
+
+            for (var i = 0; i < info.length; i++) {
+                debugEmbed.description += info[i] + "\n";
+            }
+
+            message.channel.send(debugEmbed);
+
+            return;
+        }
+
+        if (flags & cmd.status) {
+            const statusEmbed = new discord.RichEmbed()
+                .setColor(0x617)
+                .setAuthor(config.name + " // STATUS [ crunch ]", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png");
+
+            var status = "Complete?";
+            statusEmbed.addField("Dev Status", status);
+
+            var tests = "untested";
+            statusEmbed.addField("Tests", tests);
+
+            message.channel.send(statusEmbed);
+
+            return;
+        }
+
+        if (flags & cmd.success) {
+            message.channel.send("", { file: "https://cdn.discordapp.com/attachments/371762864790306820/382297686100934656/Shablagoo.png" });
+
+            return;
+        }
+
+        if (!flags & cmd.success) {
+            message.channel.send(embeds.weresorry("crunch"));
+            
+            return;
+        }
+    });
+
     // --- Group ---
 
     // Mod help
