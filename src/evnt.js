@@ -1302,18 +1302,15 @@ function callcmd(message) {
     cmd.groupCommand(message, config.groups.devs, message.member, args, "ground", function() {
         if (args[1] === undefined) { return; }
 
-        var target = message.guild.members.find("username", args[1]);
-        if (target === undefined) { return; }
+        var target = message.guild.members.find("id", args[1]);
+        if (target === undefined || target === null) { return; }
 
-        target = message.guild.members.find("nickname", args[1]);
-        if (target === undefined) { return; }
-
-        const grounded = message.guild.roles.find("name", "grounded");
+        const grounded = message.guild.roles.find("name", "Grounded");
         if (grounded === undefined) { return; }
 
         const embed = new discord.RichEmbed()
         .setTitle(config.name + " // " + target.user.username + ", has been grounded!", 'https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png')
-        .setImage("https://pbs.twimg.com/media/DB5_5s8VYAArTTV.jpg");
+        .setImage("https://i.ytimg.com/vi/swMFmOXpLVI/maxresdefault.jpg");
 
         target.addRole(grounded);
         message.channel.send(embed);
@@ -1322,16 +1319,13 @@ function callcmd(message) {
     cmd.groupCommand(message, config.groups.devs, message.member, args, "unground", function() {
         if (args[1] === undefined) { return; }
 
-        var target = message.guild.members.find("username", args[1]);
-        if (target === undefined) { return; }
-
-        target = message.guild.members.find("nickname", args[1]);
-        if (target === undefined) { return; }
+        var target = message.guild.members.find("id", args[1]);
+        if (target === undefined || target === null) { return; }
 
         var grounded;
         const roles = target.roles.array();
         for (var i = 0; i < roles.length; i++) {
-            if (roles[i].name == "grounded") {
+            if (roles[i].name == "Grounded") {
                 grounded = roles[i];
             }
         }

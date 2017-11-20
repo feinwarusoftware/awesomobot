@@ -38,7 +38,7 @@ const config = {
     },
 
     groups: {
-        devs: ["Mods", "AWESOM-O Dev"],
+        devs: ["Hallway Monitors", "AWESOM-O Dev"],
         newkids: ["New Kid"],
     },
 
