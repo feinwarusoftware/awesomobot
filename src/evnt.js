@@ -82,14 +82,8 @@ function startup() {
             shits.list[i].lastmsg += 1;
 
             // degenerate
-            if (shits.list[i].activity > 5000) {
-                shits.list[i].activity = 5000;
-
-            } else if (shits.list[i].activity > 0) {
-                if (shits.list[i].lastmsg >= 576) {
-                    shits.list[i].activity -= (Math.log10(shits.list[i].lastmsg - 575) * 70) / 288;
-
-                }
+            if (shits.list[i].lastmsg >= 576) {
+                shits.list[i].activity -= (Math.log10(shits.list[i].lastmsg - 575) * 70) / 288;
 
             }
 
@@ -121,7 +115,7 @@ function callcmd(message) {
     // --- Pre-cmd ---
 
     var updated = false;
-    const activity = message.content.length > 20 ? (message.content.length > 100 ? 20 : 15) : 5;
+    const activity = message.content.length > 20 ? (message.content.length > 100 ? 8 : 6) : 2;
     for (var i = 0; i < shits.list.length; i++) {
         if (shits.list[i].id == message.author.id) {
             if (shits.list[i].activity === undefined) {
