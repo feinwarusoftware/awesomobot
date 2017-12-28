@@ -23,8 +23,8 @@ function start() {
 
     passport.use(new Strategy({
         clientID: "372462428690055169",
-        clientSecret: "_0SYZk3HpxFWc_UVpmmu4UoVwXcEVJ64",
-        callbackURL: 'http://localhost:3000/auth/discord/callback',
+        clientSecret: "0wPt1HDKNVs7Su6uTzDMCAb-oZUmTjHi",
+        callbackURL: "http://localhost:4000/auth/discord/callback",
         scope: ["identify", "guilds"]
         
     }, (accessToken, refreshToken, profile, done) => {
@@ -33,25 +33,18 @@ function start() {
         });
     }));
 
-    // Enable dev logger.
+    // Express settings.
     app.use(logger("dev"));
-
-    // Enable pug templating engine.
+    app.set("views", __dirname + "/views");
     app.engine("pug", require("pug").__express);
     app.set("view engine", "pug");
 
-    // Point express to static + functional dirs.
-    app.set("views", __dirname + "/views");
     app.use(express.static(__dirname + "/public"));
-    app.use(require("./controllers"));
-
-    // Auth + session settings.
-    app.use(session({ secret: "keyboard cat", resave: false, saveUninitialized: false }));
+    app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+    app.use(bodyParser.urlencoded({ extended: false }));
     app.use(passport.initialize());
     app.use(passport.session());
-
-    // Body parser for json api.
-    app.use(bodyParser.json());
+    app.use(require("./controllers"));
 
     // Start the webserver.
     app.listen(port, () => {

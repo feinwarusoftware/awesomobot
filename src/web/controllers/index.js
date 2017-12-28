@@ -5,8 +5,14 @@ const checkAuth = require("../middlewares/checkAuth");
 
 const router = express.Router();
 
+router.use("/auth", require("./auth"));
+
 router.get("/", (req, res) => {
     res.render("index");
+});
+
+router.get("/info", checkAuth, (req, res) => {
+    res.render("info");
 });
 
 module.exports = router;
