@@ -7,12 +7,16 @@ const router = express.Router();
 
 router.use("/auth", require("./auth"));
 
-router.get("/test", (req, res) => {
+router.get("/", (req, res) => {
     res.render("index");
 });
 
 router.get("/info", checkAuth, (req, res) => {
-    res.render("info");
+    res.render("info", { user: req.user });
+});
+
+router.get("/nologin", (req, res) => {
+    res.render("nologin");
 });
 
 module.exports = router;

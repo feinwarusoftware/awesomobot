@@ -41,25 +41,26 @@
         <nav class="navbar navbar-expand-lg navbar-dark indigo fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="#">Awesom-o Discord Bot</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             <a class="nav-link" href="#">Home
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="info">Dashboard</a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Dashboard</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Donate</a>
                         </li>
                         <li class="nav-item btn-group">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">Dropdown</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="#">Action</a>
                                 <a class="dropdown-item" href="#">Another action</a>
@@ -68,17 +69,53 @@
                         </li>
                     </ul>
                     <form class="form-inline">
-                        <a href="auth/logout">
-                            <button class="btn btn-sm align-middle btn-outline-yellow" type="button">Logout</button>
+                        <a href="auth/discord">
+                            <button class="btn btn-sm align-middle btn-outline-yellow" type="button" href="auth/discord">Login with Discord</button>
                         </a>
                     </form>
                 </div>
             </div>
         </nav>
+        <!-- /.Navbar-->
+        <!-- Intro Section-->
+        <section class="view intro-1 hm-black-strong">
+            <div class="full-bg-img flex-center">
+                <div class="container">
+                    <ul>
+                        <li>
+                            <h1 class="h1-responsive font-bold wow fadeInDown" data-wow-delay="0.2s">Awesom-o Discord Bot</h1>
+                        </li>
+                        <li>
+                            <p class="lead mt-4 mb-5 wow fadeInDown">Originally for the South Park Discord, Now for everyone</p>
+                        </li>
+                        <li>
+                            <a class="btn btn-indigo btn-lg wow fadeInLeft" target="_blank" href="auth/discord" data-wow-delay="0.2s"
+                                rel="nofollow">Login with Discord</a>
+                            <a class="btn btn-default btn-lg wow fadeInRight" target="_blank" href="https://mdbootstrap.com/material-design-for-bootstrap/"
+                                data-wow-delay="0.2s" rel="nofollow">Learn more</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </header>
     <!-- Main container-->
     <div class="container">
         <div class="divider-new pt-5">
-            <h2 class="h2-responsive wow fadeIn">Overview</h2>
+            <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">About us</h2>
+        </div>
+        <!-- Section: About-->
+        <section class="text-center wow fadeIn" id="about" data-wow-delay="0.2s">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit explicabo assumenda eligendi ex exercitationem
+                harum deleniti quaerat beatae ducimus dolor voluptates magnam, reiciendis pariatur culpa tempore quibusdam
+                quidem, saepe eius.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit explicabo assumenda eligendi ex exercitationem
+                harum deleniti quaerat beatae ducimus dolor voluptates magnam, reiciendis pariatur culpa tempore quibusdam
+                quidem, saepe eius.</p>
+        </section>
+        <!-- Section: About-->
+        <div class="divider-new pt-5">
+            <h2 class="h2-responsive wow fadeIn">Best features</h2>
         </div>
         <!-- Section: Best features-->
         <section id="best-features">
@@ -88,12 +125,12 @@
                     <!-- Card-->
                     <div class="card wow fadeIn">
                         <!-- Card image-->
-                        <% var avatar = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=2048"%>
-                        <img class="img-fluid" src="<%= avatar%>" alt="Card image cap">
+                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Work/4-col/img%20(25).jpg"
+                            alt="Card image cap">
                         <!-- Card content-->
                         <div class="card-body">
                             <!-- Title-->
-                            <h4 class="card-title text-center"><%= user.username%></h4>
+                            <h4 class="card-title text-center">360 Advertising</h4>
                             <hr>
                             <!-- Text-->
                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -107,7 +144,8 @@
                     <!-- Card-->
                     <div class="card wow fadeIn" data-wow-delay="0.2s">
                         <!-- Card image-->
-                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Work/4-col/img%20(14).jpg" alt="Card image cap">
+                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Work/4-col/img%20(14).jpg"
+                            alt="Card image cap">
                         <!-- Card content-->
                         <div class="card-body">
                             <!-- Title-->
@@ -125,7 +163,8 @@
                     <!-- Card-->
                     <div class="card wow fadeIn" data-wow-delay="0.4s">
                         <!-- Card image-->
-                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Work/4-col/img%20(21).jpg" alt="Card image cap">
+                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Work/4-col/img%20(21).jpg"
+                            alt="Card image cap">
                         <!-- Card content-->
                         <div class="card-body">
                             <!-- Title-->
@@ -143,7 +182,8 @@
                     <!-- Card-->
                     <div class="card wow fadeIn" data-wow-delay="0.6s">
                         <!-- Card image-->
-                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Work/4-col/img%20(37).jpg" alt="Card image cap">
+                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Work/4-col/img%20(37).jpg"
+                            alt="Card image cap">
                         <!-- Card content-->
                         <div class="card-body">
                             <!-- Title-->
@@ -172,7 +212,8 @@
                 <!-- /First column-->
                 <!-- Second column-->
                 <div class="col-md-4">
-                    <iframe src="https://discordapp.com/widget?id=371762864790306817&amp;theme=dark" height="500" allowtransparency="true" frameborder="0"></iframe>
+                    <iframe src="https://discordapp.com/widget?id=371762864790306817&amp;theme=dark" height="500" allowtransparency="true"
+                        frameborder="0"></iframe>
                 </div>
                 <!-- /Second column-->
             </div>
@@ -268,7 +309,8 @@
                     <a class="btn btn-info" target="_blank" href="https://mdbootstrap.com/getting-started/" rel="nofollow">Sign up!</a>
                 </li>
                 <li>
-                    <a class="btn btn-default" target="_blank" href="https://mdbootstrap.com/material-design-for-bootstrap/" rel="nofollow">Learn more</a>
+                    <a class="btn btn-default" target="_blank" href="https://mdbootstrap.com/material-design-for-bootstrap/"
+                        rel="nofollow">Learn more</a>
                 </li>
             </ul>
         </div>
@@ -318,3 +360,30 @@
 </body>
 
 </html>
+<script type="text/javascript">
+    $(window).on('load', function () {
+        $('#nologin').modal('show');
+    });
+</script>
+<!-- Modal-->
+<div class="modal fade" id="nologin" tabindex="-1" role="dialog" aria-labelledby="loginwarning" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="nologin">You are not logged in!</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">...</div>
+            <div class="modal-footer">
+                <a href="/">
+                    <button class="btn btn-mdb" type="button">Close</button>
+                </a>
+                <a href="auth/discord">
+                    <button class="btn btn-indigo" type="button">Login with Discord</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
