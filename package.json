@@ -20,6 +20,7 @@
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
     "discord.js": "^11.2.1",
+    "ejs": "^2.5.7",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "mongoose": "^4.13.7",

@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.use("/auth", require("./auth"));
 
-router.get("/", (req, res) => {
+router.get("/test", (req, res) => {
     res.render("index");
 });
 

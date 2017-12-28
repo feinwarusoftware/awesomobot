@@ -6,9 +6,10 @@ const logger = require("morgan");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const mongoose = require("mongoose");
+const ejs = require("ejs")
 
 const Strategy = require("passport-discord").Strategy;
-const port = process.env.WEBSERVER_PORT || 3000;
+const port = process.env.WEBSERVER_PORT || 4000;
 const app = express();
 
 function start() {
@@ -22,9 +23,9 @@ function start() {
     });
 
     passport.use(new Strategy({
-        clientID: "372462428690055169",
-        clientSecret: "0wPt1HDKNVs7Su6uTzDMCAb-oZUmTjHi",
-        callbackURL: "http://localhost:4000/auth/discord/callback",
+        clientID: process.env.AWESOMOBETA_CLIENTID,
+        clientSecret: process.env.AWESOMOBETA_SECRET,
+        callbackURL: "http://localhost:" + port + "/auth/discord/callback",
         scope: ["identify", "guilds"]
         
     }, (accessToken, refreshToken, profile, done) => {
@@ -33,11 +34,10 @@ function start() {
         });
     }));
 
-    // Express settings.
+    // Express settings, plz no change, order matters!.
     app.use(logger("dev"));
     app.set("views", __dirname + "/views");
-    app.engine("pug", require("pug").__express);
-    app.set("view engine", "pug");
+    app.set("view engine", "ejs");
 
     app.use(express.static(__dirname + "/public"));
     app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
