@@ -1,34 +1,13 @@
 "use strict"
 
-const discord = require("discord.js");
-const fs = require("fs");
+const webserver = require("./src/web/server");
+const bot = require("./src/bot/main");
 
-const config = require("./src/config/config-main");
-const cmd = require("./src/cmd");
-const evnt = require("./src/evnt");
-const embeds = require("./src/embeds");
-const spnav = require("./src/spnav");
+// connect to mongodb
 
-const client = new discord.Client();
-client.login(config.token);
 
-client.on("ready", () => {
+// start the webserver
+webserver();
 
-    evnt.startup();
-
-    client.user.setGame(config.version + " | -botinfo");
-
-    // replace with flog
-    console.log('Shweet! I am alive!');
-});
-
-client.on("messageDelete", function(message) {
-
-    evnt.messageDeleted(message);
-});
-
-client.on("message", function(message) {
-    if (message.author.equals(client.user)) { return; }
-
-    evnt.callcmd(message);
-});
+// start the bot
+bot();

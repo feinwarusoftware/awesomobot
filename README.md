@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/MattheousDT/awesom-o.svg?branch=master)](https://travis-ci.org/MattheousDT/awesom-o)
-
 # awesome-o
-Bot made specifically for the /r/SouthPark discord server in Javascript
+The broken, in-dev version of our new bot with lots of new stuff!
+Report all the bugs and use at your own risk!
