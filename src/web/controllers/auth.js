@@ -9,7 +9,7 @@ router.get("/discord", passport.authenticate("discord", {
 }));
 
 router.get("/discord/callback", passport.authenticate("discord", {
-    successRedirect: "/info",
+    successRedirect: "/dashboard",
     failureRedirect: "/"
 }));
 
