@@ -12,10 +12,6 @@ router.get("/", (req, res) => {
     res.render("index");
 });
 
-router.get("/dashboard", checkAuth, (req, res) => {
-    res.render("dashboard", { user: req.user });
-});
-
 router.get("/nologin", (req, res) => {
     res.render("nologin");
 });
