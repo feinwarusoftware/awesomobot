@@ -278,6 +278,33 @@
             new WOW().init();
         </script>
 
+        <script>
+
+            window.onload=function() {
+
+                const form = document.getElementById("issue-form");
+
+                form.onsubmit=function() {
+
+                    const data = {
+                        author: form.ifauthor.value,
+                        name: form.ifname.value,
+                        tag: form.iftag.value,
+                        desc: form.ifdesc.value
+                    };
+
+                    var xhr = new XMLHttpRequest();
+                    var url = "http://localhost/api/v1/servers/371762864790306817/issues";
+                    xhr.open("POST", url, true);
+                    xhr.setRequestHeader("Content-type", "application/json");
+                    xhr.send(JSON.stringify(data));
+
+                    //return false;
+                }
+            }
+
+        </script>
+
     <!-- Central Modal Medium Info -->
     <div class="modal fade right" id="newissue" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-notify modal-warning modal-full-height modal-right" role="document">
@@ -294,46 +321,26 @@
         
                     <!--Body-->
                     <div class="modal-body">
-                        <!--
-                        <div class="md-form">
-                            <input type="text" id="orangeForm-name" class="form-control">
-                            <label for="issue-username">Username</label>
-                        </div>
-                        <div class="md-form">
-                            <input type="text" id="orangeForm-email" class="form-control">
-                            <label for="issue-name">Name of Issue</label>
-                        </div>
-                    
-                        <div class="md-form">
-                            <input type="text" id="orangeForm-pass" class="form-control">
-                            <label for="issue-category">Category</label>
-                        </div>
-                        
-                        <div class="md-form">
-                            <textarea type="text" id="form8" class="md-textarea" style="height: 100px"></textarea>
-                            <label for="issue-description">Description</label>
-                        </div>
-                        -->
 
                         <!-- Form contact -->
-                        <form class="my-issue-form" action="http://localhost/api/v1/servers/371762864790306817/issues" method="get">
+                        <form id="issue-form" formenctype="text/plain" action="http://localhost/dashboard/moderation/371762864790306817">
                             <div class="md-form">
-                                <input type="text" class="form-control">
+                                <input id="ifauthor" type="text" class="form-control">
                                 <label>Author</label>
                             </div>
                         
                             <div class="md-form">
-                                <input type="text" class="form-control">
+                                <input id="ifname" type="text" class="form-control">
                                 <label>Name</label>
                             </div>
                         
                             <div class="md-form">
-                                <input type="text" class="form-control">
+                                <input id="iftag" type="text" class="form-control">
                                 <label>Tag</label>
                             </div>
                         
                             <div class="md-form">
-                                <textarea type="text" class="md-textarea" style="height: 100px"></textarea>
+                                <textarea id="ifdesc" type="text" class="md-textarea" style="height: 100px"></textarea>
                                 <label>Desc</label>
                             </div>
                         
