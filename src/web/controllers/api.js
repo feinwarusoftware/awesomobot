@@ -74,8 +74,6 @@ router.route("/servers/:server_id/issues")
                 res.send(err);
             }
 
-            console.log(server);
-
             const issues = server.issues;
 
             issues.push({

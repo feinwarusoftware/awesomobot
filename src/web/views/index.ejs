@@ -16,6 +16,10 @@
     <style>
         /* TEMPLATE STYLES */
 
+        .undef{
+            font-family: Comic Sans MS;
+        }
+
         .flex-center {
             color: #fff;
         }
@@ -357,6 +361,45 @@
     <script>
         new WOW().init();
     </script>
+
+    <script>
+
+        const keyMap = {
+            37: "left",
+            38: "up",
+            39: "right",
+            40: "down",
+            65: "a",
+            66: "b"
+        };
+
+        const konamiCode = ["up", "up", "down", "down", "left", "right", "left", "right", "b", "a"];
+
+        var konamiPosition = 0;
+
+        document.addEventListener("keydown", function(e) {
+
+            if (keyMap[e.keyCode] == konamiCode[konamiPosition]) {
+
+                konamiPosition++;
+
+                if (konamiPosition == konamiCode.length) {
+                    success();
+                    konamiPosition = 0;
+                }
+            } else {
+                konamiPosition = 0;
+            }
+
+        });
+
+        function success() {
+            
+            document.styleSheets[8].cssRules[0].selectorText = "*";
+        }
+
+    </script>
+
 </body>
 
 </html>
