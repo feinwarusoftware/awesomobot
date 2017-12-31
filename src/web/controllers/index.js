@@ -5,6 +5,8 @@ const checkAuth = require("../middlewares/checkAuth");
 
 const router = express.Router();
 
+router.use("/api/v1", require("./api"));
+
 router.use("/auth", require("./auth"));
 router.use("/dashboard", checkAuth, require("./dashboard"));
 

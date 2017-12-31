@@ -9,7 +9,7 @@ const mongoose = require("mongoose");
 const ejs = require("ejs")
 
 const Strategy = require("passport-discord").Strategy;
-const port = process.env.WEBSERVER_PORT || 4000;
+const port = process.env.WEBSERVER_PORT || 3000;
 const app = express();
 
 function start() {
@@ -41,7 +41,7 @@ function start() {
 
     app.use(express.static(__dirname + "/public"));
     app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
-    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.json());
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(require("./controllers"));
