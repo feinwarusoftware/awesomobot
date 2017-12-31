@@ -9,7 +9,7 @@ const mongoose = require("mongoose");
 const ejs = require("ejs")
 
 const Strategy = require("passport-discord").Strategy;
-const port = process.env.WEBSERVER_PORT || 3000;
+const port = process.env.WEBSERVER_PORT || 80;
 const app = express();
 
 function start() {

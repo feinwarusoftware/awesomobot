@@ -272,12 +272,11 @@
         <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
         <!-- MDB core JavaScript-->
         <script type="text/javascript" src="../../js/mdb.min.js"></script>
+
         <!-- Animations init-->
         <script>
             new WOW().init();
         </script>
-
-
 
     <!-- Central Modal Medium Info -->
     <div class="modal fade right" id="newissue" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -295,6 +294,7 @@
         
                     <!--Body-->
                     <div class="modal-body">
+                        <!--
                         <div class="md-form">
                             <input type="text" id="orangeForm-name" class="form-control">
                             <label for="issue-username">Username</label>
@@ -313,12 +313,35 @@
                             <textarea type="text" id="form8" class="md-textarea" style="height: 100px"></textarea>
                             <label for="issue-description">Description</label>
                         </div>
-        
-                    <!--Footer-->
-                    <div class="modal-footer justify-content-center">
-                        <a type="button" class="btn btn-primary-modal waves-effect">Submit</a>
-                        <a type="button" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Cancel</a>
-                    </div>
+                        -->
+
+                        <!-- Form contact -->
+                        <form class="my-issue-form" action="http://localhost/api/v1/servers/371762864790306817/issues" method="get">
+                            <div class="md-form">
+                                <input type="text" class="form-control">
+                                <label>Author</label>
+                            </div>
+                        
+                            <div class="md-form">
+                                <input type="text" class="form-control">
+                                <label>Name</label>
+                            </div>
+                        
+                            <div class="md-form">
+                                <input type="text" class="form-control">
+                                <label>Tag</label>
+                            </div>
+                        
+                            <div class="md-form">
+                                <textarea type="text" class="md-textarea" style="height: 100px"></textarea>
+                                <label>Desc</label>
+                            </div>
+                        
+                            <div class="text-center">
+                                <button class="btn btn-unique">Submit</button>
+                            </div>
+                        </form>
+                        <!-- Form contact -->
                 </div>
                 <!--/.Content-->
             </div>
