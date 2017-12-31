@@ -6,7 +6,23 @@ const router = express.Router();
 const Server = require("../../common/models/server");
 
 router.get("/", (req, res) => {
-    res.render("dashboard/select", { user: req.user });
+
+    var queries = [];
+    for (var i = 0; i < req.user.guilds.length; i++) {
+        queries.push(Server.findById(req.user.guilds[i].id));
+    }
+
+    Promise.all(queries).then(servers => {
+        
+        for (var i = 0; i < servers.length; i++) {
+            req.user.guilds[i].bot = false;
+            if (servers[i] != null) {
+                req.user.guilds[i].bot = true;
+            }
+        }
+
+        res.render("dashboard/select", { user: req.user });
+    });
 });
 
 router.get("/:server_id", (req, res) => {

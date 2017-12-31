@@ -110,7 +110,7 @@
 
                         <ul class="list-unstyled">
                             <% user.guilds.forEach(function(guild) { %>
-                                <% if (guild.permissions & 32) { %>
+                                <% if ((guild.permissions & 32) && (guild.bot == true)) { %>
                                     <li class="media">
                                         <img class="d-flex mr-3 backup_picture" src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png" width="64px" onerror=this.src="../img/serverplaceholder.png">
                                         <div class="media-body">
