@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="full-height" lang="en">
+<html class="full-height" lang="es">
 
 <head>
     <meta charset="utf-8">
@@ -17,7 +17,7 @@
         /* TEMPLATE STYLES */
 
         .undef {
-            font-family: "Comic Sans MS";
+            font-family: Comic Sans MS;
         }
 
         .flex-center {
@@ -52,24 +52,24 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Home
+                            <a class="nav-link" href="#">Inicio
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item btn-group">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dashboard</a>
+                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Panel de Control</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="dashboard">Overview</a>
-                                <a class="dropdown-item" href="dashboard/stats">Statistics</a>
-                                <a class="dropdown-item" href="dashboard/leaderboards">Leaderboards</a>
-                                <a class="dropdown-item" href="dashboard/moderation">Moderation</a>
-                                <a class="dropdown-item" href="dashboard/music">Music</a>
-                                <a class="dropdown-item" href="dashboard/games">Games</a>
-                                <a class="dropdown-item disabled" href="#">Developer Options</a>
+                                <a class="dropdown-item" href="dashboard">General</a>
+                                <a class="dropdown-item" href="dashboard/stats">Estadística</a>
+                                <a class="dropdown-item" href="dashboard/leaderboards">Tablas de Clasificación</a>
+                                <a class="dropdown-item" href="dashboard/moderation">Moderación</a>
+                                <a class="dropdown-item" href="dashboard/music">Música</a>
+                                <a class="dropdown-item" href="dashboard/games">Juegos</a>
+                                <a class="dropdown-item disabled" href="#">Opciones de Desarrollador</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Donate</a>
+                            <a class="nav-link" href="#">Donar</a>
                         </li>
                     </ul>
                     <li class="nav-item btn-group float-right">
@@ -92,7 +92,7 @@
                     </li>
                     <form class="form-inline">
                         <a href="auth/discord">
-                            <button class="btn btn-sm align-middle btn-outline-yellow" type="button" href="auth/discord">Login with Discord</button>
+                            <button class="btn btn-sm align-middle btn-outline-yellow" type="button" href="auth/discord">Inicia sesión con Discord</button>
                         </a>
                     </form>
 
@@ -106,15 +106,15 @@
                 <div class="container">
                     <ul>
                         <li>
-                            <h1 class="h1-responsive font-bold wow fadeInDown" data-wow-delay="0.2s">Awesom-o Discord Bot</h1>
+                            <h1 class="h1-responsive font-bold wow fadeInDown" data-wow-delay="0.2s">AWESOM-O Discord Bot</h1>
                         </li>
                         <li>
-                            <p class="lead mt-4 mb-5 wow fadeInDown">Originally for the South Park Discord, Now for everyone</p>
+                            <p class="lead mt-4 mb-5 wow fadeInDown">Originalmente para South Park Discord, ahora para todos</p>
                         </li>
                         <li>
-                            <a class="btn btn-indigo btn-lg wow fadeInLeft" target="_blank" href="auth/discord" data-wow-delay="0.2s" rel="nofollow">Login with Discord</a>
+                            <a class="btn btn-indigo btn-lg wow fadeInLeft" target="_blank" href="auth/discord" data-wow-delay="0.2s" rel="nofollow">Inicia sesión con Discord</a>
                             <a class="btn btn-default btn-lg wow fadeInRight" target="_blank" href="https://mdbootstrap.com/material-design-for-bootstrap/"
-                                data-wow-delay="0.2s" rel="nofollow">Learn more</a>
+                                data-wow-delay="0.2s" rel="nofollow">Aprende más</a>
                         </li>
                     </ul>
                 </div>
@@ -239,7 +239,7 @@
     </div>
     <!-- / Main container-->
     <!-- Footer-->
-    <% include partials/footer %>
+    <% include partials/footer-es %>
     <!-- /.Footer-->
     <!-- SCRIPTS-->
     <!-- JQuery-->
@@ -267,10 +267,10 @@
 
         const konamiCode = ["up", "up", "down", "down", "left", "right", "left", "right", "b", "a"];
 
-        var konamiPosition = 0; 
+        var konamiPosition = 0;
 
         document.addEventListener("keydown", function (e) {
-            console.log(konamiPosition);
+
             if (keyMap[e.keyCode] == konamiCode[konamiPosition]) {
 
                 konamiPosition++;
