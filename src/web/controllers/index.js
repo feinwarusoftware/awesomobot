@@ -13,8 +13,8 @@ router.use("/auth", require("./auth"));
 
 // Dashboard routes en.
 router.use("/dashboard", checkAuth, require("./dashboard"));
-// Dashboard routes other lang.
-router.use("/:lang/dashboard", checkAuth, require("./dashboard"));
+// Dashboard routes other lang. (note to self: this wont work!)
+//router.use("/:lang/dashboard", checkAuth, require("./dashboard"));
 
 // Homepage en.
 router.get("/", (req, res) => {
