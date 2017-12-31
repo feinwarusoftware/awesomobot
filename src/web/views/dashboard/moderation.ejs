@@ -171,13 +171,15 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <% var i = 0.6; %>
                     <% server.issues.forEach(function(issue) { %>
-                        <tr>
+                        <tr class="wow fadeIn" data-wow-delay="<%= i %>s">
                             <th scope="row"><%= issue.author %></th>
                             <td><%= issue.name %></td>
                             <td><%= issue.tag %></td>
                             <td><%= issue.desc %></td>
                         </tr>
+                        <% i = i + 0.2; %>
                     <% }); %>
                 </tbody>
             </table>
@@ -293,24 +295,24 @@
         
                     <!--Body-->
                     <div class="modal-body">
-                            <div class="md-form">
-                                    <input type="text" id="orangeForm-name" class="form-control">
-                                    <label for="issue-username">Username</label>
-                                </div>
-                                <div class="md-form">
-                                    <input type="text" id="orangeForm-email" class="form-control">
-                                    <label for="issue-name">Name of Issue</label>
-                                </div>
-                            
-                                <div class="md-form">
-                                    <input type="text" id="orangeForm-pass" class="form-control">
-                                    <label for="issue-category">Category</label>
-                                </div>
-                                
-                                <div class="md-form">
-                                        <textarea type="text" id="form8" class="md-textarea" style="height: 100px"></textarea>
-                                        <label for="issue-description">Description</label>
-                                    </div>
+                        <div class="md-form">
+                            <input type="text" id="orangeForm-name" class="form-control">
+                            <label for="issue-username">Username</label>
+                        </div>
+                        <div class="md-form">
+                            <input type="text" id="orangeForm-email" class="form-control">
+                            <label for="issue-name">Name of Issue</label>
+                        </div>
+                    
+                        <div class="md-form">
+                            <input type="text" id="orangeForm-pass" class="form-control">
+                            <label for="issue-category">Category</label>
+                        </div>
+                        
+                        <div class="md-form">
+                            <textarea type="text" id="form8" class="md-textarea" style="height: 100px"></textarea>
+                            <label for="issue-description">Description</label>
+                        </div>
         
                     <!--Footer-->
                     <div class="modal-footer justify-content-center">
