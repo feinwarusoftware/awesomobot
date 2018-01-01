@@ -136,7 +136,7 @@
                 <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">It Hits The Fan Leaderboard</h2>
             </div>
             <div class="row">
-                <canvas id="shitChart"></canvas>
+                <canvas id="hhz04VXAlVoWW4wVYWGj0B7DTqXZxY9Q"></canvas>
             </div>
         </div>
         <!-- / Main container-->
@@ -261,13 +261,15 @@
 
                                 var stat = graph.data.datasets[j].stat;
                                 var member = graph.data.datasets[j].member;
-                                //var theme = server.graphs[i].data.datasets[j].theme;
+                                var theme = server.graphs[i].data.datasets[j].theme;
 
                                 data.datasets[j] = {};
 
                                 data.datasets[j].label = stat;
 
                                 data.datasets[j].data = [];
+
+                                // make it #topany
 
                                 switch(member) {
                                     case "#top5":
@@ -309,29 +311,53 @@
                                             }
 
                                             data.datasets[j].data.push(memberStat.value);
+                                            //
                                         }
 
                                         break;
                                 }
 
-                                //temp
-                                data.datasets[j].backgroundColor = [
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)'
-                                ];
-                                //temp
-                                data.datasets[j].borderColor = [
-                                    'rgba(255,99,132,1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(255, 206, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)'
-                                ];
+                                // Hardcoded themes yay! (kill me)
+                                switch(theme) {
+                                    case "shit":
+                                        //temp
+                                        data.datasets[j].backgroundColor = [
+                                            'rgba(51, 17, 0, 1)',
+                                            'rgba(71, 30, 9, 1)',
+                                            'rgba(99, 50, 24, 1)',
+                                            'rgba(112, 63, 37, 1)',
+                                            'rgba(127, 78, 52, 1)',
+                                        ];
+                                        //temp
+                                        data.datasets[j].borderColor = [
+                                            'rgba(51, 17, 0, 1)',
+                                            'rgba(71, 30, 9, 1)',
+                                            'rgba(99, 50, 24, 1)',
+                                            'rgba(112, 63, 37, 1)',
+                                            'rgba(127, 78, 52, 1)',
+                                        ];
+                                        break;
+                                    default:
+                                        //temp
+                                        data.datasets[j].backgroundColor = [
+                                            'rgba(255, 99, 132, 0.2)',
+                                            'rgba(54, 162, 235, 0.2)',
+                                            'rgba(255, 206, 86, 0.2)',
+                                            'rgba(75, 192, 192, 0.2)',
+                                            'rgba(153, 102, 255, 0.2)',
+                                            'rgba(255, 159, 64, 0.2)'
+                                        ];
+                                        //temp
+                                        data.datasets[j].borderColor = [
+                                            'rgba(255,99,132,1)',
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 206, 86, 1)',
+                                            'rgba(75, 192, 192, 1)',
+                                            'rgba(153, 102, 255, 1)',
+                                            'rgba(255, 159, 64, 1)'
+                                        ];
+                                        break;
+                                }
 
                                 data.datasets[j].borderWidth = 1;
                             }
