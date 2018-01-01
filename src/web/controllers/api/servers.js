@@ -159,15 +159,26 @@ router.route("/:server_id/stats/:stat_id")
 
                     var stats = server.stats;
 
-                    stats[i].name = req.body.name;
-                    stats[i].now = req.body.now;
-                    stats[i].day = req.body.day;
-                    stats[i].week = req.body.week;
-                    stats[i].month = req.body.month;
+                    const id = stats[i].id;
+                    stats.splice(i, 1);
+                    stats.push({
+                        id: id,
+                        name: req.body.name,
+                        now: req.body.now,
+                        day: req.body.day,
+                        week: req.body.week,
+                        month: req.body.month
+                    });
 
                     server.stats = stats;
 
-                    res.json({ message: "Stat updated successfully!" });
+                    server.save(err => {
+                        if (err) {
+                            res.send(err);
+                        }
+        
+                        res.json({ message: "Stat updated successfully!" });
+                    });
                     return;
                 }
             }            
@@ -190,7 +201,13 @@ router.route("/:server_id/stats/:stat_id")
 
                     server.stats = stats;
 
-                    res.json({ message: "Stat removed successfully!" });
+                    server.save(err => {
+                        if (err) {
+                            res.send(err);
+                        }
+        
+                        res.json({ message: "Stat updated successfully!" });
+                    });
                     return;
                 }
             }
@@ -203,9 +220,191 @@ router.route("/:server_id/stats/:stat_id")
  *          SPECIFIC GRAPH ROUTES
  *  ----------------------------------------
  */
-//TODO
 
+/* Example structure.
+const graphs = [
+    {
+        id: "XwPp9xazJ0ku5CZnlmgAx2Dld8SHkAeT",
+        type: "line",
+        data: {
+            timestep: "day",
+            datasets: [
+                {
+                    stat: "shits",
+                    theme: "red"
+                },
+                {
+                    stat: "activity",
+                    theme: "blue"
+                }
+            ]
+        }
+    },
+    {
+        id: "XwPp9xazJ0ku5CZnlmgAx2Dld8SHkAeT",
+        type: "pie",
+        data: {
+            datasets: [
+                {
+                    stat: "shits",
+                    member: "global",
+                    theme: "red"
+                },
+                {
+                    stat: "activity",
+                    member: "168690518899949569",
+                    theme: "blue"
+                }
+            ]
+        }
+    },
+    {
+        id: "XwPp9xazJ0ku5CZnlmgAx2Dld8SHkAeT",
+        type: "card",
+        data: {
+            stat: "activity",
+            member: "global",
+            theme: "red"
+        }
+    },
+    {
+        id: "XwPp9xazJ0ku5CZnlmgAx2Dld8SHkAeT",
+        type: "bar",
+        data: {
+            label: "graphName",
+            datasets: [
+                {
+                    stat: "shits",
+                    member: "global",
+                    theme: "red"
+                },
+                {
+                    stat: "activity",
+                    member: "168690518899949569",
+                    theme: "blue"
+                }
+            ]
+        }
+    }
+]
+*/
+router.route("/:server_id/graphs")
+    .post((req, res) => {
+        Server.findById(req.params.server_id, (err, server) => {
+            if (err) {
+                res.send(err);
+            }
 
+            var graphs = server.graphs;
+
+            graphs.push({
+                id: randomstring.generate(),
+                type: req.body.type,
+                data: req.body.data
+            });
+
+            server.graphs = graphs;
+
+            server.save(err => {
+                if (err) {
+                    res.send(err);
+                }
+
+                res.json({ message: "Graph added successfully!" });
+            });
+        });
+    })
+    .get((req, res) => {
+        Server.findById(req.params.server_id, (err, server) => {
+            if (err) {
+                res.send(err);
+            }
+
+            res.json(server.graphs);
+        });
+    });
+router.route("/:server_id/grpahs/:graph_id")
+    .get((req, res) => {
+        Server.findById(req.params.server_id, (err, server) => {
+            if (err) {
+                res.send(err);
+            }
+
+            for (var i = 0; i < server.graphs.length; i++) {
+                if (server.graphs[i].id == req.params.graph_id) {
+
+                    res.json(server.graphs[i]);
+                    return;
+                }
+            }
+
+            res.json({ message: "Graph not found!" });
+        });
+    })
+    .put((req, res) => {
+        Server.findById(req.params.server_id, (err, server) => {
+            if (err) {
+                res.send(err);
+            }
+
+            for (var i = 0; i < server.graphs.length; i++) {
+                if (server.graphs[i].id == req.params.graph_id) {
+
+                    var graphs = server.graphs;
+
+                    const id = graphs[i].id;
+                    graphs.splice(i, 1);
+                    graphs.push({
+                        id: id,
+                        type: req.body.type,
+                        data: req.body.data,
+                    });
+
+                    server.graphs = graphs;
+
+                    server.save(err => {
+                        if (err) {
+                            res.send(err);
+                        }
+        
+                        res.json({ message: "Graph updated successfully!" });
+                    });
+                    return;
+                }
+            }            
+
+            res.json({ message: "Graph not found!" });
+        });
+    })
+    .delete((req, res) => {
+        Server.findById(req.params.server_id, (err, server) => {
+            if (err) {
+                res.send(err);
+            }
+
+            for (var i = 0; i < server.graphs.length; i++) {
+                if (server.issues[i].id == req.params.graph_id) {
+
+                    var graphs = server.graphs;
+
+                    graphs.splice(i, 1);
+
+                    server.graphs = graphs;
+
+                    server.save(err => {
+                        if (err) {
+                            res.send(err);
+                        }
+        
+                        res.json({ message: "Graph updated successfully!" });
+                    });
+                    return;
+                }
+            }
+
+            res.json({ message: "Graph not found!" });
+        });
+    });
 
 /** ----------------------------------------
  *          SPECIFIC ISSUE ROUTES
@@ -260,7 +459,7 @@ router.route("/:server_id/issues")
             res.json(server.issues);
         });
     });
-router.route("/:server_id/issues/issue_id")
+router.route("/:server_id/issues/:issue_id")
     .get((req, res) => {
         Server.findById(req.params.server_id, (err, server) => {
             if (err) {
@@ -273,7 +472,7 @@ router.route("/:server_id/issues/issue_id")
                     res.json(server.issues[i]);
                     return;
                 }
-            }  
+            }
 
             res.json({ message: "Issue not found!" });
         });
@@ -289,14 +488,25 @@ router.route("/:server_id/issues/issue_id")
 
                     var issues = server.issues;
 
-                    issues[i].author = req.body.author;
-                    issues[i].name = req.body.name;
-                    issues[i].tag = req.body.tag;
-                    issues[i].desc = req.body.desc;
+                    const id = issues[i].id;
+                    issues.splice(i, 1);
+                    issues.push({
+                        id: id,
+                        author: req.body.author,
+                        name: req.body.name,
+                        tag: req.body.tag,
+                        desc: req.body.desc
+                    });
 
                     server.issues = issues;
 
-                    res.json({ message: "Issue updated successfully!" });
+                    server.save(err => {
+                        if (err) {
+                            res.send(err);
+                        }
+        
+                        res.json({ message: "Issue updated successfully!" });
+                    });
                     return;
                 }
             }            
@@ -319,7 +529,13 @@ router.route("/:server_id/issues/issue_id")
 
                     server.issues = issues;
 
-                    res.json({ message: "Issue removed successfully!" });
+                    server.save(err => {
+                        if (err) {
+                            res.send(err);
+                        }
+        
+                        res.json({ message: "Issue deleted successfully!" });
+                    });
                     return;
                 }
             }
@@ -405,17 +621,27 @@ router.route("/:server_id/members/:member_id")
                 res.send(err);
             }
 
-
             for (var i = 0; i < server.members.length; i++) {
                 if (server.members[i].id == req.params.member_id) {
 
                     var members = server.members;
 
-                    members[i].stats = req.body.stats;
+                    const id = members[i].id;
+                    members.splice(i, 1);
+                    members.push({
+                        id: id,
+                        stats: req.body.stats
+                    });
 
                     server.members = members;
 
-                    res.json({ message: "Member updated successfully!" });
+                    server.save(err => {
+                        if (err) {
+                            res.send(err);
+                        }
+        
+                        res.json({ message: "Member updated successfully!" });
+                    });
                     return;
                 }
             }            
@@ -438,7 +664,13 @@ router.route("/:server_id/members/:member_id")
 
                     server.members = members;
 
-                    res.json({ message: "Member removed successfully!" });
+                    server.save(err => {
+                        if (err) {
+                            res.send(err);
+                        }
+        
+                        res.json({ message: "Member updated successfully!" });
+                    });
                     return;
                 }
             }
