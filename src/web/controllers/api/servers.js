@@ -271,17 +271,11 @@ const graphs = [
         id: "XwPp9xazJ0ku5CZnlmgAx2Dld8SHkAeT",
         type: "bar",
         data: {
-            label: "graphName",
             datasets: [
                 {
-                    stat: "shits",
-                    member: "global",
-                    theme: "red"
-                },
-                {
                     stat: "activity",
-                    member: "168690518899949569",
-                    theme: "blue"
+                    member: "#top5",
+                    theme: "rainbow"
                 }
             ]
         }
@@ -323,7 +317,7 @@ router.route("/:server_id/graphs")
             res.json(server.graphs);
         });
     });
-router.route("/:server_id/grpahs/:graph_id")
+router.route("/:server_id/graphs/:graph_id")
     .get((req, res) => {
         Server.findById(req.params.server_id, (err, server) => {
             if (err) {
@@ -383,7 +377,7 @@ router.route("/:server_id/grpahs/:graph_id")
             }
 
             for (var i = 0; i < server.graphs.length; i++) {
-                if (server.issues[i].id == req.params.graph_id) {
+                if (server.graphs[i].id == req.params.graph_id) {
 
                     var graphs = server.graphs;
 
@@ -574,6 +568,7 @@ router.route("/:server_id/members")
 
             members.push({
                 id: req.body.id,
+                name: req.body.name,
                 stats: []
             });
 
@@ -630,6 +625,7 @@ router.route("/:server_id/members/:member_id")
                     members.splice(i, 1);
                     members.push({
                         id: id,
+                        name: req.body.name,
                         stats: req.body.stats
                     });
 

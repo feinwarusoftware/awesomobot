@@ -36,6 +36,19 @@ router.get("/:server_id", (req, res) => {
     });
 });
 
+// TESTING
+router.get("/graph/:server_id", (req, res) => {
+
+    Server.findById(req.params.server_id, (err, server) => {
+        if (err) {
+            res.send(err);
+        }
+
+        res.render("dashboard/graph", { user: req.user, server: server, test: 101 });
+    });
+});
+//
+
 router.get("/stats/:server_id", (req, res) => {
     
     Server.findById(req.params.server_id, (err, server) => {

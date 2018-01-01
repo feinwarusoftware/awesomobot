@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html class="full-height" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/png" href="../img/favicon.png" />
+    <title>AWESOM-O // Dashboard</title>
+    <!-- Font Awesome-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS-->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap-->
+    <link href="../../css/mdb.min.css" rel="stylesheet">
+    <!-- Template styles-->
+    <style>
+        /* TEMPLATE STYLES */
+        /*{
+        border-style: dashed;
+        border-color: red;
+        border-width: 1px;
+    }
+    */
+
+        .flex-center {
+            color: #fff;
+        }
+
+        .intro-1 {
+            background: url("../../img/awesomo-bg.jpg")no-repeat center center;
+            background-size: cover;
+        }
+
+        .navbar .btn-group .dropdown-menu a:hover {
+            color: #000 !important;
+        }
+
+        .navbar .btn-group .dropdown-menu a:active {
+            color: #fff !important;
+        }
+    </style>
+
+    <!-- Referencing Stuff -->
+    <% var avatar = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=2048"%>
+
+
+
+
+</head>
+
+<body>
+    <header>
+        <!-- Navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark elegant-color fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">AWESOM-O Dashboard</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item btn-group active">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dashboard</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="../dashboard">Overview</a>
+                                <a class="dropdown-item" href="stats">Statistics</a>
+                                <a class="dropdown-item yellow" href="leaderboards">Leaderboards</a>
+                                <a class="dropdown-item" href="moderation">Moderation</a>
+                                <a class="dropdown-item" href="music">Music</a>
+                                <a class="dropdown-item" href="games">Games</a>
+                                <a class="dropdown-item disabled" href="#">Developer Options</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Donate</a>
+                        </li>
+                    </ul>
+                    <form class="form-inline">
+                        <a href="auth/logout">
+                            <button class="btn btn-sm align-middle btn-outline-yellow" type="button">Logout</button>
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main container-->
+        <div class="container">
+            <div class="divider-new "></div>
+            <!-- Grid row -->
+            <div class="row">
+
+                <!-- Grid column -->
+                <div class="col-lg-4 col-md-6 mb-12">
+
+                    <img src="<%= avatar%>" class="z-depth-1 float-right" height="128px" alt="Responsive image">
+
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-lg-8 col-md-6 mb-12">
+
+                    <h2>Logged in as:
+                        <b>
+                            <%= user.username%>
+                        </b>
+                    </h2>
+                    <h4>Moderating:
+                        <b>
+                            /r/SouthPark</b>
+                    </h4>
+                    <h4>Your Role:
+                        <b>
+                            Respect Ma Authoritah</b>
+                    </h4>
+                </div>
+                <!-- Grid column -->
+            </div>
+
+            <!-- Grid row -->
+            <a id="activity"><div class="divider-new"></a>
+                <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">Activity Leaderboard</h2>
+            </div>
+            <div class="row">
+                <canvas id="x2P6yBaB2UxaONgQNt3TdbgWA3k3Y4Hs"></canvas>
+            </div>
+            <a id="shits"><div class="divider-new"></a>
+                <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">It Hits The Fan Leaderboard</h2>
+            </div>
+            <div class="row">
+                <canvas id="shitChart"></canvas>
+            </div>
+        </div>
+        <!-- / Main container-->
+        <!-- Footer-->
+        <footer class="page-footer center-on-small-only elegant-color-dark">
+            <!-- Footer Links-->
+            <div class="container">
+                <div class="row">
+                    <hr class="w-100 clearfix d-sm-none">
+
+                    <!-- Third column-->
+                    <div class="col-lg-6 col-md-6 float-right">
+                        <h5 class="title font-bold mt-3 mb-4">Resources</h5>
+                        <ul>
+                            <li>
+                                <a href="#!">Status</a>
+                            </li>
+                            <li>
+                                <a href="#!">Help & Support</a>
+                            </li>
+                            <li>
+                                <a href="#!">Feedback</a>
+                            </li>
+                            <li>
+                                <a href="#!">Terms</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.Third column-->
+                    <hr class="w-100 clearfix d-sm-none">
+                    <!-- Fourth column-->
+                    <div class="col-lg-6 col-md-6 mx-auto">
+                        <h5 class="title font-bold mt-3 mb-4">About</h5>
+                        <ul>
+                            <li>
+                                <a href="#!">About</a>
+                            </li>
+                            <li>
+                                <a href="#!">Fork on Github</a>
+                            </li>
+                            <li>
+                                <a href="#!">Donate</a>
+                            </li>
+                            <li>
+                                <a href="https://discord.gg/southpark">/r/SouthPark Discord</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.Fourth column-->
+                </div>
+            </div>
+            <!-- /.Footer Links-->
+            <hr>
+            <!-- Call to action-->
+            <div class="call-to-action">
+                <ul>
+                    <li>
+                        <h5>Join the /r/SouthPark Discord</h5>
+                    </li>
+                    <li>
+                        <a class="btn btn-indigo" target="_blank" href="https://discord.gg/southpark" rel="nofollow">Join Now!</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.Call to action-->
+            <!-- Copyright-->
+            <div class="footer-copyright">
+                <div class="container-fluid">© 2018 Copyright:
+                    <a href="/"> AWESOM-O Industries </a>
+                </div>
+            </div>
+            <!-- /.Copyright-->
+        </footer>
+        <!-- /.Footer-->
+        <!-- SCRIPTS-->
+        <!-- JQuery-->
+        <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap dropdown-->
+        <script type="text/javascript" src="../../js/popper.min.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+        <!-- MDB core JavaScript-->
+        <script type="text/javascript" src="../../js/mdb.min.js"></script>
+
+        <!-- Animations init-->
+        <script>
+            new WOW().init();
+        </script>
+
+        <script>
+            /** ----------------------------------------
+            *           GRAPH PARSING SCRIPT
+            *   ----------------------------------------
+            */
+
+            const server = <%- JSON.stringify(server) %>;
+
+            for (var i = 0; i < server.graphs.length; i++) {
+                var element = document.getElementById(server.graphs[i].id);
+                if (element != null) {
+
+                    var graph = server.graphs[i];
+
+                    //
+                    var data = {};
+                    switch(graph.type) {
+                        case "line":
+
+                            break;
+                        case "pie":
+
+                            break;
+                        case "bar":
+
+                            //
+                            data = {
+                                labels: [],
+                                datasets: []
+                            };
+
+                            for (var j = 0; j < graph.data.datasets.length; j++) {
+
+                                var stat = graph.data.datasets[j].stat;
+                                var member = graph.data.datasets[j].member;
+                                //var theme = server.graphs[i].data.datasets[j].theme;
+
+                                data.datasets[j] = {};
+
+                                data.datasets[j].label = stat;
+
+                                data.datasets[j].data = [];
+
+                                switch(member) {
+                                    case "#top5":
+
+                                        //
+                                        server.members.sort((a, b) => {
+
+                                            var aStat = a.stats.find(e => {
+                                                return e.name == stat;
+                                            });
+                                            var bStat = b.stats.find(e => {
+                                                return e.name == stat;
+                                            });
+                                            
+                                            if (aStat == undefined) {
+                                                aStat = {
+                                                    value: 0
+                                                }
+                                            }
+                                            if (bStat == undefined) {
+                                                bStat = {
+                                                    value: 0
+                                                }
+                                            }
+
+                                            return bStat.value - aStat.value;
+                                        });
+
+                                        for (var k = 0; k < (server.members.length < 5 ? server.members.length : 5); k++) {
+                                            data.labels.push(server.members[k].name);
+
+                                            var memberStat = server.members[k].stats.find(e => {
+                                                return e.name == stat;
+                                            });
+                                            if (memberStat == undefined) {
+                                                memberStat = {
+                                                    value: 0
+                                                }
+                                            }
+
+                                            data.datasets[j].data.push(memberStat.value);
+                                        }
+
+                                        break;
+                                }
+
+                                //temp
+                                data.datasets[j].backgroundColor = [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ];
+                                //temp
+                                data.datasets[j].borderColor = [
+                                    'rgba(255,99,132,1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ];
+
+                                data.datasets[j].borderWidth = 1;
+                            }
+
+
+                            break;
+                        /*
+                        case "card":
+
+                            break;
+                        */
+                    }
+                    //
+
+                    console.log(data);
+
+                    var ctx = element.getContext("2d");
+                    var chart = new Chart(ctx, {
+                        type: /*server.graphs[i].type*/ "bar",
+                        data: /*{
+                            labels: ["Kyrion", "Tweek Tweak", "Paladin Butters", "kratosgow342", "Smash Royale"],
+                            datasets: [{
+                                label: 'Activity Score',
+                                data: [56236, 42140, 39196, 36656, 29217.140772982006],
+                                backgroundColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(54, 162, 235)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(75, 192, 192)',
+                                    'rgb(153, 102, 255)',
+                                ],
+                            }]
+                        }*/data,
+                        options: {
+                            responsive: true
+                        }
+                    })
+                }
+            }
+
+        </script>
+
+<!-- Activity Bars -->
+        <script>
+
+            //bar
+            /*
+            var ctxB = document.getElementById("activityChart").getContext('2d');
+            var myBarChart = new Chart(ctxB, {
+                type: 'bar',
+                data: {
+                    labels: ["Kyrion", "Tweek Tweak", "Paladin Butters", "kratosgow342", "Smash Royale"],
+                    datasets: [{
+                        label: 'Activity Score',
+                        data: [56236, 42140, 39196, 36656, 29217.140772982006],
+                        backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 206, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(153, 102, 255)',
+                        ],
+                    }]
+                },
+                optionss: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+            */
+        </script>
+
+        <!-- Shit Bars -->
+        <script>
+            //bar
+            /*
+            var ctxB = document.getElementById("shitChart").getContext('2d');
+            var myBarChart = new Chart(ctxB, {
+                type: 'bar',
+                data: {
+                    labels: ["Kyrion", "Tweek Tweak", "superfloree", "kratosgow342", "!Dragon1320"],
+                    datasets: [{
+                        label: '# of shits',
+                        data: [295, 169, 146, 110, 109],
+                        backgroundColor: [
+                            'rgb(51, 17, 0)',
+                            'rgb(71, 30, 9)',
+                            'rgb(99, 50, 24)',
+                            'rgb(112, 63, 37)',
+                            'rgb(127, 78, 52)',
+                        ],
+                    }]
+                },
+                optionss: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+            */
+        </script>
+
+
+
+</body>
+
+</html>
