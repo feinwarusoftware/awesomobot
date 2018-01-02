@@ -547,6 +547,7 @@ router.route("/:server_id/issues/:issue_id")
 const memebrs = [
     {
         id: "168690518899949569",
+        name: "ya boi dragon",
         stats: [
             {
                 name: "shits",

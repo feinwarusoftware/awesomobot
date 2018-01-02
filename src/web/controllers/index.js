@@ -20,9 +20,23 @@ router.use("/dashboard", checkAuth, require("./dashboard"));
 router.get("/", (req, res) => {
     res.render("index");
 });
+
+const langs = ["es", "fr", "it", "pl", "ie"];
 // Homepage other lang.
-router.get("/:lang", (req, res) => {
-    res.render("index-" + req.params.lang);
+router.get("/:lang", (req, res, next) => {
+
+    const found = langs.find(e => {
+        return e == req.params.lang;
+    });
+    if (found == undefined) {
+        return next();
+    } else {
+        res.render("index-" + req.params.lang);
+    }
+});
+
+router.get("/status", (req, res) => {
+    res.render("status");
 });
 
 module.exports = router;

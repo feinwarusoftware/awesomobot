@@ -1,8 +1,13 @@
 "use strict"
 
 const discord = require("discord.js");
+const timers = require("timers");
+
+const Server = require("../common/models/server");
 
 const client = new discord.Client();
+
+const servers = [];
 
 // Emitted whenever a channel is created.
 client.on("channelCreate", channel => {
@@ -128,6 +133,77 @@ client.on("guildUpdate", (oldGuild, newGuild) => {
 // Emitted whenever a message is created.
 client.on("message", message => {
 
+    if (message.author.equals(client.user)) { return; }
+
+    const ourServerId = "371762864790306817";
+
+    if (message.content.startsWith("-debug")) {
+        console.log(servers);
+    }
+
+    if (message.content.indexOf("shit") != -1) {
+
+        // Find /r/southpark server.
+        const server = servers.find(e => {
+            return e._id == ourServerId;
+        });
+        if (server == undefined) {
+            console.log("1 >> THE BOT IS BROKEN, WERE ALL FUCKED!");
+            return;
+        }
+
+        // Find current member.
+        if (server.members == undefined) {
+            server.members = [];
+        }
+        const member = server.members.find(e => {
+            return e.id == message.author.id;
+        });
+        if (member == undefined) {
+            server.members.push({
+                id: message.author.id,
+                name: message.author.username,
+                stats: [
+                    {
+                        name: "shits",
+                        value: 1
+                    }
+                ]
+            });
+            return;
+        }
+
+        // Find 'shits' stat.
+        if (member.stats == undefined) {
+            member.stats = [];
+        }
+        const stat = member.stats.find(e => {
+            return e.name == "shits";
+        });
+        if (stat == undefined) {
+            member.stats.push({
+                name: "shits",
+                value: 1
+            });
+            return;
+        }
+
+        stat.value += 1;
+
+        for (var i = 0; i < member.stats.length; i++) {
+            if (member.stats[i].name == "shits") {
+                member.stats[i] = stat;
+                break;
+            }
+        }
+
+        for (var i = 0; i < server.members.length; i++) {
+            if (server.members[i].id == message.author.id) {
+                server.members[i] = member;
+                break;
+            }
+        }
+    }
 });
 
 // Emitted whenever a message is deleted.
@@ -168,6 +244,60 @@ client.on("presenceUpdate", (oldMember, newMember) => {
 // Emitted when the client becomes ready to start working.
 client.on("ready", () => {
 
+    const ourServerId = "371762864790306817";
+    Server.findById(ourServerId, (err, server) => {
+        if (err) {
+            console.log("1 >> THE DB IS BROKEN, WERE ALL FUCKED!");
+            return;
+        }
+
+        var found = false;
+        for (var i = 0; i < servers.length; i++) {
+            if (servers[i]._id == server._id) {
+
+                found = true;
+                servers[i] = server;
+            }
+        }
+
+        if (!found) {
+            servers.push(server);
+        }
+    });
+
+    const interval = /*300000*/10000;
+    timers.setInterval(() => {
+
+        Server.findById(ourServerId, (err, server) => {
+            if (err) {
+                console.log("2 >> THE DB IS BROKEN, WERE ALL FUCKED!");
+                return;
+            }
+
+            var found = false;
+            for (var i = 0; i < servers.length; i++) {
+                if (servers[i]._id == server._id) {
+    
+                    found = true;
+                    server.members = servers[i].members;
+                    server.graphs = servers[i].graphs;
+                    server.stats = servers[i].stats;
+                    server.issues = servers[i].issues;
+                }
+            }
+    
+            if (!found) {
+                console.log("3 >> THE DB IS BROKEN, WERE ALL FUCKED!");
+            }
+
+            server.save(err => {
+                if (err) {
+                    console.log("4 >> THE DB IS BROKEN, WERE ALL FUCKED!");
+                }
+            });
+        });
+
+    }, interval);
 });
 
 // Emitted whenever the client tries to reconnect to the WebSocket.
