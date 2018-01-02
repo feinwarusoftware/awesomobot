@@ -46,94 +46,35 @@
 <body>
     <header>
         <!-- Navbar-->
-        <nav class="navbar navbar-expand-lg navbar-dark elegant-color fixed-top">
-            <div class="container">
-                <a class="navbar-brand" href="#">AWESOM-O Dashboard</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Home
-                                <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item btn-group active">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dashboard</a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item yellow" href="../../dashboard">Overview</a>
-                                <a class="dropdown-item" href="dashboard/stats">Statistics</a>
-                                <a class="dropdown-item" href="dashboard/leaderboards">Leaderboards</a>
-                                <a class="dropdown-item" href="dashboard/moderation">Moderation</a>
-                                <a class="dropdown-item" href="dashboard/music">Music</a>
-                                <a class="dropdown-item" href="dashboard/games">Games</a>
-                                <a class="dropdown-item disabled" href="#">Developer Options</a>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Donate</a>
-                        </li>
-                    </ul>
-                    <form class="form-inline">
-                        <a href="auth/logout">
-                            <button class="btn btn-sm align-middle btn-outline-yellow" type="button">Logout</button>
-                        </a>
-                    </form>
-                </div>
-            </div>
-        </nav>
+        <% include ../partials/dnavbar %>
 
         <!-- Main container-->
         <div class="container">
-
+            <div class="divider-new "></div>
             <!-- Grid row -->
             <div class="row">
 
-                <div class="divider-new pt-5">
-                    <!-- Grid column -->
-                    <div class="col-lg-4 col-md-12 mb-12">
+                <!-- Grid column -->
+                <div class="col-lg-4 col-md-6 mb-12">
 
-                        <img src="<%= avatar%>" class="img-fluid z-depth-1" alt="Responsive image">
-
-                    </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div class="col-lg-8 col-md-6 mb-12">
-
-                        <h1>Welcome
-                            <%= user.username%>
-                        </h1>
-                        <h3>You are admin of</h3>
-
-                        <ul class="list-unstyled">
-                            <li class="media">
-                                <img class="d-flex mr-3" src="https://cdn.discordapp.com/icons/371762864790306817/5aa4e49bda6eb74d8830f118a7701652.png" width="64px"
-                                    alt="Generic placeholder image">
-                                <div class="media-body">
-                                    <h5 class="mt-0 mb-1">/r/SouthPark</h5>
-                                    <a href="https://discord.gg/southpark">
-                                        <p>https://discord.gg/southpark</p>
-                                    </a>
-                                </div>
-                            </li>
-                            <li class="media my-4">
-                                <img class="d-flex mr-3" src="https://cdn.discordapp.com/icons/285051699717210113/fb7c3fd0947cbb27677e2a7fefd2ebba.png" width="64px"
-                                    alt="Generic placeholder image">
-                                <div class="media-body">
-                                    <h5 class="mt-0 mb-1">Dream Theater</h5>
-                                    <a href="https://discord.gg/southpark">
-                                        <p>https://discord.gg/59Uwbay</p>
-                                    </a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- Grid column -->
+                    <img src="<%= avatar%>" class="z-depth-1 float-right" height="128px" alt="Responsive image">
 
                 </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-lg-8 col-md-6 mb-12">
+
+                    <h2>Logged in as:
+                        <b>
+                            <%= user.username%>
+                        </b>
+                    </h2>
+                    <h4>Moderating:
+                        <b>Guild Name Here</b>
+                    </h4>
+                </div>
+                <!-- Grid column -->
             </div>
             <!-- Grid row -->
             <div class="divider-new">
@@ -147,7 +88,7 @@
                         <!-- Card-->
                         <div class="card wow fadeIn">
                             <!-- Card image-->
-                            <img class="img-fluid" src="img/online_ico.jpg" alt="Card image cap">
+                            <img class="img-fluid" src="../img/online_ico.jpg" alt="Card image cap">
                             <!-- Card content-->
                             <div class="card-body">
                                 <!-- Title-->
@@ -170,7 +111,7 @@
                         <!-- Card-->
                         <div class="card wow fadeIn" data-wow-delay="0.2s">
                             <!-- Card image-->
-                            <img class="img-fluid" src="img/leaderboard_ico.jpg" alt="Jimmy at the special olympics">
+                            <img class="img-fluid" src="../img/leaderboard_ico.jpg" alt="Jimmy at the special olympics">
                             <!-- Card content-->
                             <div class="card-body">
                                 <!-- Title-->
@@ -193,7 +134,7 @@
                         <!-- Card-->
                         <div class="card wow fadeIn" data-wow-delay="0.4s">
                             <!-- Card image-->
-                            <img class="img-fluid" src="img/messages_ico.jpg" alt="Call Girl">
+                            <img class="img-fluid" src="../img/messages_ico.jpg" alt="Call Girl">
                             <!-- Card content-->
                             <div class="card-body">
                                 <!-- Title-->
@@ -216,7 +157,7 @@
                         <!-- Card-->
                         <div class="card wow fadeIn" data-wow-delay="0.6s">
                             <!-- Card image-->
-                            <img class="img-fluid" src="img/shit_ico.jpg" alt="Mr Hankey">
+                            <img class="img-fluid" src="../img/shit_ico.jpg" alt="Mr Hankey">
                             <!-- Card content-->
                             <div class="card-body">
                                 <!-- Title-->

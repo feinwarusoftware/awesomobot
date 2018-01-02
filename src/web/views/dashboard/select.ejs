@@ -32,7 +32,6 @@
         .navbar .btn-group .dropdown-menu a:active {
             color: #fff !important;
         }
-
     </style>
 
     <!-- Referencing Stuff -->
@@ -46,56 +45,18 @@
 <body>
     <header>
         <!-- Navbar-->
-        <nav class="navbar navbar-expand-lg navbar-dark elegant-color fixed-top">
+        <% include ../partials/dnavbar %>
+
+            <!-- Main container-->
             <div class="container">
-                <a class="navbar-brand" href="#">AWESOM-O Dashboard</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Home
-                                <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item btn-group active">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dashboard</a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item yellow" href="../dashboard">Overview</a>
-                                <a class="dropdown-item" href="dashboard/stats">Statistics</a>
-                                <a class="dropdown-item" href="dashboard/leaderboards">Leaderboards</a>
-                                <a class="dropdown-item" href="dashboard/moderation">Moderation</a>
-                                <a class="dropdown-item" href="dashboard/music">Music</a>
-                                <a class="dropdown-item" href="dashboard/games">Games</a>
-                                <a class="dropdown-item disabled" href="#">Developer Options</a>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Donate</a>
-                        </li>
-                    </ul>
-                    <form class="form-inline">
-                        <a href="auth/logout">
-                            <button class="btn btn-sm align-middle btn-outline-yellow" type="button">Logout</button>
-                        </a>
-                    </form>
-                </div>
-            </div>
-        </nav>
+                <div class="divider-new "></div>
+                <!-- Grid row -->
+                <div class="row">
 
-        <!-- Main container-->
-        <div class="container">
-
-            <!-- Grid row -->
-            <div class="row">
-
-                <div class="divider-new pt-5">
                     <!-- Grid column -->
-                    <div class="col-lg-4 col-md-12 mb-12">
+                    <div class="col-lg-4 col-md-6 mb-12">
 
-                        <img src="<%= avatar%>" class="img-fluid z-depth-1" alt="Responsive image">
+                        <img src="<%= avatar%>" class="z-depth-1 float-right" height="128px" alt="Responsive image">
 
                     </div>
                     <!-- Grid column -->
@@ -103,121 +64,73 @@
                     <!-- Grid column -->
                     <div class="col-lg-8 col-md-6 mb-12">
 
-                        <h1>Welcome
-                            <%= user.username%>
-                        </h1>
-                        <h3>You are admin of</h3>
-
-                        <ul class="list-unstyled">
-                            <% user.guilds.forEach(function(guild) { %>
-                                <% if ((guild.permissions & 32) && (guild.bot == true)) { %>
-                                    <li class="media">
-                                        <img class="d-flex mr-3 backup_picture" src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png" width="64px" onerror=this.src="../img/serverplaceholder.png">
-                                        <div class="media-body">
-                                            <a href="http://localhost/dashboard/<%= guild.id %>">
-                                                <h5 class="mt-0 mb-1">
-                                                    <%= guild.name %>
-                                                </h5>
-                                            </a>
-                                        </div>
-                                    </li>
-                                <% } %>
-                            <% }); %>
-                        </ul>
-
+                        <h2>Logged in as:
+                            <b>
+                                <%= user.username%>
+                            </b>
+                        </h2>
+                        <h4>Viewing:
+                            <b>No Server Selected</b>
+                        </h4>
                     </div>
                     <!-- Grid column -->
-
                 </div>
-            </div>
-            <!-- Grid row -->
+                <!-- Grid row -->
+                <div class="divider-new">
+                    <h2 class="h2-responsive wow fadeIn">Select a Server</h2>
+                </div>
+                <!-- Section: Best features-->
+                <section id="best-features">
+                    <div class="row pt-3">
+                        <!-- First columnn-->
+                        <div class="col-lg-3 mb-r">
+                            <!-- Card-->
+                            <div class="card wow fadeIn">
+                                <% user.guilds.forEach(function(guild) { %>
+                                    <% if ((guild.permissions & 32) && (guild.bot == true)) { %>
+                                        <!--Card image-->
+                                        <div class="view overlay hm-white-slight">
+                                            <img class="img-fluid" src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png" width="100%" onerror=this.src="../img/serverplaceholder.png">
+                                            <a href="http://localhost/dashboard/<%= guild.id %>">
+                                                <div class="mask"></div>
+                                            </a>
+                                        </div>
 
-        </div>
-        <!-- / Main container-->
-        <!-- Footer-->
-        <footer class="page-footer center-on-small-only elegant-color-dark">
-            <!-- Footer Links-->
-            <div class="container">
-                <div class="row">
-                    <hr class="w-100 clearfix d-sm-none">
-
-                    <!-- Third column-->
-                    <div class="col-lg-6 col-md-6 float-right">
-                        <h5 class="title font-bold mt-3 mb-4">Resources</h5>
-                        <ul>
-                            <li>
-                                <a href="#!">Status</a>
-                            </li>
-                            <li>
-                                <a href="#!">Help & Support</a>
-                            </li>
-                            <li>
-                                <a href="#!">Feedback</a>
-                            </li>
-                            <li>
-                                <a href="#!">Terms</a>
-                            </li>
-                        </ul>
+                                        <!--Card content-->
+                                        <div class="card-body">
+                                            <!--Title-->
+                                            <h4 class="card-title">
+                                                <%= guild.name %>
+                                            </h4>
+                                        </div>
+                            </div>
+                            <% } %>
+                                <% }); %>
+                                    <!-- /.Card-->
+                        </div>
+                        <!-- First columnn-->
                     </div>
-                    <!-- /.Third column-->
-                    <hr class="w-100 clearfix d-sm-none">
-                    <!-- Fourth column-->
-                    <div class="col-lg-6 col-md-6 mx-auto">
-                        <h5 class="title font-bold mt-3 mb-4">About</h5>
-                        <ul>
-                            <li>
-                                <a href="#!">About</a>
-                            </li>
-                            <li>
-                                <a href="#!">Fork on Github</a>
-                            </li>
-                            <li>
-                                <a href="#!">Donate</a>
-                            </li>
-                            <li>
-                                <a href="https://discord.gg/southpark">/r/SouthPark Discord</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- /.Fourth column-->
-                </div>
+                </section>
+
             </div>
-            <!-- /.Footer Links-->
-            <hr>
-            <!-- Call to action-->
-            <div class="call-to-action">
-                <ul>
-                    <li>
-                        <h5>Join the /r/SouthPark Discord</h5>
-                    </li>
-                    <li>
-                        <a class="btn btn-indigo" target="_blank" href="https://discord.gg/southpark" rel="nofollow">Join Now!</a>
-                    </li>
-                </ul>
             </div>
-            <!-- /.Call to action-->
-            <!-- Copyright-->
-            <div class="footer-copyright">
-                <div class="container-fluid">© 2018 Copyright:
-                    <a href="/"> AWESOM-O Industries </a>
-                </div>
-            </div>
-            <!-- /.Copyright-->
-        </footer>
-        <!-- /.Footer-->
-        <!-- SCRIPTS-->
-        <!-- JQuery-->
-        <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
-        <!-- Bootstrap dropdown-->
-        <script type="text/javascript" src="../../js/popper.min.js"></script>
-        <!-- Bootstrap core JavaScript-->
-        <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
-        <!-- MDB core JavaScript-->
-        <script type="text/javascript" src="../../js/mdb.min.js"></script>
-        <!-- Animations init-->
-        <script>
-            new WOW().init();
-        </script>
+            <!-- / Main container-->
+            <!-- Footer-->
+            <% include ../partials/footer %>
+                <!-- /.Footer-->
+                <!-- SCRIPTS-->
+                <!-- JQuery-->
+                <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+                <!-- Bootstrap dropdown-->
+                <script type="text/javascript" src="../../js/popper.min.js"></script>
+                <!-- Bootstrap core JavaScript-->
+                <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+                <!-- MDB core JavaScript-->
+                <script type="text/javascript" src="../../js/mdb.min.js"></script>
+                <!-- Animations init-->
+                <script>
+                    new WOW().init();
+                </script>
 </body>
 
 </html>
