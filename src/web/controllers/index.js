@@ -21,6 +21,8 @@ router.get("/", (req, res) => {
     res.render("index");
 });
 
+
+
 const langs = ["es", "fr", "it", "pl", "ie"];
 // Homepage other lang.
 router.get("/:lang", (req, res, next) => {
@@ -35,8 +37,14 @@ router.get("/:lang", (req, res, next) => {
     }
 });
 
+// Status en.
 router.get("/status", (req, res) => {
     res.render("status");
+});
+
+// Status en.
+router.get("/commands", (req, res) => {
+    res.render("commands");
 });
 
 module.exports = router;

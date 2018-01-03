@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html class="full-height" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>AWESOM-O // Commands</title>
+    <!-- Font Awesome-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS-->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap-->
+    <link href="css/mdb.min.css" rel="stylesheet">
+    <!-- Template styles-->
+    <style>
+        /* TEMPLATE STYLES */
+        /* *{
+            border-color: red;
+            border-width: 1px;
+            border-style: dashed;
+        } */
+
+        .undef {
+            font-family: "Comic Sans MS";
+        }
+
+        .flex-center {
+            color: #fff;
+        }
+
+        .intro-1 {
+            background: url("img/awesomo-bg.jpg")no-repeat center center;
+            background-size: cover;
+        }
+
+        .navbar .btn-group .dropdown-menu a:hover {
+            color: #000 !important;
+        }
+
+        .navbar .btn-group .dropdown-menu a:active {
+            color: #fff !important;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <!-- Navbar-->
+        <% include partials/navbar %>
+            <!-- /.Navbar-->
+            <!-- Intro Section-->
+
+            <!-- Main container-->
+            <div class="container">
+                <div class="divider-new pt-5">
+                    <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">Commands</h2>
+                </div>
+                <!-- Section: Status Cards-->
+                <section id="status">
+
+                </section>
+                <!--Table-->
+                <table class="table">
+
+                    <!--Table head-->
+                    <thead class="mdb-color darken-3">
+                        <tr class="text-white">
+                            <th>#</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Username</th>
+                        </tr>
+                    </thead>
+                    <!--Table head-->
+
+                    <!--Table body-->
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Larry</td>
+                            <td>the Bird</td>
+                            <td>@twitter</td>
+                        </tr>
+                    </tbody>
+                    <!--Table body-->
+                </table>
+                <!--Table-->
+                <!-- Section: Contact-->
+            </div>
+            <!-- / Main container-->
+            <!-- Footer-->
+            <% include partials/footer %>
+                <!-- /.Footer-->
+                <!-- SCRIPTS-->
+                <!-- JQuery-->
+                <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+                <!-- Bootstrap dropdown-->
+                <script type="text/javascript" src="js/popper.min.js"></script>
+                <!-- Bootstrap core JavaScript-->
+                <script type="text/javascript" src="js/bootstrap.min.js"></script>
+                <!-- MDB core JavaScript-->
+                <script type="text/javascript" src="js/mdb.min.js"></script>
+                <!-- Animations init-->
+                <script>
+                    new WOW().init();
+                </script>
+
+                <script>
+                    window.onload = function () {
+
+                        const form = document.getElementById("problem-form");
+
+                        form.onsubmit = function () {
+
+                            const data = {
+                                author: form.ifauthor.value,
+                                name: form.ifname.value,
+                                tag: form.iftag.value,
+                                desc: form.ifdesc.value
+                            };
+
+                            var xhr = new XMLHttpRequest();
+                            var url = "http://localhost/api/v1/servers/371762864790306817/reports";
+                            xhr.open("POST", url, true);
+                            xhr.setRequestHeader("Content-type", "application/json");
+                            xhr.send(JSON.stringify(data));
+
+                            //return false;
+                        }
+                    }
+                </script>
+
+</body>
+
+</html>
