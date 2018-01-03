@@ -183,14 +183,14 @@
                     <div class="col-md-6 offset-md-3">
 
                         <!-- Form contact -->
-                        <form id="problem-form" formenctype="text/plain" action="http://localhost/dashboard/moderation/371762864790306817">
+                        <form id="problem-form" formenctype="text/plain" action="http://localhost/status">
                             <div class="form-group">
-                                <label for="exampleFormControlInput1">Discord ID</label>
-                                <input class="form-control" id="ifdiscordid" placeholder=" eg. Mattheous#5750">
+                                <label for="exampleFormControlInput1">Discord Name</label>
+                                <input class="form-control" id="ifname">
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Type of Issue</label>
-                                <select class="form-control" id="ifissuetype">
+                                <select class="form-control" id="ifproblemtype">
                                     <option>Website Issue</option>
                                     <option>Discord Bot Issue</option>
                                     <option>Data issue</option>
@@ -199,7 +199,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlTextarea1">Description</label>
-                                <textarea class="form-control" id="ifdescription" rows="5"></textarea>
+                                <textarea class="form-control" id="ifproblemdesc" rows="5"></textarea>
                             </div>
                             <div class="text-center">
                                 <button class="btn btn-primary">Submit</button>
@@ -236,14 +236,13 @@
                         form.onsubmit = function () {
 
                             const data = {
-                                author: form.ifauthor.value,
-                                name: form.ifname.value,
-                                tag: form.iftag.value,
-                                desc: form.ifdesc.value
+                                user: form.ifname.value,
+                                type: form.ifproblemtype.value,
+                                desc: form.ifproblemdesc.value
                             };
 
                             var xhr = new XMLHttpRequest();
-                            var url = "http://localhost/api/v1/servers/371762864790306817/reports";
+                            var url = "http://localhost/api/v1/issues";
                             xhr.open("POST", url, true);
                             xhr.setRequestHeader("Content-type", "application/json");
                             xhr.send(JSON.stringify(data));

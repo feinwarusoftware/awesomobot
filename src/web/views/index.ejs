@@ -45,26 +45,28 @@
         <!-- Navbar-->
         <% include partials/navbar %>
 
-        <!-- /.Navbar-->
-        <!-- Intro Section-->
-        <section class="view intro-1 hm-black-strong">
-            <div class="full-bg-img flex-center">
-                <div class="container">
-                    <ul>
-                        <li>
-                            <h1 class="h1-responsive font-bold wow fadeInDown" data-wow-delay="0.2s">AWESOM-O Discord Bot</h1>
-                        </li>
-                        <li>
-                            <p class="lead mt-4 mb-5 wow fadeInDown">Your Discord Robot Friend! Made with the tears™ of the dev team</p>
-                        </li>
-                        <li>
-                            <a class="btn btn-indigo btn-lg wow fadeInUp " href="auth/discord" data-wow-delay="0.2s" rel="nofollow">Login with Discord</a>
-                            <a class="btn btn-orange btn-lg wow fadeInUp " href="https://www.patreon.com/awesomo" data-wow-delay="0.2s" rel="nofollow">Support on Patreon</a>
-                        </li>
-                    </ul>
+            <!-- /.Navbar-->
+            <!-- Intro Section-->
+            <section class="view intro-1 hm-black-strong">
+                <div class="full-bg-img flex-center">
+                    <div class="container">
+                        <ul>
+                            <li>
+                                <h1 class="h1-responsive font-bold wow fadeInDown" data-wow-delay="0.2s">AWESOM-O Discord Bot</h1>
+                            </li>
+                            <li>
+                                <p class="lead mt-4 mb-5 wow fadeInDown">Your Discord Robot Friend! Made with the tears™ of the dev team</p>
+                            </li>
+                            <li>
+
+                                <a class="btn btn-orange btn-lg wow fadeInUp " href="https://www.patreon.com/awesomo" data-wow-delay="0.2s" rel="nofollow">Support on Patreon</a>
+                                <a class="btn btn-indigo btn-lg wow fadeInUp " href="auth/discord"
+                                    data-wow-delay="0.2s" rel="nofollow">Login with Discord</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
     </header>
     <!-- Main container-->
     <div class="container">
@@ -185,56 +187,56 @@
     <!-- / Main container-->
     <!-- Footer-->
     <% include partials/footer %>
-    <!-- /.Footer-->
-    <!-- SCRIPTS-->
-    <!-- JQuery-->
-    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-    <!-- Bootstrap dropdown-->
-    <script type="text/javascript" src="js/popper.min.js"></script>
-    <!-- Bootstrap core JavaScript-->
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <!-- MDB core JavaScript-->
-    <script type="text/javascript" src="js/mdb.min.js"></script>
-    <!-- Animations init-->
-    <script>
-        new WOW().init();
-    </script>
+        <!-- /.Footer-->
+        <!-- SCRIPTS-->
+        <!-- JQuery-->
+        <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap dropdown-->
+        <script type="text/javascript" src="js/popper.min.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <!-- MDB core JavaScript-->
+        <script type="text/javascript" src="js/mdb.min.js"></script>
+        <!-- Animations init-->
+        <script>
+            new WOW().init();
+        </script>
 
-    <script>
-        const keyMap = {
-            37: "left",
-            38: "up",
-            39: "right",
-            40: "down",
-            65: "a",
-            66: "b"
-        };
+        <script>
+            const keyMap = {
+                37: "left",
+                38: "up",
+                39: "right",
+                40: "down",
+                65: "a",
+                66: "b"
+            };
 
-        const konamiCode = ["up", "up", "down", "down", "left", "right", "left", "right", "b", "a"];
+            const konamiCode = ["up", "up", "down", "down", "left", "right", "left", "right", "b", "a"];
 
-        var konamiPosition = 0; 
+            var konamiPosition = 0;
 
-        document.addEventListener("keydown", function (e) {
-            console.log(konamiPosition);
-            if (keyMap[e.keyCode] == konamiCode[konamiPosition]) {
+            document.addEventListener("keydown", function (e) {
+                console.log(konamiPosition);
+                if (keyMap[e.keyCode] == konamiCode[konamiPosition]) {
 
-                konamiPosition++;
+                    konamiPosition++;
 
-                if (konamiPosition == konamiCode.length) {
-                    success();
+                    if (konamiPosition == konamiCode.length) {
+                        success();
+                        konamiPosition = 0;
+                    }
+                } else {
                     konamiPosition = 0;
                 }
-            } else {
-                konamiPosition = 0;
+
+            });
+
+            function success() {
+
+                document.styleSheets[8].cssRules[0].selectorText = "*";
             }
-
-        });
-
-        function success() {
-
-            document.styleSheets[8].cssRules[0].selectorText = "*";
-        }
-    </script>
+        </script>
 
 </body>
 

@@ -676,4 +676,11 @@ router.route("/:server_id/members/:member_id")
         });
     });
 
+/** ----------------------------------------
+ *        PROBLEM REPORTING ROUTES
+ *  ----------------------------------------
+ */
+
+
+
 module.exports = router;
