@@ -23,8 +23,8 @@ function start() {
     });
 
     passport.use(new Strategy({
-        clientID: process.env.AWESOMOBETA_CLIENTID,
-        clientSecret: process.env.AWESOMOBETA_SECRET,
+        clientID: "372462428690055169",
+        clientSecret: "0wPt1HDKNVs7Su6uTzDMCAb-oZUmTjHi",
         callbackURL: "http://localhost:" + port + "/auth/discord/callback",
         scope: ["identify", "guilds"]
         
@@ -42,6 +42,7 @@ function start() {
     app.use(express.static(__dirname + "/public"));
     app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
     app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: false }));
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(require("./controllers"));

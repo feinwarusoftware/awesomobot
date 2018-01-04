@@ -5,8 +5,11 @@ const checkAuth = require("../middlewares/checkAuth");
 
 const router = express.Router();
 
+// DEPRECATED
+//router.use("/api/v1", require("./api"));
+
 // Rest api routes.
-router.use("/api/v1", require("./api"));
+router.use("/api/v2", require("./api/v2/index"));
 
 // Auth routes.
 router.use("/auth", require("./auth"));

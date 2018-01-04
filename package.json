@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Dragon1320/awesom-o-2.0#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
     "discord.js": "^11.2.1",
@@ -24,6 +25,7 @@
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "express-validator": "^4.3.0",
+    "jsonwebtoken": "^8.1.0",
     "mongoose": "^4.13.8",
     "morgan": "^1.9.0",
     "passport": "^0.4.0",
