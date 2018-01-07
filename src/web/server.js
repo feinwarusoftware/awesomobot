@@ -6,7 +6,7 @@ const logger = require("morgan");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const mongoose = require("mongoose");
-const ejs = require("ejs")
+const ejs = require("ejs");
 
 const Strategy = require("passport-discord").Strategy;
 const port = process.env.WEBSERVER_PORT || 80;

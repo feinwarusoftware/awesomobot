@@ -4,7 +4,7 @@ const discord = require("discord.js");
 const client = require("./events");
 
 function start() {
-    client.login(process.env.AWESOMOBETA_TOKEN);
+    client.login("MzcyNDYyNDI4NjkwMDU1MTY5.DTPwgA.wIpNVjTp8JhAYpdj3BO3Vltnzbk");
 }
 
 module.exports = start;

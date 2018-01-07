@@ -24,8 +24,6 @@ router.get("/", (req, res) => {
     res.render("index");
 });
 
-
-
 const langs = ["es", "fr", "it", "pl", "ie"];
 // Homepage other lang.
 router.get("/:lang", (req, res, next) => {
@@ -45,9 +43,31 @@ router.get("/status", (req, res) => {
     res.render("status");
 });
 
-// Status en.
+const commands = [
+    {
+        name: "dick",
+        desc: "mod abuse",
+        usage: "tell someone theyre being a dick",
+        roles: ["@Hallway Monitors"]
+    },
+    {
+        name: "help",
+        desc: "help page for the bot",
+        usage: "you cant use this, its broken",
+        roles: ["@Patrons"]
+    },
+    {
+        name: "help",
+        desc: "help page for the bot",
+        usage: "you cant use this, its broken",
+        roles: ["@everyone"],
+        disabled: true
+    },
+];
+
+// Command 'wiki'
 router.get("/commands", (req, res) => {
-    res.render("commands");
+    res.render("commands", { commands: commands });
 });
 
 module.exports = router;

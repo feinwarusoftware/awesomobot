@@ -42,6 +42,14 @@
         .navbar .btn-group .dropdown-menu a:active {
             color: #fff !important;
         }
+
+        .role-hm {
+            color: #2ecc71;
+        }
+        .role-p {
+            color: #F1C40F;
+        }
+
     </style>
 </head>
 
@@ -62,44 +70,53 @@
 
                 </section>
                 <!--Table-->
-                <table class="table">
-
-                    <!--Table head-->
-                    <thead class="mdb-color darken-3">
-                        <tr class="text-white">
-                            <th>#</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Username</th>
+                <table class="table table-hover">
+                    <thead class="indigo wow fadeIn" data-wow-delay="0.4s">
+                        <tr style="color:white">
+                            <th>Name</th>
+                            <th>Desc</th>
+                            <th>Usage</th>
+                            <th>Role</th>
                         </tr>
                     </thead>
-                    <!--Table head-->
-
-                    <!--Table body-->
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
+                        <% var i = 0.5; %>
+                        <% commands.forEach(function(command) { %>
+
+                            <% var tablecss; %>
+                            <% if (command.disabled) { %>
+                                <% tablecss = "table-danger"; %>
+                            <% } else { %>
+                                <% tablecss = ""; %>
+                            <% } %>
+
+                            <tr class="wow fadeIn <%= tablecss %>" data-wow-delay="<%= i %>s">
+                                <th scope="row"><%= command.name %></th>
+                                <td><%= command.desc %></td>
+                                <td><%= command.usage %></td>
+
+                                <% var rolestr = ""; %>
+                                <% for (var j = 0; j < command.roles.length; j++) { %>
+                                    <% rolestr += command.roles[j]; %>
+                                <% } %>
+                                
+                                <% var rolecss; %>
+                                <% if (rolestr.indexOf("@Hallway Monitors") != -1) { %>
+                                    <% rolecss = "role-hm"; %>
+                                <% } else if (rolestr.indexOf("@Patrons") != -1) { %>
+                                    <% rolecss = "role-p"; %>
+                                <% } else { %>
+                                    <% rolecss = ""; %>
+                                <% } %>
+
+                                <td class="font-weight-bold <%= rolecss %>"><%= rolestr %></td>
+                            </tr>
+
+                            <% i += 0.1; %>
+                        <% }); %>
                     </tbody>
-                    <!--Table body-->
                 </table>
-                <!--Table-->
-                <!-- Section: Contact-->
+
             </div>
             <!-- / Main container-->
             <!-- Footer-->
