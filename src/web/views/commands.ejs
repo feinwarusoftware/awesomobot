@@ -42,9 +42,27 @@
         .navbar .btn-group .dropdown-menu a:active {
             color: #fff !important;
         }
-
+        
         .role-hm {
             color: #2ecc71;
+        }
+        .role-nk {
+            color: #e67e22;
+        }
+        .role-fp {
+            color: #9b59aa;
+        }
+        .role-cf {
+            color: #d20e0f;
+        }
+        .role-cm {
+            color: #a11457;
+        }
+        .role-pc {
+            color: #71368a;
+        }
+        .role-ya {
+            color: #3595db;
         }
         .role-p {
             color: #F1C40F;
@@ -62,27 +80,33 @@
 
             <!-- Main container-->
             <div class="container">
-                <div class="divider-new pt-5">
-                    <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">Commands</h2>
+            <!--Page heading-->
+            <div class="row wow fadeIn pt-5" data-wow-delay="0.2s">
+                <div class="col-md-12 pt-5">
+                    <h1 class="h1-responsive">Commands |
+                        <small class="text-muted">All</small>
+                    </h1>
                 </div>
+            </div>
+            <!--/.Page heading-->
+
                 <!-- Section: Status Cards-->
                 <section id="status">
 
                 </section>
                 <!--Table-->
-                <table class="table table-hover">
-                    <thead class="indigo wow fadeIn" data-wow-delay="0.4s">
+                <table class="table table-hover table-striped">
+                    <thead class="indigo wow fadeIn" data-wow-delay="0.05s">
                         <tr style="color:white">
                             <th>Name</th>
                             <th>Desc</th>
                             <th>Usage</th>
-                            <th>Role</th>
+                            <th>Minimum Role</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% var i = 0.5; %>
+                        <% var i = 0.1; %>
                         <% commands.forEach(function(command) { %>
-
                             <% var tablecss; %>
                             <% if (command.disabled) { %>
                                 <% tablecss = "table-danger"; %>
@@ -103,8 +127,20 @@
                                 <% var rolecss; %>
                                 <% if (rolestr.indexOf("@Hallway Monitors") != -1) { %>
                                     <% rolecss = "role-hm"; %>
-                                <% } else if (rolestr.indexOf("@Patrons") != -1) { %>
-                                    <% rolecss = "role-p"; %>
+                                    <% } else if (rolestr.indexOf("@New Kid") != -1) { %>
+                                        <% rolecss = "role-nk"; %>
+                                    <% } else if (rolestr.indexOf("@Freedom Pals") != -1) { %>
+                                        <% rolecss = "role-fp"; %>  
+                                    <% } else if (rolestr.indexOf("@Coon & Friends") != -1) { %>
+                                        <% rolecss = "role-cf"; %>
+                                    <% } else if (rolestr.indexOf("@Chaos Minions") != -1) { %>
+                                        <% rolecss = "role-cm"; %>
+                                    <% } else if (rolestr.indexOf("@PC Bros") != -1) { %>
+                                        <% rolecss = "role-pc"; %>
+                                    <% } else if (rolestr.indexOf("@Yaoi Artist") != -1) { %>
+                                        <% rolecss = "role-ya"; %>   
+                                    <% } else if (rolestr.indexOf("@Patrons") != -1) { %>
+                                        <% rolecss = "role-p"; %>
                                 <% } else { %>
                                     <% rolecss = ""; %>
                                 <% } %>
@@ -134,31 +170,6 @@
                 <!-- Animations init-->
                 <script>
                     new WOW().init();
-                </script>
-
-                <script>
-                    window.onload = function () {
-
-                        const form = document.getElementById("problem-form");
-
-                        form.onsubmit = function () {
-
-                            const data = {
-                                author: form.ifauthor.value,
-                                name: form.ifname.value,
-                                tag: form.iftag.value,
-                                desc: form.ifdesc.value
-                            };
-
-                            var xhr = new XMLHttpRequest();
-                            var url = "http://localhost/api/v1/servers/371762864790306817/reports";
-                            xhr.open("POST", url, true);
-                            xhr.setRequestHeader("Content-type", "application/json");
-                            xhr.send(JSON.stringify(data));
-
-                            //return false;
-                        }
-                    }
                 </script>
 
 </body>
