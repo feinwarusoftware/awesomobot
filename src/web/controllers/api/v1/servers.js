@@ -4,7 +4,7 @@ const express = require("express");
 const router = express.Router();
 const randomstring = require("randomstring");
 
-const Server = require("../../../common/models/server");
+const Server = require("../../../../common/models/server");
 
 // OUTDATED, PLS UPDATE!!!
 /** ----------------------------------------
