@@ -76,7 +76,10 @@
                             </b>
                         </h2>
                         <h4>Viewing:
-                            <b>Guild Name Here</b>
+                            <% var currentServer = user.guilds.find(e => { %>
+                                <% return e.id == server._id; %>
+                            <% }); %>
+                            <b><%= currentServer.name %></b>
                         </h4>
                     </div>
                     <!-- Grid column -->

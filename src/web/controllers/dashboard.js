@@ -40,6 +40,8 @@ router.get("/", (req, res) => {
             res.send(err);
         }
 
+        console.log(req.user);
+
         res.render("dashboard/", { user: req.user, server: server });
     });
 });
