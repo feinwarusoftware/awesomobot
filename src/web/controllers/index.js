@@ -24,8 +24,6 @@ router.get("/", (req, res) => {
     res.render("index");
 });
 
-
-
 const langs = ["es", "fr", "it", "pl", "pt", "ie"];
 // Homepage other lang.
 router.get("/:lang", (req, res, next) => {
