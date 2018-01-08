@@ -40,16 +40,8 @@ router.get("/", (req, res) => {
             res.send(err);
         }
 
-        console.log(req.user);
-
         res.render("dashboard/", { user: req.user, server: server });
     });
-});
-
-router.get("/:server_id", (req, res) => {
-
-    req.user.currentGuild = req.params.server_id;
-    res.redirect("/dashboard");
 });
 
 router.get("/developer", (req, res) => {
@@ -140,6 +132,18 @@ router.get("/stats", (req, res) => {
 
         res.render("dashboard/stats", { user: req.user, server: server });
     });
+});
+
+router.get("/:server_id", (req, res, next) => {
+
+    if (parseInt(req.params.server_id)) {
+
+        req.user.currentGuild = req.params.server_id;
+        res.redirect("/dashboard");
+    } else {
+
+        return next();
+    }
 });
 
 module.exports = router;
