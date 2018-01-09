@@ -7,10 +7,6 @@ const Server = require("../../common/models/server");
 
 router.get("/", (req, res, next) => {
 
-    if (req.user.currentGuild) {
-        return next();
-    }
-
     var queries = [];
     for (var i = 0; i < req.user.guilds.length; i++) {
         queries.push(Server.findById(req.user.guilds[i].id));
@@ -29,7 +25,7 @@ router.get("/", (req, res, next) => {
     });
 });
 
-router.get("/", (req, res) => {
+router.get("/home", (req, res) => {
 
     if (!req.user.currentGuild) {
         res.send("You need to select a server first!");
@@ -139,7 +135,7 @@ router.get("/:server_id", (req, res, next) => {
     if (parseInt(req.params.server_id)) {
 
         req.user.currentGuild = req.params.server_id;
-        res.redirect("/dashboard");
+        res.redirect("/dashboard/home");
     } else {
 
         return next();
