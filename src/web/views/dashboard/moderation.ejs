@@ -15,33 +15,34 @@
     <link href="../../css/mdb.min.css" rel="stylesheet">
     <!-- Template styles-->
     <style>
-    /* TEMPLATE STYLES */
-
+        /* TEMPLATE STYLES */
         /*{
         border-style: dashed;
         border-color: red;
         border-width: 1px;
     }
-    */ .flex-center {
-        color: #fff;
-    }
+    */
 
-    .intro-1 {
-        background: url("../../img/awesomo-bg.jpg")no-repeat center center;
-        background-size: cover;
-    }
+        .flex-center {
+            color: #fff;
+        }
 
-    .navbar .btn-group .dropdown-menu a:hover {
-        color: #000 !important;
-    }
+        .intro-1 {
+            background: url("../../img/awesomo-bg.jpg")no-repeat center center;
+            background-size: cover;
+        }
 
-    .navbar .btn-group .dropdown-menu a:active {
-        color: #fff !important;
-    }
+        .navbar .btn-group .dropdown-menu a:hover {
+            color: #000 !important;
+        }
 
-    .modal-dialog.modal-notify.modal-indigo .modal-header {
-        background-color: #3F51B5;
-    }
+        .navbar .btn-group .dropdown-menu a:active {
+            color: #fff !important;
+        }
+
+        .modal-dialog.modal-notify.modal-indigo .modal-header {
+            background-color: #3F51B5;
+        }
     </style>
 
     <!-- Referencing Stuff -->
@@ -263,7 +264,6 @@
             </script>
 
             <script>
-
                 window.onload = function () {
 
                     const submitForm = document.getElementById("issue-submit-form");
@@ -304,8 +304,8 @@
 
                     var issueId = issueDeletes[i].id;
 
-                    issueDeletes[i].onclick = function() {
-                        
+                    issueDeletes[i].onclick = function () {
+
                         currentIssueId = issueId;
                     }
                 }
@@ -316,7 +316,6 @@
 
                     return currentIssueId;
                 }
-
             </script>
 
             <!-- Central Modal Medium Info -->
@@ -381,18 +380,17 @@
                                 <div class="text-center">
                                     <button class="btn btn-blue-grey" data-dismiss="modal">Cancel</button>
                                 </div>
-                            </div>
 
-                            <form id="issue-delete-form">
-                                <div class="text-center">
-                                    <button class="btn btn-danger">Delete</button>
-                                </div>
-                            </form>
+                                <form id="issue-delete-form">
+                                    <div class="text-center">
+                                        <button class="btn btn-danger">Delete</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <!--/.Content-->
                         </div>
-                        <!--/.Content-->
                     </div>
-                </div>
-                <!-- Frame Modal Bottom Danger-->
+                    <!-- Frame Modal Bottom Danger-->
 
 </body>
 

@@ -1,40 +1,221 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="full-height" lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Material Design Bootstrap</title>
-    <!-- Font Awesome -->
+    <link rel="shortcut icon" type="image/png" href="../img/favicon.png" />
+    <title>AWESOM-O // Music</title>
+    <!-- Font Awesome-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- Material Design Bootstrap -->
-    <link href="css/mdb.min.css" rel="stylesheet">
-    <!-- Your custom styles (optional) -->
-    <link href="css/style.css" rel="stylesheet">
+    <!-- Bootstrap core CSS-->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap-->
+    <link href="../../css/mdb.min.css" rel="stylesheet">
+    <!-- Template styles-->
+    <style>
+    /* TEMPLATE STYLES */
+
+        //*{
+        border-style: dashed;
+        border-color: red;
+        border-width: 1px;
+    }
+    */ .flex-center {
+        color: #fff;
+    }
+
+    .intro-1 {
+        background: url("../../img/awesomo-bg.jpg")no-repeat center center;
+        background-size: cover;
+    }
+
+    .navbar .btn-group .dropdown-menu a:hover {
+        color: #000 !important;
+    }
+
+    .navbar .btn-group .dropdown-menu a:active {
+        color: #fff !important;
+    }
+    </style>
+
+    <!-- Referencing Stuff -->
+    <% var avatar = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=2048"%>
+
+
+
+
 </head>
 
 <body>
+    <header>
+        <!-- Navbar-->
+        <% include ../partials/dnavbar %>
 
-    <!-- Start your project here-->
+            <!-- Main container-->
+            <div class="container">
+                <div class="divider-new "></div>
+                <!-- Grid row -->
+                <div class="row">
 
-    <!-- Button trigger modal -->
-    <% var avatar = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=2048"%>
-    <p><%= avatar%></p>
+                    <!-- Grid column -->
+                    <div class="col-lg-4 col-md-6 mb-12">
 
-    <!-- /Start your project here-->
+                        <img src="<%= avatar%>" class="z-depth-1 float-right" height="128px" alt="Responsive image">
 
-    <!-- SCRIPTS -->
-    <!-- JQuery -->
-    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-    <!-- Bootstrap tooltips -->
-    <script type="text/javascript" src="js/popper.min.js"></script>
-    <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <!-- MDB core JavaScript -->
-    <script type="text/javascript" src="js/mdb.min.js"></script>
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-lg-8 col-md-6 mb-12">
+
+                        <h2>Logged in as:
+                            <b>
+                                <%= user.username%>
+                            </b>
+                        </h2>
+                        <h4>Viewing:
+                            <% var currentServer = user.guilds.find(e => { %>
+                                <% return e.id == server._id; %>
+                                    <% }); %>
+                                        <b>
+                                            <%= currentServer.name %>
+                                        </b>
+                        </h4>
+                    </div>
+                    <!-- Grid column -->
+                </div>
+                <!-- Grid row -->
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row wow fadeIn pt-5" data-wow-delay="0.2s">
+                            <div class="col-md-12">
+                                <h1 class="h1-responsive">last.fm |
+                                    <small class="text-muted">Login Details</small>
+                                </h1>
+                            </div>
+                        </div>
+                        <h3 class="green-text">Connected to last.fm</h3>
+                        <div class="md-form">
+                            <i class="fa fa-lastfm-square prefix"></i>
+                            <input placeholder="Mattheous" type="text" id="lastfm-username" class="form-control">
+                            <label for="lastfm-username"></label>
+                            <button type="button" class="btn btn-primary">Primary</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row wow fadeIn pt-5" data-wow-delay="0.2s">
+                            <div class="col-md-12">
+                                <h1 class="h1-responsive">last.fm |
+                                    <small class="text-muted">Command Preview</small>
+                                </h1>
+                            </div>
+                        </div>
+                        <!--Accordion wrapper-->
+                        <div class="accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+
+                            <!-- Accordion card -->
+                            <div class="card">
+
+                                <!-- Card header -->
+                                <div class="card-header" role="tab" id="headingOne">
+                                    <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <h5 class="mb-0">
+                                            -fm
+                                            <i class="fa fa-angle-down rotate-icon"></i>
+                                        </h5>
+                                    </a>
+                                </div>
+
+                                <!-- Card body -->
+                                <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="card-body">
+                                        <b>Now Playing</b>
+                                        <p>Periphery - Racecar <i>(Periphery)</i></p>
+                                        <b>Previous Track</b>
+                                        <p>Dream Theater - Raise The Knife <i>(Cleaning out the Closet)</i></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Accordion card -->
+
+                            <!-- Accordion card -->
+                            <div class="card">
+
+                                <!-- Card header -->
+                                <div class="card-header" role="tab" id="headingTwo">
+                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        <h5 class="mb-0">
+                                            -fm artists
+                                            <i class="fa fa-angle-down rotate-icon"></i>
+                                        </h5>
+                                    </a>
+                                </div>
+
+                                <!-- Card body -->
+                                <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                    <div class="card-body">
+                                        <b>Last 7 days</b>
+                                        <p>Dream Theater - Raise The Knife <i>(Cleaning out the Closet)</i></p>
+                                        <b>Last 30 days</b>
+                                        <p>Periphery - Racecar <i>(Periphery)</i></p>
+                                        <b>All Time</b>
+                                        <p>Periphery - Racecar <i>(Periphery)</i></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Accordion card -->
+
+                            <!-- Accordion card -->
+                            <div class="card">
+
+                                <!-- Card header -->
+                                <div class="card-header" role="tab" id="headingThree">
+                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        <h5 class="mb-0">
+                                            -fm songs
+                                            <i class="fa fa-angle-down rotate-icon"></i>
+                                        </h5>
+                                    </a>
+                                </div>
+
+                                <!-- Card body -->
+                                <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                                    <div class="card-body">
+                                        <b>Now Playing</b>
+                                        <p>Dream Theater - Raise The Knife <i>(Cleaning out the Closet)</i></p>
+                                        <b>Previous Track</b>
+                                        <p>Periphery - Racecar <i>(Periphery)</i></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Accordion card -->
+                        </div>
+                        <!--/.Accordion wrapper-->
+                    </div>
+                </div>
+            </div>
+            <!-- / Main container-->
+            <!-- Footer-->
+            <% include ../partials/footer %>
+            <!-- /.Footer-->
+            <!-- SCRIPTS-->
+            <!-- JQuery-->
+            <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+            <!-- Bootstrap dropdown-->
+            <script type="text/javascript" src="../../js/popper.min.js"></script>
+            <!-- Bootstrap core JavaScript-->
+            <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+            <!-- MDB core JavaScript-->
+            <script type="text/javascript" src="../../js/mdb.min.js"></script>
+
+            <!-- Animations init-->
+            <script>
+                new WOW().init();
+            </script>
+
 </body>
 
 </html>
