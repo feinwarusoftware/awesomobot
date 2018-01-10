@@ -189,4 +189,12 @@ router.get("/commands", (req, res) => {
     res.render("commands", { commands: commands });
 });
 
+// Markdown test.
+const markdown = require("markdown").markdown;
+const content = "#testing...";
+router.get("/md", (req, res) => {
+
+    res.render("md", { markdown: markdown, content: content });
+});
+
 module.exports = router;

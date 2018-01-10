@@ -394,7 +394,7 @@ client.on("message", message => {
 
     if (message.author.equals(client.user)) { return; }
 
-    cmd.exec(message, prefix, permJson, null);
+    cmd.exec(message, prefix);
 
     /*
     if (message.author.equals(client.user)) { return; }
