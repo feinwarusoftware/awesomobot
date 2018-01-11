@@ -310,10 +310,26 @@
                             xhr.open("DELETE", url, true);
                             xhr.send();
                         }
+
+                        const listUpdateForm = document.getElementById("list-update-form");
+
+                        listUpdateForm.onsubmit = function () {
+
+                            const data = {
+                                status: listUpdateForm.lstatus.value
+                            };
+
+                            var xhr = new XMLHttpRequest();
+                            var url = "http://localhost/api/v1/servers/371762864790306817/watchlist/" + getFormId();
+                            xhr.open("PATCH", url, true);
+                            xhr.setRequestHeader("Content-type", "application/json");
+                            xhr.send(JSON.stringify(data));
+                        }
                     }
 
                     const issueDeletes = document.getElementsByClassName("issue-delete");
                     const listDeletes = document.getElementsByClassName("list-delete");
+                    const listUpdates = document.getElementsByClassName("list-edit");
 
                     for (var i = 0; i < issueDeletes.length; i++) {
 
@@ -332,6 +348,16 @@
                         listDeletes[i].onclick = function () {
 
                             currentId = listId;
+                        }
+                    }
+
+                    for (var i = 0; i < listUpdates.length; i++) {
+
+                        var listUpdateId = listUpdates[i].id;
+
+                        listUpdates[i].onclick = function () {
+
+                            currentId = listUpdateId;
                         }
                     }
 

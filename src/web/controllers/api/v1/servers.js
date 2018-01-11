@@ -508,6 +508,47 @@ router.route("/:server_id/watchlist/:watchlist_id")
             res.json({ message: "Watchlist not found!" });
         });
     })
+    .patch((req, res) => {
+        Server.findById(req.params.server_id, (err, server) => {
+            if (err) {
+                res.send(err);
+            }
+
+            for (var i = 0; i < server.watchlist.length; i++) {
+                if (server.watchlist[i].id == req.params.watchlist_id) {
+
+                    var watchlist = server.watchlist;
+
+                    const id = watchlist[i].id;
+                    const username = watchlist[i].username;
+                    const userid = watchlist[i].userid;
+                    const notes = watchlist[i].notes;
+                    const status = watchlist[i].status;
+                    watchlist.splice(i, 1);
+                    watchlist.push({
+                        id: id,
+                        username: (req.body.username ? req.body.username : username),
+                        userid: (req.body.userid ? req.body.userid : userid),
+                        notes: (req.body.notes ? req.body.notes : notes),
+                        status: (req.body.status ? req.body.status : status)
+                    });
+
+                    server.watchlist = watchlist;
+
+                    server.save(err => {
+                        if (err) {
+                            res.send(err);
+                        }
+        
+                        res.json({ message: "Watchlist updated successfully!" });
+                    });
+                    return;
+                }
+            }            
+
+            res.json({ message: "Watchlist not found!" });
+        });
+    })
     .delete((req, res) => {
         Server.findById(req.params.server_id, (err, server) => {
             if (err) {
