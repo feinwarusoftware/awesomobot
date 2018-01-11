@@ -43,6 +43,10 @@
         .modal-dialog.modal-notify.modal-indigo .modal-header {
             background-color: #3F51B5;
         }
+
+        .modal-dialog.modal-notify.modal-orange .modal-header {
+            background-color: #ff9800;
+        }
     </style>
 
     <!-- Referencing Stuff -->
@@ -80,13 +84,13 @@
                                 <%= user.username%>
                             </b>
                         </h2>
+                        
+                        <% var currentServer = user.guilds.find(e => { %>
+                            <% return e.id == server._id; %>
+                        <% }); %>
                         <h4>Moderating:
                             <b>
-                                /r/SouthPark</b>
-                        </h4>
-                        <h4>Your Role:
-                            <b>
-                                Respect Ma Authoritah</b>
+                                <%= currentServer.name %></b>
                         </h4>
                     </div>
                     <!-- Grid column -->
@@ -96,7 +100,6 @@
                 <div class="divider-new">
                     <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">Mod Notes</h2>
                 </div>
-                <!-- Section: Best features-->
                 <!--
             <table class="table table-hover">
                 <thead class="indigo wow fadeIn" data-wow-delay="0.4s">
@@ -138,7 +141,7 @@
                             <th>Name of Issue</th>
                             <th>Category</th>
                             <th>Description</th>
-                            <th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -167,86 +170,70 @@
                                     <% }); %>
                     </tbody>
                 </table>
+                <div class="clearfix">
+                        <button type="button" class="btn btn-indigo float-right" data-toggle="modal" data-target="#newissue">
+                            Create new issue
+                        </button>
+                    </div>
+                <!-- Grid row -->
+                <div class="divider-new">
+                    <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">Watchlist</h2>
+                </div>
+
+                <table class="table table-hover">
+                    <thead class="orange wow fadeIn" data-wow-delay="0.4s">
+                        <tr style="color:white">
+                            <th>Discord Name</th>
+                            <th>Discord ID</th>
+                            <th>Notes</th>
+                            <th>Status</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% var i = 0.6; %>
+                            <% server.watchlist.forEach(function(list) { %>
+                                <tr class="wow fadeIn" data-wow-delay="<%= i %>s">
+                                    <th scope="row">
+                                        <%= list.username %>
+                                    </th>
+                                    <td>
+                                        <%= list.userid %>
+                                    </td>
+                                    <td>
+                                        <%= list.notes %>
+                                    </td>
+                                    <td>
+                                        <%= list.status %>
+                                    </td>
+                                    <td>
+                                        <a class="list-edit" id="<%= list.id %>" data-toggle="modal" data-target="#listedit">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>                                        
+                                    </td>
+                                    <td>
+                                        <a class="list-delete" id="<%= list.id %>" data-toggle="modal" data-target="#listdelete">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <% i = i + 0.2; %>
+                                    <% }); %>
+                    </tbody>
+                </table>
 
                 <!-- Button trigger modal -->
                 <div class="clearfix">
-                    <button type="button" class="btn btn-indigo float-right" data-toggle="modal" data-target="#newissue">
-                        Create new issue
+                    <button type="button" class="btn btn-orange float-right" data-toggle="modal" data-target="#newlist">
+                        Add to watchlist
                     </button>
                 </div>
                 <!-- Section: Contact-->
             </div>
             <!-- / Main container-->
             <!-- Footer-->
-            <footer class="page-footer center-on-small-only elegant-color-dark">
-                <!-- Footer Links-->
-                <div class="container">
-                    <div class="row">
-                        <hr class="w-100 clearfix d-sm-none">
-
-                        <!-- Third column-->
-                        <div class="col-lg-6 col-md-6 float-right">
-                            <h5 class="title font-bold mt-3 mb-4">Resources</h5>
-                            <ul>
-                                <li>
-                                    <a href="#!">Status</a>
-                                </li>
-                                <li>
-                                    <a href="#!">Help & Support</a>
-                                </li>
-                                <li>
-                                    <a href="#!">Feedback</a>
-                                </li>
-                                <li>
-                                    <a href="#!">Terms</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- /.Third column-->
-                        <hr class="w-100 clearfix d-sm-none">
-                        <!-- Fourth column-->
-                        <div class="col-lg-6 col-md-6 mx-auto">
-                            <h5 class="title font-bold mt-3 mb-4">About</h5>
-                            <ul>
-                                <li>
-                                    <a href="#!">About</a>
-                                </li>
-                                <li>
-                                    <a href="#!">Fork on Github</a>
-                                </li>
-                                <li>
-                                    <a href="#!">Donate</a>
-                                </li>
-                                <li>
-                                    <a href="https://discord.gg/southpark">/r/SouthPark Discord</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- /.Fourth column-->
-                    </div>
-                </div>
-                <!-- /.Footer Links-->
-                <hr>
-                <!-- Call to action-->
-                <div class="call-to-action">
-                    <ul>
-                        <li>
-                            <h5>Join the /r/SouthPark Discord</h5>
-                        </li>
-                        <li>
-                            <a class="btn btn-indigo" target="_blank" href="https://discord.gg/southpark" rel="nofollow">Join Now!</a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- /.Call to action-->
-                <!-- Copyright-->
-                <div class="footer-copyright">
-                    <div class="container-fluid">© 2018 Copyright:
-                        <a href="/"> AWESOM-O Industries </a>
-                    </div>
-                </div>
-                <!-- /.Copyright-->
-            </footer>
+            <% include ../partials/footer %>
             <!-- /.Footer-->
             <!-- SCRIPTS-->
             <!-- JQuery-->
@@ -278,7 +265,7 @@
                         };
 
                         var xhr = new XMLHttpRequest();
-                        var url = "https://awesomobot.tk/api/v1/servers/371762864790306817/issues";
+                        var url = "http://localhost/api/v1/servers/371762864790306817/issues";
                         xhr.open("POST", url, true);
                         xhr.setRequestHeader("Content-type", "application/json");
                         xhr.send(JSON.stringify(data));
@@ -289,7 +276,7 @@
                     deleteForm.onsubmit = function () {
 
                         var xhr = new XMLHttpRequest();
-                        var url = "https://awesomobot.tk/api/v1/servers/371762864790306817/issues/" + getIssueId();
+                        var url = "http://localhost/api/v1/servers/371762864790306817/issues/" + getIssueId();
 
                         console.log(url);
 
@@ -391,6 +378,64 @@
                         </div>
                     </div>
                     <!-- Frame Modal Bottom Danger-->
+
+                </div>
+            </div>
+
+            <!-- Central Modal Medium Info -->
+            <div class="modal fade right" id="newlist" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-notify modal-orange modal-full-height modal-right" role="document">
+                        <!--Content-->
+                        <div class="modal-content">
+                            <!--Header-->
+                            <div class="modal-header">
+                                <p class="heading lead">Watchlist</p>
+    
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true" class="white-text">&times;</span>
+                                </button>
+                            </div>
+    
+                            <!--Body-->
+                            <div class="modal-body">
+    
+                                <!-- Form contact -->
+                                <form id="list-submit-form" formenctype="text/plain">
+                                    <div class="md-form">
+                                        <input id="lid" type="text" class="form-control">
+                                        <label>Discord ID</label>
+                                    </div>
+
+                                    <div class="md-form">
+                                        <input id="lname" type="text" class="form-control">
+                                        <label>Discord Name</label>
+                                    </div>
+    
+                                    <div class="md-form">
+                                        <textarea id="lnotes" type="text" class="md-textarea" style="height: 100px"></textarea>
+                                        <label>Notes</label>
+                                    </div>
+
+                                    <div class="md-form">
+                                        <input id="lstatus" type="text" class="form-control">
+                                        <label>Status</label>
+                                    </div>
+
+                                    <p>Status variables: Open, Inactive, Recovering, Banned, Spaghet</p>
+    
+                                    <div class="text-center">
+                                        <button class="btn btn-orange">Submit</button>
+                                    </div>
+                                </form>
+                                <!-- Form contact -->
+                            </div>
+                            <!--/.Content-->
+                        </div>
+                    </div>
+                </div>
+                <!-- Central Modal Medium Info-->
+
+
 
 </body>
 
