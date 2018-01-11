@@ -254,7 +254,8 @@
                 <script>
                     window.onload = function () {
 
-                        const submitForm = document.getElementById("issue-submit-form");
+                    const submitForm = document.getElementById("issue-submit-form");
+                    const listSubmitForme = document.getElementById("list-submit-form");
 
                         submitForm.onsubmit = function () {
 
@@ -272,7 +273,23 @@
                             xhr.send(JSON.stringify(data));
                         }
 
-                        const deleteForm = document.getElementById("issue-delete-form");
+                        listSubmitForme.onsubmit = function () {
+
+                            const data = {
+                                username: listSubmitForme.lname.value,
+                                userid: listSubmitForme.lid.value,
+                                notes: listSubmitForme.lnotes.value,
+                                status: listSubmitForme.lstatus.value
+                            };
+
+                            var xhr = new XMLHttpRequest();
+                            var url = "http://localhost/api/v1/servers/371762864790306817/watchlist";
+                            xhr.open("POST", url, true);
+                            xhr.setRequestHeader("Content-type", "application/json");
+                            xhr.send(JSON.stringify(data));
+                        }
+
+                    const deleteForm = document.getElementById("issue-delete-form");
 
                         deleteForm.onsubmit = function () {
 
