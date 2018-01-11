@@ -27,7 +27,7 @@ function start() {
     passport.use(new Strategy({
         clientID: config.clientid,
         clientSecret: config.secret,
-        callbackURL: "http://" + config.address + port + "/auth/discord/callback",
+        callbackURL: "http://" + config.address + ":" + port + "/auth/discord/callback",
         scope: ["identify", "guilds"]
         
     }, (accessToken, refreshToken, profile, done) => {
