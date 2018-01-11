@@ -304,7 +304,7 @@ class Command {
 
         return false;
     }
-    _check(message, /*members/*from db*/) {
+    _check(message /*members from db*/) {
 
         const base = this.json;
         const perms = base.perms;

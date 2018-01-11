@@ -196,7 +196,23 @@ const markdown = require("markdown").markdown;
 const content = "#testing...";
 router.get("/md", (req, res) => {
 
-    res.render("md", { markdown: markdown, content: content });
+    res.render("md", { markdown: markdown, content: content
+    });
+});
+
+    // Terms and legal shit
+router.get("/terms", (req, res) => {
+    res.render("terms");
+});
+
+// Support
+router.get("/support", (req, res) => {
+    res.render("support");
+});
+
+// Support
+router.get("/feedback", (req, res) => {
+    res.render("feedback");
 });
 
 module.exports = router;
