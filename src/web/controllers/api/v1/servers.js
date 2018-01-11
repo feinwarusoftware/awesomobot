@@ -52,7 +52,7 @@ router.route("/:server_id")
                 res.send(err);
             }
 
-            server.issues = req.body.issues;
+            //server.issues = req.body.issues;
 
             server.save(err => {
                 if (err) {
@@ -399,6 +399,145 @@ router.route("/:server_id/graphs/:graph_id")
             res.json({ message: "Graph not found!" });
         });
     });
+
+/** ----------------------------------------
+ *          SPECIFIC WATCHLIST ROUTES
+ *  ----------------------------------------
+ */
+
+/* Example structure.
+const watchlist = [
+    {
+        id: "XwPp9xazJ0ku5CZnlmgAx2Dld8SHkAeT",
+        username: "ya boi dragon",
+        userid: "kys",
+        notes: "rope",
+        status: "in park on tree"
+    }
+];
+*/
+router.route("/:server_id/watchlist")
+    .post((req, res) => {
+        Server.findById(req.params.server_id, (err, server) => {
+            if (err) {
+                res.send(err);
+            }
+
+            var watchlist = server.watchlist;
+
+            watchlist.push({
+                id: randomstring.generate(),
+                username: req.body.username,
+                userid: req.body.userid,
+                notes: req.body.notes,
+                status: req.body.status
+            });
+
+            server.watchlist = watchlist;
+
+            server.save(err => {
+                if (err) {
+                    res.send(err);
+                }
+
+                res.json({ message: "Watchlist added successfully!" });
+            });
+        });
+    })
+    .get((req, res) => {
+        Server.findById(req.params.server_id, (err, server) => {
+            if (err) {
+                res.send(err);
+            }
+
+            res.json(server.watchlist);
+        });
+    });
+router.route("/:server_id/watchlist/:watchlist_id")
+    .get((req, res) => {
+        Server.findById(req.params.server_id, (err, server) => {
+            if (err) {
+                res.send(err);
+            }
+
+            for (var i = 0; i < server.watchlist.length; i++) {
+                if (server.watchlist[i].id == req.params.watchlist_id) {
+
+                    res.json(server.watchlist[i]);
+                    return;
+                }
+            }
+
+            res.json({ message: "Watchlist not found!" });
+        });
+    })
+    .put((req, res) => {
+        Server.findById(req.params.server_id, (err, server) => {
+            if (err) {
+                res.send(err);
+            }
+
+            for (var i = 0; i < server.watchlist.length; i++) {
+                if (server.watchlist[i].id == req.params.watchlist_id) {
+
+                    var watchlist = server.watchlist;
+
+                    const id = watchlist[i].id;
+                    watchlist.splice(i, 1);
+                    watchlist.push({
+                        id: id,
+                        username: req.body.username,
+                        userid: req.body.userid,
+                        notes: req.body.notes,
+                        status: req.body.status
+                    });
+
+                    server.watchlist = watchlist;
+
+                    server.save(err => {
+                        if (err) {
+                            res.send(err);
+                        }
+        
+                        res.json({ message: "Watchlist updated successfully!" });
+                    });
+                    return;
+                }
+            }            
+
+            res.json({ message: "Watchlist not found!" });
+        });
+    })
+    .delete((req, res) => {
+        Server.findById(req.params.server_id, (err, server) => {
+            if (err) {
+                res.send(err);
+            }
+
+            for (var i = 0; i < server.watchlist.length; i++) {
+                if (server.watchlist[i].id == req.params.watchlist_id) {
+
+                    var watchlist = server.watchlist;
+
+                    watchlist.splice(i, 1);
+
+                    server.watchlist = watchlist;
+
+                    server.save(err => {
+                        if (err) {
+                            res.send(err);
+                        }
+        
+                        res.json({ message: "Watchlist deleted successfully!" });
+                    });
+                    return;
+                }
+            }
+
+            res.json({ message: "Issue not found!" });
+        });
+    });
+
 
 /** ----------------------------------------
  *          SPECIFIC ISSUE ROUTES

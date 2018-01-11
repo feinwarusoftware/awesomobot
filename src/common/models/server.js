@@ -6,6 +6,7 @@ const Schema = mongoose.Schema;
 const ServerSchema = new Schema({
     _id: String,
     issues: Array,
+    watchlist: Array,
     stats: Array,
     graphs: Array,
     members: Array
