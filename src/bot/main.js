@@ -3,8 +3,10 @@
 const discord = require("discord.js");
 const client = require("./events");
 
+const config = require("../../config");
+
 function start() {
-    client.login("MzcyNDYyNDI4NjkwMDU1MTY5.DTPwgA.wIpNVjTp8JhAYpdj3BO3Vltnzbk");
+    client.login(config.token);
 }
 
 module.exports = start;

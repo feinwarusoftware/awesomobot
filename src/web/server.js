@@ -8,8 +8,10 @@ const passport = require("passport");
 const mongoose = require("mongoose");
 const ejs = require("ejs");
 
+const config = require("../../config");
+
 const Strategy = require("passport-discord").Strategy;
-const port = process.env.WEBSERVER_PORT || 80;
+const port = config.port;
 const app = express();
 
 function start() {
@@ -23,8 +25,8 @@ function start() {
     });
 
     passport.use(new Strategy({
-        clientID: "372462428690055169",
-        clientSecret: "0wPt1HDKNVs7Su6uTzDMCAb-oZUmTjHi",
+        clientID: config.clientid,
+        clientSecret: config.secret,
         callbackURL: "http://localhost:" + port + "/auth/discord/callback",
         scope: ["identify", "guilds"]
         

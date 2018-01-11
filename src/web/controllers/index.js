@@ -19,6 +19,8 @@ router.use("/dashboard", checkAuth, require("./dashboard"));
 // Dashboard routes other lang. (note to self: this wont work!)
 //router.use("/:lang/dashboard", checkAuth, require("./dashboard"));
 
+//router.use("/wiki", checkAuth, require("./wiki"));
+
 // Homepage en.
 router.get("/", (req, res) => {
     res.render("index");
