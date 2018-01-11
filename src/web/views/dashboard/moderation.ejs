@@ -290,13 +290,21 @@
                         }
 
                     const deleteForm = document.getElementById("issue-delete-form");
+                    const listDeleteForm = document.getElementById("list-delete-form");
 
                         deleteForm.onsubmit = function () {
 
                             var xhr = new XMLHttpRequest();
-                            var url = "http://localhost/api/v1/servers/371762864790306817/issues/" + getIssueId();
+                            var url = "http://localhost/api/v1/servers/371762864790306817/issues/" + getFormId();
 
-                            console.log(url);
+                            xhr.open("DELETE", url, true);
+                            xhr.send();
+                        }
+
+                        listDeleteForm.onsubmit = function () {
+
+                            var xhr = new XMLHttpRequest();
+                            var url = "http://localhost/api/v1/servers/371762864790306817/watchlist/" + getFormId();
 
                             xhr.open("DELETE", url, true);
                             xhr.send();
@@ -304,6 +312,7 @@
                     }
 
                     const issueDeletes = document.getElementsByClassName("issue-delete");
+                    const listDeletes = document.getElementsByClassName("list-delete");
 
                     for (var i = 0; i < issueDeletes.length; i++) {
 
@@ -311,15 +320,25 @@
 
                         issueDeletes[i].onclick = function () {
 
-                            currentIssueId = issueId;
+                            currentId = issueId;
                         }
                     }
 
-                    var currentIssueId;
+                    for (var i = 0; i < listDeletes.length; i++) {
 
-                    function getIssueId() {
+                        var listId = listDeletes[i].id;
 
-                        return currentIssueId;
+                        listDeletes[i].onclick = function () {
+
+                            currentId = listId;
+                        }
+                    }
+
+                    var currentId;
+
+                    function getFormId() {
+
+                        return currentId;
                     }
                 </script>
 
@@ -457,7 +476,31 @@
                 </div>
                 <!-- Central Modal Medium Info-->
 
+                <!-- Frame Modal Bottom Danger-->
+                <div class="modal fade bottom" id="listdelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-frame modal-bottom modal-notify modal-danger" role="document">
+                        <!--Content-->
+                        <div class="modal-content">
+                            <!--Body-->
+                            <div class="modal-body">
+                                <div class="row px-4 justify-content-center">
+                                    <div class="text-center">
+                                        <button class="btn btn-blue-grey" data-dismiss="modal">Cancel</button>
+                                    </div>
 
+                                    <form id="list-delete-form">
+                                        <div class="text-center">
+                                            <button class="btn btn-danger">Delete</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!--/.Content-->
+                            </div>
+                        </div>
+                        <!-- Frame Modal Bottom Danger-->
+
+                    </div>
+                </div>
 
 </body>
 
