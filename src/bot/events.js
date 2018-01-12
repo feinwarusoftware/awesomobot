@@ -2,6 +2,7 @@
 
 const discord = require("discord.js");
 const timers = require("timers");
+const embeds = require("./embeds");
 
 const Server = require("../common/models/server");
 
@@ -260,14 +261,177 @@ var localPerms = new PermissionGroup(local);
 
 const permJson = (localPerms.inherit(globPerms)).get();
 
-const command = {
-    trigger: "test",
-    type: "command",
-    perms: permJson,
-    exec: function(message) {
-        message.reply("m: " + servers[0].members.length + ", s: " + servers[0].stats.length);
+const commands = [
+    {
+        trigger: "test",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            console.log(servers[0]);
+            message.reply("m: " + servers[0].members.length + ", s: " + servers[0].stats.length);
+        } 
+    },
+    {
+        trigger: "shitme",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            const member = servers[0].members.find(e => { return e.id == message.author.id });
+            if (!member) {
+                message.reply("0");
+                return;
+            }
+            const stat = member.stats.find(e => { return e.name == "shits" });
+            if (!stat) {
+                message.reply("0");
+                return;
+            }
+            message.reply(stat.value);
+        } 
+    },
+    {
+        trigger: "shitval",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            const args = message.content.split(" ");
+            if (!args[1]) {
+                message.reply("0");
+                return;
+            }
+            let member = servers[0].members.find(e => { return e.id == args[1] });
+            if (!member) {
+                member = servers[0].members.find(e => { return e.name == args[1] });
+                if (!member) {
+                    message.reply("0");
+                    return;
+                }
+            }
+            const stat = member.stats.find(e => { return e.name == "shits" });
+            if (!stat) {
+                message.reply("0");
+                return;
+            }
+            message.reply(stat.value);
+        }
+    },
+    {
+        trigger: "shitlist",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            servers[0].members.sort((a, b) => {
+                const sa = a.stats.find(e => { return e.name == "shits" });
+                const sb = b.stats.find(e => { return e.name == "shits" });
+
+                return sb.value - sa.value;
+            });
+
+            let embed = new discord.RichEmbed();
+            embed.setColor(0x8bc34a);
+            embed.setAuthor("AWESOM-O // It Hits the Fan", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
+
+            for (let i = 0; i < (servers[0].members.length > 5 ? 5 : servers[0].members.length); i++) {
+                const stat = servers[0].members[i].stats.find(e => { return e.name == "shits" });
+                if (!stat) {
+                    embed.addField("#" + (i + 1), servers[0].members[i].name + ": 0", true);
+                } else {
+                    embed.addField("#" + (i + 1), servers[0].members[i].name + ": " + stat.value, true);
+                }
+            }
+
+            message.channel.send(embed);
+        }
+    },
+    {
+        trigger: "activeme",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            const member = servers[0].members.find(e => { return e.id == message.author.id });
+            if (!member) {
+                message.reply("0");
+                return;
+            }
+            const stat = member.stats.find(e => { return e.name == "activity" });
+            if (!stat) {
+                message.reply("0");
+                return;
+            }
+            message.reply(stat.value);
+        } 
+    },
+    {
+        trigger: "activeval",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            const args = message.content.split(" ");
+            if (!args[1]) {
+                message.reply("0");
+                return;
+            }
+            let member = servers[0].members.find(e => { return e.id == args[1] });
+            if (!member) {
+                member = servers[0].members.find(e => { return e.name == args[1] });
+                if (!member) {
+                    message.reply("0");
+                    return;
+                }
+            }
+            const stat = member.stats.find(e => { return e.name == "activity" });
+            if (!stat) {
+                message.reply("0");
+                return;
+            }
+            message.reply(stat.value);
+        } 
+    },
+    {
+        trigger: "activelist",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            servers[0].members.sort((a, b) => {
+                const sa = a.stats.find(e => { return e.name == "activity" });
+                const sb = b.stats.find(e => { return e.name == "activity" });
+
+                return sb.value - sa.value;
+            });
+
+            let embed = new discord.RichEmbed();
+            embed.setColor(0x8bc34a);
+            embed.setAuthor("AWESOM-O // Activity", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
+
+            for (let i = 0; i < (servers[0].members.length > 5 ? 5 : servers[0].members.length); i++) {
+                const stat = servers[0].members[i].stats.find(e => { return e.name == "activity" });
+                if (!stat) {
+                    embed.addField("#" + (i + 1), servers[0].members[i].name + ": 0", true);
+                } else {
+                    embed.addField("#" + (i + 1), servers[0].members[i].name + ": " + stat.value, true);
+                }
+            }
+
+            message.channel.send(embed);
+        } 
+    },
+    {
+        trigger: "w",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            
+        } 
+    },
+    {
+        trigger: "random",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            
+        } 
     }
-};
+];
 
 class Command {
     constructor(json) {
@@ -381,14 +545,19 @@ class Command {
     }
 }
 
-const cmd = new Command(command);
+let cmds = [];
+for (let i = 0; i < commands.length; i++) {
+    cmds.push(new Command(commands[i]));
+}
 
 // Emitted whenever a message is created.
 client.on("message", message => {
 
     if (message.author.equals(client.user)) { return; }
 
-    cmd.exec(message, prefix);
+    for (let i = 0; i < cmds.length; i++) {
+        cmds[i].exec(message, prefix);
+    }
 
     const ourServerId = "371762864790306817";
 
@@ -398,9 +567,10 @@ client.on("message", message => {
     }
 
     // activity
+    let exists = false;
     for (let i = 0; i < servers[0].members.length; i++) {
+        let found = false;
         if (servers[0].members[i].id == message.author.id) {
-            let found = false;
             for (let j = 0; j < servers[0].members[i].stats.length; j++) {
                 if (servers[0].members[i].stats[j].name == "activity") {
                     servers[0].members[i].stats[j].value += message.content.length > 20 ? (message.content.length > 100 ? 8 : 6) : 2;
@@ -408,14 +578,28 @@ client.on("message", message => {
                     found = true;
                 }
             }
-            if (!found) {
-                servers[0].members[i].stats.push({
+            exists = true;
+        }
+        if (!found) {
+            servers[0].members[i].stats.push({
+                name: "activity",
+                value: message.content.length > 20 ? (message.content.length > 100 ? 8 : 6) : 2,
+                lastmsg: 0
+            });
+        }
+    }
+    if (!exists) {
+        servers[0].members.push({
+            id: message.author.id,
+            name: message.author.username,
+            stats: [
+                {
                     name: "activity",
                     value: message.content.length > 20 ? (message.content.length > 100 ? 8 : 6) : 2,
                     lastmsg: 0
-                });
-            }
-        }
+                }
+            ]
+        });
     }
 
     // shits
@@ -486,7 +670,15 @@ client.on("message", message => {
 
 // Emitted whenever a message is deleted.
 client.on("messageDelete", message => {
+    try {
 
+        const channel = message.guild.channels.find(e => { return e.name == "logs" });
+        channel.send(embeds.deletion(message));
+
+    } catch(e) {
+
+        console.log("Error logging message deletion");
+    }
 });
 
 // Emitted whenever messages are deleted in bulk.
