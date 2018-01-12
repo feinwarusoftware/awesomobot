@@ -4,6 +4,8 @@ const discord = require("discord.js");
 const timers = require("timers");
 const embeds = require("./embeds");
 
+const spnav = require("./spnav");
+
 const Server = require("../common/models/server");
 
 const client = new discord.Client();
@@ -131,6 +133,8 @@ client.on("guildUpdate", (oldGuild, newGuild) => {
 
 // TEMP?
 const servers = [];
+
+let eplist = [];
 
 // TEMP
 const prefix = "<<";
@@ -320,9 +324,16 @@ const commands = [
         type: "command",
         perms: permJson,
         exec: function(message) {
+
+            let rem = 0;
+
             servers[0].members.sort((a, b) => {
                 const sa = a.stats.find(e => { return e.name == "shits" });
                 const sb = b.stats.find(e => { return e.name == "shits" });
+
+                if (!sa || !sb) {
+                    return Math.min();
+                }
 
                 return sb.value - sa.value;
             });
@@ -333,9 +344,7 @@ const commands = [
 
             for (let i = 0; i < (servers[0].members.length > 5 ? 5 : servers[0].members.length); i++) {
                 const stat = servers[0].members[i].stats.find(e => { return e.name == "shits" });
-                if (!stat) {
-                    embed.addField("#" + (i + 1), servers[0].members[i].name + ": 0", true);
-                } else {
+                if (stat) {
                     embed.addField("#" + (i + 1), servers[0].members[i].name + ": " + stat.value, true);
                 }
             }
@@ -420,7 +429,31 @@ const commands = [
         type: "command",
         perms: permJson,
         exec: function(message) {
+
+            const args = message.content.split(" ");
+            if (!args[1]) {
+                message.reply("query undef");
+                return;
+            }
+
+            let query = "";
+            for (var i = 1; i < args.length; i++) {
+                if (args[i].startsWith("-")) { continue; }
+                query += (args[i] + " ");
+            }
+            query = query.trim();
             
+            spnav.getPageInfo(query, (title, url, desc, thumbnail) => {
+
+                let embed = new discord.RichEmbed();
+                embed.setColor(0x8bc34a);
+                embed.setAuthor("AWESOM-O // " + title, "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
+                embed.setURL(url);
+                embed.setThumbnail(thumbnail);
+                embed.setDescription(desc);
+            
+                message.channel.send(embed);
+            });
         } 
     },
     {
@@ -429,6 +462,19 @@ const commands = [
         perms: permJson,
         exec: function(message) {
             
+            const query = eplist[Math.floor(Math.random()*eplist.length)];
+            
+            spnav.getPageInfo(query, (title, url, desc, thumbnail) => {
+
+                let embed = new discord.RichEmbed();
+                embed.setColor(0x8bc34a);
+                embed.setAuthor("AWESOM-O // " + title, "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
+                embed.setURL(url);
+                embed.setThumbnail(thumbnail);
+                embed.setDescription(desc);
+            
+                message.channel.send(embed);
+            });
         } 
     }
 ];
@@ -568,6 +614,61 @@ client.on("message", message => {
 
     // activity
     let exists = false;
+
+    for (let i = 0; i < servers[0].members.length; i++) {
+
+        if (servers[0].members[i].id == message.author.id) {
+
+            let found = false;
+
+            for (let j = 0; j < servers[0].members[i].stats.length; j++) {
+
+                if (servers[0].members[i].stats[j].name == "activity") {
+
+                    servers[0].members[i].stats[j].value += message.content.length > 20 ? (message.content.length > 100 ? 8 : 6) : 2;
+                    servers[0].members[i].stats[j].lastmsg = 0;
+                    found = true;
+
+                    break;
+                }
+
+            }
+
+            if (!found) {
+
+                servers[0].members[i].stats.push({
+                    name: "activity",
+                    value: message.content.length > 20 ? (message.content.length > 100 ? 8 : 6) : 2,
+                    lastmsg: 0
+                });
+
+            }
+
+            exists = true;
+
+            break;
+        }
+
+    }
+
+    if (!exists) {
+
+        servers[0].members.push({
+            id: message.author.id,
+            name: message.author.username,
+            stats: [
+                {
+                    name: "activity",
+                    value: message.content.length > 20 ? (message.content.length > 100 ? 8 : 6) : 2,
+                    lastmsg: 0
+                }
+            ]
+        });
+
+    }
+
+    /*
+    let exists = false;
     for (let i = 0; i < servers[0].members.length; i++) {
         let found = false;
         if (servers[0].members[i].id == message.author.id) {
@@ -601,7 +702,42 @@ client.on("message", message => {
             ]
         });
     }
+    */
 
+    if (message.content.indexOf("shit") != -1) {
+        for (let i = 0; i < servers[0].members.length; i++) {
+
+            if (servers[0].members[i].id == message.author.id) {
+
+                let found = false;
+
+                for (let j = 0; j < servers[0].members[i].stats.length; j++) {
+
+                    if (servers[0].members[i].stats[j].name == "shits") {
+
+                        servers[0].members[i].stats[j].value += 1;
+                        found = true;
+
+                        break;
+                    }
+
+                }
+
+                if (!found) {
+
+                    servers[0].members[i].stats.push({
+                        name: "shits",
+                        value: 1
+                    });
+
+                }
+
+                break;
+            }
+        }
+    }
+
+    /*
     // shits
     if (message.content.indexOf("shit") != -1) {
 
@@ -666,6 +802,7 @@ client.on("message", message => {
             }
         }
     }
+    */
 });
 
 // Emitted whenever a message is deleted.
@@ -714,7 +851,9 @@ client.on("presenceUpdate", (oldMember, newMember) => {
 // Emitted when the client becomes ready to start working.
 client.on("ready", () => {
 
-    console.log("DEBUG >> ready!");
+    spnav.getEpList((list) => {
+        eplist = list;
+    });
 
     const ourServerId = "371762864790306817";
     Server.findById(ourServerId, (err, server) => {
@@ -736,6 +875,8 @@ client.on("ready", () => {
             servers.push(server);
         }
     });
+
+    console.log("DEBUG >> ready!");
 
     const interval = 300000;
     timers.setInterval(() => {
