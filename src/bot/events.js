@@ -128,6 +128,9 @@ client.on("guildUpdate", (oldGuild, newGuild) => {
 
 });
 
+// TEMP?
+const servers = [];
+
 // TEMP
 const prefix = "<<";
 
@@ -142,16 +145,7 @@ const glob = {
 const local = {
     server: true,
     channels: [],
-    roles: [
-        {
-            id: "389164419642425355",
-            allow: true
-        },
-        {
-            id: "*",
-            allow: false
-        }
-    ],
+    roles: [],
     members: [],
     stats: []
 }
@@ -271,7 +265,7 @@ const command = {
     type: "command",
     perms: permJson,
     exec: function(message) {
-        message.reply("testing...");
+        message.reply("m: " + servers[0].members.length + ", s: " + servers[0].stats.length);
     }
 };
 
@@ -396,15 +390,35 @@ client.on("message", message => {
 
     cmd.exec(message, prefix);
 
-    /*
-    if (message.author.equals(client.user)) { return; }
-
     const ourServerId = "371762864790306817";
 
-    if (message.content.startsWith("-debug")) {
+    // TEMP?
+    if (message.content.startsWith("<<debug")) {
         console.log(servers);
     }
 
+    // activity
+    for (let i = 0; i < servers[0].members.length; i++) {
+        if (servers[0].members[i].id == message.author.id) {
+            let found = false;
+            for (let j = 0; j < servers[0].members[i].stats.length; j++) {
+                if (servers[0].members[i].stats[j].name == "activity") {
+                    servers[0].members[i].stats[j].value += message.content.length > 20 ? (message.content.length > 100 ? 8 : 6) : 2;
+                    servers[0].members[i].stats[j].lastmsg = 0;
+                    found = true;
+                }
+            }
+            if (!found) {
+                servers[0].members[i].stats.push({
+                    name: "activity",
+                    value: message.content.length > 20 ? (message.content.length > 100 ? 8 : 6) : 2,
+                    lastmsg: 0
+                });
+            }
+        }
+    }
+
+    // shits
     if (message.content.indexOf("shit") != -1) {
 
         // Find /r/southpark server.
@@ -468,7 +482,6 @@ client.on("message", message => {
             }
         }
     }
-    */
 });
 
 // Emitted whenever a message is deleted.
@@ -511,7 +524,6 @@ client.on("ready", () => {
 
     console.log("DEBUG >> ready!");
 
-    /*
     const ourServerId = "371762864790306817";
     Server.findById(ourServerId, (err, server) => {
         if (err) {
@@ -533,8 +545,23 @@ client.on("ready", () => {
         }
     });
 
-    const interval = /*300000*//*10000;
+    const interval = 300000;
     timers.setInterval(() => {
+
+        // activity
+        for (let i = 0; i < servers[0].members.length; i++) {
+            for (let j = 0; j < servers[0].members[i].stats.length; j++) {
+                if (servers[0].members[i].stats[j].name == "activity") {
+                    servers[0].members[i].stats[j].lastmsg += 1;
+                    if (servers[0].members[i].stats[j].lastmsg >= 576) {
+                        servers[0].members[i].stats[j].value -= (Math.log10(servers[0].members[i].stats[j].lastmsg - 575) * 70) / 288;
+                    }
+                    if (servers[0].members[i].stats[j].value < 0) {
+                        servers[0].members[i].stats[j].value = 0;
+                    }
+                }
+            }
+        }
 
         Server.findById(ourServerId, (err, server) => {
             if (err) {
@@ -542,7 +569,7 @@ client.on("ready", () => {
                 return;
             }
 
-            var found = false;
+            let found = false;
             for (var i = 0; i < servers.length; i++) {
                 if (servers[i]._id == server._id) {
     
@@ -569,10 +596,8 @@ client.on("ready", () => {
                     }
                     */
 
-                    /*server.members = servers[i].members;
-                    server.graphs = servers[i].graphs;
+                    server.members = servers[i].members;
                     server.stats = servers[i].stats;
-                    server.issues = servers[i].issues;
                 }
             }
     
@@ -588,7 +613,6 @@ client.on("ready", () => {
         });
 
     }, interval);
-    */
 });
 
 // Emitted whenever the client tries to reconnect to the WebSocket.
