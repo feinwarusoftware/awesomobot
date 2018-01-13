@@ -678,7 +678,208 @@ const commands = [
             message.channel.send(embeds.harvest());
         } 
     },
-    
+    {
+        trigger: "ground",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            const role = message.guild.roles.find(e => { return e.name == "Grounded"; });
+            if (!role) {
+                message.reply("role err");
+                return;
+            }
+            const args = message.content.split(" ");
+            if (!args[1]) {
+                message.reply("arg err");
+                return;
+            }
+            let member = message.guild.members.find(e => { return e.user.id == args[1]; });
+            if (!member) {
+                member = message.guild.members.find(e => { return e.user.username == args[1]; });
+                if (!member) {
+                    message.reply("member err");
+                    return;
+                }
+            }
+            member.addRole(role);
+            message.reply("Grounded " + member.user.username);
+        } 
+    },
+    {
+        trigger: "unground",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            const role = message.guild.roles.find(e => { return e.name == "Grounded"; });
+            if (!role) {
+                message.reply("role err");
+                return;
+            }
+            const args = message.content.split(" ");
+            if (!args[1]) {
+                message.reply("arg err");
+                return;
+            }
+            let member = message.guild.members.find(e => { return e.user.id == args[1]; });
+            if (!member) {
+                member = message.guild.members.find(e => { return e.user.username == args[1]; });
+                if (!member) {
+                    message.reply("member err");
+                    return;
+                }
+            }
+            member.removeRole(role);
+            message.reply("Ungrounded " + member.user.username);
+        } 
+    },
+    {
+        trigger: "join",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            const args = message.content.split(" ");
+            if (!args[1]) {
+                message.reply("arg err");
+                return;
+            }
+
+            let cf = message.guild.roles.find(e => { return e.name == "Coon & Friends"; });
+            let fp = message.guild.roles.find(e => { return e.name == "Freedom Pals"; });
+            let cm = message.guild.roles.find(e => { return e.name == "Chaos Minions"; });
+            if (!cf || !fp || !cm) {
+                message.reply("role err");
+                return;
+            }
+
+            let mcf = message.member.roles.find(e => { return e.name == "Coon & Friends"; });
+            let mfp = message.member.roles.find(e => { return e.name == "Freedom Pals"; });
+            let mcm = message.member.roles.find(e => { return e.name == "Chaos Minions"; });
+
+            let role;
+            let name;
+            switch(args[1]) {
+                case "cf":
+                    if (mcf) {
+                        message.reply("duplicate err");
+                        return;
+                    }
+                    role = cf;
+                    break;
+                case "fp":
+                    if (mfp) {
+                        message.reply("duplicate err");
+                        return;
+                    }
+                    role = fp;
+                    break;
+                case "cm":
+                    if (mcm) {
+                        message.reply("duplicate err");
+                        return;
+                    }
+                    role = cm;
+                    break;
+            }
+
+            if (mcf) {
+                message.member.removeRole(cf);
+            }
+            if (mfp) {
+                message.member.removeRole(fp);
+            }
+            if (mcm) {
+                message.member.removeRole(cm);
+            }
+
+            message.member.addRole(role);
+            message.reply(message.member.nickname + " joined " + role.name);
+        }
+    },
+    {
+        trigger: "civilwar",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            let mcf = message.member.roles.find(e => { return e.name == "Coon & Friends"; });
+            let mfp = message.member.roles.find(e => { return e.name == "Freedom Pals"; });
+            let mcm = message.member.roles.find(e => { return e.name == "Chaos Minions"; });
+            if (mcf) {
+                message.member.removeRole(mcf);
+            }
+            if (mfp) {
+                message.member.removeRole(mfp);
+            }
+            if (mcm) {
+                message.member.removeRole(mcm);
+            }
+
+            message.reply(message.member.nickname + " is no longer part of a group");
+        }
+    },
+    // legacy role commands.
+    {
+        trigger: prefix + "add",
+        type: "startswith",
+        perms: permJson,
+        exec: function(message) {
+            const args = message.content.split("add");
+            if (!args[1]) {
+                message.reply("arg err");
+                return;
+            }
+
+            let cf = message.guild.roles.find(e => { return e.name == "Coon & Friends"; });
+            let fp = message.guild.roles.find(e => { return e.name == "Freedom Pals"; });
+            let cm = message.guild.roles.find(e => { return e.name == "Chaos Minions"; });
+            if (!cf || !fp || !cm) {
+                message.reply("role err");
+                return;
+            }
+
+            let mcf = message.member.roles.find(e => { return e.name == "Coon & Friends"; });
+            let mfp = message.member.roles.find(e => { return e.name == "Freedom Pals"; });
+            let mcm = message.member.roles.find(e => { return e.name == "Chaos Minions"; });
+
+            let role;
+            let name;
+            switch(args[1]) {
+                case "cf":
+                    if (mcf) {
+                        message.reply("duplicate err");
+                        return;
+                    }
+                    role = cf;
+                    break;
+                case "fp":
+                    if (mfp) {
+                        message.reply("duplicate err");
+                        return;
+                    }
+                    role = fp;
+                    break;
+                case "cm":
+                    if (mcm) {
+                        message.reply("duplicate err");
+                        return;
+                    }
+                    role = cm;
+                    break;
+            }
+
+            if (mcf) {
+                message.member.removeRole(cf);
+            }
+            if (mfp) {
+                message.member.removeRole(fp);
+            }
+            if (mcm) {
+                message.member.removeRole(cm);
+            }
+
+            message.member.addRole(role);
+            message.reply(message.member.nickname + " joined " + role.name);
+        }
+    },
 
 
 
