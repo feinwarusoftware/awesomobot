@@ -1,6 +1,8 @@
 "use strict";
 
 const discord = require("discord.js");
+const moment = require("moment");
+const momentTz = require("moment-timezone");
 
 function deletion(message) {
 
@@ -22,7 +24,35 @@ function deletion(message) {
 
     return embed;
 }
+function times(message) {
+
+    let embed = new discord.RichEmbed();
+    embed.setColor(0xf44336);
+    embed.setAuthor("AWESOM-O // Times");
+    embed.addField("PST", momentTz().tz("America/Los_Angeles").format("Do MMMM YYYY, h:mm:ss a"));
+    embed.addField("EST", momentTz().tz("America/New_York").format("Do MMMM YYYY, h:mm:ss a"));
+    embed.addField("GMT", momentTz().tz("Europe/Dublin").format("Do MMMM YYYY, h:mm:ss a"));
+    embed.addField("CST", momentTz().tz("Asia/Hong_Kong").format("Do MMMM YYYY, h:mm:ss a"));
+    embed.setThumbnail("https://cdn.discordapp.com/attachments/379432139856412682/401485874040143872/hmmwhatsthetime.png");
+
+    return embed;
+}
+
+function times(message) {
+
+    let embed = new discord.RichEmbed();
+    embed.setColor(0xf44336);
+    embed.setAuthor("AWESOM-O // Times");
+    embed.addField("PST", momentTz().tz("America/Los_Angeles").format("Do MMMM YYYY, h:mm:ss a"));
+    embed.addField("EST", momentTz().tz("America/New_York").format("Do MMMM YYYY, h:mm:ss a"));
+    embed.addField("GMT", momentTz().tz("Europe/Dublin").format("Do MMMM YYYY, h:mm:ss a"));
+    embed.addField("CST", momentTz().tz("Asia/Hong_Kong").format("Do MMMM YYYY, h:mm:ss a"));
+    embed.setThumbnail("https://images.emojiterra.com/twitter/512px/1f914.png");
+
+    return embed;
+}
 
 module.exports = {
-    deletion
+    deletion,
+    times
 };

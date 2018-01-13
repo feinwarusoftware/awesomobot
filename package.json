@@ -27,6 +27,8 @@
     "express-validator": "^4.3.0",
     "jsonwebtoken": "^8.1.0",
     "markdown": "^0.5.0",
+    "moment": "^2.20.1",
+    "moment-timezone": "^0.5.14",
     "mongoose": "^4.13.8",
     "morgan": "^1.9.0",
     "passport": "^0.4.0",

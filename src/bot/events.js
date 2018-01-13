@@ -476,7 +476,226 @@ const commands = [
                 message.channel.send(embed);
             });
         } 
-    }
+    },
+    {
+        trigger: "avatar",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            const random = Math.floor(Math.random() * Math.floor(5));
+            if (random == 0){
+                message.reply("https://www.youtube.com/watch?v=jVhlJNJopOQ");
+                return;
+            }
+            const avatarUrl = message.author.avatarURL;
+            message.reply(avatarUrl.substring(0, avatarUrl.length - 4) + "512");
+        } 
+    },
+    {
+        trigger: "sub",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            const random = Math.floor(Math.random() * Math.floor(5));
+            if (random == 0){
+                message.reply("", { file: "https://i.redd.it/dq0owwdrbp4z.png" });
+                return;
+            }
+            message.reply("https://reddit.com/r/southpark/");
+        } 
+    },
+    {
+        trigger: "micro",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            message.delete()
+            message.channel.send("", { file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png" });
+        } 
+    },
+    {
+        trigger: "microaggression",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            message.delete()
+            message.channel.send("", { file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png" });
+        } 
+    },
+    {
+        trigger: "reminder",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            message.channel.send("", { file: "https://cdn.discordapp.com/attachments/378287210711220224/378648515959586816/Towelie_Logo2.png" });
+        } 
+    },
+    {
+        trigger: "welcome",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            message.channel.send("", { file: "https://cdn.discordapp.com/attachments/371762864790306820/378305844959248385/Welcome.png" });
+        } 
+    },
+    {
+        trigger: "f",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            const random = Math.floor(Math.random() * Math.floor(3));
+            if (random == 0){
+                message.reply("", { file: "https://cdn.discordapp.com/attachments/379432139856412682/401477891998613504/unknown.png" });
+                return;
+            }
+            message.reply("Repects have been paid");
+        } 
+    },
+    {
+        trigger: "times",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            message.channel.send(embeds.times());
+        } 
+    },
+    {
+        trigger: "batman",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            message.channel.send("", { file: "https://cdn.discordapp.com/attachments/379432139856412682/401498015719882752/batman.png" });
+        } 
+    },
+    {
+        trigger: "member",
+        type: "startswith",
+        perms: permJson,
+        exec: function(message) {
+            const membermessages = ["I member!", "Ohh yeah I member!", "Me member!", "Ohh boy I member that", "I member!, do you member?"];
+            const random = membermessages[Math.floor(Math.random()*membermessages.length)];
+            message.reply(random);
+        } 
+    },
+    {
+        trigger: "i broke the dam",
+        type: "startswith",
+        perms: permJson,
+        exec: function(message) {
+            message.reply("No, I broke the dam");
+        } 
+    },
+    
+
+    //2.0 Commands
+    {
+        trigger: "movieidea",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            const movieideas = [
+            "Movie Idea #01: Adam Sandler... is like in love with some girl.. but then it turns out that the girl is actually a golden retriever or something..", 
+            "Movie Idea #02: Adam Sandler... inherits like a billion dollars.. but first he needs to become a boxer or something",
+            "Movie Idea #03: Adam Sandler... is forced to write in javascript... and something",
+            "Movie Idea #04: Adam Sandler is kidnapped and made to copy bootstrap code",
+            "Movie Idea #05: Adam Sandler... is actually some guy with some sword that lights up and stuff",
+            "Movie Idea #06: Adam Sandler... is a robot sent from the future to kill another robot",
+            "Movie Idea #07: Adam Sandler... has like a katana sword.. and eh needs to kill some guy named Bill",
+            "Movie Idea #08: Adam Sandler is forced to train under this chinese guy... thats actually japanese and stuff",
+            "Movie Idea #09: AWESOM-O is forced to clean up rubbish and then like goes into space and stuff",
+            "Movie Idea #10: Adam Sandler argues with this red light robot on some.. eh spaceship",
+            "Movie Idea #11: Adam Sandler... is a toy.. and completes a story",
+            "Movie Idea #12: Adam Sandler... like robs a bank and has a white face... and some scars and something",
+            "Movie Idea #13: Adam Sandler is a like a guy like in the second world war and stuff",
+            "Movie Idea #14: Adam Sandler is in a car... only problem is that he can't go below 50MPH or he'll die",
+            "Movie Idea #15: Adam Sandler is scottish and wears a kilt and stuff",
+            "Movie Idea #16: Adam Sandler has a dream.. but he thinks it real life and stuff",
+            "Movie Idea #17: Adam Sandler is actually a carrot and stuff",
+            "Movie Idea #18: Adam Sandler takes too many drugs.. and has to dodge bullets and stuff",
+            "Movie Idea #19: Adam Sandler.. has to put a tell the sheep to shut up.. and stuff...",
+            "Movie Idea #20: Adam Sandler... is a lion... and he ehh has to become a king and stuff",
+            "Movie Idea #21: Adam Sandler has to stick his through a door.. but then like freezes and stuff",
+            "Movie Idea #22: Adam Sandler... has to wear pyjamas and do work.. but then he is asked to have a shower and stuff...",
+            "Movie Idea #23: Adam Sandler has to drive some car into the future... and like has an adventure and something...",
+            "Movie Idea #24: Adam Sandler... is an old person... and he doesn't like his life so he eh... attaches balloons to his house and flys and away and stuff..",
+            "Movie Idea #25: Adam Sandler... is accused of hitting this girl.. but eh he did naht hit her.. its not true.. its bullshit.. oh hi mark...",
+            "Movie Idea #26: Adam Sandler... doesn't like farts.. so he like tries to kill some canadians.. and saddam hussein comes back and stuff...",
+            "Movie Idea #27: Adam Sandler.. is like the captain on this ehh...space..ship.. and ehh he yells khan a lot...",
+            "Movie Idea #28: Adam Sandler... has to play drums in this eh.. jazz band but he doesnt know if he is rushing or dragging...",
+            "Movie Idea #29: Adam Sandler.. is hungry.. so he plays some games... to get his food stamps...",
+            "Movie Idea #30: Adam Sandler.. is this dictator who fancies some girl who works in like some wholefoods place.. so he decides to not be a dictator and stuff..",
+            "Movie Idea #31: Adam Sandler and his friend makes a TV show called Adam's World but is not allowed to play stairway in the guitar shop... and stuff...",
+            "Movie Idea #34.249.184.154: Adam Sandler... has to make money through patreon to fund the servers....  https://www.patreon.com/awesomo ..not selling out at all...",
+            "Movie Idea #69: Adam Sandler is the new kid in a small town in.. eh.. Colorado.. and he has to deal with these 8-year olds and stuff...",
+            "Movie Idea #2305: Adam Sandler is trapped on an island... and falls in love with a ehh coconut",
+            ];
+            const random = movieideas[Math.floor(Math.random()*movieideas.length)];
+            message.reply(random);
+        } 
+    },
+    {
+        trigger: "helpline",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            message.channel.send("https://www.reddit.com/r/suicideprevention/comments/6hjba7/info_suicide_prevention_hotlines/");
+        } 
+    },
+    {
+        trigger: "oof",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            const random = Math.floor(Math.random() * Math.floor(5));
+            if (random == 0){
+                message.reply("https://www.youtube.com/watch?v=KWHrGQpIWP4");
+                return;
+            }
+            message.reply("https://www.youtube.com/watch?v=f49ELvryhao");
+        } 
+    },
+    {
+        trigger: "info",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            message.channel.send(embeds.info());
+        } 
+    },
+
+
+
+    //Mod Abuse
+    {
+        trigger: "fuckyourself",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            const embed = new discord.RichEmbed()
+            .setImage("http://1.images.southparkstudios.com/blogs/southparkstudios.com/files/2014/09/1801_5a.gif");
+        message.channel.send(embed);
+        } 
+    },
+    {
+        trigger: "fuckyou",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            const embed = new discord.RichEmbed()
+                .setImage("https://cdn.vox-cdn.com/thumbor/J0D6YqKKwCqNY2zaej_MEUlT-oo=/3x0:1265x710/1600x900/cdn.vox-cdn.com/uploads/chorus_image/image/39977666/fuckyou.0.0.jpg");
+            message.channel.send(embed);
+        } 
+    },
+    {
+        trigger: "dick",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            const embed = new discord.RichEmbed()
+                .setImage("https://actualconversationswithmyhusband.files.wordpress.com/2017/01/stop-being-a-dick-scott.gif");
+            message.channel.send(embed);
+        } 
+    },
 ];
 
 class Command {
@@ -489,7 +708,7 @@ class Command {
 
         switch(base.type) {
             case "command":
-                return message.content.toLowerCase().startsWith(prefix + base.trigger.toLowerCase());
+                return message.content.split(" ")[0].toLowerCase() == (prefix + base.trigger.toLowerCase());
                 break;
             case "startswith":
                 return message.content.toLowerCase().startsWith(base.trigger.toLowerCase());
