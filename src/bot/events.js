@@ -662,6 +662,23 @@ const commands = [
             message.channel.send(embeds.info());
         } 
     },
+    {
+        trigger: "help",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            message.channel.send(embeds.help());
+        } 
+    },
+    {
+        trigger: "harvest",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            message.channel.send(embeds.harvest());
+        } 
+    },
+    
 
 
 
