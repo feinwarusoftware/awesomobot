@@ -2,8 +2,9 @@
 
 const discord = require("discord.js");
 const timers = require("timers");
-const embeds = require("./embeds");
+const jimp = require("jimp");
 
+const embeds = require("./embeds");
 const spnav = require("./spnav");
 
 const Server = require("../common/models/server");
@@ -914,6 +915,62 @@ const commands = [
             message.channel.send(embed);
         } 
     },
+
+    // Jimp.
+    {
+        trigger: "nk",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+
+            const args = message.content.split(" ");
+    
+            var target = "";
+            for (var i = 1; i < args.length; i++) {
+                target += args[i] + " ";
+            }
+            target = target.trim();
+    
+            var targetMember = message.guild.members.find(e => {
+                return e.user.username == target;
+            });
+    
+            if (!targetMember) {
+    
+                targetMember = message.guild.members.find(e => {
+                    return e.user.id == target;
+                });
+    
+                if (!targetMember) {
+                    message.reply("User not found!");
+                    return;
+                }
+            }
+
+            Promise.all([jimp.read("https://cdn.discordapp.com/avatars/" + targetMember.user.id + "/" + targetMember.user.avatar + ".png?size=128"), jimp.read("./src/bot/assets/label.png")]).then(values => {
+                
+                const avatar = values[0];
+                const tLabel = values[1];
+            
+                avatar.mask(jMask, 0, 0);
+                tLabel.print(jFont, 0, 10, targetMember.user.username);
+
+                avatar.rotate(-5);
+                tLabel.rotate(-5);
+
+                jBase.composite(avatar, 635, 260);
+                jBase.composite(tLabel, 775, 260);
+
+                jBase.write("./temp.png", () => {
+                    message.channel.send({ file: "./temp.png" });
+                });
+
+            }).catch(err => {
+
+                message.reply("Error loading images!");
+            });
+        }
+    }
 ];
 
 class Command {
@@ -1285,13 +1342,31 @@ client.on("presenceUpdate", (oldMember, newMember) => {
 
 });
 
+// Jimp shit.
+let jBase, jMask, jFont;
+
 // Emitted when the client becomes ready to start working.
 client.on("ready", () => {
 
+    // get ep list.
     spnav.getEpList((list) => {
         eplist = list;
+        console.log("DEBUG >> Loaded [" + list.length + "] episodes.");
     });
 
+    // Load jimp images.
+    Promise.all([jimp.read("./src/bot/assets/base.png"), jimp.read("./src/bot/assets/mask.png"), jimp.loadFont("./src/bot/assets/helvetica-light.fnt")]).then(values => {
+        jBase = values[0];
+        jMask = values[1];
+        jFont = values[2];
+
+        console.log("DEBUG >> Loaded [" + "3" + "] assets.");
+    }).catch(err => {
+
+        console.log("ERROR >> Failed to load assets.");
+    });
+
+    // Get server from db.
     const ourServerId = "371762864790306817";
     Server.findById(ourServerId, (err, server) => {
         if (err) {
@@ -1310,10 +1385,9 @@ client.on("ready", () => {
 
         if (!found) {
             servers.push(server);
+            console.log("DEBUG >> Fetched [" + "1" + "] servers.");
         }
     });
-
-    console.log("DEBUG >> ready!");
 
     const interval = 300000;
     timers.setInterval(() => {
