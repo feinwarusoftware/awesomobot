@@ -890,6 +890,22 @@ const commands = [
             message.reply(message.member.nickname + " is no longer part of a group");
         }
     },
+    {
+        trigger: "hmmm",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            const random = Math.floor(Math.random() * Math.floor(5));
+            if (random == 0){
+                message.reply("https://youtu.be/XF2ayWcJfxo?t=1m20s");
+                return;
+            }
+            message.reply("Things that make you go :thinking::thinking::thinking:");
+        } 
+    },
+
+
+
     // legacy role commands.
     {
         trigger: prefix + "add",
