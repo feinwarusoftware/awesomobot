@@ -1530,116 +1530,7 @@ let jBase, jMask, jFont;
 
 // Emitted when the client becomes ready to start working.
 client.on("ready", () => {
-
-    // get ep list.
-    spnav.getEpList((list) => {
-        eplist = list;
-        console.log("DEBUG >> Loaded [" + list.length + "] episodes.");
-    });
-
-    // Load jimp images.
-    Promise.all([jimp.read("./src/bot/assets/base.png"), jimp.read("./src/bot/assets/mask.png"), jimp.loadFont("./src/bot/assets/helvetica-light.fnt")]).then(values => {
-        jBase = values[0];
-        jMask = values[1];
-        jFont = values[2];
-
-        console.log("DEBUG >> Loaded [" + "3" + "] assets.");
-    }).catch(err => {
-
-        console.log("ERROR >> Failed to load assets.");
-    });
-
-    // Get server from db.
-    const ourServerId = "371762864790306817";
-    Server.findById(ourServerId, (err, server) => {
-        if (err) {
-            console.log("1 >> THE DB IS BROKEN, WERE ALL FUCKED!");
-            return;
-        }
-
-        var found = false;
-        for (var i = 0; i < servers.length; i++) {
-            if (servers[i]._id == server._id) {
-
-                found = true;
-                servers[i] = server;
-            }
-        }
-
-        if (!found) {
-            servers.push(server);
-            console.log("DEBUG >> Fetched [" + "1" + "] servers.");
-        }
-    });
-
-    const interval = 300000;
-    timers.setInterval(() => {
-
-        // activity
-        for (let i = 0; i < servers[0].members.length; i++) {
-            for (let j = 0; j < servers[0].members[i].stats.length; j++) {
-                if (servers[0].members[i].stats[j].name == "activity") {
-                    servers[0].members[i].stats[j].lastmsg += 1;
-                    if (servers[0].members[i].stats[j].lastmsg >= 576) {
-                        servers[0].members[i].stats[j].value -= (Math.log10(servers[0].members[i].stats[j].lastmsg - 575) * 70) / 288;
-                    }
-                    if (servers[0].members[i].stats[j].value < 0) {
-                        servers[0].members[i].stats[j].value = 0;
-                    }
-                }
-            }
-        }
-
-        Server.findById(ourServerId, (err, server) => {
-            if (err) {
-                console.log("2 >> THE DB IS BROKEN, WERE ALL FUCKED!");
-                return;
-            }
-
-            let found = false;
-            for (var i = 0; i < servers.length; i++) {
-                if (servers[i]._id == server._id) {
-    
-                    found = true;
-
-                    // Convert old json storage and save in db.
-                    /*
-                    const members = [];
-                    for (var j = 0; j < temp.list.length; j++) {
-                        members.push({
-                            id: temp.list[j].id,
-                            name: temp.list[j].name,
-                            stats: [
-                                {
-                                    name: "shits",
-                                    value: temp.list[j].shits
-                                },
-                                {
-                                    name: "activity",
-                                    value: temp.list[j].activity
-                                }
-                            ]
-                        });
-                    }
-                    */
-
-                    server.members = servers[i].members;
-                    server.stats = servers[i].stats;
-                }
-            }
-    
-            if (!found) {
-                console.log("3 >> THE DB IS BROKEN, WERE ALL FUCKED!");
-            }
-
-            server.save(err => {
-                if (err) {
-                    console.log("4 >> THE DB IS BROKEN, WERE ALL FUCKED!");
-                }
-            });
-        });
-
-    }, interval);
+    console.log("Bot ready!");
 });
 
 // Emitted whenever the client tries to reconnect to the WebSocket.
@@ -1697,4 +1588,129 @@ client.on("warn", info => {
 
 });
 
-module.exports = client;
+function loadAssets(cb) {
+
+    // Load the db first.
+    const ourServerId = "371762864790306817";
+    Server.findById(ourServerId, (err, server) => {
+        if (err) {
+            console.log("1 >> THE DB IS BROKEN, WERE ALL FUCKED!");
+            cb("error!");
+            return;
+        }
+
+        var found = false;
+        for (var i = 0; i < servers.length; i++) {
+            if (servers[i]._id == server._id) {
+
+                found = true;
+                servers[i] = server;
+            }
+        }
+
+        if (!found) {
+            servers.push(server);
+            console.log("DEBUG >> Fetched [" + "1" + "] servers.");
+        }
+
+        // Then load assets.
+        Promise.all([jimp.read("./src/bot/assets/base.png"), jimp.read("./src/bot/assets/mask.png"), jimp.loadFont("./src/bot/assets/helvetica-light.fnt")]).then(values => {
+            jBase = values[0];
+            jMask = values[1];
+            jFont = values[2];
+    
+            console.log("DEBUG >> Loaded [" + "3" + "] assets.");
+
+            // And finally load the ep list.
+            spnav.getEpList((list) => {
+                eplist = list;
+                console.log("DEBUG >> Loaded [" + list.length + "] episodes.");
+
+                // Set up db sve interval.
+                const interval = 300000;
+                timers.setInterval(() => {
+            
+                    // activity
+                    for (let i = 0; i < servers[0].members.length; i++) {
+                        for (let j = 0; j < servers[0].members[i].stats.length; j++) {
+                            if (servers[0].members[i].stats[j].name == "activity") {
+                                servers[0].members[i].stats[j].lastmsg += 1;
+                                if (servers[0].members[i].stats[j].lastmsg >= 576) {
+                                    servers[0].members[i].stats[j].value -= (Math.log10(servers[0].members[i].stats[j].lastmsg - 575) * 70) / 288;
+                                }
+                                if (servers[0].members[i].stats[j].value < 0) {
+                                    servers[0].members[i].stats[j].value = 0;
+                                }
+                            }
+                        }
+                    }
+            
+                    Server.findById(ourServerId, (err, server) => {
+                        if (err) {
+                            console.log("2 >> THE DB IS BROKEN, WERE ALL FUCKED!");
+                            return;
+                        }
+            
+                        let found = false;
+                        for (var i = 0; i < servers.length; i++) {
+                            if (servers[i]._id == server._id) {
+                
+                                found = true;
+            
+                                // Convert old json storage and save in db.
+                                /*
+                                const members = [];
+                                for (var j = 0; j < temp.list.length; j++) {
+                                    members.push({
+                                        id: temp.list[j].id,
+                                        name: temp.list[j].name,
+                                        stats: [
+                                            {
+                                                name: "shits",
+                                                value: temp.list[j].shits
+                                            },
+                                            {
+                                                name: "activity",
+                                                value: temp.list[j].activity
+                                            }
+                                        ]
+                                    });
+                                }
+                                */
+            
+                                server.members = servers[i].members;
+                                server.stats = servers[i].stats;
+                            }
+                        }
+                
+                        if (!found) {
+                            console.log("3 >> THE DB IS BROKEN, WERE ALL FUCKED!");
+                        }
+            
+                        server.save(err => {
+                            if (err) {
+                                console.log("4 >> THE DB IS BROKEN, WERE ALL FUCKED!");
+                            }
+                        });
+                    });
+            
+                }, interval);
+
+                // Cb if successfull.
+
+                cb();
+            });
+
+        }).catch(err => {
+    
+            console.log("ERROR >> Failed to load assets.");
+            cb("error!");
+            return;
+        });
+    });
+}
+
+module.exports = {
+    client,
+    loadAssets   
+};
