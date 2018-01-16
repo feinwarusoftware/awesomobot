@@ -1039,13 +1039,6 @@ const commands = [
                         }
     
                         message.channel.send(resEmbed);
-
-                        for (let  i = 0; i < polls.length; i++) {
-                            if (polls[i].id == message.id) {
-                                polls.splice(i, 1);
-                                break;
-                            }
-                        }
                     }
 
                     for (let  i = 0; i < polls.length; i++) {
