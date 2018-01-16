@@ -3,6 +3,7 @@
 const discord = require("discord.js");
 const timers = require("timers");
 const jimp = require("jimp");
+const randomstring = require("randomstring");
 
 const embeds = require("./embeds");
 const spnav = require("./spnav");
@@ -260,6 +261,19 @@ class PermissionGroup {
         return this.json;
     }
 }
+
+let polls = [];
+const emoji = {
+    1: "1⃣",
+    2: "2⃣",
+    3: "3⃣",
+    4: "4⃣",
+    5: "5⃣",
+    6: "6⃣",
+    7: "7⃣",
+    8: "8⃣",
+    9: "9⃣",
+};
 
 var globPerms = new PermissionGroup(glob);
 var localPerms = new PermissionGroup(local);
@@ -914,6 +928,182 @@ const commands = [
                 .setImage("https://actualconversationswithmyhusband.files.wordpress.com/2017/01/stop-being-a-dick-scott.gif");
             message.channel.send(embed);
         } 
+    },
+    {
+        trigger: "poll",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            const args = message.content.split(" ");
+            if (!args[1]) {
+                return;
+            }
+            //-poll [This is question 1, This is question 2]
+            //-poll [This is question 1 :heart:, This is question 2 :bell:] 01:00:00
+
+            let qs = "";
+            let pn = "";
+            let bs = false, jbe = false, be = false, tt = false;
+            for (let i = 1; i < args.length; i++) {
+                if (args[i].indexOf("[") != -1) {
+                    bs = true;
+                }
+                if (jbe) {
+                    be = true;
+                }
+                if (args[i].indexOf("]") != -1) {
+                    jbe = true;
+                }
+
+                if (bs && !be && pn != "") {
+                    tt = true;
+                }
+
+                if (bs && !be) {
+                    qs += args[i] + " ";
+                }
+                if (!tt && !bs) {
+                    pn += args[i] + " ";
+                }
+                if (!tt && be) {
+                    pn += args[i] + " ";
+                }
+            }
+            qs = qs.trim();
+            pn = pn.trim();
+
+            let q = [];
+            let s, e = 1;
+            while(true) {
+                s = qs.indexOf(",", e);
+                if (s == -1) {
+                    s = qs.indexOf("]", e);
+                    if (s == -1) {
+                        break;;
+                    }
+                }
+                q.push(qs.substring(s, e).trim());
+                e = s + 1;
+            }
+
+            const embed = new discord.RichEmbed();
+            embed.setColor(0x8bc34a);
+            embed.setAuthor("AWESOM-O // " + pn + " (30 mins)", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
+
+            for (let i = 0; i < q.length; i++) {
+                embed.addField("Vote " + (i + 1), q[i]);
+            }
+
+            message.channel.send(embed).then(message => {
+
+                polls.push({
+                    id: message.id,
+                    message: message,
+                    q: q
+                });
+
+                const moreEmoji = function(limit, current) {
+                    if (current == limit) {
+                        return;
+                    }
+                    message.react(emoji[current + 1]).then(message => {
+                        moreEmoji(limit, current + 1);
+                    });
+                }
+                
+                moreEmoji(q.length, 0);
+
+                const timeout = 1800000;
+                timers.setTimeout(() => {
+
+                    if (!polls.find(e => {
+                        return e.id == message.id;
+                    })) {
+
+                        let res = [];
+                        for (let i = 0; i < q.length; i++) {
+                            const react = message.reactions.get(emoji[i + 1]);
+                            if (!react) {
+                                res.push(0);
+                                continue;
+                            }
+                            res.push(react.count - 1);
+                        }
+                        
+                        const resEmbed = new discord.RichEmbed();
+                        resEmbed.setColor(0x8bc34a);
+                        resEmbed.setAuthor("AWESOM-O // Poll results!", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
+                        
+                        for (let i = 0; i < q.length; i++) {
+                            resEmbed.addField(q[i], res[i] + " votes");
+                        }
+    
+                        message.channel.send(resEmbed);
+
+                        for (let  i = 0; i < polls.length; i++) {
+                            if (polls[i].id == message.id) {
+                                polls.splice(i, 1);
+                                break;
+                            }
+                        }
+                    }
+
+                    for (let  i = 0; i < polls.length; i++) {
+                        if (polls[i].id == message.id) {
+                            polls.splice(i, 1);
+                            break;
+                        }
+                    }
+            
+                }, timeout);
+            });
+        }
+    },
+    {
+        trigger: "endpoll",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            const args = message.content.split(" ");
+            if (!args[1]) {
+                return;
+            }
+
+            const poll = polls.find(e => {
+                return e.id == args[1];
+            });
+            if (!poll) {
+                return;
+            }
+
+            let res = [];
+            for (let i = 0; i < poll.q.length; i++) {
+                const react = poll.message.reactions.get(emoji[i + 1]);
+                if (!react) {
+                    res.push(0);
+                    continue;
+                }
+                res.push(react.count - 1);
+            }
+            
+            const resEmbed = new discord.RichEmbed();
+            resEmbed.setColor(0x8bc34a);
+            resEmbed.setAuthor("AWESOM-O // Poll results!", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
+            
+            for (let i = 0; i < poll.q.length; i++) {
+                resEmbed.addField(poll.q[i], res[i] + " votes");
+            }
+
+            message.channel.send(resEmbed);
+        }
+    },
+    {
+        trigger: "wink",
+        type: "command",
+        perms: permJson,
+        exec: function(message) {
+            message.reply("**wonk**");
+        }
     },
 
     // Jimp.
