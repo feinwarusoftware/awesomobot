@@ -453,6 +453,35 @@ function search(options, callback) {
         callback(data);
     });
 }
+// TEMP
+function searchP(options) {
+    return new Promise((resolve, reject) => {
+        var query = utils.opt(options, "query", "");
+        var type = utils.opt(options, "type", "");
+        var rank = utils.opt(options, "rank", "");
+        var limit = utils.opt(options, "limit", 25);
+        var minArticleQuality = utils.opt(options, "minArticleQuality", 10);
+        var batch = utils.opt(options, "batch", 1);
+        var namespaces = utils.opt(options, "namespaces", "0,14");
+        if (query == "") {
+            reject("Query not specified!");
+        }
+        // /Search/List
+        rquest.performRequest(host, api + "/Search/List", "GET", {
+            query: query,
+            type: type,
+            rank: rank,
+            limit: limit,
+            minArticleQuality: minArticleQuality,
+            batch: batch,
+            namespaces: namespaces,
+            
+        }, function(data) {
+            resolve(data);
+        });
+    });
+}
+//
 
 /**
  * Find suggested phrases for chosen query.
@@ -521,4 +550,6 @@ module.exports = {
     searchSuggestions,
     userDetails,
 
+    //TEMP
+    searchP
 }

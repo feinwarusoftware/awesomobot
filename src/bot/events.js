@@ -339,8 +339,6 @@ const pNkJson = pNkPerms.inherit(pGlobPerms).inherit(pModPerms).inherit(pDevPerm
 const pModJson = pModPerms.inherit(pGlobPerms).inherit(pDevPerms).get();
 const pDevJson = pDevPerms.inherit(pGlobPerms).get();
 
-console.log(pModJson);
-
 const commands = [
     {
         trigger: "test",
@@ -1283,42 +1281,48 @@ class Command {
         server = perms.server;
 
         // Channel.
-        for (let i = 0; i < perms.channels.length; i++) {
-            if (perms.channels[i].id == "*") {
-                channel = perms.channels[i].allow;
+        if (perms.channels) {
+            for (let i = 0; i < perms.channels.length; i++) {
+                if (perms.channels[i].id == "*") {
+                    channel = perms.channels[i].allow;
+                }
             }
-        }
-        for (let i = 0; i < perms.channels.length; i++) {
-            if (perms.channels[i].id == message.channel.id) {
-                channel = perms.channels[i].allow;
+            for (let i = 0; i < perms.channels.length; i++) {
+                if (perms.channels[i].id == message.channel.id) {
+                    channel = perms.channels[i].allow;
+                }
             }
         }
 
         // Roles.
-        for (let i = 0; i < perms.roles.length; i++) {
-            if (perms.roles[i].id == "*") {
-                roles = perms.roles[i].allow;
-            }
-        }
-        for (let i = 0; i < perms.roles.length; i++) {
-            if (message.member.roles.get(perms.roles[i].id)) {
-                if (!perms.roles[i].allow) {
-                    roles = false;
-                    break;
+        if (perms.roles) {
+            for (let i = 0; i < perms.roles.length; i++) {
+                if (perms.roles[i].id == "*") {
+                    roles = perms.roles[i].allow;
                 }
-                roles = true;
+            }
+            for (let i = 0; i < perms.roles.length; i++) {
+                if (message.member.roles.get(perms.roles[i].id)) {
+                    if (!perms.roles[i].allow) {
+                        roles = false;
+                        break;
+                    }
+                    roles = true;
+                }
             }
         }
 
         // Member.
-        for (let i = 0; i < perms.members.length; i++) {
-            if (perms.members[i].id == "*") {
-                member = perms.members[i].allow;
+        if (perms.members) {
+            for (let i = 0; i < perms.members.length; i++) {
+                if (perms.members[i].id == "*") {
+                    member = perms.members[i].allow;
+                }
             }
-        }
-        for (let i = 0; i < perms.members.length; i++) {
-            if (perms.members[i].id == message.member.id) {
-                member = perms.members[i].allow;
+            for (let i = 0; i < perms.members.length; i++) {
+                if (perms.members[i].id == message.member.id) {
+                    member = perms.members[i].allow;
+                }
             }
         }
 
