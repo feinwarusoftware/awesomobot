@@ -141,6 +141,7 @@ let eplist = [];
 // TEMP
 const prefix = "<<";
 
+//
 const glob = {
     server: true,
     channels: [],
@@ -148,14 +149,60 @@ const glob = {
     members: [],
     stats: []
 };
-
 const local = {
     server: true,
     channels: [],
     roles: [],
     members: [],
     stats: []
+};
+//
+
+const pGlob = {
+    server: true
+};
+
+const pNk = {
+    server: true,
+    roles: [
+        {
+            id: "*",
+            allow: false
+        },
+        {
+            id: "375413987338223616",
+            allow: true
+        }
+    ]
 }
+
+const pMod = {
+    server: true,
+    roles: [
+        {
+            id: "*",
+            allow: false
+        },
+        {
+            id: "372409853894983690",
+            allow: true
+        }
+    ]
+};
+
+const pDev = {
+    server: true,
+    roles: [
+        {
+            id: "*",
+            allow: false
+        },
+        {
+            id: "378287077806309386",
+            allow: true
+        }
+    ]
+};
 
 class PermissionGroup {
     constructor(json) {
@@ -176,8 +223,8 @@ class PermissionGroup {
         }
         var channels = base.channels.slice();
 
-        found = false;
         for (var i = 0; i < (inherit.channels ? inherit.channels.length : 0); i++) {
+            found = false;
             for (var j = 0; j < (base.channels ? base.channels.length : 0); j++) {
                 if (inherit.channels[i].id == base.channels[j].id) {
                     channels[j].allow = (inherit.channels[i].allow && base.channels[j].allow) || base.channels[j].allow,
@@ -195,8 +242,8 @@ class PermissionGroup {
         }
         var roles = base.roles.slice();
 
-        found = false;
         for (var i = 0; i < (inherit.roles ? inherit.roles.length : 0); i++) {
+            found = false;
             for (var j = 0; j < (base.roles ? base.roles.length : 0); j++) {
                 if (inherit.roles[i].id == base.roles[j].id) {
                     roles[j].allow = (inherit.roles[i].allow && base.roles[j].allow) || base.roles[j].allow,
@@ -214,8 +261,8 @@ class PermissionGroup {
         }
         var members = base.members.slice();
 
-        found = false;
         for (var i = 0; i < (inherit.members ? inherit.members.length : 0); i++) {
+            found = false;
             for (var j = 0; j < (base.members ? base.members.length : 0); j++) {
                 if (inherit.members[i].id == base.members[j].id) {
                     members[j].allow = (inherit.members[i].allow && base.members[j].allow) || base.members[j].allow,
@@ -275,16 +322,30 @@ const emoji = {
     9: "9⃣",
 };
 
+//
 var globPerms = new PermissionGroup(glob);
 var localPerms = new PermissionGroup(local);
 
 const permJson = (localPerms.inherit(globPerms)).get();
+//
+
+const pGlobPerms = new PermissionGroup(pGlob);
+const pNkPerms = new PermissionGroup(pNk);
+const pModPerms = new PermissionGroup(pMod);
+const pDevPerms = new PermissionGroup(pDev);
+
+const pGlobJson = pGlobPerms.get();
+const pNkJson = pNkPerms.inherit(pGlobPerms).inherit(pModPerms).inherit(pDevPerms).get();
+const pModJson = pModPerms.inherit(pGlobPerms).inherit(pDevPerms).get();
+const pDevJson = pDevPerms.inherit(pGlobPerms).get();
+
+console.log(pModJson);
 
 const commands = [
     {
         trigger: "test",
         type: "command",
-        perms: permJson,
+        perms: pDevJson,
         exec: function(message) {
             console.log(servers[0]);
             message.reply("m: " + servers[0].members.length + ", s: " + servers[0].stats.length);
@@ -293,7 +354,7 @@ const commands = [
     {
         trigger: "shitme",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             const member = servers[0].members.find(e => { return e.id == message.author.id });
             if (!member) {
@@ -311,7 +372,7 @@ const commands = [
     {
         trigger: "shitval",
         type: "command",
-        perms: permJson,
+        perms: pModJson,
         exec: function(message) {
             const args = message.content.split(" ");
             if (!args[1]) {
@@ -337,7 +398,7 @@ const commands = [
     {
         trigger: "shitlist",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
 
             let rem = 0;
@@ -370,7 +431,7 @@ const commands = [
     {
         trigger: "activeme",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             const member = servers[0].members.find(e => { return e.id == message.author.id });
             if (!member) {
@@ -388,7 +449,7 @@ const commands = [
     {
         trigger: "activeval",
         type: "command",
-        perms: permJson,
+        perms: pModJson,
         exec: function(message) {
             const args = message.content.split(" ");
             if (!args[1]) {
@@ -414,7 +475,7 @@ const commands = [
     {
         trigger: "activelist",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             servers[0].members.sort((a, b) => {
                 const sa = a.stats.find(e => { return e.name == "activity" });
@@ -442,7 +503,7 @@ const commands = [
     {
         trigger: "w",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
 
             const args = message.content.split(" ");
@@ -474,7 +535,7 @@ const commands = [
     {
         trigger: "random",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             
             const query = eplist[Math.floor(Math.random()*eplist.length)];
@@ -495,7 +556,7 @@ const commands = [
     {
         trigger: "avatar",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             const random = Math.floor(Math.random() * Math.floor(5));
             if (random == 0){
@@ -509,7 +570,7 @@ const commands = [
     {
         trigger: "sub",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             const random = Math.floor(Math.random() * Math.floor(5));
             if (random == 0){
@@ -522,7 +583,7 @@ const commands = [
     {
         trigger: "micro",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             message.delete()
             message.channel.send("", { file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png" });
@@ -531,7 +592,7 @@ const commands = [
     {
         trigger: "microaggression",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             message.delete()
             message.channel.send("", { file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png" });
@@ -540,7 +601,7 @@ const commands = [
     {
         trigger: "reminder",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             message.channel.send("", { file: "https://cdn.discordapp.com/attachments/378287210711220224/378648515959586816/Towelie_Logo2.png" });
         } 
@@ -548,7 +609,7 @@ const commands = [
     {
         trigger: "welcome",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             message.channel.send("", { file: "https://cdn.discordapp.com/attachments/371762864790306820/378305844959248385/Welcome.png" });
         } 
@@ -556,7 +617,7 @@ const commands = [
     {
         trigger: "f",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             const random = Math.floor(Math.random() * Math.floor(3));
             if (random == 0){
@@ -569,7 +630,7 @@ const commands = [
     {
         trigger: "times",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             message.channel.send(embeds.times());
         } 
@@ -577,7 +638,7 @@ const commands = [
     {
         trigger: "batman",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             message.channel.send("", { file: "https://cdn.discordapp.com/attachments/379432139856412682/401498015719882752/batman.png" });
         } 
@@ -585,7 +646,7 @@ const commands = [
     {
         trigger: "member",
         type: "startswith",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             const membermessages = ["I member!", "Ohh yeah I member!", "Me member!", "Ohh boy I member that", "I member!, do you member?"];
             const random = membermessages[Math.floor(Math.random()*membermessages.length)];
@@ -595,7 +656,7 @@ const commands = [
     {
         trigger: "i broke the dam",
         type: "startswith",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             message.reply("No, I broke the dam");
         } 
@@ -606,7 +667,7 @@ const commands = [
     {
         trigger: "movieidea",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             const movieideas = [
             "Movie Idea #01: Adam Sandler... is like in love with some girl.. but then it turns out that the girl is actually a golden retriever or something..", 
@@ -651,7 +712,7 @@ const commands = [
     {
         trigger: "helpline",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             message.channel.send("https://www.reddit.com/r/suicideprevention/comments/6hjba7/info_suicide_prevention_hotlines/");
         } 
@@ -659,7 +720,7 @@ const commands = [
     {
         trigger: "oof",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             const random = Math.floor(Math.random() * Math.floor(5));
             if (random == 0){
@@ -672,7 +733,7 @@ const commands = [
     {
         trigger: "info",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             message.channel.send(embeds.info());
         } 
@@ -680,7 +741,7 @@ const commands = [
     {
         trigger: "help",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             message.channel.send(embeds.help());
         } 
@@ -688,7 +749,7 @@ const commands = [
     {
         trigger: "harvest",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             message.channel.send(embeds.harvest());
         } 
@@ -696,7 +757,7 @@ const commands = [
     {
         trigger: "ground",
         type: "command",
-        perms: permJson,
+        perms: pModJson,
         exec: function(message) {
             const role = message.guild.roles.find(e => { return e.name == "Grounded"; });
             if (!role) {
@@ -723,7 +784,7 @@ const commands = [
     {
         trigger: "unground",
         type: "command",
-        perms: permJson,
+        perms: pModJson,
         exec: function(message) {
             const role = message.guild.roles.find(e => { return e.name == "Grounded"; });
             if (!role) {
@@ -750,7 +811,7 @@ const commands = [
     {
         trigger: "join",
         type: "command",
-        perms: permJson,
+        perms: pNkJson,
         exec: function(message) {
             const args = message.content.split(" ");
             if (!args[1]) {
@@ -813,7 +874,7 @@ const commands = [
     {
         trigger: "civilwar",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             let mcf = message.member.roles.find(e => { return e.name == "Coon & Friends"; });
             let mfp = message.member.roles.find(e => { return e.name == "Freedom Pals"; });
@@ -835,7 +896,7 @@ const commands = [
     {
         trigger: prefix + "add",
         type: "startswith",
-        perms: permJson,
+        perms: pNkJson,
         exec: function(message) {
             const args = message.content.split("add");
             if (!args[1]) {
@@ -902,7 +963,7 @@ const commands = [
     {
         trigger: "fuckyourself",
         type: "command",
-        perms: permJson,
+        perms: pModJson,
         exec: function(message) {
             const embed = new discord.RichEmbed()
             .setImage("http://1.images.southparkstudios.com/blogs/southparkstudios.com/files/2014/09/1801_5a.gif");
@@ -912,7 +973,7 @@ const commands = [
     {
         trigger: "fuckyou",
         type: "command",
-        perms: permJson,
+        perms: pModJson,
         exec: function(message) {
             const embed = new discord.RichEmbed()
                 .setImage("https://cdn.vox-cdn.com/thumbor/J0D6YqKKwCqNY2zaej_MEUlT-oo=/3x0:1265x710/1600x900/cdn.vox-cdn.com/uploads/chorus_image/image/39977666/fuckyou.0.0.jpg");
@@ -922,7 +983,7 @@ const commands = [
     {
         trigger: "dick",
         type: "command",
-        perms: permJson,
+        perms: pModJson,
         exec: function(message) {
             const embed = new discord.RichEmbed()
                 .setImage("https://actualconversationswithmyhusband.files.wordpress.com/2017/01/stop-being-a-dick-scott.gif");
@@ -932,7 +993,7 @@ const commands = [
     {
         trigger: "poll",
         type: "command",
-        perms: permJson,
+        perms: pModJson,
         exec: function(message) {
             const args = message.content.split(" ");
             if (!args[1]) {
@@ -1055,7 +1116,7 @@ const commands = [
     {
         trigger: "endpoll",
         type: "command",
-        perms: permJson,
+        perms: pModJson,
         exec: function(message) {
             const args = message.content.split(" ");
             if (!args[1]) {
@@ -1093,9 +1154,35 @@ const commands = [
     {
         trigger: "wink",
         type: "command",
-        perms: permJson,
+        perms: pGlobJson,
         exec: function(message) {
             message.reply("**wonk**");
+        }
+    },
+
+    // Dev
+    {
+        trigger: "rid",
+        type: "command",
+        perms: pDevJson,
+        exec: function(message) {
+            const args = message.content.split(" ");
+            if (!args[1]) {
+                return;
+            }
+
+            let search = "";
+            for (let i = 1; i < args.length; i++) {
+                search += args[i] + " ";
+            }
+            search = search.trim();
+
+            const role = message.guild.roles.find(e => { return e.name == search });
+            if (!role) {
+                return;
+            }
+
+            message.reply(role.id);
         }
     },
 
@@ -1103,7 +1190,7 @@ const commands = [
     {
         trigger: "nk",
         type: "command",
-        perms: permJson,
+        perms: pModJson,
         exec: function(message) {
 
             const args = message.content.split(" ");
@@ -1588,6 +1675,8 @@ client.on("warn", info => {
 
 });
 
+// Warning! Callback hell incoming!
+// Achtung - warnings are best done in German!
 function loadAssets(cb) {
 
     // Load the db first.
