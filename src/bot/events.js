@@ -1221,6 +1221,13 @@ const commands = [
         type: "command",
         perms: pGlobJson,
         exec: function(message) {
+
+            const random = Math.floor(Math.random() * Math.floor(5));
+            if (random == 0){
+                message.reply("https://pbs.twimg.com/profile_images/650952807449653248/lQc14tHw.jpg");
+                return;
+            }
+
             const args = message.content.split(" ");
             if (!args[1]) {
 
@@ -1248,14 +1255,6 @@ const commands = [
                 res = "scissors";
             }
             message.reply(res);
-        }
-    },
-    {
-        trigger: "membercount",
-        type: "command",
-        perms: pGlobJson,
-        exec: function(message) {
-            message.reply(message.guild.memberCount);
         }
     },
 
