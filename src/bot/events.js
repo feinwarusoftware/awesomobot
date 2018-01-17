@@ -1064,6 +1064,7 @@ const commands = [
             const embed = new discord.RichEmbed();
             embed.setColor(0x8bc34a);
             embed.setAuthor("AWESOM-O // " + pn + " (30 mins)", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
+            embed.setThumbnail("http://www.clker.com/cliparts/A/q/4/W/q/L/bar-chart-md.png");
 
             for (let i = 0; i < q.length; i++) {
                 embed.addField("Vote " + (i + 1), q[i]);
@@ -1108,7 +1109,8 @@ const commands = [
                         const resEmbed = new discord.RichEmbed();
                         resEmbed.setColor(0x8bc34a);
                         resEmbed.setAuthor("AWESOM-O // Poll results!", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
-                        
+                        embed.setThumbnail("http://www.clker.com/cliparts/A/q/4/W/q/L/bar-chart-md.png");
+
                         for (let i = 0; i < q.length; i++) {
                             resEmbed.addField(q[i], res[i] + " votes");
                         }
