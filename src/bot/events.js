@@ -583,7 +583,7 @@ const commands = [
         type: "command",
         perms: pGlobJson,
         exec: function(message) {
-            message.delete()
+            message.delete();
             message.channel.send("", { file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png" });
         } 
     },
@@ -592,7 +592,7 @@ const commands = [
         type: "command",
         perms: pGlobJson,
         exec: function(message) {
-            message.delete()
+            message.delete();
             message.channel.send("", { file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png" });
         } 
     },
@@ -1327,184 +1327,44 @@ const commands = [
             message.reply(res);
         }
     },
-
     // Gifs incoming!
     {
-        trigger: "vchipgif",
+        trigger: "gif",
         type: "command",
-        perms: pDevJson,
+        perms: pGlobJson,
         exec: function(message) {
-            message.delete();
-            const embed = new discord.RichEmbed()
-                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242859798462485/vchipgif.gif");
+            const map = ["vchip", "buttersgun", "buttersdance", "kennydance", "meeem", "cartmandance", "slapgif", "zimmerman", "nice", "triggered", "cartmansmile", "stanninja", "kylethinking", "ninjastar", "cartmaninvisible", "stanpuking"];
+            const gifs = {
+                vchip: "https://cdn.discordapp.com/attachments/209040403918356481/403242859798462485/vchipgif.gif",
+                buttersgun: "https://cdn.discordapp.com/attachments/209040403918356481/403242745436831745/buttersgunguf.gif",
+                buttersdance: "https://cdn.discordapp.com/attachments/209040403918356481/403242738428149770/buttersdancegif.gif",
+                kennydance: "https://cdn.discordapp.com/attachments/209040403918356481/403242745608798218/kennydancegif.gif",
+                meeem: "https://cdn.discordapp.com/attachments/209040403918356481/403242745176522754/meeemgif.gif",
+                cartmandance: "https://cdn.discordapp.com/attachments/209040403918356481/403242753695154205/cartmandagif.gif",
+                slapgif: "https://cdn.discordapp.com/attachments/209040403918356481/403242745734365184/slapgif.gif",
+                zimmerman: "https://cdn.discordapp.com/attachments/209040403918356481/403242825199779840/zimmermangif.gif",
+                nice: "https://cdn.discordapp.com/attachments/209040403918356481/403242751375966208/nicegif.gif",
+                triggered: "https://cdn.discordapp.com/attachments/209040403918356481/403242747076542484/triggeredgif.gif",
+                cartmansmile: "https://cdn.discordapp.com/attachments/379432139856412682/403236890003767308/3e327295ae5518d4dd6076a99891f2631bc0ebdf_128.gif",
+                stanninja: "https://cdn.discordapp.com/attachments/379432139856412682/403236890947485696/fbe592f6de0304252ed1e330c5eec60a5ff4b7ef_128.gif",
+                kylethinking: "https://cdn.discordapp.com/attachments/379432139856412682/403236896026656769/dce7da75fa93d5a56eb5d6b4b670efd20ba26c2f_128.gif",
+                ninjastar: "https://cdn.discordapp.com/attachments/209040403918356481/403242875229306881/ninjastargif.gif",
+                cartmaninvisible: "https://cdn.discordapp.com/attachments/209040403918356481/403242747399634964/cartmaninvisiblegif.gif",
+                stanpuking: "https://cdn.discordapp.com/attachments/209040403918356481/403242748897132547/stanpukinggif.gif"
+            };
+
+            const args = message.content.split(" ")
+
+            if (!args[1] || !gifs[args[1]]) {
+                let embed = new discord.RichEmbed().setImage(gifs[map[Math.floor(Math.random()*map.length)]]);
+                message.channel.send(embed);
+                return;
+            }
+
+            let embed = new discord.RichEmbed().setImage(gifs[args[1]]);
             message.channel.send(embed);
         }
-    },
-    {
-        trigger: "buttersgungif",
-        type: "command",
-        perms: pDevJson,
-        exec: function(message) {
-            message.delete();
-            const embed = new discord.RichEmbed()
-                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242745436831745/buttersgunguf.gif");
-            message.channel.send(embed);
-        }
-    },
-    {
-        trigger: "kennydancegif",
-        type: "command",
-        perms: pDevJson,
-        exec: function(message) {
-            message.delete();
-            const embed = new discord.RichEmbed()
-                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242745608798218/kennydancegif.gif");
-            message.channel.send(embed);
-        }
-    },
-    {
-        trigger: "meeemgif",
-        type: "command",
-        perms: pDevJson,
-        exec: function(message) {
-            message.delete();
-            const embed = new discord.RichEmbed()
-                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242745176522754/meeemgif.gif");
-            message.channel.send(embed);
-        }
-    },
-    {
-        trigger: "cartmandancegif",
-        type: "command",
-        perms: pDevJson,
-        exec: function(message) {
-            message.delete();
-            const embed = new discord.RichEmbed()
-                .setImage("https://cdn.discordapp.com/attachments/379432139856412682/403236890003767308/3e327295ae5518d4dd6076a99891f2631bc0ebdf_128.gif");
-            message.channel.send(embed);
-        }
-    },
-    {
-        trigger: "slapgif",
-        type: "command",
-        perms: pDevJson,
-        exec: function(message) {
-            message.delete();
-            const embed = new discord.RichEmbed()
-                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242745734365184/slapgif.gif");
-            message.channel.send(embed);
-        }
-    },
-    {
-        trigger: "zimmermangif",
-        type: "command",
-        perms: pDevJson,
-        exec: function(message) {
-            message.delete();
-            const embed = new discord.RichEmbed()
-                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242825199779840/zimmermangif.gif");
-            message.channel.send(embed);
-        }
-    },
-    {
-        trigger: "nicegif",
-        type: "command",
-        perms: pDevJson,
-        exec: function(message) {
-            message.delete();
-            const embed = new discord.RichEmbed()
-                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242751375966208/nicegif.gif");
-            message.channel.send(embed);
-        }
-    },
-    {
-        trigger: "triggeredgif",
-        type: "command",
-        perms: pDevJson,
-        exec: function(message) {
-            message.delete();
-            const embed = new discord.RichEmbed()
-                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242747076542484/triggeredgif.gif");
-            message.channel.send(embed);
-        }
-    },
-    {
-        trigger: "cartmansmilegif",
-        type: "command",
-        perms: pDevJson,
-        exec: function(message) {
-            message.delete();
-            const embed = new discord.RichEmbed()
-                .setImage("https://cdn.discordapp.com/attachments/379432139856412682/403236890003767308/3e327295ae5518d4dd6076a99891f2631bc0ebdf_128.gif");
-            message.channel.send(embed);
-        }
-    },
-    {
-        trigger: "stanninjagif",
-        type: "command",
-        perms: pDevJson,
-        exec: function(message) {
-            message.delete();
-            const embed = new discord.RichEmbed()
-                .setImage("https://cdn.discordapp.com/attachments/379432139856412682/403236890947485696/fbe592f6de0304252ed1e330c5eec60a5ff4b7ef_128.gif");
-            message.channel.send(embed);
-        }
-    },
-    {
-        trigger: "kylethinkinggif",
-        type: "command",
-        perms: pDevJson,
-        exec: function(message) {
-            message.delete();
-            const embed = new discord.RichEmbed()
-                .setImage("https://cdn.discordapp.com/attachments/379432139856412682/403236896026656769/dce7da75fa93d5a56eb5d6b4b670efd20ba26c2f_128.gif");
-            message.channel.send(embed);
-        }
-    },
-    {
-        trigger: "ninjastargif",
-        type: "command",
-        perms: pDevJson,
-        exec: function(message) {
-            message.delete();
-            const embed = new discord.RichEmbed()
-                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242875229306881/ninjastargif.gif");
-            message.channel.send(embed);
-        }
-    },
-    {
-        trigger: "cartmaninvisiblegif",
-        type: "command",
-        perms: pDevJson,
-        exec: function(message) {
-            message.delete();
-            const embed = new discord.RichEmbed()
-                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242747399634964/cartmaninvisiblegif.gif");
-            message.channel.send(embed);
-        }
-    },
-    {
-        trigger: "stanpukinggif",
-        type: "command",
-        perms: pDevJson,
-        exec: function(message) {
-            message.delete();
-            const embed = new discord.RichEmbed()
-                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242748897132547/stanpukinggif.gif");
-            message.channel.send(embed);
-        }
-    },
-    {
-        trigger: "buttersdancegif",
-        type: "command",
-        perms: pDevJson,
-        exec: function(message) {
-            message.delete();
-            const embed = new discord.RichEmbed()
-                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242753695154205/cartmandagif.gif");
-            message.channel.send(embed);
-        }
-    },
+    }
 ];
 
 class Command {
@@ -1841,6 +1701,10 @@ client.on("message", message => {
 
 // Emitted whenever a message is deleted.
 client.on("messageDelete", message => {
+    if (message.content == (prefix + "micro") || message.content == (prefix + "microaggression")) {
+        return;
+    }
+
     try {
 
         const channel = message.guild.channels.find(e => { return e.name == "logs" });
