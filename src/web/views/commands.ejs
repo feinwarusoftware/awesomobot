@@ -43,6 +43,10 @@
             color: #fff !important;
         }
         
+        code{
+            color: #d20e0f;
+        }
+
         .role-hm {
             color: #2ecc71;
         }
@@ -57,9 +61,6 @@
         }
         .role-cm {
             color: #a11457;
-        }
-        .role-pc {
-            color: #71368a;
         }
         .role-ya {
             color: #3595db;
@@ -95,61 +96,216 @@
 
                 </section>
                 <!--Table-->
-                <table class="table table-hover table-striped">
-                    <thead class="indigo wow fadeIn" data-wow-delay="0.05s">
+                <table class="table table-striped">
+                        <col width="25%">
+                        <col width="35%">
+                        <col width="25%">
+                        <col width="15%">
+                    <thead class="indigo">
+
                         <tr style="color:white">
                             <th>Name</th>
-                            <th>Desc</th>
+                            <th>Description</th>
                             <th>Usage</th>
                             <th>Minimum Role</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% var i = 0.1; %>
-                        <% commands.forEach(function(command) { %>
-                            <% var tablecss; %>
-                            <% if (command.disabled) { %>
-                                <% tablecss = "table-danger"; %>
-                            <% } else { %>
-                                <% tablecss = ""; %>
-                            <% } %>
+                        <tr>
+                        <tr>
+                            <th scope=“row”><h6>activelist <span class="badge red">New</span></h6></th>
+                            <td>Lists the top 5 people active people on the server</td>
+                            <td><code>-activelist</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
+                            <th scope=“row”><h6>activeme <span class="badge red">New</span></h6></th>
+                            <td>Displays your activity value</td>
+                            <td><code>-activeme</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
+                     
+                        <tr>
+                            <th scope=“row”><h6>avatar</h6></th>
+                            <td>Displays a full res version of your avatar. (Mostly used for development purposes)</td>
+                            <td><code>-avatar</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>batman <span class="badge red">New</span></h6></th>
+                            <td>You send out your help from the Dark Knight</td>
+                            <td><code>-batman</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>civilwar <span class="badge red">New</span></h6></th>
+                            <td>Removes yourself from a team</td>
+                            <td><code>-civilwar</code></td>
+                            <td class="font-bold role-nk">@New Kid</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>f</h6></th>
+                            <td>Press 'F' to pay respects</td>
+                            <td><code>-f</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>                        
+                        <tr>
+                            <th scope=“row”><h6>harvest <span class="badge red">New</span></h6></th>
+                            <td>Selects the next celebrity for the harvest</td>
+                            <td><code>-harvest</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>help <span class="badge red">New</span></h6></th>
+                            <td>You have a 50% chance of ending up here</td>
+                            <td><code>-help</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>helpline <span class="badge red">New</span></h6></th>
+                            <td>Sends a link to a reddit thread with suicide prevention contact information</td>
+                            <td><code>-helpline</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>hmmm <span class="badge red">New</span></h6></th>
+                            <td>Things that make you go hmmm 🤔</td>
+                            <td><code>-hmmm</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>info <span class="badge cyan">Updated</span></h6></th>
+                            <td>Displays info about AWESOM-O</td>
+                            <td><code>-info</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>jointeam <span class="badge cyan">Updated</span></h6></th>
+                            <td>Join either the Freedom Pals, Coon & Friends, or Chaos Minions. Replace team with fp, cf or cm</td>
+                            <td><code>-join &lt;team&gt;</code></td>
+                            <td class="font-bold role-nk">@New Kid</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>microaggression</h6></th>
+                            <td>Microaggression, Hit 'em!</td>
+                            <td><code>-micro</code> OR <code>-microaggression</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>movieidea <span class="badge red">New</span></h6></th>
+                            <td>Adam Sandler... is forced to come up with movies.. and stuff</td>
+                            <td><code>-batman</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>poll <span class="badge red">New</span></h6></th>
+                            <td>Creates a poll. Lasts 30 minutes by default. Note: [] must be included</td>
+                            <td><code>poll &lt;title&gt; [a,b,c,etc]</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>random</h6></th>
+                            <td>Displays a random episode</td>
+                            <td><code>-random</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>reminder</h6></th>
+                            <td>Don't forget to bring a towel!</td>
+                            <td><code>-reminder</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>shitlist</h6></th>
+                            <td>Lists the top 5 people who have said 'shit' and displays the total amount from the server</td>
+                            <td><code>-shitlist</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>shitme</h6></th>
+                            <td>Counts how many times you have said 'shit'</td>
+                            <td><code>-shitme</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>sub</h6></th>
+                            <td>Sends a link to the subreddit</td>
+                            <td><code>-sub</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>times <span class="badge cyan">Updated</span></h6></th>
+                            <td>Displays the time in different timezones</td>
+                            <td><code>-times</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>welcome</h6></th>
+                            <td>Welcomes to the server</h6></th>
+                            <td><code>-welcome</code></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>wiki <span class="badge cyan">Updated</span></h6></th>
+                            <td>Does a South Park wiki search</td>
+                            <td><code>-w</code> <search term></td>
+                            <td class="font-bold">@everyone</td>
+                        </tr>
 
-                            <tr class="wow fadeIn <%= tablecss %>" data-wow-delay="<%= i %>s">
-                                <th scope="row"><%= command.name %></th>
-                                <td><%= command.desc %></td>
-                                <td><%= command.usage %></td>
 
-                                <% var rolestr = ""; %>
-                                <% for (var j = 0; j < command.roles.length; j++) { %>
-                                    <% rolestr += command.roles[j]; %>
-                                <% } %>
-                                
-                                <% var rolecss; %>
-                                <% if (rolestr.indexOf("@Hallway Monitors") != -1) { %>
-                                    <% rolecss = "role-hm"; %>
-                                    <% } else if (rolestr.indexOf("@New Kid") != -1) { %>
-                                        <% rolecss = "role-nk"; %>
-                                    <% } else if (rolestr.indexOf("@Freedom Pals") != -1) { %>
-                                        <% rolecss = "role-fp"; %>  
-                                    <% } else if (rolestr.indexOf("@Coon & Friends") != -1) { %>
-                                        <% rolecss = "role-cf"; %>
-                                    <% } else if (rolestr.indexOf("@Chaos Minions") != -1) { %>
-                                        <% rolecss = "role-cm"; %>
-                                    <% } else if (rolestr.indexOf("@PC Bros") != -1) { %>
-                                        <% rolecss = "role-pc"; %>
-                                    <% } else if (rolestr.indexOf("@Yaoi Artist") != -1) { %>
-                                        <% rolecss = "role-ya"; %>   
-                                    <% } else if (rolestr.indexOf("@Patrons") != -1) { %>
-                                        <% rolecss = "role-p"; %>
-                                <% } else { %>
-                                    <% rolecss = ""; %>
-                                <% } %>
 
-                                <td class="font-weight-bold <%= rolecss %>"><%= rolestr %></td>
-                            </tr>
 
-                            <% i += 0.1; %>
-                        <% }); %>
+
+                        <tr>
+                            <th colspan="4" class="text-center green-text"><h4>Moderator Commands</h4></th>
+                        </tr>
+
+                        <tr>
+                            <th scope=“row”><h6>activeval <span class="badge red">New</span></h6></th>
+                            <td>Displays someone elses activity value</td>
+                            <td><code>-activeval &lt;username&gt;</code></td>
+                            <td class="font-bold role-hm">@Hallway Monitors</td>
+                        </tr>  
+                            <th scope=“row”><h6>dick</h6></th>
+                            <td>Just your usual mod abuse commands</td>
+                            <td><code>-dick</code></td>
+                            <td class="font-bold role-hm">@Hallway Monitors</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>endpoll <span class="badge red">New</span></h6></th>
+                            <td>Ends the poll</td>
+                            <td><code>-endpoll &lt;pollid&gt;</code></td>
+                            <td class="font-bold role-hm">@Hallway Monitors</td>
+                        </tr>  
+                        <tr>
+                            <th scope=“row”><h6>fuckyou</h6></th>
+                            <td>Just your usual mod abuse commands</td>
+                            <td><code>-fuckyou</code></td>
+                            <td class="font-bold role-hm">@Hallway Monitors</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>fuckyourself</h6></th>
+                            <td>Just your usual mod abuse commands</td>
+                            <td><code>-fuckyourself</code></td>
+                            <td class="font-bold role-hm">@Hallway Monitors</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>ground <span class="badge red">New</span></h6></th>
+                            <td>Grounds a member</td>
+                            <td><code>-ground</code></td>
+                            <td class="font-bold role-hm">@Hallway Monitors</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>shitval <span class="badge red">New</span></h6></th>
+                            <td>Gets the shit value of a member</td>
+                            <td><code>-shitval</code></td>
+                            <td class="font-bold role-hm">@Hallway Monitors</td>
+                        </tr>
+                        <tr>
+                            <th scope=“row”><h6>unground <span class="badge red">New</span></h6></th>
+                            <td>Ungrounds a member</td>
+                            <td><code>-unground</code></td>
+                            <td class="font-bold role-hm">@Hallway Monitors</td>
+                        </tr>
                     </tbody>
                 </table>
 
