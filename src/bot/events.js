@@ -1222,7 +1222,7 @@ const commands = [
         perms: pGlobJson,
         exec: function(message) {
 
-            const random = Math.floor(Math.random() * Math.floor(5));
+            const random = Math.floor(Math.random() * Math.floor(10));
             if (random == 0){
                 message.reply("https://pbs.twimg.com/profile_images/650952807449653248/lQc14tHw.jpg");
                 return;
@@ -1257,7 +1257,6 @@ const commands = [
             message.reply(res);
         }
     },
-
     // Jimp.
     {
         trigger: "nk",
@@ -1312,7 +1311,200 @@ const commands = [
                 message.reply("Error loading images!");
             });
         }
-    }
+    },
+    {
+        trigger: "coin",
+        type: "command",
+        perms: pGlobJson,
+        exec: function(message) {
+            const flip = Math.floor(Math.random() * Math.floor(2));
+            let res;
+            if (flip == 0) {
+                res = "heads";
+            } else {
+                res = "tails";
+            }
+            message.reply(res);
+        }
+    },
+
+    // Gifs incoming!
+    {
+        trigger: "vchipgif",
+        type: "command",
+        perms: pDevJson,
+        exec: function(message) {
+            message.delete();
+            const embed = new discord.RichEmbed()
+                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242859798462485/vchipgif.gif");
+            message.channel.send(embed);
+        }
+    },
+    {
+        trigger: "buttersgungif",
+        type: "command",
+        perms: pDevJson,
+        exec: function(message) {
+            message.delete();
+            const embed = new discord.RichEmbed()
+                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242745436831745/buttersgunguf.gif");
+            message.channel.send(embed);
+        }
+    },
+    {
+        trigger: "kennydancegif",
+        type: "command",
+        perms: pDevJson,
+        exec: function(message) {
+            message.delete();
+            const embed = new discord.RichEmbed()
+                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242745608798218/kennydancegif.gif");
+            message.channel.send(embed);
+        }
+    },
+    {
+        trigger: "meeemgif",
+        type: "command",
+        perms: pDevJson,
+        exec: function(message) {
+            message.delete();
+            const embed = new discord.RichEmbed()
+                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242745176522754/meeemgif.gif");
+            message.channel.send(embed);
+        }
+    },
+    {
+        trigger: "cartmandancegif",
+        type: "command",
+        perms: pDevJson,
+        exec: function(message) {
+            message.delete();
+            const embed = new discord.RichEmbed()
+                .setImage("https://cdn.discordapp.com/attachments/379432139856412682/403236890003767308/3e327295ae5518d4dd6076a99891f2631bc0ebdf_128.gif");
+            message.channel.send(embed);
+        }
+    },
+    {
+        trigger: "slapgif",
+        type: "command",
+        perms: pDevJson,
+        exec: function(message) {
+            message.delete();
+            const embed = new discord.RichEmbed()
+                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242745734365184/slapgif.gif");
+            message.channel.send(embed);
+        }
+    },
+    {
+        trigger: "zimmermangif",
+        type: "command",
+        perms: pDevJson,
+        exec: function(message) {
+            message.delete();
+            const embed = new discord.RichEmbed()
+                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242825199779840/zimmermangif.gif");
+            message.channel.send(embed);
+        }
+    },
+    {
+        trigger: "nicegif",
+        type: "command",
+        perms: pDevJson,
+        exec: function(message) {
+            message.delete();
+            const embed = new discord.RichEmbed()
+                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242751375966208/nicegif.gif");
+            message.channel.send(embed);
+        }
+    },
+    {
+        trigger: "triggeredgif",
+        type: "command",
+        perms: pDevJson,
+        exec: function(message) {
+            message.delete();
+            const embed = new discord.RichEmbed()
+                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242747076542484/triggeredgif.gif");
+            message.channel.send(embed);
+        }
+    },
+    {
+        trigger: "cartmansmilegif",
+        type: "command",
+        perms: pDevJson,
+        exec: function(message) {
+            message.delete();
+            const embed = new discord.RichEmbed()
+                .setImage("https://cdn.discordapp.com/attachments/379432139856412682/403236890003767308/3e327295ae5518d4dd6076a99891f2631bc0ebdf_128.gif");
+            message.channel.send(embed);
+        }
+    },
+    {
+        trigger: "stanninjagif",
+        type: "command",
+        perms: pDevJson,
+        exec: function(message) {
+            message.delete();
+            const embed = new discord.RichEmbed()
+                .setImage("https://cdn.discordapp.com/attachments/379432139856412682/403236890947485696/fbe592f6de0304252ed1e330c5eec60a5ff4b7ef_128.gif");
+            message.channel.send(embed);
+        }
+    },
+    {
+        trigger: "kylethinkinggif",
+        type: "command",
+        perms: pDevJson,
+        exec: function(message) {
+            message.delete();
+            const embed = new discord.RichEmbed()
+                .setImage("https://cdn.discordapp.com/attachments/379432139856412682/403236896026656769/dce7da75fa93d5a56eb5d6b4b670efd20ba26c2f_128.gif");
+            message.channel.send(embed);
+        }
+    },
+    {
+        trigger: "ninjastargif",
+        type: "command",
+        perms: pDevJson,
+        exec: function(message) {
+            message.delete();
+            const embed = new discord.RichEmbed()
+                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242875229306881/ninjastargif.gif");
+            message.channel.send(embed);
+        }
+    },
+    {
+        trigger: "cartmaninvisiblegif",
+        type: "command",
+        perms: pDevJson,
+        exec: function(message) {
+            message.delete();
+            const embed = new discord.RichEmbed()
+                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242747399634964/cartmaninvisiblegif.gif");
+            message.channel.send(embed);
+        }
+    },
+    {
+        trigger: "stanpukinggif",
+        type: "command",
+        perms: pDevJson,
+        exec: function(message) {
+            message.delete();
+            const embed = new discord.RichEmbed()
+                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242748897132547/stanpukinggif.gif");
+            message.channel.send(embed);
+        }
+    },
+    {
+        trigger: "buttersdancegif",
+        type: "command",
+        perms: pDevJson,
+        exec: function(message) {
+            message.delete();
+            const embed = new discord.RichEmbed()
+                .setImage("https://cdn.discordapp.com/attachments/209040403918356481/403242753695154205/cartmandagif.gif");
+            message.channel.send(embed);
+        }
+    },
 ];
 
 class Command {
