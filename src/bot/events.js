@@ -1201,6 +1201,63 @@ const commands = [
             message.reply(role.id);
         }
     },
+    {
+        trigger: "coin",
+        type: "command",
+        perms: pGlobJson,
+        exec: function(message) {
+            const flip = Math.floor(Math.random() * Math.floor(2));
+            let res;
+            if (flip == 0) {
+                res = "heads";
+            } else {
+                res = "tails";
+            }
+            message.reply(res);
+        }
+    },
+    {
+        trigger: "dice",
+        type: "command",
+        perms: pGlobJson,
+        exec: function(message) {
+            const args = message.content.split(" ");
+            if (!args[1]) {
+
+                const roll = Math.floor(Math.random() * Math.floor(6));
+                message.reply(roll + 1);
+                return;
+            }
+
+            const roll = Math.floor(Math.random() * Math.floor(args[1]));
+            message.reply(roll + 1);
+        }
+    },
+    {
+        trigger: "rps",
+        type: "command",
+        perms: pGlobJson,
+        exec: function(message) {
+            const rps = Math.floor(Math.random() * Math.floor(3));
+            let res;
+            if (rps == 0) {
+                res = "rock";
+            } else if (rps == 1) {
+                res = "paper";
+            } else {
+                res = "scissors";
+            }
+            message.reply(res);
+        }
+    },
+    {
+        trigger: "membercount",
+        type: "command",
+        perms: pGlobJson,
+        exec: function(message) {
+            message.reply(message.guild.memberCount);
+        }
+    },
 
     // Jimp.
     {
