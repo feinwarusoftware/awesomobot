@@ -1364,6 +1364,14 @@ const commands = [
             let embed = new discord.RichEmbed().setImage(gifs[args[1]]);
             message.channel.send(embed);
         }
+    },
+    {
+        trigger: "back",
+        type: "command",
+        perms: pGlobJson,
+        exec: function(message) {
+            message.channel.send("<:imback:403307515645001748> <@" + message.author.id + ">" + " is baccccckkk!");
+        }
     }
 ];
 

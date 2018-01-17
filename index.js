@@ -21,4 +21,4 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 webserver();
 
 // start the bot
-// bot();
+bot();
