@@ -215,4 +215,9 @@ router.get("/feedback", (req, res) => {
     res.render("feedback");
 });
 
+// Support
+router.get("/changelogs", (req, res) => {
+    res.render("changelogs");
+});
+
 module.exports = router;
