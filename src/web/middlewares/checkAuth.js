@@ -8,7 +8,7 @@ function checkAuth(req, res, next) {
         return next();
     }
 
-    res.send("not logged in :(");
+    res.render("nologin");
 }
 
 module.exports = checkAuth;

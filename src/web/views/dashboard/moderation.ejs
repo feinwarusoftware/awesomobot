@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html class="full-height" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/png" href="../img/favicon.png" />
+    <title>AWESOM-O // Dashboard</title>
+    <!-- Font Awesome-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS-->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap-->
+    <link href="../../css/mdb.min.css" rel="stylesheet">
+    <!-- Template styles-->
+    <style>
+        /* TEMPLATE STYLES */
+        /*{
+        border-style: dashed;
+        border-color: red;
+        border-width: 1px;
+    }
+    */
+
+        .flex-center {
+            color: #fff;
+        }
+
+        .intro-1 {
+            background: url("../../img/awesomo-bg.jpg")no-repeat center center;
+            background-size: cover;
+        }
+
+        .navbar .btn-group .dropdown-menu a:hover {
+            color: #000 !important;
+        }
+
+        .navbar .btn-group .dropdown-menu a:active {
+            color: #fff !important;
+        }
+
+        .modal-dialog.modal-notify.modal-indigo .modal-header {
+            background-color: #3F51B5;
+        }
+
+        .modal-dialog.modal-notify.modal-orange .modal-header {
+            background-color: #ff9800;
+        }
+    </style>
+
+    <!-- Referencing Stuff -->
+    <% var avatar = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=2048"%>
+
+
+
+
+</head>
+
+<body>
+    <header>
+        <!-- Navbar-->
+        <% include ../partials/dnavbar %>
+
+            <!-- Main container-->
+            <div class="container">
+                <div class="divider-new "></div>
+                <!-- Grid row -->
+                <div class="row">
+
+                    <!-- Grid column -->
+                    <div class="col-lg-4 col-md-6 mb-12">
+
+                        <img src="<%= avatar%>" class="z-depth-1 float-right" height="128px" alt="Responsive image">
+
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-lg-8 col-md-6 mb-12">
+
+                        <h2>Logged in as:
+                            <b>
+                                <%= user.username%>
+                            </b>
+                        </h2>
+
+                        <% var currentServer = user.guilds.find(e => { %>
+                            <% return e.id == server._id; %>
+                                <% }); %>
+                                    <h4>Moderating:
+                                        <b>
+                                            <%= currentServer.name %>
+                                        </b>
+                                    </h4>
+                    </div>
+                    <!-- Grid column -->
+                </div>
+
+                <!-- Grid row -->
+                <div class="divider-new">
+                    <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">Mod Notes</h2>
+                </div>
+                <!--
+            <table class="table table-hover">
+                <thead class="indigo wow fadeIn" data-wow-delay="0.4s">
+                    <tr style="color:white">
+                        <th>Created By</th>
+                        <th>Name of Issue</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="wow fadeIn" data-wow-delay="0.6s">
+                        <th scope="row">Ya boi mattheous</th>
+                        <td>get your shit sorted</td>
+                        <td class="red-text">Needs done lol</td>
+                        <td>mate i am having an anyeruism right now plz end my existence lol xddd kuhihikhuio uhi hiuh iuhfhsiou
+                            fisufh is</td>
+                    </tr>
+                    <tr class="wow fadeIn" data-wow-delay="0.8s">
+                        <th scope="row">ya boi dragon</th>
+                        <td>Thornton</td>
+                        <td class="orange-text">random name</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr class="wow fadeIn" data-wow-delay="1s">
+                        <th scope="row">faggles hehe xd</th>
+                        <td>@twitter</td>
+                        <td class="green-text">cant think</td>
+                        <td>your ma lol</td>
+                    </tr>
+                </tbody>
+            </table>
+            -->
+
+                <table class="table table-hover">
+                    <thead class="indigo wow fadeIn" data-wow-delay="0.4s">
+                        <tr style="color:white">
+                            <th>Created By</th>
+                            <th>Name of Issue</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% var i = 0.6; %>
+                            <% server.issues.forEach(function(issue) { %>
+                                <tr class="wow fadeIn" data-wow-delay="<%= i %>s">
+                                    <th scope="row">
+                                        <%= issue.author %>
+                                    </th>
+                                    <td>
+                                        <%= issue.name %>
+                                    </td>
+                                    <td>
+                                        <%= issue.tag %>
+                                    </td>
+                                    <td>
+                                        <%= issue.desc %>
+                                    </td>
+                                    <td>
+                                        <a class="issue-delete" id="<%= issue.id %>" data-toggle="modal" data-target="#delete">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <% i = i + 0.2; %>
+                                    <% }); %>
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                    <button type="button" class="btn btn-indigo float-right" data-toggle="modal" data-target="#newissue">
+                        Create new issue
+                    </button>
+                </div>
+                <!-- Grid row -->
+                <div class="divider-new">
+                    <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">Watchlist</h2>
+                </div>
+
+                <table class="table table-hover">
+                    <thead class="orange wow fadeIn" data-wow-delay="0.4s">
+                        <tr style="color:white">
+                            <th>Discord Name</th>
+                            <th>Discord ID</th>
+                            <th>Notes</th>
+                            <th>Status</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% var i = 0.6; %>
+                            <% server.watchlist.forEach(function(list) { %>
+                                <tr class="wow fadeIn" data-wow-delay="<%= i %>s">
+                                    <th scope="row">
+                                        <%= list.username %>
+                                    </th>
+                                    <td>
+                                        <%= list.userid %>
+                                    </td>
+                                    <td>
+                                        <%= list.notes %>
+                                    </td>
+                                    <td>
+                                        <%= list.status %>
+                                    </td>
+                                    <td>
+                                        <a class="list-edit" id="<%= list.id %>" data-toggle="modal" data-target="#listedit">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a class="list-delete" id="<%= list.id %>" data-toggle="modal" data-target="#listdelete">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <% i = i + 0.2; %>
+                                    <% }); %>
+                    </tbody>
+                </table>
+
+                <!-- Button trigger modal -->
+                <div class="clearfix">
+                    <button type="button" class="btn btn-orange float-right" data-toggle="modal" data-target="#newlist">
+                        Add to watchlist
+                    </button>
+                </div>
+                <!-- Section: Contact-->
+            </div>
+            <!-- / Main container-->
+            <!-- Footer-->
+            <% include ../partials/footer %>
+                <!-- /.Footer-->
+                <!-- SCRIPTS-->
+                <!-- JQuery-->
+                <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+                <!-- Bootstrap dropdown-->
+                <script type="text/javascript" src="../../js/popper.min.js"></script>
+                <!-- Bootstrap core JavaScript-->
+                <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+                <!-- MDB core JavaScript-->
+                <script type="text/javascript" src="../../js/mdb.min.js"></script>
+
+                <!-- Animations init-->
+                <script>
+                    new WOW().init();
+                </script>
+
+                <script>
+                    window.onload = function () {
+
+                        const submitForm = document.getElementById("issue-submit-form");
+                        const listSubmitForme = document.getElementById("list-submit-form");
+
+                        submitForm.onsubmit = function () {
+
+                            const data = {
+                                author: submitForm.ifauthor.value,
+                                name: submitForm.ifname.value,
+                                tag: submitForm.iftag.value,
+                                desc: submitForm.ifdesc.value
+                            };
+
+                            var xhr = new XMLHttpRequest();
+                            var url = "http://localhost/api/v1/servers/371762864790306817/issues";
+                            xhr.open("POST", url, true);
+                            xhr.setRequestHeader("Content-type", "application/json");
+                            xhr.send(JSON.stringify(data));
+                        }
+
+                        listSubmitForme.onsubmit = function () {
+
+                            const data = {
+                                username: listSubmitForme.lname.value,
+                                userid: listSubmitForme.lid.value,
+                                notes: listSubmitForme.lnotes.value,
+                                status: listSubmitForme.lstatus.value
+                            };
+
+                            var xhr = new XMLHttpRequest();
+                            var url = "http://localhost/api/v1/servers/371762864790306817/watchlist";
+                            xhr.open("POST", url, true);
+                            xhr.setRequestHeader("Content-type", "application/json");
+                            xhr.send(JSON.stringify(data));
+                        }
+
+                        const deleteForm = document.getElementById("issue-delete-form");
+                        const listDeleteForm = document.getElementById("list-delete-form");
+
+                        deleteForm.onsubmit = function () {
+
+                            var xhr = new XMLHttpRequest();
+                            var url = "http://localhost/api/v1/servers/371762864790306817/issues/" + getFormId();
+
+                            xhr.open("DELETE", url, true);
+                            xhr.send();
+                        }
+
+                        listDeleteForm.onsubmit = function () {
+
+                            var xhr = new XMLHttpRequest();
+                            var url = "http://localhost/api/v1/servers/371762864790306817/watchlist/" +
+                                getFormId();
+
+                            xhr.open("DELETE", url, true);
+                            xhr.send();
+                        }
+
+                        const listUpdateForm = document.getElementById("list-update-form");
+
+                        listUpdateForm.onsubmit = function () {
+
+                            const data = {
+                                status: listUpdateForm.lstatus.value
+                            };
+
+                            var xhr = new XMLHttpRequest();
+                            var url = "http://localhost/api/v1/servers/371762864790306817/watchlist/" + getFormId();
+                            xhr.open("PATCH", url, true);
+                            xhr.setRequestHeader("Content-type", "application/json");
+                            xhr.send(JSON.stringify(data));
+                        }
+                    }
+
+                    const issueDeletes = document.getElementsByClassName("issue-delete");
+                    const listDeletes = document.getElementsByClassName("list-delete");
+                    const listUpdates = document.getElementsByClassName("list-edit");
+
+                    for (var i = 0; i < issueDeletes.length; i++) {
+
+                        var issueId = issueDeletes[i].id;
+
+                        issueDeletes[i].onclick = function () {
+
+                            currentId = issueId;
+                        }
+                    }
+
+                    for (var i = 0; i < listDeletes.length; i++) {
+
+                        var listId = listDeletes[i].id;
+
+                        listDeletes[i].onclick = function () {
+
+                            currentId = listId;
+                        }
+                    }
+
+                    for (var i = 0; i < listUpdates.length; i++) {
+
+                        var listUpdateId = listUpdates[i].id;
+
+                        listUpdates[i].onclick = function () {
+
+                            currentId = listUpdateId;
+                        }
+                    }
+
+                    var currentId;
+
+                    function getFormId() {
+
+                        return currentId;
+                    }
+                </script>
+
+                <!-- Central Modal Medium Info -->
+                <div class="modal fade right" id="newissue" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-notify modal-indigo modal-full-height modal-right" role="document">
+                        <!--Content-->
+                        <div class="modal-content">
+                            <!--Header-->
+                            <div class="modal-header">
+                                <p class="heading lead">New issue</p>
+
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true" class="white-text">&times;</span>
+                                </button>
+                            </div>
+
+                            <!--Body-->
+                            <div class="modal-body">
+
+                                <!-- Form contact -->
+                                <form id="issue-submit-form" formenctype="text/plain">
+                                    <div class="md-form">
+                                        <input id="ifauthor" type="text" class="form-control">
+                                        <label>Author</label>
+                                    </div>
+
+                                    <div class="md-form">
+                                        <input id="ifname" type="text" class="form-control">
+                                        <label>Name</label>
+                                    </div>
+
+                                    <div class="md-form">
+                                        <input id="iftag" type="text" class="form-control">
+                                        <label>Tag</label>
+                                    </div>
+
+                                    <div class="md-form">
+                                        <textarea id="ifdesc" type="text" class="md-textarea" style="height: 100px"></textarea>
+                                        <label>Desc</label>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <button class="btn btn-indigo">Submit</button>
+                                    </div>
+                                </form>
+                                <!-- Form contact -->
+                            </div>
+                            <!--/.Content-->
+                        </div>
+                    </div>
+                </div>
+                <!-- Central Modal Medium Info-->
+
+                <!-- Frame Modal Bottom Danger-->
+                <div class="modal fade bottom" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-frame modal-bottom modal-notify modal-danger" role="document">
+                        <!--Content-->
+                        <div class="modal-content">
+                            <!--Body-->
+                            <div class="modal-body">
+                                <div class="row px-4 justify-content-center">
+                                    <div class="text-center">
+                                        <button class="btn btn-blue-grey" data-dismiss="modal">Cancel</button>
+                                    </div>
+
+                                    <form id="issue-delete-form">
+                                        <div class="text-center">
+                                            <button class="btn btn-danger">Delete</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!--/.Content-->
+                            </div>
+                        </div>
+                        <!-- Frame Modal Bottom Danger-->
+
+                    </div>
+                </div>
+
+                <!-- Central Modal Medium Info -->
+                <div class="modal fade right" id="newlist" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-notify modal-orange modal-full-height modal-right" role="document">
+                        <!--Content-->
+                        <div class="modal-content">
+                            <!--Header-->
+                            <div class="modal-header">
+                                <p class="heading lead">Watchlist</p>
+
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true" class="white-text">&times;</span>
+                                </button>
+                            </div>
+
+                            <!--Body-->
+                            <div class="modal-body">
+
+                                <!-- Form contact -->
+                                <form id="list-submit-form" formenctype="text/plain">
+                                    <div class="md-form">
+                                        <input id="lid" type="text" class="form-control">
+                                        <label>Discord ID</label>
+                                    </div>
+
+                                    <div class="md-form">
+                                        <input id="lname" type="text" class="form-control">
+                                        <label>Discord Name</label>
+                                    </div>
+
+                                    <div class="md-form">
+                                        <textarea id="lnotes" type="text" class="md-textarea" style="height: 100px"></textarea>
+                                        <label>Notes</label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Status</label>
+                                        <select class="form-control" id="lstatus">
+                                            <option>Open</option>
+                                            <option>Inactive</option>
+                                            <option>Recovering</option>
+                                            <option>Banned</option>
+                                            <option>Spaghet</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <button class="btn btn-orange">Submit</button>
+                                    </div>
+                                </form>
+                                <!-- Form contact -->
+                            </div>
+                            <!--/.Content-->
+                        </div>
+                    </div>
+                </div>
+                <!-- Central Modal Medium Info-->
+
+                <!-- Frame Modal Bottom Danger-->
+                <div class="modal fade bottom" id="listdelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-frame modal-bottom modal-notify modal-danger" role="document">
+                        <!--Content-->
+                        <div class="modal-content">
+                            <!--Body-->
+                            <div class="modal-body">
+                                <div class="row px-4 justify-content-center">
+                                    <div class="text-center">
+                                        <button class="btn btn-blue-grey" data-dismiss="modal">Cancel</button>
+                                    </div>
+
+                                    <form id="list-delete-form">
+                                        <div class="text-center">
+                                            <button class="btn btn-danger">Delete</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!--/.Content-->
+                            </div>
+                        </div>
+                        <!-- Frame Modal Bottom Danger-->
+
+                    </div>
+                </div>
+
+                <!-- Frame Modal Bottom Danger-->
+                <div class="modal fade bottom" id="listedit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-frame modal-side modal-notify modal-orange" role="document">
+                        <!--Content-->
+                        <div class="modal-content">
+                            <!--Body-->
+                            <div class="modal-body">
+                                <div class="row px-4 justify-content-center">
+                                    <div class="form-group">
+                                        <form id="list-update-form">
+                                            <select class="form-control" id="lstatus">
+                                                <option>Open</option>
+                                                <option>Inactive</option>
+                                                <option>Recovering</option>
+                                                <option>Banned</option>
+                                                <option>Spaghet</option>
+                                            </select>
+                                        <div class="text-center">
+                                            <button class="btn btn-blue-grey" data-dismiss="modal">Cancel</button>
+                                            <button class="btn btn-orange">Update</button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                    <!--/.Content-->
+                                </div>
+                            </div>
+                            <!-- Frame Modal Bottom Danger-->
+
+                        </div>
+                    </div>
+</body>
+
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html class="full-height" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>AWESOM-O // Status</title>
+    <!-- Font Awesome-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS-->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap-->
+    <link href="css/mdb.min.css" rel="stylesheet">
+    <!-- Template styles-->
+    <style>
+        /* TEMPLATE STYLES */
+        /* *{
+            border-color: red;
+            border-width: 1px;
+            border-style: dashed;
+        } */
+
+        .undef {
+            font-family: "Comic Sans MS";
+        }
+
+        .flex-center {
+            color: #fff;
+        }
+
+        .intro-1 {
+            background: url("img/awesomo-bg.jpg")no-repeat center center;
+            background-size: cover;
+        }
+
+        .navbar .btn-group .dropdown-menu a:hover {
+            color: #000 !important;
+        }
+
+        .navbar .btn-group .dropdown-menu a:active {
+            color: #fff !important;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <!-- Navbar-->
+        <% include partials/navbar %>
+        <!-- /.Navbar-->
+        <!-- Intro Section-->
+
+        <!-- Main container-->
+        <div class="container">
+                        <!--Page heading-->
+                        <div class="row wow fadeIn pt-5" data-wow-delay="0.2s">
+                            <div class="col-md-12 pt-5">
+                                <h1 class="h1-responsive">Server Status |
+                                    <small class="text-muted">3/3 Services Functioning Normally</small>
+                                </h1>
+                            </div>
+                        </div>
+                        <!--/.Page heading-->
+            <!-- Section: Status Cards-->
+            <section id="status">
+                <div class="row pt-1">
+                    <!-- First columnn-->
+                    <div class="col-lg-4 mb-r">
+                        <!-- Card-->
+                        <div class="card wow fadeIn">
+                            <!-- Card image-->
+                            <img class="img-fluid" src="img/status-ok.jpg">
+                            <!-- Card content-->
+                            <div class="card-body">
+                                <!-- Title-->
+                                <h4 class="card-title text-center">Discord Status</h4>
+                                <hr>
+                                <!-- Text-->
+                                <h2 class="text-center">Up and Working</h2>
+                            </div>
+                        </div>
+                        <!-- /.Card-->
+                    </div>
+                    <!-- First columnn-->
+                    <!-- Second columnn-->
+                    <div class="col-lg-4 mb-r">
+                        <!-- Card-->
+                        <div class="card wow fadeIn" data-wow-delay="0.2s">
+                            <!-- Card image-->
+                            <img class="img-fluid" src="img/status-ok.jpg">
+                            <!-- Card content-->
+                            <div class="card-body">
+                                <!-- Title-->
+                                <h4 class="card-title text-center">Web Server Status</h4>
+                                <hr>
+                                <!-- Text-->
+                                <h2 class="text-center">Up and Working</h2>
+                            </div>
+                        </div>
+                        <!-- /.Card-->
+                    </div>
+                    <!-- Second columnn-->
+                    <!-- Third columnn-->
+                    <div class="col-lg-4 mb-r">
+                        <!-- Card-->
+                        <div class="card wow fadeIn" data-wow-delay="0.4s">
+                            <!-- Card image-->
+                            <img class="img-fluid" src="img/status-ok.jpg">
+                            <!-- Card content-->
+                            <div class="card-body">
+                                <!-- Title-->
+                                <h4 class="card-title text-center">Database Status</h4>
+                                <hr>
+                                <!-- Text-->
+                                <h2 class="text-center">Up and Working</h2>
+                            </div>
+                        </div>
+                        <!-- /.Card-->
+                    </div>
+                    <!-- Third columnn-->
+                </div>
+            </section>
+            <!-- /Section: Best features-->
+            <div class="divider-new">
+                <h2 class="h2-responsive wow fadeIn">Report an issue</h2>
+            </div>
+            <!-- Section: Report Problem -->
+            <section id="contact pb-5">
+                <div class="row">
+                    <!-- First column-->
+                    <div class="col-md-6 offset-md-3">
+
+                        <!-- Form contact -->
+                        <form id="problem-form" formenctype="text/plain" action="http://localhost/status">
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">Discord Name</label>
+                                <input class="form-control" id="ifname">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Type of Issue</label>
+                                <select class="form-control" id="ifproblemtype">
+                                    <option>Website Issue</option>
+                                    <option>Discord Bot Issue</option>
+                                    <option>Data issue</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1">Description</label>
+                                <textarea class="form-control" id="ifproblemdesc" rows="5"></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                        <!-- Form contact -->
+                    </div>
+            </section>
+            <!-- Section: Contact-->
+            </div>
+            <!-- / Main container-->
+            <!-- Footer-->
+            <% include partials/footer %>
+                <!-- /.Footer-->
+                <!-- SCRIPTS-->
+                <!-- JQuery-->
+                <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+                <!-- Bootstrap dropdown-->
+                <script type="text/javascript" src="js/popper.min.js"></script>
+                <!-- Bootstrap core JavaScript-->
+                <script type="text/javascript" src="js/bootstrap.min.js"></script>
+                <!-- MDB core JavaScript-->
+                <script type="text/javascript" src="js/mdb.min.js"></script>
+                <!-- Animations init-->
+                <script>
+                    new WOW().init();
+                </script>
+
+                <script>
+                    window.onload = function () {
+
+                        const form = document.getElementById("problem-form");
+
+                        form.onsubmit = function () {
+
+                            const data = {
+                                user: form.ifname.value,
+                                type: form.ifproblemtype.value,
+                                desc: form.ifproblemdesc.value
+                            };
+
+                            var xhr = new XMLHttpRequest();
+                            var url = "http://localhost/api/v1/issues";
+                            xhr.open("POST", url, true);
+                            xhr.setRequestHeader("Content-type", "application/json");
+                            xhr.send(JSON.stringify(data));
+
+                            //return false;
+                        }
+                    }
+                </script>
+
+</body>
+
+</html>

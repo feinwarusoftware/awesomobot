@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html class="full-height" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/png" href="../img/favicon.png" />
+    <title>AWESOM-O // Dashboard</title>
+    <!-- Font Awesome-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS-->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap-->
+    <link href="../../css/mdb.min.css" rel="stylesheet">
+    <!-- Template styles-->
+    <style>
+        /* TEMPLATE STYLES */
+        /*{
+        border-style: dashed;
+        border-color: red;
+        border-width: 1px;
+    }
+    */
+
+        .flex-center {
+            color: #fff;
+        }
+
+        .intro-1 {
+            background: url("../../img/awesomo-bg.jpg")no-repeat center center;
+            background-size: cover;
+        }
+
+        .navbar .btn-group .dropdown-menu a:hover {
+            color: #000 !important;
+        }
+
+        .navbar .btn-group .dropdown-menu a:active {
+            color: #fff !important;
+        }
+    </style>
+
+    <!-- Referencing Stuff -->
+    <% var avatar = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=2048"%>
+
+
+
+
+</head>
+
+<body>
+    <header>
+        <!-- Navbar-->
+        <% include ../partials/dnavbar %>
+
+        <!-- Main container-->
+        <div class="container">
+            <div class="divider-new "></div>
+            <!-- Grid row -->
+            <div class="row">
+
+                <!-- Grid column -->
+                <div class="col-lg-4 col-md-6 mb-12">
+
+                    <img src="<%= avatar%>" class="z-depth-1 float-right" height="128px" alt="Responsive image">
+
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-lg-8 col-md-6 mb-12">
+
+                    <h2>Logged in as:
+                        <b>
+                            <%= user.username%>
+                        </b>
+                    </h2>
+                    <h4>Moderating:
+                        <b>
+                            /r/SouthPark</b>
+                    </h4>
+                    <h4>Your Role:
+                        <b>
+                            Respect Ma Authoritah</b>
+                    </h4>
+                </div>
+                <!-- Grid column -->
+            </div>
+
+            <!-- Grid row -->
+            <a id="activity"><div class="divider-new"></a>
+                <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">Activity Leaderboard</h2>
+            </div>
+            <div class="row">
+                <canvas id="activityChart"></canvas>
+            </div>
+            <a id="shits"><div class="divider-new"></a>
+                <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">It Hits The Fan Leaderboard</h2>
+            </div>
+            <div class="row">
+                <canvas id="shitChart"></canvas>
+            </div>
+        </div>
+        <!-- / Main container-->
+        <!-- Footer-->
+        <% include ../partials/footer %>
+        <!-- /.Footer-->
+        <!-- SCRIPTS-->
+        <!-- JQuery-->
+        <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap dropdown-->
+        <script type="text/javascript" src="../../js/popper.min.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+        <!-- MDB core JavaScript-->
+        <script type="text/javascript" src="../../js/mdb.min.js"></script>
+
+        <!-- Animations init-->
+        <script>
+            new WOW().init();
+        </script>
+
+<!-- Activity Bars -->
+        <script>
+            //bar
+            var ctxB = document.getElementById("activityChart").getContext('2d');
+            var myBarChart = new Chart(ctxB, {
+                type: 'bar',
+                data: {
+                    labels: ["Kyrion", "Tweek Tweak", "Paladin Butters", "kratosgow342", "Smash Royale"],
+                    datasets: [{
+                        label: 'Activity Score',
+                        data: [56236, 42140, 39196, 36656, 29217.140772982006],
+                        backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 206, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(153, 102, 255)',
+                        ],
+                    }]
+                },
+                optionss: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
+
+        <!-- Shit Bars -->
+        <script>
+            //bar
+            var ctxB = document.getElementById("shitChart").getContext('2d');
+            var myBarChart = new Chart(ctxB, {
+                type: 'bar',
+                data: {
+                    labels: ["Kyrion", "Tweek Tweak", "superfloree", "kratosgow342", "!Dragon1320"],
+                    datasets: [{
+                        label: '# of shits',
+                        data: [295, 169, 146, 110, 109],
+                        backgroundColor: [
+                            'rgb(51, 17, 0)',
+                            'rgb(71, 30, 9)',
+                            'rgb(99, 50, 24)',
+                            'rgb(112, 63, 37)',
+                            'rgb(127, 78, 52)',
+                        ],
+                    }]
+                },
+                optionss: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
+
+
+
+</body>
+
+</html>
