@@ -1891,7 +1891,7 @@ function loadAssets(cb) {
                 console.log("DEBUG >> Loaded [" + list.length + "] episodes.");
 
                 // Set up db sve interval. (def: 300000)
-                const interval = 300000;
+                const interval = 1000;
                 timers.setInterval(() => {
             
                     // activity

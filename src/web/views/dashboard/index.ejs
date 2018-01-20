@@ -214,6 +214,8 @@
 
                                             <% if (!shits) { %>
                                                 <% shitCount.value = 0; %>
+                                            <% } else { %>
+                                                <% shitCount.value = shits.value; %>                                                
                                             <% } %>
                                         <% } %>
 
@@ -222,7 +224,7 @@
                                             <% mod = " given"; %>
                                         <% } %>
 
-                                        <b> <%= shits.value %> </b> shits<%= mod %></h2>
+                                        <b> <%= shitCount.value %> </b> shits<%= mod %></h2>
                                     <h5 class="text-center">Your total of shits</h5>
                                     <a href="leaderboards#shits">
                                         <p class="text-center mb-0 small">View Global Leaderboard</p>

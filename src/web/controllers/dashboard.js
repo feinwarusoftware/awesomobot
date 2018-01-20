@@ -103,7 +103,7 @@ router.get("/moderation", (req, res) => {
         res.send("Error: the devs fucked up! Blame !Dragon1320 for this.");
     }
     if (!(guild.permissions & 32)) {
-        res.send("Mods only beyond this point!");
+        res.render("dashboard/notmod");
         return;
     }
 
