@@ -2,6 +2,7 @@
 
 const express = require("express");
 const checkAuth = require("../middlewares/checkAuth");
+const timers = require("timers");
 
 const router = express.Router();
 
@@ -77,6 +78,10 @@ router.get("/feedback", (req, res) => {
 // Support
 router.get("/changelogs", (req, res) => {
     res.render("changelogs");
+});
+
+router.get("/loadtest", (req, res) => {
+    res.render("loadtest");
 });
 
 module.exports = router;

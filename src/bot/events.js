@@ -159,7 +159,17 @@ const local = {
 //
 
 const pGlob = {
-    server: true
+    server: true,
+    roles: [
+        {
+            id: "*",
+            allow: false
+        },
+        {
+            id: "378287077806309386",
+            allow: true
+        }
+    ]
 };
 
 const pNk = {
@@ -170,7 +180,8 @@ const pNk = {
             allow: false
         },
         {
-            id: "375413987338223616",
+            //id: "375413987338223616",
+            id: "378287077806309386",
             allow: true
         }
     ]
@@ -184,7 +195,8 @@ const pMod = {
             allow: false
         },
         {
-            id: "372409853894983690",
+            //id: "372409853894983690",
+            id: "378287077806309386",
             allow: true
         }
     ]
