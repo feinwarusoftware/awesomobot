@@ -1519,6 +1519,27 @@ client.on("message", message => {
         cmds[i].exec(message, prefix);
     }
 
+    for (let i = 0; i < servers.length; i++) {
+        if (servers[i].id == message.guild.id) {
+
+            if (!servers[i].stats[0]) {
+                servers[i].stats[0] = {};
+            }
+            if (!servers[i].stats[0].commands) {
+                servers[i].stats[0].commands = 0;
+            }
+            if (!servers[i].stats[0].messages) {
+                servers[i].stats[0].messages = 0;
+            }
+            if (message.content.startsWith(prefix)) {
+                servers[i].stats[0].commands++;
+            } else {
+                servers[i].stats[0].messages++;
+            }
+            break;
+        }
+    }
+
     const ourServerId = "371762864790306817";
 
     // TEMP?
@@ -1869,7 +1890,7 @@ function loadAssets(cb) {
                 eplist = list;
                 console.log("DEBUG >> Loaded [" + list.length + "] episodes.");
 
-                // Set up db sve interval.
+                // Set up db sve interval. (def: 300000)
                 const interval = 300000;
                 timers.setInterval(() => {
             
@@ -1920,6 +1941,18 @@ function loadAssets(cb) {
                                     });
                                 }
                                 */
+
+                                const guild = client.guilds.find(e => {
+                                    return e.id == ourServerId;
+                                });
+                                if (!servers[i].stats[0]) {
+                                    servers[i].stats[0] = {};
+                                }
+                                if (!guild) {
+                                    servers[i].stats[0].totalMembers = 0;
+                                } else {
+                                    servers[i].stats[0].totalMembers = guild.memberCount;
+                                }
             
                                 server.members = servers[i].members;
                                 server.stats = servers[i].stats;

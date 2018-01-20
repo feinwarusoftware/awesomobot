@@ -1,6 +1,8 @@
 "use strict"
 
 const express = require("express");
+const rquest = require("../../bot/rquest");
+const bot = require("../../bot/main");
 const router = express.Router();
 
 const Server = require("../../common/models/server");
@@ -36,7 +38,10 @@ router.get("/home", (req, res) => {
             res.send(err);
         }
 
-        res.render("dashboard/", { user: req.user, server: server });
+        rquest.performRequest("discordapp.com", "/api/guilds/" + req.user.currentGuild + "/widget.json", "GET", {}, (data) => {
+
+            res.render("dashboard/", { user: req.user, server: server, online: data.members.length });
+        });
     });
 });
 
