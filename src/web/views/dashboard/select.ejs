@@ -85,7 +85,7 @@
                             <!-- Card-->
                             <div class="card wow fadeIn">
                                 <% user.guilds.forEach(function(guild) { %>
-                                    <% if ((guild.permissions & 32) && (guild.bot == true)) { %>
+                                    <% if (guild.bot == true) { %>
                                         <!--Card image-->
                                         <div class="view overlay hm-white-slight">
                                             <img class="img-fluid" src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png" width="100%" onerror=this.src="../img/serverplaceholder.png">
