@@ -56,53 +56,49 @@
 
         <!-- Main container-->
         <div class="container">
-            <div class="divider-new "></div>
-            <!-- Grid row -->
-            <div class="row">
-
-                <!-- Grid column -->
-                <div class="col-lg-4 col-md-6 mb-12">
-
-                    <img src="<%= avatar%>" class="z-depth-1 float-right" height="128px" alt="Responsive image">
-
+                <div class="divider-new "></div>
+                <!-- Grid row -->
+                <div class="row">
+    
+                    <!-- Grid column -->
+                    <div class="col-lg-4 col-md-6 mb-12">
+    
+                        <img src="<%= avatar%>" class="z-depth-1 float-right" height="128px" alt="Responsive image">
+    
+                    </div>
+                    <!-- Grid column -->
+    
+                    <!-- Grid column -->
+                    <div class="col-lg-8 col-md-6 mb-12">
+    
+                        <h2>Logged in as:
+                            <b>
+                                <%= user.username%>
+                            </b>
+                        </h2>
+                        <h4>Viewing:
+                            <b>
+                                /r/SouthPark</b>
+                        </h4>
+                    </div>
+                    <!-- Grid column -->
                 </div>
-                <!-- Grid column -->
-
-                <!-- Grid column -->
-                <div class="col-lg-8 col-md-6 mb-12">
-
-                    <h2>Logged in as:
-                        <b>
-                            <%= user.username%>
-                        </b>
-                    </h2>
-                    <h4>Moderating:
-                        <b>
-                            /r/SouthPark</b>
-                    </h4>
-                    <h4>Your Role:
-                        <b>
-                            Respect Ma Authoritah</b>
-                    </h4>
+    
+                <!-- Grid row -->
+                <a id="activity"><div class="divider-new"></a>
+                    <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">Activity Leaderboard</h2>
                 </div>
-                <!-- Grid column -->
+                <div class="row">
+                    <canvas id="ghvdYgPfmSYNdMJcUDurBz2JTwvpi2aK"></canvas>
+                </div>
+                <a id="shits"><div class="divider-new"></a>
+                    <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">It Hits The Fan Leaderboard</h2>
+                </div>
+                <div class="row">
+                    <canvas id="jXIeqowmrVO1SaxPf1Z8DCj4MVNf6yYy"></canvas>
+                </div>
             </div>
-
-            <!-- Grid row -->
-            <a id="activity"><div class="divider-new"></a>
-                <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">Activity Leaderboard</h2>
-            </div>
-            <div class="row">
-                <canvas id="activityChart"></canvas>
-            </div>
-            <a id="shits"><div class="divider-new"></a>
-                <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">It Hits The Fan Leaderboard</h2>
-            </div>
-            <div class="row">
-                <canvas id="shitChart"></canvas>
-            </div>
-        </div>
-        <!-- / Main container-->
+            <!-- / Main container-->
         <!-- Footer-->
         <% include ../partials/footer %>
         <!-- /.Footer-->
@@ -121,71 +117,179 @@
             new WOW().init();
         </script>
 
-<!-- Activity Bars -->
         <script>
-            //bar
-            var ctxB = document.getElementById("activityChart").getContext('2d');
-            var myBarChart = new Chart(ctxB, {
-                type: 'bar',
-                data: {
-                    labels: ["Kyrion", "Tweek Tweak", "Paladin Butters", "kratosgow342", "Smash Royale"],
-                    datasets: [{
-                        label: 'Activity Score',
-                        data: [56236, 42140, 39196, 36656, 29217.140772982006],
-                        backgroundColor: [
-                            'rgb(255, 99, 132)',
-                            'rgb(54, 162, 235)',
-                            'rgb(255, 206, 86)',
-                            'rgb(75, 192, 192)',
-                            'rgb(153, 102, 255)',
-                        ],
-                    }]
-                },
-                optionss: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
+            /** ----------------------------------------
+            *           GRAPH PARSING SCRIPT
+            *   ----------------------------------------
+            */
+
+            const server = <%- JSON.stringify(server) %>;
+
+            for (var i = 0; i < server.graphs.length; i++) {
+                var element = document.getElementById(server.graphs[i].id);
+                if (element != null) {
+
+                    var graph = server.graphs[i];
+
+                    //
+                    var data = {};
+                    switch(graph.type) {
+                        case "line":
+
+                            break;
+                        case "pie":
+
+                            break;
+                        case "bar":
+
+                            //
+                            data = {
+                                labels: [],
+                                datasets: []
+                            };
+
+                            for (var j = 0; j < graph.data.datasets.length; j++) {
+
+                                var stat = graph.data.datasets[j].stat;
+                                var member = graph.data.datasets[j].member;
+                                var theme = server.graphs[i].data.datasets[j].theme;
+
+                                data.datasets[j] = {};
+
+                                data.datasets[j].label = stat;
+
+                                data.datasets[j].data = [];
+
+                                // make it #topany
+
+                                switch(member) {
+                                    case "#top5":
+
+                                        //
+                                        server.members.sort((a, b) => {
+
+                                            var aStat = a.stats.find(e => {
+                                                return e.name == stat;
+                                            });
+                                            var bStat = b.stats.find(e => {
+                                                return e.name == stat;
+                                            });
+                                            
+                                            if (aStat == undefined) {
+                                                aStat = {
+                                                    value: 0
+                                                }
+                                            }
+                                            if (bStat == undefined) {
+                                                bStat = {
+                                                    value: 0
+                                                }
+                                            }
+
+                                            return bStat.value - aStat.value;
+                                        });
+
+                                        for (var k = 0; k < (server.members.length < 5 ? server.members.length : 5); k++) {
+                                            data.labels.push(server.members[k].name);
+
+                                            var memberStat = server.members[k].stats.find(e => {
+                                                return e.name == stat;
+                                            });
+                                            if (memberStat == undefined) {
+                                                memberStat = {
+                                                    value: 0
+                                                }
+                                            }
+
+                                            data.datasets[j].data.push(memberStat.value);
+                                            //
+                                        }
+
+                                        break;
+                                }
+
+                                // Hardcoded themes yay! (kill me)
+                                switch(theme) {
+                                    case "shit":
+                                        //temp
+                                        data.datasets[j].backgroundColor = [
+                                            'rgba(51, 17, 0, 1)',
+                                            'rgba(71, 30, 9, 1)',
+                                            'rgba(99, 50, 24, 1)',
+                                            'rgba(112, 63, 37, 1)',
+                                            'rgba(127, 78, 52, 1)',
+                                        ];
+                                        //temp
+                                        data.datasets[j].borderColor = [
+                                            'rgba(51, 17, 0, 1)',
+                                            'rgba(71, 30, 9, 1)',
+                                            'rgba(99, 50, 24, 1)',
+                                            'rgba(112, 63, 37, 1)',
+                                            'rgba(127, 78, 52, 1)',
+                                        ];
+                                        break;
+                                    default:
+                                        //temp
+                                        data.datasets[j].backgroundColor = [
+                                            'rgba(255, 99, 132, 1)',
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 206, 86, 1)',
+                                            'rgba(75, 192, 192, 1)',
+                                            'rgba(153, 102, 255, 1)',
+                                            'rgba(255, 159, 64, 1)'
+                                        ];
+                                        //temp
+                                        data.datasets[j].borderColor = [
+                                            'rgba(255,99,132,1)',
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 206, 86, 1)',
+                                            'rgba(75, 192, 192, 1)',
+                                            'rgba(153, 102, 255, 1)',
+                                            'rgba(255, 159, 64, 1)'
+                                        ];
+                                        break;
+                                }
+
+                                data.datasets[j].borderWidth = 1;
                             }
-                        }]
+
+
+                            break;
+                        /*
+                        case "card":
+
+                            break;
+                        */
                     }
+                    //
+
+                    console.log(data);
+
+                    var ctx = element.getContext("2d");
+                    var chart = new Chart(ctx, {
+                        type: /*server.graphs[i].type*/ "bar",
+                        data: /*{
+                            labels: ["Kyrion", "Tweek Tweak", "Paladin Butters", "kratosgow342", "Smash Royale"],
+                            datasets: [{
+                                label: 'Activity Score',
+                                data: [56236, 42140, 39196, 36656, 29217.140772982006],
+                                backgroundColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(54, 162, 235)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(75, 192, 192)',
+                                    'rgb(153, 102, 255)',
+                                ],
+                            }]
+                        }*/data,
+                        options: {
+                            responsive: true
+                        }
+                    })
                 }
-            });
+            }
+
         </script>
-
-        <!-- Shit Bars -->
-        <script>
-            //bar
-            var ctxB = document.getElementById("shitChart").getContext('2d');
-            var myBarChart = new Chart(ctxB, {
-                type: 'bar',
-                data: {
-                    labels: ["Kyrion", "Tweek Tweak", "superfloree", "kratosgow342", "!Dragon1320"],
-                    datasets: [{
-                        label: '# of shits',
-                        data: [295, 169, 146, 110, 109],
-                        backgroundColor: [
-                            'rgb(51, 17, 0)',
-                            'rgb(71, 30, 9)',
-                            'rgb(99, 50, 24)',
-                            'rgb(112, 63, 37)',
-                            'rgb(127, 78, 52)',
-                        ],
-                    }]
-                },
-                optionss: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
-                }
-            });
-        </script>
-
-
 
 </body>
 
