@@ -96,13 +96,13 @@ router.get("/moderation", (req, res) => {
         res.send("You need to select a server first!");
     }
 
-    const guild = req.user.guild.find(e => {
+    const guild = req.user.guilds.find(e => {
         return e.id == req.user.currentGuild;
     });
     if (!guild) {
         res.send("Error: the devs fucked up! Blame !Dragon1320 for this.");
     }
-    if (!guild.perms & 32) {
+    if (!(guild.permissions & 32)) {
         res.send("Mods only beyond this point!");
         return;
     }

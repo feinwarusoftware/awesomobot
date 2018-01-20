@@ -200,24 +200,29 @@
                                     <!-- Text-->
                                     <h2 class="text-center">
 
-                                        <% var shits = {}; %>
+                                        <% var shitCount = {}; %>
 
                                         <% var member = server.members.find(e => { %>
                                             <% return e.id == user.id; %>
                                         <% }); %>
                                         <% if (!member) { %>
-                                            <% shits.value = 0; %>
+                                            <% shitCount.value = 0; %>
                                         <% } else { %>
-                                            <% shits = member.stats.find(e => { %>
+                                            <% var shits = member.stats.find(e => { %>
                                                 <% return e.name == "shits"; %>
                                             <% }); %>
 
                                             <% if (!shits) { %>
-                                                <% shits.value = 0; %>
+                                                <% shitCount.value = 0; %>
                                             <% } %>
                                         <% } %>
 
-                                        <b> <%= shits.value %> </b> shits</h2>
+                                        <% var mod = ""; %>
+                                        <% if (shitCount.value == 0) { %>
+                                            <% mod = " given"; %>
+                                        <% } %>
+
+                                        <b> <%= shits.value %> </b> shits<%= mod %></h2>
                                     <h5 class="text-center">Your total of shits</h5>
                                     <a href="leaderboards#shits">
                                         <p class="text-center mb-0 small">View Global Leaderboard</p>
