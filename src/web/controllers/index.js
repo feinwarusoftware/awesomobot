@@ -48,7 +48,7 @@ router.get("/status", (req, res) => {
 
 // Command 'wiki'
 router.get("/commands", (req, res) => {
-    res.render("commands", { commands: commands });
+    res.render("commands");
 });
 
 // Markdown test.
@@ -75,7 +75,7 @@ router.get("/feedback", (req, res) => {
     res.render("feedback");
 });
 
-// Support
+// changelogs
 router.get("/changelogs", (req, res) => {
     res.render("changelogs");
 });
