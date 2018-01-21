@@ -56,33 +56,39 @@
 
         <!-- Main container-->
         <div class="container">
-                <div class="divider-new "></div>
-                <!-- Grid row -->
-                <div class="row">
-    
-                    <!-- Grid column -->
-                    <div class="col-lg-4 col-md-6 mb-12">
-    
-                        <img src="<%= avatar%>" class="z-depth-1 float-right" height="128px" alt="Responsive image">
-    
-                    </div>
-                    <!-- Grid column -->
-    
-                    <!-- Grid column -->
-                    <div class="col-lg-8 col-md-6 mb-12">
-    
-                        <h2>Logged in as:
-                            <b>
-                                <%= user.username%>
-                            </b>
-                        </h2>
-                        <h4>Viewing:
-                            <b>
-                                /r/SouthPark</b>
-                        </h4>
-                    </div>
-                    <!-- Grid column -->
+            <div class="divider-new "></div>
+            <!-- Grid row -->
+            <div class="row">
+
+                <!-- Grid column -->
+                <div class="col-lg-4 col-md-6 mb-12">
+
+                    <img src="<%= avatar%>" class="z-depth-1 float-right" height="128px" alt="Responsive image">
+
                 </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-lg-8 col-md-6 mb-12">
+
+                    <h3>Logged in as:
+                        <b>
+                            <%= user.username%>
+                        </b>
+                    </h3>
+
+                    <% var currentServer = user.guilds.find(e => { %>
+                        <% return e.id == server._id; %>
+                            <% }); %>
+                                <h5>Viewing:
+                                    <b>
+                                        <%= currentServer.name %>
+                                    </b>
+                                </h5>
+                                <a href="legacy"><button type="button" class="btn btn-primary">View Legacy Leaderboard</button></a>
+                </div>
+                <!-- Grid column -->
+            </div>
     
                 <!-- Grid row -->
                 <a id="activity"><div class="divider-new"></a>

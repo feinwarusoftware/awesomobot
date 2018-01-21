@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html class="full-height" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/png" href="../img/favicon.png" />
+    <title>AWESOM-O // Dashboard</title>
+    <!-- Font Awesome-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS-->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap-->
+    <link href="../../css/mdb.min.css" rel="stylesheet">
+    <!-- Template styles-->
+    <style>
+        /* TEMPLATE STYLES */
+        /*{
+        border-style: dashed;
+        border-color: red;
+        border-width: 1px;
+    }
+    */
+
+        .flex-center {
+            color: #fff;
+        }
+
+        .intro-1 {
+            background: url("../../img/awesomo-bg.jpg")no-repeat center center;
+            background-size: cover;
+        }
+
+        .navbar .btn-group .dropdown-menu a:hover {
+            color: #000 !important;
+        }
+
+        .navbar .btn-group .dropdown-menu a:active {
+            color: #fff !important;
+        }
+
+        .table-wrapper-2 {
+    display: block;
+    max-height: 300px;
+    overflow-y: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+
+    </style>
+
+    <!-- Referencing Stuff -->
+    <% var avatar = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=2048"%>
+
+
+
+
+</head>
+
+<body>
+    <header>
+        <!-- Navbar-->
+        <% include ../partials/dnavbar %>
+
+        <!-- Main container-->
+        <div class="container">
+            <div class="divider-new "></div>
+            <!-- Grid row -->
+            <div class="row">
+
+                <!-- Grid column -->
+                <div class="col-lg-4 col-md-6 mb-12">
+
+                    <img src="<%= avatar%>" class="z-depth-1 float-right" height="128px" alt="Responsive image">
+
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-lg-8 col-md-6 mb-12">
+
+                    <h3>Logged in as:
+                        <b>
+                            <%= user.username%>
+                        </b>
+                    </h3>
+
+                    <% var currentServer = user.guilds.find(e => { %>
+                        <% return e.id == server._id; %>
+                            <% }); %>
+                                <h5>Viewing:
+                                    <b>
+                                        <%= currentServer.name %>
+                                    </b>
+                                </h5>
+                                <a href="./"><button type="button" class="btn btn-primary">View Current Leaderboard</button></a>
+                </div>
+                <!-- Grid column -->
+            </div>
+    
+                <!-- Grid row -->
+                <a id="activity"><div class="divider-new"></a>
+                    <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">Activity Leaderboard</h2>
+                </div>
+                <div class="row">
+                    <canvas id="activitybar"></canvas>
+                </div>
+                <div class="pt-5"></div>
+                
+                <a href="#rawrxd"><button type="button" class="btn btn-primary">View ya boi</button></a>
+                <div class="table-wrapper-2">
+                <table class="table table-sm table-striped">
+                        <col width="20%">
+                        <col width="40%">
+                        <col width="40%">
+                    <thead class="indigo text-white">
+                      <tr>
+                        <th class="text-center">#</th>
+                        <th>Username</th>
+                        <th>Number of shits given</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row" class="text-center">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="text-center">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="text-center">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                      </tr>
+                      <tr>
+                            <th scope="row" class="text-center">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                          </tr>
+                          <tr>
+                                <th scope="row" class="text-center">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                              </tr>
+                              <tr>
+                                    <th scope="row" class="text-center">2</th>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                  </tr>
+                                  <tr class="table-warning" id="rawrxd">
+                                        <th scope="row" class="text-center">2</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                      </tr>
+                                      <tr>
+                                            <th scope="row" class="text-center">2</th>
+                                            <td>Jacob</td>
+                                            <td>Thornton</td>
+                                          </tr>
+                                          <tr>
+                                                <th scope="row" class="text-center">2</th>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                              </tr>
+                                              <tr>
+                                                    <th scope="row" class="text-center">2</th>
+                                                    <td>Jacob</td>
+                                                    <td>Thornton</td>
+                                                  </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <a id="shits"><div class="divider-new"></a>
+                    <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">It Hits The Fan Leaderboard</h2>
+                </div>
+                <div class="row">
+                    <canvas id="shitbar"></canvas>
+                </div>
+            </div>
+            <!-- / Main container-->
+        <!-- Footer-->
+        <% include ../partials/footer %>
+        <!-- /.Footer-->
+        <!-- SCRIPTS-->
+        <!-- JQuery-->
+        <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap dropdown-->
+        <script type="text/javascript" src="../../js/popper.min.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+        <!-- MDB core JavaScript-->
+        <script type="text/javascript" src="../../js/mdb.min.js"></script>
+
+        <!-- Animations init-->
+        <script>
+            new WOW().init();
+        </script>
+
+<script>
+            var ctx = document.getElementById("activitybar").getContext('2d');
+            var chart = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: ["Kyrion", "Tweek Tweak", "Paladin Butters", "kratosgow342", "Smash Royale"],
+                    datasets: [{
+                        label: 'Activity Score',
+                        data: [56236, 42140, 39196, 36656, 29217.140772982006],
+                        backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 206, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(153, 102, 255)',
+                        ],
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            })
+
+</script>
+
+<script>
+    var ctx = document.getElementById("shitbar").getContext('2d');
+    var chart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ["Kyrion", "Tweek Tweak", "Paladin Butters", "kratosgow342", "Smash Royale"],
+            datasets: [{
+                label: 'Shit Score',
+                data: [56236, 42140, 39196, 36656, 29217.140772982006],
+                backgroundColor: [
+                'rgba(51, 17, 0, 1)',
+                'rgba(71, 30, 9, 1)',
+                'rgba(99, 50, 24, 1)',
+                'rgba(112, 63, 37, 1)',
+                'rgba(127, 78, 52, 1)',
+                ],
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    })
+
+</script>
+
+<script>
+    function goTo(el) {
+
+$('html, body').animate({
+    scrollTop: el.offset().top + '300px'
+}, 'fast');
+
+}
+
+$('#rawrxd').on('click',function() {
+goTo( $('#rawrxd ') );
+});
+</script>
+
+</body>
+
+</html>
