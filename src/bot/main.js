@@ -13,7 +13,6 @@ function start() {
             throw("Fatal error occured while trying to load assets!");
         }
         client.client.login(config.token);
-        client.client.user.setGame("2.0 | awesomobot.com");
     });
 }
 
