@@ -30,7 +30,8 @@ router.get("/", (req, res, next) => {
 router.get("/home", (req, res) => {
 
     if (!req.user.currentGuild) {
-        res.send("You need to select a server first!");
+        res.render("dashboard/noselect");
+        return;
     }
 
     Server.findById(req.user.currentGuild, (err, server) => {
@@ -48,7 +49,8 @@ router.get("/home", (req, res) => {
 router.get("/developer", (req, res) => {
 
     if (!req.user.currentGuild) {
-        res.send("You need to select a server first!");
+        res.render("dashboard/noselect");
+        return;
     }
 
     Server.findById(req.user.currentGuild, (err, server) => {
@@ -63,7 +65,8 @@ router.get("/developer", (req, res) => {
 router.get("/games", (req, res) => {
 
     if (!req.user.currentGuild) {
-        res.send("You need to select a server first!");
+        res.render("dashboard/noselect");
+        return;
     }
 
     Server.findById(req.user.currentGuild, (err, server) => {
@@ -78,7 +81,8 @@ router.get("/games", (req, res) => {
 router.get("/leaderboards", (req, res) => {
 
     if (!req.user.currentGuild) {
-        res.send("You need to select a server first!");
+        res.render("dashboard/noselect");
+        return;
     }
 
     Server.findById(req.user.currentGuild, (err, server) => {
@@ -2642,7 +2646,8 @@ const temp = {
 router.get("/leaderboards/legacy", (req, res) => {
 
     if (!req.user.currentGuild) {
-        res.send("You need to select a server first!");
+        res.render("dashboard/noselect");
+        return;
     }
 
     Server.findById(req.user.currentGuild, (err, server) => {
@@ -2657,7 +2662,8 @@ router.get("/leaderboards/legacy", (req, res) => {
 router.get("/moderation", (req, res) => {
 
     if (!req.user.currentGuild) {
-        res.send("You need to select a server first!");
+        res.render("dashboard/noselect");
+        return;
     }
 
     const guild = req.user.guilds.find(e => {
@@ -2683,7 +2689,8 @@ router.get("/moderation", (req, res) => {
 router.get("/music", (req, res) => {
 
     if (!req.user.currentGuild) {
-        res.send("You need to select a server first!");
+        res.render("dashboard/noselect");
+        return;
     }
 
     Server.findById(req.user.currentGuild, (err, server) => {
@@ -2698,7 +2705,8 @@ router.get("/music", (req, res) => {
 router.get("/stats", (req, res) => {
 
     if (!req.user.currentGuild) {
-        res.send("You need to select a server first!");
+        res.render("dashboard/noselect");
+        return;
     }
 
     Server.findById(req.user.currentGuild, (err, server) => {
