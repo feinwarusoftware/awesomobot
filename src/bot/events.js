@@ -1794,7 +1794,7 @@ let jBase, jMask, jFont;
 
 // Emitted when the client becomes ready to start working.
 client.on("ready", () => {
-    client.user.setGame("2.0 | awesomobot.com");
+    client.user.setGame("v2 | awesomobot.com");
     console.log("Bot ready!");
 });
 
