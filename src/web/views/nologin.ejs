@@ -3,26 +3,30 @@
 
 <head>
     <meta charset="utf-8">
+    <link rel="shortcut icon" type="image/png" href="../../../../img/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
-    <title>Material Design Bootstrap</title>
+    <title>AWESOM-O // Home</title>
     <!-- Font Awesome-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap core CSS-->
-    <link href="../../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../../css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap-->
-    <link href="../../../css/mdb.min.css" rel="stylesheet">
+    <link href="../../../../css/mdb.min.css" rel="stylesheet">
     <!-- Template styles-->
     <style>
         /* TEMPLATE STYLES */
+
+        .undef {
+            font-family: "Comic Sans MS";
+        }
 
         .flex-center {
             color: #fff;
         }
 
         .intro-1 {
-            background: url("../../img/awesomo-bg.jpg")no-repeat center center;
+            background: url("../../../../img/notloggedin.png")no-repeat center center;
             background-size: cover;
         }
 
@@ -33,75 +37,84 @@
         .navbar .btn-group .dropdown-menu a:active {
             color: #fff !important;
         }
-
-        body {
-            background: url("../../../img/404full.png")no-repeat center center;
-            background-size: cover;
-        }
     </style>
 </head>
 
-<body <!-- /.Footer-->
-    <!-- SCRIPTS-->
-    <!-- JQuery-->
-    <script type="text/javascript" src="../../../js/jquery-3.2.1.min.js"></script>
-    <!-- Bootstrap dropdown-->
-    <script type="text/javascript" src="../../../js/popper.min.js"></script>
-    <!-- Bootstrap core JavaScript-->
-    <script type="text/javascript" src="../../../js/bootstrap.min.js"></script>
-    <!-- MDB core JavaScript-->
-    <script type="text/javascript" src="../../../js/mdb.min.js"></script>
-    <!-- Google Maps-->
-    <script src="https://maps.google.com/maps/api/js"></script>
-    <script>
-        function init_map() {
-            var var_location = new google.maps.LatLng(40.725118, -73.997699);
-            var var_mapoptions = {
-                center: var_location,
-                zoom: 14
+<body>
+    <header>
+        <!-- Navbar-->
+
+            <!-- /.Navbar-->
+            <!-- Intro Section-->
+            <section class="view intro-1 hm-black-strong">
+                <div class="full-bg-img flex-center">
+                    <div class="container">
+                        <ul>
+                            <li>
+                                <h1 class="h1-responsive font-bold wow fadeInDown" data-wow-delay="0.2s">You are not logged in!</h1>
+                            </li>
+                            <li>
+                                <a class="btn btn-red btn-lg wow fadeInUp " href="/" data-wow-delay="0.2s" rel="nofollow">Return to Butters' House</a>
+                                <a class="btn btn-indigo btn-lg wow fadeInUp " href="../../../../auth/discord" data-wow-delay="0.2s" rel="nofollow">Login with Discord</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+    </header>
+        <!-- Section: About-->
+
+        <!-- /.Footer-->
+        <!-- SCRIPTS-->
+        <!-- JQuery-->
+        <script type="text/javascript" src="../../../../js/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap dropdown-->
+        <script type="text/javascript" src="../../../../js/popper.min.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <script type="text/javascript" src="../../../../js/bootstrap.min.js"></script>
+        <!-- MDB core JavaScript-->
+        <script type="text/javascript" src="../../../../js/mdb.min.js"></script>
+        <!-- Animations init-->
+        <script>
+            new WOW().init();
+        </script>
+
+        <script>
+            const keyMap = {
+                37: "left",
+                38: "up",
+                39: "right",
+                40: "down",
+                65: "a",
+                66: "b"
             };
-            var var_marker = new google.maps.Marker({
-                position: var_location,
-                map: var_map,
-                title: "New York"
+
+            const konamiCode = ["up", "up", "down", "down", "left", "right", "left", "right", "b", "a"];
+
+            var konamiPosition = 0;
+
+            document.addEventListener("keydown", function (e) {
+                console.log(konamiPosition);
+                if (keyMap[e.keyCode] == konamiCode[konamiPosition]) {
+
+                    konamiPosition++;
+
+                    if (konamiPosition == konamiCode.length) {
+                        success();
+                        konamiPosition = 0;
+                    }
+                } else {
+                    konamiPosition = 0;
+                }
+
             });
-            var var_map = new google.maps.Map(document.getElementById("map-container"),
-                var_mapoptions);
-            var_marker.setMap(var_map);
-        }
-        google.maps.event.addDomListener(window, 'load', init_map);
-    </script>
-    <!-- Animations init-->
-    <script>
-        new WOW().init();
-    </script>
+
+            function success() {
+
+                document.styleSheets[8].cssRules[0].selectorText = "*";
+            }
+        </script>
+
 </body>
 
 </html>
-<script type="text/javascript">
-    $(window).on('load', function () {
-        $('#nologin').modal('show');
-    });
-</script>
-<!-- Modal-->
-<div class="modal fade" id="nologin" tabindex="-1" role="dialog" aria-labelledby="loginwarning" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="nologin">You are not logged in!</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">You need to be logged in to view this content. Please login using the button below</div>
-            <div class="modal-footer">
-                <a href="/">
-                    <button class="btn btn-mdb" type="button">Return to Home</button>
-                </a>
-                <a href="../../../auth/discord">
-                    <button class="btn btn-indigo" type="button">Login with Discord</button>
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
