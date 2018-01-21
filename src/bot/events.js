@@ -878,7 +878,7 @@ const commands = [
             }
 
             message.member.addRole(role);
-            message.reply(message.member.nickname + " joined " + role.name);
+            message.reply(message.member.username + " joined " + role.name);
         }
     },
     {
