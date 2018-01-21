@@ -108,8 +108,8 @@
                 </div>
                 <div class="pt-5"></div>
                 
-                <a href="#rawrxd"><button type="button" class="btn btn-primary">View ya boi</button></a>
-                <div class="table-wrapper-2">
+                <a id="btn-yaboi"><button type="button" class="btn btn-primary">View ya boi</button></a>
+                <div id="scroll-container" class="table-wrapper-2">
                 <table class="table table-sm table-striped">
                         <col width="20%">
                         <col width="40%">
@@ -122,56 +122,26 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row" class="text-center">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                      </tr>
-                      <tr>
-                        <th scope="row" class="text-center">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                      </tr>
-                      <tr>
-                        <th scope="row" class="text-center">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                      </tr>
-                      <tr>
-                            <th scope="row" class="text-center">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                          </tr>
-                          <tr>
-                                <th scope="row" class="text-center">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                              </tr>
-                              <tr>
-                                    <th scope="row" class="text-center">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                  </tr>
-                                  <tr class="table-warning" id="rawrxd">
-                                        <th scope="row" class="text-center">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                      </tr>
-                                      <tr>
-                                            <th scope="row" class="text-center">2</th>
-                                            <td>Jacob</td>
-                                            <td>Thornton</td>
-                                          </tr>
-                                          <tr>
-                                                <th scope="row" class="text-center">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                              </tr>
-                                              <tr>
-                                                    <th scope="row" class="text-center">2</th>
-                                                    <td>Jacob</td>
-                                                    <td>Thornton</td>
-                                                  </tr>
+                        <% legacy.list.sort((a, b) => { %>
+                            <% return b.activity - a.activity; %>
+                        <% }); %>
+                        <% for (var i = 0; i < legacy.list.length; i++) { %>
+                            <% if (legacy.list[i].id == user.id) { %>
+                                <tr class="table-warning" id="rawrxd">
+                                    <th scope="row" class="text-center"><%= i + 1 %></th>
+                                    <td><%= legacy.list[i].name %></td>
+                                    <td><%= Math.round(legacy.list[i].activity) %></td>
+                                </tr>
+                            <% } else { %>
+                                <% if (legacy.list[i].activity != 0) { %>
+                                    <tr>
+                                        <th scope="row" class="text-center"><%= i + 1 %></th>
+                                        <td><%= legacy.list[i].name %></td>
+                                        <td><%= Math.round(legacy.list[i].activity) %></td>
+                                    </tr>   
+                                <% } %>
+                            <% } %>
+                        <% } %>
                     </tbody>
                   </table>
                 </div>
@@ -181,6 +151,45 @@
                 </div>
                 <div class="row">
                     <canvas id="shitbar"></canvas>
+                </div>
+                <div class="pt-5"></div>
+                
+                <a id="btn-yashit"><button type="button" class="btn btn-primary">View ya boi</button></a>
+                <div id="shit-container" class="table-wrapper-2">
+                <table class="table table-sm table-striped">
+                        <col width="20%">
+                        <col width="40%">
+                        <col width="40%">
+                    <thead class="indigo text-white">
+                      <tr>
+                        <th class="text-center">#</th>
+                        <th>Username</th>
+                        <th>Number of shits given</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <% legacy.list.sort((a, b) => { %>
+                            <% return b.shits - a.shits; %>
+                        <% }); %>
+                        <% for (var i = 0; i < legacy.list.length; i++) { %>
+                            <% if (legacy.list[i].id == user.id) { %>
+                                <tr class="table-warning" id="wonk">
+                                    <th scope="row" class="text-center"><%= i + 1 %></th>
+                                    <td><%= legacy.list[i].name %></td>
+                                    <td><%= Math.round(legacy.list[i].shits) %></td>
+                                </tr>
+                            <% } else { %>
+                                <% if (legacy.list[i].shits != 0) { %>
+                                    <tr>
+                                        <th scope="row" class="text-center"><%= i + 1 %></th>
+                                        <td><%= legacy.list[i].name %></td>
+                                        <td><%= Math.round(legacy.list[i].shits) %></td>
+                                    </tr>   
+                                <% } %>
+                            <% } %>
+                        <% } %>
+                    </tbody>
+                  </table>
                 </div>
             </div>
             <!-- / Main container-->
@@ -253,17 +262,24 @@
 </script>
 
 <script>
-    function goTo(el) {
 
-$('html, body').animate({
-    scrollTop: el.offset().top + '300px'
-}, 'fast');
+    const container = document.getElementById("scroll-container");
+    const row = document.getElementById("rawrxd");
 
-}
+    const container2 = document.getElementById("shit-container");
+    const row2 = document.getElementById("wonk");
 
-$('#rawrxd').on('click',function() {
-goTo( $('#rawrxd ') );
-});
+    const btn = document.getElementById("btn-yaboi");
+    const btn2 = document.getElementById("btn-yashit");
+    btn.onclick = function() {
+        container.scrollTop = row.offsetTop - 125;
+        return false;
+    }
+    btn2.onclick = function() {
+        container2.scrollTop = row2.offsetTop - 125;
+        return false;
+    }
+
 </script>
 
 </body>
