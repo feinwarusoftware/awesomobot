@@ -878,7 +878,7 @@ const commands = [
             }
 
             message.member.addRole(role);
-            message.reply(message.member.username + " joined " + role.name);
+            message.reply(message.user.username + " joined " + role.name);
         }
     },
     {
@@ -899,7 +899,7 @@ const commands = [
                 message.member.removeRole(mcm);
             }
 
-            message.reply(message.member.nickname + " is no longer part of a group");
+            message.reply(message.user.username + " is no longer part of a group");
         }
     },
     {
@@ -979,7 +979,7 @@ const commands = [
             }
 
             message.member.addRole(role);
-            message.reply(message.member.nickname + " joined " + role.name);
+            message.reply(message.user.username + " joined " + role.name);
         }
     },
 
@@ -3953,7 +3953,7 @@ function loadAssets(cb) {
                 console.log("DEBUG >> Loaded [" + list.length + "] episodes.");
 
                 // Set up db sve interval. (def: 300000)
-                const interval = 1000;
+                const interval = 300000;
                 timers.setInterval(() => {
             
                     // activity
@@ -3961,8 +3961,8 @@ function loadAssets(cb) {
                         for (let j = 0; j < servers[0].members[i].stats.length; j++) {
                             if (servers[0].members[i].stats[j].name == "activity") {
                                 servers[0].members[i].stats[j].lastmsg += 1;
-                                if (servers[0].members[i].stats[j].lastmsg >= 576) {
-                                    servers[0].members[i].stats[j].value -= (Math.log10(servers[0].members[i].stats[j].lastmsg - 575) * 70) / 288;
+                                if (servers[0].members[i].stats[j].lastmsg >= 24) {
+                                    servers[0].members[i].stats[j].value -= (Math.log10((servers[0].members[i].stats[j].lastmsg / 12) - 1) * 70);
                                 }
                                 if (servers[0].members[i].stats[j].value < 0) {
                                     servers[0].members[i].stats[j].value = 0;
