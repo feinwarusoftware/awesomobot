@@ -1104,7 +1104,7 @@ const commands = [
                 const timeout = 1800000;
                 timers.setTimeout(() => {
 
-                    if (!polls.find(e => {
+                    if (polls.find(e => {
                         return e.id == message.id;
                     })) {
 
