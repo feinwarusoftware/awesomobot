@@ -747,7 +747,7 @@ const commands = [
                     role = cm;
                     break;
                 case "gk":
-                    if (mcm) {
+                    if (mgk) {
                         message.reply("duplicate err");
                         return;
                     }
@@ -868,7 +868,7 @@ const commands = [
                     role = cm;
                     break;
                 case "gk":
-                    if (mcm) {
+                    if (mgk) {
                         message.reply("duplicate err");
                         return;
                     }
