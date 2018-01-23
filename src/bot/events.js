@@ -12,127 +12,6 @@ const Server = require("../common/models/server");
 
 const client = new discord.Client();
 
-// Emitted whenever a channel is created.
-client.on("channelCreate", channel => {
-
-});
-
-// Emitted whenever a channel is deleted.
-client.on("channelDelete", channel => {
-
-});
-
-// Emitted whenever the pins of a channel are updated. Due to the nature of the WebSocket event,
-// not much information can be provided easily here - you need to manually check the pins yourself.
-client.on("channelPinsUpdate", (channel, time) => {
-
-});
-
-// Emitted whenever a channel is updated - e.g. name change, topic change.
-client.on("channelUpdate", (oldChannel, newChannel) => {
-
-});
-
-// Emitted whenever the client user's settings update.
-client.on("clientUserGuildSettingsUpdate", clientUserGuildSettings => {
-
-});
-
-// Emitted when the client user's settings update.
-client.on("clientUserSettingsUpdate", clientUserSettings => {
-
-});
-
-// Emitted for general debugging information.
-client.on("debug", info => {
-
-});
-
-// Emitted when the client's WebSocket disconnects and will no longer attempt to reconnect.
-client.on("disconnect", event => {
-
-});
-
-// Emitted whenever a custom emoji is created in a guild.
-client.on("emojiCreate", emoji => {
-
-});
-
-// Emitted whenever a custom guild emoji is deleted.
-client.on("emojiDelete", emoji => {
-
-});
-
-// Emitted whenever a custom guild emoji is updated.
-client.on("emojiUpdate", (oldEmoji, newEmoji) => {
-
-});
-
-// Emitted whenever the client's WebSocket encounters a connection error.
-client.on("error", error => {
-
-});
-
-// Emitted whenever a member is banned from a guild.
-client.on("guildBanAdd", (guild, user) => {
-
-});
-
-// Emitted whenever a member is unbanned from a guild.
-client.on("guildBanRemove", (guild, user) => {
-
-});
-
-// Emitted whenever the client joins a guild.
-client.on("guildCreate", guild => {
-
-});
-
-// Emitted whenever a guild is deleted/left.
-client.on("guildDelete", guild => {
-
-});
-
-// Emitted whenever a user joins a guild.
-client.on("guildMemberAdd", member => {
-
-});
-
-// Emitted whenever a member becomes available in a large guild.
-client.on("guildMemberAvailable", member => {
-
-});
-
-// Emitted whenever a member leaves a guild, or is kicked.
-client.on("guildMemberRemove", member => {
-
-});
-
-// Emitted whenever a chunk of guild members is received (all members come from the same guild).
-client.on("guildMembersChunk", (members, guild) => {
-
-});
-
-// Emitted once a guild member starts/stops speaking.
-client.on("guildMemberSpeaking", (member, speaking) => {
-
-});
-
-// Emitted whenever a guild member changes - i.e. new role, removed role, nickname.
-client.on("guildMemberUpdate", (oldMember, newMember) => {
-
-});
-
-// Emitted whenever a guild becomes unavailable, likely due to a server outage.
-client.on("guildUnavailable", guild => {
-
-});
-
-// Emitted whenever a guild is updated - e.g. name change.
-client.on("guildUpdate", (oldGuild, newGuild) => {
-
-});
-
 // TEMP?
 const servers = [];
 
@@ -890,7 +769,7 @@ const commands = [
             }
 
             message.member.addRole(role);
-            message.reply(message.user.username + " joined " + role.name);
+            message.reply(message.author.username + " joined " + role.name);
 
             if (role == gk) {
                 message.author.send("So you wanna be an edgelord by giving yourself the 'Goth Kids' role?\nWe dont take kindly to types like you; unless you remove your role with '" + prefix + "civilwar', you'll be banned from the server in 60 seconds!\n\n - !Dragon1320 & Mattheous");
@@ -919,7 +798,7 @@ const commands = [
                 message.member.removeRole(mgk);
             }
 
-            message.reply(message.user.username + " is no longer part of a group");
+            message.reply(message.author.username + " is no longer part of a group");
         }
     },
     {
