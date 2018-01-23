@@ -832,7 +832,8 @@ const commands = [
             let cf = message.guild.roles.find(e => { return e.name == "Coon & Friends"; });
             let fp = message.guild.roles.find(e => { return e.name == "Freedom Pals"; });
             let cm = message.guild.roles.find(e => { return e.name == "Chaos Minions"; });
-            if (!cf || !fp || !cm) {
+            let gk = message.guild.roles.find(e => { return e.name == "Goth Kids"; });
+            if (!cf || !fp || !cm || !gk) {
                 message.reply("role err");
                 return;
             }
@@ -840,6 +841,7 @@ const commands = [
             let mcf = message.member.roles.find(e => { return e.name == "Coon & Friends"; });
             let mfp = message.member.roles.find(e => { return e.name == "Freedom Pals"; });
             let mcm = message.member.roles.find(e => { return e.name == "Chaos Minions"; });
+            let mgk = message.member.roles.find(e => { return e.name == "Goth Kids"; });
 
             let role;
             let name;
@@ -865,6 +867,13 @@ const commands = [
                     }
                     role = cm;
                     break;
+                case "gk":
+                    if (mcm) {
+                        message.reply("duplicate err");
+                        return;
+                    }
+                    role = gk;
+                    break;
             }
 
             if (mcf) {
@@ -876,9 +885,16 @@ const commands = [
             if (mcm) {
                 message.member.removeRole(cm);
             }
+            if (mgk) {
+                message.member.removeRole(gk);
+            }
 
             message.member.addRole(role);
             message.reply(message.user.username + " joined " + role.name);
+
+            if (role == gk) {
+                message.author.send("So you wanna be an edgelord by giving yourself the 'Goth Kids' role?\nWe dont take kindly to types like you; unless you remove your role with '" + prefix + "civilwar', you'll be banned from the server in 60 seconds!\n\n - !Dragon1320 & Mattheous");
+            }
         }
     },
     {
@@ -889,6 +905,7 @@ const commands = [
             let mcf = message.member.roles.find(e => { return e.name == "Coon & Friends"; });
             let mfp = message.member.roles.find(e => { return e.name == "Freedom Pals"; });
             let mcm = message.member.roles.find(e => { return e.name == "Chaos Minions"; });
+            let mgk = message.member.roles.find(e => { return e.name == "Goth Kids"; });
             if (mcf) {
                 message.member.removeRole(mcf);
             }
@@ -897,6 +914,9 @@ const commands = [
             }
             if (mcm) {
                 message.member.removeRole(mcm);
+            }
+            if (mgk) {
+                message.member.removeRole(mgk);
             }
 
             message.reply(message.user.username + " is no longer part of a group");
@@ -933,7 +953,8 @@ const commands = [
             let cf = message.guild.roles.find(e => { return e.name == "Coon & Friends"; });
             let fp = message.guild.roles.find(e => { return e.name == "Freedom Pals"; });
             let cm = message.guild.roles.find(e => { return e.name == "Chaos Minions"; });
-            if (!cf || !fp || !cm) {
+            let gk = message.guild.roles.find(e => { return e.name == "Goth Kids"; });
+            if (!cf || !fp || !cm || !gk) {
                 message.reply("role err");
                 return;
             }
@@ -941,6 +962,7 @@ const commands = [
             let mcf = message.member.roles.find(e => { return e.name == "Coon & Friends"; });
             let mfp = message.member.roles.find(e => { return e.name == "Freedom Pals"; });
             let mcm = message.member.roles.find(e => { return e.name == "Chaos Minions"; });
+            let mgk = message.member.roles.find(e => { return e.name == "Goth Kids"; });
 
             let role;
             let name;
@@ -966,6 +988,13 @@ const commands = [
                     }
                     role = cm;
                     break;
+                case "gk":
+                    if (mcm) {
+                        message.reply("duplicate err");
+                        return;
+                    }
+                    role = gk;
+                    break;
             }
 
             if (mcf) {
@@ -977,13 +1006,14 @@ const commands = [
             if (mcm) {
                 message.member.removeRole(cm);
             }
+            if (mgk) {
+                message.member.removeRole(gk);
+            }
 
             message.member.addRole(role);
             message.reply(message.user.username + " joined " + role.name);
         }
     },
-
-
 
     //Mod Abuse
     {
