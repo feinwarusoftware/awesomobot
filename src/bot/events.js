@@ -313,6 +313,13 @@ const commands = [{
                     return e.name == "shits"
                 });
 
+                if (!sa) {
+                    return 0 - sb.value;
+                }
+                if (!sb) {
+                    return sa.value - 0;
+                }
+
                 return sb.value - sa.value;
             });
 
@@ -322,7 +329,7 @@ const commands = [{
 
             for (let i = 0; i < (servers[0].members.length > 5 ? 5 : servers[0].members.length); i++) {
                 const stat = servers[0].members[i].stats.find(e => {
-                    return e.name == "shits"
+                    return e.name == "shits";
                 });
                 if (!stat) {
                     embed.addField("#" + (i + 1), servers[0].members[i].name + ": 0", true);
@@ -410,7 +417,7 @@ const commands = [{
 
             for (let i = 0; i < (servers[0].members.length > 5 ? 5 : servers[0].members.length); i++) {
                 const stat = servers[0].members[i].stats.find(e => {
-                    return e.name == "activity"
+                    return e.name == "activity";
                 });
                 if (!stat) {
                     embed.addField("#" + (i + 1), servers[0].members[i].name + ": 0", true);
