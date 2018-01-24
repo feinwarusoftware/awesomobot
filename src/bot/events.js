@@ -1295,6 +1295,30 @@ const commands = [
         exec: function(message) {
             message.channel.send("<:imback:403307515645001748> <@" + message.author.id + ">" + " is baccccckkk!");
         }
+    },
+    
+    // temp music
+    {
+        trigger: "pie",
+        type: "command",
+        perms: pGlobJson,
+        exec: function(message) {
+            if (message.member.voiceChannel) {
+
+                let conn = client.voiceConnections.find(e => { return e.channel.id; }, message.member.voiceChannel.id);
+
+                if (conn) {
+                    conn.playFile("pie.mp3");
+                } else {
+                    message.member.voiceChannel.join().then(conn => {
+                        conn.playFile("pie.mp3");
+                    });
+                }
+
+            } else {
+                message.reply("You need to be in a voice channel!");
+            }
+        }
     }
 ];
 
