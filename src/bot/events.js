@@ -39,8 +39,7 @@ const local = {
 
 const pGlob = {
     server: true,
-    roles: [
-        {
+    roles: [{
             id: "*",
             allow: false
         },
@@ -53,8 +52,7 @@ const pGlob = {
 
 const pNk = {
     server: true,
-    roles: [
-        {
+    roles: [{
             id: "*",
             allow: false
         },
@@ -68,8 +66,7 @@ const pNk = {
 
 const pMod = {
     server: true,
-    roles: [
-        {
+    roles: [{
             id: "*",
             allow: false
         },
@@ -83,8 +80,7 @@ const pMod = {
 
 const pDev = {
     server: true,
-    roles: [
-        {
+    roles: [{
             id: "*",
             allow: false
         },
@@ -100,7 +96,7 @@ class PermissionGroup {
         this.json = json;
     }
     inherit(other) {
-        
+
         const inherit = other.get();
         const base = this.json;
 
@@ -119,7 +115,7 @@ class PermissionGroup {
             for (var j = 0; j < (base.channels ? base.channels.length : 0); j++) {
                 if (inherit.channels[i].id == base.channels[j].id) {
                     channels[j].allow = (inherit.channels[i].allow && base.channels[j].allow) || base.channels[j].allow,
-                    found = true;
+                        found = true;
                 }
             }
             if (!found) {
@@ -138,7 +134,7 @@ class PermissionGroup {
             for (var j = 0; j < (base.roles ? base.roles.length : 0); j++) {
                 if (inherit.roles[i].id == base.roles[j].id) {
                     roles[j].allow = (inherit.roles[i].allow && base.roles[j].allow) || base.roles[j].allow,
-                    found = true;
+                        found = true;
                 }
             }
             if (!found) {
@@ -157,7 +153,7 @@ class PermissionGroup {
             for (var j = 0; j < (base.members ? base.members.length : 0); j++) {
                 if (inherit.members[i].id == base.members[j].id) {
                     members[j].allow = (inherit.members[i].allow && base.members[j].allow) || base.members[j].allow,
-                    found = true;
+                        found = true;
                 }
             }
             if (!found) {
@@ -230,53 +226,62 @@ const pNkJson = pNkPerms.inherit(pGlobPerms).inherit(pModPerms).inherit(pDevPerm
 const pModJson = pModPerms.inherit(pGlobPerms).inherit(pDevPerms).get();
 const pDevJson = pDevPerms.inherit(pGlobPerms).get();
 
-const commands = [
-    {
+const commands = [{
         trigger: "test",
         type: "command",
         perms: pDevJson,
-        exec: function(message) {
+        exec: function (message) {
             console.log(servers[0]);
             message.reply("m: " + servers[0].members.length + ", s: " + servers[0].stats.length);
-        } 
+        }
     },
     {
         trigger: "shitme",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
-            const member = servers[0].members.find(e => { return e.id == message.author.id });
+        exec: function (message) {
+            const member = servers[0].members.find(e => {
+                return e.id == message.author.id
+            });
             if (!member) {
                 message.reply("0");
                 return;
             }
-            const stat = member.stats.find(e => { return e.name == "shits" });
+            const stat = member.stats.find(e => {
+                return e.name == "shits"
+            });
             if (!stat) {
                 message.reply("0");
                 return;
             }
             message.reply(stat.value);
-        } 
+        }
     },
     {
         trigger: "shitval",
         type: "command",
         perms: pModJson,
-        exec: function(message) {
+        exec: function (message) {
             const args = message.content.split(" ");
             if (!args[1]) {
                 message.reply("0");
                 return;
             }
-            let member = servers[0].members.find(e => { return e.id == args[1] });
+            let member = servers[0].members.find(e => {
+                return e.id == args[1]
+            });
             if (!member) {
-                member = servers[0].members.find(e => { return e.name == args[1] });
+                member = servers[0].members.find(e => {
+                    return e.name == args[1]
+                });
                 if (!member) {
                     message.reply("0");
                     return;
                 }
             }
-            const stat = member.stats.find(e => { return e.name == "shits" });
+            const stat = member.stats.find(e => {
+                return e.name == "shits"
+            });
             if (!stat) {
                 message.reply("0");
                 return;
@@ -288,13 +293,17 @@ const commands = [
         trigger: "shitlist",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
 
             let rem = 0;
 
             servers[0].members.sort((a, b) => {
-                const sa = a.stats.find(e => { return e.name == "shits" });
-                const sb = b.stats.find(e => { return e.name == "shits" });
+                const sa = a.stats.find(e => {
+                    return e.name == "shits"
+                });
+                const sb = b.stats.find(e => {
+                    return e.name == "shits"
+                });
 
                 if (!sa || !sb) {
                     return Math.min();
@@ -308,7 +317,9 @@ const commands = [
             embed.setAuthor("AWESOM-O // It Hits the Fan", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
 
             for (let i = 0; i < (servers[0].members.length > 5 ? 5 : servers[0].members.length); i++) {
-                const stat = servers[0].members[i].stats.find(e => { return e.name == "shits" });
+                const stat = servers[0].members[i].stats.find(e => {
+                    return e.name == "shits"
+                });
                 if (stat) {
                     embed.addField("#" + (i + 1), servers[0].members[i].name + ": " + stat.value, true);
                 }
@@ -321,54 +332,68 @@ const commands = [
         trigger: "activeme",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
-            const member = servers[0].members.find(e => { return e.id == message.author.id });
+        exec: function (message) {
+            const member = servers[0].members.find(e => {
+                return e.id == message.author.id
+            });
             if (!member) {
                 message.reply("0");
                 return;
             }
-            const stat = member.stats.find(e => { return e.name == "activity" });
+            const stat = member.stats.find(e => {
+                return e.name == "activity"
+            });
             if (!stat) {
                 message.reply("0");
                 return;
             }
             message.reply(stat.value);
-        } 
+        }
     },
     {
         trigger: "activeval",
         type: "command",
         perms: pModJson,
-        exec: function(message) {
+        exec: function (message) {
             const args = message.content.split(" ");
             if (!args[1]) {
                 message.reply("0");
                 return;
             }
-            let member = servers[0].members.find(e => { return e.id == args[1] });
+            let member = servers[0].members.find(e => {
+                return e.id == args[1]
+            });
             if (!member) {
-                member = servers[0].members.find(e => { return e.name == args[1] });
+                member = servers[0].members.find(e => {
+                    return e.name == args[1]
+                });
                 if (!member) {
                     message.reply("0");
                     return;
                 }
             }
-            const stat = member.stats.find(e => { return e.name == "activity" });
+            const stat = member.stats.find(e => {
+                return e.name == "activity"
+            });
             if (!stat) {
                 message.reply("0");
                 return;
             }
             message.reply(stat.value);
-        } 
+        }
     },
     {
         trigger: "activelist",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             servers[0].members.sort((a, b) => {
-                const sa = a.stats.find(e => { return e.name == "activity" });
-                const sb = b.stats.find(e => { return e.name == "activity" });
+                const sa = a.stats.find(e => {
+                    return e.name == "activity"
+                });
+                const sb = b.stats.find(e => {
+                    return e.name == "activity"
+                });
 
                 return sb.value - sa.value;
             });
@@ -378,7 +403,9 @@ const commands = [
             embed.setAuthor("AWESOM-O // Activity", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
 
             for (let i = 0; i < (servers[0].members.length > 5 ? 5 : servers[0].members.length); i++) {
-                const stat = servers[0].members[i].stats.find(e => { return e.name == "activity" });
+                const stat = servers[0].members[i].stats.find(e => {
+                    return e.name == "activity"
+                });
                 if (!stat) {
                     embed.addField("#" + (i + 1), servers[0].members[i].name + ": 0", true);
                 } else {
@@ -387,13 +414,13 @@ const commands = [
             }
 
             message.channel.send(embed);
-        } 
+        }
     },
     {
         trigger: "w",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
 
             const args = message.content.split(" ");
             if (!args[1]) {
@@ -403,11 +430,13 @@ const commands = [
 
             let query = "";
             for (var i = 1; i < args.length; i++) {
-                if (args[i].startsWith("-")) { continue; }
+                if (args[i].startsWith("-")) {
+                    continue;
+                }
                 query += (args[i] + " ");
             }
             query = query.trim();
-            
+
             spnav.getPageInfo(query, (title, url, desc, thumbnail) => {
 
                 let embed = new discord.RichEmbed();
@@ -416,19 +445,19 @@ const commands = [
                 embed.setURL(url);
                 embed.setThumbnail(thumbnail);
                 embed.setDescription(desc);
-            
+
                 message.channel.send(embed);
             });
-        } 
+        }
     },
     {
         trigger: "random",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
-            
-            const query = eplist[Math.floor(Math.random()*eplist.length)];
-            
+        exec: function (message) {
+
+            const query = eplist[Math.floor(Math.random() * eplist.length)];
+
             spnav.getPageInfo(query, (title, url, desc, thumbnail) => {
 
                 let embed = new discord.RichEmbed();
@@ -437,205 +466,221 @@ const commands = [
                 embed.setURL(url);
                 embed.setThumbnail(thumbnail);
                 embed.setDescription(desc);
-            
+
                 message.channel.send(embed);
             });
-        } 
+        }
     },
     {
         trigger: "avatar",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             const random = Math.floor(Math.random() * Math.floor(5));
-            if (random == 0){
+            if (random == 0) {
                 message.reply("https://www.youtube.com/watch?v=jVhlJNJopOQ");
                 return;
             }
             const avatarUrl = message.author.avatarURL;
             message.reply(avatarUrl.substring(0, avatarUrl.length - 4) + "512");
-        } 
+        }
     },
     {
         trigger: "sub",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             const random = Math.floor(Math.random() * Math.floor(5));
-            if (random == 0){
-                message.reply("", { file: "https://i.redd.it/dq0owwdrbp4z.png" });
+            if (random == 0) {
+                message.reply("", {
+                    file: "https://i.redd.it/dq0owwdrbp4z.png"
+                });
                 return;
             }
             message.reply("https://reddit.com/r/southpark/");
-        } 
+        }
     },
     {
         trigger: "micro",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             message.delete();
-            message.channel.send("", { file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png" });
-        } 
+            message.channel.send("", {
+                file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png"
+            });
+        }
     },
     {
         trigger: "microaggression",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             message.delete();
-            message.channel.send("", { file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png" });
-        } 
+            message.channel.send("", {
+                file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png"
+            });
+        }
     },
     {
         trigger: "reminder",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
-            message.channel.send("", { file: "https://cdn.discordapp.com/attachments/378287210711220224/378648515959586816/Towelie_Logo2.png" });
-        } 
+        exec: function (message) {
+            message.channel.send("", {
+                file: "https://cdn.discordapp.com/attachments/378287210711220224/378648515959586816/Towelie_Logo2.png"
+            });
+        }
     },
     {
         trigger: "welcome",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
-            message.channel.send("", { file: "https://cdn.discordapp.com/attachments/371762864790306820/378305844959248385/Welcome.png" });
-        } 
+        exec: function (message) {
+            message.channel.send("", {
+                file: "https://cdn.discordapp.com/attachments/371762864790306820/378305844959248385/Welcome.png"
+            });
+        }
     },
     {
         trigger: "f",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             const random = Math.floor(Math.random() * Math.floor(3));
-            if (random == 0){
-                message.reply("", { file: "https://cdn.discordapp.com/attachments/379432139856412682/401477891998613504/unknown.png" });
+            if (random == 0) {
+                message.reply("", {
+                    file: "https://cdn.discordapp.com/attachments/379432139856412682/401477891998613504/unknown.png"
+                });
                 return;
             }
             message.reply("Repects have been paid");
-        } 
+        }
     },
     {
         trigger: "times",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             message.channel.send(embeds.times());
-        } 
+        }
     },
     {
         trigger: "batman",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
-            message.channel.send("", { file: "https://cdn.discordapp.com/attachments/379432139856412682/401498015719882752/batman.png" });
-        } 
+        exec: function (message) {
+            message.channel.send("", {
+                file: "https://cdn.discordapp.com/attachments/379432139856412682/401498015719882752/batman.png"
+            });
+        }
     },
     {
         trigger: "member",
         type: "startswith",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             const membermessages = ["I member!", "Ohh yeah I member!", "Me member!", "Ohh boy I member that", "I member!, do you member?"];
-            const random = membermessages[Math.floor(Math.random()*membermessages.length)];
+            const random = membermessages[Math.floor(Math.random() * membermessages.length)];
             message.reply(random);
-        } 
+        }
     },
     {
         trigger: "i broke the dam",
         type: "startswith",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             message.reply("No, I broke the dam");
-        } 
+        }
     },
-    
+
 
     //2.0 Commands
     {
         trigger: "movieidea",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             const movieideas = [
-            "Movie Idea #01: Adam Sandler... is like in love with some girl.. but then it turns out that the girl is actually a golden retriever or something..", 
-            "Movie Idea #02: Adam Sandler... inherits like a billion dollars.. but first he needs to become a boxer or something",
-            "Movie Idea #03: Adam Sandler... is forced to write in javascript... and something",
-            "Movie Idea #04: Adam Sandler is kidnapped and made to copy bootstrap code",
-            "Movie Idea #05: Adam Sandler... is actually some guy with some sword that lights up and stuff",
-            "Movie Idea #06: Adam Sandler... is a robot sent from the future to kill another robot",
-            "Movie Idea #07: Adam Sandler... has like a katana sword.. and eh needs to kill some guy named Bill",
-            "Movie Idea #08: Adam Sandler is forced to train under this chinese guy... thats actually japanese and stuff",
-            "Movie Idea #09: AWESOM-O is forced to clean up rubbish and then like goes into space and stuff",
-            "Movie Idea #10: Adam Sandler argues with this red light robot on some.. eh spaceship",
-            "Movie Idea #11: Adam Sandler... is a toy.. and completes a story",
-            "Movie Idea #12: Adam Sandler... like robs a bank and has a some scars or something...",
-            "Movie Idea #13: Adam Sandler is a like a guy like in the second world war and stuff",
-            "Movie Idea #14: Adam Sandler is in a car... only problem is that he can't go below 50MPH or he'll die",
-            "Movie Idea #15: Adam Sandler is scottish and wears a kilt and stuff",
-            "Movie Idea #16: Adam Sandler has a dream.. but he thinks it real life and stuff",
-            "Movie Idea #17: Adam Sandler is actually a carrot and stuff",
-            "Movie Idea #18: Adam Sandler takes too many drugs.. and has to dodge bullets and stuff",
-            "Movie Idea #19: Adam Sandler.. has to put a tell the sheep to shut up.. and stuff...",
-            "Movie Idea #20: Adam Sandler... is a lion... and he ehh has to become a king and stuff",
-            "Movie Idea #21: Adam Sandler has to stick an axe through a door.. but then like freezes and stuff",
-            "Movie Idea #22: Adam Sandler... has to wear pyjamas and do work.. but then he is asked to have a shower and stuff...",
-            "Movie Idea #23: Adam Sandler has to drive some car into the future... and like has an adventure and something...",
-            "Movie Idea #24: Adam Sandler... is an old person... and he doesn't like his life so he eh... attaches balloons to his house and flys and away and stuff..",
-            "Movie Idea #25: Adam Sandler... is accused of hitting this girl.. but he did naht hit her.. its not true.. its bullshit.. oh hi mark...",
-            "Movie Idea #26: Adam Sandler... doesn't like fart jokes.. so he like tries to kill some canadians.. and saddam hussein comes back and stuff...",
-            "Movie Idea #27: Adam Sandler.. is like the captain on this ehh...space..ship.. and ehh he yells khan a lot...",
-            "Movie Idea #28: Adam Sandler... has to play drums in this eh.. jazz band but he doesnt know if he is rushing or dragging...",
-            "Movie Idea #29: Adam Sandler.. is hungry.. so he plays some games... to get his food stamps...",
-            "Movie Idea #30: Adam Sandler.. is this dictator who fancies some girl who works in like some wholefoods place.. so he decides to not be a dictator and stuff..",
-            "Movie Idea #31: Adam Sandler and his friend makes a TV show called Adam's World but is not allowed to play stairway in the guitar shop... and stuff...",
-            "Movie Idea #34.249.184.154: Adam Sandler... has to make money through patreon to fund the servers....  https://www.patreon.com/awesomo ..not selling out at all...",
-            "Movie Idea #69: Adam Sandler is the new kid in a small town in.. eh.. Colorado.. and he has to deal with these 8-year olds and stuff...",
-            "Movie Idea #2305: Adam Sandler is trapped on an island... and falls in love with a ehh coconut",
+                "Movie Idea #01: Adam Sandler... is like in love with some girl.. but then it turns out that the girl is actually a golden retriever or something..",
+                "Movie Idea #02: Adam Sandler... inherits like a billion dollars.. but first he needs to become a boxer or something",
+                "Movie Idea #03: Adam Sandler... is forced to write in javascript... and something",
+                "Movie Idea #04: Adam Sandler is kidnapped and made to copy bootstrap code",
+                "Movie Idea #05: Adam Sandler... is actually some guy with some sword that lights up and stuff",
+                "Movie Idea #06: Adam Sandler... is a robot sent from the future to kill another robot",
+                "Movie Idea #07: Adam Sandler... has like a katana sword.. and eh needs to kill some guy named Bill",
+                "Movie Idea #08: Adam Sandler is forced to train under this chinese guy... thats actually japanese and stuff",
+                "Movie Idea #09: AWESOM-O is forced to clean up rubbish and then like goes into space and stuff",
+                "Movie Idea #10: Adam Sandler argues with this red light robot on some.. eh spaceship",
+                "Movie Idea #11: Adam Sandler... is a toy.. and completes a story",
+                "Movie Idea #12: Adam Sandler... like robs a bank and has a some scars or something...",
+                "Movie Idea #13: Adam Sandler is a like a guy like in the second world war and stuff",
+                "Movie Idea #14: Adam Sandler is in a car... only problem is that he can't go below 50MPH or he'll die",
+                "Movie Idea #15: Adam Sandler is scottish and wears a kilt and stuff",
+                "Movie Idea #16: Adam Sandler has a dream.. but he thinks it real life and stuff",
+                "Movie Idea #17: Adam Sandler is actually a carrot and stuff",
+                "Movie Idea #18: Adam Sandler takes too many drugs.. and has to dodge bullets and stuff",
+                "Movie Idea #19: Adam Sandler.. has to put a tell the sheep to shut up.. and stuff...",
+                "Movie Idea #20: Adam Sandler... is a lion... and he ehh has to become a king and stuff",
+                "Movie Idea #21: Adam Sandler has to stick an axe through a door.. but then like freezes and stuff",
+                "Movie Idea #22: Adam Sandler... has to wear pyjamas and do work.. but then he is asked to have a shower and stuff...",
+                "Movie Idea #23: Adam Sandler has to drive some car into the future... and like has an adventure and something...",
+                "Movie Idea #24: Adam Sandler... is an old person... and he doesn't like his life so he eh... attaches balloons to his house and flys and away and stuff..",
+                "Movie Idea #25: Adam Sandler... is accused of hitting this girl.. but he did naht hit her.. its not true.. its bullshit.. oh hi mark...",
+                "Movie Idea #26: Adam Sandler... doesn't like fart jokes.. so he like tries to kill some canadians.. and saddam hussein comes back and stuff...",
+                "Movie Idea #27: Adam Sandler.. is like the captain on this ehh...space..ship.. and ehh he yells khan a lot...",
+                "Movie Idea #28: Adam Sandler... has to play drums in this eh.. jazz band but he doesnt know if he is rushing or dragging...",
+                "Movie Idea #29: Adam Sandler.. is hungry.. so he plays some games... to get his food stamps...",
+                "Movie Idea #30: Adam Sandler.. is this dictator who fancies some girl who works in like some wholefoods place.. so he decides to not be a dictator and stuff..",
+                "Movie Idea #31: Adam Sandler and his friend makes a TV show called Adam's World but is not allowed to play stairway in the guitar shop... and stuff...",
+                "Movie Idea #34.249.184.154: Adam Sandler... has to make money through patreon to fund the servers....  https://www.patreon.com/awesomo ..not selling out at all...",
+                "Movie Idea #69: Adam Sandler is the new kid in a small town in.. eh.. Colorado.. and he has to deal with these 8-year olds and stuff...",
+                "Movie Idea #2305: Adam Sandler is trapped on an island... and falls in love with a ehh coconut",
             ];
-            const random = movieideas[Math.floor(Math.random()*movieideas.length)];
+            const random = movieideas[Math.floor(Math.random() * movieideas.length)];
             message.reply(random);
-        } 
+        }
     },
     {
         trigger: "helpline",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             message.channel.send("https://www.reddit.com/r/suicideprevention/comments/6hjba7/info_suicide_prevention_hotlines/");
-        } 
+        }
     },
     {
         trigger: "info",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             message.channel.send(embeds.info());
-        } 
+        }
     },
     {
         trigger: "help",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             message.channel.send(embeds.help());
-        } 
+        }
     },
     {
         trigger: "harvest",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             message.channel.send(embeds.harvest());
-        } 
+        }
     },
     {
         trigger: "ground",
         type: "command",
         perms: pModJson,
-        exec: function(message) {
-            const role = message.guild.roles.find(e => { return e.name == "Grounded"; });
+        exec: function (message) {
+            const role = message.guild.roles.find(e => {
+                return e.name == "Grounded";
+            });
             if (!role) {
                 message.reply("role err");
                 return;
@@ -645,9 +690,13 @@ const commands = [
                 message.reply("arg err");
                 return;
             }
-            let member = message.guild.members.find(e => { return e.user.id == args[1]; });
+            let member = message.guild.members.find(e => {
+                return e.user.id == args[1];
+            });
             if (!member) {
-                member = message.guild.members.find(e => { return e.user.username == args[1]; });
+                member = message.guild.members.find(e => {
+                    return e.user.username == args[1];
+                });
                 if (!member) {
                     message.reply("member err");
                     return;
@@ -655,14 +704,16 @@ const commands = [
             }
             member.addRole(role);
             message.reply("Grounded " + member.user.username);
-        } 
+        }
     },
     {
         trigger: "unground",
         type: "command",
         perms: pModJson,
-        exec: function(message) {
-            const role = message.guild.roles.find(e => { return e.name == "Grounded"; });
+        exec: function (message) {
+            const role = message.guild.roles.find(e => {
+                return e.name == "Grounded";
+            });
             if (!role) {
                 message.reply("role err");
                 return;
@@ -672,9 +723,13 @@ const commands = [
                 message.reply("arg err");
                 return;
             }
-            let member = message.guild.members.find(e => { return e.user.id == args[1]; });
+            let member = message.guild.members.find(e => {
+                return e.user.id == args[1];
+            });
             if (!member) {
-                member = message.guild.members.find(e => { return e.user.username == args[1]; });
+                member = message.guild.members.find(e => {
+                    return e.user.username == args[1];
+                });
                 if (!member) {
                     message.reply("member err");
                     return;
@@ -682,36 +737,52 @@ const commands = [
             }
             member.removeRole(role);
             message.reply("Ungrounded " + member.user.username);
-        } 
+        }
     },
     {
         trigger: "join",
         type: "command",
         perms: pNkJson,
-        exec: function(message) {
+        exec: function (message) {
             const args = message.content.split(" ");
             if (!args[1]) {
                 message.reply("arg err");
                 return;
             }
 
-            let cf = message.guild.roles.find(e => { return e.name == "Coon & Friends"; });
-            let fp = message.guild.roles.find(e => { return e.name == "Freedom Pals"; });
-            let cm = message.guild.roles.find(e => { return e.name == "Chaos Minions"; });
-            let gk = message.guild.roles.find(e => { return e.name == "Goth Kids"; });
+            let cf = message.guild.roles.find(e => {
+                return e.name == "Coon & Friends";
+            });
+            let fp = message.guild.roles.find(e => {
+                return e.name == "Freedom Pals";
+            });
+            let cm = message.guild.roles.find(e => {
+                return e.name == "Chaos Minions";
+            });
+            let gk = message.guild.roles.find(e => {
+                return e.name == "Goth Kids";
+            });
             if (!cf || !fp || !cm || !gk) {
                 message.reply("role err");
                 return;
             }
 
-            let mcf = message.member.roles.find(e => { return e.name == "Coon & Friends"; });
-            let mfp = message.member.roles.find(e => { return e.name == "Freedom Pals"; });
-            let mcm = message.member.roles.find(e => { return e.name == "Chaos Minions"; });
-            let mgk = message.member.roles.find(e => { return e.name == "Goth Kids"; });
+            let mcf = message.member.roles.find(e => {
+                return e.name == "Coon & Friends";
+            });
+            let mfp = message.member.roles.find(e => {
+                return e.name == "Freedom Pals";
+            });
+            let mcm = message.member.roles.find(e => {
+                return e.name == "Chaos Minions";
+            });
+            let mgk = message.member.roles.find(e => {
+                return e.name == "Goth Kids";
+            });
 
             let role;
             let name;
-            switch(args[1]) {
+            switch (args[1]) {
                 case "cf":
                     if (mcf) {
                         message.reply("duplicate err");
@@ -767,11 +838,19 @@ const commands = [
         trigger: "civilwar",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
-            let mcf = message.member.roles.find(e => { return e.name == "Coon & Friends"; });
-            let mfp = message.member.roles.find(e => { return e.name == "Freedom Pals"; });
-            let mcm = message.member.roles.find(e => { return e.name == "Chaos Minions"; });
-            let mgk = message.member.roles.find(e => { return e.name == "Goth Kids"; });
+        exec: function (message) {
+            let mcf = message.member.roles.find(e => {
+                return e.name == "Coon & Friends";
+            });
+            let mfp = message.member.roles.find(e => {
+                return e.name == "Freedom Pals";
+            });
+            let mcm = message.member.roles.find(e => {
+                return e.name == "Chaos Minions";
+            });
+            let mgk = message.member.roles.find(e => {
+                return e.name == "Goth Kids";
+            });
             if (mcf) {
                 message.member.removeRole(mcf);
             }
@@ -788,19 +867,6 @@ const commands = [
             message.reply(message.author.username + " is no longer part of a group");
         }
     },
-    {
-        trigger: "hmmm",
-        type: "command",
-        perms: permJson,
-        exec: function(message) {
-            const random = Math.floor(Math.random() * Math.floor(5));
-            if (random == 0){
-                message.reply("https://youtu.be/XF2ayWcJfxo?t=1m20s");
-                return;
-            }
-            message.reply("Things that make you go :thinking::thinking::thinking:");
-        } 
-    },
 
 
 
@@ -809,30 +875,46 @@ const commands = [
         trigger: prefix + "add",
         type: "startswith",
         perms: pNkJson,
-        exec: function(message) {
+        exec: function (message) {
             const args = message.content.split("add");
             if (!args[1]) {
                 message.reply("arg err");
                 return;
             }
 
-            let cf = message.guild.roles.find(e => { return e.name == "Coon & Friends"; });
-            let fp = message.guild.roles.find(e => { return e.name == "Freedom Pals"; });
-            let cm = message.guild.roles.find(e => { return e.name == "Chaos Minions"; });
-            let gk = message.guild.roles.find(e => { return e.name == "Goth Kids"; });
+            let cf = message.guild.roles.find(e => {
+                return e.name == "Coon & Friends";
+            });
+            let fp = message.guild.roles.find(e => {
+                return e.name == "Freedom Pals";
+            });
+            let cm = message.guild.roles.find(e => {
+                return e.name == "Chaos Minions";
+            });
+            let gk = message.guild.roles.find(e => {
+                return e.name == "Goth Kids";
+            });
             if (!cf || !fp || !cm || !gk) {
                 message.reply("role err");
                 return;
             }
 
-            let mcf = message.member.roles.find(e => { return e.name == "Coon & Friends"; });
-            let mfp = message.member.roles.find(e => { return e.name == "Freedom Pals"; });
-            let mcm = message.member.roles.find(e => { return e.name == "Chaos Minions"; });
-            let mgk = message.member.roles.find(e => { return e.name == "Goth Kids"; });
+            let mcf = message.member.roles.find(e => {
+                return e.name == "Coon & Friends";
+            });
+            let mfp = message.member.roles.find(e => {
+                return e.name == "Freedom Pals";
+            });
+            let mcm = message.member.roles.find(e => {
+                return e.name == "Chaos Minions";
+            });
+            let mgk = message.member.roles.find(e => {
+                return e.name == "Goth Kids";
+            });
 
             let role;
             let name;
-            switch(args[1]) {
+            switch (args[1]) {
                 case "cf":
                     if (mcf) {
                         message.reply("duplicate err");
@@ -886,37 +968,37 @@ const commands = [
         trigger: "fuckyourself",
         type: "command",
         perms: pModJson,
-        exec: function(message) {
+        exec: function (message) {
             const embed = new discord.RichEmbed()
-            .setImage("http://1.images.southparkstudios.com/blogs/southparkstudios.com/files/2014/09/1801_5a.gif");
-        message.channel.send(embed);
-        } 
+                .setImage("http://1.images.southparkstudios.com/blogs/southparkstudios.com/files/2014/09/1801_5a.gif");
+            message.channel.send(embed);
+        }
     },
     {
         trigger: "fuckyou",
         type: "command",
         perms: pModJson,
-        exec: function(message) {
+        exec: function (message) {
             const embed = new discord.RichEmbed()
                 .setImage("https://cdn.vox-cdn.com/thumbor/J0D6YqKKwCqNY2zaej_MEUlT-oo=/3x0:1265x710/1600x900/cdn.vox-cdn.com/uploads/chorus_image/image/39977666/fuckyou.0.0.jpg");
             message.channel.send(embed);
-        } 
+        }
     },
     {
         trigger: "dick",
         type: "command",
         perms: pModJson,
-        exec: function(message) {
+        exec: function (message) {
             const embed = new discord.RichEmbed()
                 .setImage("https://actualconversationswithmyhusband.files.wordpress.com/2017/01/stop-being-a-dick-scott.gif");
             message.channel.send(embed);
-        } 
+        }
     },
     {
         trigger: "poll",
         type: "command",
         perms: pModJson,
-        exec: function(message) {
+        exec: function (message) {
             const args = message.content.split(" ");
             if (!args[1]) {
                 return;
@@ -926,7 +1008,10 @@ const commands = [
 
             let qs = "";
             let pn = "";
-            let bs = false, jbe = false, be = false, tt = false;
+            let bs = false,
+                jbe = false,
+                be = false,
+                tt = false;
             for (let i = 1; i < args.length; i++) {
                 if (args[i].indexOf("[") != -1) {
                     bs = true;
@@ -957,7 +1042,7 @@ const commands = [
 
             let q = [];
             let s, e = 1;
-            while(true) {
+            while (true) {
                 s = qs.indexOf(",", e);
                 if (s == -1) {
                     s = qs.indexOf("]", e);
@@ -986,7 +1071,7 @@ const commands = [
                     q: q
                 });
 
-                const moreEmoji = function(limit, current) {
+                const moreEmoji = function (limit, current) {
                     if (current == limit) {
                         return;
                     }
@@ -994,15 +1079,15 @@ const commands = [
                         moreEmoji(limit, current + 1);
                     });
                 }
-                
+
                 moreEmoji(q.length, 0);
 
                 const timeout = 1800000;
                 timers.setTimeout(() => {
 
                     if (polls.find(e => {
-                        return e.id == message.id;
-                    })) {
+                            return e.id == message.id;
+                        })) {
 
                         let res = [];
                         for (let i = 0; i < q.length; i++) {
@@ -1013,7 +1098,7 @@ const commands = [
                             }
                             res.push(react.count - 1);
                         }
-                        
+
                         const resEmbed = new discord.RichEmbed();
                         resEmbed.setColor(0x8bc34a);
                         resEmbed.setAuthor("AWESOM-O // Poll results!", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
@@ -1022,17 +1107,17 @@ const commands = [
                         for (let i = 0; i < q.length; i++) {
                             resEmbed.addField(q[i], res[i] + " votes");
                         }
-    
+
                         message.channel.send(resEmbed);
                     }
 
-                    for (let  i = 0; i < polls.length; i++) {
+                    for (let i = 0; i < polls.length; i++) {
                         if (polls[i].id == message.id) {
                             polls.splice(i, 1);
                             break;
                         }
                     }
-            
+
                 }, timeout);
             });
         }
@@ -1041,7 +1126,7 @@ const commands = [
         trigger: "endpoll",
         type: "command",
         perms: pModJson,
-        exec: function(message) {
+        exec: function (message) {
             const args = message.content.split(" ");
             if (!args[1]) {
                 return;
@@ -1063,11 +1148,11 @@ const commands = [
                 }
                 res.push(react.count - 1);
             }
-            
+
             const resEmbed = new discord.RichEmbed();
             resEmbed.setColor(0x8bc34a);
             resEmbed.setAuthor("AWESOM-O // Poll results!", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
-            
+
             for (let i = 0; i < poll.q.length; i++) {
                 resEmbed.addField(poll.q[i], res[i] + " votes");
             }
@@ -1079,7 +1164,7 @@ const commands = [
         trigger: "wink",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             message.reply("**wonk**");
         }
     },
@@ -1089,7 +1174,7 @@ const commands = [
         trigger: "rid",
         type: "command",
         perms: pDevJson,
-        exec: function(message) {
+        exec: function (message) {
             const args = message.content.split(" ");
             if (!args[1]) {
                 return;
@@ -1101,7 +1186,9 @@ const commands = [
             }
             search = search.trim();
 
-            const role = message.guild.roles.find(e => { return e.name == search });
+            const role = message.guild.roles.find(e => {
+                return e.name == search
+            });
             if (!role) {
                 return;
             }
@@ -1113,7 +1200,7 @@ const commands = [
         trigger: "coin",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             const flip = Math.floor(Math.random() * Math.floor(2));
             let res;
             if (flip == 0) {
@@ -1128,10 +1215,10 @@ const commands = [
         trigger: "dice",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
 
             const random = Math.floor(Math.random() * Math.floor(10));
-            if (random == 0){
+            if (random == 0) {
                 message.reply("https://pbs.twimg.com/profile_images/650952807449653248/lQc14tHw.jpg");
                 return;
             }
@@ -1152,7 +1239,7 @@ const commands = [
         trigger: "rps",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             const rps = Math.floor(Math.random() * Math.floor(3));
             let res;
             if (rps == 0) {
@@ -1170,26 +1257,26 @@ const commands = [
         trigger: "nk",
         type: "command",
         perms: pModJson,
-        exec: function(message) {
+        exec: function (message) {
 
             const args = message.content.split(" ");
-    
+
             var target = "";
             for (var i = 1; i < args.length; i++) {
                 target += args[i] + " ";
             }
             target = target.trim();
-    
+
             var targetMember = message.guild.members.find(e => {
                 return e.user.username == target;
             });
-    
+
             if (!targetMember) {
-    
+
                 targetMember = message.guild.members.find(e => {
                     return e.user.id == target;
                 });
-    
+
                 if (!targetMember) {
                     message.reply("User not found!");
                     return;
@@ -1197,10 +1284,10 @@ const commands = [
             }
 
             Promise.all([jimp.read("https://cdn.discordapp.com/avatars/" + targetMember.user.id + "/" + targetMember.user.avatar + ".png?size=128"), jimp.read("./src/bot/assets/label.png")]).then(values => {
-                
+
                 const avatar = values[0];
                 const tLabel = values[1];
-            
+
                 avatar.mask(jMask, 0, 0);
                 tLabel.print(jFont, 0, 10, targetMember.user.username);
 
@@ -1211,7 +1298,9 @@ const commands = [
                 jBase.composite(tLabel, 775, 260);
 
                 jBase.write("./temp.png", () => {
-                    message.channel.send({ file: "./temp.png" });
+                    message.channel.send({
+                        file: "./temp.png"
+                    });
                 });
 
             }).catch(err => {
@@ -1224,7 +1313,7 @@ const commands = [
         trigger: "coin",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             const flip = Math.floor(Math.random() * Math.floor(2));
             let res;
             if (flip == 0) {
@@ -1240,7 +1329,7 @@ const commands = [
         trigger: "gif",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             const map = ["vchip", "buttersgun", "buttersdance", "kennydance", "meeem", "cartmandance", "slapgif", "zimmerman", "nice", "triggered", "cartmansmile", "stanninja", "kylethinking", "ninjastar", "cartmaninvisible", "stanpuking", "kylegiant", "iketrumpet"];
             const gifs = {
                 vchip: "https://cdn.discordapp.com/attachments/209040403918356481/403242859798462485/vchipgif.gif",
@@ -1266,7 +1355,7 @@ const commands = [
             const args = message.content.split(" ")
 
             if (!args[1] || !gifs[args[1]]) {
-                let embed = new discord.RichEmbed().setImage(gifs[map[Math.floor(Math.random()*map.length)]]);
+                let embed = new discord.RichEmbed().setImage(gifs[map[Math.floor(Math.random() * map.length)]]);
                 message.channel.send(embed);
                 return;
             }
@@ -1279,20 +1368,22 @@ const commands = [
         trigger: "back",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             message.channel.send("<:imback:403307515645001748> <@" + message.author.id + ">" + " is baccccckkk!");
         }
     },
-    
+
     // temp music
     {
         trigger: "pie",
         type: "command",
         perms: pGlobJson,
-        exec: function(message) {
+        exec: function (message) {
             if (message.member.voiceChannel) {
 
-                let conn = client.voiceConnections.find(e => { return e.channel.id; }, message.member.voiceChannel.id);
+                let conn = client.voiceConnections.find(e => {
+                    return e.channel.id;
+                }, message.member.voiceChannel.id);
 
                 if (conn) {
                     conn.playFile("pie.mp3");
@@ -1307,31 +1398,62 @@ const commands = [
             }
         }
     },
-{
-    trigger: "oof",
-    type: "command",
-    perms: pGlobJson,
-    exec: function(message) {
-        if (message.member.voiceChannel) {
+    {
+        trigger: "oof",
+        type: "command",
+        perms: pGlobJson,
+        exec: function (message) {
+            if (message.member.voiceChannel) {
 
-            let conn = client.voiceConnections.find(e => { return e.channel.id; }, message.member.voiceChannel.id);
+                let conn = client.voiceConnections.find(e => {
+                    return e.channel.id;
+                }, message.member.voiceChannel.id);
 
-            if (conn) {
-                conn.playFile("oof.mp3");
-            } else {
-                message.member.voiceChannel.join().then(conn => {
+                if (conn) {
                     conn.playFile("oof.mp3");
-                });
-            }
+                } else {
+                    message.member.voiceChannel.join().then(conn => {
+                        conn.playFile("oof.mp3");
+                    });
+                }
 
-        } else {
-            const random = Math.floor(Math.random() * Math.floor(5));
-            if (random == 0){
-                message.reply("https://www.youtube.com/watch?v=KWHrGQpIWP4");
-                return;
+            } else {
+                const random = Math.floor(Math.random() * Math.floor(5));
+                if (random == 0) {
+                    message.reply("https://www.youtube.com/watch?v=KWHrGQpIWP4");
+                    return;
+                }
+                message.reply("https://www.youtube.com/watch?v=f49ELvryhao");
             }
-            message.reply("https://www.youtube.com/watch?v=f49ELvryhao");
-        } 
+        }
+    },
+    {
+        trigger: "hmmm",
+        type: "command",
+        perms: pGlobJson,
+        exec: function (message) {
+            if (message.member.voiceChannel) {
+
+                let conn = client.voiceConnections.find(e => {
+                    return e.channel.id;
+                }, message.member.voiceChannel.id);
+
+                if (conn) {
+                    conn.playFile("hmmm.mp3");
+                } else {
+                    message.member.voiceChannel.join().then(conn => {
+                        conn.playFile("hmmm.mp3");
+                    });
+                }
+
+            } else {
+                const random = Math.floor(Math.random() * Math.floor(5));
+                if (random == 0) {
+                    message.reply("https://youtu.be/XF2ayWcJfxo?t=1m20s");
+                    return;
+                }
+                message.reply("Things that make you go :thinking::thinking::thinking:");
+            }
         }
     }
 ];
@@ -1344,7 +1466,7 @@ class Command {
 
         const base = this.json;
 
-        switch(base.type) {
+        switch (base.type) {
             case "command":
                 return message.content.split(" ")[0].toLowerCase() == (prefix + base.trigger.toLowerCase());
                 break;
@@ -1365,12 +1487,16 @@ class Command {
 
         return false;
     }
-    _check(message /*members from db*/) {
+    _check(message /*members from db*/ ) {
 
         const base = this.json;
         const perms = base.perms;
 
-        let server = true, channel = true, roles = true, member = true, stats = true;
+        let server = true,
+            channel = true,
+            roles = true,
+            member = true,
+            stats = true;
 
         // Server.
         server = perms.server;
@@ -1436,13 +1562,13 @@ class Command {
 
         return (server && channel && roles && member);
     }
-    exec(message, prefix/*, members*/) {
+    exec(message, prefix /*, members*/ ) {
 
         if (!this._verify(message, prefix)) {
             return;
         }
 
-        if (!this._check(message/*, perms, members*/)) {
+        if (!this._check(message /*, perms, members*/ )) {
             return;
         }
 
@@ -1462,7 +1588,9 @@ for (let i = 0; i < commands.length; i++) {
 // Emitted whenever a message is created.
 client.on("message", message => {
 
-    if (message.author.equals(client.user)) { return; }
+    if (message.author.equals(client.user)) {
+        return;
+    }
 
     for (let i = 0; i < cmds.length; i++) {
         cmds[i].exec(message, prefix);
@@ -1540,13 +1668,11 @@ client.on("message", message => {
         servers[0].members.push({
             id: message.author.id,
             name: message.author.username,
-            stats: [
-                {
-                    name: "activity",
-                    value: message.content.length > 20 ? (message.content.length > 100 ? 8 : 6) : 2,
-                    lastmsg: 0
-                }
-            ]
+            stats: [{
+                name: "activity",
+                value: message.content.length > 20 ? (message.content.length > 100 ? 8 : 6) : 2,
+                lastmsg: 0
+            }]
         });
 
     }
@@ -1697,10 +1823,12 @@ client.on("messageDelete", message => {
 
     try {
 
-        const channel = message.guild.channels.find(e => { return e.name == "logs" });
+        const channel = message.guild.channels.find(e => {
+            return e.name == "logs"
+        });
         channel.send(embeds.deletion(message));
 
-    } catch(e) {
+    } catch (e) {
 
         console.log("Error logging message deletion");
     }
@@ -3891,7 +4019,7 @@ function loadAssets(cb) {
             jBase = values[0];
             jMask = values[1];
             jFont = values[2];
-    
+
             console.log("DEBUG >> Loaded [" + "3" + "] assets.");
 
             // And finally load the ep list.
@@ -3902,7 +4030,7 @@ function loadAssets(cb) {
                 // Set up db sve interval. (def: 300000)
                 const interval = 300000;
                 timers.setInterval(() => {
-            
+
                     // activity
                     for (let i = 0; i < servers[0].members.length; i++) {
                         for (let j = 0; j < servers[0].members[i].stats.length; j++) {
@@ -3917,19 +4045,19 @@ function loadAssets(cb) {
                             }
                         }
                     }
-            
+
                     Server.findById(ourServerId, (err, server) => {
                         if (err) {
                             console.log("2 >> THE DB IS BROKEN, WERE ALL FUCKED!");
                             return;
                         }
-            
+
                         let found = false;
                         for (var i = 0; i < servers.length; i++) {
                             if (servers[i]._id == server._id) {
-                
+
                                 found = true;
-            
+
                                 // Convert old json storage and save in db.
                                 /*
                                 const members = [];
@@ -3962,23 +4090,23 @@ function loadAssets(cb) {
                                 } else {
                                     servers[i].stats[0].totalMembers = guild.memberCount;
                                 }
-            
+
                                 server.members = servers[i].members;
                                 server.stats = servers[i].stats;
                             }
                         }
-                
+
                         if (!found) {
                             console.log("3 >> THE DB IS BROKEN, WERE ALL FUCKED!");
                         }
-            
+
                         server.save(err => {
                             if (err) {
                                 console.log("4 >> THE DB IS BROKEN, WERE ALL FUCKED!");
                             }
                         });
                     });
-            
+
                 }, interval);
 
                 // Cb if successfull.
@@ -3987,7 +4115,7 @@ function loadAssets(cb) {
             });
 
         }).catch(err => {
-    
+
             console.log("ERROR >> Failed to load assets.");
             cb("error!");
             return;
@@ -3997,5 +4125,5 @@ function loadAssets(cb) {
 
 module.exports = {
     client,
-    loadAssets   
+    loadAssets
 };
