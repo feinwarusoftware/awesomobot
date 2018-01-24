@@ -607,19 +607,6 @@ const commands = [
         } 
     },
     {
-        trigger: "oof",
-        type: "command",
-        perms: pGlobJson,
-        exec: function(message) {
-            const random = Math.floor(Math.random() * Math.floor(5));
-            if (random == 0){
-                message.reply("https://www.youtube.com/watch?v=KWHrGQpIWP4");
-                return;
-            }
-            message.reply("https://www.youtube.com/watch?v=f49ELvryhao");
-        } 
-    },
-    {
         trigger: "info",
         type: "command",
         perms: pGlobJson,
@@ -1318,6 +1305,33 @@ const commands = [
             } else {
                 message.reply("You need to be in a voice channel!");
             }
+        }
+    },
+{
+    trigger: "oof",
+    type: "command",
+    perms: pGlobJson,
+    exec: function(message) {
+        if (message.member.voiceChannel) {
+
+            let conn = client.voiceConnections.find(e => { return e.channel.id; }, message.member.voiceChannel.id);
+
+            if (conn) {
+                conn.playFile("oof.mp3");
+            } else {
+                message.member.voiceChannel.join().then(conn => {
+                    conn.playFile("oof.mp3");
+                });
+            }
+
+        } else {
+            const random = Math.floor(Math.random() * Math.floor(5));
+            if (random == 0){
+                message.reply("https://www.youtube.com/watch?v=KWHrGQpIWP4");
+                return;
+            }
+            message.reply("https://www.youtube.com/watch?v=f49ELvryhao");
+        } 
         }
     }
 ];
