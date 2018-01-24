@@ -313,14 +313,15 @@ const commands = [{
                     return e.name == "shits"
                 });
 
-                if (!sa) {
-                    return 0 - sb.value;
+                if (!sa && !sb) {
+                    return 0;
+                } else if (!sa) {
+                    return sb.value - 0;
+                } else if (!sb) {
+                    return 0 - sa.value;
+                } else {
+                    return sb.value - sa.value;
                 }
-                if (!sb) {
-                    return sa.value - 0;
-                }
-
-                return sb.value - sa.value;
             });
 
             let embed = new discord.RichEmbed();
