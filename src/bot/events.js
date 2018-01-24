@@ -18,7 +18,7 @@ const servers = [];
 let eplist = [];
 
 // TEMP
-const prefix = "(secret-prefix)";
+const prefix = "-";
 
 //
 const glob = {
