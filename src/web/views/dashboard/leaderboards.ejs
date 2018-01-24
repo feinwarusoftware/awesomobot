@@ -85,7 +85,7 @@
                                         <%= currentServer.name %>
                                     </b>
                                 </h5>
-                                <button type="button" onclick="alert()" class="btn btn-primary">View Version 1.0 Leaderboard</button>
+                                <button type="button" id="alert" class="btn btn-primary">View Version 1.0 Leaderboard</button>
                 </div>
                 <!-- Grid column -->
             </div>
@@ -297,9 +297,9 @@
 
         </script>
 <script>
-    function alert() {
-        alert("The Devs are currently processing the data from the switchover.");
-    }
+    const button = document.getElementById("alert");
+    button.onclick = function() {
+        alert("The devs are currently sorting through the legacy data. This section will be up later")}
     </script>
 </body>
 
