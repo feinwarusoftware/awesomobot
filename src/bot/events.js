@@ -1321,7 +1321,7 @@ const commands = [{
         type: "command",
         perms: pGlobJson,
         exec: function (message) {
-            const map = ["vchip", "buttersgun", "buttersdance", "kennydance", "meeem", "cartmandance", "slapgif", "zimmerman", "nice", "triggered", "cartmansmile", "stanninja", "kylethinking", "ninjastar", "cartmaninvisible", "stanpuking", "kylegiant", "iketrumpet"];
+            const map = ["vchip", "buttersgun", "buttersdance", "kennydance", "meeem", "cartmandance", "slap", "zimmerman", "nice", "triggered", "cartmansmile", "stanninja", "kylethinking", "ninjastar", "cartmaninvisible", "stanpuking", "kylegiant", "iketrumpet"];
             const gifs = {
                 vchip: "https://cdn.discordapp.com/attachments/209040403918356481/403242859798462485/vchipgif.gif",
                 buttersgun: "https://cdn.discordapp.com/attachments/209040403918356481/403242745436831745/buttersgunguf.gif",
@@ -1329,7 +1329,7 @@ const commands = [{
                 kennydance: "https://cdn.discordapp.com/attachments/209040403918356481/403242745608798218/kennydancegif.gif",
                 meeem: "https://cdn.discordapp.com/attachments/209040403918356481/403242745176522754/meeemgif.gif",
                 cartmandance: "https://cdn.discordapp.com/attachments/209040403918356481/403242753695154205/cartmandagif.gif",
-                slapgif: "https://cdn.discordapp.com/attachments/209040403918356481/403242745734365184/slapgif.gif",
+                slap: "https://cdn.discordapp.com/attachments/209040403918356481/403242745734365184/slapgif.gif",
                 zimmerman: "https://cdn.discordapp.com/attachments/209040403918356481/403242825199779840/zimmermangif.gif",
                 nice: "https://cdn.discordapp.com/attachments/209040403918356481/403242751375966208/nicegif.gif",
                 triggered: "https://cdn.discordapp.com/attachments/209040403918356481/403242747076542484/triggeredgif.gif",
