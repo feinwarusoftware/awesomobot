@@ -1096,7 +1096,7 @@ const commands = [{
 
                 moreEmoji(q.length, 0);
 
-                const timeout = 1800000;
+                const timeout = 900000;
                 timers.setTimeout(() => {
 
                     if (polls.find(e => {
