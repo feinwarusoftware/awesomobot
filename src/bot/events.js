@@ -1455,6 +1455,30 @@ const commands = [{
                 message.reply("Things that make you go :thinking::thinking::thinking:");
             }
         }
+    },
+    {
+        trigger: "vcleave",
+        type: "command",
+        perms: pGlobJson,
+        exec: function (message) {
+            if (message.member.voiceChannel) {
+
+                let conn = client.voiceConnections.find(e => {
+                    return e.channel.id;
+                }, message.member.voiceChannel.id);
+
+                if (conn) {
+                    if (conn) {
+                        conn.disconnect();
+                    }
+                } else {
+                    message.reply("The bot is not in your voice channel!");
+                }
+
+            } else {
+                message.reply("You need to be in a voice channel!");
+            }
+        }
     }
 ];
 
