@@ -4066,7 +4066,7 @@ function loadAssets(cb) {
                             if (servers[0].members[i].stats[j].name == "activity") {
                                 servers[0].members[i].stats[j].lastmsg += 1;
                                 if (servers[0].members[i].stats[j].lastmsg >= 24) {
-                                    servers[0].members[i].stats[j].value -= (Math.log10((servers[0].members[i].stats[j].lastmsg / 12) - 1) * 70);
+                                    servers[0].members[i].stats[j].value -= (Math.log10(servers[0].members[i].stats[j].lastmsg - 575) * 70) / 288;
                                 }
                                 if (servers[0].members[i].stats[j].value < 0) {
                                     servers[0].members[i].stats[j].value = 0;
