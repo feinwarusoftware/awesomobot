@@ -1011,7 +1011,7 @@ const commands = [{
     {
         trigger: "poll",
         type: "command",
-        perms: pGlobJson,
+        perms: pMod,
         exec: function (message) {
             const args = message.content.split(" ");
             if (!args[1]) {
