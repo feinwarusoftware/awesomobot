@@ -305,9 +305,6 @@ const commands = [{
         type: "command",
         perms: pGlobJson,
         exec: function (message) {
-
-            let rem = 0;
-
             servers[0].members.sort((a, b) => {
                 const sa = a.stats.find(e => {
                     return e.name == "shits"
@@ -315,10 +312,6 @@ const commands = [{
                 const sb = b.stats.find(e => {
                     return e.name == "shits"
                 });
-
-                if (!sa || !sb) {
-                    return Math.min();
-                }
 
                 return sb.value - sa.value;
             });
@@ -331,7 +324,9 @@ const commands = [{
                 const stat = servers[0].members[i].stats.find(e => {
                     return e.name == "shits"
                 });
-                if (stat) {
+                if (!stat) {
+                    embed.addField("#" + (i + 1), servers[0].members[i].name + ": 0", true);
+                } else {
                     embed.addField("#" + (i + 1), servers[0].members[i].name + ": " + stat.value, true);
                 }
             }
