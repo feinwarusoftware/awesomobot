@@ -1011,7 +1011,7 @@ const commands = [{
     {
         trigger: "poll",
         type: "command",
-        perms: pModJson,
+        perms: pGlobJson,
         exec: function (message) {
             const args = message.content.split(" ");
             if (!args[1]) {
@@ -1070,7 +1070,7 @@ const commands = [{
 
             const embed = new discord.RichEmbed();
             embed.setColor(0x8bc34a);
-            embed.setAuthor("AWESOM-O // " + pn + " (30 mins)", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
+            embed.setAuthor("AWESOM-O // " + pn + " (15 mins)", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
             embed.setThumbnail("http://www.clker.com/cliparts/A/q/4/W/q/L/bar-chart-md.png");
 
             for (let i = 0; i < q.length; i++) {
