@@ -3,16 +3,16 @@
 
 <head>
     <meta charset="utf-8">
-    <link rel="shortcut icon" type="image/png" href="../../../../img/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>AWESOM-O // Home</title>
     <!-- Font Awesome-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap core CSS-->
-    <link href="../../../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap-->
-    <link href="../../../../css/mdb.min.css" rel="stylesheet">
+    <link href="css/mdb.min.css" rel="stylesheet">
     <!-- Template styles-->
     <style>
         /* TEMPLATE STYLES */
@@ -26,7 +26,7 @@
         }
 
         .intro-1 {
-            background: url("../../../../img/notloggedin.png")no-repeat center center;
+            background: url("img/awesomo-bg.jpg")no-repeat center center;
             background-size: cover;
         }
 
@@ -43,37 +43,46 @@
 <body>
     <header>
         <!-- Navbar-->
+        <% include partials/navbar %>
+    <!-- Main container-->
+    <div class="container">
+        <!--Page heading-->
+        <div class="row wow fadeIn pt-5" data-wow-delay="0.2s">
+            <div class="col-md-12 pt-5">
+                <h1 class="h1-responsive">Blog |
+                    <small class="text-muted">Changelogs</small>
+                </h1>
+            </div>
+        </div>
+        <!--/.Page heading-->
+        <div class="divider-new pt-5">
+            <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">Version 2.0 Released!</h2>
+        </div>
+            <!-- Section: Status Cards-->
+        <section class="text-center wow fadeIn" id="about" data-wow-delay="0.2s">
+                <div class="col-md-12 mb-3">
 
-            <!-- /.Navbar-->
-            <!-- Intro Section-->
-            <section class="view intro-1 hm-black-strong">
-                <div class="full-bg-img flex-center">
-                    <div class="container">
-                        <ul>
-                            <li>
-                                <h1 class="h1-responsive font-bold wow fadeInDown" data-wow-delay="0.2s">You are not logged in!</h1>
-                            </li>
-                            <li>
-                                <a class="btn btn-red btn-lg wow fadeInUp " href="/" data-wow-delay="0.2s" rel="nofollow">Return to Butters' House</a>
-                                <a class="btn btn-indigo btn-lg wow fadeInUp " href="../../../../auth/discord" data-wow-delay="0.2s" rel="nofollow">Login with Discord</a>
-                            </li>
-                        </ul>
+                        <img src="https://cdn.discordapp.com/attachments/371762996206370817/403267925093384197/2.0_release_banner.jpg" class="img-fluid z-depth-1" alt="Responsive image">
+                
                     </div>
-                </div>
-            </section>
-    </header>
+                    <script src="https://gist.github.com/MattheousDT/771d7aaa5c4a205d87b39bca1185633d.js"></script>
+                <a href="changelogs"><button class="btn btn-indigo">View Change Notes</button></a>
+        </section>
         <!-- Section: About-->
-
+    </div>
+    <!-- / Main container-->
+    <!-- Footer-->
+    <% include partials/footer %>
         <!-- /.Footer-->
         <!-- SCRIPTS-->
         <!-- JQuery-->
-        <script type="text/javascript" src="../../../../js/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
         <!-- Bootstrap dropdown-->
-        <script type="text/javascript" src="../../../../js/popper.min.js"></script>
+        <script type="text/javascript" src="js/popper.min.js"></script>
         <!-- Bootstrap core JavaScript-->
-        <script type="text/javascript" src="../../../../js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <!-- MDB core JavaScript-->
-        <script type="text/javascript" src="../../../../js/mdb.min.js"></script>
+        <script type="text/javascript" src="js/mdb.min.js"></script>
         <!-- Animations init-->
         <script>
             new WOW().init();

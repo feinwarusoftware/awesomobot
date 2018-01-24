@@ -27,7 +27,7 @@ function start() {
     passport.use(new Strategy({
         clientID: config.clientid,
         clientSecret: config.secret,
-        callbackURL: "http://" + config.address + ":" + port + "/auth/discord/callback",
+        callbackURL: "https://" + config.address + "/auth/discord/callback",
         scope: ["identify", "guilds"]
         
     }, (accessToken, refreshToken, profile, done) => {
@@ -48,6 +48,21 @@ function start() {
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(require("./controllers"));
+
+    app.use((req, res, next) => {
+        res.status(404);
+
+        if (req.accepts("html")) {
+            res.render("404", { url: req.url });
+            return;
+        }
+
+        if (req.accepts("json")) {
+            res.send({ error: "404 not found" });
+        }
+
+        res.type("txt").send("404 not found");
+    });
 
     // Start the webserver.
     app.listen(port, () => {

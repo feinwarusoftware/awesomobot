@@ -104,10 +104,10 @@
                                     <hr>
                                     <!-- Text-->
                                     <h2 class="text-center">
-                                        <b>315/</b>784</h2>
-                                    <h5 class="text-center">Updated 16 mins ago</h5>
+                                        <b><%= online %>/</b><%= server.stats[0].totalMembers %></h2>
+                                    <h5 class="text-center">Updated on page refresh</h5>
                                     <a href="#">
-                                        <p class="text-center mb-0 small">View Full Statistics</p>
+                                        <p class="text-center mb-0 small">Full statistics coming soon</p>
                                     </a>
                                 </div>
                             </div>
@@ -123,12 +123,38 @@
                                 <!-- Card content-->
                                 <div class="card-body">
                                     <!-- Title-->
-                                    <h4 class="card-title text-center">Server Ranking</h4>
+                                    <h4 class="card-title text-center">Activity Ranking</h4>
                                     <hr>
                                     <!-- Text-->
                                     <h2 class="text-center">
-                                        <b>#1/</b>784</h2>
-                                    <h5 class="text-center">Updated 16 mins ago</h5>
+
+                                        <% var rank; %>
+                                        <% var count = 0; %>
+
+                                        <% server.members.sort((a, b) => { %>
+                                            <% var sa = a.stats.find(e => { return e.name == "activity" }); %>
+                                            <% var sb = b.stats.find(e => { return e.name == "activity" }); %>
+                            
+                                            <% if (!sa || !sb) { %>
+                                                <% return Math.min(); %>
+                                            <% } %>
+                            
+                                            <% return sb.value - sa.value; %>
+                                        <% }); %>
+
+                                        <% for (var i = 0; i < server.members.length; i++) { %>
+                                            <% if (server.members[i].id == user.id) { %>
+                                                <% rank = i + 1; %>
+                                            <% } %>
+                                            <% if (server.members[i].stats.find(e => { %>
+                                                <% return e.name == "activity"; %>
+                                            <% })) { %>
+                                                <% count++; %>
+                                            <% } %>
+                                        <% } %>
+
+                                        <b><%= rank %>/</b><%= count %></h2>
+                                    <h5 class="text-center">Updated on page refresh</h5>
                                     <a href="leaderboards#activity">
                                         <p class="text-center mb-0 small">View Global Leaderboard</p>
                                     </a>
@@ -150,10 +176,10 @@
                                     <hr>
                                     <!-- Text-->
                                     <h2 class="text-center">
-                                        <b>90,196/</b>2,440</h2>
-                                    <h5 class="text-center">In the last month</h5>
+                                        <b><%= server.stats[0].messages %>/</b><%= server.stats[0].commands %></h2>
+                                    <h5 class="text-center">Since 24th January</h5>
                                     <a href="#">
-                                        <p class="text-center mb-0 small">View Full Statistics</p>
+                                        <p class="text-center mb-0 small">Full Statistics coming soon</p>
                                     </a>
                                 </div>
                             </div>
@@ -173,7 +199,32 @@
                                     <hr>
                                     <!-- Text-->
                                     <h2 class="text-center">
-                                        <b>343</b> shits</h2>
+
+                                        <% var shitCount = {}; %>
+
+                                        <% var member = server.members.find(e => { %>
+                                            <% return e.id == user.id; %>
+                                        <% }); %>
+                                        <% if (!member) { %>
+                                            <% shitCount.value = 0; %>
+                                        <% } else { %>
+                                            <% var shits = member.stats.find(e => { %>
+                                                <% return e.name == "shits"; %>
+                                            <% }); %>
+
+                                            <% if (!shits) { %>
+                                                <% shitCount.value = 0; %>
+                                            <% } else { %>
+                                                <% shitCount.value = shits.value; %>                                                
+                                            <% } %>
+                                        <% } %>
+
+                                        <% var mod = ""; %>
+                                        <% if (shitCount.value == 0) { %>
+                                            <% mod = " given"; %>
+                                        <% } %>
+
+                                        <b> <%= shitCount.value %> </b> shits<%= mod %></h2>
                                     <h5 class="text-center">Your total of shits</h5>
                                     <a href="leaderboards#shits">
                                         <p class="text-center mb-0 small">View Global Leaderboard</p>

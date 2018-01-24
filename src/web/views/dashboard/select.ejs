@@ -79,17 +79,21 @@
                 </div>
                 <!-- Section: Best features-->
                 <section id="best-features">
+
                     <div class="row pt-3">
                         <!-- First columnn-->
-                        <div class="col-lg-3 mb-r">
-                            <!-- Card-->
-                            <div class="card wow fadeIn">
-                                <% user.guilds.forEach(function(guild) { %>
-                                    <% if ((guild.permissions & 32) && (guild.bot == true)) { %>
+                        <% user.guilds.forEach(function(guild) { %>
+                            <% if (guild.bot == true) { %>
+                                <div class="col-lg-3 mb-r">
+
+                                    <!-- Card-->
+                                    <div class="card wow fadeIn">
+
                                         <!--Card image-->
                                         <div class="view overlay hm-white-slight">
-                                            <img class="img-fluid" src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png" width="100%" onerror=this.src="../img/serverplaceholder.png">
-                                            <a href="http://localhost/dashboard/<%= guild.id %>">
+                                            <% var random = Math.floor(Math.random() * 5); %>
+                                            <img class="img-fluid" src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png" width="100%" onerror=this.src="https://cdn.discordapp.com/embed/avatars/<%=random%>.png">
+                                            <a href="https://awesomobot.com/dashboard/<%= guild.id %>">
                                                 <div class="mask"></div>
                                             </a>
                                         </div>
@@ -101,13 +105,12 @@
                                                 <%= guild.name %>
                                             </h4>
                                         </div>
-                            </div>
-                            <% } %>
-                                <% }); %>
-                                    <!-- /.Card-->
-                        </div>
-                        <!-- First columnn-->
+                                    </div>
+                                </div>
+                                <% } %>
+                                    <% }); %>
                     </div>
+
                 </section>
 
             </div>

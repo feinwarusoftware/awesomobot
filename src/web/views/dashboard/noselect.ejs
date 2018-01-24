@@ -26,7 +26,7 @@
         }
 
         .intro-1 {
-            background: url("../../../../img/notloggedin.png")no-repeat center center;
+            background: url("../../../../img/notmod.png")no-repeat center center;
             background-size: cover;
         }
 
@@ -51,11 +51,10 @@
                     <div class="container">
                         <ul>
                             <li>
-                                <h1 class="h1-responsive font-bold wow fadeInDown" data-wow-delay="0.2s">You are not logged in!</h1>
+                                <h1 class="h1-responsive font-bold wow fadeInDown" data-wow-delay="0.2s">You need to select a server!</h1>
                             </li>
                             <li>
-                                <a class="btn btn-red btn-lg wow fadeInUp " href="/" data-wow-delay="0.2s" rel="nofollow">Return to Butters' House</a>
-                                <a class="btn btn-indigo btn-lg wow fadeInUp " href="../../../../auth/discord" data-wow-delay="0.2s" rel="nofollow">Login with Discord</a>
+                                <a class="btn btn-red btn-lg wow fadeInUp" href="../../../dashboard" data-wow-delay="0.2s" rel="nofollow">Return to server select</a>
                             </li>
                         </ul>
                     </div>
@@ -78,43 +77,6 @@
         <script>
             new WOW().init();
         </script>
-
-        <script>
-            const keyMap = {
-                37: "left",
-                38: "up",
-                39: "right",
-                40: "down",
-                65: "a",
-                66: "b"
-            };
-
-            const konamiCode = ["up", "up", "down", "down", "left", "right", "left", "right", "b", "a"];
-
-            var konamiPosition = 0;
-
-            document.addEventListener("keydown", function (e) {
-                console.log(konamiPosition);
-                if (keyMap[e.keyCode] == konamiCode[konamiPosition]) {
-
-                    konamiPosition++;
-
-                    if (konamiPosition == konamiCode.length) {
-                        success();
-                        konamiPosition = 0;
-                    }
-                } else {
-                    konamiPosition = 0;
-                }
-
-            });
-
-            function success() {
-
-                document.styleSheets[8].cssRules[0].selectorText = "*";
-            }
-        </script>
-
 </body>
 
 </html>
