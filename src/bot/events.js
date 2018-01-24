@@ -1320,21 +1320,6 @@ const commands = [{
             });
         }
     },
-    {
-        trigger: "coin",
-        type: "command",
-        perms: pGlobJson,
-        exec: function (message) {
-            const flip = Math.floor(Math.random() * Math.floor(2));
-            let res;
-            if (flip == 0) {
-                res = "heads";
-            } else {
-                res = "tails";
-            }
-            message.reply(res);
-        }
-    },
     // Gifs incoming!
     {
         trigger: "gif",
