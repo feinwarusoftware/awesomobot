@@ -1669,6 +1669,10 @@ client.on("message", message => {
 
                 if (servers[0].members[i].stats[j].name == "activity") {
 
+                    if (!servers[0].members[i].stats[j].value) {
+                        servers[0].members[i].stats[j].value = 0;
+                    }
+
                     servers[0].members[i].stats[j].value += message.content.length > 20 ? (message.content.length > 100 ? 8 : 6) : 2;
                     servers[0].members[i].stats[j].lastmsg = 0;
                     found = true;
@@ -4068,7 +4072,7 @@ function loadAssets(cb) {
                         for (let j = 0; j < servers[0].members[i].stats.length; j++) {
                             if (servers[0].members[i].stats[j].name == "activity") {
                                 servers[0].members[i].stats[j].lastmsg += 1;
-                                if (servers[0].members[i].stats[j].lastmsg >= 24) {
+                                if (servers[0].members[i].stats[j].lastmsg >= 576) {
                                     servers[0].members[i].stats[j].value -= (Math.log10(servers[0].members[i].stats[j].lastmsg - 575) * 70) / 288;
                                 }
                                 if (servers[0].members[i].stats[j].value < 0) {
