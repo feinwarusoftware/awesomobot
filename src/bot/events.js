@@ -4050,6 +4050,19 @@ function loadAssets(cb) {
             console.log("DEBUG >> Fetched [" + "1" + "] servers.");
         }
 
+        // temp fix
+        const members = servers[0].members;
+        for (let i = 0; i < members.length; i++) {
+            for (let j = 0; j < members[i].stats.length; j++) {
+                if (members[i].stats[j].name == "activity" && !members[i].stats[j].value) {
+                    members[i].stats[j].value = 0;
+                }
+            }
+        }
+
+        console.log("Undefined activity replaced.");
+        //
+
         // Then load assets.
         Promise.all([jimp.read("./src/bot/assets/base.png"), jimp.read("./src/bot/assets/mask.png"), jimp.loadFont("./src/bot/assets/helvetica-light.fnt")]).then(values => {
             jBase = values[0];
@@ -4148,6 +4161,7 @@ function loadAssets(cb) {
                 // Cb if successfull.
 
                 cb();
+
             });
 
         }).catch(err => {
