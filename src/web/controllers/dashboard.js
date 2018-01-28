@@ -2672,7 +2672,7 @@ router.get("/moderation", (req, res) => {
     if (!guild) {
         res.send("Error: the devs fucked up! Blame !Dragon1320 for this.");
     }
-    if (!(guild.permissions & 32)) {
+    if (!(guild.permissions & 36)) {
         res.render("dashboard/notmod");
         return;
     }

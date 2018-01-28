@@ -85,7 +85,7 @@
                                         <%= currentServer.name %>
                                     </b>
                                 </h5>
-                                <a href="../../../dashboard/leaderboards/legacy"><button type="button" class="btn btn-primary">View Legacy Leaderboard</button></a>
+                                <button type="button" id="alert" class="btn btn-primary">View Version 1.0 Leaderboard</button>
                 </div>
                 <!-- Grid column -->
             </div>
@@ -95,13 +95,13 @@
                     <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">Activity Leaderboard</h2>
                 </div>
                 <div class="row">
-                    <canvas id="Vm14Hz5JZXNiZntjIswXBTlZVbmx9xFk"></canvas>
+                    <canvas id="ZEMDw3E1iX84F2S4qjXdpApTSQ3aSnz5"></canvas>
                 </div>
                 <a id="shits"><div class="divider-new"></a>
                     <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">It Hits The Fan Leaderboard</h2>
                 </div>
                 <div class="row">
-                    <canvas id="jnNiROoPbUKHmAKIPxXwW0QaAT5oIUgu"></canvas>
+                    <canvas id="qfaYj0VHCcDAggng5vmVz7W9mTD9ojK3"></canvas>
                 </div>
             </div>
             <!-- / Main container-->
@@ -296,7 +296,11 @@
             }
 
         </script>
-
+<script>
+    const button = document.getElementById("alert");
+    button.onclick = function() {
+        alert("The devs are currently sorting through the legacy data. This section will be up later")}
+    </script>
 </body>
 
 </html>
