@@ -764,6 +764,7 @@ const commands = [{
                 return;
             }
 
+
             let cf = message.guild.roles.find(e => {
                 return e.name == "Coon & Friends";
             });
@@ -776,6 +777,7 @@ const commands = [{
             let gk = message.guild.roles.find(e => {
                 return e.name == "Goth Kids";
             });
+
             if (!cf || !fp || !cm || !gk) {
                 message.reply("role err");
                 return;
@@ -841,7 +843,9 @@ const commands = [{
             }
 
             message.member.addRole(role);
+
             message.reply(message.author.username + " joined " + role.name);
+
 
             if (role == gk) {
                 message.author.send("So you wanna be an edgelord by giving yourself the 'Goth Kids' role?\nWe dont take kindly to types like you; unless you remove your role with '" + prefix + "civilwar', you'll be banned from the server in 60 seconds!\n\n - !Dragon1320 & Mattheous");
@@ -865,6 +869,7 @@ const commands = [{
             let mgk = message.member.roles.find(e => {
                 return e.name == "Goth Kids";
             });
+                  
             if (mcf) {
                 message.member.removeRole(mcf);
             }
