@@ -16,6 +16,7 @@
     <!-- Template styles-->
     <style>
         /* TEMPLATE STYLES */
+
         /*{
         border-style: dashed;
         border-color: red;
@@ -54,253 +55,414 @@
         <!-- Navbar-->
         <% include ../partials/dnavbar %>
 
-        <!-- Main container-->
-        <div class="container">
-            <div class="divider-new "></div>
-            <!-- Grid row -->
-            <div class="row">
-
-                <!-- Grid column -->
-                <div class="col-lg-4 col-md-6 mb-12">
-
-                    <img src="<%= avatar%>" class="z-depth-1 float-right" height="128px" alt="Responsive image">
-
-                </div>
-                <!-- Grid column -->
-
-                <!-- Grid column -->
-                <div class="col-lg-8 col-md-6 mb-12">
-
-                    <h3>Logged in as:
-                        <b>
-                            <%= user.username%>
-                        </b>
-                    </h3>
-
-                    <% var currentServer = user.guilds.find(e => { %>
-                        <% return e.id == server._id; %>
-                            <% }); %>
-                                <h5>Viewing:
-                                    <b>
-                                        <%= currentServer.name %>
-                                    </b>
-                                </h5>
-                                <button type="button" id="alert" class="btn btn-primary">View Version 1.0 Leaderboard</button>
-                </div>
-                <!-- Grid column -->
-            </div>
-    
+            <!-- Main container-->
+            <div class="container">
+                <div class="divider-new"></div>
                 <!-- Grid row -->
-                <a id="activity"><div class="divider-new"></a>
-                    <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">Activity Leaderboard</h2>
-                </div>
-                <div class="row">
-                    <canvas id="ZEMDw3E1iX84F2S4qjXdpApTSQ3aSnz5"></canvas>
-                </div>
-                <a id="shits"><div class="divider-new"></a>
-                    <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">It Hits The Fan Leaderboard</h2>
-                </div>
-                <div class="row">
-                    <canvas id="qfaYj0VHCcDAggng5vmVz7W9mTD9ojK3"></canvas>
+
+                <ul class="nav nav-justified">
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-block btn-indigo active" data-toggle="tab" href="#panel11" role="tab">Current Leaderboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-block btn-indigo" data-toggle="tab" href="#panel12" role="tab">Version 1 Leaderboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-block btn-indigo" data-toggle="tab" href="#panel13" role="tab">January Leaderboard</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panels -->
+                <div class="tab-content">
+
+                    <!--Panel 1-->
+                    <div class="tab-pane fade in show active" id="panel11" role="tabpanel">
+                        <br>
+
+                        <!-- Grid row -->
+                        <div class="row">
+                            <!-- Grid row -->
+                            <div class="col-lg 12">
+                                <a id="activity">
+                                    <div class="divider-new">
+                                </a>
+                                <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">Activity Leaderboard</h2>
+                                </div>
+                                <div class="row">
+                                    <canvas id="ZEMDw3E1iX84F2S4qjXdpApTSQ3aSnz5"></canvas>
+                                </div>
+                                <a id="shits">
+                                    <div class="divider-new">
+                                </a>
+                                <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">It Hits The Fan Leaderboard</h2>
+                                </div>
+                                <div class="row">
+                                    <canvas id="qfaYj0VHCcDAggng5vmVz7W9mTD9ojK3"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/.Panel 1-->
+
+                    <!--Panel 2-->
+                    <div class="tab-pane fade" id="panel12" role="tabpanel">
+                        <br>
+
+                        <!-- Grid row -->
+                        <div class="row">
+
+                            <!-- Grid column -->
+                            <div class="col-md-6 mb-3">
+                                <div class="view overlay hm-white-strong">
+                                    <img src="img/portfolio/12/poster.jpg" class="img-fluid " alt="zoom">
+                                    <div class="mask flex-center waves-effect waves-light">
+                                        <h2>A3 Poster</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Grid column -->
+
+                            <!-- Grid column -->
+                            <div class="col-md-6 mb-3">
+                                <div class="view overlay hm-white-strong">
+                                    <img src="img/portfolio/12/invitation.jpg" class="img-fluid " alt="zoom">
+                                    <div class="mask flex-center waves-effect waves-light">
+                                        <h2>A5 Invitation</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Grid column -->
+
+                        </div>
+                        <!-- Grid row -->
+
+
+                        <!-- Grid row -->
+                        <div class="row">
+
+                            <!-- Grid column -->
+                            <div class="col-md-12 mb-3">
+                                <div class="view overlay hm-white-strong">
+                                    <img src="img/portfolio/12/catalogue.jpg" class="img-fluid " alt="zoom">
+                                    <div class="mask flex-center waves-effect waves-light">
+                                        <h2>A3 Catalogue</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Grid column -->
+
+                        </div>
+                        <!-- Grid row -->
+                        <div class="row">
+
+                            <!-- Grid column -->
+                            <div class="col-md-6 mb-3">
+                                <div class="view overlay hm-white-strong">
+                                    <img src="img/portfolio/12/desktop.jpg" class="img-fluid " alt="zoom">
+                                    <div class="mask flex-center waves-effect waves-light">
+                                        <h2>Website Desktop View</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Grid column -->
+
+                            <!-- Grid column -->
+                            <div class="col-md-6 mb-3">
+                                <div class="view overlay hm-white-strong">
+                                    <img src="img/portfolio/12/mobile.jpg" class="img-fluid " alt="zoom">
+                                    <div class="mask flex-center waves-effect waves-light">
+                                        <h2>Website Mobile View</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Grid column -->
+
+                        </div>
+                        <!-- Grid row -->
+
+                    </div>
+                    <!--/.Panel 2-->
+
+                    <!--Panel 3-->
+                    <div class="tab-pane fade" id="panel13" role="tabpanel">
+                        <br>
+                        <!-- Grid row -->
+                        <div class="row">
+
+                            <!-- Grid column -->
+                            <div class="col-md-6 mb-3">
+                                <div class="view overlay hm-white-strong">
+                                    <img src="img/portfolio/13/poster.jpg" class="img-fluid " alt="zoom">
+                                    <div class="mask flex-center waves-effect waves-light">
+                                        <h2>A3 Poster</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Grid column -->
+
+                            <!-- Grid column -->
+                            <div class="col-md-6 mb-3">
+                                <div class="view overlay hm-white-strong">
+                                    <img src="img/portfolio/13/invitation.jpg" class="img-fluid " alt="zoom">
+                                    <div class="mask flex-center waves-effect waves-light">
+                                        <h2>A5 Invitation</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Grid column -->
+
+                        </div>
+                        <!-- Grid row -->
+
+
+                        <!-- Grid row -->
+                        <div class="row">
+
+                            <!-- Grid column -->
+                            <div class="col-md-12 mb-3">
+                                <div class="view overlay hm-white-strong">
+                                    <img src="img/portfolio/13/catalogue.jpg" class="img-fluid " alt="zoom">
+                                    <div class="mask flex-center waves-effect waves-light">
+                                        <h2>A3 Catalogue</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Grid column -->
+
+                        </div>
+                        <!-- Grid row -->
+                        <div class="row">
+
+                            <!-- Grid column -->
+                            <div class="col-md-6 mb-3">
+                                <div class="view overlay hm-white-strong">
+                                    <img src="img/portfolio/13/desktop.jpg" class="img-fluid " alt="zoom">
+                                    <div class="mask flex-center waves-effect waves-light">
+                                        <h2>Website Desktop View</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Grid column -->
+
+                            <!-- Grid column -->
+                            <div class="col-md-6 mb-3">
+                                <div class="view overlay hm-white-strong">
+                                    <img src="img/portfolio/13/mobile.jpg" class="img-fluid " alt="zoom">
+                                    <div class="mask flex-center waves-effect waves-light">
+                                        <h2>Website Mobile View</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Grid column -->
+
+                        </div>
+                        <!-- Grid row -->
+                    </div>
                 </div>
             </div>
-            <!-- / Main container-->
-        <!-- Footer-->
-        <% include ../partials/footer %>
-        <!-- /.Footer-->
-        <!-- SCRIPTS-->
-        <!-- JQuery-->
-        <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
-        <!-- Bootstrap dropdown-->
-        <script type="text/javascript" src="../../js/popper.min.js"></script>
-        <!-- Bootstrap core JavaScript-->
-        <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
-        <!-- MDB core JavaScript-->
-        <script type="text/javascript" src="../../js/mdb.min.js"></script>
+        </div>
+                    <!--Panel 4-->
 
-        <!-- Animations init-->
-        <script>
-            new WOW().init();
-        </script>
+                    <!-- / Main container-->
+                    <!-- Footer-->
+                    <% include ../partials/footer %>
+                        <!-- /.Footer-->
+                        <!-- SCRIPTS-->
+                        <!-- JQuery-->
+                        <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+                        <!-- Bootstrap dropdown-->
+                        <script type="text/javascript" src="../../js/popper.min.js"></script>
+                        <!-- Bootstrap core JavaScript-->
+                        <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+                        <!-- MDB core JavaScript-->
+                        <script type="text/javascript" src="../../js/mdb.min.js"></script>
 
-        <script>
-            /** ----------------------------------------
-            *           GRAPH PARSING SCRIPT
-            *   ----------------------------------------
-            */
+                        <!-- Animations init-->
+                        <script>
+                            new WOW().init();
+                        </script>
 
-            const server = <%- JSON.stringify(server) %>;
+                        <script>
+                            /** ----------------------------------------
+                             *           GRAPH PARSING SCRIPT
+                             *   ----------------------------------------
+                             */
 
-            for (var i = 0; i < server.graphs.length; i++) {
-                var element = document.getElementById(server.graphs[i].id);
-                if (element != null) {
+                            const server = <%- JSON.stringify(server) %>;
 
-                    var graph = server.graphs[i];
+                            for (var i = 0; i < server.graphs.length; i++) {
+                                var element = document.getElementById(server.graphs[i].id);
+                                if (element != null) {
 
-                    //
-                    var data = {};
-                    switch(graph.type) {
-                        case "line":
+                                    var graph = server.graphs[i];
 
-                            break;
-                        case "pie":
+                                    //
+                                    var data = {};
+                                    switch (graph.type) {
+                                        case "line":
 
-                            break;
-                        case "bar":
+                                            break;
+                                        case "pie":
 
-                            //
-                            data = {
-                                labels: [],
-                                datasets: []
-                            };
+                                            break;
+                                        case "bar":
 
-                            for (var j = 0; j < graph.data.datasets.length; j++) {
-
-                                var stat = graph.data.datasets[j].stat;
-                                var member = graph.data.datasets[j].member;
-                                var theme = server.graphs[i].data.datasets[j].theme;
-
-                                data.datasets[j] = {};
-
-                                data.datasets[j].label = stat;
-
-                                data.datasets[j].data = [];
-
-                                // make it #topany
-
-                                switch(member) {
-                                    case "#top5":
-
-                                        //
-                                        server.members.sort((a, b) => {
-
-                                            var aStat = a.stats.find(e => {
-                                                return e.name == stat;
-                                            });
-                                            var bStat = b.stats.find(e => {
-                                                return e.name == stat;
-                                            });
-                                            
-                                            if (aStat == undefined) {
-                                                aStat = {
-                                                    value: 0
-                                                }
-                                            }
-                                            if (bStat == undefined) {
-                                                bStat = {
-                                                    value: 0
-                                                }
-                                            }
-
-                                            return bStat.value - aStat.value;
-                                        });
-
-                                        for (var k = 0; k < (server.members.length < 5 ? server.members.length : 5); k++) {
-                                            data.labels.push(server.members[k].name);
-
-                                            var memberStat = server.members[k].stats.find(e => {
-                                                return e.name == stat;
-                                            });
-                                            if (memberStat == undefined) {
-                                                memberStat = {
-                                                    value: 0
-                                                }
-                                            }
-
-                                            data.datasets[j].data.push(memberStat.value);
                                             //
+                                            data = {
+                                                labels: [],
+                                                datasets: []
+                                            };
+
+                                            for (var j = 0; j < graph.data.datasets.length; j++) {
+
+                                                var stat = graph.data.datasets[j].stat;
+                                                var member = graph.data.datasets[j].member;
+                                                var theme = server.graphs[i].data.datasets[j].theme;
+
+                                                data.datasets[j] = {};
+
+                                                data.datasets[j].label = stat;
+
+                                                data.datasets[j].data = [];
+
+                                                // make it #topany
+
+                                                switch (member) {
+                                                    case "#top5":
+
+                                                        //
+                                                        server.members.sort((a, b) => {
+
+                                                            var aStat = a.stats.find(e => {
+                                                                return e.name == stat;
+                                                            });
+                                                            var bStat = b.stats.find(e => {
+                                                                return e.name == stat;
+                                                            });
+
+                                                            if (aStat == undefined) {
+                                                                aStat = {
+                                                                    value: 0
+                                                                }
+                                                            }
+                                                            if (bStat == undefined) {
+                                                                bStat = {
+                                                                    value: 0
+                                                                }
+                                                            }
+
+                                                            return bStat.value - aStat.value;
+                                                        });
+
+                                                        for (var k = 0; k < (server.members.length < 5 ? server.members
+                                                                .length : 5); k++) {
+                                                            data.labels.push(server.members[k].name);
+
+                                                            var memberStat = server.members[k].stats.find(e => {
+                                                                return e.name == stat;
+                                                            });
+                                                            if (memberStat == undefined) {
+                                                                memberStat = {
+                                                                    value: 0
+                                                                }
+                                                            }
+
+                                                            data.datasets[j].data.push(memberStat.value);
+                                                            //
+                                                        }
+
+                                                        break;
+                                                }
+
+                                                // Hardcoded themes yay! (kill me)
+                                                switch (theme) {
+                                                    case "shit":
+                                                        //temp
+                                                        data.datasets[j].backgroundColor = [
+                                                            'rgba(51, 17, 0, 1)',
+                                                            'rgba(71, 30, 9, 1)',
+                                                            'rgba(99, 50, 24, 1)',
+                                                            'rgba(112, 63, 37, 1)',
+                                                            'rgba(127, 78, 52, 1)',
+                                                        ];
+                                                        //temp
+                                                        data.datasets[j].borderColor = [
+                                                            'rgba(51, 17, 0, 1)',
+                                                            'rgba(71, 30, 9, 1)',
+                                                            'rgba(99, 50, 24, 1)',
+                                                            'rgba(112, 63, 37, 1)',
+                                                            'rgba(127, 78, 52, 1)',
+                                                        ];
+                                                        break;
+                                                    default:
+                                                        //temp
+                                                        data.datasets[j].backgroundColor = [
+                                                            'rgba(255, 99, 132, 1)',
+                                                            'rgba(54, 162, 235, 1)',
+                                                            'rgba(255, 206, 86, 1)',
+                                                            'rgba(75, 192, 192, 1)',
+                                                            'rgba(153, 102, 255, 1)',
+                                                            'rgba(255, 159, 64, 1)'
+                                                        ];
+                                                        //temp
+                                                        data.datasets[j].borderColor = [
+                                                            'rgba(255,99,132,1)',
+                                                            'rgba(54, 162, 235, 1)',
+                                                            'rgba(255, 206, 86, 1)',
+                                                            'rgba(75, 192, 192, 1)',
+                                                            'rgba(153, 102, 255, 1)',
+                                                            'rgba(255, 159, 64, 1)'
+                                                        ];
+                                                        break;
+                                                }
+
+                                                data.datasets[j].borderWidth = 1;
+                                            }
+
+
+                                            break;
+                                            /*
+                                            case "card":
+
+                                                break;
+                                            */
+                                    }
+                                    //
+
+                                    console.log(data);
+
+                                    var ctx = element.getContext("2d");
+                                    var chart = new Chart(ctx, {
+                                        type: /*server.graphs[i].type*/ "bar",
+                                        data:
+                                            /*{
+                                                                       labels: ["Kyrion", "Tweek Tweak", "Paladin Butters", "kratosgow342", "Smash Royale"],
+                                                                       datasets: [{
+                                                                           label: 'Activity Score',
+                                                                           data: [56236, 42140, 39196, 36656, 29217.140772982006],
+                                                                           backgroundColor: [
+                                                                               'rgb(255, 99, 132)',
+                                                                               'rgb(54, 162, 235)',
+                                                                               'rgb(255, 206, 86)',
+                                                                               'rgb(75, 192, 192)',
+                                                                               'rgb(153, 102, 255)',
+                                                                           ],
+                                                                       }]
+                                                                   }*/
+                                            data,
+                                        options: {
+                                            responsive: true
                                         }
-
-                                        break;
+                                    })
                                 }
-
-                                // Hardcoded themes yay! (kill me)
-                                switch(theme) {
-                                    case "shit":
-                                        //temp
-                                        data.datasets[j].backgroundColor = [
-                                            'rgba(51, 17, 0, 1)',
-                                            'rgba(71, 30, 9, 1)',
-                                            'rgba(99, 50, 24, 1)',
-                                            'rgba(112, 63, 37, 1)',
-                                            'rgba(127, 78, 52, 1)',
-                                        ];
-                                        //temp
-                                        data.datasets[j].borderColor = [
-                                            'rgba(51, 17, 0, 1)',
-                                            'rgba(71, 30, 9, 1)',
-                                            'rgba(99, 50, 24, 1)',
-                                            'rgba(112, 63, 37, 1)',
-                                            'rgba(127, 78, 52, 1)',
-                                        ];
-                                        break;
-                                    default:
-                                        //temp
-                                        data.datasets[j].backgroundColor = [
-                                            'rgba(255, 99, 132, 1)',
-                                            'rgba(54, 162, 235, 1)',
-                                            'rgba(255, 206, 86, 1)',
-                                            'rgba(75, 192, 192, 1)',
-                                            'rgba(153, 102, 255, 1)',
-                                            'rgba(255, 159, 64, 1)'
-                                        ];
-                                        //temp
-                                        data.datasets[j].borderColor = [
-                                            'rgba(255,99,132,1)',
-                                            'rgba(54, 162, 235, 1)',
-                                            'rgba(255, 206, 86, 1)',
-                                            'rgba(75, 192, 192, 1)',
-                                            'rgba(153, 102, 255, 1)',
-                                            'rgba(255, 159, 64, 1)'
-                                        ];
-                                        break;
-                                }
-
-                                data.datasets[j].borderWidth = 1;
                             }
-
-
-                            break;
-                        /*
-                        case "card":
-
-                            break;
-                        */
-                    }
-                    //
-
-                    console.log(data);
-
-                    var ctx = element.getContext("2d");
-                    var chart = new Chart(ctx, {
-                        type: /*server.graphs[i].type*/ "bar",
-                        data: /*{
-                            labels: ["Kyrion", "Tweek Tweak", "Paladin Butters", "kratosgow342", "Smash Royale"],
-                            datasets: [{
-                                label: 'Activity Score',
-                                data: [56236, 42140, 39196, 36656, 29217.140772982006],
-                                backgroundColor: [
-                                    'rgb(255, 99, 132)',
-                                    'rgb(54, 162, 235)',
-                                    'rgb(255, 206, 86)',
-                                    'rgb(75, 192, 192)',
-                                    'rgb(153, 102, 255)',
-                                ],
-                            }]
-                        }*/data,
-                        options: {
-                            responsive: true
-                        }
-                    })
-                }
-            }
-
-        </script>
-<script>
-    const button = document.getElementById("alert");
-    button.onclick = function() {
-        alert("The devs are currently sorting through the legacy data. This section will be up later")}
-    </script>
+                        </script>
+                        <script>
+                            const button = document.getElementById("alert");
+                            button.onclick = function () {
+                                alert("This data is unavailable")
+                            }
+                        </script>
 </body>
 
 </html>

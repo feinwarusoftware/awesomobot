@@ -267,7 +267,7 @@
                             };
 
                             var xhr = new XMLHttpRequest();
-                            var url = "https://awesomobot.com/api/v1/servers/371762864790306817/issues";
+                            var url = "http://localhost/api/v1/servers/371762864790306817/issues";
                             xhr.open("POST", url, true);
                             xhr.setRequestHeader("Content-type", "application/json");
                             xhr.send(JSON.stringify(data));
@@ -283,7 +283,7 @@
                             };
 
                             var xhr = new XMLHttpRequest();
-                            var url = "https://awesomobot.com/api/v1/servers/371762864790306817/watchlist";
+                            var url = "http://localhost/api/v1/servers/371762864790306817/watchlist";
                             xhr.open("POST", url, true);
                             xhr.setRequestHeader("Content-type", "application/json");
                             xhr.send(JSON.stringify(data));
@@ -295,7 +295,7 @@
                         deleteForm.onsubmit = function () {
 
                             var xhr = new XMLHttpRequest();
-                            var url = "https://awesomobot.com/api/v1/servers/371762864790306817/issues/" + getFormId();
+                            var url = "http://localhost/api/v1/servers/371762864790306817/issues/" + getFormId();
 
                             xhr.open("DELETE", url, true);
                             xhr.send();
@@ -304,7 +304,7 @@
                         listDeleteForm.onsubmit = function () {
 
                             var xhr = new XMLHttpRequest();
-                            var url = "https://awesomobot.com/api/v1/servers/371762864790306817/watchlist/" +
+                            var url = "http://localhost/api/v1/servers/371762864790306817/watchlist/" +
                                 getFormId();
 
                             xhr.open("DELETE", url, true);
@@ -320,7 +320,7 @@
                             };
 
                             var xhr = new XMLHttpRequest();
-                            var url = "https://awesomobot.com/api/v1/servers/371762864790306817/watchlist/" + getFormId();
+                            var url = "http://localhost/api/v1/servers/371762864790306817/watchlist/" + getFormId();
                             xhr.open("PATCH", url, true);
                             xhr.setRequestHeader("Content-type", "application/json");
                             xhr.send(JSON.stringify(data));
