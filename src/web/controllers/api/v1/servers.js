@@ -57,7 +57,10 @@ router.route("/:server_id")
             server.stats = req.body.stats;
             server.watchlist = req.body.watchlist;
             server.issues = req.body.issues;
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 
             server.save(err => {
                 if (err) {
