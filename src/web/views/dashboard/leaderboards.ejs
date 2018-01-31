@@ -114,36 +114,6 @@
                     <div class="tab-pane fade" id="panel12" role="tabpanel">
                         <br>
 
-                        <div class="row">
-
-                            <!-- Grid column -->
-                            <div class="col-lg-4 col-md-6 mb-12">
-
-                                <img src="<%= avatar%>" class="z-depth-1 float-right" height="128px" alt="Responsive image">
-
-                            </div>
-                            <!-- Grid column -->
-
-                            <!-- Grid column -->
-                            <div class="col-lg-8 col-md-6 mb-12">
-
-                                <h3>Logged in as:
-                                    <b>
-                                        <%= user.username%>
-                                    </b>
-                                </h3>
-
-                                <% var currentServer = user.guilds.find(e => { %>
-                                    <% return e.id == server._id; %>
-                                        <% }); %>
-                                            <h5>Leaderboards from the South Park server before the 2.0 update</h5>
-                                            <a href="./">
-                                                <button type="button" class="btn btn-primary">View Current Leaderboard</button>
-                                            </a>
-                            </div>
-                            <!-- Grid column -->
-                        </div>
-
                         <!-- Grid row -->
                         <a id="activity1">
                             <div class="divider-new">
@@ -285,41 +255,11 @@
                     <div class="tab-pane fade" id="panel13" role="tabpanel">
                         <br>
 
-                        <div class="row">
-
-                            <!-- Grid column -->
-                            <div class="col-lg-4 col-md-6 mb-12">
-
-                                <img src="<%= avatar%>" class="z-depth-1 float-right" height="128px" alt="Responsive image">
-
-                            </div>
-                            <!-- Grid column -->
-
-                            <!-- Grid column -->
-                            <div class="col-lg-8 col-md-6 mb-12">
-
-                                <h3>Logged in as:
-                                    <b>
-                                        <%= user.username%>
-                                    </b>
-                                </h3>
-
-                                <% var currentServer = user.guilds.find(e => { %>
-                                    <% return e.id == server._id; %>
-                                        <% }); %>
-                                            <h5>Leaderboards from the South Park server before the 2.0 update</h5>
-                                            <a href="./">
-                                                <button type="button" class="btn btn-primary">View Current Leaderboard</button>
-                                            </a>
-                            </div>
-                            <!-- Grid column -->
-                        </div>
-
                         <!-- Grid row -->
                         <a id="activity2">
                             <div class="divider-new">
                         </a>
-                        <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">v2 Activity Leaderboard</h2>
+                        <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">January Activity Leaderboard</h2>
                         </div>
                         <div class="row">
                             <canvas id="activitybar2"></canvas>
@@ -386,7 +326,7 @@
                         <a id="shits2">
                             <div class="divider-new">
                         </a>
-                        <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">v2 It Hits The Fan Leaderboard</h2>
+                        <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">January It Hits The Fan Leaderboard</h2>
                         </div>
                         <div class="row">
                             <canvas id="shitbar2"></canvas>
@@ -643,7 +583,14 @@
                                                            }*/
                                     data,
                                 options: {
-                                    responsive: true
+                                    responsive: true,
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero: true
+                                            }
+                                        }]
+                                    }
                                 }
                             })
                         }
@@ -655,10 +602,12 @@
                     var chart = new Chart(ctx, {
                         type: "bar",
                         data: {
-                            labels: ["Kyrion", "Tweek Tweak", "Paladin Butters", "kratosgow342", "Smash Royale"],
+                            labels: ["ButterScotch Kyrion", "Goth Tweek", "NitroSage ", "kratosgow342",
+                                "TowelRoyale"
+                            ],
                             datasets: [{
                                 label: 'Activity Score',
-                                data: [56236, 42140, 39196, 36656, 29217.140772982006],
+                                data: [98374, 77914, 68414, 67304, 55185],
                                 backgroundColor: [
                                     'rgb(255, 99, 132)',
                                     'rgb(54, 162, 235)',
@@ -669,7 +618,14 @@
                             }]
                         },
                         options: {
-                            responsive: true
+                            responsive: true,
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
                         }
                     })
                 </script>
@@ -679,10 +635,12 @@
                     var chart = new Chart(ctx, {
                         type: "bar",
                         data: {
-                            labels: ["Kyrion", "Tweek Tweak", "Paladin Butters", "kratosgow342", "Smash Royale"],
+                            labels: ["ButterScotch Kyrion", "Goth Tweek", "kratosgow342", "canadian piss",
+                                "NitroSage"
+                            ],
                             datasets: [{
                                 label: 'Shit Score',
-                                data: [56236, 42140, 39196, 36656, 29217.140772982006],
+                                data: [611, 517, 475, 461, 422],
                                 backgroundColor: [
                                     'rgba(51, 17, 0, 1)',
                                     'rgba(71, 30, 9, 1)',
@@ -693,44 +651,29 @@
                             }]
                         },
                         options: {
-                            responsive: true
+                            responsive: true,
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
                         }
                     })
                 </script>
 
                 <script>
-                    var ctx = document.getElementById("shitbar2").getContext('2d');
-                    var chart = new Chart(ctx, {
-                        type: "bar",
-                        data: {
-                            labels: ["Kyrion", "Tweek Tweak", "Paladin Butters", "kratosgow342", "Smash Royale"],
-                            datasets: [{
-                                label: 'Shit Score',
-                                data: [56236, 42140, 39196, 36656, 29217.140772982006],
-                                backgroundColor: [
-                                    'rgba(51, 17, 0, 1)',
-                                    'rgba(71, 30, 9, 1)',
-                                    'rgba(99, 50, 24, 1)',
-                                    'rgba(112, 63, 37, 1)',
-                                    'rgba(127, 78, 52, 1)',
-                                ],
-                            }]
-                        },
-                        options: {
-                            responsive: true
-                        }
-                    })
-                </script>
-
-<script>
                     var ctx = document.getElementById("activitybar2").getContext('2d');
                     var chart = new Chart(ctx, {
                         type: "bar",
                         data: {
-                            labels: ["Kyrion", "Tweek Tweak", "Paladin Butters", "kratosgow342", "Smash Royale"],
+                            labels: ["Nitrosage", "Tweekerino", "Kyrion, the Last Standing", "Barbarian Tweek",
+                                "TowelRoyale"
+                            ],
                             datasets: [{
                                 label: 'Activity Score',
-                                data: [56236, 42140, 39196, 36656, 29217.140772982006],
+                                data: [15204, 14650, 13120, 12110, 8584],
                                 backgroundColor: [
                                     'rgb(255, 99, 132)',
                                     'rgb(54, 162, 235)',
@@ -741,7 +684,47 @@
                             }]
                         },
                         options: {
-                            responsive: true
+                            responsive: true,
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    })
+                </script>
+
+                <script>
+                    var ctx = document.getElementById("shitbar2").getContext('2d');
+                    var chart = new Chart(ctx, {
+                        type: "bar",
+                        data: {
+                            labels: ["Barbarian Tweek", "piss orange", "kratosgow342", "Nitrosage",
+                                "dany, the tweek enthusiast"
+                            ],
+                            datasets: [{
+                                label: 'Shit Score',
+                                data: [180, 147, 109, 99, 67],
+                                backgroundColor: [
+                                    'rgba(51, 17, 0, 1)',
+                                    'rgba(71, 30, 9, 1)',
+                                    'rgba(99, 50, 24, 1)',
+                                    'rgba(112, 63, 37, 1)',
+                                    'rgba(127, 78, 52, 1)',
+                                ],
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
                         }
                     })
                 </script>
