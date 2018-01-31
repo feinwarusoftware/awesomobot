@@ -40,6 +40,13 @@
         .navbar .btn-group .dropdown-menu a:active {
             color: #fff !important;
         }
+
+        .table-wrapper-2 {
+            display: block;
+            max-height: 300px;
+            overflow-y: auto;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+        }
     </style>
 
     <!-- Referencing Stuff -->
@@ -102,367 +109,680 @@
                             </div>
                         </div>
                     </div>
-                    <!--/.Panel 1-->
 
                     <!--Panel 2-->
                     <div class="tab-pane fade" id="panel12" role="tabpanel">
                         <br>
 
-                        <!-- Grid row -->
                         <div class="row">
 
                             <!-- Grid column -->
-                            <div class="col-md-6 mb-3">
-                                <div class="view overlay hm-white-strong">
-                                    <img src="img/portfolio/12/poster.jpg" class="img-fluid " alt="zoom">
-                                    <div class="mask flex-center waves-effect waves-light">
-                                        <h2>A3 Poster</h2>
-                                    </div>
-                                </div>
+                            <div class="col-lg-4 col-md-6 mb-12">
+
+                                <img src="<%= avatar%>" class="z-depth-1 float-right" height="128px" alt="Responsive image">
+
                             </div>
                             <!-- Grid column -->
 
                             <!-- Grid column -->
-                            <div class="col-md-6 mb-3">
-                                <div class="view overlay hm-white-strong">
-                                    <img src="img/portfolio/12/invitation.jpg" class="img-fluid " alt="zoom">
-                                    <div class="mask flex-center waves-effect waves-light">
-                                        <h2>A5 Invitation</h2>
-                                    </div>
-                                </div>
+                            <div class="col-lg-8 col-md-6 mb-12">
+
+                                <h3>Logged in as:
+                                    <b>
+                                        <%= user.username%>
+                                    </b>
+                                </h3>
+
+                                <% var currentServer = user.guilds.find(e => { %>
+                                    <% return e.id == server._id; %>
+                                        <% }); %>
+                                            <h5>Leaderboards from the South Park server before the 2.0 update</h5>
+                                            <a href="./">
+                                                <button type="button" class="btn btn-primary">View Current Leaderboard</button>
+                                            </a>
                             </div>
                             <!-- Grid column -->
-
                         </div>
-                        <!-- Grid row -->
-
 
                         <!-- Grid row -->
+                        <a id="activity1">
+                            <div class="divider-new">
+                        </a>
+                        <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">v1 Activity Leaderboard</h2>
+                        </div>
                         <div class="row">
-
-                            <!-- Grid column -->
-                            <div class="col-md-12 mb-3">
-                                <div class="view overlay hm-white-strong">
-                                    <img src="img/portfolio/12/catalogue.jpg" class="img-fluid " alt="zoom">
-                                    <div class="mask flex-center waves-effect waves-light">
-                                        <h2>A3 Catalogue</h2>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Grid column -->
-
+                            <canvas id="activitybar1"></canvas>
                         </div>
-                        <!-- Grid row -->
+                        <div class="pt-5"></div>
                         <div class="row">
-
-                            <!-- Grid column -->
-                            <div class="col-md-6 mb-3">
-                                <div class="view overlay hm-white-strong">
-                                    <img src="img/portfolio/12/desktop.jpg" class="img-fluid " alt="zoom">
-                                    <div class="mask flex-center waves-effect waves-light">
-                                        <h2>Website Desktop View</h2>
-                                    </div>
-                                </div>
+                            <div class="col-12">
+                                <span class="float-right">
+                                    <a id="btn-yaboi1">
+                                        <button type="button" class="btn btn-indigo">Jump to you</button>
+                                    </a>
+                                </span>
                             </div>
-                            <!-- Grid column -->
-
-                            <!-- Grid column -->
-                            <div class="col-md-6 mb-3">
-                                <div class="view overlay hm-white-strong">
-                                    <img src="img/portfolio/12/mobile.jpg" class="img-fluid " alt="zoom">
-                                    <div class="mask flex-center waves-effect waves-light">
-                                        <h2>Website Mobile View</h2>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Grid column -->
-
                         </div>
-                        <!-- Grid row -->
+                        <div id="scroll-container1" class="row table-wrapper-2">
+                            <table class="table table-sm table-striped">
+                                <col width="20%">
+                                <col width="40%">
+                                <col width="40%">
+                                <thead class="indigo text-white">
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th>Username</th>
+                                        <th>Number of shits given</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% v1.list.sort((a, b) => { %>
+                                        <% return b.activity - a.activity; %>
+                                            <% }); %>
+                                                <% for (var i = 0; i < v1.list.length; i++) { %>
+                                                    <% if (v1.list[i].id == user.id) { %>
+                                                        <tr class="table-warning" id="rawrxd1">
+                                                            <th scope="row" class="text-center">
+                                                                <%= i + 1 %>
+                                                            </th>
+                                                            <td>
+                                                                <%= v1.list[i].name %>
+                                                            </td>
+                                                            <td>
+                                                                <%= Math.round(v1.list[i].activity) %>
+                                                            </td>
+                                                        </tr>
+                                                        <% } else { %>
+                                                            <% if (v1.list[i].activity != 0) { %>
+                                                                <tr>
+                                                                    <th scope="row" class="text-center">
+                                                                        <%= i + 1 %>
+                                                                    </th>
+                                                                    <td>
+                                                                        <%= v1.list[i].name %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= Math.round(v1.list[i].activity) %>
+                                                                    </td>
+                                                                </tr>
+                                                                <% } %>
+                                                                    <% } %>
+                                                                        <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <a id="shits1">
+                            <div class="divider-new">
+                        </a>
+                        <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">v1 It Hits The Fan Leaderboard</h2>
+                        </div>
+                        <div class="row">
+                            <canvas id="shitbar1"></canvas>
+                        </div>
+                        <div class="pt-5"></div>
+                        <div class="row">
+                            <div class="col-12">
+                                <span class="float-right">
+                                    <a id="btn-yashit1">
+                                        <button type="button" class="btn btn-brown">Jump to you</button>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                        <div id="shit-container1" class="table-wrapper-2">
+                            <table class="table table-sm table-striped">
+                                <col width="20%">
+                                <col width="40%">
+                                <col width="40%">
+                                <thead class="brown text-white">
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th>Username</th>
+                                        <th>Number of shits given</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% v1.list.sort((a, b) => { %>
+                                        <% return b.shits - a.shits; %>
+                                            <% }); %>
+                                                <% for (var i = 0; i < v1.list.length; i++) { %>
+                                                    <% if (v1.list[i].id == user.id) { %>
+                                                        <tr class="table-warning" id="wonk1">
+                                                            <th scope="row" class="text-center">
+                                                                <%= i + 1 %>
+                                                            </th>
+                                                            <td>
+                                                                <%= v1.list[i].name %>
+                                                            </td>
+                                                            <td>
+                                                                <%= Math.round(v1.list[i].shits) %>
+                                                            </td>
+                                                        </tr>
+                                                        <% } else { %>
+                                                            <% if (v1.list[i].shits != 0) { %>
+                                                                <tr>
+                                                                    <th scope="row" class="text-center">
+                                                                        <%= i + 1 %>
+                                                                    </th>
+                                                                    <td>
+                                                                        <%= v1.list[i].name %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= Math.round(v1.list[i].shits) %>
+                                                                    </td>
+                                                                </tr>
+                                                                <% } %>
+                                                                    <% } %>
+                                                                        <% } %>
+                                </tbody>
+                            </table>
+                        </div>
 
                     </div>
-                    <!--/.Panel 2-->
 
                     <!--Panel 3-->
                     <div class="tab-pane fade" id="panel13" role="tabpanel">
                         <br>
-                        <!-- Grid row -->
+
                         <div class="row">
 
                             <!-- Grid column -->
-                            <div class="col-md-6 mb-3">
-                                <div class="view overlay hm-white-strong">
-                                    <img src="img/portfolio/13/poster.jpg" class="img-fluid " alt="zoom">
-                                    <div class="mask flex-center waves-effect waves-light">
-                                        <h2>A3 Poster</h2>
-                                    </div>
-                                </div>
+                            <div class="col-lg-4 col-md-6 mb-12">
+
+                                <img src="<%= avatar%>" class="z-depth-1 float-right" height="128px" alt="Responsive image">
+
                             </div>
                             <!-- Grid column -->
 
                             <!-- Grid column -->
-                            <div class="col-md-6 mb-3">
-                                <div class="view overlay hm-white-strong">
-                                    <img src="img/portfolio/13/invitation.jpg" class="img-fluid " alt="zoom">
-                                    <div class="mask flex-center waves-effect waves-light">
-                                        <h2>A5 Invitation</h2>
-                                    </div>
-                                </div>
+                            <div class="col-lg-8 col-md-6 mb-12">
+
+                                <h3>Logged in as:
+                                    <b>
+                                        <%= user.username%>
+                                    </b>
+                                </h3>
+
+                                <% var currentServer = user.guilds.find(e => { %>
+                                    <% return e.id == server._id; %>
+                                        <% }); %>
+                                            <h5>Leaderboards from the South Park server before the 2.0 update</h5>
+                                            <a href="./">
+                                                <button type="button" class="btn btn-primary">View Current Leaderboard</button>
+                                            </a>
                             </div>
                             <!-- Grid column -->
-
                         </div>
-                        <!-- Grid row -->
-
 
                         <!-- Grid row -->
+                        <a id="activity2">
+                            <div class="divider-new">
+                        </a>
+                        <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">v2 Activity Leaderboard</h2>
+                        </div>
                         <div class="row">
-
-                            <!-- Grid column -->
-                            <div class="col-md-12 mb-3">
-                                <div class="view overlay hm-white-strong">
-                                    <img src="img/portfolio/13/catalogue.jpg" class="img-fluid " alt="zoom">
-                                    <div class="mask flex-center waves-effect waves-light">
-                                        <h2>A3 Catalogue</h2>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Grid column -->
-
+                            <canvas id="activitybar2"></canvas>
                         </div>
-                        <!-- Grid row -->
+                        <div class="pt-5"></div>
                         <div class="row">
-
-                            <!-- Grid column -->
-                            <div class="col-md-6 mb-3">
-                                <div class="view overlay hm-white-strong">
-                                    <img src="img/portfolio/13/desktop.jpg" class="img-fluid " alt="zoom">
-                                    <div class="mask flex-center waves-effect waves-light">
-                                        <h2>Website Desktop View</h2>
-                                    </div>
-                                </div>
+                            <div class="col-12">
+                                <span class="float-right">
+                                    <a id="btn-yaboi2">
+                                        <button type="button" class="btn btn-indigo">Jump to you</button>
+                                    </a>
+                                </span>
                             </div>
-                            <!-- Grid column -->
-
-                            <!-- Grid column -->
-                            <div class="col-md-6 mb-3">
-                                <div class="view overlay hm-white-strong">
-                                    <img src="img/portfolio/13/mobile.jpg" class="img-fluid " alt="zoom">
-                                    <div class="mask flex-center waves-effect waves-light">
-                                        <h2>Website Mobile View</h2>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Grid column -->
-
                         </div>
-                        <!-- Grid row -->
+                        <div id="scroll-container2" class="row table-wrapper-2">
+                            <table class="table table-sm table-striped">
+                                <col width="20%">
+                                <col width="40%">
+                                <col width="40%">
+                                <thead class="indigo text-white">
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th>Username</th>
+                                        <th>Number of shits given</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% v2.list.sort((a, b) => { %>
+                                        <% return b.activity - a.activity; %>
+                                            <% }); %>
+                                                <% for (var i = 0; i < v2.list.length; i++) { %>
+                                                    <% if (v2.list[i].id == user.id) { %>
+                                                        <tr class="table-warning" id="rawrxd2">
+                                                            <th scope="row" class="text-center">
+                                                                <%= i + 1 %>
+                                                            </th>
+                                                            <td>
+                                                                <%= v2.list[i].name %>
+                                                            </td>
+                                                            <td>
+                                                                <%= Math.round(v2.list[i].activity) %>
+                                                            </td>
+                                                        </tr>
+                                                        <% } else { %>
+                                                            <% if (v2.list[i].activity != 0) { %>
+                                                                <tr>
+                                                                    <th scope="row" class="text-center">
+                                                                        <%= i + 1 %>
+                                                                    </th>
+                                                                    <td>
+                                                                        <%= v2.list[i].name %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= Math.round(v2.list[i].activity) %>
+                                                                    </td>
+                                                                </tr>
+                                                                <% } %>
+                                                                    <% } %>
+                                                                        <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <a id="shits2">
+                            <div class="divider-new">
+                        </a>
+                        <h2 class="h2-responsive wow fadeIn" data-wow-delay="0.2s">v2 It Hits The Fan Leaderboard</h2>
+                        </div>
+                        <div class="row">
+                            <canvas id="shitbar2"></canvas>
+                        </div>
+                        <div class="pt-5"></div>
+                        <div class="row">
+                            <div class="col-12">
+                                <span class="float-right">
+                                    <a id="btn-yashit2">
+                                        <button type="button" class="btn btn-brown">Jump to you</button>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                        <div id="shit-container2" class="table-wrapper-2">
+                            <table class="table table-sm table-striped">
+                                <col width="20%">
+                                <col width="40%">
+                                <col width="40%">
+                                <thead class="brown text-white">
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th>Username</th>
+                                        <th>Number of shits given</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% v2.list.sort((a, b) => { %>
+                                        <% return b.shits - a.shits; %>
+                                            <% }); %>
+                                                <% for (var i = 0; i < v2.list.length; i++) { %>
+                                                    <% if (v2.list[i].id == user.id) { %>
+                                                        <tr class="table-warning" id="wonk2">
+                                                            <th scope="row" class="text-center">
+                                                                <%= i + 1 %>
+                                                            </th>
+                                                            <td>
+                                                                <%= v2.list[i].name %>
+                                                            </td>
+                                                            <td>
+                                                                <%= Math.round(v2.list[i].shits) %>
+                                                            </td>
+                                                        </tr>
+                                                        <% } else { %>
+                                                            <% if (v2.list[i].shits != 0) { %>
+                                                                <tr>
+                                                                    <th scope="row" class="text-center">
+                                                                        <%= i + 1 %>
+                                                                    </th>
+                                                                    <td>
+                                                                        <%= v2.list[i].name %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= Math.round(v2.list[i].shits) %>
+                                                                    </td>
+                                                                </tr>
+                                                                <% } %>
+                                                                    <% } %>
+                                                                        <% } %>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-                    <!--Panel 4-->
+            </div>
+            <!--Panel 4-->
 
-                    <!-- / Main container-->
-                    <!-- Footer-->
-                    <% include ../partials/footer %>
-                        <!-- /.Footer-->
-                        <!-- SCRIPTS-->
-                        <!-- JQuery-->
-                        <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
-                        <!-- Bootstrap dropdown-->
-                        <script type="text/javascript" src="../../js/popper.min.js"></script>
-                        <!-- Bootstrap core JavaScript-->
-                        <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
-                        <!-- MDB core JavaScript-->
-                        <script type="text/javascript" src="../../js/mdb.min.js"></script>
+            <!-- / Main container-->
+            <!-- Footer-->
+            <% include ../partials/footer %>
+                <!-- /.Footer-->
+                <!-- SCRIPTS-->
+                <!-- JQuery-->
+                <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+                <!-- Bootstrap dropdown-->
+                <script type="text/javascript" src="../../js/popper.min.js"></script>
+                <!-- Bootstrap core JavaScript-->
+                <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+                <!-- MDB core JavaScript-->
+                <script type="text/javascript" src="../../js/mdb.min.js"></script>
 
-                        <!-- Animations init-->
-                        <script>
-                            new WOW().init();
-                        </script>
+                <!-- Animations init-->
+                <script>
+                    new WOW().init();
+                </script>
 
-                        <script>
-                            /** ----------------------------------------
-                             *           GRAPH PARSING SCRIPT
-                             *   ----------------------------------------
-                             */
+                <script>
+                    /** ----------------------------------------
+                     *           GRAPH PARSING SCRIPT
+                     *   ----------------------------------------
+                     */
 
-                            const server = <%- JSON.stringify(server) %>;
+                    const server = <%- JSON.stringify(server) %>;
 
-                            for (var i = 0; i < server.graphs.length; i++) {
-                                var element = document.getElementById(server.graphs[i].id);
-                                if (element != null) {
+                    for (var i = 0; i < server.graphs.length; i++) {
+                        var element = document.getElementById(server.graphs[i].id);
+                        if (element != null) {
 
-                                    var graph = server.graphs[i];
+                            var graph = server.graphs[i];
+
+                            //
+                            var data = {};
+                            switch (graph.type) {
+                                case "line":
+
+                                    break;
+                                case "pie":
+
+                                    break;
+                                case "bar":
 
                                     //
-                                    var data = {};
-                                    switch (graph.type) {
-                                        case "line":
+                                    data = {
+                                        labels: [],
+                                        datasets: []
+                                    };
 
-                                            break;
-                                        case "pie":
+                                    for (var j = 0; j < graph.data.datasets.length; j++) {
 
-                                            break;
-                                        case "bar":
+                                        var stat = graph.data.datasets[j].stat;
+                                        var member = graph.data.datasets[j].member;
+                                        var theme = server.graphs[i].data.datasets[j].theme;
 
-                                            //
-                                            data = {
-                                                labels: [],
-                                                datasets: []
-                                            };
+                                        data.datasets[j] = {};
 
-                                            for (var j = 0; j < graph.data.datasets.length; j++) {
+                                        data.datasets[j].label = stat;
 
-                                                var stat = graph.data.datasets[j].stat;
-                                                var member = graph.data.datasets[j].member;
-                                                var theme = server.graphs[i].data.datasets[j].theme;
+                                        data.datasets[j].data = [];
 
-                                                data.datasets[j] = {};
+                                        // make it #topany
 
-                                                data.datasets[j].label = stat;
+                                        switch (member) {
+                                            case "#top5":
 
-                                                data.datasets[j].data = [];
+                                                //
+                                                server.members.sort((a, b) => {
 
-                                                // make it #topany
+                                                    var aStat = a.stats.find(e => {
+                                                        return e.name == stat;
+                                                    });
+                                                    var bStat = b.stats.find(e => {
+                                                        return e.name == stat;
+                                                    });
 
-                                                switch (member) {
-                                                    case "#top5":
-
-                                                        //
-                                                        server.members.sort((a, b) => {
-
-                                                            var aStat = a.stats.find(e => {
-                                                                return e.name == stat;
-                                                            });
-                                                            var bStat = b.stats.find(e => {
-                                                                return e.name == stat;
-                                                            });
-
-                                                            if (aStat == undefined) {
-                                                                aStat = {
-                                                                    value: 0
-                                                                }
-                                                            }
-                                                            if (bStat == undefined) {
-                                                                bStat = {
-                                                                    value: 0
-                                                                }
-                                                            }
-
-                                                            return bStat.value - aStat.value;
-                                                        });
-
-                                                        for (var k = 0; k < (server.members.length < 5 ? server.members
-                                                                .length : 5); k++) {
-                                                            data.labels.push(server.members[k].name);
-
-                                                            var memberStat = server.members[k].stats.find(e => {
-                                                                return e.name == stat;
-                                                            });
-                                                            if (memberStat == undefined) {
-                                                                memberStat = {
-                                                                    value: 0
-                                                                }
-                                                            }
-
-                                                            data.datasets[j].data.push(memberStat.value);
-                                                            //
+                                                    if (aStat == undefined) {
+                                                        aStat = {
+                                                            value: 0
                                                         }
+                                                    }
+                                                    if (bStat == undefined) {
+                                                        bStat = {
+                                                            value: 0
+                                                        }
+                                                    }
 
-                                                        break;
+                                                    return bStat.value - aStat.value;
+                                                });
+
+                                                for (var k = 0; k < (server.members.length < 5 ? server.members
+                                                        .length : 5); k++) {
+                                                    data.labels.push(server.members[k].name);
+
+                                                    var memberStat = server.members[k].stats.find(e => {
+                                                        return e.name == stat;
+                                                    });
+                                                    if (memberStat == undefined) {
+                                                        memberStat = {
+                                                            value: 0
+                                                        }
+                                                    }
+
+                                                    data.datasets[j].data.push(memberStat.value);
+                                                    //
                                                 }
-
-                                                // Hardcoded themes yay! (kill me)
-                                                switch (theme) {
-                                                    case "shit":
-                                                        //temp
-                                                        data.datasets[j].backgroundColor = [
-                                                            'rgba(51, 17, 0, 1)',
-                                                            'rgba(71, 30, 9, 1)',
-                                                            'rgba(99, 50, 24, 1)',
-                                                            'rgba(112, 63, 37, 1)',
-                                                            'rgba(127, 78, 52, 1)',
-                                                        ];
-                                                        //temp
-                                                        data.datasets[j].borderColor = [
-                                                            'rgba(51, 17, 0, 1)',
-                                                            'rgba(71, 30, 9, 1)',
-                                                            'rgba(99, 50, 24, 1)',
-                                                            'rgba(112, 63, 37, 1)',
-                                                            'rgba(127, 78, 52, 1)',
-                                                        ];
-                                                        break;
-                                                    default:
-                                                        //temp
-                                                        data.datasets[j].backgroundColor = [
-                                                            'rgba(255, 99, 132, 1)',
-                                                            'rgba(54, 162, 235, 1)',
-                                                            'rgba(255, 206, 86, 1)',
-                                                            'rgba(75, 192, 192, 1)',
-                                                            'rgba(153, 102, 255, 1)',
-                                                            'rgba(255, 159, 64, 1)'
-                                                        ];
-                                                        //temp
-                                                        data.datasets[j].borderColor = [
-                                                            'rgba(255,99,132,1)',
-                                                            'rgba(54, 162, 235, 1)',
-                                                            'rgba(255, 206, 86, 1)',
-                                                            'rgba(75, 192, 192, 1)',
-                                                            'rgba(153, 102, 255, 1)',
-                                                            'rgba(255, 159, 64, 1)'
-                                                        ];
-                                                        break;
-                                                }
-
-                                                data.datasets[j].borderWidth = 1;
-                                            }
-
-
-                                            break;
-                                            /*
-                                            case "card":
 
                                                 break;
-                                            */
-                                    }
-                                    //
-
-                                    console.log(data);
-
-                                    var ctx = element.getContext("2d");
-                                    var chart = new Chart(ctx, {
-                                        type: /*server.graphs[i].type*/ "bar",
-                                        data:
-                                            /*{
-                                                                       labels: ["Kyrion", "Tweek Tweak", "Paladin Butters", "kratosgow342", "Smash Royale"],
-                                                                       datasets: [{
-                                                                           label: 'Activity Score',
-                                                                           data: [56236, 42140, 39196, 36656, 29217.140772982006],
-                                                                           backgroundColor: [
-                                                                               'rgb(255, 99, 132)',
-                                                                               'rgb(54, 162, 235)',
-                                                                               'rgb(255, 206, 86)',
-                                                                               'rgb(75, 192, 192)',
-                                                                               'rgb(153, 102, 255)',
-                                                                           ],
-                                                                       }]
-                                                                   }*/
-                                            data,
-                                        options: {
-                                            responsive: true
                                         }
-                                    })
+
+                                        // Hardcoded themes yay! (kill me)
+                                        switch (theme) {
+                                            case "shit":
+                                                //temp
+                                                data.datasets[j].backgroundColor = [
+                                                    'rgba(51, 17, 0, 1)',
+                                                    'rgba(71, 30, 9, 1)',
+                                                    'rgba(99, 50, 24, 1)',
+                                                    'rgba(112, 63, 37, 1)',
+                                                    'rgba(127, 78, 52, 1)',
+                                                ];
+                                                //temp
+                                                data.datasets[j].borderColor = [
+                                                    'rgba(51, 17, 0, 1)',
+                                                    'rgba(71, 30, 9, 1)',
+                                                    'rgba(99, 50, 24, 1)',
+                                                    'rgba(112, 63, 37, 1)',
+                                                    'rgba(127, 78, 52, 1)',
+                                                ];
+                                                break;
+                                            default:
+                                                //temp
+                                                data.datasets[j].backgroundColor = [
+                                                    'rgba(255, 99, 132, 1)',
+                                                    'rgba(54, 162, 235, 1)',
+                                                    'rgba(255, 206, 86, 1)',
+                                                    'rgba(75, 192, 192, 1)',
+                                                    'rgba(153, 102, 255, 1)',
+                                                    'rgba(255, 159, 64, 1)'
+                                                ];
+                                                //temp
+                                                data.datasets[j].borderColor = [
+                                                    'rgba(255,99,132,1)',
+                                                    'rgba(54, 162, 235, 1)',
+                                                    'rgba(255, 206, 86, 1)',
+                                                    'rgba(75, 192, 192, 1)',
+                                                    'rgba(153, 102, 255, 1)',
+                                                    'rgba(255, 159, 64, 1)'
+                                                ];
+                                                break;
+                                        }
+
+                                        data.datasets[j].borderWidth = 1;
+                                    }
+
+
+                                    break;
+                                    /*
+                                    case "card":
+
+                                        break;
+                                    */
+                            }
+                            //
+
+                            console.log(data);
+
+                            var ctx = element.getContext("2d");
+                            var chart = new Chart(ctx, {
+                                type: /*server.graphs[i].type*/ "bar",
+                                data:
+                                    /*{
+                                                               labels: ["Kyrion", "Tweek Tweak", "Paladin Butters", "kratosgow342", "Smash Royale"],
+                                                               datasets: [{
+                                                                   label: 'Activity Score',
+                                                                   data: [56236, 42140, 39196, 36656, 29217.140772982006],
+                                                                   backgroundColor: [
+                                                                       'rgb(255, 99, 132)',
+                                                                       'rgb(54, 162, 235)',
+                                                                       'rgb(255, 206, 86)',
+                                                                       'rgb(75, 192, 192)',
+                                                                       'rgb(153, 102, 255)',
+                                                                   ],
+                                                               }]
+                                                           }*/
+                                    data,
+                                options: {
+                                    responsive: true
                                 }
-                            }
-                        </script>
-                        <script>
-                            const button = document.getElementById("alert");
-                            button.onclick = function () {
-                                alert("This data is unavailable")
-                            }
-                        </script>
+                            })
+                        }
+                    }
+                </script>
+
+                <script>
+                    var ctx = document.getElementById("activitybar1").getContext('2d');
+                    var chart = new Chart(ctx, {
+                        type: "bar",
+                        data: {
+                            labels: ["Kyrion", "Tweek Tweak", "Paladin Butters", "kratosgow342", "Smash Royale"],
+                            datasets: [{
+                                label: 'Activity Score',
+                                data: [56236, 42140, 39196, 36656, 29217.140772982006],
+                                backgroundColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(54, 162, 235)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(75, 192, 192)',
+                                    'rgb(153, 102, 255)',
+                                ],
+                            }]
+                        },
+                        options: {
+                            responsive: true
+                        }
+                    })
+                </script>
+
+                <script>
+                    var ctx = document.getElementById("shitbar1").getContext('2d');
+                    var chart = new Chart(ctx, {
+                        type: "bar",
+                        data: {
+                            labels: ["Kyrion", "Tweek Tweak", "Paladin Butters", "kratosgow342", "Smash Royale"],
+                            datasets: [{
+                                label: 'Shit Score',
+                                data: [56236, 42140, 39196, 36656, 29217.140772982006],
+                                backgroundColor: [
+                                    'rgba(51, 17, 0, 1)',
+                                    'rgba(71, 30, 9, 1)',
+                                    'rgba(99, 50, 24, 1)',
+                                    'rgba(112, 63, 37, 1)',
+                                    'rgba(127, 78, 52, 1)',
+                                ],
+                            }]
+                        },
+                        options: {
+                            responsive: true
+                        }
+                    })
+                </script>
+
+                <script>
+                    var ctx = document.getElementById("shitbar2").getContext('2d');
+                    var chart = new Chart(ctx, {
+                        type: "bar",
+                        data: {
+                            labels: ["Kyrion", "Tweek Tweak", "Paladin Butters", "kratosgow342", "Smash Royale"],
+                            datasets: [{
+                                label: 'Shit Score',
+                                data: [56236, 42140, 39196, 36656, 29217.140772982006],
+                                backgroundColor: [
+                                    'rgba(51, 17, 0, 1)',
+                                    'rgba(71, 30, 9, 1)',
+                                    'rgba(99, 50, 24, 1)',
+                                    'rgba(112, 63, 37, 1)',
+                                    'rgba(127, 78, 52, 1)',
+                                ],
+                            }]
+                        },
+                        options: {
+                            responsive: true
+                        }
+                    })
+                </script>
+
+<script>
+                    var ctx = document.getElementById("activitybar2").getContext('2d');
+                    var chart = new Chart(ctx, {
+                        type: "bar",
+                        data: {
+                            labels: ["Kyrion", "Tweek Tweak", "Paladin Butters", "kratosgow342", "Smash Royale"],
+                            datasets: [{
+                                label: 'Activity Score',
+                                data: [56236, 42140, 39196, 36656, 29217.140772982006],
+                                backgroundColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(54, 162, 235)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(75, 192, 192)',
+                                    'rgb(153, 102, 255)',
+                                ],
+                            }]
+                        },
+                        options: {
+                            responsive: true
+                        }
+                    })
+                </script>
+
+                <script>
+                    const container1 = document.getElementById("scroll-container1");
+                    const row1 = document.getElementById("rawrxd1");
+
+                    const container21 = document.getElementById("shit-container1");
+                    const row21 = document.getElementById("wonk1");
+
+                    const btn1 = document.getElementById("btn-yaboi1");
+                    const btn21 = document.getElementById("btn-yashit1");
+                    btn1.onclick = function () {
+                        container1.scrollTop = row1.offsetTop - 125;
+                        return false;
+                    }
+                    btn21.onclick = function () {
+                        container21.scrollTop = row21.offsetTop - 125;
+                        return false;
+                    }
+
+                    //
+
+                    const container2 = document.getElementById("scroll-container2");
+                    const row2 = document.getElementById("rawrxd2");
+
+                    const container22 = document.getElementById("shit-container2");
+                    const row22 = document.getElementById("wonk2");
+
+                    const btn2 = document.getElementById("btn-yaboi2");
+                    const btn22 = document.getElementById("btn-yashit2");
+                    btn2.onclick = function () {
+                        container2.scrollTop = row2.offsetTop - 125;
+                        return false;
+                    }
+                    btn22.onclick = function () {
+                        container22.scrollTop = row22.offsetTop - 125;
+                        return false;
+                    }
+                </script>
 </body>
 
 </html>
