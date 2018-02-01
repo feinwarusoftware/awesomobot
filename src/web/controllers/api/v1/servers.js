@@ -52,7 +52,15 @@ router.route("/:server_id")
                 res.send(err);
             }
 
-            //server.issues = req.body.issues;
+            server.members = req.body.members;
+            server.graphs = req.body.graphs;
+            server.stats = req.body.stats;
+            server.watchlist = req.body.watchlist;
+            server.issues = req.body.issues;
+<<<<<<< Updated upstream
+
+=======
+>>>>>>> Stashed changes
 
             server.save(err => {
                 if (err) {

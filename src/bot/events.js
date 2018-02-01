@@ -764,6 +764,7 @@ const commands = [{
                 return;
             }
 
+
             let cf = message.guild.roles.find(e => {
                 return e.name == "Coon & Friends";
             });
@@ -776,6 +777,7 @@ const commands = [{
             let gk = message.guild.roles.find(e => {
                 return e.name == "Goth Kids";
             });
+
             if (!cf || !fp || !cm || !gk) {
                 message.reply("role err");
                 return;
@@ -841,7 +843,9 @@ const commands = [{
             }
 
             message.member.addRole(role);
+
             message.reply(message.author.username + " joined " + role.name);
+
 
             if (role == gk) {
                 message.author.send("So you wanna be an edgelord by giving yourself the 'Goth Kids' role?\nWe dont take kindly to types like you; unless you remove your role with '" + prefix + "civilwar', you'll be banned from the server in 60 seconds!\n\n - !Dragon1320 & Mattheous");
@@ -865,6 +869,7 @@ const commands = [{
             let mgk = message.member.roles.find(e => {
                 return e.name == "Goth Kids";
             });
+                  
             if (mcf) {
                 message.member.removeRole(mcf);
             }
@@ -1668,6 +1673,10 @@ client.on("message", message => {
             for (let j = 0; j < servers[0].members[i].stats.length; j++) {
 
                 if (servers[0].members[i].stats[j].name == "activity") {
+
+                    if (!servers[0].members[i].stats[j].value) {
+                        servers[0].members[i].stats[j].value = 0;
+                    }
 
                     servers[0].members[i].stats[j].value += message.content.length > 20 ? (message.content.length > 100 ? 8 : 6) : 2;
                     servers[0].members[i].stats[j].lastmsg = 0;
@@ -4018,6 +4027,451 @@ const temp = {
     }]
 }
 //
+const v2 = {
+    "total": 0,
+    "list": [{
+        "id": "228887919689990144",
+        "name": "Nitrosage",
+        "shits": 99,
+        "activity": 15204
+    }, {
+        "id": "215982178046181376",
+        "name": "Tweekerino",
+        "shits": 24,
+        "activity": 14650
+    }, {
+        "id": "174754869595471873",
+        "name": "Kyrion, the Last Standing",
+        "shits": 64,
+        "activity": 13120
+    }, {
+        "id": "331641326816854028",
+        "name": "Barbarian Tweek",
+        "shits": 180,
+        "activity": 12110
+    }, {
+        "id": "262345465306021888",
+        "name": "TowelRoyale",
+        "shits": 37,
+        "activity": 8584
+    }, {
+        "id": "217486439380811776",
+        "name": "piss yellow not-toxic mod",
+        "shits": 62,
+        "activity": 8342
+    }, {
+        "id": "280031103761514507",
+        "name": "Stratagem",
+        "shits": 10,
+        "activity": 6762
+    }, {
+        "id": "277581652484554752",
+        "name": "dany, the tweek enthusiast",
+        "shits": 67,
+        "activity": 6620
+    }, {
+        "id": "171798358153887744",
+        "name": "(Mako)",
+        "shits": 14,
+        "activity": 5742
+    }, {
+        "id": "161573813379792899",
+        "name": "Wonderful Tweek",
+        "shits": 0,
+        "activity": 5304
+    }, {
+        "id": "164195026258231297",
+        "name": "Kenny McCormick",
+        "shits": 21,
+        "activity": 5138
+    }, {
+        "id": "342086358010953728",
+        "name": "KlausHeissler",
+        "shits": 1,
+        "activity": 4570
+    }, {
+        "id": "142896162955984896",
+        "name": "kajcsi the not-toxic not-mod",
+        "shits": 33,
+        "activity": 3694
+    }, {
+        "id": "230875863644635139",
+        "name": "Fa99les",
+        "shits": 20,
+        "activity": 3650
+    }, {
+        "id": "198005882586398721",
+        "name": "Durr tea kem | children eggs™",
+        "shits": 33,
+        "activity": 3392
+    }, {
+        "id": "168232762862600193",
+        "name": "kratosgow342",
+        "shits": 109,
+        "activity": 3352
+    }, {
+        "id": "348292774870908929",
+        "name": "tweeky",
+        "shits": 14,
+        "activity": 3362
+    }, {
+        "id": "191579984274522112",
+        "name": "Bell",
+        "shits": 21,
+        "activity": 3346
+    }, {
+        "id": "117783098623655936",
+        "name": "L'il Fenn",
+        "shits": 11,
+        "activity": 2960
+    }, {
+        "id": "349513129538879490",
+        "name": "Elly",
+        "shits": 21,
+        "activity": 2792
+    }, {
+        "id": "312808956340731905",
+        "name": "6king Ashe",
+        "shits": 49,
+        "activity": 2802
+    }, {
+        "id": "233832353468907521",
+        "name": "Polnareff",
+        "shits": 2,
+        "activity": 2724
+    }, {
+        "id": "395090104491966474",
+        "name": "officalchespiny",
+        "shits": 8,
+        "activity": 2504
+    }, {
+        "id": "367677246040702976",
+        "name": "Leopold \"Butters\" Stotch",
+        "shits": 4,
+        "activity": 2476
+    }, {
+        "id": "372758178321924108",
+        "name": "piss orange",
+        "shits": 147,
+        "activity": 2298
+    }, {
+        "id": "275397087485755392",
+        "name": "Annie Dreemurr",
+        "shits": 21,
+        "activity": 2234
+    }, {
+        "id": "157615456826556416",
+        "name": "Engikirby",
+        "shits": 4,
+        "activity": 1960
+    }, {
+        "id": "99626024181968896",
+        "name": "Airborn56",
+        "shits": 13,
+        "activity": 1954
+    }, {
+        "id": "385149322716643348",
+        "name": "Stfu",
+        "shits": 44,
+        "activity": 1739
+    }, {
+        "id": "355901469804855297",
+        "name": "Made An Attempt",
+        "shits": 7,
+        "activity": 1580
+    }, {
+        "id": "190914446774763520",
+        "name": "Mattheous",
+        "shits": 6,
+        "activity": 1566
+    }, {
+        "id": "281967911680081923",
+        "name": "the bard",
+        "shits": 10,
+        "activity": 984
+    }, {
+        "id": "201014010395623424",
+        "name": "stan darsh",
+        "shits": 19,
+        "activity": 982
+    }, {
+        "id": "168690518899949569",
+        "name": "!Dragon1320",
+        "shits": 30,
+        "activity": 942
+    }, {
+        "id": "345336838376128512",
+        "name": "Kenny McCormick",
+        "shits": 0,
+        "activity": 868
+    }, {
+        "id": "310962209066975233",
+        "name": "Eric Cartman",
+        "shits": 4,
+        "activity": 844
+    }, {
+        "id": "213884331838406656",
+        "name": "Kyle Schwartz",
+        "shits": 2,
+        "activity": 692
+    }, {
+        "id": "287951569809309696",
+        "name": "PiggyTerry",
+        "shits": 1,
+        "activity": 610
+    }, {
+        "id": "258148428549324801",
+        "name": "Sqewree",
+        "shits": 0,
+        "activity": 446
+    }, {
+        "id": "346833866645962753",
+        "name": "VATSman892",
+        "shits": 0,
+        "activity": 436
+    }, {
+        "id": "296211279083995136",
+        "name": "0utofbody - moved",
+        "shits": 1,
+        "activity": 400
+    }, {
+        "id": "288028101831819264",
+        "name": "Elisabeth, Craig Stan #1",
+        "shits": 0,
+        "activity": 348
+    }, {
+        "id": "307248302397718529",
+        "name": "Grajowiec",
+        "shits": 16,
+        "activity": 338
+    }, {
+        "id": "104984717891223552",
+        "name": "2th",
+        "shits": 1,
+        "activity": 316
+    }, {
+        "id": "189569939991035904",
+        "shits": 5,
+        "activity": 257
+    }, {
+        "id": "196308513520222208",
+        "name": "fphluhshd phfisgh",
+        "shits": 1,
+        "activity": 249
+    }, {
+        "id": "190660564924497921",
+        "name": "Milk",
+        "shits": 0,
+        "activity": 336
+    }, {
+        "id": "397306538949214209",
+        "name": "Weak noodle arm gal",
+        "shits": 2,
+        "activity": 238
+    }, {
+        "id": "317142052620206083",
+        "name": "I have no soul",
+        "shits": 1,
+        "activity": 231
+    }, {
+        "id": "254751031001481216",
+        "name": "financial aids",
+        "shits": 0,
+        "activity": 194
+    }, {
+        "id": "329020358911066113",
+        "name": "Kahl",
+        "shits": 3,
+        "activity": 163
+    }, {
+        "id": "383901109288173568",
+        "name": "Zoewie",
+        "shits": 0,
+        "activity": 172
+    }, {
+        "id": "336851422639554560",
+        "name": "Clyde",
+        "shits": 0,
+        "activity": 168
+    }, {
+        "id": "356340645947899906",
+        "shits": 0,
+        "activity": 154
+    }, {
+        "id": "228561869852508172",
+        "name": "Lei",
+        "shits": 0,
+        "activity": 206
+    }, {
+        "id": "372155002396868614",
+        "name": "Edgy Wizard",
+        "shits": 4,
+        "activity": 148
+    }, {
+        "id": "268768664411439115",
+        "shits": 0,
+        "activity": 172
+    }, {
+        "id": "319999952350740481",
+        "name": "why tf do you look at my name",
+        "shits": 0,
+        "activity": 108
+    }, {
+        "id": "256545543398883329",
+        "shits": 2,
+        "activity": 81
+    }, {
+        "id": "290817275093712897",
+        "shits": 1,
+        "activity": 126
+    }, {
+        "id": "346325792399032323",
+        "name": "**CAFETERIA! FRAÎCHE!**",
+        "shits": 0,
+        "activity": 122
+    }, {
+        "id": "214584733395451905",
+        "shits": 0,
+        "activity": 88
+    }, {
+        "id": "162608595966492672",
+        "name": "Alex_The_Geat2",
+        "shits": 0,
+        "activity": 88
+    }, {
+        "id": "122649425062395904",
+        "name": "Ghost Ryder",
+        "shits": 0,
+        "activity": 78
+    }, {
+        "id": "299075711983943681",
+        "name": "Xeno",
+        "shits": 0,
+        "activity": 108
+    }, {
+        "id": "407704246444752896",
+        "shits": 0,
+        "activity": 44
+    }, {
+        "id": "392530794482106368",
+        "name": "Policeman Eric",
+        "shits": 1,
+        "activity": 38
+    }, {
+        "id": "349886534989643779",
+        "name": "Pariston Hill(Wonder Tweek)",
+        "shits": 0,
+        "activity": 38
+    }, {
+        "id": "405204729568690178",
+        "shits": 0,
+        "activity": 34
+    }, {
+        "id": "375263647435325463",
+        "shits": 0,
+        "activity": 30
+    }, {
+        "id": "239482850062237707",
+        "shits": 0,
+        "activity": 28
+    }, {
+        "id": "370447549561307146",
+        "shits": 0,
+        "activity": 26
+    }, {
+        "id": "311676229898076170",
+        "shits": 0,
+        "activity": 26
+    }, {
+        "id": "282229456964419584",
+        "name": "SpaceBoy",
+        "shits": 0,
+        "activity": 24
+    }, {
+        "id": "266658106920927232",
+        "shits": 0,
+        "activity": 24
+    }, {
+        "id": "358652850047287296",
+        "shits": 0,
+        "activity": 20
+    }, {
+        "id": "215046363526725632",
+        "name": "Draumr",
+        "shits": 0,
+        "activity": 18
+    }, {
+        "id": "214458285242187777",
+        "name": "Calvin Craig",
+        "shits": 0,
+        "activity": 18
+    }, {
+        "id": "326447343840788480",
+        "name": "Noice",
+        "shits": 0,
+        "activity": 14
+    }, {
+        "id": "379142078048894976",
+        "name": "MLGesus",
+        "shits": 0,
+        "activity": 12
+    }, {
+        "id": "230502782623285248",
+        "name": "Kyle",
+        "shits": 0,
+        "activity": 12
+    }, {
+        "id": "356941255579533313",
+        "name": "Toad",
+        "shits": 0,
+        "activity": 12
+    }, {
+        "id": "194652191896764418",
+        "name": "kiyo (craig)",
+        "shits": 0,
+        "activity": 12
+    }, {
+        "id": "336892825541279756",
+        "shits": 0,
+        "activity": 8
+    }, {
+        "id": "394912617400893451",
+        "shits": 0,
+        "activity": 6
+    }, {
+        "id": "245721080671502338",
+        "shits": 0,
+        "activity": 6
+    }, {
+        "id": "295683947688493056",
+        "shits": 0,
+        "activity": 6
+    }, {
+        "id": "227887535748153346",
+        "name": "Java",
+        "shits": 0,
+        "activity": 4
+    }, {
+        "id": "243163105834696705",
+        "shits": 0,
+        "activity": 2
+    }, {
+        "id": "254381166700920832",
+        "name": "Detective Sandy Vagina",
+        "shits": 1,
+        "activity": 0
+    }, {
+        "id": "233888478729863168",
+        "shits": 1,
+        "activity": 0
+    }, {
+        "id": "234586765523025920",
+        "name": "Super Macho Man",
+        "shits": 0,
+        "activity": 22
+    }]
+}
+//
 
 // Warning! Callback hell incoming!
 // Achtung - warnings are best done in German!
@@ -4046,6 +4500,19 @@ function loadAssets(cb) {
             console.log("DEBUG >> Fetched [" + "1" + "] servers.");
         }
 
+        // temp fix
+        const members = servers[0].members;
+        for (let i = 0; i < members.length; i++) {
+            for (let j = 0; j < members[i].stats.length; j++) {
+                if (members[i].stats[j].name == "activity" && !members[i].stats[j].value) {
+                    members[i].stats[j].value = 0;
+                }
+            }
+        }
+
+        console.log("Undefined activity replaced.");
+        //
+
         // Then load assets.
         Promise.all([jimp.read("./src/bot/assets/base.png"), jimp.read("./src/bot/assets/mask.png"), jimp.loadFont("./src/bot/assets/helvetica-light.fnt")]).then(values => {
             jBase = values[0];
@@ -4068,7 +4535,7 @@ function loadAssets(cb) {
                         for (let j = 0; j < servers[0].members[i].stats.length; j++) {
                             if (servers[0].members[i].stats[j].name == "activity") {
                                 servers[0].members[i].stats[j].lastmsg += 1;
-                                if (servers[0].members[i].stats[j].lastmsg >= 24) {
+                                if (servers[0].members[i].stats[j].lastmsg >= 576) {
                                     servers[0].members[i].stats[j].value -= (Math.log10(servers[0].members[i].stats[j].lastmsg - 575) * 70) / 288;
                                 }
                                 if (servers[0].members[i].stats[j].value < 0) {
@@ -4144,6 +4611,7 @@ function loadAssets(cb) {
                 // Cb if successfull.
 
                 cb();
+
             });
 
         }).catch(err => {
