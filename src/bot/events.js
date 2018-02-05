@@ -1373,7 +1373,7 @@ const commands = [{
         type: "command",
         perms: pGlobJson,
         exec: function (message) {
-            message.channel.send("<:imback:403307515645001748> <@" + message.author.id + ">" + " is baccccckkk!");
+            message.channel.send("<:imback:403307515645001748> <@" + message.author.id + ">" + " is baaaaaaack!");
         }
     },
 
