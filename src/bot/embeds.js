@@ -47,7 +47,7 @@ function info(message) {
     embed.setTitle("Your all purpose South Park Bot!")
     embed.addField("-help for a list of commands", "If a command is missing, feel free to inform us")
     embed.addField("Crafted with love by Dragon1320 and Mattheous. ♥", "Additional credit goes out to SmashRoyale for the amazing art")
-    embed.addField("Online Dashboard", "https://awesomobot.com/")
+    embed.addField("Online Dashboard", "http://localhost/")
     embed.setFooter("This bot is pretty schweet!");
 
     return embed;
@@ -59,7 +59,7 @@ function help(message) {
     embed.setColor(0x8bc34a);
     embed.setAuthor("AWESOM-O // Help", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
     embed.setThumbnail("https://images.emojiterra.com/twitter/512px/1f914.png")
-    embed.addField("List of Commands", "https://awesomobot.com/commands")
+    embed.addField("List of Commands", "http://localhost/commands")
     embed.addField("Help & Support", "https://help.awesomobot.com/")
     embed.setFooter("These dev people are very helpful!");
 
