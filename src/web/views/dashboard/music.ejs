@@ -162,12 +162,13 @@
                                 <!-- Card body -->
                                 <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
                                     <div class="card-body">
+                                            <img src=<%= data.artistImg %> width="15%" class="float-right" alt="placeholder">
                                         <b>Last 7 days</b>
-                                        <p>Dream Theater <i>(47 plays)</i></p>
+                                        <p><%= data.topWeekArtistName %> <i>(<%= data.topWeekArtistPlays %> plays)</i></p>
                                         <b>Last 30 days</b>
-                                        <p>Periphery <i>(194 plays)</i></p>
+                                        <p><%= data.topMonthArtistName %> <i>(<%= data.topMonthArtistPlays %> plays)</i></p>
                                         <b>All Time</b>
-                                        <p>Dream Theater <i>(798 plays)</i></p>
+                                        <p><%= data.topAllArtistName %> <i>(<%= data.topAllArtistPlays %> plays)</i></p>
                                     </div>
                                 </div>
                             </div>

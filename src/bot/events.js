@@ -18,7 +18,7 @@ const servers = [];
 let eplist = [];
 
 // TEMP
-const prefix = "<<";
+const prefix = "=";
 
 //
 const glob = {
@@ -1491,6 +1491,54 @@ const commands = [{
         exec: function (message) {
             message.channel.send("Greetings humans! I am the A.W.E.S.O.M.-O 4000! Recently, I have been updated to version 2.0! This means I have a load of new schweet commands for you to try! Check here to see all the new commands I was programmed with: http://localhost/commands\n\nAnd also, check out my brand new website! http://localhost/ is the brand new home of the A.W.E.S.O.M.-O commands and data tracking! Check how many members are online, see the most active, and nerdy members in the server and see how many times you and the other members have said shit. Don't worry, I won't tell your parents.\n\nThank you for sitting through this presentation of A.W.E.S.O.M.-O 2.0. Now I will need to collect your payment for usage of this bot...\n\nJust kidding, but please help support me. I need funding for the website to run and for my batteries to stay alive. If you would like to help, consider donating to our patreon. All proceeds will go directly to supporting the bot to keep it running. Why donate to starving kids in Africa when you can donate to A.W.E.S.O.M.-O, your robot friend?\n\nOnce again, thank you for reading, and be sure to test all my commands. Who knows, there might be some hidden goodies within the commands?\n\n@everyone",
                 { file: "https://cdn.discordapp.com/attachments/395553218249097218/405817686086516736/AWESOM-O_2.0.png" });
+        }
+    },
+    {
+        trigger: "fm",
+        type: "command",
+        perms: pGlobJson,
+        exec: function (message) {
+            const args = message.content.split(" ");
+            if (!args[1]) {
+                message.reply("arg err");
+                return;
+            }
+            if (args[1] == "artists" && !args[2]) {
+                message.channel.send(embeds.fmartist())
+            }
+            if (args[1] == "artists" && args[2] == "all") {
+                message.channel.send(embeds.fmartistall())
+            }
+            if (args[1] == "artists" && args[2] == "month") {
+                message.channel.send(embeds.fmartistmonth())
+            }
+            if (args[1] == "artists" && args[2] == "week") {
+                message.channel.send(embeds.fmartistweek())
+            }
+            if (args[1] == "albums" && !args[2]) {
+                message.channel.send(embeds.fmalbum())
+            }
+            if (args[1] == "albums" && args[2] == "all") {
+                message.channel.send(embeds.fmalbumall())
+            }
+            if (args[1] == "albums" && args[2] == "month") {
+                message.channel.send(embeds.fmalbummonth())
+            }
+            if (args[1] == "albums" && args[2] == "week") {
+                message.channel.send(embeds.fmalbumweek())
+            }
+            if (args[1] == "tracks" && !args[2]) {
+                message.channel.send(embeds.fmtrack())
+            }
+            if (args[1] == "tracks" && args[2] == "all") {
+                message.channel.send(embeds.fmtrackall())
+            }
+            if (args[1] == "tracks" && args[2] == "month") {
+                message.channel.send(embeds.fmtrackmonth())
+            }
+            if (args[1] == "tracks" && args[2] == "week") {
+                message.channel.send(embeds.fmtrackweek())
+            }
         }
     }
 ];

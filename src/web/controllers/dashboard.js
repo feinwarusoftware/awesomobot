@@ -7,6 +7,9 @@ const router = express.Router();
 
 const Server = require("../../common/models/server");
 
+const lastfm = require("../../bot/api-lastfm");
+
+
 router.get("/", (req, res, next) => {
 
     var queries = [];
@@ -2002,7 +2005,30 @@ router.get("/music", (req, res) => {
             res.send(err);
         }
 
-        res.render("dashboard/music", { user: req.user, server: server });
+        let data = {};
+        lastfm.topArtists({}, (d1) => {
+            lastfm.topArtists({
+                period : "7day"
+            }, (d2) => {
+                lastfm.topArtists({
+                    period : "1month"
+                }, (d3) => {
+                    data.topAllArtistName = d1.topartists.artist[0].name;
+                    data.topAllArtistPlays = d1.topartists.artist[0].playcount;
+                    data.topWeekArtistName = d2.topartists.artist[0].name;
+                    data.topWeekArtistPlays = d2.topartists.artist[0].playcount;
+                    data.topMonthArtistName = d3.topartists.artist[0].name;
+                    data.topMonthArtistPlays = d3.topartists.artist[0].playcount;
+                    data.artistImg = d1.topartists.artist[0].image[d1.topartists.artist[0].image.length-1]["#text"];
+                    res.render("dashboard/music", { user: req.user, server: server, data: data });
+                })
+            })
+                
+        })
+
+
+
+
     });
 });
 
