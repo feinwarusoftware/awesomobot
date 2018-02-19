@@ -268,6 +268,28 @@ lastfm.topTracks({}, (d1) => {
         })
     })
 })
+lastfm.recentTracks({}, (d1) => {
+            // all time artist name
+            data.historyArtist = d1.recenttracks.track[0].artist["#text"];
+            data.historyArtist2 = d1.recenttracks.track[1].artist["#text"];
+            data.historyArtist3 = d1.recenttracks.track[2].artist["#text"];
+            data.historyArtist4 = d1.recenttracks.track[3].artist["#text"];
+            data.historyArtist5 = d1.recenttracks.track[4].artist["#text"];
+            // all time artist plays
+            data.historyName = d1.recenttracks.track[0].name;
+            data.historyName2 = d1.recenttracks.track[1].name;
+            data.historyName3 = d1.recenttracks.track[2].name;
+            data.historyName4 = d1.recenttracks.track[3].name;
+            data.historyName5 = d1.recenttracks.track[4].name;
+            //
+            data.historyAlbum = d1.recenttracks.track[0].album["#text"];
+            data.historyAlbum2 = d1.recenttracks.track[1].album["#text"];
+            data.historyAlbum3 = d1.recenttracks.track[2].album["#text"];
+            data.historyAlbum4 = d1.recenttracks.track[3].album["#text"];
+            data.historyAlbum5 = d1.recenttracks.track[4].album["#text"];
+            // images
+            data.historyImg = d1.recenttracks.track[0].image[d1.recenttracks.track[0].image.length - 1]["#text"];
+        })
 
 function fmartist(message) {
     let embed = new discord.RichEmbed();
@@ -453,6 +475,22 @@ function fmtrackweek(message) {
     return embed;
 }
 
+function fmhistory(message) {
+    let embed = new discord.RichEmbed();
+    embed.setColor(0x8bc34a);
+    embed.setAuthor("AWESOM-O // Last.fm", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+    embed.setThumbnail(data.historyImg)
+    embed.setTitle("Last.fm Recent Tracks")
+    embed.addField(data.historyName, data.historyArtist + " // *" + data.historyAlbum + "*")
+    embed.addField(data.historyName2, data.historyArtist2 + " // *" + data.historyAlbum2 + "*")
+    embed.addField(data.historyName3, data.historyArtist3 + " // *" + data.historyAlbum3 + "*")
+    embed.addField(data.historyName4, data.historyArtist4 + " // *" + data.historyAlbum4 + "*")
+    embed.addField(data.historyName5, data.historyArtist5 + " // *" + data.historyAlbum5 + "*")
+    embed.setFooter("View full stats on last.fm")
+    embed.setURL("https://last.fm/user/mattheous");
+    return embed;
+}
+
 module.exports = {
     deletion,
     times,
@@ -470,5 +508,6 @@ module.exports = {
     fmtrack,
     fmtrackall,
     fmtrackmonth,
-    fmtrackweek
+    fmtrackweek,
+    fmhistory
 }

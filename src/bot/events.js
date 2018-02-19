@@ -100,6 +100,10 @@ const pSpamOnly = {
             allow: true
         }
     ]
+};
+
+const filter = {
+    blacklist: ["beaner", "chink", "ching chong", "gook", "goy", "jap", "nigger", "nigga", "niggar", "nigguh", "sand nigger", "wetback", "fag", "faggot", "tranny", "shemale", "dyke"]
 }
 
 class PermissionGroup {
@@ -618,7 +622,7 @@ const commands = [{
             const movieideas = [
                 "Movie Idea #01: Adam Sandler... is like in love with some girl.. but then it turns out that the girl is actually a golden retriever or something..",
                 "Movie Idea #02: Adam Sandler... inherits like a billion dollars.. but first he needs to become a boxer or something",
-                "Movie Idea #03: Adam Sandler... is forced to write in javascript... and something",
+                "Movie Idea #03: Rob Schneider... is forced to write in javascript... and something",
                 "Movie Idea #04: Adam Sandler is kidnapped and made to copy bootstrap code",
                 "Movie Idea #05: Adam Sandler... is actually some guy with some sword that lights up and stuff",
                 "Movie Idea #06: Adam Sandler... is a robot sent from the future to kill another robot",
@@ -628,11 +632,11 @@ const commands = [{
                 "Movie Idea #10: Adam Sandler argues with this red light robot on some.. eh spaceship",
                 "Movie Idea #11: Adam Sandler... is a toy.. and completes a story",
                 "Movie Idea #12: Adam Sandler... like robs a bank and has a some scars or something...",
-                "Movie Idea #13: Adam Sandler is a like a guy like in the second world war and stuff",
+                "Movie Idea #13: Rob Schneider is a like a guy like in the second world war and stuff",
                 "Movie Idea #14: Adam Sandler is in a car... only problem is that he can't go below 50MPH or he'll die",
                 "Movie Idea #15: Adam Sandler is scottish and wears a kilt and stuff",
                 "Movie Idea #16: Adam Sandler has a dream.. but he thinks it real life and stuff",
-                "Movie Idea #17: Adam Sandler is actually a carrot and stuff",
+                "Movie Idea #17: Rob Schneider is actually a carrot and stuff",
                 "Movie Idea #18: Adam Sandler takes too many drugs.. and has to dodge bullets and stuff",
                 "Movie Idea #19: Adam Sandler.. has to put a tell the sheep to shut up.. and stuff...",
                 "Movie Idea #20: Adam Sandler... is a lion... and he ehh has to become a king and stuff",
@@ -643,11 +647,12 @@ const commands = [{
                 "Movie Idea #25: Adam Sandler... is accused of hitting this girl.. but he did naht hit her.. its not true.. its bullshit.. oh hi mark...",
                 "Movie Idea #26: Adam Sandler... doesn't like fart jokes.. so he like tries to kill some canadians.. and saddam hussein comes back and stuff...",
                 "Movie Idea #27: Adam Sandler.. is like the captain on this ehh...space..ship.. and ehh he yells khan a lot...",
-                "Movie Idea #28: Adam Sandler... has to play drums in this eh.. jazz band but he doesnt know if he is rushing or dragging...",
+                "Movie Idea #28: Rob Schneider... has to play drums in this eh.. jazz band but he doesnt know if he is rushing or dragging...",
                 "Movie Idea #29: Adam Sandler.. is hungry.. so he plays some games... to get his food stamps...",
                 "Movie Idea #30: Adam Sandler.. is this dictator who fancies some girl who works in like some wholefoods place.. so he decides to not be a dictator and stuff..",
                 "Movie Idea #31: Adam Sandler and his friend makes a TV show called Adam's World but is not allowed to play stairway in the guitar shop... and stuff...",
                 "Movie Idea #34.249.184.154: Adam Sandler... has to make money through patreon to fund the servers....  https://www.patreon.com/awesomo ..not selling out at all...",
+                "Movie Idea #35: Rob Schneider is afraid of ghosts, and he has to like bust 'em up and stuff..",
                 "Movie Idea #69: Adam Sandler is the new kid in a small town in.. eh.. Colorado.. and he has to deal with these 8-year olds and stuff...",
                 "Movie Idea #2305: Adam Sandler is trapped on an island... and falls in love with a ehh coconut",
             ];
@@ -1493,6 +1498,7 @@ const commands = [{
                 { file: "https://cdn.discordapp.com/attachments/395553218249097218/405817686086516736/AWESOM-O_2.0.png" });
         }
     },
+    // 2.1 Commands
     {
         trigger: "fm",
         type: "command",
@@ -1500,7 +1506,7 @@ const commands = [{
         exec: function (message) {
             const args = message.content.split(" ");
             if (!args[1]) {
-                message.reply("arg err");
+                message.channel.send(embeds.fmhistory());
                 return;
             }
             if (args[1] == "artists" && !args[2]) {
@@ -1540,7 +1546,63 @@ const commands = [{
                 message.channel.send(embeds.fmtrackweek())
             }
         }
-    }
+    },
+    {
+        trigger: "love",
+        type: "command",
+        perms: pGlobJson,
+        exec: function (message) {
+            const chefquotes = [
+                "I'm very proud of you, children. Let's all go home and find a nice white woman to make love to.",
+                "Stan, sometimes God takes those closest to us.",
+                "Well, look at it this way: if you want to make a baby cry, first you give it a lollipop.",
+                "Look, schools are teaching condom use to younger and younger students each day! But sex isn't something that should be taught in textbooks and diagrams. Sex is emotional and spiritual. It needs to be taught by family. I know it can be hard, parents, but if you leave it up to the schools to teach sex to kids, you don't know who they're learning it from. It could be from someone who doesn't know, someone who has a bad opinion of it, or even a complete pervert.",
+                "It's very simple, children; The right time to start having sex is 17.",
+                "Yeah, I don't think ol' Mackey knows a hymen from a hysterectomy. And Ms. Choksondik? I'd be surprised she's ever been laid in her life.",
+                "Dag-nabbit children! How come every time you come in here you've got to be asking me questions I shouldn't be answering? \"Chef, what's a clitoris? What's a lesbian, Chef? How come they call it a rim job Chef?\". For once, can't you kids come in here and say \"Hey Chef, nice day isn't it\"?",
+                "Well look at you cute little crackers with your money and your fancy clothes and your cell phones. It's almost like you were... Oh my God! Children, what have I told you about drugs?",
+                "Well whatever you're doing, just remember this: Having money may seem fun but... Oh never mind.",
+                "Sometimes you fall in love!\nAnd you think you'll feel that way forever!\nYou change your life and ignore your friends cause you think it can't get any better!\nBut then love goes away, no matter what it doesn't stay as strong!\nAnd then your left with nothin cause your thinking with your dong!\nSo watch out for that lover! It can destroy like a typhoon wind!\nJust play it cool and don't be a fool!",
+                "Don't let him bleed on my Meredith Baxter-Birney memorial towel\nI actually was with Meredith Baxter-Birney in this very car. And afterwards we used that towel to Wait a minute! Why am I telling you this?",
+                "I hope you're ready for lunch children, because today I've got spooky spaghetti, and freaky french fries...\n...and haunted hash browns, and a creepy cookie...\n...and monstrous milk, and a terrifying napkin!",
+                "Look Elton, you are a great singer, but a retarded monkey could write better lyrics.",
+                "Well I'll be sodomized on Christmas!",
+                "Get them while they're hot. My all new cookies, I Just Went And Fudged Your Momma.",
+                "Okay. Everybody get in a line so I can whoop all your asses!",
+                "Hello? What? Oh, hello, children! It's a what? A giant snake?! Killing everybody?! Growing bigger?! Children, you know I rarely say this, but, well... fudge ya. ",
+                "Children, I heard about what happened at school today! Now none of you tooked that nasty marijuana, did you?",
+                "Is she like, uh, Vanessa Williams beautiful or Toni Braxton beautiful? Or Pamela Anderson beautiful? Or is she Erin Grey in the second season of \"Buck Rogers\" beautiful?",
+                "I'm gonna make love to ya woman!",
+                "Suck on ma chocolate salty balls!",
+                "An anal probe is when they stick a big metal hoob-a-joo up your butt.",
+                "https://www.youtube.com/watch?v=b3npXX9vQ20",
+            ];
+            const chefrandom = chefquotes[Math.floor(Math.random() * chefquotes.length)];
+            message.reply(chefrandom);
+        }
+    },
+    {
+        trigger: "butters",
+        type: "command",
+        perms: pGlobJson,
+        exec: function (message) {
+            const buttersimg = [
+                "https://pbs.twimg.com/profile_images/1379301839/butters_400x400.jpg",
+                "https://boards.420chan.org/mtv/src/1513917412948.png",
+                "http://3.bp.blogspot.com/_qBa_Bn_7yQE/TOvanIcFZwI/AAAAAAAAC5o/u-cioqeVS8w/s400/butters1.jpg",
+                "http://78.media.tumblr.com/22b4e5baad2b8013168c0797b2ce0002/tumblr_inline_n6vsq2kR4y1qb9gvm.png",
+                "https://vignette.wikia.nocookie.net/southpark/images/c/c2/Butters_%28Facebook%29.jpg/revision/latest/scale-to-width-down/150?cb=20101010032409",
+                "https://78.media.tumblr.com/ae2b88cda4d3387c9834b62b6dd2d299/tumblr_ozlmevoHRO1waz4ico4_r1_1280.png",
+                "https://pm1.narvii.com/6396/f76f6b5191670973a71e0ed7566eac328ae9ee18_hq.jpg",
+                "https://78.media.tumblr.com/842ede331fcfd4a694135a391b75563f/tumblr_ozlmevoHRO1waz4ico3_1280.png",
+                "https://78.media.tumblr.com/b2d3a659f77fd8b3d967c2ee395fa48f/tumblr_ozlmevoHRO1waz4ico6_r1_1280.png",
+                "https://78.media.tumblr.com/c80169d8d7667a9479dd02987277cf91/tumblr_ozlmevoHRO1waz4ico1_500.png",
+                "https://i.redd.it/firrbs9k9k401.png",
+            ];
+            const buttersrandom = buttersimg[Math.floor(Math.random() * buttersimg.length)];
+            message.reply("", { file: buttersrandom});
+        }
+    },
 ];
 
 class Command {
@@ -1560,7 +1622,7 @@ class Command {
                 break;
             case "contains":
                 return message.content.toLowerCase().indexOf(base.trigger.toLowerCase()) != -1;
-                break;
+                break;           
             case "exactmatch":
                 return message.content == base.trigger;
                 break;

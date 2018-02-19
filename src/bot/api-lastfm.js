@@ -65,9 +65,25 @@ function topTracks(options, callback) {
     });
 }
 
+function recentTracks(options, callback) {
+    let period = utils.opt(options, "period", "overall")
+    // /Activity/LatestActivity
+    rquest.performRequest(host, api, "GET", {
+        method: "user.getrecenttracks",
+        username: config.fm_username,
+        api_key: config.fm_key,
+        format : "json",
+        limit : "5",
+        period : period
+    }, function(data) {
+        callback(data);
+    });
+}
+
 // Activity.
 module.exports = {
     topArtists,
     topAlbums,
-    topTracks
+    topTracks,
+    recentTracks
 }
