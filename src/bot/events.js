@@ -9,7 +9,6 @@ const embeds = require("./embeds");
 const spnav = require("./spnav");
 
 const Server = require("../common/models/server");
-
 const client = new discord.Client();
 
 // TEMP?
@@ -2023,6 +2022,17 @@ client.on("ready", () => {
     client.user.setGame("v2 | awesomobot.com");
     console.log("Bot ready!");
 });
+
+var music = require("discord-music-bot");
+var config = require("../../config")
+var serverName = "South Park Discord Squad";
+var textChannelName = "bot-testing";
+var voiceChannelName = "General";
+var aliasesFile = "alias";
+var botToken = config.token;
+
+music.run(serverName, textChannelName, voiceChannelName, aliasesFile, botToken);
+music.setYoutubeKey(config.youtubeAPIkey);
 
 // Emitted whenever the client tries to reconnect to the WebSocket.
 client.on("reconnecting", () => {
