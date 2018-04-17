@@ -1423,23 +1423,141 @@ const commands = [{
         }
     },
     {
-        trigger: "Z2l2ZQ==",
+        trigger: "give",
         type: "command",
         perms: pGlobJson,
         exec: function (message) {
 
+            let giving = message.guild.roles.find(e => {
+                return e.name === "giving";
+            });
+            if (giving === undefined) {
+                return;
+            }
 
+            let current = message.member.roles.find(e => {
+                return e.name === "giving";
+            });
+            if (current !== undefined) {
+                message.reply("youre already giving anal");
+                return;
+            }
+
+            let other = message.member.roles.find(e => {
+                return e.name === "receiving";
+            });
+            if (other !== undefined) {
+                message.reply("youre already commited to receiving");
+                return;
+            }
+
+            message.member.addRole(giving).then(() => {
+                message.reply("youre now giving anal, don't rip your dick");
+            }).catch(error => {
+                message.reply(`awesomo couldn't handle all the anal, here are his last words: ${error}`);
+            });
         }
     },
     {
-        trigger: "cmVjZWl2ZQ==",
+        trigger: "receive",
         type: "command",
         perms: pGlobJson,
         exec: function (message) {
             
+            let receiving = message.guild.roles.find(e => {
+                return e.name === "receiving";
+            });
+            if (receiving === undefined) {
+                return;
+            }
 
+            let current = message.member.roles.find(e => {
+                return e.name === "receiving";
+            });
+            if (current !== undefined) {
+                message.reply("youre already receiving anal");
+                return;
+            }
+
+            let other = message.member.roles.find(e => {
+                return e.name === "giving";
+            });
+            if (other !== undefined) {
+                message.reply("youre already commited to giving");
+                return;
+            }
+
+            message.member.addRole(receiving).then(() => {
+                message.reply("youre now receiving anal, don't rip your asshole");
+            }).catch(error => {
+                message.reply(`awesomo couldn't handle all the anal, here are his last words: ${error}`);
+            });
         }
-    }
+    },
+    {
+        trigger: "buttbuddy",
+        type: "command",
+        perms: pGlobJson,
+        exec: function (message) {
+
+            let giving = message.member.roles.find(e => {
+                return e.name === "giving";
+            });
+            
+            let receiving = message.member.roles.find(e => {
+                return e.name === "receiving";
+            });
+
+            if (giving === undefined && receiving === undefined) {
+                message.reply("awesomo can't find your butt buddy unless he doesn't if you're giving or receiving");
+                return;
+            }
+
+            if (giving !== undefined) {
+                let receivingRole = message.guild.roles.find(e => {
+                    return e.name === "receiving";
+                });
+                if (receivingRole === undefined) {
+                    message.reply("awesomo couldn't handle all the anal, here are his last words: FUCK");
+                    return;
+                }
+
+                let members = receivingRole.members.array();
+                if (members.length === 0) {
+                    message.reply("no one's reveiving anal... how sad");
+                    return;
+                }
+
+                let buttbuddy = members[Math.floor(Math.random() * members.length)];
+                message.channel.send(`<@${message.author.id}> and <@${buttbuddy.id}> are now butt buddies!`);
+
+                return;
+            }
+
+            if (receiving !== undefined) {
+                let givingRole = message.guild.roles.find(e => {
+                    return e.name === "giving";
+                });
+                if (givingRole === undefined) {
+                    message.reply("awesomo couldn't handle all the anal, here are his last words: FUCK");
+                    return;
+                }
+
+                let members = givingRole.members.array();
+                if (members.length === 0) {
+                    message.reply("no one's giving anal... how sad");
+                    return;
+                }
+
+                let buttbuddy = members[Math.floor(Math.random() * members.length)];
+                message.channel.send(`<@${message.author.id}> and <@${buttbuddy.id}> are now butt buddies!`);
+
+                return;
+            }
+
+            message.reply(`awesomo couldn't handle all the anal, here are his last words: FUCK`);
+        }
+    },
 ];
 
 class Command {
