@@ -1313,12 +1313,38 @@ const commands = [{
 
             lastfm.makeApiRequest(options).then(response => {
 
-                const data = response.data;
-                if (data.error !== undefined) {
+                if (response.data.error !== undefined) {
                     message.reply("error making lastfm api request, check if you entered the user correctly");
                     return;
                 }
 
+                let topFieldName;
+                if (args[2] === "recent") {
+                    topFieldName = "recenttracks"
+                } else {
+                    topFieldName = `top${args[2]}`;
+                }
+
+                let scopeName;
+                if (args[3] === null) {
+                    scopeName = "track"
+                } else {
+                    scopeName = args[2].substring(0, args[2].length - 1);
+                }
+
+                let embed = new discord.RichEmbed()
+                    .setColor(0x8bc34a)
+                    .setAuthor("AWESOM-O // Last.fm", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+                    .setThumbnail(response.data[topFieldName][scopeName][0].image[response.data[topFieldName][scopeName][0].image.length - 1]["#text"])
+                    .setTitle(`last.fm ${args[2] === "recent" ? "" : "top"}${args[3] === null ? "" : args[3]} ${args[2]}`)
+                    .setFooter("View full stats on last.fm")
+                    .setURL(`https://last.fm/user/${args[1]}`);
+
+                for (let i = 0; i < response.data[topFieldName][scopeName].length; i++) {
+                    embed.addField(response.data[topFieldName][scopeName][i].name, `${response.data[topFieldName][scopeName][i].plays === undefined ? "" : response.data[topFieldName][scopeName][i].artist["#text"]} plays`);
+                }
+
+                /*
                 let embed = new discord.RichEmbed()
                     .setColor(0x8bc34a)
                     .setAuthor("AWESOM-O // Last.fm", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
@@ -1330,6 +1356,7 @@ const commands = [{
                 for (let i = 0; i < data[`top${args[2]}`][args[2].substring(0, args[2].length - 1)].length; i++) {
                     embed.addField(data[`top${args[2]}`][args[2].substring(0, args[2].length - 1)][i].name, `${data[`top${args[2]}`][args[2].substring(0, args[2].length - 1)][i].playcount} plays`);
                 }
+                */
 
                 message.channel.send(embed);
             }).catch(error => {
