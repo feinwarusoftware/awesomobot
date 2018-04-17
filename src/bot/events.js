@@ -1431,14 +1431,14 @@ const commands = [{
             let giving = message.guild.roles.find(e => {
                 return e.name === "giving";
             });
-            if (giving === undefined) {
+            if (giving === undefined || giving === null) {
                 return;
             }
 
             let current = message.member.roles.find(e => {
                 return e.name === "giving";
             });
-            if (current !== undefined) {
+            if (current !== undefined && current !== null) {
                 message.reply("youre already giving anal");
                 return;
             }
@@ -1446,7 +1446,7 @@ const commands = [{
             let other = message.member.roles.find(e => {
                 return e.name === "receiving";
             });
-            if (other !== undefined) {
+            if (other !== undefined && other !== null) {
                 message.reply("youre already commited to receiving");
                 return;
             }
@@ -1467,14 +1467,14 @@ const commands = [{
             let receiving = message.guild.roles.find(e => {
                 return e.name === "receiving";
             });
-            if (receiving === undefined) {
+            if (receiving === undefined || receiving === null) {
                 return;
             }
 
             let current = message.member.roles.find(e => {
                 return e.name === "receiving";
             });
-            if (current !== undefined) {
+            if (current !== undefined && current !== null) {
                 message.reply("youre already receiving anal");
                 return;
             }
@@ -1482,7 +1482,7 @@ const commands = [{
             let other = message.member.roles.find(e => {
                 return e.name === "giving";
             });
-            if (other !== undefined) {
+            if (other !== undefined && other !== null) {
                 message.reply("youre already commited to giving");
                 return;
             }
@@ -1508,16 +1508,16 @@ const commands = [{
                 return e.name === "receiving";
             });
 
-            if (giving === undefined && receiving === undefined) {
+            if ((giving === undefined && receiving === undefined) || (giving === null && receiving === null)) {
                 message.reply("awesomo can't find your butt buddy unless he doesn't if you're giving or receiving");
                 return;
             }
 
-            if (giving !== undefined) {
+            if (giving !== undefined && giving !== null) {
                 let receivingRole = message.guild.roles.find(e => {
                     return e.name === "receiving";
                 });
-                if (receivingRole === undefined) {
+                if (receivingRole === undefined || receivingRole === null) {
                     message.reply("awesomo couldn't handle all the anal, here are his last words: FUCK");
                     return;
                 }
@@ -1534,11 +1534,11 @@ const commands = [{
                 return;
             }
 
-            if (receiving !== undefined) {
+            if (receiving !== undefined && receiving !== null) {
                 let givingRole = message.guild.roles.find(e => {
                     return e.name === "giving";
                 });
-                if (givingRole === undefined) {
+                if (givingRole === undefined || givingRole === null) {
                     message.reply("awesomo couldn't handle all the anal, here are his last words: FUCK");
                     return;
                 }
