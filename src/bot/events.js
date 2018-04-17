@@ -1249,18 +1249,26 @@ const commands = [{
                 message.reply("youre missing the username to look up");
                 return;
             }
-            if (args[2] === undefined) {
-                message.reply("youre missing either 'artists', 'albums', or 'tracks'");
-                return;
-            }
-            if (args[3] === undefined) {
-                message.reply("youre missing the time frame to look up, either 'week', 'month', or 'all'");
-                return;
+            if (args[2] === undefined && args[3] === undefined) {
+                args[2] = "recent";
+                args[3] = null;
+            } else {
+                if (args[2] === undefined) {
+                    message.reply("youre missing either 'artists', 'albums', or 'tracks'");
+                    return;
+                }
+                if (args[3] === undefined) {
+                    message.reply("youre missing the time frame to look up, either 'week', 'month', or 'all'");
+                    return;
+                }  
             }
 
             let method;
 
             switch (args[2]) {
+                case "recent":
+                    method = lastfm.USER_GET_RECENT_TRACKS;
+                    break;
                 case "artists":
                     method = lastfm.USER_GET_TOP_ARTISTS;
                     break;
@@ -1278,6 +1286,9 @@ const commands = [{
             let period;
 
             switch (args[3]) {
+                case null:
+                    period = null;
+                    break;
                 case "all":
                     period = lastfm.PERIOD_OVERALL;
                     break;
@@ -1292,12 +1303,15 @@ const commands = [{
                     break;
             }
 
-            lastfm.makeApiRequest({
-                user: args[1],
-                method: method,
-                period: period,
-                limit: 5
-            }).then(response => {
+            let options = {};
+            options.user = args[1];
+            options.method = method;
+            options.limit = 5;
+            if (period !== null) {
+                options.period = period;
+            }
+
+            lastfm.makeApiRequest(options).then(response => {
 
                 const data = response.data;
                 if (data.error !== undefined) {
