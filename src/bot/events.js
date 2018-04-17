@@ -7,6 +7,7 @@ const randomstring = require("randomstring");
 
 const embeds = require("./embeds");
 const spnav = require("./spnav");
+const lastfm = require("./api-lastfm");
 
 const Server = require("../common/models/server");
 const client = new discord.Client();
@@ -81,8 +82,7 @@ const pDev = {
 
 const pSpamOnly = {
     server: true,
-    channels: [
-        {
+    channels: [{
             id: "*",
             allow: false
         },
@@ -873,7 +873,7 @@ const commands = [{
             let mgk = message.member.roles.find(e => {
                 return e.name == "Goth Kids";
             });
-                  
+
             if (mcf) {
                 message.member.removeRole(mcf);
             }
@@ -888,101 +888,6 @@ const commands = [{
             }
 
             message.reply(message.author.username + " is no longer part of a group");
-        }
-    },
-
-
-
-    // legacy role commands.
-    {
-        trigger: prefix + "add",
-        type: "startswith",
-        perms: pNkJson,
-        exec: function (message) {
-            const args = message.content.split("add");
-            if (!args[1]) {
-                message.reply("arg err");
-                return;
-            }
-
-            let cf = message.guild.roles.find(e => {
-                return e.name == "Coon & Friends";
-            });
-            let fp = message.guild.roles.find(e => {
-                return e.name == "Freedom Pals";
-            });
-            let cm = message.guild.roles.find(e => {
-                return e.name == "Chaos Minions";
-            });
-            let gk = message.guild.roles.find(e => {
-                return e.name == "Goth Kids";
-            });
-            if (!cf || !fp || !cm || !gk) {
-                message.reply("role err");
-                return;
-            }
-
-            let mcf = message.member.roles.find(e => {
-                return e.name == "Coon & Friends";
-            });
-            let mfp = message.member.roles.find(e => {
-                return e.name == "Freedom Pals";
-            });
-            let mcm = message.member.roles.find(e => {
-                return e.name == "Chaos Minions";
-            });
-            let mgk = message.member.roles.find(e => {
-                return e.name == "Goth Kids";
-            });
-
-            let role;
-            let name;
-            switch (args[1]) {
-                case "cf":
-                    if (mcf) {
-                        message.reply("duplicate err");
-                        return;
-                    }
-                    role = cf;
-                    break;
-                case "fp":
-                    if (mfp) {
-                        message.reply("duplicate err");
-                        return;
-                    }
-                    role = fp;
-                    break;
-                case "cm":
-                    if (mcm) {
-                        message.reply("duplicate err");
-                        return;
-                    }
-                    role = cm;
-                    break;
-                case "gk":
-                    if (mgk) {
-                        message.reply("duplicate err");
-                        return;
-                    }
-                    role = gk;
-                    break;
-            }
-
-            if (mcf) {
-                message.member.removeRole(cf);
-            }
-            if (mfp) {
-                message.member.removeRole(fp);
-            }
-            if (mcm) {
-                message.member.removeRole(cm);
-            }
-            if (mgk) {
-                message.member.removeRole(gk);
-            }
-
-            message.member.addRole(role);
-            message.reply(message.user.username + " joined " + role.name);
         }
     },
 
@@ -1015,172 +920,6 @@ const commands = [{
             const embed = new discord.RichEmbed()
                 .setImage("https://actualconversationswithmyhusband.files.wordpress.com/2017/01/stop-being-a-dick-scott.gif");
             message.channel.send(embed);
-        }
-    },
-    {
-        trigger: "poll",
-        type: "command",
-        perms: pMod,
-        exec: function (message) {
-            const args = message.content.split(" ");
-            if (!args[1]) {
-                return;
-            }
-            //-poll [This is question 1, This is question 2]
-            //-poll [This is question 1 :heart:, This is question 2 :bell:] 01:00:00
-
-            let qs = "";
-            let pn = "";
-            let bs = false,
-                jbe = false,
-                be = false,
-                tt = false;
-            for (let i = 1; i < args.length; i++) {
-                if (args[i].indexOf("[") != -1) {
-                    bs = true;
-                }
-                if (jbe) {
-                    be = true;
-                }
-                if (args[i].indexOf("]") != -1) {
-                    jbe = true;
-                }
-
-                if (bs && !be && pn != "") {
-                    tt = true;
-                }
-
-                if (bs && !be) {
-                    qs += args[i] + " ";
-                }
-                if (!tt && !bs) {
-                    pn += args[i] + " ";
-                }
-                if (!tt && be) {
-                    pn += args[i] + " ";
-                }
-            }
-            qs = qs.trim();
-            pn = pn.trim();
-
-            let q = [];
-            let s, e = 1;
-            while (true) {
-                s = qs.indexOf(",", e);
-                if (s == -1) {
-                    s = qs.indexOf("]", e);
-                    if (s == -1) {
-                        break;;
-                    }
-                }
-                q.push(qs.substring(s, e).trim());
-                e = s + 1;
-            }
-
-            const embed = new discord.RichEmbed();
-            embed.setColor(0x8bc34a);
-            embed.setAuthor("AWESOM-O // " + pn + " (15 mins)", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
-            embed.setThumbnail("http://www.clker.com/cliparts/A/q/4/W/q/L/bar-chart-md.png");
-
-            for (let i = 0; i < q.length; i++) {
-                embed.addField("Vote " + (i + 1), q[i]);
-            }
-
-            message.channel.send(embed).then(message => {
-
-                polls.push({
-                    id: message.id,
-                    message: message,
-                    q: q
-                });
-
-                const moreEmoji = function (limit, current) {
-                    if (current == limit) {
-                        return;
-                    }
-                    message.react(emoji[current + 1]).then(message => {
-                        moreEmoji(limit, current + 1);
-                    });
-                }
-
-                moreEmoji(q.length, 0);
-
-                const timeout = 900000;
-                timers.setTimeout(() => {
-
-                    if (polls.find(e => {
-                            return e.id == message.id;
-                        })) {
-
-                        let res = [];
-                        for (let i = 0; i < q.length; i++) {
-                            const react = message.reactions.get(emoji[i + 1]);
-                            if (!react) {
-                                res.push(0);
-                                continue;
-                            }
-                            res.push(react.count - 1);
-                        }
-
-                        const resEmbed = new discord.RichEmbed();
-                        resEmbed.setColor(0x8bc34a);
-                        resEmbed.setAuthor("AWESOM-O // Poll results!", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
-                        embed.setThumbnail("http://www.clker.com/cliparts/A/q/4/W/q/L/bar-chart-md.png");
-
-                        for (let i = 0; i < q.length; i++) {
-                            resEmbed.addField(q[i], res[i] + " votes");
-                        }
-
-                        message.channel.send(resEmbed);
-                    }
-
-                    for (let i = 0; i < polls.length; i++) {
-                        if (polls[i].id == message.id) {
-                            polls.splice(i, 1);
-                            break;
-                        }
-                    }
-
-                }, timeout);
-            });
-        }
-    },
-    {
-        trigger: "endpoll",
-        type: "command",
-        perms: pModJson,
-        exec: function (message) {
-            const args = message.content.split(" ");
-            if (!args[1]) {
-                return;
-            }
-
-            const poll = polls.find(e => {
-                return e.id == args[1];
-            });
-            if (!poll) {
-                return;
-            }
-
-            let res = [];
-            for (let i = 0; i < poll.q.length; i++) {
-                const react = poll.message.reactions.get(emoji[i + 1]);
-                if (!react) {
-                    res.push(0);
-                    continue;
-                }
-                res.push(react.count - 1);
-            }
-
-            const resEmbed = new discord.RichEmbed();
-            resEmbed.setColor(0x8bc34a);
-            resEmbed.setAuthor("AWESOM-O // Poll results!", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
-
-            for (let i = 0; i < poll.q.length; i++) {
-                resEmbed.addField(poll.q[i], res[i] + " votes");
-            }
-
-            message.channel.send(resEmbed);
         }
     },
     {
@@ -1493,8 +1232,9 @@ const commands = [{
         type: "command",
         perms: pDev,
         exec: function (message) {
-            message.channel.send("Greetings humans! I am the A.W.E.S.O.M.-O 4000! Recently, I have been updated to version 2.0! This means I have a load of new schweet commands for you to try! Check here to see all the new commands I was programmed with: http://localhost/commands\n\nAnd also, check out my brand new website! http://localhost/ is the brand new home of the A.W.E.S.O.M.-O commands and data tracking! Check how many members are online, see the most active, and nerdy members in the server and see how many times you and the other members have said shit. Don't worry, I won't tell your parents.\n\nThank you for sitting through this presentation of A.W.E.S.O.M.-O 2.0. Now I will need to collect your payment for usage of this bot...\n\nJust kidding, but please help support me. I need funding for the website to run and for my batteries to stay alive. If you would like to help, consider donating to our patreon. All proceeds will go directly to supporting the bot to keep it running. Why donate to starving kids in Africa when you can donate to A.W.E.S.O.M.-O, your robot friend?\n\nOnce again, thank you for reading, and be sure to test all my commands. Who knows, there might be some hidden goodies within the commands?\n\n@everyone",
-                { file: "https://cdn.discordapp.com/attachments/395553218249097218/405817686086516736/AWESOM-O_2.0.png" });
+            message.channel.send("Greetings humans! I am the A.W.E.S.O.M.-O 4000! Recently, I have been updated to version 2.0! This means I have a load of new schweet commands for you to try! Check here to see all the new commands I was programmed with: http://localhost/commands\n\nAnd also, check out my brand new website! http://localhost/ is the brand new home of the A.W.E.S.O.M.-O commands and data tracking! Check how many members are online, see the most active, and nerdy members in the server and see how many times you and the other members have said shit. Don't worry, I won't tell your parents.\n\nThank you for sitting through this presentation of A.W.E.S.O.M.-O 2.0. Now I will need to collect your payment for usage of this bot...\n\nJust kidding, but please help support me. I need funding for the website to run and for my batteries to stay alive. If you would like to help, consider donating to our patreon. All proceeds will go directly to supporting the bot to keep it running. Why donate to starving kids in Africa when you can donate to A.W.E.S.O.M.-O, your robot friend?\n\nOnce again, thank you for reading, and be sure to test all my commands. Who knows, there might be some hidden goodies within the commands?\n\n@everyone", {
+                file: "https://cdn.discordapp.com/attachments/395553218249097218/405817686086516736/AWESOM-O_2.0.png"
+            });
         }
     },
     // 2.1 Commands
@@ -1503,47 +1243,84 @@ const commands = [{
         type: "command",
         perms: pGlobJson,
         exec: function (message) {
+
             const args = message.content.split(" ");
-            if (!args[1]) {
-                message.channel.send(embeds.fmhistory());
+            if (args[1] === undefined) {
+                message.reply("youre missing the username to look up");
                 return;
             }
-            if (args[1] == "artists" && !args[2]) {
-                message.channel.send(embeds.fmartist())
+            if (args[2] === undefined) {
+                message.reply("youre missing either 'artists', 'albums', or 'tracks'");
+                return;
             }
-            if (args[1] == "artists" && args[2] == "all") {
-                message.channel.send(embeds.fmartistall())
+            if (args[3] === undefined) {
+                message.reply("youre missing the time frame to look up, either 'week', 'month', or 'all'");
+                return;
             }
-            if (args[1] == "artists" && args[2] == "month") {
-                message.channel.send(embeds.fmartistmonth())
+
+            let method;
+
+            switch (args[2]) {
+                case "artists":
+                    method = lastfm.USER_GET_TOP_ARTISTS;
+                    break;
+                case "albums":
+                    method = lastfm.USER_GET_TOP_ALBUMS;
+                    break;
+                case "tracks":
+                    method = lastfm.USER_GET_TOP_TRACKS;
+                    break;
+                default:
+                    message.reply(`'${args[2]}' is not a valid argument, choose either 'artists', 'albums', or 'tracks'`);
+                    break;
             }
-            if (args[1] == "artists" && args[2] == "week") {
-                message.channel.send(embeds.fmartistweek())
+
+            let period;
+
+            switch (args[3]) {
+                case "all":
+                    period = lastfm.PERIOD_OVERALL;
+                    break;
+                case "month":
+                    period = lastfm.PERIOD_MONTH;
+                    break;
+                case "week":
+                    period = lastfm.PERIOD_WEEK;
+                    break;
+                default:
+                    message.reply(`'${args[3]}' is not a valid argument, choose either 'week', 'month', or 'all'`);
+                    break;
             }
-            if (args[1] == "albums" && !args[2]) {
-                message.channel.send(embeds.fmalbum())
-            }
-            if (args[1] == "albums" && args[2] == "all") {
-                message.channel.send(embeds.fmalbumall())
-            }
-            if (args[1] == "albums" && args[2] == "month") {
-                message.channel.send(embeds.fmalbummonth())
-            }
-            if (args[1] == "albums" && args[2] == "week") {
-                message.channel.send(embeds.fmalbumweek())
-            }
-            if (args[1] == "tracks" && !args[2]) {
-                message.channel.send(embeds.fmtrack())
-            }
-            if (args[1] == "tracks" && args[2] == "all") {
-                message.channel.send(embeds.fmtrackall())
-            }
-            if (args[1] == "tracks" && args[2] == "month") {
-                message.channel.send(embeds.fmtrackmonth())
-            }
-            if (args[1] == "tracks" && args[2] == "week") {
-                message.channel.send(embeds.fmtrackweek())
-            }
+
+            lastfm.makeApiRequest({
+                user: args[1],
+                method: method,
+                period: period,
+                limit: 5
+            }).then(response => {
+
+                const data = response.data;
+                if (data.error !== undefined) {
+                    message.reply("error making lastfm api request, check if you entered the user correctly");
+                    return;
+                }
+
+                let embed = new discord.RichEmbed()
+                    .setColor(0x8bc34a)
+                    .setAuthor("AWESOM-O // Last.fm", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+                    .setThumbnail(data[`top${args[2]}`][args[2].substring(0, args[2].length - 1)][0].image[data[`top${args[2]}`][args[2].substring(0, args[2].length - 1)][0].image.length - 1]["#text"])
+                    .setTitle(`last.fm top ${args[3]} ${args[2]}`)
+                    .setFooter("View full stats on last.fm")
+                    .setURL(`https://last.fm/user/${args[1]}`);
+
+                for (let i = 0; i < data[`top${args[2]}`][args[2].substring(0, args[2].length - 1)].length; i++) {
+                    embed.addField(data[`top${args[2]}`][args[2].substring(0, args[2].length - 1)][i].name, `${data[`top${args[2]}`][args[2].substring(0, args[2].length - 1)][i].playcount} plays`);
+                }
+
+                message.channel.send(embed);
+            }).catch(error => {
+                message.reply("error making lastfm api request");
+            });
         }
     },
     {
@@ -1599,7 +1376,9 @@ const commands = [{
                 "https://i.redd.it/firrbs9k9k401.png",
             ];
             const buttersrandom = buttersimg[Math.floor(Math.random() * buttersimg.length)];
-            message.reply("", { file: buttersrandom});
+            message.reply("", {
+                file: buttersrandom
+            });
         }
     },
 ];
@@ -1621,7 +1400,7 @@ class Command {
                 break;
             case "contains":
                 return message.content.toLowerCase().indexOf(base.trigger.toLowerCase()) != -1;
-                break;           
+                break;
             case "exactmatch":
                 return message.content == base.trigger;
                 break;
@@ -1742,6 +1521,8 @@ client.on("message", message => {
         cmds[i].exec(message, prefix);
     }
 
+    // Idk what this does, it was crashing so I commented it out lol.
+    /*
     for (let i = 0; i < servers.length; i++) {
         if (servers[i].id == message.guild.id) {
 
@@ -1762,15 +1543,12 @@ client.on("message", message => {
             break;
         }
     }
+    */
 
     const ourServerId = "371762864790306817";
 
-    // TEMP?
-    if (message.content.startsWith("<<debug")) {
-        console.log(servers);
-    }
-
     // activity
+    /*
     let exists = false;
 
     for (let i = 0; i < servers[0].members.length; i++) {
@@ -1826,6 +1604,7 @@ client.on("message", message => {
         });
 
     }
+    */
 
     /*
     let exists = false;
@@ -1864,6 +1643,7 @@ client.on("message", message => {
     }
     */
 
+    /*
     if (message.content.indexOf("shit") != -1) {
         for (let i = 0; i < servers[0].members.length; i++) {
 
@@ -1896,6 +1676,7 @@ client.on("message", message => {
             }
         }
     }
+    */
 
     /*
     // shits
@@ -4621,6 +4402,7 @@ function loadAssets(cb) {
         }
 
         // temp fix
+        /*
         const members = servers[0].members;
         for (let i = 0; i < members.length; i++) {
             for (let j = 0; j < members[i].stats.length; j++) {
@@ -4629,6 +4411,7 @@ function loadAssets(cb) {
                 }
             }
         }
+        */
 
         console.log("Undefined activity replaced.");
         //
