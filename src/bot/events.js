@@ -1336,12 +1336,12 @@ const commands = [{
                     .setColor(0x8bc34a)
                     .setAuthor("AWESOM-O // Last.fm", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
                     .setThumbnail(response.data[topFieldName][scopeName][0].image[response.data[topFieldName][scopeName][0].image.length - 1]["#text"])
-                    .setTitle(`last.fm ${args[2] === "recent" ? "" : "top"}${args[3] === null ? "" : args[3]} ${args[2]}`)
+                    .setTitle(`last.fm ${args[2] === "recent" ? "" : "top"} ${args[3] === null ? "" : args[3]} ${args[2]}`)
                     .setFooter("View full stats on last.fm")
                     .setURL(`https://last.fm/user/${args[1]}`);
 
                 for (let i = 0; i < response.data[topFieldName][scopeName].length; i++) {
-                    embed.addField(response.data[topFieldName][scopeName][i].name, `${response.data[topFieldName][scopeName][i].plays === undefined ? "" : response.data[topFieldName][scopeName][i].artist["#text"]} plays`);
+                    embed.addField(response.data[topFieldName][scopeName][i].name, `${response.data[topFieldName][scopeName][i].playcount === undefined ? response.data[topFieldName][scopeName][i].artist["#text"] : response.data[topFieldName][scopeName][i].playcount + " plays"}`);
                 }
 
                 /*
