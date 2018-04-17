@@ -1423,7 +1423,7 @@ const commands = [{
         }
     },
     {
-        trigger: "give",
+        trigger: "Z2l2ZQ==",
         type: "command",
         perms: pGlobJson,
         exec: function (message) {
@@ -1432,12 +1432,12 @@ const commands = [{
         }
     },
     {
-        trigger: "receive",
+        trigger: "cmVjZWl2ZQ==",
         type: "command",
         perms: pGlobJson,
         exec: function (message) {
             
-            
+
         }
     }
 ];
