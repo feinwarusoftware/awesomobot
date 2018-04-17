@@ -1422,6 +1422,24 @@ const commands = [{
             });
         }
     },
+    {
+        trigger: "give",
+        type: "command",
+        perms: pGlobJson,
+        exec: function (message) {
+
+
+        }
+    },
+    {
+        trigger: "receive",
+        type: "command",
+        perms: pGlobJson,
+        exec: function (message) {
+            
+            
+        }
+    }
 ];
 
 class Command {
