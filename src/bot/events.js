@@ -1439,7 +1439,7 @@ const commands = [{
                 return e.name === "giving";
             });
             if (current !== undefined && current !== null) {
-                message.reply("youre already giving anal");
+                message.reply("You're already giving anal!");
                 return;
             }
 
@@ -1447,12 +1447,12 @@ const commands = [{
                 return e.name === "receiving";
             });
             if (other !== undefined && other !== null) {
-                message.reply("youre already commited to receiving");
+                message.reply("You're already commited to recieving le anal!");
                 return;
             }
 
             message.member.addRole(giving).then(() => {
-                message.reply("youre now giving anal, don't rip your dick");
+                message.reply("You're now registered as 'Giving Anal'. Enjoy, Have fun, Don't rip ya dick off!");
             }).catch(error => {
                 message.reply(`awesomo couldn't handle all the anal, here are his last words: ${error}`);
             });
@@ -1475,7 +1475,7 @@ const commands = [{
                 return e.name === "receiving";
             });
             if (current !== undefined && current !== null) {
-                message.reply("youre already receiving anal");
+                message.reply("You're Already Recieving Anal!");
                 return;
             }
 
@@ -1488,7 +1488,7 @@ const commands = [{
             }
 
             message.member.addRole(receiving).then(() => {
-                message.reply("youre now receiving anal, don't rip your asshole");
+                message.reply("You're now registered as 'Receiving Anal'. Enjoy, Have fun, Don't tear your asshole apart!");
             }).catch(error => {
                 message.reply(`awesomo couldn't handle all the anal, here are his last words: ${error}`);
             });
@@ -1509,7 +1509,7 @@ const commands = [{
             });
 
             if ((giving === undefined && receiving === undefined) || (giving === null && receiving === null)) {
-                message.reply("awesomo can't find your butt buddy unless he doesn't if you're giving or receiving");
+                message.reply("You are not signed up for the Anal Orgy™! Please sign your consent form before continuing...");
                 return;
             }
 
@@ -1524,12 +1524,12 @@ const commands = [{
 
                 let members = receivingRole.members.array();
                 if (members.length === 0) {
-                    message.reply("no one's reveiving anal... how sad");
+                    message.reply("No one is ready for recieving anal... How sad...");
                     return;
                 }
 
                 let buttbuddy = members[Math.floor(Math.random() * members.length)];
-                message.channel.send(`<@${message.author.id}> and <@${buttbuddy.id}> are now butt buddies!`);
+                message.channel.send(`<@${message.author.id}> and <@${buttbuddy.id}> are now butt buddies™! Enjoy and have fun!`);
 
                 return;
             }
@@ -1545,12 +1545,12 @@ const commands = [{
 
                 let members = givingRole.members.array();
                 if (members.length === 0) {
-                    message.reply("no one's giving anal... how sad");
+                    message.reply("No one is ready for giving the anal... How sad...");
                     return;
                 }
 
                 let buttbuddy = members[Math.floor(Math.random() * members.length)];
-                message.channel.send(`<@${message.author.id}> and <@${buttbuddy.id}> are now butt buddies!`);
+                message.channel.send(`<@${message.author.id}> and <@${buttbuddy.id}> are now butt buddies™! Enjoy and have fun!`);
 
                 return;
             }
