@@ -340,7 +340,17 @@ const commands = [
         type: "command",
         match: "test",
         call: function(message, guild) {
-            message.channel.send("testing...");
+            
+            let list = "";
+            for (let i = 0; i < commands.length; i++) {
+                if (commands[i].data.match === "") {
+                    list += "\n";
+                } else {
+                    list += (guild.settings.prefix + commands[i].data.match + "\n");
+                }
+            }
+
+            message.channel.send(new discord.RichEmbed().setDescription(list));
         }
     }),
     new Command({
@@ -349,6 +359,10 @@ const commands = [
         type: "command",
         match: ["w", "wiki", "wikia", "search"],
         call: function(message, guild) {
+
+            if (message.content.split(" ")[1] === undefined) {
+                message.reply(`you're missing a query to search for, if you want to search for a random episode, use: ${guild.settings.prefix}r`);
+            }
 
             const query = message.content.substring(message.content.indexOf(" ") + 1);
             
@@ -626,8 +640,8 @@ const commands = [
     new Command({
         name: "harvest",
         desc: "(no description)",
-        type: "command",
-        match: "harvest",
+        type: "",
+        match: "",
         call: function(message, guild) {
             
             // temp
@@ -761,6 +775,7 @@ const commands = [
         match: "",
         call: function(message, guild) {
             
+            // temp
         }
     }),
     new Command({
@@ -770,6 +785,7 @@ const commands = [
         match: "",
         call: function(message, guild) {
             
+            // temp
         }
     }),
     new Command({
@@ -778,7 +794,8 @@ const commands = [
         type: "",
         match: "",
         call: function(message, guild) {
-            
+         
+            // temp
         }
     }),
     new Command({
@@ -788,6 +805,7 @@ const commands = [
         match: "",
         call: function(message, guild) {
             
+            // temp
         }
     }),
     new Command({
@@ -797,6 +815,7 @@ const commands = [
         match: "",
         call: function(message, guild) {
             
+            // temp
         }
     })
 ];
