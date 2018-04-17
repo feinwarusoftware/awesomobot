@@ -14,7 +14,9 @@ const logger = utils.globLogger;
 
 const config = utils.globConfig.data;
 
-mongoose.connect(config.database);
+mongoose.connect(config.database, {
+    useMongoClient: true
+});
 mongoose.Promise = global.Promise;
 
 const db = mongoose.connection;
@@ -34,7 +36,7 @@ setInterval(() => {
             }
         });
     }
-}, 300000);
+}, 5000);
 
 client.on("ready", message => {
     logger.log(logConstants.LOG_INFO, "Bot loaded successfully!");
@@ -75,6 +77,7 @@ client.on("message", message => {
 
                 guildDoc = new GuildSchema({
                     id: message.guild.id,
+                    /*
                     groups: [
                         {
                             name: "def",
@@ -136,12 +139,13 @@ client.on("message", message => {
                             group: "def",
                         },
                     ]
+                    */
                 });
             }
 
             guilds.push(guildDoc);
 
-            logger.log(logConstants.LOG_DEBUG, "guild loaded from db");
+            logger.log(logConstants.LOG_DEBUG, "new guid created");
 
             for (let i = 0; i < commands.length; i++) {
                 if (commands[i].check(message, guildDoc)) {

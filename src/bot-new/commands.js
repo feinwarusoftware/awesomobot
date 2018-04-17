@@ -1,8 +1,13 @@
 "use strict";
 
+const discord = require("discord.js");
+
 const utils = require("./utils");
+const spnav = require("./api/spnav");
 const logConstants = utils.logger;
 const logger = utils.globLogger;
+
+let cachedeplist;
 
 class Command {
     constructor(data) {
@@ -10,18 +15,24 @@ class Command {
     }
     check(message, guild) {
 
+        let passed = false;
+        
         if (Array.isArray(this.data.match)) {
             for (let i = 0; i < this.data.match.length; i++) {
-                if (!this._checkPrefix(message, guild, this.data.match[i])) {
-                    logger.log(logConstants.LOG_DEBUG, "message did not match any command");
-                    return false;
+                if (this._checkPrefix(message, guild, this.data.match[i])) {
+                    passed = true;
+                    break;
                 }
             }
         } else {
-            if (!this._checkPrefix(message, guild, this.data.match)) {
-                logger.log(logConstants.LOG_DEBUG, "message did not match any command");
-                return false;
+            if (this._checkPrefix(message, guild, this.data.match)) {
+                passed = true;
             }
+        }
+
+        if (passed === false) {
+            logger.log(logConstants.LOG_DEBUG, "message did not match any command");
+            return false;
         }
 
         logger.log(logConstants.LOG_DEBUG, "command found");
@@ -324,11 +335,383 @@ class Command {
 
 const commands = [
     new Command({
-        name: "test",
+        name: "one test boii",
+        desc: "a test command for testing lol",
         type: "command",
         match: "test",
         call: function(message, guild) {
             message.channel.send("testing...");
+        }
+    }),
+    new Command({
+        name: "wikia search",
+        desc: "Searches wikia for the query that you entered. Currently only works with the southpark fandom",
+        type: "command",
+        match: ["w", "wiki", "wikia", "search"],
+        call: function(message, guild) {
+
+            const query = message.content.substring(message.content.indexOf(" ") + 1);
+            
+            spnav.wikiaSearch(query).then(result => {
+                const embed = new discord.RichEmbed()
+                    .setColor(0x8bc34a)
+                    .setAuthor("AWESOM-O // " + result.title, "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846")
+                    .setURL(result.url)
+                    .setDescription(result.desc);
+
+                if (result.thumbnail.indexOf(".png") !== -1) {
+                    embed.setThumbnail(result.thumbnail.substring(0, result.thumbnail.indexOf(".png") + 4));
+                } else if (result.thumbnail.indexOf(".jpg") !== -1) {
+                    embed.setThumbnail(result.thumbnail.substring(0, result.thumbnail.indexOf(".jpg") + 4));
+                } else if (result.thumbnail.indexOf(".jpeg") !== -1) {
+                    embed.setThumbnail(result.thumbnail.substring(0, result.thumbnail.indexOf(".jpeg") + 5));
+                } else if (result.thumbnail.indexOf(".gif") !== -1) {
+                    embed.setThumbnail(result.thumbnail.substring(0, result.thumbnail.indexOf(".gif") + 4));
+                } else {
+                    embed.setThumbnail(result.thumbnail);
+                }
+
+                message.channel.send(embed);
+
+            }).catch(error => {
+                message.reply(`fucking rip... ${error}`);
+            });
+        }
+    }),
+    new Command({
+        name: "random search",
+        desc: "Searches wikia for a random episode. Currently only works with the southpark fandom",
+        type: "command",
+        match: ["r", "rw", "rwiki", "rwikia", "rsearch", "random"],
+        call: function(message, guild) {
+            
+            if (cachedeplist === undefined) {
+
+                spnav.getEpList().then(result => {
+                    cachedeplist = result;
+                    this.call(message, guild);
+
+                }).catch(error => {
+                    message.reply(`fucking rip... ${error}`);
+                });
+
+                return;
+            }
+
+            const query = cachedeplist[Math.floor(Math.random() * cachedeplist.length)];
+            
+            spnav.wikiaSearch(query).then(result => {
+                const embed = new discord.RichEmbed()
+                    .setColor(0x8bc34a)
+                    .setAuthor("AWESOM-O // " + result.title, "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846")
+                    .setURL(result.url)
+                    .setDescription(result.desc);
+
+                if (result.thumbnail.indexOf(".png") !== -1) {
+                    embed.setThumbnail(result.thumbnail.substring(0, result.thumbnail.indexOf(".png") + 4));
+                } else if (result.thumbnail.indexOf(".jpg") !== -1) {
+                    embed.setThumbnail(result.thumbnail.substring(0, result.thumbnail.indexOf(".jpg") + 4));
+                } else if (result.thumbnail.indexOf(".jpeg") !== -1) {
+                    embed.setThumbnail(result.thumbnail.substring(0, result.thumbnail.indexOf(".jpeg") + 5));
+                } else if (result.thumbnail.indexOf(".gif") !== -1) {
+                    embed.setThumbnail(result.thumbnail.substring(0, result.thumbnail.indexOf(".gif") + 4));
+                } else {
+                    embed.setThumbnail(result.thumbnail);
+                }
+
+                message.channel.send(embed);
+
+            }).catch(error => {
+                message.reply(`fucking rip... ${error}`);
+            });
+        }
+    }),
+    new Command({
+        name: "avatar",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "sub",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "micro",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "reminder",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "welcome",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "f",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "times",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "batman",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "member",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "i broke the dam",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "movieidea",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "helpline",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "info",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "help",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "harvest",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "join",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "civilwar",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "fuckyourself",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "fuckyou",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "dick",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "wink",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "coin",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "dice",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "rps",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "nk",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "gif",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "back",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "pie",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "hmmm",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "fm",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "love",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
+        }
+    }),
+    new Command({
+        name: "butters",
+        desc: "",
+        type: "",
+        match: "",
+        call: function(message, guild) {
+            
         }
     })
 ];
