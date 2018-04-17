@@ -1522,7 +1522,6 @@ client.on("message", message => {
     }
 
     // Idk what this does, it was crashing so I commented it out lol.
-    /*
     for (let i = 0; i < servers.length; i++) {
         if (servers[i].id == message.guild.id) {
 
@@ -1543,12 +1542,10 @@ client.on("message", message => {
             break;
         }
     }
-    */
 
     const ourServerId = "371762864790306817";
 
     // activity
-    /*
     let exists = false;
 
     for (let i = 0; i < servers[0].members.length; i++) {
@@ -1604,7 +1601,6 @@ client.on("message", message => {
         });
 
     }
-    */
 
     /*
     let exists = false;
@@ -1678,7 +1674,6 @@ client.on("message", message => {
     }
     */
 
-    /*
     // shits
     if (message.content.indexOf("shit") != -1) {
 
@@ -1743,7 +1738,6 @@ client.on("message", message => {
             }
         }
     }
-    */
 });
 
 // Emitted whenever a message is deleted.
@@ -4402,7 +4396,6 @@ function loadAssets(cb) {
         }
 
         // temp fix
-        /*
         const members = servers[0].members;
         for (let i = 0; i < members.length; i++) {
             for (let j = 0; j < members[i].stats.length; j++) {
@@ -4411,7 +4404,6 @@ function loadAssets(cb) {
                 }
             }
         }
-        */
 
         console.log("Undefined activity replaced.");
         //
