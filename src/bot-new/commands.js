@@ -704,7 +704,7 @@ const commands = [
             }
 
             const targetTeam = teams.find(e => {
-                return e.alias = targetAlias;
+                return e.alias === targetAlias;
             });
             if (targetTeam === undefined) {
                 message.reply("The team that you're trying to join doesn't exist");
@@ -735,17 +735,35 @@ const commands = [
 
             message.member.addRole(targetRole).then(() => {
                 message.reply(`you are now part of: **${targetRole.name}**`);
+            }).catch(error => {
+                message.reply(`looks like awesomo died, his last words were: ${error}`);
             });
         }
     }),
     new Command({
-        name: "civilwar",
+        name: "leave team",
         desc: "(no description)",
-        type: "",
-        match: "",
+        type: "command",
+        match: "leave",
         call: function(client, message, guild) {
+
+            const teams = guild.settings.teamRoles;
             
-            // temp
+            for (let i = 0; i < teams.length; i++) {
+                const role = message.member.roles.array().find(e => {
+                    return e.id === teams[i].id;
+                });
+                if (role !== undefined) {
+                    message.member.removeRole(role).then(() => {
+                        message.reply(`you are no longer part of: **${role.name}**`);
+                    }).catch(error => {
+                        message.reply(`looks like awesomo died, his last words were: ${error}`);
+                    });
+                    return;
+                }
+            }
+
+            message.reply("you can't leave a group if you're not part of any");
         }
     }),
     new Command({
