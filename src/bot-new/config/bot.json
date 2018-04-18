@@ -1,4 +1,5 @@
 {
-    "token": "MzcyNDYyNDI4NjkwMDU1MTY5.Dbdnuw.bcMPsmJdSQ1pVpXF2DGeYNwpb8A",
-    "database": "mongodb://localhost/cancerjs"
+    "token": "MzcyNDYyNDI4NjkwMDU1MTY5.DbjgOw.suPGvzWq7AV1gYsAAXiJD3sxykw",
+    "database": "mongodb://localhost/cancerjs",
+    "fm_key": "aa99eaeaeeeed0077f927845f8e324f3"
 }

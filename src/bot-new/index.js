@@ -77,6 +77,57 @@ client.on("message", message => {
 
                 guildDoc = new GuildSchema({
                     id: message.guild.id,
+                    settings: {
+                        teamRoles: [
+                            {
+                                id: "436178480582098954", // rust
+                                alias: "rs"
+                            },
+                            {
+                                id: "436178377397764097", // c++
+                                alias: "cpp"
+                            },
+                            {
+                                id: "436178242844491776", // javascript
+                                alias: "js"
+                            },
+                            {
+                                id: "436178315821318154", // python
+                                alias: "py"
+                            }
+                        ]
+                    },
+                    groups: [
+                        {
+                            name: "def",
+                            inherits: [],
+                            channels: [],
+                            roles: [],
+                            members: []
+                        },
+                        {
+                            name: "hax0r",
+                            inherits: ["def"],
+                            channels: [],
+                            roles: [
+                                {
+                                    target: "*",
+                                    allow: false
+                                },
+                                {
+                                    target: "429989816181194762", // Awesomo Devs
+                                    allow: true
+                                }
+                            ],
+                            members: []
+                        }
+                    ],
+                    commands: [
+                        {
+                            name: "join team",
+                            group: "hax0r"
+                        }
+                    ]
                     /*
                     groups: [
                         {
@@ -148,8 +199,8 @@ client.on("message", message => {
             logger.log(logConstants.LOG_DEBUG, "new guid created");
 
             for (let i = 0; i < commands.length; i++) {
-                if (commands[i].check(message, guildDoc)) {
-                    commands[i].call(message, guildDoc);
+                if (commands[i].check(client, message, guildDoc)) {
+                    commands[i].call(client, message, guildDoc);
                     return;
                 }
             }
@@ -160,8 +211,8 @@ client.on("message", message => {
     logger.log(logConstants.LOG_DEBUG, "guild found");
 
     for (let i = 0; i < commands.length; i++) {
-        if (commands[i].check(message, guild)) {
-            commands[i].call(message, guild);
+        if (commands[i].check(client, message, guild)) {
+            commands[i].call(client, message, guild);
             return;
         }
     }
