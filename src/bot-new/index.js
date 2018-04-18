@@ -1,5 +1,8 @@
 "use strict";
 
+const fs = require("fs");
+const path = require("path");
+
 const discord = require("discord.js");
 const mongoose = require("mongoose");
 
@@ -13,6 +16,15 @@ const logConstants = utils.logger;
 const logger = utils.globLogger;
 
 const config = utils.globConfig.data;
+
+let build;
+try {
+    build = JSON.parse(fs.readFileSync(path.join(__dirname, "config", "build.json"))).build;
+    build++;
+    fs.writeFileSync(path.join(__dirname, "config", "build.json"), JSON.stringify({build}));
+} catch(error) {
+    console.error(error);
+}
 
 mongoose.connect(config.database, {
     useMongoClient: true
@@ -39,6 +51,7 @@ setInterval(() => {
 }, 5000);
 
 client.on("ready", message => {
+    client.user.setGame(`v2.5.${build} | awesomobeta`);
     logger.log(logConstants.LOG_INFO, "Bot loaded successfully!");
 });
 
@@ -128,69 +141,6 @@ client.on("message", message => {
                             group: "hax0r"
                         }
                     ]
-                    /*
-                    groups: [
-                        {
-                            name: "def",
-                            inherits: [],
-                            channels: [
-                                {
-                                    target: "*",
-                                    allow: false,
-                                },
-                                {
-                                    target: "411238521563643905",
-                                    allow: true,
-                                },
-                            ],
-                            roles: [
-                                {
-                                    target: "417703655236435979",
-                                    allow: false,
-                                },
-                            ],
-                            members: [],
-                        },
-                        {
-                            name: "sf",
-                            inherits: [],
-                            channels: [],
-                            roles: [
-                                {
-                                    target: "*",
-                                    allow: false,
-                                },
-                                {
-                                    target: "417704645599952906",
-                                    allow: true,
-                                },
-                            ],
-                            members: [],
-                        },
-                        {
-                            name: "dup",
-                            inherits: [],
-                            channels: [],
-                            roles: [
-                                {
-                                    target: "*",
-                                    allow: false,
-                                },
-                                {
-                                    target: "417704768660832258",
-                                    allow: true,
-                                },
-                            ],
-                            members: [],
-                        },
-                    ],
-                    commands: [
-                        {
-                            name: "test",
-                            group: "def",
-                        },
-                    ]
-                    */
                 });
             }
 
@@ -225,3 +175,8 @@ client.on("messageDelete", message => {
 });
 
 client.login(config.token);
+
+process.on("exit", code => {
+    client.destroy();
+    console.log(`Exiting with code: ${code}`);
+});
