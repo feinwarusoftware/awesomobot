@@ -1558,6 +1558,67 @@ const commands = [{
             message.reply(`awesomo couldn't handle all the anal, here are his last words: FUCK`);
         }
     },
+    {
+        trigger: "orgy",
+        type: "command",
+        perms: pGlobJson,
+        exec: function (message) {
+
+            let giving = message.member.roles.find(e => {
+                return e.name === "giving";
+            });
+            
+            let receiving = message.member.roles.find(e => {
+                return e.name === "receiving";
+            });
+
+            if ((giving === undefined && receiving === undefined) || (giving === null && receiving === null)) {
+                message.reply("You are not signed up for the Anal Orgy™! Please sign your consent form before continuing...");
+                return;
+            }
+
+            let receivingRole = message.guild.roles.find(e => {
+                return e.name === "receiving";
+            });
+            if (receivingRole === undefined || receivingRole === null) {
+                message.reply("awesomo couldn't handle all the anal, here are his last words: FUCK");
+                return;
+            }
+
+            let givingRole = message.guild.roles.find(e => {
+                return e.name === "giving";
+            });
+            if (givingRole === undefined || givingRole === null) {
+                message.reply("awesomo couldn't handle all the anal, here are his last words: FUCK");
+                return;
+            }
+
+            let members = receivingRole.members.array().concat(givingRole.members.array());
+            if (members.length === 0) {
+                message.reply("No one is ready for anal... How sad...");
+                return;
+            }
+
+            let count = Math.floor(Math.random() * 3) + 2;
+            let buttbuddies = [];
+            for (let i = 0; i < count; i++) {
+                let random = Math.floor(Math.random() * members.length);
+                buttbuddies.push(members[random]);
+                members.splice(random, 1);
+            }
+
+            let response = `<@${message.author.id}>`;
+            for (let i = 0; i < buttbuddies.length; i++) {
+                response += `, **${buttbuddies[i].user.username}**`
+            }
+
+            if (Math.random() >= 0.8) {
+                response += ", **AWESOM-O**";
+            }
+
+            message.channel.send(`${response} are now butt buddies™! Enjoy and have fun!`);
+        }
+    },
 ];
 
 class Command {
