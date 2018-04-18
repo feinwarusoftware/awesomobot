@@ -349,47 +349,11 @@ class Command {
 
 const commands = [
     new Command({
-        name: "activity",
-        desc: "increments the activity counter if the message doesnt match a command",
-        type: "contains",
-        order: "last",
-        continue: true,
-        match: "",
-        call: function(client, message, guild) {
-
-            let member = guild.members.find(e => {
-                return e.id === message.author.id;
-            });
-            if (member === undefined) {
-                member = {
-                    id: message.author.id,
-                    stats: []
-                }
-                guild.members.push(member);
-            }
-
-            let stat = member.stats.find(e => {
-                return e.name === "activity";
-            });
-            if (stat === undefined) {
-                stat = {
-                    name: "activity",
-                    value: 0
-                }
-                member.stats.push(stat);
-            }
-
-            stat.value++;
-        }
-    }),
-    new Command({
         name: "one test boii",
         desc: "a test command for testing lol",
         type: "command",
-        // order: "any, first, last", - def = any
-        // continue: false, - def = false
-        order: "any",
-        continue: false,
+        order: "any", // order: "any, first, last", - def = any
+        continue: false, // continue: false, true, - def = false
         match: "test",
         call: function(client, message, guild) {
             
@@ -403,6 +367,90 @@ const commands = [
             }
 
             message.channel.send(new discord.RichEmbed().setDescription(list));
+        }
+    }),
+    new Command({
+        name: "activity counter",
+        desc: "increments the activity counter if the message doesnt match a command",
+        type: "contains",
+        order: "last",
+        continue: true,
+        match: "",
+        call: function(client, message, guild) {
+
+            let memberIndex;
+            for (let i = 0; i < guild.members.length; i++) {
+                if (guild.members[i].id === message.author.id) {
+                    memberIndex = i;
+                    break;
+                }
+            }
+            if (memberIndex === undefined) {
+                guild.members.push({
+                    id: message.author.id,
+                    stats: []
+                });
+                memberIndex = guild.members.length - 1;
+            }
+
+            let statIndex;
+            for (let i = 0; i < guild.members[memberIndex].stats.length; i++) {
+                if (guild.members[memberIndex].stats[i].name === "activity") {
+                    statIndex = i;
+                    break;
+                }
+            }
+            if (statIndex === undefined) {
+                guild.members[memberIndex].stats.push({
+                    name: "activity",
+                    value: 0
+                });
+                statIndex = guild.members[memberIndex].stats.length - 1;
+            }
+
+            guild.members[memberIndex].stats[statIndex].value++;
+        }
+    }),
+    new Command({
+        name: "shit counter",
+        desc: "increments the shit counter if the message contains the word shit, ignores commands",
+        type: "contains",
+        order: "last",
+        continue: true,
+        match: "shit",
+        call: function(client, message, guild) {
+
+            let memberIndex;
+            for (let i = 0; i < guild.members.length; i++) {
+                if (guild.members[i].id === message.author.id) {
+                    memberIndex = i;
+                    break;
+                }
+            }
+            if (memberIndex === undefined) {
+                guild.members.push({
+                    id: message.author.id,
+                    stats: []
+                });
+                memberIndex = guild.members.length - 1;
+            }
+
+            let statIndex;
+            for (let i = 0; i < guild.members[memberIndex].stats.length; i++) {
+                if (guild.members[memberIndex].stats[i].name === "shits") {
+                    statIndex = i;
+                    break;
+                }
+            }
+            if (statIndex === undefined) {
+                guild.members[memberIndex].stats.push({
+                    name: "shits",
+                    value: 0
+                });
+                statIndex = guild.members[memberIndex].stats.length - 1;
+            }
+
+            guild.members[memberIndex].stats[statIndex].value++;
         }
     }),
     new Command({
