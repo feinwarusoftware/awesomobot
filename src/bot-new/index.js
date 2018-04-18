@@ -148,10 +148,61 @@ client.on("message", message => {
 
             logger.log(logConstants.LOG_DEBUG, "new guid created");
 
+            let first = [];
+            let any = [];
+            let last = [];
             for (let i = 0; i < commands.length; i++) {
-                if (commands[i].check(client, message, guildDoc)) {
-                    commands[i].call(client, message, guildDoc);
-                    return;
+                if (commands[i].data.order === undefined) {
+                    any.push(commands[i]);
+                    continue;
+                }
+        
+                switch(commands[i].data.order) {
+                    case "first":
+                        first.push(commands[i]);
+                        break;
+                    case "any":
+                        any.push(commands[i]);
+                        break;
+                    case "last":
+                        last.push(commands[i]);
+                        break;
+                }
+            }
+        
+            for (let i = 0; i < first.length; i++) {
+                if (first[i].check(client, message, guildDoc)) {
+                    first[i].call(client, message, guildDoc);
+                    if (first[i].data.continue === undefined) {
+                        return;
+                    }
+                    if (first[i].data.continue === false) {
+                        return;
+                    }
+                }
+            }
+        
+            for (let i = 0; i < any.length; i++) {
+                if (any[i].check(client, message, guildDoc)) {
+                    any[i].call(client, message, guildDoc);
+                    if (any[i].data.continue === undefined) {
+                        return;
+                    }
+                    if (any[i].data.continue === false) {
+                        return;
+                    }
+                }
+            }
+        
+            for (let i = 0; i < last.length; i++) {
+                if (last[i].check(client, message, guildDoc)) {
+                    last[i].call(client, message, guildDoc);
+                    if (last[i].data.continue === undefined) {
+                        return;
+                    }
+                    if (last[i].data.continue === false) {
+                        return;
+                    }
                 }
             }
         });
@@ -160,14 +211,74 @@ client.on("message", message => {
 
     logger.log(logConstants.LOG_DEBUG, "guild found");
 
+    let first = [];
+    let any = [];
+    let last = [];
+    for (let i = 0; i < commands.length; i++) {
+        if (commands[i].data.order === undefined) {
+            any.push(commands[i]);
+            continue;
+        }
+
+        switch(commands[i].data.order) {
+            case "first":
+                first.push(commands[i]);
+                break;
+            case "any":
+                any.push(commands[i]);
+                break;
+            case "last":
+                last.push(commands[i]);
+                break;
+        }
+    }
+
+    for (let i = 0; i < first.length; i++) {
+        if (first[i].check(client, message, guild)) {
+            first[i].call(client, message, guild);
+            if (first[i].data.continue === undefined) {
+                return;
+            }
+            if (first[i].data.continue === false) {
+                return;
+            }
+        }
+    }
+
+    for (let i = 0; i < any.length; i++) {
+        if (any[i].check(client, message, guild)) {
+            any[i].call(client, message, guild);
+            if (any[i].data.continue === undefined) {
+                return;
+            }
+            if (any[i].data.continue === false) {
+                return;
+            }
+        }
+    }
+
+    for (let i = 0; i < last.length; i++) {
+        if (last[i].check(client, message, guild)) {
+            last[i].call(client, message, guild);
+            if (last[i].data.continue === undefined) {
+                return;
+            }
+            if (last[i].data.continue === false) {
+                return;
+            }
+        }
+    }
+
+    /*
     for (let i = 0; i < commands.length; i++) {
         if (commands[i].check(client, message, guild)) {
             commands[i].call(client, message, guild);
             return;
         }
     }
+    */
 
-    logger.log(logConstants.LOG_DEBUG, "message was not a command or command check failed");
+    //logger.log(logConstants.LOG_DEBUG, "message was not a command or command check failed");
 });
 
 client.on("messageDelete", message => {

@@ -349,9 +349,47 @@ class Command {
 
 const commands = [
     new Command({
+        name: "activity",
+        desc: "increments the activity counter if the message doesnt match a command",
+        type: "contains",
+        order: "last",
+        continue: true,
+        match: "",
+        call: function(client, message, guild) {
+
+            let member = guild.members.find(e => {
+                return e.id === message.author.id;
+            });
+            if (member === undefined) {
+                member = {
+                    id: message.author.id,
+                    stats: []
+                }
+                guild.members.push(member);
+            }
+
+            let stat = member.stats.find(e => {
+                return e.name === "activity";
+            });
+            if (stat === undefined) {
+                stat = {
+                    name: "activity",
+                    value: 0
+                }
+                member.stats.push(stat);
+            }
+
+            stat.value++;
+        }
+    }),
+    new Command({
         name: "one test boii",
         desc: "a test command for testing lol",
         type: "command",
+        // order: "any, first, last", - def = any
+        // continue: false, - def = false
+        order: "any",
+        continue: false,
         match: "test",
         call: function(client, message, guild) {
             
