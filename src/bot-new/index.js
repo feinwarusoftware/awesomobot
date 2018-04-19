@@ -326,8 +326,90 @@ const server = http.createServer((req, res) => {
 
                 // not a static file, possibly an api route
 
-                if (req.url.startsWith("guilds")) {
+                // "/guilds/0000/members/0000/stats?name=aaa"
+                // "/guilds/:id/members/:id/stats?name=aaa"
 
+                class Route {
+                    constructor(type, path, cb) {
+
+                        this.type = type;
+                        this.path = path;
+                        this.cb = cb;
+                    }
+                    check(url) {
+
+                        let params = {};
+
+                        let pathStart = 0;
+                        let urlStart = 0;
+                        while (pathStart !== -1 || urlStart !== -1) {
+
+                            let pathPart = this.path.substring(pathStart, this.path.indexOf("/", pathStart + 1) === -1 ? this.path.length : this.path.indexOf("/", pathStart + 1));
+                            let urlPart = url.substring(urlStart, url.indexOf("/", urlStart + 1) === -1 ? url.length : url.indexOf("/", urlStart + 1));
+
+                            if (pathPart === "" || urlPart === "") {
+                                return;
+                            }
+
+                            if (pathPart.startsWith("/:")) {
+                                params[pathPart.substring(2)] = urlPart.substring(1);                                
+                            } else if (pathPart !== urlPart) {
+                                return;
+                            }
+
+                            pathStart = this.path.indexOf("/", pathStart + 1);
+                            urlStart = url.indexOf("/", urlStart + 1);
+                        }
+
+                        this.cb(params);
+                    }
+                }
+
+                const routes = [     
+                    new Route("get", "/guilds/:guild_id/settings", params => {
+
+                        console.log("/guilds/:guild_id/settings");
+                    }),
+                    new Route("get", "/guilds/:guild_id/settings/teamroles/:teamrole_id", params => {
+
+                        console.log("/guilds/:guild_id/settings/teamroles/:teamrole_id");
+                    }),
+
+                    new Route("get", "/guilds/:guild_id/members", params => {
+
+                        console.log("/guilds/:guild_id/members");
+                    }),
+                    new Route("get", "/guilds/:guild_id/members/:member_id", params => {
+
+                        console.log("/guilds/:guild_id/members/:member_id");
+                    }),
+                    new Route("get", "/guilds/:guild_id/members/:member_id/stats/:stat_name", params => {
+
+                        console.log("/guilds/:guild_id/members/:member_id/stats/:stat_name");
+                    }),
+
+                    new Route("get", "/guilds/:guild_id/groups", params => {
+
+                        console.log("/guilds/:guild_id/groups");
+                    }),
+                    new Route("get", "/guilds/:guild_id/groups/:group_name", params => {
+
+                        console.log("/guilds/:guild_id/groups/:group_name");
+                    }),
+
+                    new Route("get", "/guilds/:guild_id/commands", params => {
+
+                        console.log("/guilds/:guild_id/commands");
+                    }),
+                    new Route("get", "/guilds/:guild_id/commands/command_name", params => {
+
+                        console.log("/guilds/:guild_id/commands/command_name");
+                    }),
+                ];
+
+                for (let i = 0; i < routes.length; i++) {
+
+                    routes[i].check(req.url);
                 }
 
             } else {
@@ -349,3 +431,5 @@ server.on("listening", () => {
 server.on("error", error => {
     logger.log(logConstants.LOG_ERROR, error);
 });
+
+server.listen(port);
