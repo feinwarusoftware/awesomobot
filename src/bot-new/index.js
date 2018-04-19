@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const http = require("http");
 
 const discord = require("discord.js");
 const mongoose = require("mongoose");
@@ -287,7 +288,64 @@ client.on("messageDelete", message => {
 
 client.login(config.token);
 
-process.on("exit", code => {
-    client.destroy();
-    console.log(`Exiting with code: ${code}`);
+// API.
+
+const port = 3001;
+const publicPath = "public";
+const server = http.createServer((req, res) => {
+    logger.log(logConstants.LOG_DEBUG, `request ${req.url}`);
+
+    let filePath = path.join(__dirname, publicPath, req.url);
+    if (req.url === "/") {
+        filePath = path.join(__dirname, publicPath, "index.html");;
+    }
+
+    let extname = String(path.extname(filePath)).toLowerCase();
+    const mimeTypes = {
+        ".html": "text/html",
+        ".js": "text/javascript",
+        ".css": "text/css",
+        ".json": "application/json",
+        ".png": "image/png",
+        ".jpg": "image/jpg",
+        ".gif": "image/gif",
+        ".wav": "audio/wav",
+        ".mp4": "video/mp4",
+        ".woff": "application/font-woff",
+        ".ttf": "application/font-ttf",
+        ".eot": "application/vnd.ms-fontobject",
+        ".otf": "application/font-otf",
+        ".svg": "application/image/svg+xml"
+    };
+
+    let contentType = mimeTypes[extname] || "application/octet-stream";
+
+    fs.readFile(filePath, (error, content) => {
+        if (error) {
+            if (error.code === "ENOENT") {
+
+                // not a static file, possibly an api route
+
+                if (req.url.startsWith("guilds")) {
+
+                }
+
+            } else {
+                res.writeHead(500);
+                res.end("Sorry, check with the site admin for error: " + error.code + " ..\n");
+                res.end();
+            }
+        } else {
+            res.writeHead(200, { "Content-Type": contentType });
+            res.end(content, "utf-8");
+        }
+    });
+});
+
+server.on("listening", () => {
+    logger.log(logConstants.LOG_INFO, `API magic happens on port: ${port}`);
+});
+
+server.on("error", error => {
+    logger.log(logConstants.LOG_ERROR, error);
 });
