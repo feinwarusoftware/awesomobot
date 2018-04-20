@@ -1423,56 +1423,56 @@ const commands = [{
         }
     },
     {
-        trigger: "give",
+        trigger: "sell",
         type: "command",
         perms: pGlobJson,
         exec: function (message) {
 
-            let giving = message.guild.roles.find(e => {
-                return e.name === "giving";
+            let sell = message.guild.roles.find(e => {
+                return e.name === "sell";
             });
-            if (giving === undefined || giving === null) {
+            if (sell === undefined || sell === null) {
                 return;
             }
 
             let current = message.member.roles.find(e => {
-                return e.name === "giving";
+                return e.name === "sell";
             });
             if (current !== undefined && current !== null) {
-                message.reply("You're already giving anal!");
+                message.reply("You're already selling weed!");
                 return;
             }
 
             let other = message.member.roles.find(e => {
-                return e.name === "receiving";
+                return e.name === "buying";
             });
             if (other !== undefined && other !== null) {
-                message.reply("You're already commited to recieving le anal!");
+                message.reply("You're already commited to buying le weed!");
                 return;
             }
 
-            message.member.addRole(giving).then(() => {
-                message.reply("You're now registered as 'Giving Anal'. Enjoy, Have fun, Don't rip ya dick off!");
+            message.member.addRole(sell).then(() => {
+                message.reply("You're now registered as 'Selling Weed'. Enjoy, Have fun, Don't forget to bring a towel!");
             }).catch(error => {
                 message.reply(`awesomo couldn't handle all the anal, here are his last words: ${error}`);
             });
         }
     },
     {
-        trigger: "receive",
+        trigger: "buy",
         type: "command",
         perms: pGlobJson,
         exec: function (message) {
             
-            let receiving = message.guild.roles.find(e => {
-                return e.name === "receiving";
+            let buying = message.guild.roles.find(e => {
+                return e.name === "buying";
             });
-            if (receiving === undefined || receiving === null) {
+            if (buying === undefined || buying === null) {
                 return;
             }
 
             let current = message.member.roles.find(e => {
-                return e.name === "receiving";
+                return e.name === "buying";
             });
             if (current !== undefined && current !== null) {
                 message.reply("You're Already Recieving Anal!");
@@ -1480,18 +1480,143 @@ const commands = [{
             }
 
             let other = message.member.roles.find(e => {
-                return e.name === "giving";
+                return e.name === "selling";
             });
             if (other !== undefined && other !== null) {
-                message.reply("youre already commited to giving");
+                message.reply("You're already registered as selling le weed!");
                 return;
             }
 
-            message.member.addRole(receiving).then(() => {
-                message.reply("You're now registered as 'Receiving Anal'. Enjoy, Have fun, Don't tear your asshole apart!");
+            message.member.addRole(buying).then(() => {
+                message.reply("You're now registered as 'Buying Weed'. Enjoy, Have fun, Don't forget to bring a towel!");
             }).catch(error => {
                 message.reply(`awesomo couldn't handle all the anal, here are his last words: ${error}`);
             });
+        }
+    },
+    {
+        trigger: "deal",
+        type: "command",
+        perms: pGlobJson,
+        exec: function (message) {
+
+            let selling = message.member.roles.find(e => {
+                return e.name === "selling";
+            });
+            
+            let buying = message.member.roles.find(e => {
+                return e.name === "buying";
+            });
+
+            if ((selling === undefined && buying === undefined) || (selling === null && buying === null)) {
+                message.reply("You do not have a license to buy or sell le weed™! Just get a lil' cancer and come back later...");
+                return;
+            }
+
+            if (selling !== undefined && selling !== null) {
+                let buyingRole = message.guild.roles.find(e => {
+                    return e.name === "buying";
+                });
+                if (buyingRole === undefined || buyingRole === null) {
+                    message.reply("awesomo couldn't handle all the anal, here are his last words: FUCK");
+                    return;
+                }
+
+                let members = buyingRole.members.array();
+                if (members.length === 0) {
+                    message.reply("No one is ready for buying le weed... How sad...");
+                    return;
+                }
+
+                let buttbuddy = members[Math.floor(Math.random() * members.length)];
+                message.channel.send(`<@${message.author.id}> and <@${buttbuddy.id}> are now stoner buddies™! Enjoy and have fun!`);
+
+                return;
+            }
+
+            if (buying !== undefined && buying !== null) {
+                let sellingRole = message.guild.roles.find(e => {
+                    return e.name === "selling";
+                });
+                if (sellingRole === undefined || sellingRole === null) {
+                    message.reply("awesomo couldn't handle all the anal, here are his last words: FUCK");
+                    return;
+                }
+
+                let members = sellingRole.members.array();
+                if (members.length === 0) {
+                    message.reply("No one is ready for selling le weed... How sad...");
+                    return;
+                }
+
+                let buttbuddy = members[Math.floor(Math.random() * members.length)];
+                message.channel.send(`<@${message.author.id}> and <@${buttbuddy.id}> are now stoner buddies™! Enjoy and have fun!`);
+
+                return;
+            }
+
+            message.reply(`awesomo couldn't handle all the anal, here are his last words: FUCK`);
+        }
+    },
+    {
+        trigger: "taxi",
+        type: "command",
+        perms: pGlobJson,
+        exec: function (message) {
+
+            let selling = message.member.roles.find(e => {
+                return e.name === "selling";
+            });
+            
+            let buying = message.member.roles.find(e => {
+                return e.name === "buying";
+            });
+
+            if ((selling === undefined && buying === undefined) || (selling === null && buying === null)) {
+                message.reply("You do not have a license to buy or sell le weed™! Just get a lil' cancer and come back later...");
+                return;
+            }
+
+            let buyingRole = message.guild.roles.find(e => {
+                return e.name === "buying";
+            });
+            if (buyingRole === undefined || buyingRole === null) {
+                message.reply("awesomo couldn't handle all the anal, here are his last words: FUCK");
+                return;
+            }
+
+            let sellingRole = message.guild.roles.find(e => {
+                return e.name === "selling";
+            });
+            if (sellingRole === undefined || sellingRole === null) {
+                message.reply("awesomo couldn't handle all the anal, here are his last words: FUCK");
+                return;
+            }
+
+            let members = buyingRole.members.array().concat(sellingRole.members.array());
+            if (members.length === 0) {
+                message.reply("No one is ready for le weed... How sad...");
+                return;
+            }
+
+            let count = Math.floor(Math.random() * 3) + 2;
+            let buttbuddies = [];
+            for (let i = 0; i < count; i++) {
+                let random = Math.floor(Math.random() * members.length);
+                buttbuddies.push(members[random]);
+                members.splice(random, 1);
+            }
+
+            let response = `<@${message.author.id}>`;
+            for (let i = 0; i < buttbuddies.length; i++) {
+                response += `, **${buttbuddies[i].user.username}**`
+            }
+
+            if (Math.random() >= 0.8) {
+                response += ", **AWESOM-O**";
+            }
+
+            message.channel.send(`${response} are now stoner buddies™! Enjoy and have fun!`);
         }
     },
     {
@@ -1529,7 +1654,7 @@ const commands = [{
                 }
 
                 let buttbuddy = members[Math.floor(Math.random() * members.length)];
-                message.channel.send(`<@${message.author.id}> and <@${buttbuddy.id}> are now butt buddies™! Enjoy and have fun!`);
+                message.channel.send(`<@${message.author.id}> and **${buttbuddy.user.username}** are now butt buddies™! Enjoy and have fun!`);
 
                 return;
             }
@@ -1550,7 +1675,7 @@ const commands = [{
                 }
 
                 let buttbuddy = members[Math.floor(Math.random() * members.length)];
-                message.channel.send(`<@${message.author.id}> and <@${buttbuddy.id}> are now butt buddies™! Enjoy and have fun!`);
+                message.channel.send(`<@${message.author.id}> and **${buttbuddy.user.username}** are now butt buddies™! Enjoy and have fun!`);
 
                 return;
             }
