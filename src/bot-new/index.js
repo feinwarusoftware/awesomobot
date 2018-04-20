@@ -310,6 +310,21 @@ const guildRouter = express.Router();
 
 guildRouter.route("/").get((req, res) => {
 
+    for (let i = 0; i < guilds.length; i++) {
+        if (guilds[i].id === req.params.guild_id) {
+            
+            return res.json(guilds[i]);
+        }
+    }
+
+    GuildSchema.findOne({ id: message.guild.id }, (err, guildDoc) => {
+        if (err !== undefined) {
+
+            return res.json({ error: "404 not found" });
+        }
+
+        return res.json(guildDoc);
+    });
 });
 
 guildRouter.route("/settings").get((req, res) => {
