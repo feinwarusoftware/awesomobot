@@ -571,7 +571,7 @@ const commands = [{
                 });
                 return;
             }
-            message.reply("Repects have been paid");
+            message.reply("Respects have been paid");
         }
     },
     {

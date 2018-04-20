@@ -4,6 +4,10 @@ const fs = require("fs");
 const path = require("path");
 const http = require("http");
 
+const express = require("express");
+const morgan = require("morgan");
+const bodyParser = require("body-parser");
+
 const discord = require("discord.js");
 const mongoose = require("mongoose");
 
@@ -290,146 +294,64 @@ client.login(config.token);
 
 // API.
 
-const port = 3001;
-const publicPath = "public";
-const server = http.createServer((req, res) => {
-    logger.log(logConstants.LOG_DEBUG, `request ${req.url}`);
+const app = express();
+const port = "3001";
+const server = http.createServer(app);
 
-    let filePath = path.join(__dirname, publicPath, req.url);
-    if (req.url === "/") {
-        filePath = path.join(__dirname, publicPath, "index.html");;
-    }
+app.set("env", "development");
+app.use(morgan("dev"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+	extended: false
+}));
+app.use(express.static(path.join(__dirname, "static")));
 
-    let extname = String(path.extname(filePath)).toLowerCase();
-    const mimeTypes = {
-        ".html": "text/html",
-        ".js": "text/javascript",
-        ".css": "text/css",
-        ".json": "application/json",
-        ".png": "image/png",
-        ".jpg": "image/jpg",
-        ".gif": "image/gif",
-        ".wav": "audio/wav",
-        ".mp4": "video/mp4",
-        ".woff": "application/font-woff",
-        ".ttf": "application/font-ttf",
-        ".eot": "application/vnd.ms-fontobject",
-        ".otf": "application/font-otf",
-        ".svg": "application/image/svg+xml"
-    };
+const guildRouter = express.Router();
 
-    let contentType = mimeTypes[extname] || "application/octet-stream";
+app.route("/guilds/:guild_id");
 
-    fs.readFile(filePath, (error, content) => {
-        if (error) {
-            if (error.code === "ENOENT") {
+app.use((req, res, next) => {
+	let err = new Error("Not Found");
+	err.status = 404;
+	next(err);
+});
 
-                // not a static file, possibly an api route
+app.use((err, req, res, next) => {
+	res.locals.message = err.message;
+	res.locals.error = req.app.get("env") === "development" ? err : {};
 
-                // "/guilds/0000/members/0000/stats?name=aaa"
-                // "/guilds/:id/members/:id/stats?name=aaa"
+	res.status(err.status || 500);
+	res.render("error");
+});
 
-                class Route {
-                    constructor(type, path, cb) {
 
-                        this.type = type;
-                        this.path = path;
-                        this.cb = cb;
-                    }
-                    check(url) {
+server.on("error", (err) => {
+	if (err.syscall !== "listen") {
+		throw err;
+	}
 
-                        let params = {};
+	let bind = typeof port === "string" ?
+		"Pipe " + port :
+		"Port " + port;
 
-                        let pathStart = 0;
-                        let urlStart = 0;
-                        while (pathStart !== -1 || urlStart !== -1) {
-
-                            let pathPart = this.path.substring(pathStart, this.path.indexOf("/", pathStart + 1) === -1 ? this.path.length : this.path.indexOf("/", pathStart + 1));
-                            let urlPart = url.substring(urlStart, url.indexOf("/", urlStart + 1) === -1 ? url.length : url.indexOf("/", urlStart + 1));
-
-                            if (pathPart === "" || urlPart === "") {
-                                return;
-                            }
-
-                            if (pathPart.startsWith("/:")) {
-                                params[pathPart.substring(2)] = urlPart.substring(1);                                
-                            } else if (pathPart !== urlPart) {
-                                return;
-                            }
-
-                            pathStart = this.path.indexOf("/", pathStart + 1);
-                            urlStart = url.indexOf("/", urlStart + 1);
-                        }
-
-                        this.cb(params);
-                    }
-                }
-
-                const routes = [     
-                    new Route("get", "/guilds/:guild_id/settings", params => {
-
-                        console.log("/guilds/:guild_id/settings");
-                    }),
-                    new Route("get", "/guilds/:guild_id/settings/teamroles/:teamrole_id", params => {
-
-                        console.log("/guilds/:guild_id/settings/teamroles/:teamrole_id");
-                    }),
-
-                    new Route("get", "/guilds/:guild_id/members", params => {
-
-                        console.log("/guilds/:guild_id/members");
-                    }),
-                    new Route("get", "/guilds/:guild_id/members/:member_id", params => {
-
-                        console.log("/guilds/:guild_id/members/:member_id");
-                    }),
-                    new Route("get", "/guilds/:guild_id/members/:member_id/stats/:stat_name", params => {
-
-                        console.log("/guilds/:guild_id/members/:member_id/stats/:stat_name");
-                    }),
-
-                    new Route("get", "/guilds/:guild_id/groups", params => {
-
-                        console.log("/guilds/:guild_id/groups");
-                    }),
-                    new Route("get", "/guilds/:guild_id/groups/:group_name", params => {
-
-                        console.log("/guilds/:guild_id/groups/:group_name");
-                    }),
-
-                    new Route("get", "/guilds/:guild_id/commands", params => {
-
-                        console.log("/guilds/:guild_id/commands");
-                    }),
-                    new Route("get", "/guilds/:guild_id/commands/command_name", params => {
-
-                        console.log("/guilds/:guild_id/commands/command_name");
-                    }),
-                ];
-
-                for (let i = 0; i < routes.length; i++) {
-
-                    routes[i].check(req.url);
-                }
-
-            } else {
-                res.writeHead(500);
-                res.end("Sorry, check with the site admin for error: " + error.code + " ..\n");
-                res.end();
-            }
-        } else {
-            res.writeHead(200, { "Content-Type": contentType });
-            res.end(content, "utf-8");
-        }
-    });
+	switch (err.code) {
+		case "EACCES":
+			console.error(bind + " requires elevated privileges");
+			process.exit(1);
+			break;
+		case "EADDRINUSE":
+			console.error(bind + " is already in use");
+			process.exit(1);
+			break;
+		default:
+			throw err;
+	}
 });
 
 server.on("listening", () => {
-    logger.log(logConstants.LOG_INFO, `API magic happens on port: ${port}`);
+	let addr = server.address();
+	let bind = typeof addr === "string" ?
+		"pipe " + addr :
+		"port " + addr.port;
+	debug("Listening on " + bind);
 });
-
-server.on("error", error => {
-    logger.log(logConstants.LOG_ERROR, error);
-});
-
-server.listen(port);
