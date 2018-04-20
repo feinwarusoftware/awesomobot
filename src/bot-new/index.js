@@ -308,7 +308,48 @@ app.use(express.static(path.join(__dirname, "static")));
 
 const guildRouter = express.Router();
 
-app.route("/guilds/:guild_id");
+guildRouter.route("/").get((req, res) => {
+
+});
+
+guildRouter.route("/settings").get((req, res) => {
+
+});
+guildRouter.route("/settings/teamroles").get((req, res) => {
+
+});
+guildRouter.route("/settings/teamroles/:teamrole_id").get((req, res) => {
+
+});
+
+guildRouter.route("/members").get((req, res) => {
+
+});
+guildRouter.route("/members/:member_id").get((req, res) => {
+
+});
+guildRouter.route("/members/:member_id/stats").get((req, res) => {
+
+});
+guildRouter.route("/members/:member_id/stats/:stat_name").get((req, res) => {
+
+});
+
+guildRouter.route("/groups").get((req, res) => {
+
+});
+guildRouter.route("/groups/:group_name").get((req, res) => {
+
+});
+
+guildRouter.route("/commands").get((req, res) => {
+
+});
+guildRouter.route("/commands/:command_name").get((req, res) => {
+
+});
+
+app.use("/guilds/:guild_id", guildRouter);
 
 app.use((req, res, next) => {
 	let err = new Error("Not Found");
