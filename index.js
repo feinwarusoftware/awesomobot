@@ -1,5 +1,6 @@
 "use strict"
 
+/*
 const mongoose = require("mongoose");
 
 const webserver = require("./src/web/server");
@@ -22,3 +23,6 @@ webserver();
 
 // start the bot
 bot.start();
+*/
+
+require("./src/bot-new");

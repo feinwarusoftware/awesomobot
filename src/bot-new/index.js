@@ -48,7 +48,7 @@ setInterval(() => {
     for (let i = 0; i < guilds.length; i++) {
         guilds[i].save(err => {
             if (err) {
-                logger.log(logConstants.LOG_ERROR, "failed to save guild: "+guilds[i].id);
+                logger.log(logConstants.LOG_ERROR, "failed to save guild: "+guilds[i].id+" - "+err);
                 return;
             }
         });
@@ -121,23 +121,25 @@ client.on("message", message => {
                             inherits: [],
                             channels: [],
                             roles: [],
-                            members: []
+                            members: [],
+                            badges: []
                         },
                         {
                             name: "hax0r",
                             inherits: ["def"],
                             channels: [],
-                            roles: [
+                            roles: [],
+                            members: [],
+                            badges: [
                                 {
                                     target: "*",
                                     allow: false
                                 },
                                 {
-                                    target: "429989816181194762", // Awesomo Devs
+                                    target: "loltest",
                                     allow: true
                                 }
-                            ],
-                            members: []
+                            ]
                         }
                     ],
                     commands: [

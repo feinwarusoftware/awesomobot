@@ -453,6 +453,46 @@ const commands = [
         }
     }),
     new Command({
+        name: "badge test",
+        desc: "a test command for testing xd",
+        type: "command",
+        match: "badgetest",
+        call: function (client, message, guild) {
+
+            let memberIndex;
+            for (let i = 0; i < guild.members.length; i++) {
+                if (guild.members[i].id === message.author.id) {
+                    memberIndex = i;
+                    break;
+                }
+            }
+            if (memberIndex === undefined) {
+                guild.members.push({
+                    id: message.author.id,
+                    stats: []
+                });
+                memberIndex = guild.members.length - 1;
+            }
+
+            let badgeIndex;
+            for (let i = 0; i < guild.members[memberIndex].badges.length; i++) {
+                if (guild.members[memberIndex].badges[i].name === "loltest") {
+                    badgeIndex = i;
+                    break;
+                }
+            }
+            if (badgeIndex === undefined) {
+                guild.members[memberIndex].badges.push({
+                    name: "loltest",
+                    value: true
+                });
+                badgeIndex = guild.members[memberIndex].badges.length - 1;
+            }
+
+            guild.members[memberIndex].badges[badgeIndex].value = true;
+        }
+    }),
+    new Command({
         name: "activity counter",
         desc: "increments the activity counter if the message doesnt match a command",
         type: "contains",

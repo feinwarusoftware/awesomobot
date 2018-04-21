@@ -57,6 +57,10 @@ const GuildSchema = new Schema({
         members: [{
             target: String,
             allow: Boolean
+        }],
+        badges: [{
+            target: String,
+            allow: Boolean
         }]
     }],
     commands: [{
@@ -69,6 +73,6 @@ const GuildSchema = new Schema({
             lowercase: true
         }
     }]
-});
+}, { usePushEach: true });
 
 module.exports = mongoose.model("guilds", GuildSchema);
