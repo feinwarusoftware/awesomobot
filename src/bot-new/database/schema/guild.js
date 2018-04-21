@@ -27,7 +27,14 @@ const GuildSchema = new Schema({
                 type: String,
                 lowercase: true
             },
-            value: { type: Number, min: 0 }
+            value: { type: Number, default: 0, min: 0 }
+        }],
+        badges: [{
+            name: {
+                type: String,
+                lowercase: true
+            },
+            value: { type: Boolean, default: false }
         }]
     }],
     groups: [{

@@ -19,7 +19,7 @@ class Command {
     check(client, message, guild) {
 
         let passed = false;
-        
+
         if (Array.isArray(this.data.match)) {
             for (let i = 0; i < this.data.match.length; i++) {
                 if (this._checkPrefix(message, guild, this.data.match[i])) {
@@ -92,11 +92,13 @@ class Command {
             channels: [],
             roles: [],
             members: [],
+            badges: []
         };
         let inclusive = {
             channels: [],
             roles: [],
             members: [],
+            badges: []
         };
 
         for (let i = 0; i < inherits.length; i++) {
@@ -202,6 +204,41 @@ class Command {
                     }
                     if (!found) {
                         inclusive.members.push(inherits[i].members[j]);
+                    }
+                }
+            }
+            // Badges.
+            excl = true;
+            for (let j = 0; j < inherits[i].badges.length; j++) {
+                if (inherits[i].badges[j].target == "*") {
+                    excl = inherits[i].badges[j].allow;
+                    break;
+                }
+            }
+            for (let j = 0; j < inherits[i].badges.length; j++) {
+                if (inherits[i].badges[j].target == "*") {
+                    continue;
+                }
+                let found = false;
+                if (excl) {
+                    for (let k = 0; k < exclusive.badges.length; k++) {
+                        if (exclusive.badges[k].target == inherits[i].badges[j].target) {
+                            exclusive.badges[k].allow = inherits[i].badges[j].allow;
+                            found = true;
+                        }
+                    }
+                    if (!found) {
+                        exclusive.badges.push(inherits[i].badges[j]);
+                    }
+                } else {
+                    for (let k = 0; k < inclusive.badges.length; k++) {
+                        if (inclusive.badges[k].target == inherits[i].badges[j].target) {
+                            inclusive.badges[k].allow = inherits[i].badges[j].allow;
+                            found = true;
+                        }
+                    }
+                    if (!found) {
+                        inclusive.badges.push(inherits[i].badges[j]);
                     }
                 }
             }
@@ -315,16 +352,62 @@ class Command {
             logger.log(logConstants.LOG_DEBUG, "failing command check on member inclusive");
             return false;
         }
+        // Badges.
+        const guildMember = guild.members.find(e => {
+            return e.id === message.author.id;
+        });
+        if (guildMember === undefined && (exclusive.badges.length > 0 || inclusive.badges.length > 0)) {
+            logger.log(logConstants.LOG_DEBUG, "failing command check on badges");
+            return false;
+        }
+        allow = false;
+        found = false;
+        for (let i = 0; i < exclusive.badges.length; i++) {
+            found = false;
+            if (guildMember.badges.find(e => {
+               return e.name ===  exclusive.badges[i].target;
+            }) !== undefined) {
+                allow = exclusive.badges[i].allow;
+                found = true;
+            }
+            if (found === false) {
+                allow = true;
+                logger.log(logConstants.LOG_DEBUG, "badge exclusive not found");
+            }
+            if (allow === false) {
+                logger.log(logConstants.LOG_DEBUG, "failing command check on badge exclusive");
+                return false;
+            }
+        }
+        allow = false;
+        found = false;
+        for (let i = 0; i < inclusive.badges.length; i++) {
+            found = false;
+            if (guildMember.badges.find(e => {
+               return e.name ===  inclusive.badges[i].target;
+            }) !== undefined) {
+                allow = inclusive.badges[i].allow;
+                found = true;
+            }
+            if (found === false) {
+                allow = false;
+                logger.log(logConstants.LOG_DEBUG, "badge inclusive not found");
+            }
+            if (allow === false && inclusive.badges.length !== 0) {
+                logger.log(logConstants.LOG_DEBUG, "failing command check on badge inclusive");
+                return false;
+            }
+        }
 
         logger.log(logConstants.LOG_DEBUG, "command check passed");
 
-        return true   
+        return true
     }
     _checkPrefix(message, guild, match) {
 
         switch (this.data.type) {
             case "command":
-                return message.content.split(" ")[0].toLowerCase() == (guild.settings.prefix+match.toLowerCase());
+                return message.content.split(" ")[0].toLowerCase() == (guild.settings.prefix + match.toLowerCase());
                 break;
             case "startswith":
                 return message.content.toLowerCase().startsWith(match.toLowerCase());
@@ -355,8 +438,8 @@ const commands = [
         order: "any", // order: "any, first, last", - def = any
         continue: false, // continue: false, true, - def = false
         match: "test",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             let list = "";
             for (let i = 0; i < commands.length; i++) {
                 if (commands[i].data.match === "") {
@@ -376,7 +459,7 @@ const commands = [
         order: "last",
         continue: true,
         match: "",
-        call: function(client, message, guild) {
+        call: function (client, message, guild) {
 
             let memberIndex;
             for (let i = 0; i < guild.members.length; i++) {
@@ -418,7 +501,7 @@ const commands = [
         order: "last",
         continue: true,
         match: "shit",
-        call: function(client, message, guild) {
+        call: function (client, message, guild) {
 
             let memberIndex;
             for (let i = 0; i < guild.members.length; i++) {
@@ -458,14 +541,14 @@ const commands = [
         desc: "Searches wikia for the query that you entered. Currently only works with the southpark fandom",
         type: "command",
         match: ["w", "wiki", "wikia", "search"],
-        call: function(client, message, guild) {
+        call: function (client, message, guild) {
 
             if (message.content.split(" ")[1] === undefined) {
                 message.reply(`you're missing a query to search for, if you want to search for a random episode, use: ${guild.settings.prefix}r`);
             }
 
             const query = message.content.substring(message.content.indexOf(" ") + 1);
-            
+
             spnav.wikiaSearch(query).then(result => {
                 const embed = new discord.RichEmbed()
                     .setColor(0x8bc34a)
@@ -497,8 +580,8 @@ const commands = [
         desc: "Searches wikia for a random episode. Currently only works with the southpark fandom",
         type: "command",
         match: ["r", "rw", "rwiki", "rwikia", "rsearch", "random"],
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             if (cachedeplist === undefined) {
 
                 spnav.getEpList().then(result => {
@@ -513,7 +596,7 @@ const commands = [
             }
 
             const query = cachedeplist[Math.floor(Math.random() * cachedeplist.length)];
-            
+
             spnav.wikiaSearch(query).then(result => {
                 const embed = new discord.RichEmbed()
                     .setColor(0x8bc34a)
@@ -545,7 +628,7 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "avatar",
-        call: function(client, message, guild) {
+        call: function (client, message, guild) {
 
             let scaledSize = 512;
 
@@ -556,7 +639,7 @@ const commands = [
             if (currentSize < scaledSize) {
                 scaledSize = currentSize;
             }
-            
+
             message.reply(message.author.avatarURL.substring(0, message.author.avatarURL.indexOf("size=") + 5) + scaledSize);
         }
     }),
@@ -565,8 +648,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "sub",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             message.reply("https://reddit.com/r/southpark/");
         }
     }),
@@ -575,7 +658,7 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "micro",
-        call: function(client, message, guild) {
+        call: function (client, message, guild) {
 
             message.channel.send("", {
                 file: "https://cdn.discordapp.com/attachments/371762864790306820/378652716483870720/More_compressed_than_my_height.png"
@@ -587,7 +670,7 @@ const commands = [
         desc: "Don't forget to bring a towel!",
         type: "command",
         match: "reminder",
-        call: function(client, message, guild) {
+        call: function (client, message, guild) {
 
             message.channel.send("", {
                 file: "https://cdn.discordapp.com/attachments/378287210711220224/378648515959586816/Towelie_Logo2.png"
@@ -599,8 +682,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "welcome",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             message.channel.send("", {
                 file: "https://cdn.discordapp.com/attachments/371762864790306820/378305844959248385/Welcome.png"
             });
@@ -611,8 +694,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "f",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             message.reply("Repects have been paid");
         }
     }),
@@ -621,8 +704,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "times",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             message.channel.send(new discord.RichEmbed()
                 .setColor(0x8bc34a)
                 .setAuthor("AWESOM-O // Times")
@@ -638,8 +721,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "batman",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             message.channel.send("", {
                 file: "https://cdn.discordapp.com/attachments/379432139856412682/401498015719882752/batman.png"
             });
@@ -650,8 +733,8 @@ const commands = [
         desc: "(no description)",
         type: "startswith",
         match: "member",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             const memberMessages = ["I member!", "Ohh yeah I member!", "Me member!", "Ohh boy I member that", "I member!, do you member?"];
             message.reply(memberMessages[Math.floor(Math.random() * memberMessages.length)]);
         }
@@ -661,8 +744,8 @@ const commands = [
         desc: "(no description)",
         type: "startswith",
         match: "i broke the dam",
-        call: function(client, message, guild) {
-         
+        call: function (client, message, guild) {
+
             message.reply("No, I broke the dam");
         }
     }),
@@ -671,8 +754,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "movieidea",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             const movieIdeas = [
                 "Movie Idea #01: Adam Sandler... is like in love with some girl.. but then it turns out that the girl is actually a golden retriever or something..",
                 "Movie Idea #02: Adam Sandler... inherits like a billion dollars.. but first he needs to become a boxer or something",
@@ -719,8 +802,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "helpline",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             message.reply("https://www.reddit.com/r/suicideprevention/comments/6hjba7/info_suicide_prevention_hotlines/");
         }
     }),
@@ -729,8 +812,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "info",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             message.channel.send(new discord.RichEmbed()
                 .setColor(0x8bc34a)
                 .setAuthor("AWESOM-O // Info", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
@@ -747,8 +830,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "help",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             message.channel.send(new discord.RichEmbed()
                 .setColor(0x8bc34a)
                 .setAuthor("AWESOM-O // Help", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
@@ -762,8 +845,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "harvest",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             message.channel.send(new discord.RichEmbed()
                 .setColor(0x8bc34a)
                 .setAuthor("AWESOM-O // Harvest", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
@@ -779,8 +862,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "join",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             const teams = guild.settings.teamRoles;
 
             const targetAlias = message.content.split(" ")[1];
@@ -797,7 +880,7 @@ const commands = [
                 return;
             }
 
-            const roles = message.guild.roles.array();            
+            const roles = message.guild.roles.array();
             const targetRole = roles.find(e => {
                 return e.id === targetTeam.id;
             });
@@ -831,10 +914,10 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "leave",
-        call: function(client, message, guild) {
+        call: function (client, message, guild) {
 
             const teams = guild.settings.teamRoles;
-            
+
             for (let i = 0; i < teams.length; i++) {
                 const role = message.member.roles.array().find(e => {
                     return e.id === teams[i].id;
@@ -857,8 +940,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "fuckyourself",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             message.channel.send(new discord.RichEmbed().setImage("http://1.images.southparkstudios.com/blogs/southparkstudios.com/files/2014/09/1801_5a.gif"));
         }
     }),
@@ -867,7 +950,7 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "fuckyou",
-        call: function(client, message, guild) {
+        call: function (client, message, guild) {
 
             message.channel.send(new discord.RichEmbed().setImage("https://cdn.vox-cdn.com/thumbor/J0D6YqKKwCqNY2zaej_MEUlT-oo=/3x0:1265x710/1600x900/cdn.vox-cdn.com/uploads/chorus_image/image/39977666/fuckyou.0.0.jpg"));
         }
@@ -877,7 +960,7 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "dick",
-        call: function(client, message, guild) {
+        call: function (client, message, guild) {
 
             message.channel.send(new discord.RichEmbed().setImage("https://actualconversationswithmyhusband.files.wordpress.com/2017/01/stop-being-a-dick-scott.gif"));
         }
@@ -887,8 +970,8 @@ const commands = [
         desc: "wonk",
         type: "command",
         match: "wink",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             message.reply("**wonk**");
         }
     }),
@@ -897,8 +980,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "coin",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             message.reply(Math.floor(Math.random() * 2) === 0 ? "heads" : "tails");
         }
     }),
@@ -907,8 +990,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "dice",
-        call: function(client, message, guild) {
-         
+        call: function (client, message, guild) {
+
             message.reply(Math.floor(Math.random() * 6) + 1);
         }
     }),
@@ -917,8 +1000,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "rps",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             const rand = Math.floor(Math.random() * 3);
             message.reply(rand === 0 ? "Rock" : rand === 1 ? "Paper" : "Scissors");
         }
@@ -928,8 +1011,8 @@ const commands = [
         desc: "(no description)",
         type: "",
         match: "",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             // temp
         }
     }),
@@ -938,7 +1021,7 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "gif",
-        call: function(client, message, guild) {
+        call: function (client, message, guild) {
 
             const map = ["vchip", "buttersgun", "buttersdance", "kennydance", "meeem", "cartmandance", "slap", "zimmerman", "nice", "triggered", "cartmansmile", "stanninja", "kylethinking", "ninjastar", "cartmaninvisible", "stanpuking", "kylegiant", "iketrumpet"];
             const gifs = {
@@ -979,8 +1062,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "back",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             message.channel.send("<:imback:403307515645001748> <@" + message.author.id + ">" + " is baaaaaaack!");
         }
     }),
@@ -989,8 +1072,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "oof",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             if (message.member.voiceChannel !== undefined && message.member.voiceChannel !== null) {
 
                 let conn = client.voiceConnections.find(e => {
@@ -1026,8 +1109,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "hmmm",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             message.reply("Things that make you go :thinking::thinking::thinking:");
         }
     }),
@@ -1036,8 +1119,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "fm",
-        call: function(client, message, guild) {
-         
+        call: function (client, message, guild) {
+
             const args = message.content.split(" ");
             if (args[1] === undefined) {
                 message.reply("youre missing the username to look up");
@@ -1054,7 +1137,7 @@ const commands = [
                 if (args[3] === undefined) {
                     message.reply("youre missing the time frame to look up, either 'week', 'month', or 'all'");
                     return;
-                }  
+                }
             }
 
             let method;
@@ -1163,8 +1246,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "love",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             const chefquotes = [
                 "I'm very proud of you, children. Let's all go home and find a nice white woman to make love to.",
                 "Stan, sometimes God takes those closest to us.",
@@ -1198,8 +1281,8 @@ const commands = [
         desc: "(no description)",
         type: "command",
         match: "butters",
-        call: function(client, message, guild) {
-            
+        call: function (client, message, guild) {
+
             const buttersimg = [
                 "https://pbs.twimg.com/profile_images/1379301839/butters_400x400.jpg",
                 "https://boards.420chan.org/mtv/src/1513917412948.png",

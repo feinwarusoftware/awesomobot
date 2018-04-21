@@ -294,6 +294,7 @@ client.login(config.token);
 
 // API.
 
+/*
 const app = express();
 const port = "3001";
 const server = http.createServer(app);
@@ -411,3 +412,4 @@ server.on("listening", () => {
 		"port " + addr.port;
 	debug("Listening on " + bind);
 });
+*/
