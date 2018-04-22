@@ -321,19 +321,20 @@ function findGuild(id) {
             return e.id === id;
         });
         if (guild === undefined) {
-            GuildSchema.findOne({ id: id }, (err, guildDoc) => {
+            GuildSchema.findOne({ id: id }, (error, guildDoc) => {
                 if (error !== null) {
                     reject(error);
                 }
                 guilds.push(guildDoc);
                 resolve(guildDoc);
             });
+        } else {
+            resolve(guild);
         }
-        resolve(guild);
     });
 }
 
-app,route("/guilds").post((req, res) => {
+app.route("/guilds").post((req, res) => {
 
     findGuild(req.body.id).then(guild => {
         return res.json({ error: "guild already exists" });
@@ -437,6 +438,7 @@ app.route("/guilds/:guild_id").get((req, res) => {
 
 });
 
+/*
 app.route("/guilds/:guild_id/settings").get((req, res) => {
 
     for (let i = 0; i < guilds.length; i++) {
@@ -834,6 +836,7 @@ app.route("/guilds/:guild_id/commands/:command_name").get((req, res) => {
         return res.json(command);
     });
 });
+*/
 
 app.use((req, res, next) => {
 	let err = new Error("Not Found");
