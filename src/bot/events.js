@@ -2112,7 +2112,7 @@ client.on("messageDelete", message => {
     try {
 
         const channel = message.guild.channels.find(e => {
-            return e.name == "logs"
+            return e.name == "logs";
         });
         channel.send(embeds.deletion(message));
 
