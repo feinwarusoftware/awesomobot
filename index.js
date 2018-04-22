@@ -26,3 +26,5 @@ bot.start();
 */
 
 require("./src/bot-new");
+
+require("./src/web/server")();

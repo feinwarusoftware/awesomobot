@@ -7,16 +7,16 @@ const timers = require("timers");
 const router = express.Router();
 
 // DEPRECATED
-router.use("/api/v1", require("./api/v1"));
+//router.use("/api/v1", require("./api/v1"));
 
 // Rest api routes.
 //router.use("/api/v2", require("./api/v2/index"));
 
 // Auth routes.
-router.use("/auth", require("./auth"));
+//router.use("/auth", require("./auth"));
 
 // Dashboard routes en.
-router.use("/dashboard", checkAuth, require("./dashboard"));
+//router.use("/dashboard", checkAuth, require("./dashboard"));
 // Dashboard routes other lang. (note to self: this wont work!)
 //router.use("/:lang/dashboard", checkAuth, require("./dashboard"));
 
