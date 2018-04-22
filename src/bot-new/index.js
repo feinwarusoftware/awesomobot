@@ -315,31 +315,126 @@ app.use(express.static(path.join(__dirname, "static")));
 
 const guildRouter = express.Router();
 
+function findGuild(id) {
+    return new Promise((resolve, reject) => {
+        const guild = guilds.find(e => {
+            return e.id === id;
+        });
+        if (guild === undefined) {
+            GuildSchema.findOne({ id: id }, (err, guildDoc) => {
+                if (error !== null) {
+                    reject(error);
+                }
+                guilds.push(guildDoc);
+                resolve(guildDoc);
+            });
+        }
+        resolve(guild);
+    });
+}
+
+app,route("/guilds").post((req, res) => {
+
+    findGuild(req.body.id).then(guild => {
+        return res.json({ error: "guild already exists" });
+    }).catch(error => {
+        const guild = new GuildSchema({
+            id: req.body.id,
+            premium: req.body.premium,
+            settings: req.body.settings,
+            members: req.body.members,
+            groups: req.body.groups,
+            commands: req.body.commands
+        });
+        guild.push(guild);
+        guild.save(error => {
+            if (error !== null) {
+                return res.json({error});
+            }
+            return res.json({ success: "guild created" });
+        });
+    });
+    
+});
+
 app.route("/guilds/:guild_id").get((req, res) => {
 
-    for (let i = 0; i < guilds.length; i++) {
-        if (guilds[i].id === req.params.guild_id) {
-            
-            return res.json(guilds[i]);
-        }
-    }
-
-    GuildSchema.findOne({ id: req.params.guild_id }, (err, guildDoc) => {
-        if (err !== null) {
-
-            return res.json({ error: "404 not found" });
-        }
-
-        return res.json(guildDoc);
+    findGuild(req.params.guild_id).then(guild => {
+        return res.json(guild);
+    }).catch(error => {
+        return res.json({error});
     });
-}).post((req, res) => {
-
+    
 }).put((req, res) => {
+
+    findGuild(req.params.guild_id).then(guild => {
+        guild.premium = req.body.premium;
+        guild.settings = req.body.settings;
+        guild.members = req.body.members;
+        guild.groups = req.body.groups;
+        guild.commands = req.body.commands;
+        guild.save(error => {
+            if (error !== null) {
+                return res.json({error});
+            }
+            return res.json({ success: "guild updated" });
+        });
+    }).catch(error => {
+        return res.json({error});
+    });
 
 }).patch((req, res) => {
 
+    findGuild(req.params.guild_id).then(guild => {
+        if (req.body.premium !== undefined) {
+            guild.premium = req.body.premium;
+        }
+        if (req.body.settings !== undefined) {
+            guild.settings = req.body.settings;
+        }
+        if (req.body.members !== undefined) {
+            guild.members = req.body.members;
+        }
+        if (req.body.groups !== undefined) {
+            guild.groups = req.body.groups;
+        }
+        if (req.body.commands !== undefined) {
+            guild.commands = req.body.commands;
+        }
+        guild.save(error => {
+            if (error !== null) {
+                return res.json({error});
+            }
+            return res.json({ success: "guild patched" });
+        });
+    }).catch(error => {
+        return res.json({error});
+    });
+
 }).delete((req, res) => {
-    
+
+    findGuild(req.params.guild_id).then(guild => {
+        let found = false;
+        for (let i = 0; i < guilds.length; i++) {
+            if (guilds[i].id === req.params.guild_id) {
+                guilds.splice(i, 1);
+                GuildSchema.remove({ id: req.params.guild_id }, (err, guildDoc) => {
+                    if (error !== null) {
+                        return res.json({error});
+                    }
+                    return res.json({ success: "guild removed successfully" });
+                });
+            }
+            found = true;
+            break;
+        }
+        if (found === false) {
+            return res.json({ error: "could not find guild" });
+        }
+    }).catch(error => {
+        return res.json({error});
+    });
+
 });
 
 app.route("/guilds/:guild_id/settings").get((req, res) => {
