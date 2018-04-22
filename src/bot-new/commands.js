@@ -263,6 +263,10 @@ class Command {
         }
         if (!allow) {
             logger.log(logConstants.LOG_DEBUG, "failing command check on channel exclusive");
+            // inform the suer that they can't run the command, only works if the type === command
+            if (this.type === "command") {
+                message.reply(`you don't have permission to run the **${message.content.split(" ")[0]}** command in this channel`);
+            }
             return false;
         }
         allow = false
@@ -280,6 +284,10 @@ class Command {
         }
         if (!allow && inclusive.channels.length != 0) {
             logger.log(logConstants.LOG_DEBUG, "failing command check on channel inclusive");
+            // inform the suer that they can't run the command, only works if the type === command
+            if (this.type === "command") {
+                message.reply(`you don't have permission to run the **${message.content.split(" ")[0]}** command in this channel`);
+            }
             return false;
         }
         // Roles.
@@ -297,6 +305,10 @@ class Command {
             }
             if (!allow) {
                 logger.log(logConstants.LOG_DEBUG, "failing command check on role exclusive");
+                // inform the suer that they can't run the command, only works if the type === command
+                if (this.type === "command") {
+                    message.reply(`you don't have permission to run the **${message.content.split(" ")[0]}** command with your current roles`);
+                }
                 return false;
             }
         }
@@ -314,6 +326,10 @@ class Command {
             }
             if (!allow && inclusive.roles.length != 0) {
                 logger.log(logConstants.LOG_DEBUG, "failing command check on role exclusive");
+                // inform the suer that they can't run the command, only works if the type === command
+                if (this.type === "command") {
+                    message.reply(`you don't have permission to run the **${message.content.split(" ")[0]}** command with your current roles`);
+                }
                 return false;
             }
         }
@@ -333,6 +349,10 @@ class Command {
         }
         if (!allow) {
             logger.log(logConstants.LOG_DEBUG, "failing command check on member exclusive");
+            // inform the suer that they can't run the command, only works if the type === command
+            if (this.type === "command") {
+                message.reply(`you don't have permission to run the **${message.content.split(" ")[0]}** command`);
+            }
             return false;
         }
         allow = false
@@ -350,6 +370,10 @@ class Command {
         }
         if (!allow && inclusive.members.length != 0) {
             logger.log(logConstants.LOG_DEBUG, "failing command check on member inclusive");
+            // inform the suer that they can't run the command, only works if the type === command
+            if (this.type === "command") {
+                message.reply(`you don't have permission to run the **${message.content.split(" ")[0]}** command`);
+            }
             return false;
         }
         // Badges.
@@ -358,6 +382,10 @@ class Command {
         });
         if (guildMember === undefined && (exclusive.badges.length > 0 || inclusive.badges.length > 0)) {
             logger.log(logConstants.LOG_DEBUG, "failing command check on badges");
+            // inform the suer that they can't run the command, only works if the type === command
+            if (this.type === "command") {
+                message.reply(`you don't have permission to run the **${message.content.split(" ")[0]}** command with your current badges`);
+            }
             return false;
         }
         allow = false;
@@ -376,6 +404,10 @@ class Command {
             }
             if (allow === false) {
                 logger.log(logConstants.LOG_DEBUG, "failing command check on badge exclusive");
+                // inform the suer that they can't run the command, only works if the type === command
+                if (this.type === "command") {
+                    message.reply(`you don't have permission to run the **${message.content.split(" ")[0]}** command with your current badges`);
+                }
                 return false;
             }
         }
@@ -395,6 +427,10 @@ class Command {
             }
             if (allow === false && inclusive.badges.length !== 0) {
                 logger.log(logConstants.LOG_DEBUG, "failing command check on badge inclusive");
+                // inform the suer that they can't run the command, only works if the type === command
+                if (this.type === "command") {
+                    message.reply(`you don't have permission to run the **${message.content.split(" ")[0]}** command with your current badges`);
+                }
                 return false;
             }
         }
@@ -453,43 +489,182 @@ const commands = [
         }
     }),
     new Command({
-        name: "badge test",
+        name: "give a badge",
         desc: "a test command for testing xd",
         type: "command",
-        match: "badgetest",
+        match: ["givebadge", "badgegive"],
         call: function (client, message, guild) {
+
+            const args = message.content.split(" ");
+            if (args[1] === undefined) {
+                message.reply("you're missing the member's id");
+                return;
+            }
+            if (args[2] === undefined) {
+                message.reply("you're missing the badge name");
+                return;
+            }
+
+            const memberId = args[1];
+            const badgeName = message.content.substring(message.content.indexOf(" ", args[0].length + 1) + 1);
+
+            // Make sure the member actually exists.
+            const guildMember = message.guild.members.find(e => {
+                return e.id === memberId;
+            });
+            if (guildMember === undefined) {
+                message.reply("the member that you're trying to give a badge to isn't in this guild");
+                return;
+            }
 
             let memberIndex;
             for (let i = 0; i < guild.members.length; i++) {
-                if (guild.members[i].id === message.author.id) {
+                if (guild.members[i].id === memberId) {
                     memberIndex = i;
                     break;
                 }
             }
             if (memberIndex === undefined) {
                 guild.members.push({
-                    id: message.author.id,
-                    stats: []
+                    id: memberId,
+                    stats: [],
+                    badges: []
                 });
                 memberIndex = guild.members.length - 1;
             }
 
             let badgeIndex;
             for (let i = 0; i < guild.members[memberIndex].badges.length; i++) {
-                if (guild.members[memberIndex].badges[i].name === "loltest") {
+                if (guild.members[memberIndex].badges[i].name === badgeName) {
                     badgeIndex = i;
                     break;
                 }
             }
             if (badgeIndex === undefined) {
                 guild.members[memberIndex].badges.push({
-                    name: "loltest",
+                    name: badgeName,
                     value: true
                 });
                 badgeIndex = guild.members[memberIndex].badges.length - 1;
+
+                message.reply(`**${guildMember.user.username}** now has the '**${badgeName}**' badge`);
+                return;
             }
 
-            guild.members[memberIndex].badges[badgeIndex].value = true;
+            message.reply(`**${guildMember.user.username}** already has the '**${badgeName}**' badge`);
+        }
+    }),
+    new Command({
+        name: "take a badge",
+        desc: "a test command for testing xd",
+        type: "command",
+        match: ["takebadge", "badgetake"],
+        call: function (client, message, guild) {
+
+            const args = message.content.split(" ");
+            if (args[1] === undefined) {
+                message.reply("you're missing the member's id");
+                return;
+            }
+            if (args[2] === undefined) {
+                message.reply("you're missing the badge name");
+                return;
+            }
+
+            const memberId = args[1];
+            const badgeName = message.content.substring(message.content.indexOf(" ", args[0].length + 1) + 1);
+
+            // Make sure the member actually exists.
+            const guildMember = message.guild.members.find(e => {
+                return e.id === memberId;
+            });
+            if (guildMember === undefined) {
+                message.reply("the member that you're trying to give a badge to isn't in this guild");
+                return;
+            }
+
+            let memberIndex;
+            for (let i = 0; i < guild.members.length; i++) {
+                if (guild.members[i].id === memberId) {
+                    memberIndex = i;
+                    break;
+                }
+            }
+            if (memberIndex === undefined) {
+                guild.members.push({
+                    id: memberId,
+                    stats: [],
+                    badges: []
+                });
+                memberIndex = guild.members.length - 1;
+            }
+
+            let badgeIndex;
+            for (let i = 0; i < guild.members[memberIndex].badges.length; i++) {
+                if (guild.members[memberIndex].badges[i].name === badgeName) {
+                    badgeIndex = i;
+                    break;
+                }
+            }
+            if (badgeIndex === undefined) {
+                message.reply(`**${guildMember.user.username}** doesn't have the '**${badgeName}**' badge. I can't take away something they don't have`);
+                return;
+            }
+
+            guild.members[memberIndex].badges.splice(badgeIndex, 1);
+
+            message.reply(`**${guildMember.user.username}** has had their '**${badgeName}**' badge taken away`);
+        }
+    }),
+    new Command({
+        name: "list all badges",
+        desc: "a test command for testing xd",
+        type: "command",
+        match: ["listbadge", "badgelist"],
+        call: function (client, message, guild) {
+
+            const args = message.content.split(" ");
+
+            let memberId = args[1];
+            if (memberId === undefined) {
+                memberId = message.author.id;
+            }
+
+            // Make sure the member actually exists.
+            const guildMember = message.guild.members.find(e => {
+                return e.id === memberId;
+            });
+            if (guildMember === undefined) {
+                message.reply("the member that you're trying to give a badge to isn't in this guild");
+                return;
+            }
+
+            let memberIndex;
+            for (let i = 0; i < guild.members.length; i++) {
+                if (guild.members[i].id === memberId) {
+                    memberIndex = i;
+                    break;
+                }
+            }
+            if (memberIndex === undefined) {
+                message.reply(`${guildMember.id === message.author.id ? "you don't" : `**${guildMember.user.username}** doesn't`} have any badges`);
+                return;
+            }
+            if (guild.members[memberIndex].badges.length === 0) {
+                message.reply(`${guildMember.id === message.author.id ? "you don't" : `**${guildMember.user.username}** doesn't`} have any badges`);
+                return;
+            }
+
+            let badges = "";
+            for (let i = 0; i < guild.members[memberIndex].badges.length; i++) {
+                if (i === guild.members[memberIndex].badges.length - 1) {
+                    badges += `**${guild.members[memberIndex].badges[i].name}**`;
+                } else {
+                    badges += `**${guild.members[memberIndex].badges[i].name}**, `;
+                }
+            }
+
+            message.reply(`${guildMember.id === message.author.id ? "you have" : `**${guildMember.user.username}** has`} the following badges: ${badges}`);
         }
     }),
     new Command({
