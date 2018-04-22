@@ -264,8 +264,8 @@ class Command {
         if (!allow) {
             logger.log(logConstants.LOG_DEBUG, "failing command check on channel exclusive");
             // inform the suer that they can't run the command, only works if the type === command
-            if (this.type === "command") {
-                message.reply(`you don't have permission to run the **${message.content.split(" ")[0]}** command in this channel`);
+            if (this.data.type === "command") {
+                message.reply(`you don't have permission to run the '**${message.content.split(" ")[0]}**' command in this channel`);
             }
             return false;
         }
@@ -285,8 +285,8 @@ class Command {
         if (!allow && inclusive.channels.length != 0) {
             logger.log(logConstants.LOG_DEBUG, "failing command check on channel inclusive");
             // inform the suer that they can't run the command, only works if the type === command
-            if (this.type === "command") {
-                message.reply(`you don't have permission to run the **${message.content.split(" ")[0]}** command in this channel`);
+            if (this.data.type === "command") {
+                message.reply(`you don't have permission to run the '**${message.content.split(" ")[0]}**' command in this channel`);
             }
             return false;
         }
@@ -306,8 +306,8 @@ class Command {
             if (!allow) {
                 logger.log(logConstants.LOG_DEBUG, "failing command check on role exclusive");
                 // inform the suer that they can't run the command, only works if the type === command
-                if (this.type === "command") {
-                    message.reply(`you don't have permission to run the **${message.content.split(" ")[0]}** command with your current roles`);
+                if (this.data.type === "command") {
+                    message.reply(`you don't have permission to run the '**${message.content.split(" ")[0]}**' command with your current roles`);
                 }
                 return false;
             }
@@ -327,8 +327,8 @@ class Command {
             if (!allow && inclusive.roles.length != 0) {
                 logger.log(logConstants.LOG_DEBUG, "failing command check on role exclusive");
                 // inform the suer that they can't run the command, only works if the type === command
-                if (this.type === "command") {
-                    message.reply(`you don't have permission to run the **${message.content.split(" ")[0]}** command with your current roles`);
+                if (this.data.type === "command") {
+                    message.reply(`you don't have permission to run the '**${message.content.split(" ")[0]}**' command with your current roles`);
                 }
                 return false;
             }
@@ -350,8 +350,8 @@ class Command {
         if (!allow) {
             logger.log(logConstants.LOG_DEBUG, "failing command check on member exclusive");
             // inform the suer that they can't run the command, only works if the type === command
-            if (this.type === "command") {
-                message.reply(`you don't have permission to run the **${message.content.split(" ")[0]}** command`);
+            if (this.data.type === "command") {
+                message.reply(`you don't have permission to run the '**${message.content.split(" ")[0]}**' command`);
             }
             return false;
         }
@@ -371,8 +371,8 @@ class Command {
         if (!allow && inclusive.members.length != 0) {
             logger.log(logConstants.LOG_DEBUG, "failing command check on member inclusive");
             // inform the suer that they can't run the command, only works if the type === command
-            if (this.type === "command") {
-                message.reply(`you don't have permission to run the **${message.content.split(" ")[0]}** command`);
+            if (this.data.type === "command") {
+                message.reply(`you don't have permission to run the '**${message.content.split(" ")[0]}**' command`);
             }
             return false;
         }
@@ -383,8 +383,8 @@ class Command {
         if (guildMember === undefined && (exclusive.badges.length > 0 || inclusive.badges.length > 0)) {
             logger.log(logConstants.LOG_DEBUG, "failing command check on badges");
             // inform the suer that they can't run the command, only works if the type === command
-            if (this.type === "command") {
-                message.reply(`you don't have permission to run the **${message.content.split(" ")[0]}** command with your current badges`);
+            if (this.data.type === "command") {
+                message.reply(`you don't have permission to run the '**${message.content.split(" ")[0]}**' command with your current badges`);
             }
             return false;
         }
@@ -405,8 +405,8 @@ class Command {
             if (allow === false) {
                 logger.log(logConstants.LOG_DEBUG, "failing command check on badge exclusive");
                 // inform the suer that they can't run the command, only works if the type === command
-                if (this.type === "command") {
-                    message.reply(`you don't have permission to run the **${message.content.split(" ")[0]}** command with your current badges`);
+                if (this.data.type === "command") {
+                    message.reply(`you don't have permission to run the '**${message.content.split(" ")[0]}**' command with your current badges`);
                 }
                 return false;
             }
@@ -428,8 +428,8 @@ class Command {
             if (allow === false && inclusive.badges.length !== 0) {
                 logger.log(logConstants.LOG_DEBUG, "failing command check on badge inclusive");
                 // inform the suer that they can't run the command, only works if the type === command
-                if (this.type === "command") {
-                    message.reply(`you don't have permission to run the **${message.content.split(" ")[0]}** command with your current badges`);
+                if (this.data.type === "command") {
+                    message.reply(`you don't have permission to run the '**${message.content.split(" ")[0]}**' command with your current badges`);
                 }
                 return false;
             }
