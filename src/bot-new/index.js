@@ -68,10 +68,12 @@ client.on("message", message => {
     }
 
     // TEMP.
+    /*
     if (message.guild.id != "405129031445381120") {
         logger.log(logConstants.LOG_DEBUG, "aborting - guild is not the test server");
         return;
     }
+    */
     //
     
     logger.log(logConstants.LOG_DEBUG, "message created in guild: "+message.guild.id);
@@ -127,7 +129,7 @@ client.on("message", message => {
                         },
                         {
                             name: "nk",
-                            inherits: ["def"],
+                            inherits: ["mod", "dev"],
                             channels: [],
                             roles: [
                                 {
@@ -136,6 +138,40 @@ client.on("message", message => {
                                 },
                                 {
                                     target: "375413987338223616",
+                                    allow: true
+                                }
+                            ],
+                            members: [],
+                            badges: []
+                        },
+                        {
+                            name: "mod",
+                            inherits: ["dev"],
+                            channels: [],
+                            roles: [
+                                {
+                                    target: "*",
+                                    allow: false
+                                },
+                                {
+                                    target: "372409853894983690",
+                                    allow: true
+                                }
+                            ],
+                            members: [],
+                            badges: []
+                        },
+                        {
+                            name: "dev",
+                            inherits: [],
+                            channels: [],
+                            roles: [
+                                {
+                                    target: "*",
+                                    allow: false
+                                },
+                                {
+                                    target: "378287077806309386",
                                     allow: true
                                 }
                             ],

@@ -296,42 +296,46 @@ class Command {
         for (let i = 0; i < exclusive.roles.length; i++) {
             found = false;
             if (message.member.roles.get(exclusive.roles[i].target)) {
-                allow = exclusive.roles[i].allow;
+                if (exclusive.roles[i].allow === true) {
+                    allow = true;
+                }
                 found = true;
             }
-            if (!found) {
-                allow = true;
-                logger.log(logConstants.LOG_DEBUG, "role exclusive not found");
+        }
+        if (!found) {
+            allow = true;
+            logger.log(logConstants.LOG_DEBUG, "role exclusive not found");
+        }
+        if (!allow) {
+            logger.log(logConstants.LOG_DEBUG, "failing command check on role exclusive");
+            // inform the suer that they can't run the command, only works if the type === command
+            if (this.data.type === "command") {
+                message.reply(`you don't have permission to run the '**${message.content.split(" ")[0]}**' command with your current roles`);
             }
-            if (!allow) {
-                logger.log(logConstants.LOG_DEBUG, "failing command check on role exclusive");
-                // inform the suer that they can't run the command, only works if the type === command
-                if (this.data.type === "command") {
-                    message.reply(`you don't have permission to run the '**${message.content.split(" ")[0]}**' command with your current roles`);
-                }
-                return false;
-            }
+            return false;
         }
         allow = false;
         found = false;
         for (let i = 0; i < inclusive.roles.length; i++) {
             found = false;
             if (message.member.roles.get(inclusive.roles[i].target)) {
-                allow = inclusive.roles[i].allow;
+                if (inclusive.roles[i].allow === true) {
+                    allow = true;
+                }
                 found = true;
             }
-            if (!found) {
-                allow = false;
-                logger.log(logConstants.LOG_DEBUG, "role inclusive not found");
+        }
+        if (!found) {
+            allow = false;
+            logger.log(logConstants.LOG_DEBUG, "role inclusive not found");
+        }
+        if (!allow && inclusive.roles.length != 0) {
+            logger.log(logConstants.LOG_DEBUG, "failing command check on role exclusive");
+            // inform the suer that they can't run the command, only works if the type === command
+            if (this.data.type === "command") {
+                message.reply(`you don't have permission to run the '**${message.content.split(" ")[0]}**' command with your current roles`);
             }
-            if (!allow && inclusive.roles.length != 0) {
-                logger.log(logConstants.LOG_DEBUG, "failing command check on role exclusive");
-                // inform the suer that they can't run the command, only works if the type === command
-                if (this.data.type === "command") {
-                    message.reply(`you don't have permission to run the '**${message.content.split(" ")[0]}**' command with your current roles`);
-                }
-                return false;
-            }
+            return false;
         }
         // Members.
         allow = false
