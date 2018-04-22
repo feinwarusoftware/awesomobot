@@ -99,20 +99,20 @@ client.on("message", message => {
                     settings: {
                         teamRoles: [
                             {
-                                id: "436178480582098954", // rust
-                                alias: "rs"
+                                id: "377185900431540234",
+                                alias: "fp"
                             },
                             {
-                                id: "436178377397764097", // c++
-                                alias: "cpp"
+                                id: "377181687458824197",
+                                alias: "cf"
                             },
                             {
-                                id: "436178242844491776", // javascript
-                                alias: "js"
+                                id: "402834156238929920",
+                                alias: "cm"
                             },
                             {
-                                id: "436178315821318154", // python
-                                alias: "py"
+                                id: "405321120250855425",
+                                alias: "gk"
                             }
                         ]
                     },
@@ -126,27 +126,27 @@ client.on("message", message => {
                             badges: []
                         },
                         {
-                            name: "hax0r",
+                            name: "nk",
                             inherits: ["def"],
                             channels: [],
-                            roles: [],
-                            members: [],
-                            badges: [
+                            roles: [
                                 {
                                     target: "*",
                                     allow: false
                                 },
                                 {
-                                    target: "loltest",
+                                    target: "375413987338223616",
                                     allow: true
                                 }
-                            ]
+                            ],
+                            members: [],
+                            badges: []
                         }
                     ],
                     commands: [
                         {
                             name: "join team",
-                            group: "hax0r"
+                            group: "nk"
                         }
                     ]
                 });
