@@ -23,7 +23,7 @@
     "cookie-parser": "^1.4.3",
     "discord-music-bot": "^2.3.0",
     "discord.js": "^11.2.1",
-    "ejs": "^2.5.7",
+    "ejs": "^2.5.9",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "express-validator": "^4.3.0",
