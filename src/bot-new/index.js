@@ -423,6 +423,14 @@ function findGuild(id) {
 
 app.route("/guilds").post((req, res) => {
 
+    const token = req.headers["xxx-access-token"];
+    if (token === undefined) {
+        return res.json({ error: "access token undefined" });
+    }
+    if (token !== config.api_token_temp) {
+        return res.json({ error: "invalid access token" });
+    }
+
     findGuild(req.body.id).then(guild => {
         return res.json({ error: "guild already exists" });
     }).catch(error => {
@@ -456,6 +464,14 @@ app.route("/guilds/:guild_id").get((req, res) => {
     
 }).put((req, res) => {
 
+    const token = req.headers["xxx-access-token"];
+    if (token === undefined) {
+        return res.json({ error: "access token undefined" });
+    }
+    if (token !== config.api_token_temp) {
+        return res.json({ error: "invalid access token" });
+    }
+
     findGuild(req.params.guild_id).then(guild => {
         guild.premium = req.body.premium;
         guild.settings = req.body.settings;
@@ -474,6 +490,14 @@ app.route("/guilds/:guild_id").get((req, res) => {
     });
 
 }).patch((req, res) => {
+
+    const token = req.headers["xxx-access-token"];
+    if (token === undefined) {
+        return res.json({ error: "access token undefined" });
+    }
+    if (token !== config.api_token_temp) {
+        return res.json({ error: "invalid access token" });
+    }
 
     findGuild(req.params.guild_id).then(guild => {
         if (req.body.premium !== undefined) {
@@ -505,6 +529,14 @@ app.route("/guilds/:guild_id").get((req, res) => {
     });
 
 }).delete((req, res) => {
+
+    const token = req.headers["xxx-access-token"];
+    if (token === undefined) {
+        return res.json({ error: "access token undefined" });
+    }
+    if (token !== config.api_token_temp) {
+        return res.json({ error: "invalid access token" });
+    }
 
     findGuild(req.params.guild_id).then(guild => {
         let found = false;
