@@ -45,7 +45,7 @@ setInterval(() => {
             }
         });
     }
-}, 300000);
+}, 5000);
 
 client.on("ready", message => {
     client.user.setGame(`v2.2 | awesomobeta`);
@@ -175,7 +175,8 @@ client.on("message", message => {
                             name: "join team",
                             group: "nk"
                         }
-                    ]
+                    ],
+                    bindings: []
                 });
             }
 
@@ -240,6 +241,34 @@ client.on("message", message => {
                     }
                 }
             }
+
+            for (let i = 0; i < guildDoc.bindings.length; i++) {
+
+                if (message.content.split(" ")[0].toLowerCase() === guildDoc.settings.prefix + guildDoc.bindings[i].name) {
+                
+                    let binding = guildDoc.bindings[i].value;
+                    let prefixIndex = binding.indexOf("{prefix}");
+                    if (prefixIndex !== -1) {
+                        binding = guildDoc.settings.prefix + binding.substring(prefixIndex + 8);
+                    }
+
+                    message.content = binding;
+
+                    for (let i = 0; i < any.length; i++) {
+                        if (any[i].check(client, message, guildDoc)) {
+                            any[i].call(client, message, guildDoc);
+                            if (any[i].data.continue === undefined) {
+                                return;
+                            }
+                            if (any[i].data.continue === false) {
+                                return;
+                            }
+                        }
+                    }
+        
+                    return;
+                }
+            }
         });
         return;
     }
@@ -301,6 +330,34 @@ client.on("message", message => {
             if (last[i].data.continue === false) {
                 return;
             }
+        }
+    }
+
+    for (let i = 0; i < guild.bindings.length; i++) {
+
+        if (message.content.split(" ")[0].toLowerCase() === guild.settings.prefix + guild.bindings[i].name) {
+        
+            let binding = guild.bindings[i].value;
+            let prefixIndex = binding.indexOf("{prefix}");
+            if (prefixIndex !== -1) {
+                binding = guild.settings.prefix + binding.substring(prefixIndex + 8);
+            }
+
+            message.content = binding;
+
+            for (let i = 0; i < any.length; i++) {
+                if (any[i].check(client, message, guild)) {
+                    any[i].call(client, message, guild);
+                    if (any[i].data.continue === undefined) {
+                        return;
+                    }
+                    if (any[i].data.continue === false) {
+                        return;
+                    }
+                }
+            }
+
+            return;
         }
     }
 
@@ -375,7 +432,8 @@ app.route("/guilds").post((req, res) => {
             settings: req.body.settings,
             members: req.body.members,
             groups: req.body.groups,
-            commands: req.body.commands
+            commands: req.body.commands,
+            bindings: req.body.bindings
         });
         guilds.push(guild);
         guild.save(error => {
@@ -404,6 +462,7 @@ app.route("/guilds/:guild_id").get((req, res) => {
         guild.members = req.body.members;
         guild.groups = req.body.groups;
         guild.commands = req.body.commands;
+        guild.bindings = req.body.bindings;
         guild.save(error => {
             if (error !== null) {
                 return res.json({error});
@@ -431,6 +490,9 @@ app.route("/guilds/:guild_id").get((req, res) => {
         }
         if (req.body.commands !== undefined) {
             guild.commands = req.body.commands;
+        }
+        if (req.body.bindings !== undefined) {
+            guild.bindings = req.body.bindings;
         }
         guild.save(error => {
             if (error !== null) {

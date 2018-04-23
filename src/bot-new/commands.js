@@ -493,6 +493,112 @@ const commands = [
         }
     }),
     new Command({
+        name: "echo",
+        desc: "sends a message in discord",
+        type: "command",
+        match: "echo",
+        call: function (client, message, guild) {
+
+            const response = message.content.substring(message.content.indexOf(" ") + 1);
+
+            message.channel.send(response);
+        }
+    }),
+    new Command({
+        name: "bind",
+        desc: "binds a command to a certain word",
+        type: "command",
+        match: "bind",
+        call: function (client, message, guild) {
+
+            const args =  message.content.split(" ");
+            if (args[1] === undefined) {
+                message.reply("you need to specify the word to bind to");
+                return;
+            }
+            if (args[2] === undefined) {
+                message.reply("you need to specify the command that you want to bind");
+                return;
+            }
+
+            const name = args[1];
+            const value = message.content.substring(args[0].length + args[1].length + 2);
+
+            let binding = guild.bindings.find(e => {
+                return e.name === name;
+            });
+            if (binding !== undefined) {
+                if (message.author.id === binding.authorId) {
+                    message.reply(`there is already a binding with this name, you can remove it with '**${guild.settings.prefix}unbind ${name}**'`);
+                } else {
+                    const member = message.guild.members.find(e => {
+                        return e.id === binding.authorId;
+                    });
+                    if (member === undefined || member === null) {
+                        message.reply(`there is already a '**${name}**' binding and awesomo doesn't know who it belongs to`);
+                        return;
+                    }
+                    message.reply(`there is already a '**${name}**' binding belonging to **${member.user.username}**`);
+                }
+                return;
+            }
+
+            guild.bindings.push({
+                name: name,
+                authorId: message.author.id,
+                value: value
+            });
+
+            message.reply(`successfully bound '**${name}**' to '**${value}**'`);
+        }
+    }),
+    new Command({
+        name: "unbind",
+        desc: "unbinds a command from a certain word",
+        type: "command",
+        match: "unbind",
+        call: function (client, message, guild) {
+
+            const args =  message.content.split(" ");
+            if (args[1] === undefined) {
+                message.reply("you need to specify the word that you're trying to unbind");
+                return;
+            }
+
+            const name = args[1];
+
+            let binding = guild.bindings.find(e => {
+                return e.name === name;
+            });
+            if (binding === undefined) {
+                message.reply(`'**${name}**' isn't bound to anything`);
+                return;
+            }
+
+            if (message.author.id === binding.authorId) {
+                for (let i = 0; i < guild.bindings.length; i++) {
+                    if (guild.bindings[i].name === name) {
+                        guild.bindings.splice(i, 1);
+                        message.reply(`successfully unbound '**${name}**'`);
+                        return;
+                    }
+                }
+            } else {
+                const member = message.guild.members.find(e => {
+                    return e.id === binding.authorId;
+                });
+                if (member === undefined || member === null) {
+                    message.reply(`the '**${name}**' binding belongs to someone else but awesomo doesn't know who it is`);
+                    return;
+                }
+                message.reply(`the '**${name}**' binding belongs to **${member.user.username}**, if you want it gone, please ask them to unbind it`);
+                return;
+            }
+
+            message.reply(`looks like awesomo shit itself, blame dragon`);
+        }
+    }),
+    new Command({
         name: "give a badge",
         desc: "a test command for testing xd",
         type: "command",
