@@ -54,10 +54,10 @@ setInterval(() => {
             }
         });
     }
-}, 5000);
+}, 300000);
 
 client.on("ready", message => {
-    client.user.setActivity(`v2.5.${build} | awesomobeta`);
+    client.user.setGame(`v2.2 | awesomobeta`);
     logger.log(logConstants.LOG_INFO, "Bot loaded successfully!");
 });
 
@@ -334,7 +334,7 @@ client.login(config.token);
 // API.
 
 const app = express();
-const port = "3001";
+const port = "3002";
 const server = http.createServer(app);
 
 app.engine("html", require("ejs").renderFile);
