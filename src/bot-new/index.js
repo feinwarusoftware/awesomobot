@@ -359,13 +359,16 @@ function findGuild(id) {
         if (guild === undefined) {
             GuildSchema.findOne({ id: id }, (error, guildDoc) => {
                 if (error !== null) {
-                    reject(error);
+                    return reject(error);
+                }
+                if (guildDoc === null) {
+                    return reject("guild not found");
                 }
                 guilds.push(guildDoc);
-                resolve(guildDoc);
+                return resolve(guildDoc);
             });
         } else {
-            resolve(guild);
+            return resolve(guild);
         }
     });
 }
@@ -383,7 +386,7 @@ app.route("/guilds").post((req, res) => {
             groups: req.body.groups,
             commands: req.body.commands
         });
-        guild.push(guild);
+        guilds.push(guild);
         guild.save(error => {
             if (error !== null) {
                 return res.json({error});
