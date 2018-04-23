@@ -23,15 +23,6 @@ const logger = utils.globLogger;
 
 const config = utils.globConfig.data;
 
-let build;
-try {
-    build = JSON.parse(fs.readFileSync(path.join(__dirname, "config", "build.json"))).build;
-    build++;
-    fs.writeFileSync(path.join(__dirname, "config", "build.json"), JSON.stringify({build}));
-} catch(error) {
-    console.error(error);
-}
-
 mongoose.connect(config.database, {
     useMongoClient: true
 });
@@ -57,7 +48,7 @@ setInterval(() => {
 }, 5000);
 
 client.on("ready", message => {
-    client.user.setActivity(`v2.5.${build} | awesomobeta`);
+    client.user.setActivity(`v2.2 | awesomobeta`);
     logger.log(logConstants.LOG_INFO, "Bot loaded successfully!");
 });
 
