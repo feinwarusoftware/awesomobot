@@ -294,7 +294,7 @@ class Command {
         allow = false;
         found = false;
         for (let i = 0; i < exclusive.roles.length; i++) {
-            found = false;
+            //found = false;
             if (message.member.roles.get(exclusive.roles[i].target)) {
                 if (exclusive.roles[i].allow === true) {
                     allow = true;
@@ -317,7 +317,7 @@ class Command {
         allow = false;
         found = false;
         for (let i = 0; i < inclusive.roles.length; i++) {
-            found = false;
+            //found = false;
             if (message.member.roles.get(inclusive.roles[i].target)) {
                 if (inclusive.roles[i].allow === true) {
                     allow = true;
