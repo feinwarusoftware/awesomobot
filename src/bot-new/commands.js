@@ -480,16 +480,36 @@ const commands = [
         match: "test",
         call: function (client, message, guild) {
 
-            let list = "";
-            for (let i = 0; i < commands.length; i++) {
-                if (commands[i].data.match === "") {
-                    list += "\n";
-                } else {
-                    list += (guild.settings.prefix + commands[i].data.match + "\n");
+            message.channel.send("", {
+                embed: {
+                    title: "timer",
+                    description: `${new Date().getHours()}h ${new Date().getMinutes()}m ${new Date().getSeconds()}s`
                 }
-            }
+            }).then(message => {
 
-            message.channel.send(new discord.RichEmbed().setDescription(list));
+                timer(message);
+
+            });
+
+            function timer(message) {
+
+                setTimeout(() => {
+
+                    message.edit("", {
+
+                        embed: {
+                            title: "timer",
+                            description: `${new Date().getHours()}h ${new Date().getMinutes()}m ${new Date().getSeconds()}s`
+                        }
+
+                    }).then(message => {
+
+                        timer(message);
+
+                    });
+
+                }, 5000);
+            }
         }
     }),
     new Command({
@@ -502,6 +522,84 @@ const commands = [
             const response = message.content.substring(message.content.indexOf(" ") + 1);
 
             message.channel.send(response);
+        }
+    }),
+    new Command({
+        name: "art1",
+        desc: "sends a message in discord",
+        type: "command",
+        match: "echo",
+        call: function (client, message, guild) {
+
+            const art = [
+                "put your art links in here"
+            ]
+
+            message.channel.send("", {
+                file: Math.floor(Math.random() * art.length)
+            });
+        }
+    }),
+    new Command({
+        name: "art2",
+        desc: "sends a message in discord",
+        type: "command",
+        match: "art2",
+        call: function (client, message, guild) {
+
+            const art = [
+                "put your art links in here"
+            ]
+
+            message.channel.send("", {
+                file: art[Math.floor(Math.random() * art.length)]
+            });
+        }
+    }),
+    new Command({
+        name: "art3",
+        desc: "sends a message in discord",
+        type: "command",
+        match: "art3",
+        call: function (client, message, guild) {
+
+            const art = [
+                "put your art links in here"
+            ]
+
+            message.channel.send("", {
+                file: art[Math.floor(Math.random() * art.length)]
+            });
+        }
+    }),
+    new Command({
+        name: "artall",
+        desc: "sends a message in discord",
+        type: "command",
+        match: ["artall", "allart"],
+        call: function (client, message, guild) {
+
+            const art = [
+                "put your art links in here"
+            ]
+
+            message.channel.send("", {
+                file: art[Math.floor(Math.random() * art.length)]
+            });
+        }
+    }),
+    new Command({
+        name: "artprompt",
+        desc: "sends a message in discord",
+        type: "command",
+        match: "artprompt",
+        call: function (client, message, guild) {
+
+            const art = [
+                "put your art prompts in here"
+            ]
+
+            message.channel.send(art[Math.floor(Math.random() * art.length)]);
         }
     }),
     new Command({
