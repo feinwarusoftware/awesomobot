@@ -397,8 +397,8 @@ class Command {
         for (let i = 0; i < exclusive.badges.length; i++) {
             found = false;
             if (guildMember.badges.find(e => {
-               return e.name ===  exclusive.badges[i].target;
-            }) !== undefined) {
+                    return e.name === exclusive.badges[i].target;
+                }) !== undefined) {
                 allow = exclusive.badges[i].allow;
                 found = true;
             }
@@ -420,8 +420,8 @@ class Command {
         for (let i = 0; i < inclusive.badges.length; i++) {
             found = false;
             if (guildMember.badges.find(e => {
-               return e.name ===  inclusive.badges[i].target;
-            }) !== undefined) {
+                    return e.name === inclusive.badges[i].target;
+                }) !== undefined) {
                 allow = inclusive.badges[i].allow;
                 found = true;
             }
@@ -521,85 +521,94 @@ const commands = [
 
             const response = message.content.substring(message.content.indexOf(" ") + 1);
 
-            message.channel.send(response);
-        }
-    }),
-    new Command({
-        name: "art1",
-        desc: "sends a message in discord",
-        type: "command",
-        match: "echo",
-        call: function (client, message, guild) {
+            //{embed} --description sfoifhsoifh sdfsodf --whatever
 
-            const art = [
-                "put your art links in here"
-            ]
+            const embedIndex = response.indexOf("{embed}");
+            if (embedIndex === -1) {
+                message.channel.send(response);
+                return;
+            }
 
-            message.channel.send("", {
-                file: Math.floor(Math.random() * art.length)
-            });
-        }
-    }),
-    new Command({
-        name: "art2",
-        desc: "sends a message in discord",
-        type: "command",
-        match: "art2",
-        call: function (client, message, guild) {
+            let embed = new discord.RichEmbed();
 
-            const art = [
-                "put your art links in here"
-            ]
+            const fields = [
+                "author",
+                "color",
+                "description",
+                "footer",
+                "image",
+                "thumbnail"
+            ];
 
-            message.channel.send("", {
-                file: art[Math.floor(Math.random() * art.length)]
-            });
-        }
-    }),
-    new Command({
-        name: "art3",
-        desc: "sends a message in discord",
-        type: "command",
-        match: "art3",
-        call: function (client, message, guild) {
+            function findNext(start) {
+                let index = -1;
+                for (let i = 0; i < fields.length; i++) {
+                    let pos = response.indexOf("--" + fields[i], start)
+                    if (pos !== -1) {
+                        
+                        if (index === -1) {
+                            index = pos;
+                        }
 
-            const art = [
-                "put your art links in here"
-            ]
+                        if (pos < index) {
+                            index = pos;
+                        }
+                    }
+                }
+                return index;
+            }
 
-            message.channel.send("", {
-                file: art[Math.floor(Math.random() * art.length)]
-            });
-        }
-    }),
-    new Command({
-        name: "artall",
-        desc: "sends a message in discord",
-        type: "command",
-        match: ["artall", "allart"],
-        call: function (client, message, guild) {
+            let start = findNext(0);
+            while (start !== response.length) {
 
-            const art = [
-                "put your art links in here"
-            ]
+                let end = findNext(start + 1);
+                if (end === -1) {
+                    end = response.length;
+                }
 
-            message.channel.send("", {
-                file: art[Math.floor(Math.random() * art.length)]
-            });
-        }
-    }),
-    new Command({
-        name: "artprompt",
-        desc: "sends a message in discord",
-        type: "command",
-        match: "artprompt",
-        call: function (client, message, guild) {
+                let field = response.substring(start + 2, response.indexOf(" ", start));
+                if (field === -1) {
+                    return;
+                }
 
-            const art = [
-                "put your art prompts in here"
-            ]
+                let index;
+                for (let i = 0; i < fields.length; i++) {
+                    if (fields[i] === field) {
+                        index = i;
+                        break;
+                    }
+                }
+                if (index === undefined) {
+                    return;
+                }
 
-            message.channel.send(art[Math.floor(Math.random() * art.length)]);
+                let value = response.substring(start + fields[index].length + 2, end).trim();
+
+                switch (fields[index]) {
+                    case "author":
+                        embed.setAuthor(value);
+                        break;
+                    case "color":
+                        embed.setColor(value);
+                        break;
+                    case "description":
+                        embed.setDescription(value);
+                        break;
+                    case "footer":
+                        embed.setFooter(value);
+                        break;
+                    case "image":
+                        embed.setImage(value);
+                        break;
+                    case "thumbnail":
+                        embed.setThumbnail(value);
+                        break;
+                }
+
+                start = end;
+            }
+
+            message.channel.send(embed);
         }
     }),
     new Command({
@@ -609,7 +618,7 @@ const commands = [
         match: "bind",
         call: function (client, message, guild) {
 
-            const args =  message.content.split(" ");
+            const args = message.content.split(" ");
             if (args[1] === undefined) {
                 message.reply("you need to specify the word to bind to");
                 return;
@@ -657,7 +666,7 @@ const commands = [
         match: "unbind",
         call: function (client, message, guild) {
 
-            const args =  message.content.split(" ");
+            const args = message.content.split(" ");
             if (args[1] === undefined) {
                 message.reply("you need to specify the word that you're trying to unbind");
                 return;
