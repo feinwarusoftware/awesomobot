@@ -521,98 +521,172 @@ const commands = [
 
             const response = message.content.substring(message.content.indexOf(" ") + 1);
 
+            //{embed} --author ya boii --description yay it werks!!! {then} sdfjpsdfps
+
             //{embed} --description sfoifhsoifh sdfsodf --whatever
 
-            const embedIndex = response.indexOf("{embed}");
-            if (embedIndex === -1) {
-                message.channel.send(response);
-                return;
-            }
-
-            let embed = new discord.RichEmbed();
-
-            const fields = [
-                "author",
-                "color",
-                "description",
-                "footer",
-                "image",
-                "thumbnail"
-            ];
-
-            function findNext(start) {
-                let index = -1;
-                for (let i = 0; i < fields.length; i++) {
-                    let pos = response.indexOf("--" + fields[i], start)
-                    if (pos !== -1) {
-                        
-                        if (index === -1) {
-                            index = pos;
-                        }
-
-                        if (pos < index) {
-                            index = pos;
-                        }
-                    }
-                }
-                return index;
-            }
-
-            let start = findNext(0);
+            /*
+            let start = 0;
             while (start !== response.length) {
 
-                let end = findNext(start + 1);
+                let end = response.indexOf("{then}", start + 1);
                 if (end === -1) {
                     end = response.length;
                 }
 
-                let field = response.substring(start + 2, response.indexOf(" ", start));
-                if (field === -1) {
+                sendMessage(response.substring(start, end));
+
+                if (end === response.length) {
+                    start = end;
+                } else {
+                    start = end + 6;
+                }
+            }
+            */
+
+            doStuff(0);
+
+            function doStuff(start) {
+
+                if (start === response.length) {
                     return;
                 }
 
-                let index;
-                for (let i = 0; i < fields.length; i++) {
-                    if (fields[i] === field) {
-                        index = i;
-                        break;
+                let end = response.indexOf("{then}", start + 1);
+                if (end === -1) {
+                    end = response.length;
+                }
+
+                sendMessage(response.substring(start, end)).then(() => {
+
+                    if (end === response.length) {
+                        start = end;
+                    } else {
+                        start = end + 6;
                     }
-                }
-                if (index === undefined) {
-                    return;
-                }
 
-                let value = response.substring(start + fields[index].length + 2, end).trim();
+                    doStuff(start);
 
-                switch (fields[index]) {
-                    case "author":
-                        embed.setAuthor(value);
-                        break;
-                    case "color":
-                        embed.setColor(value);
-                        break;
-                    case "description":
-                        embed.setDescription(value);
-                        break;
-                    case "footer":
-                        embed.setFooter(value);
-                        break;
-                    case "image":
-                        embed.setImage(value);
-                        break;
-                    case "thumbnail":
-                        embed.setThumbnail(value);
-                        break;
-                }
-
-                start = end;
+                }).catch(error => {
+                    message.reply(error);
+                });
             }
 
-            if (embed.description !== undefined) {
-                embed.description = embed.description.replace(/\\n/g, "\n");
-            }
+            function sendMessage(response) {
+                return new Promise((resolve, reject) => {
+                    const embedIndex = response.indexOf("{embed}");
+                    if (embedIndex === -1) {
 
-            message.channel.send(embed);
+                        const fileIndex = response.indexOf("{file}");
+                        if (fileIndex === -1) {
+
+                            message.channel.send(response.trim()).then(() => {
+                                return resolve();
+                            }).catch(error => {
+                                return reject(error);
+                            });
+                        } else {
+
+                            message.channel.send("", {
+                                file: response.substring(fileIndex + 6).trim()
+                            }).then(() => {
+                                return resolve();
+                            }).catch(error => {
+                                return reject(error);
+                            });
+                        }
+                    } else {
+                        let embed = new discord.RichEmbed();
+        
+                        const fields = [
+                            "author",
+                            "color",
+                            "description",
+                            "footer",
+                            "image",
+                            "thumbnail"
+                        ];
+            
+                        function findNext(start) {
+                            let index = -1;
+                            for (let i = 0; i < fields.length; i++) {
+                                let pos = response.indexOf("--" + fields[i], start)
+                                if (pos !== -1) {
+                                    
+                                    if (index === -1) {
+                                        index = pos;
+                                    }
+            
+                                    if (pos < index) {
+                                        index = pos;
+                                    }
+                                }
+                            }
+                            return index;
+                        }
+            
+                        let start = findNext(0);
+                        while (start !== response.length) {
+            
+                            let end = findNext(start + 1);
+                            if (end === -1) {
+                                end = response.length;
+                            }
+            
+                            let field = response.substring(start + 2, response.indexOf(" ", start));
+                            if (field === -1) {
+                                reject("well the bot fucking broke");
+                            }
+            
+                            let index;
+                            for (let i = 0; i < fields.length; i++) {
+                                if (fields[i] === field) {
+                                    index = i;
+                                    break;
+                                }
+                            }
+                            if (index === undefined) {
+                                reject("well the bot fucking broke");
+                            }
+            
+                            let value = response.substring(start + fields[index].length + 2, end).trim();
+            
+                            switch (fields[index]) {
+                                case "author":
+                                    embed.setAuthor(value);
+                                    break;
+                                case "color":
+                                    embed.setColor(value);
+                                    break;
+                                case "description":
+                                    embed.setDescription(value);
+                                    break;
+                                case "footer":
+                                    embed.setFooter(value);
+                                    break;
+                                case "image":
+                                    embed.setImage(value);
+                                    break;
+                                case "thumbnail":
+                                    embed.setThumbnail(value);
+                                    break;
+                            }
+            
+                            start = end;
+                        }
+            
+                        if (embed.description !== undefined) {
+                            embed.description = embed.description.replace(/\\n/g, "\n");
+                        }
+            
+                        message.channel.send(embed).then(() => {
+                            return resolve();
+                        }).catch(error => {
+                            return reject(error);
+                        });
+                    }
+                })
+            }
         }
     }),
     new Command({
