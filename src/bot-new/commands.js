@@ -608,6 +608,10 @@ const commands = [
                 start = end;
             }
 
+            if (embed.description !== undefined) {
+                embed.description = embed.description.replace(/\\n/g, "\n");
+            }
+
             message.channel.send(embed);
         }
     }),
