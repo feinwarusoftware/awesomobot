@@ -10,6 +10,10 @@ const lastfm = require("./api/lastfm");
 const logConstants = utils.logger;
 const logger = utils.globLogger;
 
+// EXPERIMENTAL
+const vm = require("vm");
+//
+
 let cachedeplist;
 
 class Command {
@@ -248,8 +252,8 @@ class Command {
         logger.log(logConstants.LOG_DEBUG, inclusive);
 
         // Channels.
-        let allow = false
-        let found = false
+        let allow = false;
+        let found = false;
         for (let i = 0; i < exclusive.channels.length; i++) {
             if (exclusive.channels[i].target == message.channel.id) {
                 allow = exclusive.channels[i].allow;
@@ -269,8 +273,8 @@ class Command {
             }
             return false;
         }
-        allow = false
-        found = false
+        allow = false;
+        found = false;
         for (let i = 0; i < inclusive.channels.length; i++) {
             if (inclusive.channels[i].target == message.channel.id) {
                 allow = inclusive.channels[i].allow;
@@ -338,8 +342,8 @@ class Command {
             return false;
         }
         // Members.
-        allow = false
-        found = false
+        allow = false;
+        found = false;
         for (let i = 0; i < exclusive.members.length; i++) {
             if (exclusive.members[i].target == message.channel.id) {
                 allow = exclusive.members[i].allow;
@@ -359,8 +363,8 @@ class Command {
             }
             return false;
         }
-        allow = false
-        found = false
+        allow = false;
+        found = false;
         for (let i = 0; i < inclusive.members.length; i++) {
             if (inclusive.members[i].target == message.channel.id) {
                 allow = inclusive.members[i].allow;
@@ -441,7 +445,7 @@ class Command {
 
         logger.log(logConstants.LOG_DEBUG, "command check passed");
 
-        return true
+        return true;
     }
     _checkPrefix(message, guild, match) {
 
@@ -512,6 +516,154 @@ const commands = [
             }
         }
     }),
+    /*
+    new Command({
+        name: "one scripty boii",
+        desc: "its ya big boii js",
+        type: "command",
+        match: "script",
+        call: function (client, message, guild) {
+
+            if (message.content.indexOf(" ") === -1) {
+                message.reply("please enter a message id after the command");
+                return;
+            }
+
+            const id = message.content.substring(message.content.indexOf(" ") + 1);
+
+            const channels = message.guild.channels.array();
+            for (let i = 0; i < channels.length; i++) {
+                if (channels[i].type !== "text" || channels[i].name !== "scripts") {
+                    continue;
+                }
+                channels[i].fetchMessage(id).then(script => {
+
+                    //
+                    let code = script.content;
+
+                    if (code.startsWith("```js")) {
+                        code = code.substring(5);
+                    }
+                    if (code.startsWith("```")) {
+                        code = code.substring(3);
+                    }
+                    if (code.endsWith("```")) {
+                        code = code.substring(0, code.length - 3)
+                    }
+                    
+                    // Node sandbox.
+                    const sandbox = {
+                        message: message
+                    };
+
+                    vm.createContext(sandbox);
+
+                    vm.runInContext(`"use strict"\n${code}`, sandbox);
+                    //
+
+                }).catch(error => {
+                    message.reply(`message with id: ${id}, not found in channel #${channels[i].name}`);
+                });
+            }
+        }
+    }),
+    */
+    //
+    new Command({
+        name: "addscript",
+        desc: "adds a script to the bot",
+        type: "command",
+        match: "addscript",
+        call: function (client, message, guild) {
+
+            const args = message.content.split(" ");
+            if (args[1] === undefined) {
+                message.reply("you need to specify the word to bind to");
+                return;
+            }
+            if (args[2] === undefined) {
+                message.reply("you need to write a script there boii");
+                return;
+            }
+
+            const name = args[1];
+            const value = message.content.substring(args[0].length + args[1].length + 2);
+
+            let script = guild.scripts.find(e => {
+                return e.name === name;
+            });
+            if (script !== undefined) {
+                if (message.author.id === script.authorId) {
+                    message.reply(`there is already a script with this name, you can remove it with '**${guild.settings.prefix}remscript ${name}**'`);
+                } else {
+                    const member = message.guild.members.find(e => {
+                        return e.id === script.authorId;
+                    });
+                    if (member === undefined || member === null) {
+                        message.reply(`there is already a '**${name}**' script and awesomo doesn't know who it belongs to`);
+                        return;
+                    }
+                    message.reply(`there is already a '**${name}**' script belonging to **${member.user.username}**`);
+                }
+                return;
+            }
+
+            guild.scripts.push({
+                name: name,
+                authorId: message.author.id,
+                value: value
+            });
+
+            message.reply(`successfully bound '**${name}**' to '**${value}**'`);
+        }
+    }),
+    new Command({
+        name: "remscript",
+        desc: "removes a script from the bot",
+        type: "command",
+        match: "remscript",
+        call: function (client, message, guild) {
+
+            const args = message.content.split(" ");
+            if (args[1] === undefined) {
+                message.reply("you need to specify the word that you're trying to unbind");
+                return;
+            }
+
+            const name = args[1];
+
+            let script = guild.scripts.find(e => {
+                return e.name === name;
+            });
+            if (script === undefined) {
+                message.reply(`'**${name}**' isn't bound to anything`);
+                return;
+            }
+
+            if (message.author.id === script.authorId) {
+                for (let i = 0; i < guild.scripts.length; i++) {
+                    if (guild.scripts[i].name === name) {
+                        guild.scripts.splice(i, 1);
+                        message.reply(`successfully unbound '**${name}**'`);
+                        return;
+                    }
+                }
+            } else {
+                const member = message.guild.members.find(e => {
+                    return e.id === script.authorId;
+                });
+                if (member === undefined || member === null) {
+                    message.reply(`the '**${name}**' script belongs to someone else but awesomo doesn't know who it is`);
+                    return;
+                }
+                message.reply(`the '**${name}**' script belongs to **${member.user.username}**, if you want it gone, please ask them to unbind it`);
+                return;
+            }
+
+            message.reply(`looks like awesomo shit itself, blame dragon`);
+        }
+    }),
+    //
     new Command({
         name: "echo",
         desc: "sends a message in discord",
@@ -524,25 +676,6 @@ const commands = [
             //{embed} --author ya boii --description yay it werks!!! {then} sdfjpsdfps
 
             //{embed} --description sfoifhsoifh sdfsodf --whatever
-
-            /*
-            let start = 0;
-            while (start !== response.length) {
-
-                let end = response.indexOf("{then}", start + 1);
-                if (end === -1) {
-                    end = response.length;
-                }
-
-                sendMessage(response.substring(start, end));
-
-                if (end === response.length) {
-                    start = end;
-                } else {
-                    start = end + 6;
-                }
-            }
-            */
 
             doStuff(0);
 

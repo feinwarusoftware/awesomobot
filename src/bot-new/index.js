@@ -23,6 +23,10 @@ const logger = utils.globLogger;
 
 const config = utils.globConfig.data;
 
+// EXPERIMENTAL
+const vm = require("vm");
+//
+
 mongoose.connect(config.database, {
     useMongoClient: true
 });
@@ -269,6 +273,37 @@ client.on("message", message => {
                     return;
                 }
             }
+
+            for (let i = 0; i < guildDoc.scripts.length; I++) {
+
+                if (message.content.split(" ")[0].toLowerCase() === guildDoc.settings.prefix + guildDoc.scripts[i].name) {
+                
+                    //
+                    let code = guildDoc.scripts[i].value;
+
+                    if (code.startsWith("```js")) {
+                        code = code.substring(5);
+                    }
+                    if (code.startsWith("```")) {
+                        code = code.substring(3);
+                    }
+                    if (code.endsWith("```")) {
+                        code = code.substring(0, code.length - 3)
+                    }
+                    
+                    // Node sandbox.
+                    const sandbox = {
+                        message: message
+                    };
+
+                    vm.createContext(sandbox);
+
+                    vm.runInContext(`"use strict"\n${code}`, sandbox);
+                    //
+        
+                    return;
+                }
+            }
         });
         return;
     }
@@ -356,6 +391,37 @@ client.on("message", message => {
                     }
                 }
             }
+
+            return;
+        }
+    }
+
+    for (let i = 0; i < guild.scripts.length; I++) {
+
+        if (message.content.split(" ")[0].toLowerCase() === guild.settings.prefix + guild.scripts[i].name) {
+        
+            //
+            let code = guild.scripts[i].value;
+
+            if (code.startsWith("```js")) {
+                code = code.substring(5);
+            }
+            if (code.startsWith("```")) {
+                code = code.substring(3);
+            }
+            if (code.endsWith("```")) {
+                code = code.substring(0, code.length - 3)
+            }
+            
+            // Node sandbox.
+            const sandbox = {
+                message: message
+            };
+
+            vm.createContext(sandbox);
+
+            vm.runInContext(`"use strict"\n${code}`, sandbox);
+            //
 
             return;
         }
