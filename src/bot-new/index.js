@@ -296,9 +296,7 @@ client.on("message", message => {
                         message: message
                     };
 
-                    vm.createContext(sandbox);
-
-                    vm.runInContext(`"use strict"\n${code}`, sandbox);
+                    vm.runInNewContext(`"use strict"\n${code}`, sandbox);
                     //
         
                     return;
@@ -418,9 +416,7 @@ client.on("message", message => {
                 message: message
             };
 
-            vm.createContext(sandbox);
-
-            vm.runInContext(`"use strict"\n${code}`, sandbox);
+            vm.runInNewContext(`"use strict"\n${code}`, sandbox);
             //
 
             return;
