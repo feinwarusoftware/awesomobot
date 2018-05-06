@@ -517,10 +517,10 @@ const commands = [
         }
     }),
     new Command({
-        name: "activity top",
-        desc: "shows the top 5 member's activity",
+        name: "activity position",
+        desc: "shows your activity and that of two members above and below you",
         type: "command",
-        match: "activetop",
+        match: "activepos",
         call: function (client, message, guild) {
 
             guild.members.sort((a, b) => {
@@ -586,10 +586,10 @@ const commands = [
         }
     }),
     new Command({
-        name: "activity list",
-        desc: "shows your activity and that of two members above and below you",
+        name: "activity top",
+        desc: "shows the top 5 member's activity",
         type: "command",
-        match: "activelist",
+        match: "activetop",
         call: function (client, message, guild) {
 
             guild.members.sort((a, b) => {
