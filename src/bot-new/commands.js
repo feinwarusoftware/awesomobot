@@ -523,7 +523,66 @@ const commands = [
         match: "activetop",
         call: function (client, message, guild) {
 
-            
+            guild.members.sort((a, b) => {
+
+                let activityA = a.stats.find( e => {
+                    return e.name === "activity";
+                });
+                let activityB = b.stats.find(e => {
+                    return e.name === "activity";
+                });
+                if (activityA === undefined && activityB === undefined) {
+                    return Number.MIN_SAFE_INTEGER;
+                }
+                if (activityA === undefined) {
+                    return activityB.value;
+                }
+                if (activityB === undefined) {
+                    return activityA.value;
+                }
+
+                return activityB.value - activityA.value;
+            });
+
+            let embed = new discord.RichEmbed()
+                .setColor(0x8bc34a)
+                .setAuthor(`AWESOM-O // Activity ${message.author.username} +- 2`, "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
+        
+            let memberIndex;
+            for (let i = 0; i < guild.members.length; i++) {
+                if (guild.members[i].id === message.author.id) {
+                    memberIndex = i;
+                    break;
+                }
+            }
+
+            let start = memberIndex - 2 > 0 ? memberIndex - 2 : 0;
+            let end = memberIndex + 2 > guild.members.length - 1 ? guild.members.length - 1 : memberIndex + 2; 
+
+            for (let i = start; i < end + 1; i++) {
+
+                let member = message.guild.members.find(e => {
+                    return e.id === guild.members[i].id;
+                });
+                if (member === undefined) {
+                    member = {
+                        user: {
+                            username: "null"
+                        }
+                    };
+                }
+
+                let activity = guild.members[i].stats.find(e => {
+                    return e.name === "activity";
+                });
+                if (activity === undefined) {
+                    break;
+                }
+                
+                embed.addField(`${i === memberIndex ? `**#${i + 1}**` : `#${i + 1}`}`, `${i === memberIndex ? `**${member.user.username} - ${activity.value}**` : `${member.user.username} - ${activity.value}`}`);
+            }
+
+            message.channel.send(embed);
         }
     }),
     new Command({
@@ -533,7 +592,57 @@ const commands = [
         match: "activelist",
         call: function (client, message, guild) {
 
-            
+            guild.members.sort((a, b) => {
+
+                let activityA = a.stats.find( e => {
+                    return e.name === "activity";
+                });
+                let activityB = b.stats.find(e => {
+                    return e.name === "activity";
+                });
+                if (activityA === undefined && activityB === undefined) {
+                    return Number.MIN_SAFE_INTEGER;
+                }
+                if (activityA === undefined) {
+                    return activityB.value;
+                }
+                if (activityB === undefined) {
+                    return activityA.value;
+                }
+
+                return activityB.value - activityA.value;
+            });
+
+            let embed = new discord.RichEmbed()
+                .setColor(0x8bc34a)
+                .setAuthor("AWESOM-O // Activity Top 5", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
+
+            let topx = guild.members.length > 5 ? 5 : guild.members.length;
+
+            for (let i = 0; i < topx; i++) {
+
+                let member = message.guild.members.find(e => {
+                    return e.id === guild.members[i].id;
+                });
+                if (member === undefined) {
+                    member = {
+                        user: {
+                            username: "null"
+                        }
+                    };
+                }
+
+                let activity = guild.members[i].stats.find(e => {
+                    return e.name === "activity";
+                });
+                if (activity === undefined) {
+                    break;
+                }
+
+                embed.addField(`#${i + 1}`, `${member.user.username} - ${activity.value}`);
+            }
+
+            message.channel.send(embed);
         }
     }),
     new Command({
