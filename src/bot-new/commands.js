@@ -516,6 +516,54 @@ const commands = [
             }
         }
     }),
+    new Command({
+        name: "activity top",
+        desc: "shows the top 5 member's activity",
+        type: "command",
+        match: "activetop",
+        call: function (client, message, guild) {
+
+            
+        }
+    }),
+    new Command({
+        name: "activity list",
+        desc: "shows your activity and that of two members above and below you",
+        type: "command",
+        match: "activelist",
+        call: function (client, message, guild) {
+
+            
+        }
+    }),
+    new Command({
+        name: "activity",
+        desc: "shows your activity",
+        type: "command",
+        match: "activeme",
+        call: function (client, message, guild) {
+
+            let member = guild.members.find(e => {
+                return e.id === message.author.id;
+            });
+            if (member === undefined) {
+
+                message.reply("your activity score is: 0");
+                return;
+            }
+
+            let stat = member.stats.find(e => {
+                return e.name === "activity";
+            });
+            if (stat === undefined) {
+
+                message.reply("your activity score is: 0");
+                return;
+            }
+
+            message.reply(`your activity score is: ${stat.value}`);
+        }
+    }),
     /*
     new Command({
         name: "one scripty boii",
@@ -568,7 +616,7 @@ const commands = [
         }
     }),
     */
-    //
+    /*
     new Command({
         name: "addscript",
         desc: "adds a script to the bot",
@@ -663,7 +711,7 @@ const commands = [
             message.reply(`looks like awesomo shit itself, blame dragon`);
         }
     }),
-    //
+    */
     new Command({
         name: "echo",
         desc: "sends a message in discord",
@@ -1556,7 +1604,7 @@ const commands = [
         name: "leave team",
         desc: "(no description)",
         type: "command",
-        match: "leave",
+        match: "civilwar",
         call: function (client, message, guild) {
 
             const teams = guild.settings.teamRoles;
