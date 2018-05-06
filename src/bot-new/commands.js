@@ -589,7 +589,7 @@ const commands = [
         name: "activity top",
         desc: "shows the top 5 member's activity",
         type: "command",
-        match: "activetop",
+        match: ["activetop", "activelist"],
         call: function (client, message, guild) {
 
             guild.members.sort((a, b) => {
@@ -673,6 +673,165 @@ const commands = [
             message.reply(`your activity score is: ${stat.value}`);
         }
     }),
+    //
+    new Command({
+        name: "shits position",
+        desc: "shows your shits and that of two members above and below you",
+        type: "command",
+        match: "shitpos",
+        call: function (client, message, guild) {
+
+            guild.members.sort((a, b) => {
+
+                let shitsA = a.stats.find( e => {
+                    return e.name === "shits";
+                });
+                let shitsB = b.stats.find(e => {
+                    return e.name === "shits";
+                });
+                if (shitsA === undefined && shitsB === undefined) {
+                    return Number.MIN_SAFE_INTEGER;
+                }
+                if (shitsA === undefined) {
+                    return shitsB.value;
+                }
+                if (shitsB === undefined) {
+                    return shitsA.value;
+                }
+
+                return shitsB.value - shitsA.value;
+            });
+
+            let embed = new discord.RichEmbed()
+                .setColor(0x8bc34a)
+                .setAuthor(`AWESOM-O // Shits ${message.author.username} +- 2`, "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
+        
+            let memberIndex;
+            for (let i = 0; i < guild.members.length; i++) {
+                if (guild.members[i].id === message.author.id) {
+                    memberIndex = i;
+                    break;
+                }
+            }
+
+            let start = memberIndex - 2 > 0 ? memberIndex - 2 : 0;
+            let end = memberIndex + 2 > guild.members.length - 1 ? guild.members.length - 1 : memberIndex + 2; 
+
+            for (let i = start; i < end + 1; i++) {
+
+                let member = message.guild.members.find(e => {
+                    return e.id === guild.members[i].id;
+                });
+                if (member === undefined) {
+                    member = {
+                        user: {
+                            username: "null"
+                        }
+                    };
+                }
+
+                let shits = guild.members[i].stats.find(e => {
+                    return e.name === "shits";
+                });
+                if (shits === undefined) {
+                    break;
+                }
+                
+                embed.addField(`${i === memberIndex ? `**#${i + 1}**` : `#${i + 1}`}`, `${i === memberIndex ? `**${member.user.username} - ${shits.value}**` : `${member.user.username} - ${shits.value}`}`);
+            }
+
+            message.channel.send(embed);
+        }
+    }),
+    new Command({
+        name: "shits top",
+        desc: "shows the top 5 member's shits",
+        type: "command",
+        match: ["shittop", "shitlist"],
+        call: function (client, message, guild) {
+
+            guild.members.sort((a, b) => {
+
+                let shitsA = a.stats.find( e => {
+                    return e.name === "shits";
+                });
+                let shitsB = b.stats.find(e => {
+                    return e.name === "shits";
+                });
+                if (shitsA === undefined && shitsB === undefined) {
+                    return Number.MIN_SAFE_INTEGER;
+                }
+                if (shitsA === undefined) {
+                    return shitsB.value;
+                }
+                if (shitsB === undefined) {
+                    return shitsA.value;
+                }
+
+                return shitsB.value - shitsA.value;
+            });
+
+            let embed = new discord.RichEmbed()
+                .setColor(0x8bc34a)
+                .setAuthor("AWESOM-O // Shits Top 5", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
+
+            let topx = guild.members.length > 5 ? 5 : guild.members.length;
+
+            for (let i = 0; i < topx; i++) {
+
+                let member = message.guild.members.find(e => {
+                    return e.id === guild.members[i].id;
+                });
+                if (member === undefined) {
+                    member = {
+                        user: {
+                            username: "null"
+                        }
+                    };
+                }
+
+                let shits = guild.members[i].stats.find(e => {
+                    return e.name === "shits";
+                });
+                if (shits === undefined) {
+                    break;
+                }
+
+                embed.addField(`#${i + 1}`, `${member.user.username} - ${shits.value}`);
+            }
+
+            message.channel.send(embed);
+        }
+    }),
+    new Command({
+        name: "shits",
+        desc: "shows your shits",
+        type: "command",
+        match: "shitme",
+        call: function (client, message, guild) {
+
+            let member = guild.members.find(e => {
+                return e.id === message.author.id;
+            });
+            if (member === undefined) {
+
+                message.reply("your shit score is: 0");
+                return;
+            }
+
+            let stat = member.stats.find(e => {
+                return e.name === "shits";
+            });
+            if (stat === undefined) {
+
+                message.reply("your shit score is: 0");
+                return;
+            }
+
+            message.reply(`your shit score is: ${stat.value}`);
+        }
+    }),
+    //
     /*
     new Command({
         name: "one scripty boii",
