@@ -425,7 +425,11 @@ function findGuild(id) {
     });
 }
 
-app.route("/guilds").post((req, res) => {
+app.route("/guilds").get((req, res) => {
+
+    return res.json({ error: "api route under construction!" });
+
+}).post((req, res) => {
 
     const token = req.headers["xxx-access-token"];
     if (token === undefined) {
@@ -677,6 +681,10 @@ app.route("/guilds/:guild_id/members").get((req, res) => {
         return res.json({error});
     });
 
+}).post((req, res) => {
+
+    return res.json({ error: "api route under construction!" });
+
 });
 app.route("/guilds/:guild_id/members/:member_id").get((req, res) => {
 
@@ -793,6 +801,220 @@ app.route("/guilds/:guild_id/members/:member_id").get((req, res) => {
     }).catch(error => {
         return res.json({error});
     });
+});
+//
+
+//
+app.route("/guilds/:guild_id/groups").get((req, res) => {
+
+    findGuild(req.params.guild_id).then(guild => {
+        return res.json(guild.groups);
+    }).catch(error => {
+        return res.json({error});
+    });
+
+}).post((req, res) => {
+    
+    return res.json({ error: "api route under construction!" });
+
+});
+app.route("/guilds/:guild_id/groups/:group_name").get((req, res) => {
+
+    findGuild(req.params.guild_id).then(guild => {
+        
+        let group = guild.groups.find(e => {
+            return e.id === req.params.group_name;
+        });
+        if (group === undefined) {
+            return res.json({ error: "group not found" });
+        }
+        return res.json(group);
+
+    }).catch(error => {
+        return res.json({error});
+    });
+
+}).put((req, res) => {
+
+    const token = req.headers["xxx-access-token"];
+    if (token === undefined) {
+        return res.json({ error: "access token undefined" });
+    }
+    if (token !== config.api_token_temp) {
+        return res.json({ error: "invalid access token" });
+    }
+
+    findGuild(req.params.guild_id).then(guild => {
+
+        let group = guild.groups.find(e => {
+            return e.id === req.params.group_name;
+        });
+        if (group === undefined) {
+            return res.json({ error: "group not found" });
+        }
+
+        if (req.body.name === undefined) {
+            return res.json({ error: "name undefined" });
+        }
+        
+        group.name = req.body.name;
+        group.inherits = req.body.inherits === undefined ? [] : req.body.inherits;
+        group.channels = req.body.channels === undefined ? [] : req.body.channels;
+        group.roles = req.body.roles === undefined ? [] : req.body.roles;
+        group.members = req.body.members === undefined ? [] : req.body.members;
+        group.badges = req.body.badges === undefined ? [] : req.body.badges;
+
+        guild.save(error => {
+            if (error !== null) {
+                return res.json({error});
+            }
+            return res.json({ success: "guild group updated" });
+        });
+    }).catch(error => {
+        return res.json({error});
+    });
+
+}).patch((req, res) => {
+
+    const token = req.headers["xxx-access-token"];
+    if (token === undefined) {
+        return res.json({ error: "access token undefined" });
+    }
+    if (token !== config.api_token_temp) {
+        return res.json({ error: "invalid access token" });
+    }
+
+    findGuild(req.params.guild_id).then(guild => {
+
+        let group = guild.groups.find(e => {
+            return e.id === req.params.group_name;
+        });
+        if (group === undefined) {
+            return res.json({ error: "group not found" });
+        }
+
+        if (req.body.name !== undefined) {
+            group.name = req,body.name;
+        }
+        if (req.body.inherits !== undefined) {
+            group.inherits = req,body.inherits;
+        }
+        if (req.body.channels !== undefined) {
+            group.channels = req,body.channels;
+        }
+        if (req.body.roles !== undefined) {
+            group.roles = req,body.roles;
+        }
+        if (req.body.members !== undefined) {
+            group.members = req,body.members;
+        }
+        if (req.body.badges !== undefined) {
+            group.badges = req,body.badges;
+        }
+
+        guild.save(error => {
+            if (error !== null) {
+                return res.json({error});
+            }
+            return res.json({ success: "guild group patched" });
+        });
+    }).catch(error => {
+        return res.json({error});
+    });
+
+}).delete((req, res) => {
+
+    const token = req.headers["xxx-access-token"];
+    if (token === undefined) {
+        return res.json({ error: "access token undefined" });
+    }
+    if (token !== config.api_token_temp) {
+        return res.json({ error: "invalid access token" });
+    }
+
+    findGuild(req.params.guild_id).then(guild => {
+        let found = false;
+        for (let i = 0; i < guild.groups.length; i++) {
+            if (guild.groups[i].id === req.params.group_name) {
+                guild.groups.splice(i, 1);
+                guild.save(error => {
+                    if (error !== null) {
+                        return res.json({error});
+                    }
+                    return res.json({ success: "guild group removed" });
+                });
+                found = true;
+                break;
+            }
+        }
+        if (found === false) {
+            return res.json({ error: "could not find guild" });
+        }
+    }).catch(error => {
+        return res.json({error});
+    });
+});
+//
+
+//
+app.route("/guilds/:guild_id/commands").get((req, res) => {
+
+    findGuild(req.params.guild_id).then(guild => {
+        return res.json(guild.commands);
+    }).catch(error => {
+        return res.json({error});
+    });
+
+}).post((req, res) => {
+    
+    return res.json({ error: "api route under construction!" });
+
+});
+app.route("/guilds/:guild_id/commands/:command_name").get((req, res) => {
+
+
+
+}).put((req, res) => {
+
+
+
+}).patch((req, res) => {
+
+
+
+}).delete((req, res) => {
+
+
+
+});
+//
+
+//
+app.route("/guilds/:guild_id/bindings").get((req, res) => {
+
+
+
+}).post((req, res) => {
+    
+    return res.json({ error: "api route under construction!" });
+
+});
+app.route("/guilds/:guild_id/bindings/:binding_name").get((req, res) => {
+
+
+
+}).put((req, res) => {
+
+
+
+}).patch((req, res) => {
+
+
+
+}).delete((req, res) => {
+
+
+
 });
 //
 
