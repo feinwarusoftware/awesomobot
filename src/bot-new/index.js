@@ -553,9 +553,9 @@ app.route("/guilds/:guild_id").get((req, res) => {
                     }
                     return res.json({ success: "guild removed successfully" });
                 });
+                found = true;
+                break;
             }
-            found = true;
-            break;
         }
         if (found === false) {
             return res.json({ error: "could not find guild" });
@@ -566,405 +566,103 @@ app.route("/guilds/:guild_id").get((req, res) => {
 
 });
 
-/*
+//
 app.route("/guilds/:guild_id/settings").get((req, res) => {
 
-    for (let i = 0; i < guilds.length; i++) {
-        if (guilds[i].id === req.params.guild_id) {
-            
-            return res.json(guilds[i].settings);
-        }
+    findGuild(req.params.guild_id).then(guild => {
+        return res.json(guild.settings);
+    }).catch(error => {
+        return res.json({error});
+    });
+
+}).put((req, res) => {
+
+    const token = req.headers["xxx-access-token"];
+    if (token === undefined) {
+        return res.json({ error: "access token undefined" });
+    }
+    if (token !== config.api_token_temp) {
+        return res.json({ error: "invalid access token" });
     }
 
-    GuildSchema.findOne({ id: req.params.guild_id }, (err, guildDoc) => {
-        if (err !== null) {
-
-            return res.json({ error: "404 not found" });
-        }
-
-        return res.json(guildDoc.settings);
-    });
-});
-app.route("/guilds/:guild_id/settings/teamroles").get((req, res) => {
-
-    for (let i = 0; i < guilds.length; i++) {
-        if (guilds[i].id === req.params.guild_id) {
-            
-            return res.json(guilds[i].settings.teamRoles);
-        }
-    }
-
-    GuildSchema.findOne({ id: req.params.guild_id }, (err, guildDoc) => {
-        if (err !== null) {
-
-            return res.json({ error: "404 not found" });
-        }
-
-        return res.json(guildDoc.settings.teamRoles);
-    });
-});
-app.route("/guilds/:guild_id/settings/teamroles/:teamrole_id").get((req, res) => {
-
-    for (let i = 0; i < guilds.length; i++) {
-        if (guilds[i].id === req.params.guild_id) {
-
-            const teamRole = guilds[i].settings.teamRoles.find(e => {
-                return e.id === req.params.teamrole_id;
-            });
-            if (teamRole === undefined) {
-
-                return res.json({ error: "404 not found" });
+    findGuild(req.params.guild_id).then(guild => {
+        guild.settings.prefix = req.body.prefix;
+        guild.settings.fandom = req.body.fandom;
+        guild.settings.logChannel = req.body.logChannel;
+        guild.settings.groundedRole = req.body.groundedRole;
+        guild.settings.teamRoles = req.body.teamRoles;
+        guild.save(error => {
+            if (error !== null) {
+                return res.json({error});
             }
-            
-            return res.json(teamRole);
-        }
-    }
-
-    GuildSchema.findOne({ id: req.params.guild_id }, (err, guildDoc) => {
-        if (err !== null) {
-
-            return res.json({ error: "404 not found" });
-        }
-
-        const teamRole = guildDoc.settings.teamRoles.find(e => {
-            return e.id === req.params.teamrole_id;
+            return res.json({ success: "guild settings updated" });
         });
-        if (teamRole === undefined) {
-
-            return res.json({ error: "404 not found" });
-        }
-        
-        return res.json(teamRole);
+    }).catch(error => {
+        return res.json({error});
     });
-});
 
-app.route("/guilds/:guild_id/members").get((req, res) => {
+}).patch((req, res) => {
 
-    for (let i = 0; i < guilds.length; i++) {
-        if (guilds[i].id === req.params.guild_id) {
-            
-            return res.json(guilds[i].members);
-        }
+    const token = req.headers["xxx-access-token"];
+    if (token === undefined) {
+        return res.json({ error: "access token undefined" });
+    }
+    if (token !== config.api_token_temp) {
+        return res.json({ error: "invalid access token" });
     }
 
-    GuildSchema.findOne({ id: req.params.guild_id }, (err, guildDoc) => {
-        if (err !== null) {
-
-            return res.json({ error: "404 not found" });
+    findGuild(req.params.guild_id).then(guild => {
+        if (req.body.prefix !== undefined) {
+            guild.settings.prefix = req.body.prefix;
         }
-
-        return res.json(guildDoc.members);
-    });
-});
-app.route("/guilds/:guild_id/members/:member_id").get((req, res) => {
-
-    for (let i = 0; i < guilds.length; i++) {
-        if (guilds[i].id === req.params.guild_id) {
-
-            const member = guilds[i].members.find(e => {
-                return e.id === req.params.member_id;
-            });
-            if (member === undefined) {
-
-                return res.json({ error: "404 not found" });
+        if (req.body.fandom !== undefined) {
+            guild.settings.fandom = req.body.fandom;
+        }
+        if (req.body.logChannel !== undefined) {
+            guild.settings.logChannel = req.body.logChannel;
+        }
+        if (req.body.groundedRole !== undefined) {
+            guild.settings.groundedRole = req.body.groundedRole;
+        }
+        if (req.body.teamRoles !== undefined) {
+            guild.settings.teamRoles = req.body.teamRoles;
+        }
+        guild.save(error => {
+            if (error !== null) {
+                return res.json({error});
             }
-            
-            return res.json(member);
-        }
+            return res.json({ success: "guild settings patched" });
+        });
+    }).catch(error => {
+        return res.json({error});
+    });
+
+}).delete((req, res) => {
+
+    const token = req.headers["xxx-access-token"];
+    if (token === undefined) {
+        return res.json({ error: "access token undefined" });
+    }
+    if (token !== config.api_token_temp) {
+        return res.json({ error: "invalid access token" });
     }
 
-    GuildSchema.findOne({ id: req.params.guild_id }, (err, guildDoc) => {
-        if (err !== null) {
-
-            return res.json({ error: "404 not found" });
-        }
-
-        const member = guildDoc.members.find(e => {
-            return e.id === req.params.member_id;
-        });
-        if (member === undefined) {
-
-            return res.json({ error: "404 not found" });
-        }
-        
-        return res.json(member);
-    });
-});
-app.route("/guilds/:guild_id/members/:member_id/stats").get((req, res) => {
-
-    for (let i = 0; i < guilds.length; i++) {
-        if (guilds[i].id === req.params.guild_id) {
-
-            const member = guilds[i].members.find(e => {
-                return e.id === req.params.member_id;
-            });
-            if (member === undefined) {
-
-                return res.json({ error: "404 not found" });
+    findGuild(req.params.guild_id).then(guild => {
+        guild.settings = {
+            prefix: "<<",
+            fandom: "southpark"
+        };
+        guild.save(error => {
+            if (error !== null) {
+                return res.json({error});
             }
-            
-            return res.json(member.stats);
-        }
-    }
-
-    GuildSchema.findOne({ id: req.params.guild_id }, (err, guildDoc) => {
-        if (err !== null) {
-
-            return res.json({ error: "404 not found" });
-        }
-
-        const member = guildDoc.members.find(e => {
-            return e.id === req.params.member_id;
+            return res.json({ success: "guild settings reset" });
         });
-        if (member === undefined) {
-
-            return res.json({ error: "404 not found" });
-        }
-        
-        return res.json(member.stats);
+    }).catch(error => {
+        return res.json({error});
     });
 });
-app.route("/guilds/:guild_id/members/:member_id/stats/:stat_name").get((req, res) => {
-
-    for (let i = 0; i < guilds.length; i++) {
-        if (guilds[i].id === req.params.guild_id) {
-
-            const member = guilds[i].members.find(e => {
-                return e.id === req.params.member_id;
-            });
-            if (member === undefined) {
-
-                return res.json({ error: "404 not found" });
-            }
-
-            const stat = member.stats.find(e => {
-                return e.name === req.params.stat_name;
-            });
-            if (stat === undefined) {
-
-                return res.json({ error: "404 not found" });
-            }
-            
-            return res.json(stat);
-        }
-    }
-
-    GuildSchema.findOne({ id: req.params.guild_id }, (err, guildDoc) => {
-        if (err !== null) {
-
-            return res.json({ error: "404 not found" });
-        }
-
-        const member = guildDoc[i].members.find(e => {
-            return e.id === req.params.member_id;
-        });
-        if (member === undefined) {
-
-            return res.json({ error: "404 not found" });
-        }
-
-        const stat = member.stats.find(e => {
-            return e.name === req.params.stat_name;
-        });
-        if (stat === undefined) {
-
-            return res.json({ error: "404 not found" });
-        }
-        
-        return res.json(stat);
-    });
-});
-app.route("/guilds/:guild_id/members/:member_id/badges").get((req, res) => {
-
-    for (let i = 0; i < guilds.length; i++) {
-        if (guilds[i].id === req.params.guild_id) {
-
-            const member = guilds[i].members.find(e => {
-                return e.id === req.params.member_id;
-            });
-            if (member === undefined) {
-
-                return res.json({ error: "404 not found" });
-            }
-            
-            return res.json(member.badges);
-        }
-    }
-
-    GuildSchema.findOne({ id: req.params.guild_id }, (err, guildDoc) => {
-        if (err !== null) {
-
-            return res.json({ error: "404 not found" });
-        }
-
-        const member = guildDoc.members.find(e => {
-            return e.id === req.params.member_id;
-        });
-        if (member === undefined) {
-
-            return res.json({ error: "404 not found" });
-        }
-        
-        return res.json(member.badges);
-    });
-});
-app.route("/guilds/:guild_id/members/:member_id/badges/:badge_name").get((req, res) => {
-
-    for (let i = 0; i < guilds.length; i++) {
-        if (guilds[i].id === req.params.guild_id) {
-
-            const member = guilds[i].members.find(e => {
-                return e.id === req.params.member_id;
-            });
-            if (member === undefined) {
-
-                return res.json({ error: "404 not found" });
-            }
-
-            const badge = member.badges.find(e => {
-                return e.name === req.params.badge_name;
-            });
-            if (badge === undefined) {
-
-                return res.json({ error: "404 not found" });
-            }
-            
-            return res.json(badge);
-        }
-    }
-
-    GuildSchema.findOne({ id: req.params.guild_id }, (err, guildDoc) => {
-        if (err !== null) {
-
-            return res.json({ error: "404 not found" });
-        }
-
-        const member = guildDoc[i].members.find(e => {
-            return e.id === req.params.member_id;
-        });
-        if (member === undefined) {
-
-            return res.json({ error: "404 not found" });
-        }
-
-        const badge = member.badges.find(e => {
-            return e.name === req.params.badge_name;
-        });
-        if (badge === undefined) {
-
-            return res.json({ error: "404 not found" });
-        }
-        
-        return res.json(badge);
-    });
-});
-
-app.route("/guilds/:guild_id/groups").get((req, res) => {
-
-    for (let i = 0; i < guilds.length; i++) {
-        if (guilds[i].id === req.params.guild_id) {
-            
-            return res.json(guilds[i].groups);
-        }
-    }
-
-    GuildSchema.findOne({ id: req.params.guild_id }, (err, guildDoc) => {
-        if (err !== null) {
-
-            return res.json({ error: "404 not found" });
-        }
-
-        return res.json(guildDoc.groups);
-    });
-});
-app.route("/guilds/:guild_id/groups/:group_name").get((req, res) => {
-
-    for (let i = 0; i < guilds.length; i++) {
-        if (guilds[i].id === req.params.guild_id) {
-
-            const group = guilds[i].groups.find(e => {
-                return e.name === req.params.group_name;
-            });
-            if (group === undefined) {
-
-                return res.json({ error: "404 not found" });
-            }
-            
-            return res.json(group);
-        }
-    }
-
-    GuildSchema.findOne({ id: req.params.guild_id }, (err, guildDoc) => {
-        if (err !== null) {
-
-            return res.json({ error: "404 not found" });
-        }
-
-        const group = guildDoc.groups.find(e => {
-            return e.name === req.params.group_name;
-        });
-        if (group === undefined) {
-
-            return res.json({ error: "404 not found" });
-        }
-        
-        return res.json(group);
-    });
-});
-
-app.route("/guilds/:guild_id/commands").get((req, res) => {
-
-    for (let i = 0; i < guilds.length; i++) {
-        if (guilds[i].id === req.params.guild_id) {
-            
-            return res.json(guilds[i].commands);
-        }
-    }
-
-    GuildSchema.findOne({ id: req.params.guild_id }, (err, guildDoc) => {
-        if (err !== null) {
-
-            return res.json({ error: "404 not found" });
-        }
-
-        return res.json(guildDoc.commands);
-    });
-});
-app.route("/guilds/:guild_id/commands/:command_name").get((req, res) => {
-
-    for (let i = 0; i < guilds.length; i++) {
-        if (guilds[i].id === req.params.guild_id) {
-
-            const command = guilds[i].commands.find(e => {
-                return e.name === req.params.command_name;
-            });
-            if (command === undefined) {
-
-                return res.json({ error: "404 not found" });
-            }
-            
-            return res.json(command);
-        }
-    }
-
-    GuildSchema.findOne({ id: req.params.guild_id }, (err, guildDoc) => {
-        if (err !== null) {
-
-            return res.json({ error: "404 not found" });
-        }
-
-        const command = guildDoc.commands.find(e => {
-            return e.name === req.params.command_name;
-        });
-        if (command === undefined) {
-
-            return res.json({ error: "404 not found" });
-        }
-        
-        return res.json(command);
-    });
-});
-*/
+//
 
 app.use((req, res, next) => {
 	let err = new Error("Not Found");
