@@ -44,13 +44,26 @@ class Command {
 
         logger.log(logConstants.LOG_DEBUG, "command found");
 
+        let defaultGroup;
+        for (let i = 0; i < guild.groups.length; i++) {
+            if (guild.groups[i].name === "def") {
+                defaultGroup = guild.groups[i];
+                break;
+            }
+        }
+
         //groups
         let current = guild.commands.find(e => {
             return e.name == this.data.name;
         });
-        if (!current) {
+        if (current === undefined && defaultGroup === undefined) {
             logger.log(logConstants.LOG_DEBUG, "no local group data found for command, skipping group check");
             return true;
+        }
+        if (current === undefined) {
+            current = {
+                group: "def"
+            };
         }
 
         if (current.group == "") {
@@ -61,7 +74,7 @@ class Command {
         let group = guild.groups.find(e => {
             return e.name == current.group;
         });
-        if (!group) {
+        if (group === undefined) {
             logger.log(logConstants.LOG_DEBUG, "group specified not found, failing command check");
             return false;
         }
@@ -89,6 +102,19 @@ class Command {
             logger.log(logConstants.LOG_DEBUG, "inherited group(s) not found, failing command check");
             return false;
         }
+
+        // Always inherit a group called 'default'.
+        let alreadyInherited = false;
+        for (let i = 0; i < inherits.length; i++) {
+            if (inherits[i].name === "def") {
+                alreadyInherited = true;
+                break;
+            }
+        }
+        if (alreadyInherited === false && defaultGroup !== undefined) {
+            inherits.push(defaultGroup);
+        }
+        //
 
         inherits.unshift(group);
 
@@ -715,7 +741,7 @@ const commands = [
             }
 
             let start = memberIndex - 2 > 0 ? memberIndex - 2 : 0;
-            let end = memberIndex + 2 > guild.members.length - 1 ? guild.members.length - 1 : memberIndex + 2; 
+            let end = memberIndex + 2 > guild.members.length - 1 ? guild.members.length - 1 : memberIndex + 2;
 
             for (let i = start; i < end + 1; i++) {
 
