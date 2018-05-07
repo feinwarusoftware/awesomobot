@@ -1147,7 +1147,7 @@ app.route("/guilds/:guild_id/bindings/:binding_name").get((req, res) => {
         
         binding.name = req.body.name;
         binding.authorId = req.body.authorId === undefined ? "xdid" : req.body.authorId;
-        binding.value = req.body.value === undefined ? `{prefix}echo Someone who has no idea wtf they're doing was messing around with my api and fucked it up. ~~Their ip definitely isn't: ${req.ip}.~~ Enjoy!` : req.body.value;
+        binding.value = req.body.value === undefined ? `Someone who has no idea wtf they're doing was messing around with my api and fucked it up. ~~Their ip definitely isn't: ${req.ip}.~~ Enjoy!` : req.body.value;
 
         guild.save(error => {
             if (error !== null) {
