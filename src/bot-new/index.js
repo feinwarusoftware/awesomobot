@@ -438,14 +438,18 @@ app.route("/guilds").post((req, res) => {
     findGuild(req.body.id).then(guild => {
         return res.json({ error: "guild already exists" });
     }).catch(error => {
+        if (req.body.id === undefined) {
+            return res.json({ error: "id undefined" });
+        }
+
         const guild = new GuildSchema({
             id: req.body.id,
-            premium: req.body.premium,
-            settings: req.body.settings,
-            members: req.body.members,
-            groups: req.body.groups,
-            commands: req.body.commands,
-            bindings: req.body.bindings
+            premium: req.body.premium === undefined ? false : req.body.premium,
+            settings: req.body.settings === undefined ? {} : req.body.settings,
+            members: req.body.members === undefined ? [] : req.body.members,
+            groups: req.body.groups === undefined ? [] : req.body.groups,
+            commands: req.body.commands === undefined ? [] : req.body.commands,
+            bindings: req.body.bindings === undefined ? [] : req.body.bindings
         });
         guilds.push(guild);
         guild.save(error => {
@@ -477,12 +481,12 @@ app.route("/guilds/:guild_id").get((req, res) => {
     }
 
     findGuild(req.params.guild_id).then(guild => {
-        guild.premium = req.body.premium;
-        guild.settings = req.body.settings;
-        guild.members = req.body.members;
-        guild.groups = req.body.groups;
-        guild.commands = req.body.commands;
-        guild.bindings = req.body.bindings;
+        guild.premium = req.body.premium === undefined ? false : req.body.premium;
+        guild.settings = req.body.settings === undefined ? {} : req.body.settings;
+        guild.members = req.body.members === undefined ? [] : req.body.members;
+        guild.groups = req.body.groups === undefined ? [] : req.body.groups;
+        guild.commands = req.body.commands === undefined ? [] : req.body.commands;
+        guild.bindings = req.body.bindings === undefined ? [] : req.body.bindings;
         guild.save(error => {
             if (error !== null) {
                 return res.json({error});
@@ -586,11 +590,11 @@ app.route("/guilds/:guild_id/settings").get((req, res) => {
     }
 
     findGuild(req.params.guild_id).then(guild => {
-        guild.settings.prefix = req.body.prefix;
-        guild.settings.fandom = req.body.fandom;
-        guild.settings.logChannel = req.body.logChannel;
-        guild.settings.groundedRole = req.body.groundedRole;
-        guild.settings.teamRoles = req.body.teamRoles;
+        guild.settings.prefix = req.body.prefix === undefined ? "<<" : req.body.prefix;
+        guild.settings.fandom = req.body.fandom === undefined ? "southpark" : req.body.fandom;
+        guild.settings.logChannel = req.body.logChannel === undefined ? "rawrxd" : req.body.logChannel;
+        guild.settings.groundedRole = req.body.groundedRole === undefined ? "lolok" : req.body.groundedRole;
+        guild.settings.teamRoles = req.body.teamRoles === undefined ? [] : req.body.teamRoles;
         guild.save(error => {
             if (error !== null) {
                 return res.json({error});
@@ -658,6 +662,134 @@ app.route("/guilds/:guild_id/settings").get((req, res) => {
             }
             return res.json({ success: "guild settings reset" });
         });
+    }).catch(error => {
+        return res.json({error});
+    });
+});
+//
+
+//
+app.route("/guilds/:guild_id/members").get((req, res) => {
+
+    findGuild(req.params.guild_id).then(guild => {
+        return res.json(guild.members);
+    }).catch(error => {
+        return res.json({error});
+    });
+
+});
+app.route("/guilds/:guild_id/members/:member_id").get((req, res) => {
+
+    findGuild(req.params.guild_id).then(guild => {
+        
+        let member = guild.members.find(e => {
+            return e.id === req.params.member_id;
+        });
+        if (member === undefined) {
+            return res.json({ error: "member not found" });
+        }
+        return res.json(member);
+
+    }).catch(error => {
+        return res.json({error});
+    });
+
+}).put((req, res) => {
+
+    const token = req.headers["xxx-access-token"];
+    if (token === undefined) {
+        return res.json({ error: "access token undefined" });
+    }
+    if (token !== config.api_token_temp) {
+        return res.json({ error: "invalid access token" });
+    }
+
+    findGuild(req.params.guild_id).then(guild => {
+
+        let member = guild.members.find(e => {
+            return e.id === req.params.member_id;
+        });
+        if (member === undefined) {
+            return res.json({ error: "member not found" });
+        }
+        
+        member.stats = req.body.stats === undefined ? [] : req.body.stats;
+        member.badges = req.body.badges === undefined ? [] : req.body.badges;
+
+        guild.save(error => {
+            if (error !== null) {
+                return res.json({error});
+            }
+            return res.json({ success: "guild member updated" });
+        });
+    }).catch(error => {
+        return res.json({error});
+    });
+
+}).patch((req, res) => {
+
+    const token = req.headers["xxx-access-token"];
+    if (token === undefined) {
+        return res.json({ error: "access token undefined" });
+    }
+    if (token !== config.api_token_temp) {
+        return res.json({ error: "invalid access token" });
+    }
+
+    findGuild(req.params.guild_id).then(guild => {
+
+        let member = guild.members.find(e => {
+            return e.id === req.params.member_id;
+        });
+        if (member === undefined) {
+            return res.json({ error: "member not found" });
+        }
+
+        if (req.body.stats !== undefined) {
+            member.stats = req.body.stats;
+        }
+        if (req.body.badges !== undefined) {
+            member.badges = req.body.badges;
+        }
+
+        guild.save(error => {
+            if (error !== null) {
+                return res.json({error});
+            }
+            return res.json({ success: "guild member patched" });
+        });
+    }).catch(error => {
+        return res.json({error});
+    });
+
+}).delete((req, res) => {
+
+    const token = req.headers["xxx-access-token"];
+    if (token === undefined) {
+        return res.json({ error: "access token undefined" });
+    }
+    if (token !== config.api_token_temp) {
+        return res.json({ error: "invalid access token" });
+    }
+
+    findGuild(req.params.guild_id).then(guild => {
+        let found = false;
+        for (let i = 0; i < guild.members.length; i++) {
+            if (guild.members[i].id === req.params.member_id) {
+                guild.members.splice(i, 1);
+                guild.save(error => {
+                    if (error !== null) {
+                        return res.json({error});
+                    }
+                    return res.json({ success: "guild member removed" });
+                });
+                found = true;
+                break;
+            }
+        }
+        if (found === false) {
+            return res.json({ error: "could not find guild" });
+        }
     }).catch(error => {
         return res.json({error});
     });

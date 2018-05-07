@@ -21,7 +21,6 @@ const GuildSchema = new Schema({
     },
     members: [{
         id: String,
-        lastfm: String,
         stats: [{
             name: {
                 type: String,
