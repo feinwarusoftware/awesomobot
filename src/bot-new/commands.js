@@ -3,12 +3,15 @@
 const discord = require("discord.js");
 const moment = require("moment");
 const momentTz = require("moment-timezone");
+const path = require("path");
 
 const utils = require("./utils");
 const spnav = require("./api/spnav");
 const lastfm = require("./api/lastfm");
 const logConstants = utils.logger;
 const logger = utils.globLogger;
+
+const jimp = require("jimp");
 
 // EXPERIMENTAL
 const vm = require("vm");
@@ -540,6 +543,38 @@ const commands = [
 
                 }, 5000);
             }
+        }
+    }),
+    new Command({
+        name: "pd test",
+        desc: "a test command for testing lol",
+        type: "command",
+        match: "cardtest",
+        call: function (client, message, guild) {
+
+            const text = message.content.split(" ")[1];
+            if (text === undefined) {
+                return;
+            }
+
+            jimp.read(path.join(__dirname, "assets", "card_base.png")).then(cardBase => {
+                jimp.loadFont(path.join(__dirname, "assets", "font.fnt")).then(spFont => {
+
+                    cardBase.print(spFont, 50, 370, text);
+
+                    cardBase.write(path.join(__dirname, "assets", "temp.png"), () => {
+
+                        message.channel.send("", {
+                            file: path.join(__dirname, "assets", "temp.png")
+                        });
+                    });
+
+                }).catch(error => {
+                    console.log(error);
+                });
+            }).catch(error => {
+                console.log(error);
+            });
         }
     }),
     new Command({
@@ -1445,6 +1480,11 @@ const commands = [
         continue: true,
         match: "",
         call: function (client, message, guild) {
+
+            // Ignores towelbot and betabot.
+            if (message.author.id === "431126638625816587" || message.author.id === "372462428690055169") {
+                return;
+            }
 
             let memberIndex;
             for (let i = 0; i < guild.members.length; i++) {
