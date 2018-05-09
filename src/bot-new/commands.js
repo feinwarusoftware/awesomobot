@@ -633,6 +633,8 @@ const commands = [
         match: ["activetop", "activelist"],
         call: function (client, message, guild) {
 
+            guild.members = guild.members.reverse();
+
             guild.members.sort((a, b) => {
 
                 let activityA = a.stats.find( e => {
@@ -642,7 +644,7 @@ const commands = [
                     return e.name === "activity";
                 });
                 if ((activityA === undefined || activityA === null) && (activityB === undefined || activityB === null)) {
-                    return Number.MAX_SAFE_INTEGER;
+                    return -1;
                 }
                 if (activityA === undefined || activityA === null) {
                     return activityB.value;
@@ -794,6 +796,8 @@ const commands = [
         match: ["shittop", "shitlist"],
         call: function (client, message, guild) {
 
+            guild.members = guild.members.reverse();
+
             guild.members.sort((a, b) => {
 
                 let shitsA = a.stats.find( e => {
@@ -802,13 +806,13 @@ const commands = [
                 let shitsB = b.stats.find(e => {
                     return e.name === "shits";
                 });
-                if (shitsA === undefined && shitsB === undefined) {
-                    return Number.MIN_SAFE_INTEGER;
+                if ((shitsA === undefined || shitsA === null) && (shitsB === undefined || shitsB === null)) {
+                    return -1;
                 }
-                if (shitsA === undefined) {
+                if (shitsA === undefined || shitsA === null) {
                     return shitsB.value;
                 }
-                if (shitsB === undefined) {
+                if (shitsB === undefined || shitsB === null) {
                     return shitsA.value;
                 }
 
