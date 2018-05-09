@@ -642,7 +642,7 @@ const commands = [
                     return e.name === "activity";
                 });
                 if ((activityA === undefined || activityA === null) && (activityB === undefined || activityB === null)) {
-                    return -1;
+                    return Number.MAX_SAFE_INTEGER;
                 }
                 if (activityA === undefined || activityA === null) {
                     return activityB.value;
