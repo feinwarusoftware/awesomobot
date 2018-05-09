@@ -555,6 +555,23 @@ client.on("messageReactionRemove", (messageReaction, user) => {
 
 });
 
+client.on("guildMemberAdd", member => {
+    
+    // Sticky grounded.
+    if (member.user.id !== "336185905587027969") {
+        return;
+    }
+
+    let groundedRole = member.guild.roles.find(e => {
+        return e.name === "Grounded";
+    });
+    if (groundedRole === undefined || groundedRole === null) {
+        return;
+    }
+
+    member.addRole(groundedRole);
+});
+
 client.login(config.token);
 
 // API.
