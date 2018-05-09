@@ -662,9 +662,6 @@ const commands = [
 
             let topx = guild.members.length > 5 ? 5 : guild.members.length;
 
-            message.reply(JSON.stringify(guild.members[0]));
-            message.reply(JSON.stringify(guild.members[1]));
-
             for (let i = 0; i < topx; i++) {
 
                 let member = message.guild.members.find(e => {
