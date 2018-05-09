@@ -679,8 +679,8 @@ const commands = [
                     return e.name === "activity";
                 });
                 if (activity === undefined || activity === null) {
-                    message.reply("break;");
-                    break;
+                    message.reply("continue;");
+                    continue;
                 }
 
                 embed.addField(`#${i + 1}`, `${member.user.username} - ${activity.value}`);
@@ -838,7 +838,7 @@ const commands = [
                     return e.name === "shits";
                 });
                 if (shits === undefined || shits === null) {
-                    break;
+                    continue;
                 }
 
                 embed.addField(`#${i + 1}`, `${member.user.username} - ${shits.value}`);
