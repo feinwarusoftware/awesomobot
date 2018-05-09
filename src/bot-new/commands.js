@@ -605,7 +605,7 @@ const commands = [
                 let member = message.guild.members.find(e => {
                     return e.id === guild.members[i].id;
                 });
-                if (member === undefined) {
+                if (member === undefined || member === null) {
                     member = {
                         user: {
                             username: "null"
@@ -616,7 +616,7 @@ const commands = [
                 let activity = guild.members[i].stats.find(e => {
                     return e.name === "activity";
                 });
-                if (activity === undefined) {
+                if (activity === undefined || activity === null) {
                     break;
                 }
                 
@@ -665,7 +665,7 @@ const commands = [
                 let member = message.guild.members.find(e => {
                     return e.id === guild.members[i].id;
                 });
-                if (member === undefined) {
+                if (member === undefined || member === null) {
                     member = {
                         user: {
                             username: "null"
@@ -676,7 +676,7 @@ const commands = [
                 let activity = guild.members[i].stats.find(e => {
                     return e.name === "activity";
                 });
-                if (activity === undefined) {
+                if (activity === undefined || activity === null) {
                     break;
                 }
 
@@ -696,7 +696,7 @@ const commands = [
             let member = guild.members.find(e => {
                 return e.id === message.author.id;
             });
-            if (member === undefined) {
+            if (member === undefined || member === null) {
 
                 message.reply("your activity score is: 0");
                 return;
@@ -705,7 +705,7 @@ const commands = [
             let stat = member.stats.find(e => {
                 return e.name === "activity";
             });
-            if (stat === undefined) {
+            if (stat === undefined || stat === null) {
 
                 message.reply("your activity score is: 0");
                 return;
@@ -763,7 +763,7 @@ const commands = [
                 let member = message.guild.members.find(e => {
                     return e.id === guild.members[i].id;
                 });
-                if (member === undefined) {
+                if (member === undefined || member === null) {
                     member = {
                         user: {
                             username: "null"
@@ -774,7 +774,7 @@ const commands = [
                 let shits = guild.members[i].stats.find(e => {
                     return e.name === "shits";
                 });
-                if (shits === undefined) {
+                if (shits === undefined || shits === null) {
                     break;
                 }
                 
@@ -823,7 +823,7 @@ const commands = [
                 let member = message.guild.members.find(e => {
                     return e.id === guild.members[i].id;
                 });
-                if (member === undefined) {
+                if (member === undefined || member === null) {
                     member = {
                         user: {
                             username: "null"
@@ -834,7 +834,7 @@ const commands = [
                 let shits = guild.members[i].stats.find(e => {
                     return e.name === "shits";
                 });
-                if (shits === undefined) {
+                if (shits === undefined || shits === null) {
                     break;
                 }
 
@@ -854,7 +854,7 @@ const commands = [
             let member = guild.members.find(e => {
                 return e.id === message.author.id;
             });
-            if (member === undefined) {
+            if (member === undefined || member === null) {
 
                 message.reply("your shit score is: 0");
                 return;
@@ -863,7 +863,7 @@ const commands = [
             let stat = member.stats.find(e => {
                 return e.name === "shits";
             });
-            if (stat === undefined) {
+            if (stat === undefined || stat === null) {
 
                 message.reply("your shit score is: 0");
                 return;
