@@ -566,7 +566,7 @@ const commands = [
 
             guild.members.sort((a, b) => {
 
-                let activityA = a.stats.find( e => {
+                let activityA = a.stats.find(e => {
                     return e.name === "activity";
                 });
                 let activityB = b.stats.find(e => {
@@ -588,7 +588,7 @@ const commands = [
             let embed = new discord.RichEmbed()
                 .setColor(0x8bc34a)
                 .setAuthor(`AWESOM-O // Activity ${message.author.username} +- 2`, "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
-        
+
             let memberIndex;
             for (let i = 0; i < guild.members.length; i++) {
                 if (guild.members[i].id === message.author.id) {
@@ -598,7 +598,7 @@ const commands = [
             }
 
             let start = memberIndex - 2 > 0 ? memberIndex - 2 : 0;
-            let end = memberIndex + 2 > guild.members.length - 1 ? guild.members.length - 1 : memberIndex + 2; 
+            let end = memberIndex + 2 > guild.members.length - 1 ? guild.members.length - 1 : memberIndex + 2;
 
             for (let i = start; i < end + 1; i++) {
 
@@ -619,7 +619,7 @@ const commands = [
                 if (activity === undefined || activity === null) {
                     break;
                 }
-                
+
                 embed.addField(`${i === memberIndex ? `**#${i + 1}**` : `#${i + 1}`}`, `${i === memberIndex ? `**${member.user.username} - ${activity.value}**` : `${member.user.username} - ${activity.value}`}`);
             }
 
@@ -637,7 +637,7 @@ const commands = [
 
             guild.members.sort((a, b) => {
 
-                let activityA = a.stats.find( e => {
+                let activityA = a.stats.find(e => {
                     return e.name === "activity";
                 });
                 let activityB = b.stats.find(e => {
@@ -726,7 +726,7 @@ const commands = [
 
             guild.members.sort((a, b) => {
 
-                let shitsA = a.stats.find( e => {
+                let shitsA = a.stats.find(e => {
                     return e.name === "shits";
                 });
                 let shitsB = b.stats.find(e => {
@@ -748,7 +748,7 @@ const commands = [
             let embed = new discord.RichEmbed()
                 .setColor(0x8bc34a)
                 .setAuthor(`AWESOM-O // Shits ${message.author.username} +- 2`, "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846");
-        
+
             let memberIndex;
             for (let i = 0; i < guild.members.length; i++) {
                 if (guild.members[i].id === message.author.id) {
@@ -779,7 +779,7 @@ const commands = [
                 if (shits === undefined || shits === null) {
                     break;
                 }
-                
+
                 embed.addField(`${i === memberIndex ? `**#${i + 1}**` : `#${i + 1}`}`, `${i === memberIndex ? `**${member.user.username} - ${shits.value}**` : `${member.user.username} - ${shits.value}`}`);
             }
 
@@ -797,7 +797,7 @@ const commands = [
 
             guild.members.sort((a, b) => {
 
-                let shitsA = a.stats.find( e => {
+                let shitsA = a.stats.find(e => {
                     return e.name === "shits";
                 });
                 let shitsB = b.stats.find(e => {
@@ -1091,7 +1091,7 @@ const commands = [
                         }
                     } else {
                         let embed = new discord.RichEmbed();
-        
+
                         const fields = [
                             "author",
                             "color",
@@ -1100,17 +1100,17 @@ const commands = [
                             "image",
                             "thumbnail"
                         ];
-            
+
                         function findNext(start) {
                             let index = -1;
                             for (let i = 0; i < fields.length; i++) {
                                 let pos = response.indexOf("--" + fields[i], start)
                                 if (pos !== -1) {
-                                    
+
                                     if (index === -1) {
                                         index = pos;
                                     }
-            
+
                                     if (pos < index) {
                                         index = pos;
                                     }
@@ -1118,20 +1118,20 @@ const commands = [
                             }
                             return index;
                         }
-            
+
                         let start = findNext(0);
                         while (start !== response.length) {
-            
+
                             let end = findNext(start + 1);
                             if (end === -1) {
                                 end = response.length;
                             }
-            
+
                             let field = response.substring(start + 2, response.indexOf(" ", start));
                             if (field === -1) {
                                 reject("well the bot fucking broke");
                             }
-            
+
                             let index;
                             for (let i = 0; i < fields.length; i++) {
                                 if (fields[i] === field) {
@@ -1142,9 +1142,9 @@ const commands = [
                             if (index === undefined) {
                                 reject("well the bot fucking broke");
                             }
-            
+
                             let value = response.substring(start + fields[index].length + 2, end).trim();
-            
+
                             switch (fields[index]) {
                                 case "author":
                                     embed.setAuthor(value);
@@ -1165,14 +1165,14 @@ const commands = [
                                     embed.setThumbnail(value);
                                     break;
                             }
-            
+
                             start = end;
                         }
-            
+
                         if (embed.description !== undefined) {
                             embed.description = embed.description.replace(/\\n/g, "\n");
                         }
-            
+
                         message.channel.send(embed).then(() => {
                             return resolve();
                         }).catch(error => {
@@ -1829,7 +1829,7 @@ const commands = [
                 .setThumbnail("https://vignette.wikia.nocookie.net/southpark/images/6/6d/Awesomo-0.png/revision/latest?cb=20170601014435")
                 .setTitle("Your all purpose South Park Bot!")
                 .addField("-help for a list of commands", "If a command is missing, feel free to inform us")
-                .addField("Crafted with love by Dragon1320 and Mattheous. ♥", "Additional credit goes out to TowelRoyale for the amazing art")
+                .addField("Crafted with love by Dragon1320, Mattheous and TowelRoyale. ♥")
                 .addField("Online Dashboard", "https://awesomobot.com/")
                 .setFooter("This bot is pretty schweet!"));
         }
@@ -2308,6 +2308,144 @@ const commands = [
             message.reply("", {
                 file: buttersimg[Math.floor(Math.random() * buttersimg.length)]
             });
+        }
+    }),
+    new Command({
+        name: "sticky role add",
+        desc: "(no description)",
+        type: "command",
+        match: "stickadd",
+        call: function (client, message, guild) {
+
+            let args = message.content.split(" ");
+            if (args[1] === undefined) {
+                message.reply("you didn't finish the command. Weak. **Missing member ID!**");
+                return;
+            }
+
+            if (args[2] === undefined) {
+                message.reply("you didn't finish the command. Weak. **Missing role ID!**");
+                return;
+            }
+
+            let found = false;
+
+            let members = message.guild.members.array();
+
+            for (let i = 0; i < members.length; i++) {
+                if (members[i].id === args[1]) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found === false) {
+                message.reply("you screwed up the command. Lame. **Wrong member ID!**");
+                return;
+            }
+
+            found = false;
+
+            let roles = message.guild.roles.array();
+
+            for (let i = 0; i < roles.length; i++) {
+                if (roles[i].id === args[2]) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found === false) {
+                message.reply("you screwed up the command. Lame. **Wrong role ID!**");
+                return;
+            }
+
+            let dbMember;
+
+            for (let i = 0; i < guild.members.length; i++) {
+                if (guild.members[i].id === args[1]) {
+                    dbMember = guild.members[i];
+                    break;
+                }
+            }
+            if (dbMember === undefined){
+                dbMember = {
+                    id: args[1],
+                    roles: []
+                };
+                dbMember.roles.push(args[2]);
+                guild.members.push(dbMember);
+            }
+            dbMember.roles.push(args[2]);
+            message.reply("sticky role addition successful. **Epic.**");
+        }
+    }),
+    new Command({
+        name: "sticky role remove",
+        desc: "(no description)",
+        type: "command",
+        match: "stickremove",
+        call: function (client, message, guild) {
+
+            let args = message.content.split(" ");
+            if (args[1] === undefined) {
+                message.reply("you didn't finish the command. Weak. **Missing member ID!**");
+                return;
+            }
+
+            if (args[2] === undefined) {
+                message.reply("you didn't finish the command. Weak. **Missing role ID!**");
+                return;
+            }
+
+            let found = false;
+
+            let members = message.guild.members.array();
+
+            for (let i = 0; i < members.length; i++) {
+                if (members[i].id === args[1]) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found === false) {
+                message.reply("you screwed up the command. Lame. **Wrong member ID!**");
+                return;
+            }
+
+            found = false;
+
+            let roles = message.guild.roles.array();
+
+            for (let i = 0; i < roles.length; i++) {
+                if (roles[i].id === args[2]) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found === false) {
+                message.reply("you screwed up the command. Lame. **Wrong role ID!**");
+                return;
+            }
+
+            let dbMember;
+
+            for (let i = 0; i < guild.members.length; i++) {
+                if (guild.members[i].id === args[1]) {
+                    dbMember = guild.members[i];
+                    break;
+                }
+            }
+            if (dbMember === undefined){
+                message.reply("this user does not have any sticky roles. Super lame.");
+                return;            
+            }
+            for (let i = 0; i < dbMember.roles.length; i++){
+                if(dbMember.roles[i].id === args[2]){
+                    dbMember.roles.splice(i, 1);
+                    message.reply("sticky role removal successful. **Epic.**");
+                    return;
+                }
+            }
+            message.reply("this user does not have this role. Critical failure. Bot shutting down.");
         }
     })
 ];

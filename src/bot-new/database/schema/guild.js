@@ -34,7 +34,8 @@ const GuildSchema = new Schema({
                 lowercase: true
             },
             value: { type: Boolean, default: false }
-        }]
+        }],
+        roles: [String] 
     }],
     groups: [{
         name: {

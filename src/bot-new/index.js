@@ -557,19 +557,34 @@ client.on("messageReactionRemove", (messageReaction, user) => {
 
 client.on("guildMemberAdd", member => {
     
-    // Sticky grounded.
-    if (member.user.id !== "336185905587027969") {
-        return;
-    }
+    findGuild(member.guild.id).then(guild => {
+        
+        let dbMember;
 
-    let groundedRole = member.guild.roles.find(e => {
-        return e.name === "Grounded";
+        for (let i = 0; i < guild.members.length; i++){
+            if (guild.members[i].id === member.user.id){
+                dbMember = guild.members[i];
+                break;
+            }
+        }
+        if (dbMember === undefined){
+            return;
+        }
+
+        let roles = member.guild.roles.array();
+
+        for (let i = 0; i < dbMember.roles.length; i++){
+            for (let j = 0; j < roles.length; j++){
+                if (dbMember.roles[i] === roles[j].id){
+                    member.addRole(roles[j]);
+                    break;
+                }
+            }
+        }
+
+    }).catch(error =>{
+        condole.log(error);
     });
-    if (groundedRole === undefined || groundedRole === null) {
-        return;
-    }
-
-    member.addRole(groundedRole);
 });
 
 client.login(config.token);
