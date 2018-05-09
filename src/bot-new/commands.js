@@ -660,6 +660,8 @@ const commands = [
 
             let topx = guild.members.length > 5 ? 5 : guild.members.length;
 
+            message.reply(`topx: ${topx}`);
+
             for (let i = 0; i < topx; i++) {
 
                 let member = message.guild.members.find(e => {
@@ -677,6 +679,7 @@ const commands = [
                     return e.name === "activity";
                 });
                 if (activity === undefined || activity === null) {
+                    message.reply("break;");
                     break;
                 }
 
