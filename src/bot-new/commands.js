@@ -660,7 +660,8 @@ const commands = [
 
             let topx = guild.members.length > 5 ? 5 : guild.members.length;
 
-            message.reply(`topx: ${topx}`);
+            message.reply(JSON.stringify(guild.members[0]));
+            message.reply(JSON.stringify(guild.members[1]));
 
             for (let i = 0; i < topx; i++) {
 
@@ -679,7 +680,6 @@ const commands = [
                     return e.name === "activity";
                 });
                 if (activity === undefined || activity === null) {
-                    message.reply("continue;");
                     continue;
                 }
 
