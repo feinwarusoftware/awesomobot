@@ -641,13 +641,13 @@ const commands = [
                 let activityB = b.stats.find(e => {
                     return e.name === "activity";
                 });
-                if (activityA === undefined && activityB === undefined) {
-                    return Number.MIN_SAFE_INTEGER;
+                if ((activityA === undefined || activityA === null) && (activityB === undefined || activityB === null)) {
+                    return -1;
                 }
-                if (activityA === undefined) {
+                if (activityA === undefined || activityA === null) {
                     return activityB.value;
                 }
-                if (activityB === undefined) {
+                if (activityB === undefined || activityB === null) {
                     return activityA.value;
                 }
 
