@@ -47,6 +47,7 @@ class Command {
 
         logger.log(logConstants.LOG_DEBUG, "command found");
 
+        //
         let defaultGroup;
         for (let i = 0; i < guild.groups.length; i++) {
             if (guild.groups[i].name === "def") {
@@ -54,19 +55,21 @@ class Command {
                 break;
             }
         }
+        //
 
         //groups
         let current = guild.commands.find(e => {
             return e.name == this.data.name;
         });
-        if (current === undefined && defaultGroup === undefined) {
-            logger.log(logConstants.LOG_DEBUG, "no local group data found for command, skipping group check");
-            return true;
-        }
         if (current === undefined) {
+            if (defaultGroup === undefined) {
+                logger.log(logConstants.LOG_DEBUG, "no local group data found for command, skipping group check");
+                return true;
+            }
             current = {
-                group: "def"
-            };
+                name: this.data.name,
+                group: defaultGroup.name
+            }
         }
 
         if (current.group == "") {
@@ -91,33 +94,10 @@ class Command {
             }
         }
 
-        /*
-        let inherits = guild.groups.filter(e => {
-            for (let i = 0; i < group.inherits.length; i++) {
-                if (group.inherits[i] === e.name) {
-                    return true;
-                }
-            }
-            return false;
-        });
-        */
         if (!inherits || inherits.length != group.inherits.length) {
             logger.log(logConstants.LOG_DEBUG, "inherited group(s) not found, failing command check");
             return false;
         }
-
-        // Always inherit a group called 'default'.
-        let alreadyInherited = false;
-        for (let i = 0; i < inherits.length; i++) {
-            if (inherits[i].name === "def") {
-                alreadyInherited = true;
-                break;
-            }
-        }
-        if (alreadyInherited === false && defaultGroup !== undefined) {
-            inherits.push(defaultGroup);
-        }
-        //
 
         inherits.unshift(group);
 
