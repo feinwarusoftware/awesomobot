@@ -634,8 +634,6 @@ const commands = [
         match: ["activetop", "activelist"],
         call: function (client, message, guild) {
 
-            guild.members = guild.members.reverse();
-
             guild.members.sort((a, b) => {
 
                 let activityA = a.stats.find( e => {
@@ -795,8 +793,6 @@ const commands = [
         type: "command",
         match: ["shittop", "shitlist"],
         call: function (client, message, guild) {
-
-            //guild.members = guild.members.reverse();
 
             guild.members.sort((a, b) => {
 
