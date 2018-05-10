@@ -2435,17 +2435,17 @@ const commands = [
                 }
             }
             if (dbMember === undefined){
-                message.reply("this user does not have any sticky roles. Super lame.");
+                message.reply("this user does not have any sticky roles. **Super lame.**");
                 return;            
             }
             for (let i = 0; i < dbMember.roles.length; i++){
-                if(dbMember.roles[i].id === args[2]){
+                if(dbMember.roles[i] === args[2]){
                     dbMember.roles.splice(i, 1);
                     message.reply("sticky role removal successful. **Epic.**");
                     return;
                 }
             }
-            message.reply("this user does not have this role. Critical failure. Bot shutting down.");
+            message.reply("this user does not have this role. **Critical failure. Bot shutting down.**");
         }
     })
 ];
