@@ -82,14 +82,33 @@ client.on("ready", () => {
 
                     dbGuild.settings.roleMessage = message.id;
                     
+                    let reactPromises = [];
+
                     for (let j = 0; j < dbTeamRoles.length; j++) {
-    
                         if (dbTeamRoles[j].emoji === undefined) {
                             continue;
                         }
-    
-                        message.react(message.guild.emojis.get(dbTeamRoles[j].emoji));
+                        if (dbTeamRoles[j].exclusive === false) {
+                            continue;
+                        }
+
+                        reactPromises.push(message.react(message.guild.emojis.get(dbTeamRoles[j].emoji)));
                     }
+
+                    Promise.all(reactPromises).then(() => {
+
+                        for (let j = 0; j < dbTeamRoles.length; j++) {
+                            if (dbTeamRoles[j].emoji === undefined) {
+                                continue;
+                            }
+                            if (dbTeamRoles[j].exclusive === true) {
+                                continue;
+                            }
+    
+                            message.react(message.guild.emojis.get(dbTeamRoles[j].emoji));
+                        }
+                    });
+
                 }).catch(error => {
                     console.log(error);
                 });
