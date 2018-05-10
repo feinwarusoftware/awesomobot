@@ -10,13 +10,17 @@ const GuildSchema = new Schema({
         prefix: { type: String, default: "<<" },
         fandom: { type: String, default: "southpark" },
         logChannel: String,
+        roleChannel: String,
+        roleMessage: String,
         groundedRole: String,
         teamRoles: [{
             alias: {
                 type: String,
                 lowercase: true
             },
-            id: String
+            id: String,
+            emoji: String,
+            exclusive: Boolean
         }]
     },
     members: [{

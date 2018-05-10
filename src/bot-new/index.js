@@ -378,20 +378,62 @@ client.on("message", message => {
     //logger.log(logConstants.LOG_DEBUG, "message was not a command or command check failed");
 });
 
-client.on("messageDelete", function (message) {
-    logger.log(logConstants.LOG_DEBUG, "message deleted in guild: "+message.guild.id);
-});
-
-// Workaround cos discord.js sucks dick.
-let reactionMessageId;
-
+/*
 client.on("messageReactionAdd", function (messageReaction, user) {
 
+    findGuild(messageReaction.message.guild.id).then(dbGuild => {
+
+        const dbRoleChannelId = dbGuild.settings.roleChannel;
+        const dbRoleMessageId = dbGuild.settings.roleMessage;
+        const dbTeamRoles = dbGuild.settings.teamRoles;
+
+        if (messageReaction.message.id !== dbRoleMessageId) {
+            return;
+        }
+
+        //messageReaction.emoji.id
+
+        const dbTeamRole = dbTeamRoles.find(e => {
+            return e.emoji === messageReaction.emoji.id;
+        });
+        if (dbTeamRole === undefined || dbTeamRole === null) {
+            messageReaction.message.channel.send("team role not found in database");
+            return;
+        }
+
+        const teamRole = messageReaction.message.guild.roles.find(e => {
+            return e.id === dbTeamRole.id;
+        });
+        if (teamRole === undefined || teamRole === null) {
+            messageReaction.message.channel.send("team role doesnt exist in guild");
+            return;
+        }
+
+        const member = messageReaction.message.guild.members.find(e => {
+            return e.user.id === user.id;
+        });
+        if (member === undefined || member === null) {
+            messageReaction.message.channel.send("member doesnt exist in guild");
+            return;
+        }
+
+        const memberRole = member.roles.find(e => {
+            return e.id === teamRole.id;
+        });
+        if (memberRole === undefined || memberRole === null) {
+            member.addRole(teamRole);
+            return;
+        }
+
+    }).catch(error => {
+        console.log(error);
+    });
 });
 
 client.on("messageReactionRemove", (messageReaction, user) => {
 
 });
+*/
 
 client.on("guildMemberAdd", member => {
     
@@ -428,7 +470,6 @@ client.on("guildMemberAdd", member => {
 client.login(config.token);
 
 // API.
-
 const app = express();
 const port = "3002";
 const server = http.createServer(app);
