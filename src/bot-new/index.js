@@ -503,6 +503,9 @@ client.on("messageReactionAdd", function (messageReaction, user) {
         }
 
         for (let i = 0; i < dbTeamRoles.length; i++) {
+            if (dbTeamRole.exclusive === false) {
+                break;
+            }
             if (dbTeamRoles[i].id === dbTeamRole.id) {
                 continue;
             }
