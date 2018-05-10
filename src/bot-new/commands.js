@@ -572,14 +572,15 @@ const commands = [
                 let activityB = b.stats.find(e => {
                     return e.name === "activity";
                 });
-                if (activityA === undefined && activityB === undefined) {
-                    return Number.MIN_SAFE_INTEGER;
-                }
                 if (activityA === undefined) {
-                    return activityB.value;
+                    activityA = {
+                        value: 0
+                    }
                 }
                 if (activityB === undefined) {
-                    return activityA.value;
+                    activityB = {
+                        value: 0
+                    }
                 }
 
                 return activityB.value - activityA.value;
@@ -643,14 +644,15 @@ const commands = [
                 let activityB = b.stats.find(e => {
                     return e.name === "activity";
                 });
-                if ((activityA === undefined || activityA === null) && (activityB === undefined || activityB === null)) {
-                    return -1;
+                if (activityA === undefined) {
+                    activityA = {
+                        value: 0
+                    }
                 }
-                if (activityA === undefined || activityA === null) {
-                    return activityB.value;
-                }
-                if (activityB === undefined || activityB === null) {
-                    return activityA.value;
+                if (activityB === undefined) {
+                    activityB = {
+                        value: 0
+                    }
                 }
 
                 return activityB.value - activityA.value;
@@ -732,14 +734,15 @@ const commands = [
                 let shitsB = b.stats.find(e => {
                     return e.name === "shits";
                 });
-                if (shitsA === undefined && shitsB === undefined) {
-                    return Number.MIN_SAFE_INTEGER;
-                }
                 if (shitsA === undefined) {
-                    return shitsB.value;
+                    shitsA = {
+                        value: 0
+                    }
                 }
                 if (shitsB === undefined) {
-                    return shitsA.value;
+                    shitsB = {
+                        value: 0
+                    }
                 }
 
                 return shitsB.value - shitsA.value;
@@ -793,7 +796,7 @@ const commands = [
         match: ["shittop", "shitlist"],
         call: function (client, message, guild) {
 
-            guild.members = guild.members.reverse();
+            //guild.members = guild.members.reverse();
 
             guild.members.sort((a, b) => {
 
@@ -803,14 +806,15 @@ const commands = [
                 let shitsB = b.stats.find(e => {
                     return e.name === "shits";
                 });
-                if ((shitsA === undefined || shitsA === null) && (shitsB === undefined || shitsB === null)) {
-                    return -1;
+                if (shitsA === undefined) {
+                    shitsA = {
+                        value: 0
+                    }
                 }
-                if (shitsA === undefined || shitsA === null) {
-                    return shitsB.value;
-                }
-                if (shitsB === undefined || shitsB === null) {
-                    return shitsA.value;
+                if (shitsB === undefined) {
+                    shitsB = {
+                        value: 0
+                    }
                 }
 
                 return shitsB.value - shitsA.value;
