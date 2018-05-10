@@ -13,6 +13,7 @@ const GuildSchema = new Schema({
         roleChannel: String,
         roleMessage: String,
         groundedRole: String,
+        roleSwitchTimeout: { type: Number, default: 5 },
         teamRoles: [{
             alias: {
                 type: String,
@@ -25,6 +26,7 @@ const GuildSchema = new Schema({
     },
     members: [{
         id: String,
+        lastRoleChange: { type: Date, default: Date.now },
         stats: [{
             name: {
                 type: String,

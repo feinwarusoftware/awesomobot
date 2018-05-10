@@ -51,7 +51,57 @@ setInterval(() => {
     }
 }, 5000);
 
-client.on("ready", message => {
+client.on("ready", () => {
+
+    let guilds = client.guilds.array();
+
+    for (let i = 0; i < guilds.length; i++) {
+
+        findGuild(guilds[i].id).then(dbGuild => {
+
+            const dbRoleChannelId = dbGuild.settings.roleChannel;
+            if (dbRoleChannelId === undefined) {
+                return;
+            }
+
+            const dbTeamRoles = dbGuild.settings.teamRoles;
+            if (dbTeamRoles === undefined || dbTeamRoles.length === 0) {
+                return;
+            }
+    
+            let channel = guilds[i].channels.find(e => {
+                return e.id === dbRoleChannelId;
+            });
+            if (channel === undefined) {
+                return;
+            }
+
+            channel.bulkDelete(20, true).then(() => {
+
+                channel.send("placeholder").then(message => {
+
+                    dbGuild.settings.roleMessage = message.id;
+                    
+                    for (let j = 0; j < dbTeamRoles.length; j++) {
+    
+                        if (dbTeamRoles[j].emoji === undefined) {
+                            continue;
+                        }
+    
+                        message.react(message.guild.emojis.get(dbTeamRoles[j].emoji));
+                    }
+                }).catch(error => {
+                    console.log(error);
+                });
+
+            }).catch(error => {
+                console.log(error);
+            });
+
+        }).catch(error => {
+            console.log(error);
+        });
+    }
 
     client.user.setGame(`v2.2 | awesomobeta`);
     logger.log(logConstants.LOG_INFO, "Bot loaded successfully!");
@@ -378,8 +428,140 @@ client.on("message", message => {
     //logger.log(logConstants.LOG_DEBUG, "message was not a command or command check failed");
 });
 
-/*
 client.on("messageReactionAdd", function (messageReaction, user) {
+
+    findGuild(messageReaction.message.guild.id).then(dbGuild => {
+
+        const dbRoleChannelId = dbGuild.settings.roleChannel;
+        const dbRoleMessageId = dbGuild.settings.roleMessage;
+        const dbTeamRoles = dbGuild.settings.teamRoles;
+        const dbRoleSwitchTimeout = dbGuild.settings.roleSwitchTimeout;
+
+        if (messageReaction.message.id !== dbRoleMessageId) {
+            return;
+        }
+
+        const dbMember = dbGuild.members.find(e => {
+            return e.id === user.id;
+        });
+        if (dbMember === undefined || dbMember === null) {
+            dbMember = {
+                id: user.id
+            }
+            dbGuild.members.push(dbMember);
+
+        } else if (user.id !== client.user.id) {
+            if ((Date.now() - dbMember.lastRoleChange) / 1000 < dbRoleSwitchTimeout) {
+                messageReaction.remove(user);
+                messageReaction.message.channel.send(`<@${user.id}>, you can only select a role once every 15 seconds`).then(message => {
+                    setTimeout(() => {
+                        message.delete();
+                    }, 2000);
+                }).catch(error => {
+                    console.log(error);
+                });
+                return;
+            }
+        }
+
+        dbMember.lastRoleChange = Date.now();
+
+        const dbTeamRole = dbTeamRoles.find(e => {
+            return e.emoji === messageReaction.emoji.id;
+        });
+        if (dbTeamRole === undefined || dbTeamRole === null) {
+            messageReaction.message.channel.send("team role not found in database");
+            return;
+        }
+
+        const teamRole = messageReaction.message.guild.roles.find(e => {
+            return e.id === dbTeamRole.id;
+        });
+        if (teamRole === undefined || teamRole === null) {
+            messageReaction.message.channel.send("team role doesnt exist in guild");
+            return;
+        }
+
+        const member = messageReaction.message.guild.members.find(e => {
+            return e.user.id === user.id;
+        });
+        if (member === undefined || member === null) {
+            messageReaction.message.channel.send("member doesnt exist in guild");
+            return;
+        }
+
+        const memberRole = member.roles.find(e => {
+            return e.id === teamRole.id;
+        });
+        if (memberRole !== undefined && memberRole !== null) {
+            messageReaction.message.channel.send(`<@${user.id}>, you are already part of ${teamRole.name}`).then(message => {
+                setTimeout(() => {
+                    message.delete();
+                }, 2000);
+            });
+            return;
+        }
+
+        for (let i = 0; i < dbTeamRoles.length; i++) {
+            if (dbTeamRoles[i].id === dbTeamRole.id) {
+                continue;
+            }
+            if (dbTeamRoles[i].exclusive === false) {
+                continue;
+            }
+
+            let oldRole = member.roles.find(e => {
+                return e.id === dbTeamRoles[i].id;
+            });
+            if (oldRole === undefined || oldRole === null) {
+                continue;
+            }
+
+            member.removeRole(oldRole).then(() => {
+                messageReaction.message.channel.send(`<@${user.id}>, you have left ${oldRole.name}`).then(message => {
+                    setTimeout(() => {
+                        message.delete();
+                    }, 2000);
+                });
+            }).catch(error => {
+                console.log(error);
+            });
+
+            let oldReact = messageReaction.message.reactions.find(e => {
+                return e.emoji.id === dbTeamRoles[i].emoji;
+            });
+            if (oldReact === undefined || oldReact === null) {
+                continue;
+            }
+
+            let oldReactUser = oldReact.users.find(e => {
+                return e.id === user.id;
+            });
+            if (oldReactUser === undefined || oldReactUser === null) {
+                continue;
+            }
+
+            if (user.id !== client.user.id) {
+                oldReact.remove(user);
+            }
+        }
+
+        member.addRole(teamRole).then(() => {
+            messageReaction.message.channel.send(`<@${user.id}>, you are now part of ${teamRole.name}`).then(message => {
+                setTimeout(() => {
+                    message.delete();
+                }, 2000);
+            });
+        }).catch(error => {
+            console.log(error);
+        });
+
+    }).catch(error => {
+        console.log(error);
+    });
+});
+
+client.on("messageReactionRemove", (messageReaction, user) => {
 
     findGuild(messageReaction.message.guild.id).then(dbGuild => {
 
@@ -390,8 +572,6 @@ client.on("messageReactionAdd", function (messageReaction, user) {
         if (messageReaction.message.id !== dbRoleMessageId) {
             return;
         }
-
-        //messageReaction.emoji.id
 
         const dbTeamRole = dbTeamRoles.find(e => {
             return e.emoji === messageReaction.emoji.id;
@@ -421,19 +601,28 @@ client.on("messageReactionAdd", function (messageReaction, user) {
             return e.id === teamRole.id;
         });
         if (memberRole === undefined || memberRole === null) {
-            member.addRole(teamRole);
+            messageReaction.message.channel.send(`<@${user.id}>, youre not a part of ${teamRole.name}`).then(message => {
+                setTimeout(() => {
+                    message.delete();
+                }, 2000);
+            });
             return;
         }
+
+        member.removeRole(teamRole).then(() => {
+            messageReaction.message.channel.send(`<@${user.id}>, you have left ${teamRole.name}`).then(message => {
+                setTimeout(() => {
+                    message.delete();
+                }, 2000);
+            });
+        }).catch(error => {
+            console.log(error);
+        });
 
     }).catch(error => {
         console.log(error);
     });
 });
-
-client.on("messageReactionRemove", (messageReaction, user) => {
-
-});
-*/
 
 client.on("guildMemberAdd", member => {
     
@@ -682,7 +871,10 @@ app.route("/guilds/:guild_id/settings").get((req, res) => {
         guild.settings.prefix = req.body.prefix === undefined ? "<<" : req.body.prefix;
         guild.settings.fandom = req.body.fandom === undefined ? "southpark" : req.body.fandom;
         guild.settings.logChannel = req.body.logChannel === undefined ? "rawrxd" : req.body.logChannel;
+        guild.settings.roleChannel = req.body.roleChannel === undefined ? "rawrxd" : req.body.roleChannel;
+        guild.settings.roleMessage = req.body.roleMessage === undefined ? "rawrxd" : req.body.roleMessage;
         guild.settings.groundedRole = req.body.groundedRole === undefined ? "lolok" : req.body.groundedRole;
+        guild.settings.roleSwitchTimeout = req.body.roleSwitchTimeout === undefined ? 5 : req.body.roleSwitchTimeout;
         guild.settings.teamRoles = req.body.teamRoles === undefined ? [] : req.body.teamRoles;
         guild.save(error => {
             if (error !== null) {
