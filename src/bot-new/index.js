@@ -53,53 +53,8 @@ setInterval(() => {
 
 client.on("ready", message => {
 
-    // Workaround for reactions cos discord.js sucks dick.
-    let channel = client.channels.find(e => {
-        return e.id === "443033827925819402";
-    });
-    if (channel === undefined) {
-        logger.log(logConstants.LOG_ERROR, "could not find reaction channel, reactions will be disabled");
-        return;
-    }
-
-    channel.fetchMessages({ limit: 10 }).then(specialMessageSnowflakes => {
-
-        let deletionPromises = [];
-
-        let messages = specialMessageSnowflakes.array();
-
-        for (let i = 0; i < messages.length; i++) {
-            
-            deletionPromises.push(messages[i].delete());
-        }
-
-        Promise.all(deletionPromises).then(() => {
-
-            channel.send("placeholder").then(message => {
-
-                message.react(message.guild.emojis.get("443037236888338432")).then(() => {
-                    message.react(message.guild.emojis.get("443037201488674816")).then(() => {
-                        message.react(message.guild.emojis.get("443037222082576384")).then(() => {
-                            message.react(message.guild.emojis.get("443037229145653258")).then(() => {
-                                message.react(message.guild.emojis.get("443042071146790915")).then(() => {
-
-                                    reactionMessageId = message.id;
-                      
-                                    client.user.setGame(`v2.2 | awesomobeta`);
-                                    logger.log(logConstants.LOG_INFO, "Bot loaded successfully!");
-                                });
-                            });
-                        });
-                    });
-                });
-
-            }).catch(error => {
-                logger.log(logConstants.LOG_ERROR, error);
-            });
-        });
-    }).catch(error => {
-        logger.log(logConstants.LOG_ERROR, error);
-    });
+    client.user.setGame(`v2.2 | awesomobeta`);
+    logger.log(logConstants.LOG_INFO, "Bot loaded successfully!");
 });
 
 client.on("message", message => {
@@ -432,126 +387,9 @@ let reactionMessageId;
 
 client.on("messageReactionAdd", function (messageReaction, user) {
 
-    if (client.user.id === user.id) {
-        return;
-    }
-
-    if (reactionMessageId === undefined) {
-        return;
-    }
-
-    if (messageReaction.message.id !== reactionMessageId) {
-        return;
-    }
-
-    let roles = [
-        {
-            type: "group",
-            name: "cm",
-            reactionId: "443037236888338432",
-            id: "402834156238929920"
-        },
-        {
-            type: "group",
-            name: "cf",
-            reactionId: "443037201488674816",
-            id: "377181687458824197"
-        },
-        {
-            type: "group",
-            name: "fp",
-            reactionId: "443037222082576384",
-            id: "377185900431540234"
-        },
-        {
-            type: "group",
-            name: "gk",
-            reactionId: "443037229145653258",
-            id: "405321120250855425"
-        },
-        {
-            type: "misc",
-            name: "st",
-            reactionId: "443042071146790915",
-            id: "382384769880555520"
-        }
-    ];
-
-    for (let i = 0; i < roles.length; i++) {
-        if (roles[i].reactionId === messageReaction.emoji.id) {
-
-            let role = messageReaction.message.guild.roles.find(e => {
-                return e.id === roles[i].id;
-            });
-            if (role === undefined || role === null) {
-                logger.log(logConstants.LOG_ERROR, `${roles[i].name} role not found`);
-                return;
-            }
-
-            let member = messageReaction.message.guild.members.find(e => {
-                return e.id === user.id;
-            });
-            if (member === undefined || member === null) {
-                logger.log(logConstants.LOG_ERROR, "member not found in guild but reacted to a message... lolwat");
-                return;
-            }
-
-            let memberRole = member.roles.find(e => {
-                return e.id === roles[i].id;
-            });
-            if (memberRole !== undefined && memberRole !== null) {
-                messageReaction.remove(user);
-                return;
-            }
-
-            if (roles[i].type === "misc") {
-                member.addRole(role);
-                return;
-            }
-
-            for (let j = 0; j < roles.length; j++) {
-                if (roles[j].type === "misc") {
-                    continue;
-                }
-
-                // remove role
-                let memberRole = member.roles.find(e => {
-                    return e.id === roles[j].id;
-                });
-                if (memberRole === undefined || memberRole === null) {
-                    continue;
-                }
-
-                member.removeRole(memberRole);
-
-                // remove reaction
-                let memberReaction = messageReaction.message.reactions.find(e => {
-                    return e.id === roles[j].reactionId;
-                });
-                if (memberReaction === undefined || memberReaction === null) {
-                    logger.log(logConstants.LOG_ERROR, `message doesn't have the ${roles[j].name} reaction`);
-                    continue;
-                }
-
-                let reactionUser = memberReaction.users.find(e => {
-                    return e.id === user.id;
-                });
-                if (reactionUser === undefined || reactionUser === null) {
-                    continue;
-                }
-
-                memberReaction.remove(reactionUser);
-            }
-
-            member.addRole(role);
-
-            break;
-        }
-    }
 });
 
 client.on("messageReactionRemove", (messageReaction, user) => {
-    
 
 });
 
