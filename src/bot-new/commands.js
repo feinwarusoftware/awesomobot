@@ -852,7 +852,7 @@ const commands = [
 
             let similarityThreshold = 0.5;
 
-            let search = message.content.substring(guild.settings.prefix.length + this.match.length + 1);
+            let search = message.content.substring(message.content.split(" ")[0].length + 1);
 
             let detailFlag = false;
             if (search.indexOf("-d") !== -1) {
@@ -948,7 +948,7 @@ const commands = [
 
             let similarityThreshold = 0.5;
 
-            let search = message.content.substring(guild.settings.prefix.length + this.match.length + 1);
+            let search = message.content.substring(message.content.split(" ")[0].length + 1);
 
             let detailFlag = false;
             if (search.indexOf("-d") !== -1) {
@@ -1042,7 +1042,7 @@ const commands = [
 
             let similarityThreshold = 0.5;
 
-            let search = message.content.substring(guild.settings.prefix.length + this.match.length + 1);
+            let search = message.content.substring(message.content.split(" ")[0].length + 1);
 
             let detailFlag = false;
             if (search.indexOf("-d") !== -1) {
@@ -1162,7 +1162,7 @@ const commands = [
 
             let similarityThreshold = 0.5;
 
-            let search = message.content.substring(guild.settings.prefix.length + this.match.length + 1);
+            let search = message.content.substring(message.content.split(" ")[0].length + 1);
 
             let detailFlag = false;
             if (search.indexOf("-d") !== -1) {
