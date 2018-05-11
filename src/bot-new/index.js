@@ -680,7 +680,7 @@ client.on("guildMemberAdd", member => {
 
 client.login(config.token);
 
-// API.
+// API
 const app = express();
 const port = "3002";
 const server = http.createServer(app);
