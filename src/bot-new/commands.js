@@ -850,7 +850,24 @@ const commands = [
         match: "purge",
         call: function (client, message, guild) {
 
-            //channel
+            let deleteCount;
+
+            let args = message.content.split(" ");
+            if (args[1] === undefined) {
+                deleteCount = 20;
+            } else {
+
+                let parsed = parseInt(args[1], 10);
+
+                if (parsed === NaN) {
+                    deleteCount = 20;
+                } else {
+
+                    deleteCount = args[1] > 50 ? 50 : parsed;
+                }
+            }
+
+            message.channel.bulkDelete(deleteCount, true);
         }
     }),
     new Command({
