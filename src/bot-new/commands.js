@@ -498,9 +498,9 @@ const commands = [
     }),
     new Command({
         name: "discord object info",
-        desc: "a command for getting the id of various discord objects",
+        desc: "a command for getting info various discord objects",
         type: "command",
-        match: "i",
+        match: ["i", "id"],
         call: function (client, message, guild) {
 
             // role - rolename
@@ -841,6 +841,451 @@ const commands = [
             }
 
             message.reply("your query did not match anything");
+        }
+    }),
+    new Command({
+        name: "discord role info",
+        desc: "a command for getting info for discord roles",
+        type: "command",
+        match: ["r", "ri", "ir", "rid"],
+        call: function (client, message, guild) {
+
+            let similarityThreshold = 0.5;
+
+            let search = message.content.substring(guild.settings.prefix.length + this.match.length + 1);
+
+            let detailFlag = false;
+            if (search.indexOf("-d") !== -1) {
+
+                search = search.replace("-d", "");
+
+                detailFlag = true;
+            }
+
+            search = search.replace(/  +/, " ");
+            search = search.trim();
+
+            if (search === undefined || search.length === 0) {
+                message.reply("you need to enter the thing to search for");
+                return;
+            }
+
+            let roles = message.guild.roles.array();
+
+            // Avoid names breaking this by attempting to match ids first.
+            for (let i = 0; i < roles.length; i++) {
+                if (roles[i].id === search) {
+
+                    // role found
+                    let embed = new discord.RichEmbed()
+                        .setColor(0xF0433A)
+                        .setAuthor(`AWESOM-O // Role Info`);
+
+                    embed.addField("Id:", "```" + roles[i].id + "```");
+                    embed.addField("Name:", "```" + roles[i].name + "```");
+                    embed.addField("Color:", "```" + roles[i].hexColor + "```");
+
+                    if (detailFlag === true) {
+
+                        embed.addField("Position:", "```" + roles[i].position + "```");
+                        embed.addField("Mentionable:", "```" + roles[i].mentionable + "```");
+                        embed.addField("Hoist:", "```" + roles[i].hoist + "```");
+                        embed.addField("Editable:", "```" + roles[i].editable + "```");
+                        embed.addField("Managed:", "```" + roles[i].managed + "```");
+                        embed.addField("CreatedBy:", "```" + roles[i].client.user.username + "```");
+                        embed.addField("CreatedAt:", "```" + roles[i].createdAt + "```");
+                    }
+
+                    message.channel.send(embed);
+
+                    return;
+                }
+            }
+
+            // Try to match names if the user didn't enter a matching id.
+            for (let i = 0; i < roles.length; i++) {
+
+                let similarity = utils.similarity(search, roles[i].name);
+                if (similarity > similarityThreshold) {
+
+                    let percentage = (similarity * 100).toString();
+
+                    // role found
+                    let embed = new discord.RichEmbed()
+                        .setColor(0xF0433A)
+                        .setAuthor(`AWESOM-O // Role Info - ${percentage.indexOf(".") === -1 ? percentage : percentage.substring(0, percentage.indexOf("."))}%`);
+
+                    embed.addField("Id:", "```" + roles[i].id + "```");
+                    embed.addField("Name:", "```" + roles[i].name + "```");
+                    embed.addField("Color:", "```" + roles[i].hexColor + "```");
+
+                    if (detailFlag === true) {
+
+                        embed.addField("Position:", "```" + roles[i].position + "```");
+                        embed.addField("Mentionable:", "```" + roles[i].mentionable + "```");
+                        embed.addField("Hoist:", "```" + roles[i].hoist + "```");
+                        embed.addField("Editable:", "```" + roles[i].editable + "```");
+                        embed.addField("Managed:", "```" + roles[i].managed + "```");
+                        embed.addField("CreatedBy:", "```" + roles[i].client.user.username + "```");
+                        embed.addField("CreatedAt:", "```" + roles[i].createdAt + "```");
+                    }
+
+                    message.channel.send(embed);
+
+                    return;
+                }
+            }
+
+            message.reply("your query did not match any roles");
+        }
+    }),
+    new Command({
+        name: "discord emoji info",
+        desc: "a command for getting info for discord emojis",
+        type: "command",
+        match: ["e", "ei", "ie", "eid"],
+        call: function (client, message, guild) {
+
+            let similarityThreshold = 0.5;
+
+            let search = message.content.substring(guild.settings.prefix.length + this.match.length + 1);
+
+            let detailFlag = false;
+            if (search.indexOf("-d") !== -1) {
+
+                search = search.replace("-d", "");
+
+                detailFlag = true;
+            }
+
+            search = search.replace(/  +/, " ");
+            search = search.trim();
+
+            if (search === undefined || search.length === 0) {
+                message.reply("you need to enter the thing to search for");
+                return;
+            }
+
+            let emojis = message.guild.emojis.array();
+
+            // Avoid names breaking this by attempting to match ids first.
+            for (let i = 0; i < emojis.length; i++) {
+                if (emojis[i].id === search) {
+
+                    // emoji found
+                    let embed = new discord.RichEmbed()
+                        .setColor(0xF0433A)
+                        .setAuthor(`AWESOM-O // Emoji Info`);
+
+                    embed.addField("Id:", "```" + emojis[i].id + "```");
+                    embed.addField("Name:", "```" + emojis[i].name + "```");
+                    embed.addField("Animated:", "```" + emojis[i].animated + "```");
+
+                    if (detailFlag === true) {
+
+                        embed.addField("Url:", "```" + emojis[i].url + "```");
+                        embed.addField("Identifier:", "```" + emojis[i].identifier + "```");
+                        embed.addField("RequiresColons:", "```" + emojis[i].requiresColons + "```");
+                        embed.addField("Managed:", "```" + emojis[i].managed + "```");
+                        embed.addField("CreatedBy:", "```" + emojis[i].client.user.username + "```");
+                        embed.addField("CreatedAt:", "```" + emojis[i].createdAt + "```");
+                    }
+
+                    message.channel.send(embed);
+
+                    return;
+                }
+            }
+
+            // Try to match names if the user didn't enter a matching id.
+            for (let i = 0; i < emojis.length; i++) {
+
+                let similarity = utils.similarity(search, emojis[i].name);
+                if (similarity > similarityThreshold) {
+
+                    let percentage = (similarity * 100).toString();
+
+                    // emoji found
+                    let embed = new discord.RichEmbed()
+                        .setColor(0xF0433A)
+                        .setAuthor(`AWESOM-O // Emoji Info - ${percentage.indexOf(".") === -1 ? percentage : percentage.substring(0, percentage.indexOf("."))}%`);
+
+                    embed.addField("Id:", "```" + emojis[i].id + "```");
+                    embed.addField("Name:", "```" + emojis[i].name + "```");
+                    embed.addField("Animated:", "```" + emojis[i].animated + "```");
+
+                    if (detailFlag === true) {
+
+                        embed.addField("Url:", "```" + emojis[i].url + "```");
+                        embed.addField("Identifier:", "```" + emojis[i].identifier + "```");
+                        embed.addField("RequiresColons:", "```" + emojis[i].requiresColons + "```");
+                        embed.addField("Managed:", "```" + emojis[i].managed + "```");
+                        embed.addField("CreatedBy:", "```" + emojis[i].client.user.username + "```");
+                        embed.addField("CreatedAt:", "```" + emojis[i].createdAt + "```");
+                    }
+
+                    message.channel.send(embed);
+
+                    return;
+                }
+            }
+
+            message.reply("your query did not match any emojis");
+        }
+    }),
+    new Command({
+        name: "discord channel info",
+        desc: "a command for getting info for discord channels",
+        type: "command",
+        match: ["c", "ci", "ic", "cid"],
+        call: function (client, message, guild) {
+
+            let similarityThreshold = 0.5;
+
+            let search = message.content.substring(guild.settings.prefix.length + this.match.length + 1);
+
+            let detailFlag = false;
+            if (search.indexOf("-d") !== -1) {
+
+                search = search.replace("-d", "");
+
+                detailFlag = true;
+            }
+
+            search = search.replace(/  +/, " ");
+            search = search.trim();
+
+            if (search === undefined || search.length === 0) {
+                message.reply("you need to enter the thing to search for");
+                return;
+            }
+
+            let channels = message.guild.channels.array();
+
+            // Avoid names breaking this by attempting to match ids first.
+            for (let i = 0; i < channels.length; i++) {
+                if (channels[i].id === search) {
+
+                    // channel found
+                    let embed = new discord.RichEmbed()
+                        .setColor(0xF0433A)
+                        .setAuthor(`AWESOM-O // Channel Info`);
+
+                    embed.addField("Id:", "```" + channels[i].id + "```");
+                    embed.addField("Name:", "```" + channels[i].name + "```");
+                    embed.addField("Type:", "```" + channels[i].type + "```");
+
+                    if (detailFlag === true) {
+
+                        embed.addField("Position:", "```" + channels[i].position + "```");
+                        embed.addField("Deletable:", "```" + channels[i].deletable + "```");
+
+                        switch(channels[i].type) {
+                            case "text":
+                                embed.addField("Nsfw:", "```" + channels[i].nsfw + "```");
+                                embed.addField("Topic:", "```" + (channels[i].topic.length > 50 ? channels[i].topic.substring(0, 50) + "..." : channels[i].topic) + "```");
+                                break;
+                            case "voice":
+                                embed.addField("UserLimit:", "```" + channels[i].userLimit + "```");
+                                embed.addField("Bitrate:", "```" + channels[i].bitrate + "```");
+                                break;
+                        }
+
+                        embed.addField("Parent:", "```" + channels[i].parent + "```");
+                        embed.addField("ParentId:", "```" + channels[i].parentID + "```");
+
+                        embed.addField("CreatedBy:", "```" + channels[i].client.user.username + "```");
+                        embed.addField("CreatedAt:", "```" + channels[i].createdAt + "```");
+                    }
+
+                    message.channel.send(embed);
+
+                    return;
+                }
+            }
+
+            // Try to match names if the user didn't enter a matching id.
+            for (let i = 0; i < channels.length; i++) {
+
+                let similarity = utils.similarity(search, channels[i].name);
+                if (similarity > similarityThreshold) {
+
+                    let percentage = (similarity * 100).toString();
+
+                    // channel found
+                    let embed = new discord.RichEmbed()
+                        .setColor(0xF0433A)
+                        .setAuthor(`AWESOM-O // Channel Info - ${percentage.indexOf(".") === -1 ? percentage : percentage.substring(0, percentage.indexOf("."))}%`);
+
+                    embed.addField("Id:", "```" + channels[i].id + "```");
+                    embed.addField("Name:", "```" + channels[i].name + "```");
+                    embed.addField("Type:", "```" + channels[i].type + "```");
+
+                    if (detailFlag === true) {
+
+                        embed.addField("Position:", "```" + channels[i].position + "```");
+                        embed.addField("Deletable:", "```" + channels[i].deletable + "```");
+
+                        switch(channels[i].type) {
+                            case "text":
+                                embed.addField("Nsfw:", "```" + channels[i].nsfw + "```");
+                                embed.addField("Topic:", "```" + (channels[i].topic.length > 50 ? channels[i].topic.substring(0, 50) + "..." : channels[i].topic) + "```");
+                                break;
+                            case "voice":
+                                embed.addField("UserLimit:", "```" + channels[i].userLimit + "```");
+                                embed.addField("Bitrate:", "```" + channels[i].bitrate + "```");
+                                break;
+                        }
+
+                        embed.addField("Parent:", "```" + channels[i].parent + "```");
+                        embed.addField("ParentId:", "```" + channels[i].parentID + "```");
+
+                        embed.addField("CreatedBy:", "```" + channels[i].client.user.username + "```");
+                        embed.addField("CreatedAt:", "```" + channels[i].createdAt + "```");
+                    }
+
+                    message.channel.send(embed);
+
+                    return;
+                }
+            }
+
+            message.reply("your query did not match any channels");
+        }
+    }),
+    new Command({
+        name: "discord member info",
+        desc: "a command for getting info for discord members",
+        type: "command",
+        match: ["m", "mi", "im", "mid", "u", "ui", "iu", "uid"],
+        call: function (client, message, guild) {
+
+            let similarityThreshold = 0.5;
+
+            let search = message.content.substring(guild.settings.prefix.length + this.match.length + 1);
+
+            let detailFlag = false;
+            if (search.indexOf("-d") !== -1) {
+
+                search = search.replace("-d", "");
+
+                detailFlag = true;
+            }
+
+            search = search.replace(/  +/, " ");
+            search = search.trim();
+
+            if (search === undefined || search.length === 0) {
+                message.reply("you need to enter the thing to search for");
+                return;
+            }
+
+            let members = message.guild.members.array();
+
+            // Avoid names breaking this by attempting to match ids first.
+            for (let i = 0; i < members.length; i++) {
+                if (members[i].id === search) {
+
+                    // user found
+                    let embed = new discord.RichEmbed()
+                        .setColor(0xF0433A)
+                        .setAuthor(`AWESOM-O // Member Info`);
+
+                    embed.addField("Id:", "```" + members[i].user.id + "```");
+                    embed.addField("Name:", "```" + members[i].user.username + "```");
+                    embed.addField("Nick:", "```" + (members[i].nickname === undefined ? "null" : members[i].nickname) + "```");
+
+                    if (detailFlag === true) {
+
+                        embed.addField("Kickable:", "```" + members[i].kickable + "```");
+                        embed.addField("Bannable:", "```" + members[i].bannable + "```");
+                        embed.addField("Color:", "```" + members[i].displayHexColor + "```");
+                        embed.addField("HighestRole:", "```" + (members[i].highestRole === undefined ? "null" : members[i].highestRole.name) + "```");
+                        embed.addField("HoistRole:", "```" + (members[i].hoistRole === null ? "null" : members[i].hoistRole.name) + "```");
+                        embed.addField("LastMessage:", "```" + (members[i].lastMessage === null ? "null" : members[i].lastMessage.content > 50 ? members[i].lastMessage.content.substring(0, 50) + "..." : members[i].lastMessage.content) + "```");
+                        embed.addField("LastMessageID:", "```" + members[i].lastMessageID + "```");
+                        embed.addField("JoinedAt:", "```" + members[i].joinedAt + "```");
+                    }
+
+                    message.channel.send(embed);
+
+                    return;
+                }
+            }
+
+            // Try to match names if the user didn't enter a matching id.
+            for (let i = 0; i < members.length; i++) {
+
+                let similarity = utils.similarity(search, members[i].user.username);
+                if (similarity > similarityThreshold) {
+
+                    let percentage = (similarity * 100).toString();
+
+                    // user found
+                    let embed = new discord.RichEmbed()
+                        .setColor(0xF0433A)
+                        .setAuthor(`AWESOM-O // Member Info - ${percentage.indexOf(".") === -1 ? percentage : percentage.substring(0, percentage.indexOf("."))}%`);
+
+                    embed.addField("Id:", "```" + members[i].user.id + "```");
+                    embed.addField("Name:", "```" + members[i].user.username + "```");
+                    embed.addField("Nick:", "```" + (members[i].nickname === undefined ? "null" : members[i].nickname) + "```");
+
+                    if (detailFlag === true) {
+
+                        embed.addField("Kickable:", "```" + members[i].kickable + "```");
+                        embed.addField("Bannable:", "```" + members[i].bannable + "```");
+                        embed.addField("Color:", "```" + members[i].displayHexColor + "```");
+                        embed.addField("HighestRole:", "```" + (members[i].highestRole === undefined ? "null" : members[i].highestRole.name) + "```");
+                        embed.addField("HoistRole:", "```" + (members[i].hoistRole === null ? "null" : members[i].hoistRole.name) + "```");
+                        embed.addField("LastMessage:", "```" + (members[i].lastMessage === null ? "null" : members[i].lastMessage.content > 50 ? members[i].lastMessage.content.substring(0, 50) + "..." : members[i].lastMessage.content) + "```");
+                        embed.addField("LastMessageID:", "```" + members[i].lastMessageID + "```");
+                        embed.addField("JoinedAt:", "```" + members[i].joinedAt + "```");
+                    }
+
+                    message.channel.send(embed);
+
+                    return;
+                }
+            }
+            for (let i = 0; i < members.length; i++) {
+
+                if (members[i].nickname === null) {
+                    continue;
+                }
+
+                let similarity = utils.similarity(search, members[i].nickname);
+                if (similarity > similarityThreshold) {
+
+                    let percentage = (similarity * 100).toString();
+
+                    // member found
+                    let embed = new discord.RichEmbed()
+                        .setColor(0xF0433A)
+                        .setAuthor(`AWESOM-O // Member Info - ${percentage.indexOf(".") === -1 ? percentage : percentage.substring(0, percentage.indexOf("."))}%`);
+
+                    embed.addField("Id:", "```" + members[i].user.id + "```");
+                    embed.addField("Name:", "```" + members[i].user.username + "```");
+                    embed.addField("Nick:", "```" + (members[i].nickname === undefined ? "null" : members[i].nickname) + "```");
+
+                    if (detailFlag === true) {
+
+                        embed.addField("Kickable:", "```" + members[i].kickable + "```");
+                        embed.addField("Bannable:", "```" + members[i].bannable + "```");
+                        embed.addField("Color:", "```" + members[i].displayHexColor + "```");
+                        embed.addField("HighestRole:", "```" + (members[i].highestRole === undefined ? "null" : members[i].highestRole.name) + "```");
+                        embed.addField("HoistRole:", "```" + (members[i].hoistRole === null ? "null" : members[i].hoistRole.name) + "```");
+                        embed.addField("LastMessage:", "```" + (members[i].lastMessage === null ? "null" : members[i].lastMessage.content > 50 ? members[i].lastMessage.content.substring(0, 50) + "..." : members[i].lastMessage.content) + "```");
+                        embed.addField("LastMessageID:", "```" + members[i].lastMessageID + "```");
+                        embed.addField("JoinedAt:", "```" + members[i].joinedAt + "```");
+                    }
+
+                    message.channel.send(embed);
+
+                    return;
+                }
+            }
+
+            message.reply("your query did not match any members");
         }
     }),
     new Command({
