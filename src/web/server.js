@@ -1,21 +1,22 @@
 "use strict"
 
 const express = require("express");
-const session = require("express-session");
+//const session = require("express-session");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
-const passport = require("passport");
+//const passport = require("passport");
 const mongoose = require("mongoose");
 const ejs = require("ejs");
 
 const config = require("../../config");
 
-const Strategy = require("passport-discord").Strategy;
+//const Strategy = require("passport-discord").Strategy;
 const port = config.port;
 const app = express();
 
 function start() {
     // Passport setup.
+    /*
     passport.serializeUser((user, done) => {
         done(null, user);
     });
@@ -35,6 +36,7 @@ function start() {
             return done(null, profile);
         });
     }));
+    */
 
     // Express settings, plz no change, order matters!.
     app.use(logger("dev"));
@@ -42,11 +44,11 @@ function start() {
     app.set("view engine", "ejs");
 
     app.use(express.static(__dirname + "/public"));
-    app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+    //app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
-    app.use(passport.initialize());
-    app.use(passport.session());
+    //app.use(passport.initialize());
+    //app.use(passport.session());
     app.use(require("./controllers"));
 
     app.use((req, res, next) => {

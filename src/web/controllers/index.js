@@ -52,6 +52,7 @@ router.get("/commands", (req, res) => {
 });
 
 // Markdown test.
+/*
 const markdown = require("markdown").markdown;
 const content = "#testing...";
 router.get("/md", (req, res) => {
@@ -59,6 +60,7 @@ router.get("/md", (req, res) => {
     res.render("md", { markdown: markdown, content: content
     });
 });
+*/
 
     // Terms and legal shit
 router.get("/terms", (req, res) => {

@@ -27,9 +27,7 @@ const config = utils.globConfig.data;
 const vm = require("vm");
 //
 
-mongoose.connect(config.database, {
-    useMongoClient: true
-});
+mongoose.connect(config.database);
 mongoose.Promise = global.Promise;
 
 const db = mongoose.connection;
