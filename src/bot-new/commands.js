@@ -2904,6 +2904,38 @@ const commands = [
         }
     }),
     new Command({
+        name: "pie",
+        desc: "(no description)",
+        type: "command",
+        match: "pie",
+        call: function (client, message, guild) {
+
+            if (message.member.voiceChannel !== undefined && message.member.voiceChannel !== null) {
+
+                let conn = client.voiceConnections.find(e => {
+                    return e.channel.id;
+                }, message.member.voiceChannel.id);
+
+                if (conn !== undefined && conn !== null) {
+                    let disp = conn.playFile("pie.mp3");
+                    disp.on("end", () => {
+                        conn.disconnect();
+                    });
+                } else {
+                    message.member.voiceChannel.join().then(conn => {
+                        let disp = conn.playFile("pie.mp3");
+                        disp.on("end", () => {
+                            conn.disconnect();
+                        });
+                    });
+                }
+
+            } else {
+                message.reply("you need to be in a voice channel to use this command");
+            }
+        }
+    }),
+    new Command({
         name: "hmmm",
         desc: "(no description)",
         type: "command",
