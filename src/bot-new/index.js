@@ -76,7 +76,7 @@ client.on("ready", () => {
 
             channel.bulkDelete(20, true).then(() => {
 
-                channel.send(`React with any of the following emoji to get the corresponding role:\n\n:fp: - Freedom Pals\n:cf: - Coon & Friends\n:gk: - GOth Kids\n:cm: - Chaos Minions\n:to: - Towel\n:de: - Drow Elves\n:kk: - Kupa Keep\n:vk: - Vapm Kids\n:sp: - Spoilers\n:st: - Streamers\n\nPlease note that you can only use this once every ${dbGuild.settings.roleSwitchTimeout} seconds.`).then(message => {
+                channel.send("React with any of the following emoji to get the corresponding role:\n\n:fp: - Freedom Pals\n:cf: - Coon & Friends\n:gk: - GOth Kids\n:cm: - Chaos Minions\n:to: - Towel\n:de: - Drow Elves\n:kk: - Kupa Keep\n:vk: - Vapm Kids\n:sp: - Spoilers\n:st: - Streamers\n\nPlease note that you can only use this once every "+"dbGuild.settings.roleSwitchTimeout"+" seconds.").then(message => {
 
                     dbGuild.settings.roleMessage = message.id;
                     
