@@ -929,6 +929,15 @@ app.route("/guilds/:guild_id/settings").get((req, res) => {
         if (req.body.groundedRole !== undefined) {
             guild.settings.groundedRole = req.body.groundedRole;
         }
+        if (req.body.roleMessage !== undefined) {
+            guild.settings.roleMessage = req.body.roleMessage;
+        }
+        if (req.body.roleSwitchTimeout !== undefined) {
+            guild.settings.roleSwitchTimeout = req.body.roleSwitchTimeout;
+        }
+        if (req.body.roleChannel !== undefined) {
+            guild.settings.roleChannel = req.body.roleChannel;
+        }
         if (req.body.teamRoles !== undefined) {
             guild.settings.teamRoles = req.body.teamRoles;
         }
