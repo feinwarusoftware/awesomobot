@@ -76,7 +76,7 @@ client.on("ready", () => {
 
             channel.bulkDelete(20, true).then(() => {
 
-                channel.send("placeholder").then(message => {
+                channel.send(`React with any of the following emoji to get the corresponding role:\n\n:fp: - Freedom Pals\n:cf: - Coon & Friends\n:gk: - GOth Kids\n:cm: - Chaos Minions\n:to: - Towel\n:de: - Drow Elves\n:kk: - Kupa Keep\n:vk: - Vapm Kids\n:sp: - Spoilers\n:st: - Streamers\n\nPlease note that you can only use this once every ${dbGuild.settings.roleSwitchTimeout} seconds.`).then(message => {
 
                     dbGuild.settings.roleMessage = message.id;
                     
@@ -470,13 +470,6 @@ client.on("messageReactionAdd", function (messageReaction, user) {
         } else if (user.id !== client.user.id) {
             if ((Date.now() - dbMember.lastRoleChange) / 1000 < dbRoleSwitchTimeout) {
                 messageReaction.remove(user);
-                messageReaction.message.channel.send(`<@${user.id}>, you can only select a role once every 15 seconds`).then(message => {
-                    setTimeout(() => {
-                        message.delete();
-                    }, 2000);
-                }).catch(error => {
-                    console.log(error);
-                });
                 return;
             }
         }
@@ -511,11 +504,6 @@ client.on("messageReactionAdd", function (messageReaction, user) {
             return e.id === teamRole.id;
         });
         if (memberRole !== undefined && memberRole !== null) {
-            messageReaction.message.channel.send(`<@${user.id}>, you are already part of ${teamRole.name}`).then(message => {
-                setTimeout(() => {
-                    message.delete();
-                }, 2000);
-            });
             return;
         }
 
@@ -537,15 +525,7 @@ client.on("messageReactionAdd", function (messageReaction, user) {
                 continue;
             }
 
-            member.removeRole(oldRole).then(() => {
-                messageReaction.message.channel.send(`<@${user.id}>, you have left ${oldRole.name}`).then(message => {
-                    setTimeout(() => {
-                        message.delete();
-                    }, 2000);
-                });
-            }).catch(error => {
-                console.log(error);
-            });
+            member.removeRole(oldRole);
 
             let oldReact = messageReaction.message.reactions.find(e => {
                 return e.emoji.id === dbTeamRoles[i].emoji;
@@ -566,15 +546,7 @@ client.on("messageReactionAdd", function (messageReaction, user) {
             }
         }
 
-        member.addRole(teamRole).then(() => {
-            messageReaction.message.channel.send(`<@${user.id}>, you are now part of ${teamRole.name}`).then(message => {
-                setTimeout(() => {
-                    message.delete();
-                }, 2000);
-            });
-        }).catch(error => {
-            console.log(error);
-        });
+        member.addRole(teamRole);
 
     }).catch(error => {
         console.log(error);
@@ -621,23 +593,10 @@ client.on("messageReactionRemove", (messageReaction, user) => {
             return e.id === teamRole.id;
         });
         if (memberRole === undefined || memberRole === null) {
-            messageReaction.message.channel.send(`<@${user.id}>, youre not a part of ${teamRole.name}`).then(message => {
-                setTimeout(() => {
-                    message.delete();
-                }, 2000);
-            });
             return;
         }
 
-        member.removeRole(teamRole).then(() => {
-            messageReaction.message.channel.send(`<@${user.id}>, you have left ${teamRole.name}`).then(message => {
-                setTimeout(() => {
-                    message.delete();
-                }, 2000);
-            });
-        }).catch(error => {
-            console.log(error);
-        });
+        member.removeRole(teamRole);
 
     }).catch(error => {
         console.log(error);
