@@ -76,7 +76,7 @@ client.on("ready", () => {
 
             channel.bulkDelete(20, true).then(() => {
 
-                channel.send("React with any of the following emoji to get the corresponding role:\n\n<:fp:443037222082576384> - Freedom Pals\n<:cf:443037201488674816> - Coon & Friends\n<:gk:443037229145653258> - GOth Kids\n<:cm:443037236888338432> - Chaos Minions\n<:to:446352666587562024> - Towel\n<:de:446350650826293248> - Drow Elves\n<:kk:446350885530894337> - Kupa Keep\n<:vk:446350659575480342> - Vapm Kids\n<:sp:446350631570112513> - Spoilers\n<:st:443042071146790915> - Streamers\n\nPlease note that you can only use this once every "+"dbGuild.settings.roleSwitchTimeout"+" seconds.").then(message => {
+                channel.send("React with any of the following emoji to get the corresponding role. Please note that you can only use this once every " + dbGuild.settings.roleSwitchTimeout + " seconds.\n\n<:fp:443037222082576384> - Freedom Pals\n<:cf:443037201488674816> - Coon & Friends\n<:gk:443037229145653258> - GOth Kids\n<:cm:443037236888338432> - Chaos Minions\n<:to:446352666587562024> - Towel\n<:de:446350650826293248> - Drow Elves\n<:kk:446350885530894337> - Kupa Keep\n<:vk:446350659575480342> - Vapm Kids\n<:sp:446350631570112513> - Spoilers\n<:st:443042071146790915> - Streamers").then(message => {
 
                     dbGuild.settings.roleMessage = message.id;
                     
