@@ -360,8 +360,20 @@ client.on("message", message => {
                         code = code.substring(0, code.length - 3)
                     }
 
+                    const sandbox = {
+                        message,
+                        random: array => {
+        
+                            if (array.isArray === false) {
+                                return `random() takes an array, ${typeof array} was used instead.`;
+                            }
+        
+                            return array[Math.floor(Math.random() * array.length)];
+                        }
+                    }
+
                     try {
-                        vm.runInNewContext(`"use strict"\n${code}`, { message });
+                        vm.runInNewContext(`"use strict"\n${code}`, sandbox);
                     } catch(error) {
                         message.reply(`error running script: ${error}`);
                     }
@@ -481,8 +493,20 @@ client.on("message", message => {
                 code = code.substring(0, code.length - 3)
             }
 
+            const sandbox = {
+                message,
+                random: array => {
+
+                    if (array.isArray === false) {
+                        return `random() takes an array, ${typeof array} was used instead.`;
+                    }
+
+                    return array[Math.floor(Math.random() * array.length)];
+                }
+            }
+
             try {
-                vm.runInNewContext(`"use strict"\n${code}`, { message });
+                vm.runInNewContext(`"use strict"\n${code}`, sandbox);
             } catch(error) {
                 message.reply(`error running script: ${error}`);
             }
