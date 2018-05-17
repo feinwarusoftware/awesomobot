@@ -1211,6 +1211,7 @@ app.route("/guilds/:guild_id/groups/:group_name").get((req, res) => {
         group.roles = req.body.roles === undefined ? [] : req.body.roles;
         group.members = req.body.members === undefined ? [] : req.body.members;
         group.badges = req.body.badges === undefined ? [] : req.body.badges;
+        group.scripts = req.body.scripts === undefined ? [] : req.body.scripts;
 
         guild.save(error => {
             if (error !== null) {
@@ -1258,6 +1259,9 @@ app.route("/guilds/:guild_id/groups/:group_name").get((req, res) => {
         }
         if (req.body.badges !== undefined) {
             group.badges = req,body.badges;
+        }
+        if (req.body.scripts !== undefined) {
+            group.scripts = req,body.scripts;
         }
 
         guild.save(error => {
