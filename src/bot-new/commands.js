@@ -483,6 +483,8 @@ class Command {
     }
 }
 
+let vg = [];
+
 const commands = [
     new Command({
         name: "one test boii",
@@ -493,7 +495,155 @@ const commands = [
         match: "test",
         call: function (client, message, guild) {
 
-            message.reply("testing...");
+
+        }
+    }),
+    new Command({
+        name: "vote ground",
+        desc: "a command which lets regulars vote ground if were not here",
+        type: "command",
+        match: ["voteground", "vground", "voteg", "vg"],
+        call: function (client, message, guild) {
+
+            let similarityThreshold = 0.6;
+            let members = message.guild.members.array();
+
+            let target = message.content.substring(message.content.split(" ")[0].length + 1);
+
+            let current;
+
+            for (let i = 0; i < members.length; i++) {
+
+                let similarity = utils.similarity(target, members[i].displayName);
+
+                if (similarity > similarityThreshold) {
+                    if (current === undefined || current.similarity < similarity) {
+                        current = {
+                            index: i,
+                            similarity: similarity
+                        }
+                    }
+                }
+            }
+
+            if (current === undefined) {
+                message.reply("member not found");
+                return;
+            }
+
+            let targetMember = members[current.index];
+
+            let targetGrounded = targetMember.roles.find(e => {
+                return e.id === guild.settings.groundedRole;
+            });
+            if (targetGrounded !== undefined && targetGrounded !== null) {
+                message.reply("target is already grounded");
+                return;
+            }
+
+
+            // Disabled for testing.
+            for (let i = 0; i < vg.length; i++) {
+                if (vg[i].target.user.id !== targetMember.user.id) {
+                    continue;
+                }
+
+                if (vg[i].member.user.id === message.author.id) {
+                    message.reply("youve already added your vote");
+                    return;
+                }
+            }
+
+            let numVotes = 4;
+            /*
+            let numNk = 0;
+            for (let i = 0; i < members.length; i++) {
+
+                let nkRole = members[i].roles.find(e => {
+                    return e.id === "375413987338223616";
+                });
+                if (nkRole === undefined || nkRole === null) {
+                    continue;
+                }
+
+                numNk++;
+            }
+
+            numVotes += Math.floor(numNk / 10);
+            */
+
+            let currentVotes = 0;
+            for (let i = 0; i < vg.length; i++) {
+                if (vg[i].target.user.id === targetMember.user.id) {
+                    currentVotes++;
+                }
+            }
+
+            if (currentVotes === numVotes - 1) {
+
+                let groundedRole = message.guild.roles.find(e => {
+                    return e.id === guild.settings.groundedRole;
+                });
+                if (groundedRole === undefined || groundedRole === null) {
+                    message.reply("error grounding target");
+                    return;
+                }
+
+                targetMember.addRole(groundedRole);
+
+                while (true) {
+
+                    let found = false;
+                    for (let i = 0; i < vg.length; i++) {
+                        if (vg[i].target.user.id === targetMember.user.id) {
+                            vg.splice(i, 1);
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (found === false) {
+                        break;
+                    }
+                }
+
+                message.channel.send("user has been grounded");
+
+                return;
+            }
+
+            if (currentVotes === 0) {
+
+                message.channel.send(`<@${"*mods (temp)*"}>, <@${message.author.id}> has started a vote to ground <@${targetMember.displayName}>\n**1/${numVotes}** votes are needed to ground the target.\nUse: '${guild.settings.prefix}vg ${targetMember.displayName}' to add your vote.\nThis vote will expire in 10 minutes.\nAbuse of this command may result in a ban.`);
+            
+                setTimeout(() => {
+
+                    while (true) {
+
+                        let found = false;
+                        for (let i = 0; i < vg.length; i++) {
+                            if (vg[i].target.user.id === targetMember.user.id) {
+                                vg.splice(i, 1);
+                                found = true;
+                                break;
+                            }
+                        }
+    
+                        if (found === false) {
+                            break;
+                        }
+                    }
+
+                }, 600000);
+            } else {
+
+                message.channel.send(`<@${message.author.id}>, your vote has been added to ground ${targetMember.displayName}\n**${currentVotes + 1}/${numVotes}** votes are needed to ground the target.`);
+            }
+
+            vg.push({
+                target: targetMember,
+                member: message.member
+            });
         }
     }),
     new Command({
@@ -2689,7 +2839,13 @@ const commands = [
             }
 
             for (let i = 0; i < teams.length; i++) {
+                if (targetTeam.exclusive === false) {
+                    break;
+                }
                 if (teams[i].id === targetTeam.id) {
+                    continue;
+                }
+                if (teams[i].exclusive === false) {
                     continue;
                 }
                 const otherRole = message.member.roles.array().find(e => {
