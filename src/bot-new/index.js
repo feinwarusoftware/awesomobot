@@ -821,12 +821,15 @@ app.route("/guilds/:guild_id").get((req, res) => {
     }
 
     findGuild(req.params.guild_id).then(guild => {
+
         guild.premium = req.body.premium === undefined ? false : req.body.premium;
         guild.settings = req.body.settings === undefined ? {} : req.body.settings;
         guild.members = req.body.members === undefined ? [] : req.body.members;
         guild.groups = req.body.groups === undefined ? [] : req.body.groups;
         guild.commands = req.body.commands === undefined ? [] : req.body.commands;
         guild.bindings = req.body.bindings === undefined ? [] : req.body.bindings;
+        guild.scripts = req.body.scripts === undefined ? [] : req.body.scripts;
+
         guild.save(error => {
             if (error !== null) {
                 return res.json({error});
@@ -848,6 +851,7 @@ app.route("/guilds/:guild_id").get((req, res) => {
     }
 
     findGuild(req.params.guild_id).then(guild => {
+
         if (req.body.premium !== undefined) {
             guild.premium = req.body.premium;
         }
@@ -866,6 +870,10 @@ app.route("/guilds/:guild_id").get((req, res) => {
         if (req.body.bindings !== undefined) {
             guild.bindings = req.body.bindings;
         }
+        if (req.body.settings !== undefined) {
+            guild.settings = req.body.settings;
+        }
+
         guild.save(error => {
             if (error !== null) {
                 return res.json({error});
@@ -1211,7 +1219,6 @@ app.route("/guilds/:guild_id/groups/:group_name").get((req, res) => {
         group.roles = req.body.roles === undefined ? [] : req.body.roles;
         group.members = req.body.members === undefined ? [] : req.body.members;
         group.badges = req.body.badges === undefined ? [] : req.body.badges;
-        group.scripts = req.body.scripts === undefined ? [] : req.body.scripts;
 
         guild.save(error => {
             if (error !== null) {
@@ -1243,25 +1250,22 @@ app.route("/guilds/:guild_id/groups/:group_name").get((req, res) => {
         }
 
         if (req.body.name !== undefined) {
-            group.name = req,body.name;
+            group.name = req.body.name;
         }
         if (req.body.inherits !== undefined) {
-            group.inherits = req,body.inherits;
+            group.inherits = req.body.inherits;
         }
         if (req.body.channels !== undefined) {
-            group.channels = req,body.channels;
+            group.channels = req.body.channels;
         }
         if (req.body.roles !== undefined) {
-            group.roles = req,body.roles;
+            group.roles = req.body.roles;
         }
         if (req.body.members !== undefined) {
-            group.members = req,body.members;
+            group.members = req.body.members;
         }
         if (req.body.badges !== undefined) {
-            group.badges = req,body.badges;
-        }
-        if (req.body.scripts !== undefined) {
-            group.scripts = req,body.scripts;
+            group.badges = req.body.badges;
         }
 
         guild.save(error => {
