@@ -86,6 +86,14 @@ const GuildSchema = new Schema({
         },
         authorId: String,
         value: String
+    }],
+    scripts: [{
+        name: {
+            type: String,
+            lowercase: true,
+        },
+        authorId: String,
+        value: String
     }]
 }, { usePushEach: true });
 

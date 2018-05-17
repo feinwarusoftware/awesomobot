@@ -1826,7 +1826,6 @@ const commands = [
             message.reply(`your shit score is: ${stat.value}`);
         }
     }),
-    //
     /*
     new Command({
         name: "one scripty boii",
@@ -1879,7 +1878,7 @@ const commands = [
         }
     }),
     */
-    /*
+    //
     new Command({
         name: "addscript",
         desc: "adds a script to the bot",
@@ -1974,7 +1973,7 @@ const commands = [
             message.reply(`looks like awesomo shit itself, blame dragon`);
         }
     }),
-    */
+    //
     new Command({
         name: "echo",
         desc: "sends a message in discord",

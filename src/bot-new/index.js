@@ -341,6 +341,36 @@ client.on("message", message => {
                     return;
                 }
             }
+
+            //
+            for (let i = 0; i < guildDoc.scripts.length; i++) {
+
+                if (message.content.split(" ")[0].toLowerCase() === guildDoc.settings.prefix + guildDoc.scripts[i].name) {
+                
+                    //
+                    let code = guildDoc.scripts[i].value;
+
+                    if (code.startsWith("```js")) {
+                        code = code.substring(5);
+                    }
+                    if (code.startsWith("```")) {
+                        code = code.substring(3);
+                    }
+                    if (code.endsWith("```")) {
+                        code = code.substring(0, code.length - 3)
+                    }
+
+                    try {
+                        vm.runInNewContext(`"use strict"\n${code}`, { message });
+                    } catch(error) {
+                        message.reply(`error running script: ${error}`);
+                    }
+
+                    return;
+                }
+            }
+            //
+
         });
         return;
     }
@@ -432,6 +462,35 @@ client.on("message", message => {
             return;
         }
     }
+
+    //
+    for (let i = 0; i < guild.scripts.length; i++) {
+
+        if (message.content.split(" ")[0].toLowerCase() === guild.settings.prefix + guild.scripts[i].name) {
+        
+            //
+            let code = guild.scripts[i].value;
+
+            if (code.startsWith("```js")) {
+                code = code.substring(5);
+            }
+            if (code.startsWith("```")) {
+                code = code.substring(3);
+            }
+            if (code.endsWith("```")) {
+                code = code.substring(0, code.length - 3)
+            }
+
+            try {
+                vm.runInNewContext(`"use strict"\n${code}`, { message });
+            } catch(error) {
+                message.reply(`error running script: ${error}`);
+            }
+
+            return;
+        }
+    }
+    //
 
     /*
     for (let i = 0; i < commands.length; i++) {
