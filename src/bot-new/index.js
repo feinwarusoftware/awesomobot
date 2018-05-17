@@ -870,8 +870,8 @@ app.route("/guilds/:guild_id").get((req, res) => {
         if (req.body.bindings !== undefined) {
             guild.bindings = req.body.bindings;
         }
-        if (req.body.settings !== undefined) {
-            guild.settings = req.body.settings;
+        if (req.body.scripts !== undefined) {
+            guild.scripts = req.body.scripts;
         }
 
         guild.save(error => {
