@@ -505,6 +505,16 @@ const commands = [
         match: ["voteground", "vground", "voteg", "vg"],
         call: function (client, message, guild) {
 
+            // Remove this and actually use permissions lol.
+            let nkRole = message.member.roles.find(e => {
+                return e.id === "375413987338223616";
+            });
+            if (nkRole === undefined || nkRole === null) {
+                message.reply("you need to be a new kid to use this command");
+                return;
+            }
+            //
+
             let similarityThreshold = 0.6;
             let members = message.guild.members.array();
 
@@ -554,7 +564,7 @@ const commands = [
                 }
             }
 
-            let numVotes = 4;
+            let numVotes = 6;
             /*
             let numNk = 0;
             for (let i = 0; i < members.length; i++) {
