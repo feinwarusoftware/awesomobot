@@ -1,0 +1,1272 @@
+[{
+    "type": "dev-test",
+    "name": "Hookhand Clyde",
+    "theme": "Adventure",
+    "rarity": "Epic",
+    "art": "ClydeAdvCard.jpg",
+    "class": "Fighter",
+    "energy": 3,
+    "attack_info": {
+        "attack_range": 0.7,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.675,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": null,
+    "health_loss": null,
+    "tags": ["kids", "male", "human", "melee", "adv"],
+    "min_pvp_rank": 10,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 208,
+            "attack": 45,
+            "ability_info": {
+                "ability": true,
+                "description": "Warcry: Damage a random enemy. (22 if it hits enemy leader.)"
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Storyteller Jimmy",
+    "theme": "Adventure",
+    "rarity": "Epic",
+    "art": "JimmyAdvCard.jpg",
+    "class": "Fighter",
+    "energy": 3,
+    "attack_info": {
+        "attack_range": 0.5,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.675,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": 0.063,
+    "health_loss": null,
+    "tags": ["kids", "male", "human", "melee", "hasmovementsounds", "adv"],
+    "min_pvp_rank": 1,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 211,
+            "attack": 48,
+            "ability_info": {
+                "ability": true,
+                "description": "Aura: Decrease attack of all nearby enemies"
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Pocahontas Randy",
+    "theme": "Adventure",
+    "rarity": "Epic",
+    "art": "RandyAdvCard.jpg",
+    "class": "Fighter",
+    "energy": 5,
+    "attack_info": {
+        "attack_range": 0.8,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.495,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": 0.07,
+    "health_loss": null,
+    "tags": ["male", "human", "melee", "adults", "adv", "parent"],
+    "min_pvp_rank": 15,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 400,
+            "attack": 40,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Calls and indian kid to battle."
+            }
+        }]
+    }],
+    "spawn_count": 1,
+    "spawn_level": 1
+}, {
+    "type": "dev-test",
+    "name": "Dogpoo",
+    "theme": "Neutral",
+    "rarity": "Epic",
+    "art": "DogpooGenCard.jpg",
+    "class": "Fighter",
+    "energy": 3,
+    "attack_info": {
+        "attack_range": 0.3,
+        "attack_speed": 0,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": null,
+        "time_to_max_speed": null
+    },
+    "power_charge_rate": null,
+    "health_loss": null,
+    "tags": ["Adv"],
+    "min_pvp_rank": 10,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": null,
+            "attack": 112,
+            "ability_info": {
+                "ability": false,
+                "description": "Damage all enemies."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Arrowstorm",
+    "theme": "Adventure",
+    "rarity": "Epic",
+    "art": "SpellArrowstom.jpg",
+    "class": "Spell",
+    "energy": 4,
+    "attack_info": {
+        "attack_range": null,
+        "attack_speed": null,
+        "pre_attack_delay": null,
+        "time_between_delay": null,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": null,
+        "time_to_max_speed": null
+    },
+    "power_charge_rate": null,
+    "health_loss": null,
+    "tags": ["adv"],
+    "min_pvp_rank": 10,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": true,
+                "description": "Deal 112 damage to all enemies."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Inuit Kenny",
+    "theme": "Adventure",
+    "rarity": "Legendary",
+    "art": "KennyAdvCard.jpg",
+    "class": "Assassin",
+    "energy": 4,
+    "attack_info": {
+        "attack_range": 0.56,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 1.35,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": null,
+    "health_loss": null,
+    "tags": ["kids", "male", "human", "assassin", "adv"],
+    "min_pvp_rank": 25,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 2,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 96,
+            "attack": 102,
+            "ability_info": {
+                "ability": true,
+                "description": "Deathwish: Kills the enemy that killed him."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Stan of Many Moons",
+    "theme": "Adventure",
+    "rarity": "Legendary",
+    "art": "StanAdvCard.jpg",
+    "class": "Fighter",
+    "energy": 4,
+    "attack_info": {
+        "attack_range": 0.6,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.675,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": 0.05,
+    "health_loss": null,
+    "tags": ["kids", "male", "human", "melee", "adv"],
+    "min_pvp_rank": 5,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 2,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 272,
+            "attack": 60,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Casts a fiery blast at all enemies."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Rogue Token",
+    "theme": "Fantasy",
+    "rarity": "Epic",
+    "art": "TokenFanCard.jpg",
+    "class": "Fighter",
+    "energy": 4,
+    "attack_info": {
+        "attack_range": 0.6,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.675,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": null,
+    "health_loss": null,
+    "tags": ["kids", "male", "human", "melee", "fan"],
+    "min_pvp_rank": 15,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 203,
+            "attack": 48,
+            "ability_info": {
+                "ability": true,
+                "description": "Warcry: Deal damage to nearby enemies."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "The Amazingly Randy",
+    "theme": "Fantasy",
+    "rarity": "Epic",
+    "art": "RandyFanCard.jpg",
+    "class": "Ranged",
+    "energy": 4,
+    "attack_info": {
+        "attack_range": 3,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.675,
+        "time_to_max_ax_speed": 0.5
+    },
+    "power_charge_rate": 0.067,
+    "health_loss": null,
+    "tags": ["parent", "male", "human", "fan", "ranged", "adults"],
+    "min_pvp_rank": 20,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 120,
+            "attack": 45,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Summon two magic cocks from thin air!"
+            }
+        }]
+    }],
+    "spawn_count": 2,
+    "spawn_level": 1
+}, {
+    "type": "dev-test",
+    "name": "Cock Magic",
+    "theme": "Fantasy",
+    "rarity": "Epic",
+    "art": "SpellCockMagicCard.jpg",
+    "class": "Spell",
+    "energy": 5,
+    "attack_info": {
+        "attack_range": null,
+        "attack_speed": null,
+        "pre_attack_delay": null,
+        "time_between_delay": null,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": null,
+        "time_to_max_speed": null
+    },
+    "power_charge_rate": null,
+    "health_loss": null,
+    "tags": ["fan"],
+    "min_pvp_rank": 20,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": false,
+                "description": "Transform 2 random allies and/or enemies into angry cocks."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Transmogrify",
+    "theme": "Fantasy",
+    "rarity": "Epic",
+    "art": "SpellTransmogrifyCard.jpg",
+    "class": "Spell",
+    "energy": 5,
+    "attack_info": {
+        "attack_range": null,
+        "attack_speed": null,
+        "pre_attack_delay": null,
+        "time_between_delay": null,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": null,
+        "time_to_max_ax_speed": null
+    },
+    "power_charge_rate": null,
+    "health_loss": null,
+    "tags": ["fan"],
+    "min_pvp_rank": 15,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": false,
+                "description": "Transforms target enemy into a worthless rat."
+            }
+        }]
+    }],
+    "spawn_count": 1,
+    "spawn_level": 1
+}, {
+    "type": "dev-test",
+    "name": "Chicken Coop",
+    "theme": "Fantasy",
+    "rarity": "Epic",
+    "art": "ChickencoopFanTotCard.jpg",
+    "class": "Totem",
+    "energy": 4,
+    "attack_info": {
+        "attack_range": null,
+        "attack_speed": null,
+        "pre_attack_delay": null,
+        "time_between_delay": null,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0,
+        "time_to_max_ax_speed": 0.5
+    },
+    "power_charge_rate": null,
+    "health_loss": 11,
+    "tags": ["object", "totem", "fan"],
+    "min_pvp_rank": 40,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 450,
+            "attack": 0,
+            "ability_info": {
+                "ability": true,
+                "description": "Spawns a fresh cock every second. Loses 11hp per second."
+            }
+        }]
+    }],
+    "spawn_count": 1,
+    "spawn_level": 1
+}, {
+    "type": "dev-test",
+    "name": "Shieldmaiden Wendy",
+    "theme": "Fantasy",
+    "rarity": "Legendary",
+    "art": "WendyFanCard.jpg",
+    "class": "Fighter",
+    "energy": 3,
+    "attack_info": {
+        "attack_range": 0.9,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.675,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": 0.067,
+    "health_loss": null,
+    "tags": ["male", "human", "melee", "fan", "female"],
+    "min_pvp_rank": 15,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 2,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 240,
+            "attack": 60,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Become invincible for 3 seconds."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Grand Wizard Cartman",
+    "theme": "Fantasy",
+    "rarity": "Legendary",
+    "art": "CartmanFanCard.jpg",
+    "class": "Tank",
+    "energy": 6,
+    "attack_info": {
+        "attack_range": 1.05,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.27,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": 0.05,
+    "health_loss": null,
+    "tags": ["kids", "male", "human", "tank", "fan"],
+    "min_pvp_rank": 15,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 2,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 1026,
+            "attack": 26,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Blasts nearby enemies with super sweet magic!"
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Choirboy Butters",
+    "theme": "Mystical",
+    "rarity": "Epic",
+    "art": "ButtersMysCard.jpg",
+    "class": "Assassin",
+    "energy": 2,
+    "attack_info": {
+        "attack_range": 0.6,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 1.35,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": null,
+    "health_loss": null,
+    "tags": ["kids", "male", "human", "assassin", "mys"],
+    "min_pvp_rank": 5,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 77,
+            "attack": 82,
+            "ability_info": {
+                "ability": true,
+                "description": "Deathwish: Gives you a little extra energy."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Hermes Kenny",
+    "theme": "Mystical",
+    "rarity": "Epic",
+    "art": "KennyMysCard.jpg",
+    "class": "Assassin",
+    "energy": 3,
+    "attack_info": {
+        "attack_range": 0.75,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 1.44,
+        "tie_to_max_ax_speed": 0.5
+    },
+    "power_charge_rate": null,
+    "health_loss": null,
+    "tags": ["kids", "male", "human", "mys", "assassin"],
+    "min_pvp_rank": 10,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 77,
+            "attack": 82,
+            "ability_info": {
+                "ability": true,
+                "description": "Deathwish: Double energy gain for 2 seconds."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Pope Timmy",
+    "theme": "Mystical",
+    "rarity": "Epic",
+    "art": "TimmyMysCard.jpg",
+    "class": "Ranged",
+    "energy": 7,
+    "attack_info": {
+        "attack_range": 5,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0.9,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.27,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": null,
+    "health_loss": null,
+    "tags": ["kids", "male", "human", "hasmovementsounds", "mys", "artillery", "disabled"],
+    "min_pvp_rank": 10,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 200,
+            "attack": 64,
+            "ability_info": {
+                "ability": true,
+                "description": "Warcry: Fully revive the most recent dead ally"
+            }
+        }]
+    }],
+    "spawn_count": 1,
+    "spawn_level": 1
+}, {
+    "type": "dev-test",
+    "name": "Witch Doctor Token",
+    "theme": "Mystical",
+    "rarity": "Legendary",
+    "art": "TokenMysCard.jpg",
+    "class": "Fighter",
+    "energy": 4,
+    "attack_info": {
+        "attack_range": 0.6,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.675,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": 0.063,
+    "health_loss": null,
+    "tags": ["kids", "male", "human", "melee", "mys"],
+    "min_pvp_rank": 35,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 2,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 300,
+            "attack": 60,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Drains health from nearby enemies."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Medusa Bebe",
+    "theme": "Mystical",
+    "rarity": "Legendary",
+    "art": "BebeMysCard.jpg",
+    "class": "Ranged",
+    "energy": 4,
+    "attack_info": {
+        "attack_range": 4,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 1,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.675,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": null,
+    "health_loss": null,
+    "tags": ["kids", "human", "ranged", "mys", "female"],
+    "min_pvp_rank": 10,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 2,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 350,
+            "attack": 50,
+            "ability_info": {
+                "ability": true,
+                "description": "When Medua Bebe kills an enemy, turn that enemy into a snake that belongs to you."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "The Master Ninjew",
+    "theme": "Mystical",
+    "rarity": "Legendary",
+    "art": "KyleMysCard.jpg",
+    "class": "Ranged",
+    "energy": 4,
+    "attack_info": {
+        "attack_range": 3.75,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.855,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": null,
+    "health_loss": null,
+    "tags": ["kids", "male", "human", "ranged", "mys"],
+    "min_pvp_rank": 20,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 2,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 140,
+            "attack": 30,
+            "ability_info": {
+                "ability": true,
+                "description": "Warcry: +35 attack to all other allies."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Dogpoo",
+    "theme": "Neutral",
+    "rarity": "Epic",
+    "art": "DogpooGenCard.jpg",
+    "class": "Fighter",
+    "energy": 3,
+    "attack_info": {
+        "attack_range": 0.3,
+        "attack_speed": 0,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.675,
+        "time_to_max_speed": 0
+    },
+    "power_charge_rate": 0.067,
+    "health_loss": null,
+    "tags": ["kids", "male", "human", "melee", "gen"],
+    "min_pvp_rank": 1,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 240,
+            "attack": 80,
+            "ability_info": {
+                "ability": false,
+                "description": "Hits Hard with a masterfully wielded dog turd."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Marcus",
+    "theme": "Neutral",
+    "rarity": "Epic",
+    "art": "MarcusGenCard.jpg",
+    "class": "Fighter",
+    "energy": 4,
+    "attack_info": {
+        "attack_range": 0.7,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.675,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": 0.075,
+    "health_loss": null,
+    "tags": ["kids", "male", "human", "melee", "gen"],
+    "min_pvp_rank": 20,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 320,
+            "attack": 30,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Throws a drug pillow at enemy leader, dealing 30 damage."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Towelie",
+    "theme": "Neutral",
+    "rarity": "Epic",
+    "art": "TowelieGenCard.jpg",
+    "class": "fighter",
+    "energy": 3,
+    "attack_info": {
+        "attack_range": 0.8,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.63,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": null,
+    "health_loss": null,
+    "tags": ["male", "melee", "gen", "adults"],
+    "min_pvp_rank": 1,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 253,
+            "attack": 29,
+            "ability_info": {
+                "ability": true,
+                "description": "Aura: Whenever an enemy is in the range of Towelie, they are slowed."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Mr. Hankey",
+    "theme": "Neutral",
+    "rarity": "Legendary",
+    "art": "MrhankeyGenCard.jpg",
+    "class": "Assassin",
+    "energy": 3,
+    "attack_info": {
+        "attack_range": 0.4,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 1.35,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": null,
+    "health_loss": null,
+    "tags": ["male", "gen", "assassin", "adults"],
+    "min_pvp_rank": 5,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 2,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 33,
+            "attack": 37,
+            "ability_info": {
+                "ability": true,
+                "description": "Warcry: Double the charge rate on all allies for 20 seconds."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Manbearpig",
+    "theme": "Neutral",
+    "rarity": "Legendary",
+    "art": "ManbearpigGenCard.jpg",
+    "class": "Tank",
+    "energy": 7,
+    "attack_info": {
+        "attack_range": 2,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0.5,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.7,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": null,
+    "health_loss": null,
+    "tags": ["male", "human", "gen", "tank", "adults", "animal"],
+    "min_pvp_rank": 10,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 2,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 1200,
+            "attack": 60,
+            "ability_info": {
+                "ability": false,
+                "description": "Holy shit, it's real!"
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Gizmo Ike",
+    "theme": "Sci-Fi",
+    "rarity": "Epic",
+    "art": "IkeSciCard.jpg",
+    "class": "Assassin",
+    "energy": 3,
+    "attack_info": {
+        "attack_range": 0.45,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.7,
+        "time_to_max_ax_speed": 0.5
+    },
+    "power_charge_rate": 0.143,
+    "health_loss": null,
+    "tags": ["kindergarteners", "male", "human", "sci", "assassin"],
+    "min_pvp_rank": 5,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 78,
+            "attack": 78,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Splits into two Gizmo Ikes."
+            }
+        }]
+    }],
+    "spawn_count": 1,
+    "spawn_level": 1
+}, {
+    "type": "dev-test",
+    "name": "Cyborg Kenny",
+    "theme": "Sci-Fi",
+    "rarity": "Epic",
+    "art": "KennySciCard.jpg",
+    "class": "Assassin",
+    "energy": 4,
+    "attack_info": {
+        "attack_range": 0.67,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 1.35,
+        "time_to_max_ax_speed": 0.5
+    },
+    "power_charge_rate": 0.063,
+    "health_loss": null,
+    "tags": ["kids", "male", "human", "sci", "assassin"],
+    "min_pvp_rank": 10,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 80,
+            "attack": 80,
+            "ability_info": {
+                "ability": true,
+                "description": "Deathwish: Heal and control this unit's killer for 10 seconds."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Program Stan",
+    "theme": "Sci-Fi",
+    "rarity": "Epic",
+    "art": "StanSciCard.jpg",
+    "class": "Fighter",
+    "energy": 3,
+    "attack_info": {
+        "attack_range": 0.6,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.675,
+        "time_to_ma_speed": 0.5
+    },
+    "power_charge_rate": 0.05,
+    "health_loss": null,
+    "tags": ["kids", "male", "human", "melee", "sci"],
+    "min_pvp_rank": 5,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 218,
+            "attack": 48,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Freeze all enemies for 2 seconds and deal 16 damage as well."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "A.W.E.S.O.M.-O 4000",
+    "theme": "Sci-Fi",
+    "rarity": "Epic",
+    "art": "CartmanSciCard.jpg",
+    "class": "Tank",
+    "energy": 5,
+    "attack_info": {
+        "attack_range": 1.05,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.27,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": 0.05,
+    "health_loss": null,
+    "tags": ["kids", "male", "human", "sci", "tank"],
+    "min_pvp_rank": 5,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 661,
+            "attack": 21,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Freezes nearby enemies with a cosmic stomp."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
+    "name": "Sixth Element Randy",
+    "theme": "Sci-Fi",
+    "rarity": "Legendary",
+    "art": "RandySciCard.jpg",
+    "class": "Fighter",
+    "energy": 5,
+    "attack_info": {
+        "attack_range": 0.8,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.36,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": 0.067,
+    "health_loss": null,
+    "tags": ["male", "human", "melee", "sci", "adults", "parent"],
+    "min_pvp_rank": 20,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 2,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 500,
+            "attack": 75,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: pukes and summons a robot vacuum."
+            }
+        }]
+    }],
+    "spawn_count": 1,
+    "spawn_level": 1
+}, {
+    "type": "dev-test",
+    "name": "Mecha Timmy",
+    "theme": "Sci-Fi",
+    "rarity": "Legendary",
+    "art": "TimmySciCard.jpg",
+    "class": "Ranged",
+    "energy": 4,
+    "attack_info": {
+        "attack_range": 5,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0.6,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.27,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": 0.067,
+    "health_loss": null,
+    "tags": ["kids", "male", "human", "sci", "hasmovementsound", "artillery", "disabled"],
+    "min_pvp_rank": 30,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 2,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 250,
+            "attack": 60,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Control the nearest enemy for 3.0 seconds."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}]

@@ -4,6 +4,7 @@ const discord = require("discord.js");
 const moment = require("moment");
 const momentTz = require("moment-timezone");
 const path = require("path");
+const fs = require("fs");
 
 const utils = require("./utils");
 const spnav = require("./api/spnav");
@@ -625,7 +626,7 @@ const commands = [
             if (currentVotes === 0) {
 
                 message.channel.send(`<@${"*mods (temp)*"}>, <@${message.author.id}> has started a vote to ground <@${targetMember.displayName}>\n**1/${numVotes}** votes are needed to ground the target.\nUse: '${guild.settings.prefix}vg ${targetMember.displayName}' to add your vote.\nThis vote will expire in 10 minutes.\nAbuse of this command may result in a ban.`);
-            
+
                 setTimeout(() => {
 
                     while (true) {
@@ -638,7 +639,7 @@ const commands = [
                                 break;
                             }
                         }
-    
+
                         if (found === false) {
                             break;
                         }
@@ -768,7 +769,7 @@ const commands = [
                         embed.addField("Position:", "```" + channels[i].position + "```");
                         embed.addField("Deletable:", "```" + channels[i].deletable + "```");
 
-                        switch(channels[i].type) {
+                        switch (channels[i].type) {
                             case "text":
                                 embed.addField("Nsfw:", "```" + channels[i].nsfw + "```");
                                 embed.addField("Topic:", "```" + (channels[i].topic.length > 50 ? channels[i].topic.substring(0, 50) + "..." : channels[i].topic) + "```");
@@ -906,7 +907,7 @@ const commands = [
                         embed.addField("Position:", "```" + channels[i].position + "```");
                         embed.addField("Deletable:", "```" + channels[i].deletable + "```");
 
-                        switch(channels[i].type) {
+                        switch (channels[i].type) {
                             case "text":
                                 embed.addField("Nsfw:", "```" + channels[i].nsfw + "```");
                                 embed.addField("Topic:", "```" + (channels[i].topic.length > 50 ? channels[i].topic.substring(0, 50) + "..." : channels[i].topic) + "```");
@@ -1240,7 +1241,7 @@ const commands = [
                         embed.addField("Position:", "```" + channels[i].position + "```");
                         embed.addField("Deletable:", "```" + channels[i].deletable + "```");
 
-                        switch(channels[i].type) {
+                        switch (channels[i].type) {
                             case "text":
                                 embed.addField("Nsfw:", "```" + channels[i].nsfw + "```");
                                 embed.addField("Topic:", "```" + (channels[i].topic.length > 50 ? channels[i].topic.substring(0, 50) + "..." : channels[i].topic) + "```");
@@ -1286,7 +1287,7 @@ const commands = [
                         embed.addField("Position:", "```" + channels[i].position + "```");
                         embed.addField("Deletable:", "```" + channels[i].deletable + "```");
 
-                        switch(channels[i].type) {
+                        switch (channels[i].type) {
                             case "text":
                                 embed.addField("Nsfw:", "```" + channels[i].nsfw + "```");
                                 embed.addField("Topic:", "```" + (channels[i].topic.length > 50 ? channels[i].topic.substring(0, 50) + "..." : channels[i].topic) + "```");
@@ -3353,7 +3354,7 @@ const commands = [
                     break;
                 }
             }
-            if (dbMember === undefined){
+            if (dbMember === undefined) {
                 dbMember = {
                     id: args[1],
                     roles: []
@@ -3421,12 +3422,12 @@ const commands = [
                     break;
                 }
             }
-            if (dbMember === undefined){
+            if (dbMember === undefined) {
                 message.reply("this user does not have any sticky roles. **Super lame.**");
-                return;            
+                return;
             }
-            for (let i = 0; i < dbMember.roles.length; i++){
-                if(dbMember.roles[i] === args[2]){
+            for (let i = 0; i < dbMember.roles.length; i++) {
+                if (dbMember.roles[i] === args[2]) {
                     dbMember.roles.splice(i, 1);
                     message.reply("sticky role removal successful. **Epic.**");
                     return;
@@ -3434,7 +3435,196 @@ const commands = [
             }
             message.reply("this user does not have this role. **Critical failure. Bot shutting down.**");
         }
-    })
+    }),
+    new Command({
+        name: "card",
+        desc: "Phone Destroyer!",
+        type: "command",
+        match: "card",
+        call: function (client, message, guild) {
+
+            let cardName = message.content.substring(guild.settings.prefix.length + this.match.length + 1);
+
+            let jsonContent = fs.readFileSync(path.join(__dirname, "assets", "cards.json"));
+
+            let cardObject;
+            try {
+                cardObject = JSON.parse(jsonContent);
+            } catch (error) {
+                message.reply(error);
+                return;
+            }
+
+            let card;
+            for (let i = 0; i < cardObject.length; i++) {
+                if (cardObject[i].name === cardName) {
+                    card = cardObject[i];
+                    break;
+                }
+            }
+            if (card === undefined) {
+                message.reply("card not found");
+                return;
+            }
+
+            // Get the frame outline.
+            const frameWidth = 305;
+            const frameHeight = 418;
+
+            let x, y, z, w;
+
+            switch (card.rarity) {
+                case "Common":
+                    y = 0;
+                    switch (card.theme) {
+                        case "Adventure":
+                            x = frameWidth;
+                            break;
+                        case "Sci-Fi":
+                            x = frameWidth * 2;
+                            break;
+                        case "Mystical":
+                            x = frameWidth * 3;
+                            break;
+                        case "Fantasy":
+                            x = frameWidth * 4;
+                            break;
+                        case "Neutral":
+                            x = 0;
+                            break;
+                        default:
+                            message.reply("theme not found");
+                            return;
+                            break;
+                    }
+                    break;
+                default:
+                    y = frameHeight;
+                    switch (card.theme) {
+                        case "Adventure":
+                            x = frameWidth;
+                            break;
+                        case "Sci-Fi":
+                            x = frameWidth * 2;
+                            break;
+                        case "Mystical":
+                            x = frameWidth * 3;
+                            break;
+                        case "Fantasy":
+                            x = frameWidth * 4;
+                            break;
+                        case "Neutral":
+                            x = 0;
+                            break;
+                        default:
+                            message.reply("theme not found");
+                            return;
+                            break;
+                    }
+                    break;
+            }
+
+            z = frameWidth;
+            w = frameHeight;
+
+            // Get the frame top.
+            const topWidth = 338;
+            const topHeight = 107;
+
+            let fx, fy, fz, fw;
+
+            fx = 0;
+
+            switch (card.rarity) {
+                case "Common":
+                    fy = undefined;
+                    break;
+                case "Rare":
+                    fy = 0;
+                    break;
+                case "Epic":
+                    fy = topHeight;
+                    break;
+                case "Legendary":
+                    fy = topHeight * 2;
+                    break;
+                default:
+                    message.reply("rarity not found");
+                    return;
+                    break;
+            }
+
+            fz = topWidth;
+            fw = topHeight;
+
+            // Make the image.
+            const bgWidth = 455;
+            const bgHeight = 630;
+
+            new jimp(800, 1200, function (error, bg) {
+
+                if (error !== undefined && error !== null) {
+                    message.reply("jimp error - cardArt");
+                    return;
+                }
+
+                jimp.read(path.join(__dirname, "assets", "art", "cards", card.art), function (error, cardArt) {
+
+                    if (error !== undefined && error !== null) {
+                        message.reply("jimp error - cardArt");
+                        return;
+                    }
+
+                    jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-top.png"), function (error, frameTop) {
+                        
+                        if (error !== undefined && error !== null) {
+                            message.reply("jimp error - frameOutline");
+                            return;
+                        }
+
+                        jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-outline.png"), function (error, frameOutline) {
+
+                            if (error !== undefined && error !== null) {
+                                message.reply("jimp error - frameOutline");
+                                return;
+                            }
+    
+                            frameOutline.crop(x, y, z, w);
+                            frameOutline.resize(bgWidth, bgHeight);
+
+                            if (fy !== undefined) {
+                                frameTop.crop(fx, fy, fz, fw);
+                                frameTop.resize(bgWidth + 49, 200);
+                            }
+    
+                            bg.composite(cardArt, bg.bitmap.width / 2 - cardArt.bitmap.width / 2, bg.bitmap.height / 2 - cardArt.bitmap.height / 2);
+                            bg.composite(frameOutline, bg.bitmap.width / 2 - frameOutline.bitmap.width / 2, bg.bitmap.height / 2 - frameOutline.bitmap.height / 2);
+
+                            if (fy !== undefined) {
+                                bg.composite(frameTop, (bg.bitmap.width / 2 - frameTop.bitmap.width / 2) - 8, 240);
+                            }
+    
+                            bg.write(path.join(__dirname, "assets", "temp.png"), function () {
+    
+                                message.channel.send("", {
+                                    file: path.join(__dirname, "assets", "temp.png")
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+
+            // common or not
+            // 5 types
+
+            // rarity
+
+            // fighter card, spell
+
+            // class, theme rarity
+        }
+    }),
 ];
 
 module.exports = commands;
