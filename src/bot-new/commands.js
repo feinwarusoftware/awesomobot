@@ -564,7 +564,7 @@ const commands = [
                 }
             }
 
-            let numVotes = 6;
+            let numVotes = 4;
             let currentVotes = 0;
             for (let i = 0; i < vg.length; i++) {
                 if (vg[i].target.user.id === targetMember.user.id) {
