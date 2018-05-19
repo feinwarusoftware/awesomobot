@@ -613,7 +613,7 @@ const commands = [
                 message.channel.send(new discord.RichEmbed()
                     .setAuthor("AWESOM-O // Vote Ground", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846")
                     .setDescription(`<@${message.author.id}> has started a vote to ground <@${targetMember.user.id}>.\n\nTo add your vote, please use the command: ${"```"}${guild.settings.prefix}vg ${targetMember.displayName}${"```"}\n**${numVotes - 1}** more votes are needed to ground the target user.\n\nThis vote will expire in **10 minutes**!\n\n**Abuse of this command will result in removal of your New Kid role.**`)).then((message) => {
-                        message.channel.send(new discord.RichEmbed().setDescription("<@&372409853894983690>"));
+                        message.channel.send("<@&372409853894983690>");
                     });
 
                 setTimeout(() => {
