@@ -538,7 +538,7 @@ const commands = [
             }
 
             if (current === undefined) {
-                message.reply("member not found");
+                message.reply("member not found!");
                 return;
             }
 
@@ -548,41 +548,23 @@ const commands = [
                 return e.id === guild.settings.groundedRole;
             });
             if (targetGrounded !== undefined && targetGrounded !== null) {
-                message.reply("target is already grounded");
+                message.reply("target is already grounded!");
                 return;
             }
-
-
-            // Disabled for testing.
+            
+            // Duplication checking.
             for (let i = 0; i < vg.length; i++) {
                 if (vg[i].target.user.id !== targetMember.user.id) {
                     continue;
                 }
 
                 if (vg[i].member.user.id === message.author.id) {
-                    message.reply("youve already added your vote");
+                    message.reply("you've already added your vote!");
                     return;
                 }
             }
 
             let numVotes = 6;
-            /*
-            let numNk = 0;
-            for (let i = 0; i < members.length; i++) {
-
-                let nkRole = members[i].roles.find(e => {
-                    return e.id === "375413987338223616";
-                });
-                if (nkRole === undefined || nkRole === null) {
-                    continue;
-                }
-
-                numNk++;
-            }
-
-            numVotes += Math.floor(numNk / 10);
-            */
-
             let currentVotes = 0;
             for (let i = 0; i < vg.length; i++) {
                 if (vg[i].target.user.id === targetMember.user.id) {
@@ -596,7 +578,7 @@ const commands = [
                     return e.id === guild.settings.groundedRole;
                 });
                 if (groundedRole === undefined || groundedRole === null) {
-                    message.reply("error grounding target");
+                    message.reply("error grounding target!");
                     return;
                 }
 
@@ -618,14 +600,21 @@ const commands = [
                     }
                 }
 
-                message.channel.send("user has been grounded");
+                message.channel.send(new discord.RichEmbed()
+                    .setAuthor("AWESOM-O // Vote Ground", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846")
+                    .setDescription("**User has been grounded!**"));
 
                 return;
             }
 
             if (currentVotes === 0) {
 
-                message.channel.send(`<@${"*mods (temp)*"}>, <@${message.author.id}> has started a vote to ground <@${targetMember.displayName}>\n**1/${numVotes}** votes are needed to ground the target.\nUse: '${guild.settings.prefix}vg ${targetMember.displayName}' to add your vote.\nThis vote will expire in 10 minutes.\nAbuse of this command may result in a ban.`);
+                //message.channel.send(`<@${"*mods (temp)*"}>, <@${message.author.id}> has started a vote to ground <@${targetMember.displayName}>!\n**${numVotes - 1}** more votes are needed to ground the target.\nUse: '${guild.settings.prefix}vg ${targetMember.displayName}' to add your vote.\nThis vote will expire in 10 minutes.\n**Abuse of this command may result in a ban!**`);
+                message.channel.send(new discord.RichEmbed()
+                    .setAuthor("AWESOM-O // Vote Ground", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846")
+                    .setDescription(`<@${message.author.id}> has started a vote to ground <@${targetMember.user.id}>.\n\nTo add your vote, please use the command: ${"```"}${guild.settings.prefix}vg ${targetMember.displayName}${"```"}\n**${numVotes - 1}** more votes are needed to ground the target user.\n\nThis vote will expire in **10 minutes**!\n\n**Abuse of this command will result in removal of your New Kid role.**`)).then((message) => {
+                        message.channel.send(new discord.RichEmbed().setDescription("<@&372409853894983690>"));
+                    });
 
                 setTimeout(() => {
 
@@ -648,9 +637,12 @@ const commands = [
                 }, 600000);
             } else {
 
-                message.channel.send(`<@${message.author.id}>, your vote has been added to ground ${targetMember.displayName}\n**${currentVotes + 1}/${numVotes}** votes are needed to ground the target.`);
+                //message.channel.send(`<@${message.author.id}>, your vote has been added to ground ${targetMember.displayName}\n**${currentVotes + 1}/${numVotes}** votes are needed to ground the target.`);
+                message.channel.send(new discord.RichEmbed()
+                    .setAuthor("AWESOM-O // Vote Ground", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846")
+                    .setDescription(`<@${message.author.id}>, your vote has been added to ground <@${targetMember.user.id}>.\n\n**${numVotes - (currentVotes + 1)}** more ${numVotes - (currentVotes + 1) === 1 ? "vote is" : "votes are"} needed to ground the target user.\n\n**Abuse of this command will result in removal of your New Kid role.**`));   
             }
-
+                    
             vg.push({
                 target: targetMember,
                 member: message.member
