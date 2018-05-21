@@ -906,7 +906,7 @@
     "theme": "Neutral",
     "rarity": "Epic",
     "art": "TowelieGenCard.jpg",
-    "class": "fighter",
+    "class": "Fighter",
     "energy": 3,
     "attack_info": {
         "attack_range": 0.8,

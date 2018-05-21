@@ -60,6 +60,10 @@ function wikiaSearch(query) {
     
                     let thumbnail = detail.items[id].thumbnail;
 
+                    if (thumbnail === null) {
+                        thumbnail = "https://media.tenor.com/images/1317831d21cd4cf6e57f34a86b46a821/tenor.gif";
+                    }
+
                     resolve({title, url, desc, thumbnail});
     
                 }).catch(error => {

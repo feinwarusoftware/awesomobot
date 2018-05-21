@@ -3273,21 +3273,55 @@ const commands = [
         call: function (client, message, guild) {
 
             const buttersimg = [
-                "https://pbs.twimg.com/profile_images/1379301839/butters_400x400.jpg",
-                "https://boards.420chan.org/mtv/src/1513917412948.png",
-                "http://3.bp.blogspot.com/_qBa_Bn_7yQE/TOvanIcFZwI/AAAAAAAAC5o/u-cioqeVS8w/s400/butters1.jpg",
-                "http://78.media.tumblr.com/22b4e5baad2b8013168c0797b2ce0002/tumblr_inline_n6vsq2kR4y1qb9gvm.png",
-                "https://vignette.wikia.nocookie.net/southpark/images/c/c2/Butters_%28Facebook%29.jpg/revision/latest/scale-to-width-down/150?cb=20101010032409",
-                "https://78.media.tumblr.com/ae2b88cda4d3387c9834b62b6dd2d299/tumblr_ozlmevoHRO1waz4ico4_r1_1280.png",
-                "https://pm1.narvii.com/6396/f76f6b5191670973a71e0ed7566eac328ae9ee18_hq.jpg",
-                "https://78.media.tumblr.com/842ede331fcfd4a694135a391b75563f/tumblr_ozlmevoHRO1waz4ico3_1280.png",
-                "https://78.media.tumblr.com/b2d3a659f77fd8b3d967c2ee395fa48f/tumblr_ozlmevoHRO1waz4ico6_r1_1280.png",
-                "https://78.media.tumblr.com/c80169d8d7667a9479dd02987277cf91/tumblr_ozlmevoHRO1waz4ico1_500.png",
-                "https://i.redd.it/firrbs9k9k401.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785248931971082/Butters17.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785256129527809/Butters3.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785260034555915/Butters5.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785265121984534/Butters8.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785273179504640/Butters9.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785279529680910/Butters10.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785288178335764/Butters12.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785295220441128/Butters13.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785304359960576/Butters14.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785316481499136/Butters15.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785340237774848/Butters30.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785353148104705/Butters18_.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785365017985024/Butters19.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785370374111243/Butters20.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785380041850880/Butters22.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785388103303188/Butters24.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785397091827724/Butters26.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785406474354699/Butters27.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785413533499392/Butters28.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785421838221322/Butters29.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785438271242240/Butters55.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785447020691456/Butters31.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785455161704448/Butters32.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785462606725131/Butters34.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785471439929346/Butters35.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785483557404673/Butters40.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785487650783237/Butters44.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785497117458459/Butters48.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785504331530242/Butters51.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785510325190677/Butters54.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785525802303503/Butters75.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785532165193738/Butters66.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785540696408074/Butters67.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785546761240577/Butters68.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785552977068032/Butters69.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785559658856479/Butters70.gif",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785566667407380/Butters71.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785574196051968/Butters72.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785586003017728/Butters73.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785587508903976/Butters74.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785602973433857/Butters81.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785614373552181/Butters77.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785615115812874/Butters76.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785621675573258/Butters78.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785633826734081/Butters80.png",
+                "https://cdn.discordapp.com/attachments/394504208222650369/447785636376870943/Butters79.png"
             ];
-            message.reply("", {
-                file: buttersimg[Math.floor(Math.random() * buttersimg.length)]
-            });
+
+            message.channel.send(new discord.RichEmbed().setImage(buttersimg[Math.floor(Math.random() * buttersimg.length)]));
         }
     }),
     new Command({
@@ -3549,57 +3583,179 @@ const commands = [
             fz = topWidth;
             fw = topHeight;
 
+            // Get the icon.
+            const iconWidth = 116;
+            const iconHeight = 106;
+
+            let ix, iy, iz, iw;
+
+            switch(card.class) {
+                case "Tank":
+                    iy = 0;
+                    break;
+                case "Spell":
+                    iy = iconHeight * 2;
+                    break;
+                case "Assassin":
+                    iy = iconHeight * 4;
+                    break;
+                case "Ranged":
+                    iy = iconHeight * 6;
+                    break;
+                case "Fighter":
+                    iy = iconHeight * 8;
+                    break;
+                case "Totem":
+                    iy = iconHeight * 10;
+                    break;
+            }
+
+            switch(card.rarity) {
+                case "Common":
+                    switch(card.theme) {
+                        case "Neutral":
+                            ix = 0;
+                            break;
+                        case "Adventure":
+                            ix = iconWidth;
+                            break;
+                        case "Sci-Fi":
+                            ix = iconWidth * 2;
+                            break;
+                        case "Mystical":
+                            ix = iconWidth * 3;
+                            break;
+                        case "Fantasy":
+                            ix = iconWidth * 4;
+                            break;
+                    }
+                    break;
+                case "Rare":
+                    iy += iconHeight;
+                    ix = 0;
+                    break;
+                case "Epic":
+                    iy += iconHeight;
+                    ix = iconWidth;
+                    break;
+                case "Legendary":
+                    iy += iconHeight;
+                    ix = iconWidth * 2;
+                    break;
+            }
+
+            iz = iconWidth;
+            iw = iconHeight;
+
+            // Get the overlay.
+            const overlayWidth = 305;
+            const overlayHeight = 418;
+
+            let ox, oy, oz, ow;
+
+            oy = 0;
+
+            switch(card.class) {
+                case "Spell":
+                    ox = overlayWidth;
+                    break;
+                default:
+                    ox = 0;
+                    break;
+            }
+
+            oz = overlayWidth;
+            ow = overlayHeight;
+
             // Make the image.
             const bgWidth = 455;
             const bgHeight = 630;
 
             new jimp(800, 1200, function (error, bg) {
-
                 if (error !== undefined && error !== null) {
                     message.reply("jimp error - cardArt");
                     return;
                 }
 
-                jimp.read(path.join(__dirname, "assets", "art", "cards", card.art), function (error, cardArt) {
-
+                jimp.loadFont(path.join(__dirname, "assets", "art", "fonts", "SP-25.fnt"), function (error, sp25Font) {
                     if (error !== undefined && error !== null) {
-                        message.reply("jimp error - cardArt");
+                        message.reply("jimp error - sp25Font");
                         return;
                     }
 
-                    jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-top.png"), function (error, frameTop) {
-                        
+                    jimp.read(path.join(__dirname, "assets", "art", "cards", card.art), function (error, cardArt) {
                         if (error !== undefined && error !== null) {
-                            message.reply("jimp error - frameOutline");
+                            message.reply("jimp error - cardArt");
                             return;
                         }
-
-                        jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-outline.png"), function (error, frameOutline) {
-
+    
+                        jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-overlay.png"), function (error, overlay) {
                             if (error !== undefined && error !== null) {
-                                message.reply("jimp error - frameOutline");
+                                message.reply("jimp error - overlay");
                                 return;
                             }
+        
+                            jimp.read(path.join(__dirname, "assets", "art", "templates", "card-character-type-icons.png"), function(error, typeIcons){
+                                if (error !== undefined && error !== null) {
+                                     message.reply("jimp error - typeIcons");
+                                        return;
+                                }
+                            
+                                jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-top.png"), function (error, frameTop) {
+                                    if (error !== undefined && error !== null) {
+                                        message.reply("jimp error - frameOutline");
+                                        return;
+                                    }
+            
+                                    jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-outline.png"), function (error, frameOutline) {
+                                        if (error !== undefined && error !== null) {
+                                            message.reply("jimp error - frameOutline");
+                                            return;
+                                        }
+                
+                                        frameOutline.crop(x, y, z, w);
+                                        frameOutline.resize(bgWidth, bgHeight);
+            
+                                        if (fy !== undefined) {
+                                            frameTop.crop(fx, fy, fz, fw);
+                                            frameTop.resize(bgWidth + 49, 200);
+                                        }
+        
+                                        typeIcons.crop(ix, iy, iz, iw);
+                                        typeIcons.scale(1.5);
+        
+                                        overlay.crop(ox, oy, oz, ow);
+                                        overlay.resize(bgWidth, bgHeight);
+                
+                                        bg.composite(cardArt, bg.bitmap.width / 2 - cardArt.bitmap.width / 2, bg.bitmap.height / 2 - cardArt.bitmap.height / 2);
+                                        bg.composite(overlay, bg.bitmap.width / 2 - overlay.bitmap.width / 2, bg.bitmap.height / 2 - overlay.bitmap.height / 2);
+                                        bg.composite(frameOutline, bg.bitmap.width / 2 - frameOutline.bitmap.width / 2, bg.bitmap.height / 2 - frameOutline.bitmap.height / 2);
     
-                            frameOutline.crop(x, y, z, w);
-                            frameOutline.resize(bgWidth, bgHeight);
+                                        if (fy !== undefined) {
+                                            bg.composite(frameTop, (bg.bitmap.width / 2 - frameTop.bitmap.width / 2) - 8, 240);
+                                        }
+    
+                                        bg.composite(typeIcons, 130, 190);
 
-                            if (fy !== undefined) {
-                                frameTop.crop(fx, fy, fz, fw);
-                                frameTop.resize(bgWidth + 49, 200);
-                            }
-    
-                            bg.composite(cardArt, bg.bitmap.width / 2 - cardArt.bitmap.width / 2, bg.bitmap.height / 2 - cardArt.bitmap.height / 2);
-                            bg.composite(frameOutline, bg.bitmap.width / 2 - frameOutline.bitmap.width / 2, bg.bitmap.height / 2 - frameOutline.bitmap.height / 2);
+                                        new jimp(500, 500, function (error, temp) {
+                                            if (error !== undefined && error !== null) {
+                                                message.reply("jimp error - error");
+                                                return;
+                                            }
 
-                            if (fy !== undefined) {
-                                bg.composite(frameTop, (bg.bitmap.width / 2 - frameTop.bitmap.width / 2) - 8, 240);
-                            }
-    
-                            bg.write(path.join(__dirname, "assets", "temp.png"), function () {
-    
-                                message.channel.send("", {
-                                    file: path.join(__dirname, "assets", "temp.png")
+                                            temp.print(sp25Font, 0, 0, card.name);
+                                            temp.autocrop(0.0002, false);
+
+                                            bg.composite(temp, (bg.bitmap.width / 2 - temp.bitmap.width / 2) + 20, 325);
+                
+                                            bg.write(path.join(__dirname, "assets", "temp.png"), function () {
+                    
+                                                message.channel.send("", {
+                                                    file: path.join(__dirname, "assets", "temp.png")
+                                                });
+                                            });
+                                        });
+                                    });
                                 });
                             });
                         });
@@ -3617,6 +3773,166 @@ const commands = [
             // class, theme rarity
         }
     }),
+    new Command({
+        name: "mod-orgy-all",
+        desc: "",
+        type: "command",
+        match: "mod-orgy-all",
+        call: function (client, message, guild) {
+            //894F75
+            //99212F
+            //34295C
+            //F26D7D
+            message.channel.send("", {
+                file: "https://cdn.discordapp.com/attachments/430447280932388865/435893712090824705/matt_x_jackie.png"
+            }).then(() => {
+                message.channel.send(new discord.RichEmbed().setColor("894F75").setAuthor("Matt x Jackie").setDescription("To be honest, the receiver and giver should be flipped as Matt usually takes it up the ass from Jackie. However, it's not very often as Matt tends to not respond to her prayers. This can also be applied to the kitchen, not in the sexist way, but in the way that Matt can’t cook for shit and relies on microwaveable ready meals from Tesco and Domino’s Pizza since apparently using pots and pans is a concept that is far beyond the grasp of his mental abilities. One thing that does bring Jackie and Matt together is their love for metal, and especially since Jackie is of the German persuasion, they can be listening to Rammstein while Rammsteining each other. The original mods wrote an elaborate setup to how Matt is a drunken mess. But when you know yourself better than anyone else, you can just say that he is an alcoholic destined to be lying in a puddle of his own vomit in an alleyway in Belfast.\n\nThe fact that Matt had to write this instead of the other mods tells you how good he is at writing pure bullshit (and talking in the third person about himself like a narcissist).")).then(() => {
+                    message.channel.send("", {
+                        file: "https://cdn.discordapp.com/attachments/430447280932388865/435893752461262849/tweek_x_nadia.png"
+                    }).then(() => {
+                        message.channel.send(new discord.RichEmbed().setColor("99212F").setAuthor("Tweek x Nadia").setDescription("Deep in the heart of anime land, two weeaboos are prepared to ”duel”. The first, known as Tweek Tweak, is a fierce and fast osu! extraordinaire. With his super fast fingering technique he gained from hours of perfecting weeb shit in osu!, he plans to slay his opponent in more ways than one. The second, known as Pariston, gained all her knowledge from her mentor, Tweek Tweak. Even since Pariston picked up osu!, she dreamed about Tweek Tweaks inhuman fingering speeds. Now, she wants to show Tweek Tweak exactly what she's learned after months of studying every single aspect of Tweek Tweak. And I mean... Every aspect... She plans to use her ultimate attack named the Silent Treatment™, which cuts any communication, attempting to cause a feeling accustomed to guilt. However, this attack usually doesn't work.")).then(() => {
+                            message.channel.send("", {
+                                file: "https://cdn.discordapp.com/attachments/430447280932388865/435893779740753931/fenny_x_towel.png"
+                            }).then(() => {
+                                message.channel.send(new discord.RichEmbed().setColor("34295C").setAuthor("Fenny x Towel").setDescription("*Note: Like he does with most things, Towel will probably take offense to this…*\n\nWhenever Towel found out about this special occasion, he used every opportunity to reuse his original name that he has tried so desperately to rebrand to TowelRoyale, (which is *totally* a better name might I add) since he can finally use it to the fullest extent with his new bum buddy. [From a recent kink test](https://cdn.discordapp.com/attachments/422906027088805908/430493711869280260/1.PNG), we found out that he loves size difference since he’s a short chubby boii. This session with Fenny will be his first, but that’s no problem, since he also noted he liked too. Whenever Towel isn’t getting his hole resized, he likes having a chuckle and a good ol’ rub at some good ol’ memes like the Globglogabgalab, making the pairing even more perfect due to the visual similarities of Fenny and the aforementioned. Here is the obligatory part where I’m supposed to make fun of Fenny but I can’t because she’s dead on, unlike Towel. But you know what they say, opposites attract.")).then(() => {
+                                    message.channel.send("", {
+                                        file: "https://cdn.discordapp.com/attachments/430447280932388865/435893814067200003/nodejs_x_dragon.png"
+                                    }).then(() => {
+                                        message.channel.send(new discord.RichEmbed().setColor("F26D7D").setAuthor("Node.js x Dragon").setDescription("Somewhere under the grey skies of the south, amongst the life-in-debt housing in Dublin town, A young gypo-weeb boy prepares his adventure into a new project funded by the money he has been laundering from Patreon. The gypo boots up Visual Studio and prepares to write his project in C++. However, in the distance, he hears a faint whisper calling out “npm init”. Little did he know, JavaScript was ready to fuck him straight in the ass, no lube. The gypo boy cries out for salvation, he installs more node modules to cut the total amount of work, but he complains about the functionality of these modules like how he complains about everything. Patrons start realising how little work is being done, but the gypo cries out in pain because he just rewrote the backend for the nth time hoping for it to be different. He realises, he just needs to accept that JavaScript will always be there, to love and to sodomise the young gypo. “npm install --save anal”\n\nNode.js is love, Node.js is life"));
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        }
+    }),
+    new Command({
+        name: "welcome-all",
+        desc: "",
+        type: "command",
+        match: "welcome-all",
+        call: function (client, message, guild) {
+            message.channel.send(new discord.RichEmbed().setColor("FFC600").setImage("https://cdn.discordapp.com/attachments/379432139856412682/416011052946554890/welcome.png")).then(() => {
+                message.channel.send(new discord.RichEmbed().setColor("FFC600").setDescription("**Before you start jumping into different rooms and such;**\nMake sure you have read and understand our rules as well as the discord community guidelines: https://discordapp.com/guidelines\n\nNow go jump into some text channels and introduce yourself!")).then(() => {
+                    message.channel.send(new discord.RichEmbed().setColor("FFC600").setImage("https://cdn.discordapp.com/attachments/379432139856412682/416011054926135296/rules.png")).then(() => {
+                        message.channel.send(new discord.RichEmbed().setColor("FFC600").setDescription("**1.** Don't be **racist**, **sexist**, **homophobic** or **transphobic**.\n**2.** Keep spamming restricted to <#375414794536222720>.\n**3.** Repeated trolling will result in a kick followed by a ban.\n**4.** Harassment of other members is not allowed.\n**5.** Any NSFW content must be taken from the show and relate to your conversation.\n**6.** Don't be a Scott, he's a massive dick.")).then(() => {
+                            message.channel.send(new discord.RichEmbed().setColor("FFC600").setImage("https://cdn.discordapp.com/attachments/379432139856412682/416011057866342410/channels.png")).then(() => {
+                                message.channel.send(new discord.RichEmbed().setColor("FFC600").setDescription("For updates and server news, check out <#371762996206370817>. All our staff members have written a short introduction in <#416257180677832714>, just in case you want to get to know us better <:tweeksmile:404537999800664064>.\n\nUse <#375414466659221524> for anything that doesn't relate to the other channels. As a general rule, anything that could be considered disruptive or spam should go in <#375414794536222720>.\n\nIf you love our bot, and want to support the server, consider donating on our [patreon](https://www.patreon.com/awesomo) to gain exclusive channel access and many other perks!\n\nWe have a <#419960751843704833> channel for anything that could be considered too heavy for general chats. To gain access, be active on the server and you will be rewarded with <@&375413987338223616>.\n\nCan't talk in vc but still want to take part in the conversation? Just use <#403582424921145356>!")).then(() => {
+                                    message.channel.send(new discord.RichEmbed().setColor("FFC600").setImage("https://cdn.discordapp.com/attachments/379432139856412682/416011060416348160/roles.png")).then(() => {
+                                        message.channel.send(new discord.RichEmbed().setColor("FFC600").setDescription("Our staff team ensures that everything runs smoothly and organises events for the community. If you have any issues, dont be afraid to tag <@&378287077806309386> or <@&372409853894983690>. They're always happy to help.\n\nOur regulars are given <@&375413987338223616>, which allows them to join any of the eight other groups; <@&402834156238929920>, <@&377185900431540234>, <@&377181687458824197>, <@&405321120250855425>, <@&446100157910482954>, <@&446100221039083531>, <@&438045466408648705>, or <@&446100194430418956>. If you're active and nice in chat, you'll be given the role by one of our mods.\n\n<@&375414190174896130> are the special people who post their art in our server. You dont need to be the best out there to get this role, just share some of your art with us!")).then(() => {
+                                            message.channel.send(new discord.RichEmbed().setColor("FFC600").setImage("https://cdn.discordapp.com/attachments/379432139856412682/416011063230726154/support.png")).then(() => {
+                                                message.channel.send(new discord.RichEmbed().setColor("FFC600").setDescription("If you have any complaints or sugestions for the server and its staff, ask either <@&378287077806309386> or <@&372409853894983690> to dm you. They are always happy to listen and will do their best to solve any issues that you might have.\n\nIf you need to contact the staff, just tag them in any of our channels. If you need to talk to any of us privately and we have dms blocked, just ask us to dm you."));
+                                            });
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        }
+    }),
+    new Command({
+        name: "meet-the-mods-all",
+        desc: "",
+        type: "command",
+        match: "meet-the-mods-all",
+        call: function (client, message, guild) {
+            message.channel.send("", {
+                "file": "https://cdn.discordapp.com/attachments/379432139856412682/418870934657695755/dragontest.png",
+            }).then(() => {
+                message.channel.send(new discord.RichEmbed().setColor("83CD29").setAuthor("About Dragon1320").setDescription("**Age:** 19 soon™\n**Birthday:** Some time in October, so not THAT soon\n**Country:** Just Ireland\n**Height:** 1.80m or something (Screw you and your non SI units)\n**Handedness:** Right\n**Favourite South Park character(s):** Kyle/Kenny\n**Typing speed:** 5WPM (While coding)\n\nI'm just that top kek programmer guy. Yes, that one in the corner over there! I have well over 10k hours on ~~League of legends~~ visual studio and stack overflow. I'm currently in a love-hate relationshit with golang and node.js. After a rough break-up with c++, ~~insert gender pronoun~~ threw a bunch of compiler errors at me, so we are definitely over.\n\nTotally not a weeb tho, *goes back to watching anime*. My [weeb cert](https://puu.sh/zhF9k/2682322f3b.png) has recently expired, but i assure you, with my waifu body pillow and [this](http://learnjapanese.com/) website i will one day become a true Japanese boii.\n\nIt just so happens that I'm also a filthy casual gamer, addicted to osu, which I'm shit at. DDLC is also among my favourite games. Yes the dokis are real and Natsuki is the one true waifu, and please don't try to convince me otherwise. I'm mostly into indie games if you couldn't tell already.\n\nAs for discord, I've been here for over 2 years, and don't plan on leaving anytime soon, so it looks like you're gonna be stuck with me for a while. I wanna continue working on improving this server in a way that allows you to have fun and enjoy yourselves!")).then(() => {
+                    message.channel.send("", {
+                        "file": "https://cdn.discordapp.com/attachments/379432139856412682/418869505951924224/test2.png",
+                    }).then(() => {
+                        message.channel.send(new discord.RichEmbed().setColor("EFA902").setAuthor("About Mattheous (English: mɑˈθeɪɒs)").setDescription("**Age:** 19 ½\n**Birthday:** 14th August\n**Country:** Northern Ireland (yes it’s a separate country, use the google plz)\n**Height:** 5’11” (i’m one inch away from being a big boii)\n**Handedness:** Right\n**Favourite South Park Character:** Everyone knows it’s Butters!\n**Typing Speed:** ~90WPM\n**Timezone:** UTC+0\n\nI like to think I can program, but my skills are limited to changing the class tag in bootstrap and copy pasting from stack overflow. My real “talents” are in music. I am a multi-instrumentalist (woah long words) and I am a huge fanboy of anything progressive metal/rock. \n\nI can speak some Spanish and French so don’t be afraid to talk to me in those languages. I can also say “I like big dick” in Japanese so I’m basically fluent. I also have an unhealthy addiction to Cadbury dairy milk and custard creams. \n\nBesides being an elite class hackerman™, I’m also an elite gamer girl™, playing all of the absolutely mad lad games like sonic 2 and guitar hero. Tesco Vodka and a 2 litre bepis is my idea of an absolute banger of an evening. Just down that vodka and you’ll be [putting freezer drawers on your head in no time!](https://cdn.discordapp.com/attachments/379432139856412682/418884884098973698/unknown.png) I also have a habit of saying “I also” because I can’t form proper sentences, hence why I nearly failed GCSE English lol.")).then(() => {
+                            message.channel.send("", {
+                                "file": "https://cdn.discordapp.com/attachments/394504208222650369/431954081184219136/mod_temlate_shittified_by_me.png",
+                            }).then(() => {
+                                message.channel.send(new discord.RichEmbed().setColor("1F3250").setAuthor("About TowelRoyale").setDescription("**Age:** 17 \n**Birthday:** 11th November\n**Country:** England\n**Height:** 5’2” / 159cm (I'm not tiny, i'm compact)\n**Handedness:** Right \n**Favorite South Park Character:** Kyle / Towelie\n**Typing speed:** ~45wpm\n**Timezone:** UTC+0\n\nHi. My name is Jaike, and I'm a Towelie enthusiast. I especially enjoy graphic design and things ICT related. My first episode of South Park was 'Cat Orgy,' and ever since then, my love for this show has grown immensely, especially with the most recent games like Stick of Truth, Fractured but Whole and Phone Destroyer. I also enjoy gaming. My favourite gaming company is Nintendo, though I will play games from other companies if I like them! My favourite movies include Space Jam, Help! I’m a Fish and, of course, Bigger, Longer and Uncut!\n\nIf you ever need me, feel free to @ me or DM me. I'll respond instantly most times.")).then(() => {
+                                    message.channel.send("", {
+                                        "file": "https://cdn.discordapp.com/attachments/394504208222650369/427536446363009024/fenny.png",
+                                    }).then(() => {
+                                        message.channel.send(new discord.RichEmbed().setColor("5D1773").setAuthor("About Fenny").setDescription("**Age:** 23\n**Birthday:** 3rd of January\n**Country:** USA\n**Height:** 5’1”\n**Handedness:** Right\n**Favorite South Park Character:** Clyde\n**Typing speed:** 61 wpm\n**Timezone:** CST\n\nIt’s the one, the only, Fenny! I’m currently working on my Associates for Game Dev. (specifically the art and animation side) then later down the road, I’ll be headin’ for a higher degree in the same field. I hope to one day lead an Indie Dev team, but who knows what the future holds. I love drawing with a passion, and always work time in to get at least one piece done a day. This means I am and will continue to be very active in the Electronic-Arts channel. Feel free to mention me there for some tips and pointers if any of you feel stuck!\n\nAside from art, my second biggest hobby is games! I don’t play them as much as I used to because of school, but I always take time to at least get some walkthroughs in. I’m very up to date on what’s hip and happenin’ in the game world. I gotta to be, it’ll be my job one day! I’m always up for game talk and expect me to go on spiels sometimes. There’s nothing that gets me more emotional than a game with love and thought put into it.\n\nAs of now, I’m pretty active in the chats, and I’ll see you all there! C”)_/)")).then(() => {
+                                            message.channel.send("", {
+                                                "file": "https://cdn.discordapp.com/attachments/379432139856412682/418895640559484940/nadia2.png",
+                                            }).then(() => {
+                                                message.channel.send(new discord.RichEmbed().setColor("E51E20").setAuthor("About Pariston Hill").setDescription("**Age:** 23\n**Birthday:** 3rd June\n**Country:** Italy\n**Height:** 1.53m\n**Handedness:** Right\n**Favourite South Park Character:** Kenny, Gregory, Tweek and many others\n**Typing speed:** ~1 WPM\n**Time zone:** GMT+1\n\nHi I’m Nadia. I fell in love with South Park years ago, when I was a teen. \nThe first episode I watched was “Bloody Mary”. I started with that one because at the time it was one of the three episodes that had been censored in my country (it was impossible to find it on tv so I watched it directly online) and I was really curious to see why it had caused so much “scandal” here. After watching it, I immediately fell in love with this series and I continued watching it until I have seen all the seasons. I’ve always been keen on satire and parody and South Park has never disappointed me once. \nI like anime, video games (I can easily get addicted to online games, even the silly ones xP) and tv series(I’ve lost track of how many series i’ve watched in my entire life). \n\nI’m also interested in history,philosophy,and psychology and I love to learn new languages. I’m currently studying English and French, but in the past I’ve also studied Japanese, Latin and Ancient Greek. I’d like to learn German and Portuguese in the future as well. \nOne of my passions is also baking cakes and preparing anything sweet :P.\n\nFeel free to contact me anytime to talk about whatever you’d like, me and the others are always here for you all  <3")).then(() => {
+                                                    message.channel.send("", {
+                                                        "file": "https://cdn.discordapp.com/attachments/379432139856412682/418873800168308761/tweek_tweak.png",
+                                                    }).then(() => {
+                                                        message.channel.send(new discord.RichEmbed().setColor("00264C").setAuthor("About Tweek Tweak").setDescription("**Age:** 20 \n**Birthday:** 10th January \n**Country:** Singapore \n**Height:** 5’5” (166cm) (yes I’m short af)\n**Handedness:** Right \n**Favourite South Park Character:** Tweek, Kenny\n**Typing speed:** ~105wpm \n**Time zone:** UTC+8\n\nI fell in love with South Park after learning that you can fart in The Fractured but Whole. My first episode is S15E01 HumanCENTIPAD. (Yep that is a good start) I enjoy cycling, drawing and editing videos as well. I have been trying to learn to sing without shattering glass pane in a kilometre radius but I am failing badly. I am fluent in Chinese and English and I speak a fair bit of Malay. I don’t have any plan to learn any new languages since I don’t have much free time now. I have a Tweek-like addiction for Tea and I can drink 8 cups of tea in a single day, and ironically, I hate coffee. I consider myself as a gamer. I love rhythm and simulation games especially, and I’ve spent countless hour on games like Cities Skylines and Osu! I don’t usually mind if anyone pings me if the ping is not spam. I did end up failing my English exams because I suck but I ended up going to my dream school because of my maths and science carrying my ass.")).then(() => {
+                                                            message.channel.send("", {
+                                                                "file": "https://cdn.discordapp.com/attachments/379432139856412682/418891463611645972/wt.png",
+                                                            }).then(() => {
+                                                                message.channel.send(new discord.RichEmbed().setColor("591FBA").setAuthor("About Kamui").setDescription("**Age:** 19\n**Birthday:** 1st August\n**Country:** Germany\n**Height:** 1.80m (5’11” for you fancy 'muricans)\n**Handedness:** Right\n**Favourite South Park Character:** Tweek, obviously\n**Typing Speed:** ~70 WPM in English, ~80 WPM in German\n**Timezone:** UTC+1\n \nI'm Jackie, a coffee-addicted, 50% gay (but 200% fabulous), mute but cute IT student who is under stress for a living <3\n \nI'm fluent in English and German, and I learned French and Spanish at school. Currently learning japanese, because I'm also kind of a weeb. My music taste is, unfittingly to my adorable and cute personality + appearance, the very finest of Metal. Mostly alternative and nu metal like Marilyn Manson, Slipknot and Babymetal, but also some other stuff such as Infant Annihilator and Rammstein. Same goes for my interests besides gaming, I absolutely love motorcycles, guns and driving fast cars. If you ever see me not being online, I'm either at work, in a lecture, on the road or at the shooting range. :D\nYou'll notice I don't have a lot of time for Discord activities, but I'm still up for a casual game of CAH every once in a while, just don't expect me to talk to you in voice chats since god decided to hit the irl mute button on me - which is also why I'm a very shy person irl, since I can't really approach many people :D\n \nOther than that, I have a strong dislike for people taking the internet too serious and causing drama, you'll have to expect a zero-tolerance policy from me regarding that. I also hate unreasonable, simple-minded people who can't be objective when they have to, and idiots in general. As a German, I'm precise and don't give any fricks about people like that. I do have a slight sense of humor though, contrary to popular belief :P. So if you're not an idiot and if you're nice to people, hit me up for a chat and I guarantee you you'll love me <3"));
+                                                            });
+                                                        });
+                                                    });
+                                                });
+                                            });
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        }
+    }),
+    new Command({
+        name: "meet-the-stoners-all",
+        desc: "",
+        type: "command",
+        match: "meet-the-stoners-all",
+        call: function (client, message, guild) {
+            message.channel.send("", {
+                "file": "https://cdn.discordapp.com/attachments/379432139856412682/436679612219523082/stoner_dragon.png",
+            }).then(() => {
+                message.channel.send(new discord.RichEmbed().setColor("83CD29").setAuthor("About Dragon1320").setDescription("**Age:** 19 soon™\n**Birthday:** Some time in October, so not THAT soon\n**Country:** Just Ireland\n**Height:** 1.80m or something (Screw you and your non SI units)\n**Handedness:** Right\n**Favourite South Park character(s):** Kyle/Kenny\n**Typing speed:** 5WPM (While coding)\n\nI'm just that top kek programmer guy. Yes, that one in the corner over there! I have well over 10k hours on ~~League of legends~~ visual studio and stack overflow. I'm currently in a love-hate relationshit with golang and node.js. After a rough break-up with c++, ~~insert gender pronoun~~ threw a bunch of compiler errors at me, so we are definitely over.\n\nTotally not a weeb tho, *goes back to watching anime*. My [weeb cert](https://puu.sh/zhF9k/2682322f3b.png) has recently expired, but i assure you, with my waifu body pillow and [this](http://learnjapanese.com/) website i will one day become a true Japanese boii.\n\nIt just so happens that I'm also a filthy casual gamer, addicted to osu, which I'm shit at. DDLC is also among my favourite games. Yes the dokis are real and Natsuki is the one true waifu, and please don't try to convince me otherwise. I'm mostly into indie games if you couldn't tell already.\n\nAs for discord, I've been here for over 2 years, and don't plan on leaving anytime soon, so it looks like you're gonna be stuck with me for a while. I wanna continue working on improving this server in a way that allows you to have fun and enjoy yourselves!")).then(() => {
+                    message.channel.send("", {
+                        "file": "https://cdn.discordapp.com/attachments/379432139856412682/436679615478628352/stoner_matt.png",
+                    }).then(() => {
+                        message.channel.send(new discord.RichEmbed().setColor("EFA902").setAuthor("About Mattheous (English: mɑˈθeɪɒs)").setDescription("**Age:** 19 ½\n**Birthday:** 14th August\n**Country:** Northern Ireland (yes it’s a separate country, use the google plz)\n**Height:** 5’11” (i’m one inch away from being a big boii)\n**Handedness:** Right\n**Favourite South Park Character:** Everyone knows it’s Butters!\n**Typing Speed:** ~90WPM\n**Timezone:** UTC+0\n\nI like to think I can program, but my skills are limited to changing the class tag in bootstrap and copy pasting from stack overflow. My real “talents” are in music. I am a multi-instrumentalist (woah long words) and I am a huge fanboy of anything progressive metal/rock. \n\nI can speak some Spanish and French so don’t be afraid to talk to me in those languages. I can also say “I like big dick” in Japanese so I’m basically fluent. I also have an unhealthy addiction to Cadbury dairy milk and custard creams. \n\nBesides being an elite class hackerman™, I’m also an elite gamer girl™, playing all of the absolutely mad lad games like sonic 2 and guitar hero. Tesco Vodka and a 2 litre bepis is my idea of an absolute banger of an evening. Just down that vodka and you’ll be [putting freezer drawers on your head in no time!](https://cdn.discordapp.com/attachments/379432139856412682/418884884098973698/unknown.png) I also have a habit of saying “I also” because I can’t form proper sentences, hence why I nearly failed GCSE English lol.")).then(() => {
+                            message.channel.send("", {
+                                "file": "https://cdn.discordapp.com/attachments/379432139856412682/436679620566450177/stoner_towel.png",
+                            }).then(() => {
+                                message.channel.send(new discord.RichEmbed().setColor("1F3250").setAuthor("About TowelRoyale").setDescription("**Age:** 17 \n**Birthday:** 11th November\n**Country:** England\n**Height:** 5’2” / 159cm (I'm not tiny, i'm compact)\n**Handedness:** Right \n**Favorite South Park Character:** Kyle / Towelie\n**Typing speed:** ~45wpm\n**Timezone:** UTC+0\n\nHi. My name is Jaike, and I'm a Towelie enthusiast. I especially enjoy graphic design and things ICT related. My first episode of South Park was 'Cat Orgy,' and ever since then, my love for this show has grown immensely, especially with the most recent games like Stick of Truth, Fractured but Whole and Phone Destroyer. I also enjoy gaming. My favourite gaming company is Nintendo, though I will play games from other companies if I like them! My favourite movies include Space Jam, Help! I’m a Fish and, of course, Bigger, Longer and Uncut!\n\nIf you ever need me, feel free to @ me or DM me. I'll respond instantly most times.")).then(() => {
+                                    message.channel.send("", {
+                                        "file": "https://cdn.discordapp.com/attachments/379432139856412682/436679612819308545/stoner_fenny.png",
+                                    }).then(() => {
+                                        message.channel.send(new discord.RichEmbed().setColor("5D1773").setAuthor("About Fenny").setDescription("**Age:** 23\n**Birthday:** 3rd of January\n**Country:** USA\n**Height:** 5’1”\n**Handedness:** Right\n**Favorite South Park Character:** Clyde\n**Typing speed:** 61 wpm\n**Timezone:** CST\n\nIt’s the one, the only, Fenny! I’m currently working on my Associates for Game Dev. (specifically the art and animation side) then later down the road, I’ll be headin’ for a higher degree in the same field. I hope to one day lead an Indie Dev team, but who knows what the future holds. I love drawing with a passion, and always work time in to get at least one piece done a day. This means I am and will continue to be very active in the Electronic-Arts channel. Feel free to mention me there for some tips and pointers if any of you feel stuck!\n\nAside from art, my second biggest hobby is games! I don’t play them as much as I used to because of school, but I always take time to at least get some walkthroughs in. I’m very up to date on what’s hip and happenin’ in the game world. I gotta to be, it’ll be my job one day! I’m always up for game talk and expect me to go on spiels sometimes. There’s nothing that gets me more emotional than a game with love and thought put into it.\n\nAs of now, I’m pretty active in the chats, and I’ll see you all there! C”)_/)")).then(() => {
+                                            message.channel.send("", {
+                                                "file": "https://cdn.discordapp.com/attachments/379432139856412682/436679617114538000/stoner_nadia.png",
+                                            }).then(() => {
+                                                message.channel.send(new discord.RichEmbed().setColor("E51E20").setAuthor("About Pariston Hill").setDescription("**Age:** 23\n**Birthday:** 3rd June\n**Country:** Italy\n**Height:** 1.53m\n**Handedness:** Right\n**Favourite South Park Character:** Kenny, Gregory, Tweek and many others\n**Typing speed:** ~1 WPM\n**Time zone:** GMT+1\n\nHi I’m Nadia. I fell in love with South Park years ago, when I was a teen. \nThe first episode I watched was “Bloody Mary”. I started with that one because at the time it was one of the three episodes that had been censored in my country (it was impossible to find it on tv so I watched it directly online) and I was really curious to see why it had caused so much “scandal” here. After watching it, I immediately fell in love with this series and I continued watching it until I have seen all the seasons. I’ve always been keen on satire and parody and South Park has never disappointed me once. \nI like anime, video games (I can easily get addicted to online games, even the silly ones xP) and tv series(I’ve lost track of how many series i’ve watched in my entire life). \n\nI’m also interested in history,philosophy,and psychology and I love to learn new languages. I’m currently studying English and French, but in the past I’ve also studied Japanese, Latin and Ancient Greek. I’d like to learn German and Portuguese in the future as well. \nOne of my passions is also baking cakes and preparing anything sweet :P.\n\nFeel free to contact me anytime to talk about whatever you’d like, me and the others are always here for you all  <3")).then(() => {
+                                                    message.channel.send("", {
+                                                        "file": "https://cdn.discordapp.com/attachments/379432139856412682/436679621090607126/stoner_tweek.png",
+                                                    }).then(() => {
+                                                        message.channel.send(new discord.RichEmbed().setColor("00264C").setAuthor("About Tweek Tweak").setDescription("**Age:** 20 \n**Birthday:** 10th January \n**Country:** Singapore \n**Height:** 5’5” (166cm) (yes I’m short af)\n**Handedness:** Right \n**Favourite South Park Character:** Tweek, Kenny\n**Typing speed:** ~105wpm \n**Time zone:** UTC+8\n\nI fell in love with South Park after learning that you can fart in The Fractured but Whole. My first episode is S15E01 HumanCENTIPAD. (Yep that is a good start) I enjoy cycling, drawing and editing videos as well. I have been trying to learn to sing without shattering glass pane in a kilometre radius but I am failing badly. I am fluent in Chinese and English and I speak a fair bit of Malay. I don’t have any plan to learn any new languages since I don’t have much free time now. I have a Tweek-like addiction for Tea and I can drink 8 cups of tea in a single day, and ironically, I hate coffee. I consider myself as a gamer. I love rhythm and simulation games especially, and I’ve spent countless hour on games like Cities Skylines and Osu! I don’t usually mind if anyone pings me if the ping is not spam. I did end up failing my English exams because I suck but I ended up going to my dream school because of my maths and science carrying my ass.")).then(() => {
+                                                            message.channel.send("", {
+                                                                "file": "https://cdn.discordapp.com/attachments/379432139856412682/436679614333583403/stoner_jackie.png",
+                                                            }).then(() => {
+                                                                message.channel.send(new discord.RichEmbed().setColor("591FBA").setAuthor("About Kamui").setDescription("**Age:** 19\n**Birthday:** 1st August\n**Country:** Germany\n**Height:** 1.80m (5’11” for you fancy 'muricans)\n**Handedness:** Right\n**Favourite South Park Character:** Tweek, obviously\n**Typing Speed:** ~70 WPM in English, ~80 WPM in German\n**Timezone:** UTC+1\n \nI'm Jackie, a coffee-addicted, 50% gay (but 200% fabulous), mute but cute IT student who is under stress for a living <3\n \nI'm fluent in English and German, and I learned French and Spanish at school. Currently learning japanese, because I'm also kind of a weeb. My music taste is, unfittingly to my adorable and cute personality + appearance, the very finest of Metal. Mostly alternative and nu metal like Marilyn Manson, Slipknot and Babymetal, but also some other stuff such as Infant Annihilator and Rammstein. Same goes for my interests besides gaming, I absolutely love motorcycles, guns and driving fast cars. If you ever see me not being online, I'm either at work, in a lecture, on the road or at the shooting range. :D\nYou'll notice I don't have a lot of time for Discord activities, but I'm still up for a casual game of CAH every once in a while, just don't expect me to talk to you in voice chats since god decided to hit the irl mute button on me - which is also why I'm a very shy person irl, since I can't really approach many people :D\n \nOther than that, I have a strong dislike for people taking the internet too serious and causing drama, you'll have to expect a zero-tolerance policy from me regarding that. I also hate unreasonable, simple-minded people who can't be objective when they have to, and idiots in general. As a German, I'm precise and don't give any fricks about people like that. I do have a slight sense of humor though, contrary to popular belief :P. So if you're not an idiot and if you're nice to people, hit me up for a chat and I guarantee you you'll love me <3"));
+                                                            });
+                                                        });
+                                                    });
+                                                });
+                                            });
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        }
+    })
 ];
 
 module.exports = commands;
