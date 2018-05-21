@@ -13,6 +13,7 @@ const logConstants = utils.logger;
 const logger = utils.globLogger;
 
 const jimp = require("jimp");
+const ytdl = require("ytdl-core");
 
 // EXPERIMENTAL
 const vm = require("vm");
@@ -3735,7 +3736,7 @@ const commands = [
                                             bg.composite(frameTop, (bg.bitmap.width / 2 - frameTop.bitmap.width / 2) - 8, 240);
                                         }
     
-                                        bg.composite(typeIcons, 130, 190);
+                                        bg.composite(typeIcons, 130, 182);
 
                                         new jimp(500, 500, function (error, temp) {
                                             if (error !== undefined && error !== null) {
@@ -3747,6 +3748,8 @@ const commands = [
                                             temp.autocrop(0.0002, false);
 
                                             bg.composite(temp, (bg.bitmap.width / 2 - temp.bitmap.width / 2) + 20, 325);
+
+                                            bg.autocrop(0.0002, false);
                 
                                             bg.write(path.join(__dirname, "assets", "temp.png"), function () {
                     
@@ -3930,6 +3933,40 @@ const commands = [
                         });
                     });
                 });
+            });
+        }
+    }),
+    new Command({
+        name: "play",
+        desc: "*should* stream a youtube video",
+        type: "command",
+        match: "play",
+        call: async function (client, message, guild) {
+
+            if (message.member.voiceChannel === null) {
+                message.reply("member not in voice channel");
+                return;
+            }
+
+            const args = message.content.split(" ");
+            if (args[1] === undefined) {
+                message.reply("url undefined");
+                return;
+            }
+
+            let conn = client.voiceConnections.find(e => {
+                return e.channel.id === message.member.voiceChannel.id;
+            });
+            if (conn === null) {
+                conn = await message.member.voiceChannel.join();
+            }
+
+            const streamOptions = { seek: 0, volume: 1};
+            const stream = ytdl(args[1], { filter: "audioonly" });
+
+            let disp = conn.playStream(stream, streamOptions);
+            disp.on("end", () => {
+                conn.disconnect();
             });
         }
     })
