@@ -3689,86 +3689,202 @@ const commands = [
                             return;
                         }
 
-                        jimp.read(path.join(__dirname, "assets", "art", "cards", card.art), function (error, cardArt) {
+                        jimp.loadFont(path.join(__dirname, "assets", "art", "fonts", "SP-27.fnt"), function (error, sp27Font) {
                             if (error !== undefined && error !== null) {
-                                message.reply("jimp error - cardArt");
+                                message.reply("jimp error - sp27Font");
                                 return;
                             }
-        
-                            jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-overlay.png"), function (error, overlay) {
-                                if (error !== undefined && error !== null) {
-                                    message.reply("jimp error - overlay");
-                                    return;
-                                }
-            
-                                jimp.read(path.join(__dirname, "assets", "art", "templates", "card-character-type-icons.png"), function(error, typeIcons){
+
+                            jimp.loadFont(path.join(__dirname, "assets", "art", "fonts", "SP-18.fnt"), function (error, sp18Font) {
+                            if (error !== undefined && error !== null) {
+                                message.reply("jimp error - sp18Font");
+                                return;
+                            }
+
+                                jimp.read(path.join(__dirname, "assets", "art", "cards", card.art), function (error, cardArt) {
                                     if (error !== undefined && error !== null) {
-                                         message.reply("jimp error - typeIcons");
-                                            return;
+                                        message.reply("jimp error - cardArt");
+                                        return;
                                     }
-                                
-                                    jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-top.png"), function (error, frameTop) {
+                
+                                    jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-overlay.png"), function (error, overlay) {
                                         if (error !== undefined && error !== null) {
-                                            message.reply("jimp error - frameOutline");
+                                            message.reply("jimp error - overlay");
                                             return;
                                         }
-                
-                                        jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-outline.png"), function (error, frameOutline) {
+                    
+                                        jimp.read(path.join(__dirname, "assets", "art", "templates", "card-character-type-icons.png"), function(error, typeIcons){
                                             if (error !== undefined && error !== null) {
-                                                message.reply("jimp error - frameOutline");
-                                                return;
+                                                message.reply("jimp error - typeIcons");
+                                                    return;
                                             }
-                    
-                                            frameOutline.crop(x, y, z, w);
-                                            frameOutline.resize(bgWidth, bgHeight);
-                
-                                            if (fy !== undefined) {
-                                                frameTop.crop(fx, fy, fz, fw);
-                                                frameTop.resize(bgWidth + 49, 200);
-                                            }
-            
-                                            typeIcons.crop(ix, iy, iz, iw);
-                                            typeIcons.scale(1.5);
-            
-                                            overlay.crop(ox, oy, oz, ow);
-                                            overlay.resize(bgWidth, bgHeight);
-                    
-                                            bg.composite(cardArt, bg.bitmap.width / 2 - cardArt.bitmap.width / 2, bg.bitmap.height / 2 - cardArt.bitmap.height / 2);
-                                            bg.composite(overlay, bg.bitmap.width / 2 - overlay.bitmap.width / 2, bg.bitmap.height / 2 - overlay.bitmap.height / 2);
-                                            bg.composite(frameOutline, bg.bitmap.width / 2 - frameOutline.bitmap.width / 2, bg.bitmap.height / 2 - frameOutline.bitmap.height / 2);
-        
-                                            if (fy !== undefined) {
-                                                bg.composite(frameTop, (bg.bitmap.width / 2 - frameTop.bitmap.width / 2) - 8, 240);
-                                            }
-        
-                                            bg.composite(typeIcons, 130, 182);
-    
-                                            new jimp(500, 500, function (error, temp) {
+                                        
+                                            jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-top.png"), function (error, frameTop) {
                                                 if (error !== undefined && error !== null) {
-                                                    message.reply("jimp error - error");
+                                                    message.reply("jimp error - frameOutline");
                                                     return;
                                                 }
-    
-                                                temp.print(sp25Font, 0, 0, card.name);
-                                                temp.autocrop(0.0002, false);
-    
-                                                bg.composite(temp, (bg.bitmap.width / 2 - temp.bitmap.width / 2) + 20, 325);
-    
-                                                bg.print(sp60Font, 210, 355, card.energy.toString());
-    
-                                                bg.autocrop(0.0002, false);
-                    
-                                                bg.write(path.join(__dirname, "assets", "temp.png"), function () {
                         
-                                                    message.channel.send("", {
-                                                        file: path.join(__dirname, "assets", "temp.png")
+                                                jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-outline.png"), function (error, frameOutline) {
+                                                    if (error !== undefined && error !== null) {
+                                                        message.reply("jimp error - frameOutline");
+                                                        return;
+                                                    }
+                            
+                                                    frameOutline.crop(x, y, z, w);
+                                                    frameOutline.resize(bgWidth, bgHeight);
+                        
+                                                    if (fy !== undefined) {
+                                                        frameTop.crop(fx, fy, fz, fw);
+                                                        frameTop.resize(bgWidth + 49, 200);
+                                                    }
+                    
+                                                    typeIcons.crop(ix, iy, iz, iw);
+                                                    typeIcons.scale(1.5);
+                    
+                                                    overlay.crop(ox, oy, oz, ow);
+                                                    overlay.resize(bgWidth, bgHeight);
+                            
+                                                    bg.composite(cardArt, bg.bitmap.width / 2 - cardArt.bitmap.width / 2, bg.bitmap.height / 2 - cardArt.bitmap.height / 2);
+                                                    bg.composite(overlay, bg.bitmap.width / 2 - overlay.bitmap.width / 2, bg.bitmap.height / 2 - overlay.bitmap.height / 2);
+                                                    bg.composite(frameOutline, bg.bitmap.width / 2 - frameOutline.bitmap.width / 2, bg.bitmap.height / 2 - frameOutline.bitmap.height / 2);
+                
+                                                    if (fy !== undefined) {
+                                                        bg.composite(frameTop, (bg.bitmap.width / 2 - frameTop.bitmap.width / 2) - 8, 240);
+                                                    }
+                
+                                                    bg.composite(typeIcons, 130, 182);
+            
+                                                    new jimp(500, 500, function (error, temp) {
+                                                        if (error !== undefined && error !== null) {
+                                                            message.reply("jimp error - error");
+                                                            return;
+                                                        }
+
+                                                        new jimp(500, 500, function (error, temp2) {
+                                                            if (error !== undefined && error !== null) {
+                                                                message.reply("jimp error - error");
+                                                                return;
+                                                            }
+
+                                                            new jimp(500, 500, function (error, temp3) {
+                                                                if (error !== undefined && error !== null) {
+                                                                    message.reply("jimp error - error");
+                                                                    return;
+                                                                }
+
+                                                                new jimp(500, 500, function (error, temp4) {
+                                                                    if (error !== undefined && error !== null) {
+                                                                        message.reply("jimp error - error");
+                                                                        return;
+                                                                    }
+
+                                                                    // Name.
+                                                                    temp.print(sp25Font, 0, 0, card.name);
+                                                                    temp.autocrop(0.0002, false);
+                        
+                                                                    bg.composite(temp, (bg.bitmap.width / 2 - temp.bitmap.width / 2) + 20, 325);
+                        
+                                                                    bg.print(sp60Font, 212, 355, card.energy.toString());
+                        
+                                                                    // Health.
+                                                                    temp2.print(sp27Font, 0, 0, card.levels[0].upgrades[0].health.toString());
+                                                                    temp2.autocrop(0.0002, false);
+                    
+                                                                    bg.composite(temp2, (bg.bitmap.width / 2 - temp2.bitmap.width / 2) - 168, 525);
+
+                                                                    // Attack.
+                                                                    temp3.print(sp27Font, 0, 0, card.levels[0].upgrades[0].attack.toString());
+                                                                    temp3.autocrop(0.0002, false);
+                    
+                                                                    bg.composite(temp3, (bg.bitmap.width / 2 - temp3.bitmap.width / 2) - 168, 650);                                               
+
+                                                                    // Description.
+                                                                    /*
+                                                                    temp4.print(sp18Font, 0, 0, card.levels[0].upgrades[0].ability_info.description, 360);
+                                                                    temp4.autocrop(0.0002, false);
+                    
+                                                                    bg.composite(temp4, (bg.bitmap.width / 2 - temp4.bitmap.width / 2), 0);
+                                                                    */
+                    
+                                                                    // Temp.
+                                                                    /*
+                                                                    let text = "test";
+                                                                    let len = 0;
+
+                                                                    for (let i = 0; i < text.length; i++) {
+                                                                        len += sp25Font.chars[text[i]].xoffset + sp25Font.chars[text[i]].xadvance;
+                                                                    }
+                                                                    */
+
+                                                                    const textWidth = (font, str) => {
+                                                                        
+                                                                        let width = 0;
+
+                                                                        for (let i = 0; i < str.length; i++) {
+                                                                            width += font.chars[str[i]].xoffset + font.chars[str[i]].xadvance;                                                                          
+                                                                        }
+
+                                                                        return width;
+                                                                    }
+
+                                                                    const printCenter = (src, font, x, y, str, wrap = src.bitmap.width) => {
+
+                                                                        let words = str.split(" ");
+
+                                                                        let width = 0;
+                                                                        let numLines = 0;
+                                                                        let lastWord = 0;
+
+                                                                        for (let i = 0; i < words.length; i++) {
+                                                                            if (width + textWidth(font, words[i]) > wrap) {
+                                                                                
+                                                                                let text = "";
+                                                                                for (let j = lastWord; j < i; j++) {
+                                                                                    text += words[j] + " ";
+                                                                                }
+
+                                                                                src.print(font, (src.bitmap.width / 2 - width / 2) + x, y + (numLines * font.chars["$"].height) + 5, text);
+
+                                                                                lastWord = i;
+                                                                                numLines++;
+                                                                                width = 0;
+                                                                            }
+                                                                                            
+                                                                            width += textWidth(font, words[i]);
+                                                                        }
+
+                                                                        let text = "";
+                                                                        for (let i = lastWord; i < words.length; i++) {
+                                                                            text += words[i] + " ";
+                                                                        }
+
+                                                                        src.print(font, (src.bitmap.width / 2 - width / 2) + x, y + (numLines * font.chars["$"].height) + 5, text);
+                                                                    };
+                                                                    
+                                                                    printCenter(bg, sp18Font, 20, 775, card.levels[0].upgrades[0].ability_info.description, 325);
+                    
+                                                                    //bg.print(sp25Font, (bg.bitmap.width / 2 - len / 2), 200, "test");
+
+                                                                    //
+                                                                    bg.autocrop(0.0002, false);
+
+                                                                    bg.write(path.join(__dirname, "assets", "temp.png"), function () {
+                                            
+                                                                        message.channel.send("", {
+                                                                            file: path.join(__dirname, "assets", "temp.png")
+                                                                        });
+                                                                    });
+                                                                });
+                                                            });
+                                                        });
                                                     });
                                                 });
                                             });
                                         });
                                     });
                                 });
-                            });
+                            });                            
                         });
                     });
                 });

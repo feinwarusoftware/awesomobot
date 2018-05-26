@@ -3403,6 +3403,47 @@
     "spawn_level": null
 }, {
     "type": "dev-test",
+    "name": "Bounty Hunter Kyle",
+    "theme": "Sci-Fi",
+    "rarity": "Epic",
+    "art": "KyleSciCard.jpg",
+    "class": "Ranged",
+    "energy": 3,
+    "attack_info": {
+        "attack_range": 3.75,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0.5,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.855,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": null,
+    "health_loss": null,
+    "tags": ["kids", "male", "human", "sci", "flying", "ranged"],
+    "min_pvp_rank": 5,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 5,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 127,
+            "attack": 27,
+            "ability_info": {
+                "ability": true,
+                "description": "Flying. When this character hits an enemy, all allies gain an attack boost. When this character kills an enemy, heal all allies."
+            }
+        }]
+    }],
+    "spawn_count": null,
+    "spawn_level": null
+}, {
+    "type": "dev-test",
     "name": "A.W.E.S.O.M.-O 4000",
     "theme": "Sci-Fi",
     "rarity": "Epic",
@@ -3734,7 +3775,7 @@
     "name": "Visitors",
     "theme": "Sci-Fi",
     "rarity": "Rare",
-    "art": "VisitorsSciCard.jpg",
+    "art": "Visitors.jpg",
     "class": "Ranged",
     "energy": 3,
     "attack_info": {
