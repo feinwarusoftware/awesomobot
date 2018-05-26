@@ -28,6 +28,7 @@
     "mongoose": "^5.1.0",
     "morgan": "^1.9.0",
     "node-opus": "^0.3.0",
+    "node-tesseract": "^0.2.7",
     "ytdl-core": "^0.20.4"
   }
 }

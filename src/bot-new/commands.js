@@ -5,15 +5,14 @@ const moment = require("moment");
 const momentTz = require("moment-timezone");
 const path = require("path");
 const fs = require("fs");
+const jimp = require("jimp");
+const ytdl = require("ytdl-core");
 
 const utils = require("./utils");
 const spnav = require("./api/spnav");
 const lastfm = require("./api/lastfm");
 const logConstants = utils.logger;
 const logger = utils.globLogger;
-
-const jimp = require("jimp");
-const ytdl = require("ytdl-core");
 
 // EXPERIMENTAL
 const vm = require("vm");
@@ -3484,7 +3483,7 @@ const commands = [
 
             let card;
             for (let i = 0; i < cardObject.length; i++) {
-                if (cardObject[i].name === cardName) {
+                if (cardObject[i].name.toLowerCase() === cardName.toLowerCase()) {
                     card = cardObject[i];
                     break;
                 }
@@ -3684,77 +3683,86 @@ const commands = [
                         return;
                     }
 
-                    jimp.read(path.join(__dirname, "assets", "art", "cards", card.art), function (error, cardArt) {
+                    jimp.loadFont(path.join(__dirname, "assets", "art", "fonts", "SP-60.fnt"), function (error, sp60Font) {
                         if (error !== undefined && error !== null) {
-                            message.reply("jimp error - cardArt");
+                            message.reply("jimp error - sp25Font");
                             return;
                         }
-    
-                        jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-overlay.png"), function (error, overlay) {
+
+                        jimp.read(path.join(__dirname, "assets", "art", "cards", card.art), function (error, cardArt) {
                             if (error !== undefined && error !== null) {
-                                message.reply("jimp error - overlay");
+                                message.reply("jimp error - cardArt");
                                 return;
                             }
         
-                            jimp.read(path.join(__dirname, "assets", "art", "templates", "card-character-type-icons.png"), function(error, typeIcons){
+                            jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-overlay.png"), function (error, overlay) {
                                 if (error !== undefined && error !== null) {
-                                     message.reply("jimp error - typeIcons");
-                                        return;
+                                    message.reply("jimp error - overlay");
+                                    return;
                                 }
-                            
-                                jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-top.png"), function (error, frameTop) {
-                                    if (error !== undefined && error !== null) {
-                                        message.reply("jimp error - frameOutline");
-                                        return;
-                                    }
             
-                                    jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-outline.png"), function (error, frameOutline) {
+                                jimp.read(path.join(__dirname, "assets", "art", "templates", "card-character-type-icons.png"), function(error, typeIcons){
+                                    if (error !== undefined && error !== null) {
+                                         message.reply("jimp error - typeIcons");
+                                            return;
+                                    }
+                                
+                                    jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-top.png"), function (error, frameTop) {
                                         if (error !== undefined && error !== null) {
                                             message.reply("jimp error - frameOutline");
                                             return;
                                         }
                 
-                                        frameOutline.crop(x, y, z, w);
-                                        frameOutline.resize(bgWidth, bgHeight);
-            
-                                        if (fy !== undefined) {
-                                            frameTop.crop(fx, fy, fz, fw);
-                                            frameTop.resize(bgWidth + 49, 200);
-                                        }
-        
-                                        typeIcons.crop(ix, iy, iz, iw);
-                                        typeIcons.scale(1.5);
-        
-                                        overlay.crop(ox, oy, oz, ow);
-                                        overlay.resize(bgWidth, bgHeight);
-                
-                                        bg.composite(cardArt, bg.bitmap.width / 2 - cardArt.bitmap.width / 2, bg.bitmap.height / 2 - cardArt.bitmap.height / 2);
-                                        bg.composite(overlay, bg.bitmap.width / 2 - overlay.bitmap.width / 2, bg.bitmap.height / 2 - overlay.bitmap.height / 2);
-                                        bg.composite(frameOutline, bg.bitmap.width / 2 - frameOutline.bitmap.width / 2, bg.bitmap.height / 2 - frameOutline.bitmap.height / 2);
-    
-                                        if (fy !== undefined) {
-                                            bg.composite(frameTop, (bg.bitmap.width / 2 - frameTop.bitmap.width / 2) - 8, 240);
-                                        }
-    
-                                        bg.composite(typeIcons, 130, 182);
-
-                                        new jimp(500, 500, function (error, temp) {
+                                        jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-outline.png"), function (error, frameOutline) {
                                             if (error !== undefined && error !== null) {
-                                                message.reply("jimp error - error");
+                                                message.reply("jimp error - frameOutline");
                                                 return;
                                             }
-
-                                            temp.print(sp25Font, 0, 0, card.name);
-                                            temp.autocrop(0.0002, false);
-
-                                            bg.composite(temp, (bg.bitmap.width / 2 - temp.bitmap.width / 2) + 20, 325);
-
-                                            bg.autocrop(0.0002, false);
-                
-                                            bg.write(path.join(__dirname, "assets", "temp.png"), function () {
                     
-                                                message.channel.send("", {
-                                                    file: path.join(__dirname, "assets", "temp.png")
+                                            frameOutline.crop(x, y, z, w);
+                                            frameOutline.resize(bgWidth, bgHeight);
+                
+                                            if (fy !== undefined) {
+                                                frameTop.crop(fx, fy, fz, fw);
+                                                frameTop.resize(bgWidth + 49, 200);
+                                            }
+            
+                                            typeIcons.crop(ix, iy, iz, iw);
+                                            typeIcons.scale(1.5);
+            
+                                            overlay.crop(ox, oy, oz, ow);
+                                            overlay.resize(bgWidth, bgHeight);
+                    
+                                            bg.composite(cardArt, bg.bitmap.width / 2 - cardArt.bitmap.width / 2, bg.bitmap.height / 2 - cardArt.bitmap.height / 2);
+                                            bg.composite(overlay, bg.bitmap.width / 2 - overlay.bitmap.width / 2, bg.bitmap.height / 2 - overlay.bitmap.height / 2);
+                                            bg.composite(frameOutline, bg.bitmap.width / 2 - frameOutline.bitmap.width / 2, bg.bitmap.height / 2 - frameOutline.bitmap.height / 2);
+        
+                                            if (fy !== undefined) {
+                                                bg.composite(frameTop, (bg.bitmap.width / 2 - frameTop.bitmap.width / 2) - 8, 240);
+                                            }
+        
+                                            bg.composite(typeIcons, 130, 182);
+    
+                                            new jimp(500, 500, function (error, temp) {
+                                                if (error !== undefined && error !== null) {
+                                                    message.reply("jimp error - error");
+                                                    return;
+                                                }
+    
+                                                temp.print(sp25Font, 0, 0, card.name);
+                                                temp.autocrop(0.0002, false);
+    
+                                                bg.composite(temp, (bg.bitmap.width / 2 - temp.bitmap.width / 2) + 20, 325);
+    
+                                                bg.print(sp60Font, 210, 355, card.energy.toString());
+    
+                                                bg.autocrop(0.0002, false);
+                    
+                                                bg.write(path.join(__dirname, "assets", "temp.png"), function () {
+                        
+                                                    message.channel.send("", {
+                                                        file: path.join(__dirname, "assets", "temp.png")
+                                                    });
                                                 });
                                             });
                                         });
