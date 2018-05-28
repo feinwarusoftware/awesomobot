@@ -3864,6 +3864,12 @@ const commands = [
             const bgWidth = 455;
             const bgHeight = 630;
 
+            while (cardSending === true) {
+                await timeout(200);
+            }
+
+            cardSending = true;
+
             // image overlaying stuff.
             let bg = await new jimp(800, 1200);
             let cardArt = await jimp.read(path.join(__dirname, "assets", "art", "cards", card.art));
@@ -3926,12 +3932,6 @@ const commands = [
             bg.autocrop(0.0002, false);
 
             const date = "test";
-
-            while (cardSending === true) {
-                await timeout(200);
-            }
-
-            cardSending = true;
 
             bg.write(path.join(__dirname, "assets", `${date}.png`), async function() {
 
