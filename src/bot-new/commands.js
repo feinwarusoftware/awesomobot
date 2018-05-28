@@ -3899,8 +3899,11 @@ const commands = [
             printCenter(bg, jimpAssets.sp25Font, 20, 315, card.name);
             printCenter(bg, jimpAssets.sp60Font, -168, 350, card.energy.toString());
 
-            printCenter(bg, jimpAssets.sp27Font, -168, 515, card.levels[cardLevel - 1].upgrades[0].health.toString());
-            printCenter(bg, jimpAssets.sp27Font, -168, 640, card.levels[cardLevel - 1].upgrades[0].attack.toString());
+            if (ox === 0) {
+                printCenter(bg, jimpAssets.sp27Font, -168, 515, card.levels[cardLevel - 1].upgrades[0].health.toString());
+                printCenter(bg, jimpAssets.sp27Font, -168, 640, card.levels[cardLevel - 1].upgrades[0].attack.toString());
+            }
+
             printCenter(bg, jimpAssets.sp16Font, 17, 358, `lvl ${card.levels[cardLevel - 1].level}`);
 
             let levelIndex = 0;
@@ -3908,10 +3911,15 @@ const commands = [
                 if (card.levels[i - 1] === undefined) {
                     continue;
                 }
-                if (card.levels[i - 1].upgrades[0].ability_info !== null) {
-                    levelIndex = i - 1;
-                    break;
+                if (card.levels[i - 1].upgrades[0].ability_info === null) {
+                    continue;
                 }
+                if (card.levels[i - 1].upgrades[0].ability_info.description === null) {
+                    continue;
+                }
+                
+                levelIndex = i - 1;
+                break;
             }
             printCenterCenter(bg, jimpAssets.sp18Font, 20, 510, card.levels[levelIndex].upgrades[0].ability_info.description, 325);
 
