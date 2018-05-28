@@ -21,6 +21,8 @@ const utils = require("./utils");
 const logConstants = utils.logger;
 const logger = utils.globLogger;
 
+const jimpAssets = require("./jimpload");
+
 const config = utils.globConfig.data;
 
 // EXPERIMENTAL
@@ -49,7 +51,9 @@ setInterval(() => {
     }
 }, 5000);
 
-client.on("ready", () => {
+client.on("ready", async () => {
+
+    await jimpAssets.loadAssets();
 
     let guilds = client.guilds.array();
 

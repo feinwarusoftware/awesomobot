@@ -14,11 +14,90 @@ const lastfm = require("./api/lastfm");
 const logConstants = utils.logger;
 const logger = utils.globLogger;
 
+const jimpAssets = require("./jimpload");
+
 // EXPERIMENTAL
 const vm = require("vm");
 //
 
 let cachedeplist;
+
+let cardSending = false;
+
+const timeout = ms => new Promise(res => setTimeout(res, ms));
+
+const textWidth = (font, str) => {
+                                                                        
+    let width = 0;
+
+    for (let i = 0; i < str.length; i++) {
+        width += font.chars[str[i]].xoffset + font.chars[str[i]].xadvance;                                                                          
+    }
+
+    return width;
+}
+
+const printCenter = (src, font, x, y, str, wrap = src.bitmap.width) => {
+
+    let words = str.split(" ");
+
+    let width = 0;
+    let numLines = 0;
+    let lastWord = 0;
+
+    for (let i = 0; i < words.length; i++) {
+        if (width + textWidth(font, words[i]) > wrap) {
+            
+            let text = "";
+            for (let j = lastWord; j < i; j++) {
+                text += words[j] + " ";
+            }
+
+            src.print(font, (src.bitmap.width / 2 - width / 2) + x, y + (numLines * font.chars["$"].height) + 5, text);
+
+            lastWord = i;
+            numLines++;
+            width = 0;
+        }
+                        
+        width += textWidth(font, words[i]);
+    }
+
+    let text = "";
+    for (let i = lastWord; i < words.length; i++) {
+        text += words[i] + " ";
+    }
+
+    src.print(font, (src.bitmap.width / 2 - width / 2) + x, y + (numLines * font.chars["$"].height) + 5, text);
+};
+
+const printCenterCenter = (src, font, x, y, str, wrap = src.bitmap.width) => {
+
+    let words = str.split(" ");
+
+    let width = 0;
+    let numLines = 0;
+
+    for (let i = 0; i < words.length; i++) {
+        if (width + textWidth(font, words[i]) > wrap) {
+
+            numLines++;
+            width = 0;
+        }
+                        
+        width += textWidth(font, words[i]);
+    }
+
+    let yoffset = 0;
+    if (numLines === 3) {
+        yoffset = 5;
+    }
+    if (numLines === 4) {
+        yoffset = 10;
+    }
+
+    printCenter(src, font, x, (src.bitmap.height / 2 - ((numLines * font.chars["$"].height) + (numLines - 1) * 5)) / 2 + y + yoffset, str, wrap);
+};
 
 class Command {
     constructor(data) {
@@ -3467,9 +3546,11 @@ const commands = [
         desc: "Phone Destroyer!",
         type: "command",
         match: "card",
-        call: function (client, message, guild) {
+        call: async function (client, message, guild) {
 
             let cardName = message.content.substring(guild.settings.prefix.length + this.match.length + 1);
+
+            let test = jimpAssets;
 
             let jsonContent = fs.readFileSync(path.join(__dirname, "assets", "cards.json"));
 
@@ -3483,7 +3564,7 @@ const commands = [
 
             let card;
             for (let i = 0; i < cardObject.length; i++) {
-                if (cardObject[i].name.toLowerCase() === cardName.toLowerCase()) {
+                if (cardName.toLowerCase().startsWith(cardObject[i].name.toLowerCase())) {
                     card = cardObject[i];
                     break;
                 }
@@ -3491,6 +3572,14 @@ const commands = [
             if (card === undefined) {
                 message.reply("card not found");
                 return;
+            }
+
+            let cardLevel = 1;
+            if (message.content.length > (guild.settings.prefix.length + this.match.length + card.name.length + 1)) {
+                cardLevel = parseInt(message.content.substring(guild.settings.prefix.length + this.match.length + card.name.length + 2));
+            }
+            if (cardLevel == NaN) {
+                cardLevel = 1;
             }
 
             // Get the frame outline.
@@ -3667,237 +3756,213 @@ const commands = [
             oz = overlayWidth;
             ow = overlayHeight;
 
+            // Card theme icons.
+            const themeIconSheet = {
+                x: 0,
+                y: 0,
+                width: 180,
+                height: 24
+            };
+
+            const themeIconWidth = 36;
+            const themeIconHeight = 24;
+
+            let tx, ty, tz, tw;
+
+            ty = 0;
+
+            switch(card.theme) {
+                case "Neutral":
+                    tx = 0;
+                    break;
+                case "Adventure":
+                    tx = themeIconWidth;
+                    break;
+                case "Sci-Fi":
+                    tx = themeIconWidth * 2;
+                    break;
+                case "Mystical":
+                    tx = themeIconWidth * 3;
+                    break;
+                case "Fantasy":
+                    tx = themeIconWidth * 4;
+                    break;
+                default:
+                    message.reply("theme not found");
+                    return;
+                    break;
+            }
+
+            tz = themeIconWidth;
+            tw = themeIconHeight;
+
+            // Crystal things.
+            const crystalSheet = {
+                x: 0,
+                y: 24,
+                width: 180,
+                height: 76 // 36 + 4 + 36
+            };
+
+            const crystalWidth = 36;
+            const crystalHeight = 36;
+
+            let cx, cy, cz, cw;
+
+            cy = crystalSheet.y;
+
+            switch(card.rarity) {
+                case "Common":
+                    switch(card.theme) {
+                        case "Neutral":
+                            cx = 0;
+                            break;
+                        case "Adventure":
+                            cx = crystalWidth;
+                            break;
+                        case "Sci-Fi":
+                            cx = crystalWidth * 2;
+                            break;
+                        case "Mystical":
+                            cx = crystalWidth * 3;
+                            break;
+                        case "Fantasy":
+                            cx = crystalWidth * 4;
+                            break;
+                        default:
+                            message.reply("theme not found");
+                            return;
+                            break;
+                    }
+                    break;
+                case "Rare":
+                    cy += crystalHeight + 4;
+                    cx = 17;
+                    break;
+                case "Epic":
+                    cy += crystalHeight + 4;
+                    cx = 34 + crystalWidth;
+                    break;
+                case "Legendary":
+                    cy += crystalHeight + 4;
+                    cx = 34 + crystalWidth * 2;
+                    break;
+                default:
+                    message.reply("rarity not found");
+                    return;
+                    break;
+            }
+
+            cz = crystalWidth;
+            cw = crystalHeight;
+
+            if (card.rarity === "Legendary") {
+                cz += 17;
+            }
+
             // Make the image.
             const bgWidth = 455;
             const bgHeight = 630;
 
-            new jimp(800, 1200, function (error, bg) {
-                if (error !== undefined && error !== null) {
-                    message.reply("jimp error - cardArt");
-                    return;
+            // image overlaying stuff.
+            let bg = await new jimp(800, 1200);
+            let cardArt = await jimp.read(path.join(__dirname, "assets", "art", "cards", card.art));
+            let frameOverlay = jimpAssets.frameOverlays.clone().crop(ox, oy, oz, ow).resize(bgWidth, bgHeight);
+            let frameOutline = jimpAssets.frameOutlines.clone().crop(x, y, z, w).resize(bgWidth, bgHeight);
+            let typeIcon = jimpAssets.typeIcons.clone().crop(ix, iy, iz, iw).scale(1.5);
+            let themeIcon = jimpAssets.miscIcons.clone().crop(tx, ty, tz, tw).scale(1.5);
+            let crystal = jimpAssets.miscIcons.clone().crop(cx, cy, cz, cw).scale(1.5);
+
+            let frameTop;
+            if (fy !== undefined) {
+                frameTop = jimpAssets.frameTops.clone().crop(fx, fy, fz, fw).resize(bgWidth + 49, 200);
+            }
+
+            bg.composite(cardArt, bg.bitmap.width / 2 - cardArt.bitmap.width / 2, bg.bitmap.height / 2 - cardArt.bitmap.height / 2);
+            bg.composite(frameOverlay, bg.bitmap.width / 2 - frameOverlay.bitmap.width / 2, bg.bitmap.height / 2 - frameOverlay.bitmap.height / 2);
+            bg.composite(frameOutline, bg.bitmap.width / 2 - frameOutline.bitmap.width / 2, bg.bitmap.height / 2 - frameOutline.bitmap.height / 2);
+
+            if (fy !== undefined) {
+                bg.composite(frameTop, (bg.bitmap.width / 2 - frameTop.bitmap.width / 2) - 8, 240);
+            }
+
+            bg.composite(typeIcon, 130, 182);
+            bg.composite(themeIcon, (bg.bitmap.width / 2 - themeIcon.bitmap.width / 2) - 168, 845);
+
+            let xoffset = 0;
+            if (card.rarity === "Legendary") {
+                xoffset = 25;
+            }
+
+            bg.composite(crystal, (bg.bitmap.width / 2 - themeIcon.bitmap.width / 2) - 168 - xoffset, 745);
+
+            printCenter(bg, jimpAssets.sp25Font, 20, 315, card.name);
+            printCenter(bg, jimpAssets.sp60Font, -168, 350, card.energy.toString());
+
+            printCenter(bg, jimpAssets.sp27Font, -168, 515, card.levels[cardLevel - 1].upgrades[0].health.toString());
+            printCenter(bg, jimpAssets.sp27Font, -168, 640, card.levels[cardLevel - 1].upgrades[0].attack.toString());
+            printCenter(bg, jimpAssets.sp16Font, 17, 358, `lvl ${card.levels[cardLevel - 1].level}`);
+
+            let levelIndex = 0;
+            for (let i = cardLevel; i > 0; i--) {
+                if (card.levels[i - 1] === undefined) {
+                    continue;
+                }
+                if (card.levels[i - 1].upgrades[0].ability_info !== null) {
+                    levelIndex = i - 1;
+                    break;
+                }
+            }
+            printCenterCenter(bg, jimpAssets.sp18Font, 20, 510, card.levels[levelIndex].upgrades[0].ability_info.description, 325);
+
+            bg.autocrop(0.0002, false);
+
+            const date = Date.now();
+
+            bg.write(path.join(__dirname, "assets", `${date}.png`), async function() {
+
+                while (cardSending === true) {
+                    await timeout(200);
                 }
 
-                jimp.loadFont(path.join(__dirname, "assets", "art", "fonts", "SP-25.fnt"), function (error, sp25Font) {
-                    if (error !== undefined && error !== null) {
-                        message.reply("jimp error - sp25Font");
-                        return;
-                    }
+                cardSending = true;
 
-                    jimp.loadFont(path.join(__dirname, "assets", "art", "fonts", "SP-60.fnt"), function (error, sp60Font) {
-                        if (error !== undefined && error !== null) {
-                            message.reply("jimp error - sp25Font");
-                            return;
-                        }
-
-                        jimp.loadFont(path.join(__dirname, "assets", "art", "fonts", "SP-27.fnt"), function (error, sp27Font) {
-                            if (error !== undefined && error !== null) {
-                                message.reply("jimp error - sp27Font");
-                                return;
-                            }
-
-                            jimp.loadFont(path.join(__dirname, "assets", "art", "fonts", "SP-18.fnt"), function (error, sp18Font) {
-                            if (error !== undefined && error !== null) {
-                                message.reply("jimp error - sp18Font");
-                                return;
-                            }
-
-                                jimp.read(path.join(__dirname, "assets", "art", "cards", card.art), function (error, cardArt) {
-                                    if (error !== undefined && error !== null) {
-                                        message.reply("jimp error - cardArt");
-                                        return;
-                                    }
-                
-                                    jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-overlay.png"), function (error, overlay) {
-                                        if (error !== undefined && error !== null) {
-                                            message.reply("jimp error - overlay");
-                                            return;
-                                        }
-                    
-                                        jimp.read(path.join(__dirname, "assets", "art", "templates", "card-character-type-icons.png"), function(error, typeIcons){
-                                            if (error !== undefined && error !== null) {
-                                                message.reply("jimp error - typeIcons");
-                                                    return;
-                                            }
-                                        
-                                            jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-top.png"), function (error, frameTop) {
-                                                if (error !== undefined && error !== null) {
-                                                    message.reply("jimp error - frameOutline");
-                                                    return;
-                                                }
-                        
-                                                jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-outline.png"), function (error, frameOutline) {
-                                                    if (error !== undefined && error !== null) {
-                                                        message.reply("jimp error - frameOutline");
-                                                        return;
-                                                    }
-                            
-                                                    frameOutline.crop(x, y, z, w);
-                                                    frameOutline.resize(bgWidth, bgHeight);
-                        
-                                                    if (fy !== undefined) {
-                                                        frameTop.crop(fx, fy, fz, fw);
-                                                        frameTop.resize(bgWidth + 49, 200);
-                                                    }
-                    
-                                                    typeIcons.crop(ix, iy, iz, iw);
-                                                    typeIcons.scale(1.5);
-                    
-                                                    overlay.crop(ox, oy, oz, ow);
-                                                    overlay.resize(bgWidth, bgHeight);
-                            
-                                                    bg.composite(cardArt, bg.bitmap.width / 2 - cardArt.bitmap.width / 2, bg.bitmap.height / 2 - cardArt.bitmap.height / 2);
-                                                    bg.composite(overlay, bg.bitmap.width / 2 - overlay.bitmap.width / 2, bg.bitmap.height / 2 - overlay.bitmap.height / 2);
-                                                    bg.composite(frameOutline, bg.bitmap.width / 2 - frameOutline.bitmap.width / 2, bg.bitmap.height / 2 - frameOutline.bitmap.height / 2);
-                
-                                                    if (fy !== undefined) {
-                                                        bg.composite(frameTop, (bg.bitmap.width / 2 - frameTop.bitmap.width / 2) - 8, 240);
-                                                    }
-                
-                                                    bg.composite(typeIcons, 130, 182);
-            
-                                                    new jimp(500, 500, function (error, temp) {
-                                                        if (error !== undefined && error !== null) {
-                                                            message.reply("jimp error - error");
-                                                            return;
-                                                        }
-
-                                                        new jimp(500, 500, function (error, temp2) {
-                                                            if (error !== undefined && error !== null) {
-                                                                message.reply("jimp error - error");
-                                                                return;
-                                                            }
-
-                                                            new jimp(500, 500, function (error, temp3) {
-                                                                if (error !== undefined && error !== null) {
-                                                                    message.reply("jimp error - error");
-                                                                    return;
-                                                                }
-
-                                                                new jimp(500, 500, function (error, temp4) {
-                                                                    if (error !== undefined && error !== null) {
-                                                                        message.reply("jimp error - error");
-                                                                        return;
-                                                                    }
-
-                                                                    // Name.
-                                                                    temp.print(sp25Font, 0, 0, card.name);
-                                                                    temp.autocrop(0.0002, false);
-                        
-                                                                    bg.composite(temp, (bg.bitmap.width / 2 - temp.bitmap.width / 2) + 20, 325);
-                        
-                                                                    bg.print(sp60Font, 212, 355, card.energy.toString());
-                        
-                                                                    // Health.
-                                                                    temp2.print(sp27Font, 0, 0, card.levels[0].upgrades[0].health.toString());
-                                                                    temp2.autocrop(0.0002, false);
-                    
-                                                                    bg.composite(temp2, (bg.bitmap.width / 2 - temp2.bitmap.width / 2) - 168, 525);
-
-                                                                    // Attack.
-                                                                    temp3.print(sp27Font, 0, 0, card.levels[0].upgrades[0].attack.toString());
-                                                                    temp3.autocrop(0.0002, false);
-                    
-                                                                    bg.composite(temp3, (bg.bitmap.width / 2 - temp3.bitmap.width / 2) - 168, 650);                                               
-
-                                                                    // Description.
-                                                                    /*
-                                                                    temp4.print(sp18Font, 0, 0, card.levels[0].upgrades[0].ability_info.description, 360);
-                                                                    temp4.autocrop(0.0002, false);
-                    
-                                                                    bg.composite(temp4, (bg.bitmap.width / 2 - temp4.bitmap.width / 2), 0);
-                                                                    */
-                    
-                                                                    // Temp.
-                                                                    /*
-                                                                    let text = "test";
-                                                                    let len = 0;
-
-                                                                    for (let i = 0; i < text.length; i++) {
-                                                                        len += sp25Font.chars[text[i]].xoffset + sp25Font.chars[text[i]].xadvance;
-                                                                    }
-                                                                    */
-
-                                                                    const textWidth = (font, str) => {
-                                                                        
-                                                                        let width = 0;
-
-                                                                        for (let i = 0; i < str.length; i++) {
-                                                                            width += font.chars[str[i]].xoffset + font.chars[str[i]].xadvance;                                                                          
-                                                                        }
-
-                                                                        return width;
-                                                                    }
-
-                                                                    const printCenter = (src, font, x, y, str, wrap = src.bitmap.width) => {
-
-                                                                        let words = str.split(" ");
-
-                                                                        let width = 0;
-                                                                        let numLines = 0;
-                                                                        let lastWord = 0;
-
-                                                                        for (let i = 0; i < words.length; i++) {
-                                                                            if (width + textWidth(font, words[i]) > wrap) {
-                                                                                
-                                                                                let text = "";
-                                                                                for (let j = lastWord; j < i; j++) {
-                                                                                    text += words[j] + " ";
-                                                                                }
-
-                                                                                src.print(font, (src.bitmap.width / 2 - width / 2) + x, y + (numLines * font.chars["$"].height) + 5, text);
-
-                                                                                lastWord = i;
-                                                                                numLines++;
-                                                                                width = 0;
-                                                                            }
-                                                                                            
-                                                                            width += textWidth(font, words[i]);
-                                                                        }
-
-                                                                        let text = "";
-                                                                        for (let i = lastWord; i < words.length; i++) {
-                                                                            text += words[i] + " ";
-                                                                        }
-
-                                                                        src.print(font, (src.bitmap.width / 2 - width / 2) + x, y + (numLines * font.chars["$"].height) + 5, text);
-                                                                    };
-                                                                    
-                                                                    printCenter(bg, sp18Font, 20, 775, card.levels[0].upgrades[0].ability_info.description, 325);
-                    
-                                                                    //bg.print(sp25Font, (bg.bitmap.width / 2 - len / 2), 200, "test");
-
-                                                                    //
-                                                                    bg.autocrop(0.0002, false);
-
-                                                                    bg.write(path.join(__dirname, "assets", "temp.png"), function () {
-                                            
-                                                                        message.channel.send("", {
-                                                                            file: path.join(__dirname, "assets", "temp.png")
-                                                                        });
-                                                                    });
-                                                                });
-                                                            });
-                                                        });
-                                                    });
-                                                });
-                                            });
-                                        });
-                                    });
-                                });
-                            });                            
-                        });
-                    });
+                await message.channel.send("", {
+                    file: path.join(__dirname, "assets", `${date}.png`)
                 });
+
+                const embed = new discord.RichEmbed();
+                embed.setAuthor(card.name);
+                embed.setDescription("card stats go here");
+
+                switch(card.theme) {
+                    case "Neutral":
+                        embed.setColor(0x857468);
+                        break;
+                    case "Adventure":
+                        embed.setColor(0x4f80ba);
+                        break;
+                    case "Sci-Fi":
+                        embed.setColor(0xdb571d);
+                        break;
+                    case "Mystical":
+                        embed.setColor(0x4b9b38);
+                        break;
+                    case "Fantasy":
+                        embed.setColor(0xd34f5f);
+                        break;
+                    default:
+                        message.reply("theme not found");
+                        return;
+                        break;
+                }
+
+                await message.channel.send(embed);
+
+                fs.unlinkSync(path.join(__dirname, "assets", `${date}.png`));
+
+                cardSending = false;
             });
-
-            // common or not
-            // 5 types
-
-            // rarity
-
-            // fighter card, spell
-
-            // class, theme rarity
         }
     }),
     new Command({

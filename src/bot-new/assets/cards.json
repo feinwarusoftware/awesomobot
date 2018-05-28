@@ -33,12 +33,66 @@
             "attack": 49,
             "ability_info": {
                 "ability": true,
-                "description": "Deathwish: Heals his closest ally or leader."
+                "description": "Deathwish: Heals his closest ally or leader.",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 10,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 60,
+            "attack": 60,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 50,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 82,
+            "attack": 82,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 250,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 110,
+            "attack": 110,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 1000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 149,
+            "attack": 149,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 3000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 194,
+            "attack": 195,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 245,
+            "attack": 246,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Smuggler Ike",
@@ -74,12 +128,66 @@
             "attack": 49,
             "ability_info": {
                 "ability": true,
-                "description": "Charged: Increases his attack power."
+                "description": "Charged: Increases his attack power.",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 10,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 60,
+            "attack": 60,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 50,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 82,
+            "attack": 82,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 250,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 110,
+            "attack": 110,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 1000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 149,
+            "attack": 150,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 3000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 194,
+            "attack": 196,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 246,
+            "attack": 246,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Bandita Sally",
@@ -115,12 +223,66 @@
             "attack": 49,
             "ability_info": {
                 "ability": false,
-                "description": "A cute and deadly assassin that runs with scissors."
+                "description": "A cute and deadly assassin that runs with scissors.",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 10,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 60,
+            "attack": 60,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 50,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 82,
+            "attack": 82,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 250,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 110,
+            "attack": 110,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 1000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 149,
+            "attack": 149,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 3000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 194,
+            "attack": 194,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 245,
+            "attack": 245,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Calamity Heidi",
@@ -153,15 +315,69 @@
         "upgrades": [{
             "upgrade": 1,
             "health": 130,
-            "attack": 428,
+            "attack": 28,
             "ability_info": {
                 "ability": false,
-                "description": "Heidi is a fighter that is both smart and funny."
+                "description": "Heidi is a fighter that is both smart and funny.",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 10,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 158,
+            "attack": 33,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 50,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 218,
+            "attack": 45,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 250,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 293,
+            "attack": 61,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 1000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 398,
+            "attack": 84,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 3000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 517,
+            "attack": 110,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 652,
+            "attack": 139,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Shaman Token",
@@ -197,12 +413,66 @@
             "attack": 30,
             "ability_info": {
                 "ability": true,
-                "description": "Charged: Remove all negative effects from allies."
+                "description": "Ability Locked.",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 10,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 154,
+            "attack": 36,
+            "ability_info": "Charged: Remove all negative effects from allies."
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 50,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 211,
+            "attack": 50,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 250,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 283,
+            "attack": 67,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 1000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 386,
+            "attack": 91,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 3000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 503,
+            "attack": 119,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 635,
+            "attack": 150,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Gunslinger Kyle",
@@ -238,12 +508,66 @@
             "attack": 15,
             "ability_info": {
                 "ability": true,
-                "description": "Charged: Kyle's allies and leader get +30 attack for 3 seconds."
+                "description": "Charged: Kyle's allies and leader get +30 attack for 3 seconds.",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 10,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 81,
+            "attack": 18,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 50,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 111,
+            "attack": 25,
+            "ability_info": "Charged: Kyle's allies and leader get +48 attack for 3 seconds."
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 250,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 149,
+            "attack": 35,
+            "ability_info": "Charged: Kyle's allies and leader get +66 attack for 3 seconds."
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 1000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 204,
+            "attack": 48,
+            "ability_info": "Charged: Kyle's allies and leader get +94 attack for 3 seconds."
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 3000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 265,
+            "attack": 64,
+            "ability_info": "Charged: Kyle's allies and leader get +122 attack for 3 seconds."
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 334,
+            "attack": 80,
+            "ability_info": "Charged: Kyle's allies and leader get +150 attack for 3 seconds."
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Outlaw Tweek",
@@ -279,53 +603,66 @@
             "attack": 13,
             "ability_info": {
                 "ability": true,
-                "description": "Warcry: Throws dynamite. (10 damage if it hits enemy leader.)"
+                "description": "Warcry: Throws dynamite. (10 damage if it hits enemy leader.)",
+                "spawn_level": null
             }
         }]
-    }],
-    "spawn_count": null,
-    "spawn_level": null
-}, {
-    "type": "dev-test",
-    "name": "Barrel Dougie",
-    "theme": "Adventure",
-    "rarity": "Rare",
-    "art": "DougieAdvCard.jpg",
-    "class": "Assassin",
-    "energy": 4,
-    "attack_info": {
-        "attack_range": 0.55,
-        "attack_speed": 0.5,
-        "pre_attack_delay": 0,
-        "time_between_delay": 0.5,
-        "aoe_info": {
-            "aoe": false,
-            "aoe_attack": null
-        }
-    },
-    "speed_info": {
-        "max_speed": 1.17,
-        "time_to_max_speed": 0.5
-    },
-    "power_charge_rate": null,
-    "health_loss": null,
-    "tags": ["kids", "male", "human", "assassin", "hasmovementsounds", "adv"],
-    "min_pvp_rank": 5,
-    "levels": [{
-        "level": 1,
-        "cards_to_upgrade": 4,
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 10,
         "upgrades": [{
-            "upgrade": 1,
-            "health": 66,
+            "upgrade": 0,
+            "health": 76,
+            "attack": 15,
+            "ability_info": "Warcry: Throws dynamite. (12 damage if it hits enemy leader.)"
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 50,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 104,
+            "attack": 23,
+            "ability_info": "Warcry: Throws dynamite. (18 damage if it hits enemy leader.)"
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 250,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 140,
+            "attack": 31,
+            "ability_info": "Warcry: Throws dynamite. (23 damage if it hits enemy leader.)"
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 1000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 192,
+            "attack": 43,
+            "ability_info": "Warcry: Throws dynamite. (32 damage if it hits enemy leader.)"
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 3000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 250,
+            "attack": 56,
+            "ability_info": "Warcry: Throws dynamite. (41 damage if it hits enemy leader.)"
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 316,
             "attack": 72,
-            "ability_info": {
-                "ability": false,
-                "description": "Headhunter: 35 extra damage to Enemy Leader on first hit."
-            }
+            "ability_info": "Warcry: Throws dynamite. (50 damage if it hits enemy leader.)"
         }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Hookhand Clyde",
@@ -364,9 +701,86 @@
                 "description": "Warcry: Damage a random enemy. (22 if it hits enemy leader.)"
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 6,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 236,
+            "attack": 51,
+            "ability_info": {
+                "ability": true,
+                "description": "Warcry: Damage a random enemy. (25 if it hits enemy leader.)",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 25,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 295,
+            "attack": 63,
+            "ability_info": {
+                "ability": true,
+                "description": "Warcry: Damage a random enemy. (33 if it hits enemy leader.)",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 100,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 369,
+            "attack": 79,
+            "ability_info": {
+                "ability": true,
+                "description": "Warcry: Damage a random enemy. (40 if it hits enemy leader.)",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 350,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 474,
+            "attack": 102,
+            "ability_info": {
+                "ability": true,
+                "description": "Warcry: Damage a random enemy. (52 if it hits enemy leader.)",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 720,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 594,
+            "attack": 127,
+            "ability_info": {
+                "ability": true,
+                "description": "Warcry: Damage a random enemy. (64 if it hits enemy leader.)",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 728,
+            "attack": 156,
+            "ability_info": {
+                "ability": true,
+                "description": "Warcry: Damage a random enemy. (76 if it hits enemy leader.)",
+                "spawn_level": null
+            }
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Storyteller Jimmy",
@@ -402,12 +816,66 @@
             "attack": 48,
             "ability_info": {
                 "ability": true,
-                "description": "Aura: Decrease attack of all nearby enemies"
+                "description": "Aura: Decrease attack of all nearby enemies",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 6,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 239,
+            "attack": 54,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 25,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 299,
+            "attack": 68,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 100,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 374,
+            "attack": 84,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 350,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 480,
+            "attack": 109,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 720,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 601,
+            "attack": 137,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 738,
+            "attack": 169,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Pocahontas Randy",
@@ -443,12 +911,90 @@
             "attack": 40,
             "ability_info": {
                 "ability": true,
-                "description": "Charged: Calls and indian kid to battle."
+                "description": "Charged: Calls and indian kid to battle.",
+                "spawn_level": 1
+            }
+        }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 6,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 453,
+            "attack": 45,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Calls an indian kid to battle.",
+                "spawn_level": 2
+            }
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 25,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 566,
+            "attack": 57,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Calls an indian kid to battle.",
+                "spawn_level": 3
+            }
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 100,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 708,
+            "attack": 72,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Calls an indian kid to battle.",
+                "spawn_level": 4
+            }
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 350,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 910,
+            "attack": 92,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Calls an indian kid to battle.",
+                "spawn_level": 5
+            }
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 720,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 1141,
+            "attack": 116,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Calls an indian kid to battle.",
+                "spawn_level": 6
+            }
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 1400,
+            "attack": 142,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Calls an indian kid to battle.",
+                "spawn_level": 7
             }
         }]
     }],
-    "spawn_count": 1,
-    "spawn_level": 1
+    "spawn_count": 1
 }, {
     "type": "dev-test",
     "name": "Arrowstorm",
@@ -487,9 +1033,86 @@
                 "description": "Deal 112 damage to all enemies."
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 8,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": true,
+                "description": "Deal 125 damage to all enemies.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 40,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": true,
+                "description": "Deal 152 damage to all enemies.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 200,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": true,
+                "description": "Deal 192 damage to all enemies.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 600,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": true,
+                "description": "Deal 245 damage to all enemies.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 1500,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": true,
+                "description": "Deal 312 damage to all enemies.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": true,
+                "description": "Deal 392 damage to all enemies.",
+                "spawn_level": null
+            }
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Inuit Kenny",
@@ -525,12 +1148,66 @@
             "attack": 102,
             "ability_info": {
                 "ability": true,
-                "description": "Deathwish: Kills the enemy that killed him."
+                "description": "Deathwish: Kills the enemy that killed him.",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 4,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 106,
+            "attack": 113,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 8,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 128,
+            "attack": 137,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 16,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 155,
+            "attack": 166,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 32,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 194,
+            "attack": 207,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 64,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 238,
+            "attack": 254,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 288,
+            "attack": 307,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Stan of Many Moons",
@@ -569,9 +1246,62 @@
                 "description": "Charged: Casts a fiery blast at all enemies."
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 4,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 301,
+            "attack": 66,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 8,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 362,
+            "attack": 80,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 16,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 441,
+            "attack": 96,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 32,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 551,
+            "attack": 121,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 64,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 675,
+            "attack": 149,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 815,
+            "attack": 181,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Incan Craig",
@@ -610,9 +1340,157 @@
                 "description": "Warcry: Shoots a laser beam towards the Enemy Leader, damaging all enemies in the way."
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 4,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 233,
+            "attack": 32,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 8,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 282,
+            "attack": 39,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 16,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 341,
+            "attack": 48,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 32,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 425,
+            "attack": 61,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 64,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 522,
+            "attack": 75,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 630,
+            "attack": 92,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
+}, {
+    "type": "dev-test",
+    "name": "Barrel Dougie",
+    "theme": "Adventure",
+    "rarity": "Common",
+    "art": "DougieAdvCard.jpg",
+    "class": "Assassin",
+    "energy": 4,
+    "attack_info": {
+        "attack_range": 0.55,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 1.17,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": null,
+    "health_loss": null,
+    "tags": ["male", "human", "kids", "adv", "ranged"],
+    "min_pvp_rank": 1,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 4,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 63,
+            "attack": 13,
+            "ability_info": {
+                "ability": true,
+                "description": "Headhunter: 35 extra damage to enemy leader on first hit.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 8,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 77,
+            "attack": 85,
+            "ability_info": "Headhunter: 42 extra damage to enemy leader on first hit."
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 40,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 102,
+            "attack": 113,
+            "ability_info": "Headhunter: 58 extra damage to enemy leader on first hit."
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 200,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 134,
+            "attack": 147,
+            "ability_info": "Headhunter: 74 extra damage to enemy leader on first hit."
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 600,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 178,
+            "attack": 196,
+            "ability_info": "Headhunter: 100 extra damage to enemy leader on first hit."
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 1500,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 228,
+            "attack": 251,
+            "ability_info": "Headhunter: 126 extra damage to enemy leader on first hit."
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 286,
+            "attack": 313,
+            "ability_info": "Headhunter: 152 extra damage to enemy leader on first hit."
+        }]
+    }],
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Buccaneer Bebe",
@@ -648,12 +1526,66 @@
             "attack": 32,
             "ability_info": {
                 "ability": false,
-                "description": "When Byccaneer Bebe kills an enemy, increase her attack by 6."
+                "description": "When Buccaneer Bebe kills an enemy, increase her attack by 6.",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 8,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 169,
+            "attack": 37,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 40,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 222,
+            "attack": 49,
+            "ability_info": "When Buccaneer Bebe kills an enemy, increase her attack by 9."
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 200,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 291,
+            "attack": 64,
+            "ability_info": "When Buccaneer Bebe kills an enemy, increase her attack by 12."
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 600,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 388,
+            "attack": 86,
+            "ability_info": "When Buccaneer Bebe kills an enemy, increase her attack by 17."
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 1500,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 499,
+            "attack": 111,
+            "ability_info": "When Buccaneer Bebe kills an enemy, increase her attack by 21."
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 624,
+            "attack": 138,
+            "ability_info": "When Buccaneer Bebe kills an enemy, increase her attack by 26."
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Medicine Woman Sharon",
@@ -689,12 +1621,66 @@
             "attack": 20,
             "ability_info": {
                 "ability": false,
-                "description": "Charged: Heals herself and all nearby allies (Includes Leader)."
+                "description": "Charged: Heals herself and all nearby allies (Includes Leader).",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 8,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 149,
+            "attack": 24,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 40,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 196,
+            "attack": 33,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 200,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 257,
+            "attack": 43,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 600,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 341,
+            "attack": 58,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 1500,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 438,
+            "attack": 76,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 548,
+            "attack": 94,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Pirate Ship Timmy",
@@ -730,12 +1716,66 @@
             "attack": 36,
             "ability_info": {
                 "ability": false,
-                "description": "Charged: Launches a cannonball at the nearest enemy."
+                "description": "Charged: Launches a cannonball at the nearest enemy.",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 8,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 112,
+            "attack": 42,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 40,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 148,
+            "attack": 55,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 200,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 192,
+            "attack": 71,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 600,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 258,
+            "attack": 96,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 1500,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 332,
+            "attack": 124,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 415,
+            "attack": 156,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Captain Wendy",
@@ -771,12 +1811,66 @@
             "attack": 19,
             "ability_info": {
                 "ability": false,
-                "description": "Charged: Shoots the three closest enemies."
+                "description": "Charged: Shoots the three closest enemies.",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 8,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 92,
+            "attack": 23,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 40,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 130,
+            "attack": 31,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 200,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 169,
+            "attack": 39,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 600,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 225,
+            "attack": 53,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 1500,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 290,
+            "attack": 69,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 362,
+            "attack": 86,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Fireball",
@@ -812,12 +1906,90 @@
             "attack": null,
             "ability_info": {
                 "ability": false,
-                "description": "Damages enemies in area. (20 damage if it hits enemy leader)"
+                "description": "Damages enemies in area. (18 damage if it hits enemy leader)",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 8,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": true,
+                "description": "Damage enemies in area. (20 damage if it hits enemy leader)",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 40,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": true,
+                "description": "Damage enemies in area. (26 damage if it hits enemy leader)",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 200,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": true,
+                "description": "Damage enemies in area. (35 damage if it hits enemy leader)",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 600,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": true,
+                "description": "Damage enemies in area. (46 damage if it hits enemy leader)",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 1500,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": true,
+                "description": "Damage enemies in area. (60 damage if it hits enemy leader)",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": true,
+                "description": "Damage enemies in area. (78 damage if it hits enemy leader)",
+                "spawn_level": null
             }
         }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Lightning Bolt",
@@ -853,12 +2025,90 @@
             "attack": null,
             "ability_info": {
                 "ability": false,
-                "description": "Huge damage to one enemy. (27 damage if it hits Enemy Leader)"
+                "description": "Huge damage to one enemy. (24 damage if it hits Enemy Leader)",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 8,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": true,
+                "description": "Huge damage to one enemy. (27 damage if it hits Enemy Leader)",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 40,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": true,
+                "description": "Huge damage to one enemy. (35 damage if it hits Enemy Leader)",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 200,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": true,
+                "description": "Huge damage to one enemy. (46 damage if it hits Enemy Leader)",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 600,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": true,
+                "description": "Huge damage to one enemy. (62 damage if it hits Enemy Leader)",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 1500,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": true,
+                "description": "Huge damage to one enemy. (81 damage if it hits Enemy Leader)",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": true,
+                "description": "Huge damage to one enemy. (103 damage if it hits Enemy Leader)",
+                "spawn_level": null
             }
         }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Sheriff Cartman",
@@ -894,12 +2144,66 @@
             "attack": 16,
             "ability_info": {
                 "ability": false,
-                "description": "Charged: Damaged nearby enemies with his bullet tantrum."
+                "description": "Charged: Damaged nearby enemies with his bullet tantrum.",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 8,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 443,
+            "attack": 19,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 40,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 585,
+            "attack": 27,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 200,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 793,
+            "attack": 36,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 600,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 1015,
+            "attack": 48,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 1500,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 1304,
+            "attack": 63,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 1629,
+            "attack": 78,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Paladin Butters",
@@ -930,7 +2234,7 @@
         "level": 1,
         "cards_to_upgrade": 5,
         "upgrades": [{
-            "upgrade": 1,
+            "upgrade": 0,
             "health": 50,
             "attack": 50,
             "ability_info": {
@@ -938,9 +2242,68 @@
                 "description": "Deathwish: Closest ally or leader becomes invincible for 3 seconds."
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 10,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 61,
+            "attack": 61,
+            "ability_info": {
+                "ability": true,
+                "description": null
+            }
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 50,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 83,
+            "attack": 84,
+            "ability_info": {
+                "ability": true,
+                "description": null
+            }
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 250,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 111,
+            "attack": 113,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 1000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 152,
+            "attack": 153,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 3000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 198,
+            "attack": 200,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": 0,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 250,
+            "attack": 251,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Princess Kenny",
@@ -976,12 +2339,66 @@
             "attack": 49,
             "ability_info": {
                 "ability": true,
-                "description": "Deathwish: This unit's killer has 0 attack for 10 seconds."
+                "description": "Deathwish: This unit's killer has 0 attack for 10 seconds.",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 10,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 60,
+            "attack": 60,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 50,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 82,
+            "attack": 82,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 250,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 110,
+            "attack": 110,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 1000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 149,
+            "attack": 149,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 3000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 194,
+            "attack": 194,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": 0,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 245,
+            "attack": 245,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Le Bard Jimmy",
@@ -1017,12 +2434,66 @@
             "attack": 30,
             "ability_info": {
                 "ability": true,
-                "description": "Warcry: Decrease max health of all enemies."
+                "description": "Warcry: Decrease max health of all enemies.",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 10,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 159,
+            "attack": 36,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 50,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 218,
+            "attack": 50,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 250,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 293,
+            "attack": 66,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 1000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 399,
+            "attack": 91,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 3000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 521,
+            "attack": 119,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": 0,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 659,
+            "attack": 151,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Stan the Great",
@@ -1058,12 +2529,66 @@
             "attack": 30,
             "ability_info": {
                 "ability": true,
-                "description": "Charged: Reduce attack of all enemies for 5 seconds."
+                "description": "Charged: Reduce attack of all enemies for 5 seconds.",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 10,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 165,
+            "attack": 36,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 50,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 226,
+            "attack": 50,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 250,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 303,
+            "attack": 67,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 1000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 413,
+            "attack": 91,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 3000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 593,
+            "attack": 119,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": 0,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 679,
+            "attack": 151,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Robin Tweek",
@@ -1099,12 +2624,66 @@
             "attack": 13,
             "ability_info": {
                 "ability": true,
-                "description": "Warcry: Give a random ally a big health boost."
+                "description": "Warcry: Give a random ally a big health boost.",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 10,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 76,
+            "attack": 15,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 50,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 105,
+            "attack": 23,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 250,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 141,
+            "attack": 31,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 1000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 193,
+            "attack": 44,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 3000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 250,
+            "attack": 57,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": 0,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 315,
+            "attack": 73,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Rogue Token",
@@ -1140,12 +2719,66 @@
             "attack": 48,
             "ability_info": {
                 "ability": true,
-                "description": "Warcry: Deal damage to nearby enemies."
+                "description": "Warcry: Deal damage to nearby enemies.",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 6,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 229,
+            "attack": 54,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 25,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 286,
+            "attack": 67,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 100,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 359,
+            "attack": 83,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 350,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 462,
+            "attack": 108,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 720,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 579,
+            "attack": 135,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": 0,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 712,
+            "attack": 166,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "The Amazingly Randy",
@@ -1181,12 +2814,90 @@
             "attack": 45,
             "ability_info": {
                 "ability": true,
-                "description": "Charged: Summon two magic cocks from thin air!"
+                "description": "Charged: Summon two magic cocks from thin air!",
+                "spawn_level": 1
+            }
+        }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 6,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 136,
+            "attack": 50,
+            "ability_info": {
+                "ability": true,
+                "description": null,
+                "spawn_level": 2
+            }
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 25,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 170,
+            "attack": 62,
+            "ability_info": {
+                "ability": true,
+                "description": null,
+                "spawn_level": 3
+            }
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 100,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 213,
+            "attack": 78,
+            "ability_info": {
+                "ability": true,
+                "description": null,
+                "spawn_level": 4
+            }
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 350,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 274,
+            "attack": 101,
+            "ability_info": {
+                "ability": true,
+                "description": null,
+                "spawn_level": 5
+            }
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 720,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 343,
+            "attack": 127,
+            "ability_info": {
+                "ability": true,
+                "description": null,
+                "spawn_level": 6
+            }
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": 0,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 421,
+            "attack": 156,
+            "ability_info": {
+                "ability": true,
+                "description": null,
+                "spawn_level": 7
             }
         }]
     }],
-    "spawn_count": 2,
-    "spawn_level": 1
+    "spawn_count": 2
 }, {
     "type": "dev-test",
     "name": "Cock Magic",
@@ -1222,12 +2933,90 @@
             "attack": null,
             "ability_info": {
                 "ability": false,
-                "description": "Transform 2 random allies and/or enemies into angry cocks."
+                "description": "Transform 1 random allies and/or enemies into angry cocks.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 6,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": false,
+                "description": "Transform 2 random allies and/or enemies into angry cocks.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 25,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": false,
+                "description": "Transform 3 random allies and/or enemies into angry cocks.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 100,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": false,
+                "description": "Transform 4 random allies and/or enemies into angry cocks.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 350,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": false,
+                "description": "Transform 5 random allies and/or enemies into angry cocks.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 720,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": false,
+                "description": "Transform 6 random allies and/or enemies into angry cocks.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": 0,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": null,
+            "attack": null,
+            "ability_info": {
+                "ability": false,
+                "description": "Transform 7 random allies and/or enemies into angry cocks.",
+                "spawn_level": null
             }
         }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Transmogrify",
@@ -1263,12 +3052,66 @@
             "attack": null,
             "ability_info": {
                 "ability": false,
-                "description": "Transforms target enemy into a worthless rat."
+                "description": "Transforms target enemy into a worthless rat.",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 6,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": null,
+            "attack": null,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 25,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": null,
+            "attack": null,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 100,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": null,
+            "attack": null,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 350,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": null,
+            "attack": null,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 720,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": null,
+            "attack": null,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": 0,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": null,
+            "attack": null,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": 1,
-    "spawn_level": 1
+    "spawn_count": 1
 }, {
     "type": "dev-test",
     "name": "Chicken Coop",
@@ -1299,17 +3142,95 @@
         "level": 1,
         "cards_to_upgrade": 3,
         "upgrades": [{
-            "upgrade": 1,
+            "upgrade": 0,
             "health": 450,
             "attack": 0,
             "ability_info": {
                 "ability": true,
-                "description": "Spawns a fresh cock every second. Loses 11hp per second."
+                "description": "Spawns a fresh cock every second. Loses 11hp per second.",
+                "spawn_level": 1
+            }
+        }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 6,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 517,
+            "attack": 0,
+            "ability_info": {
+                "ability": true,
+                "description": null,
+                "spawn_level": 2
+            }
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 25,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 674,
+            "attack": 0,
+            "ability_info": {
+                "ability": true,
+                "description": null,
+                "spawn_level": 3
+            }
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 100,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 831,
+            "attack": 0,
+            "ability_info": {
+                "ability": true,
+                "description": null,
+                "spawn_level": 4
+            }
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 350,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 1078,
+            "attack": 0,
+            "ability_info": {
+                "ability": true,
+                "description": null,
+                "spawn_level": 5
+            }
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 720,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 1325,
+            "attack": 0,
+            "ability_info": {
+                "ability": true,
+                "description": null,
+                "spawn_level": 6
+            }
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": 0,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 1572,
+            "attack": 0,
+            "ability_info": {
+                "ability": true,
+                "description": null,
+                "spawn_level": 7
             }
         }]
     }],
-    "spawn_count": 1,
-    "spawn_level": 1
+    "spawn_count": 1
 }, {
     "type": "dev-test",
     "name": "Shieldmaiden Wendy",
@@ -1340,17 +3261,71 @@
         "level": 1,
         "cards_to_upgrade": 2,
         "upgrades": [{
-            "upgrade": 1,
+            "upgrade": 0,
             "health": 240,
             "attack": 60,
             "ability_info": {
                 "ability": true,
-                "description": "Charged: Become invincible for 3 seconds."
+                "description": "Charged: Become invincible for 3 seconds.",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 4,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 265,
+            "attack": 66,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 8,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 319,
+            "attack": 80,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 16,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 386,
+            "attack": 96,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 32,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 483,
+            "attack": 121,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 64,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 594,
+            "attack": 149,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": 0,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 718,
+            "attack": 181,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Grand Wizard Cartman",
@@ -1381,17 +3356,71 @@
         "level": 1,
         "cards_to_upgrade": 2,
         "upgrades": [{
-            "upgrade": 1,
+            "upgrade": 0,
             "health": 1026,
             "attack": 26,
             "ability_info": {
                 "ability": true,
-                "description": "Charged: Blasts nearby enemies with super sweet magic!"
+                "description": "Charged: Blasts nearby enemies with super sweet magic!",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 4,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 12234,
+            "attack": 28,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 8,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 1366,
+            "attack": 35,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 16,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 1656,
+            "attack": 42,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 32,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 2071,
+            "attack": 54,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 64,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 2544,
+            "attack": 67,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": 0,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 3076,
+            "attack": 82,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Dwarf Engineer Dougie",
@@ -1420,19 +3449,89 @@
     "min_pvp_rank": 15,
     "levels": [{
         "level": 1,
-        "cards_to_upgrade": 2,
+        "cards_to_upgrade": 4,
         "upgrades": [{
-            "upgrade": 1,
+            "upgrade": 0,
             "health": 66,
             "attack": 72,
             "ability_info": {
                 "ability": false,
-                "description": "Headhunter: +10 attach for every hit."
+                "description": "Headhunter: +10 attach for every hit.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 8,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 77,
+            "attack": 85,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 40,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 102,
+            "attack": 112,
+            "ability_info": {
+                "ability": false,
+                "description": "Headhunter: +16 attach for every hit.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 200,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 133,
+            "attack": 147,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 600,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 177,
+            "attack": 194,
+            "ability_info": {
+                "ability": false,
+                "description": "Headhunter: +25 attach for every hit.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 1500,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 277,
+            "attack": 249,
+            "ability_info": {
+                "ability": false,
+                "description": "Headhunter: +34 attach for every hit.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": 0,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 284,
+            "attack": 310,
+            "ability_info": {
+                "ability": false,
+                "description": "Headhunter: +43 attach for every hit.",
+                "spawn_level": null
             }
         }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Canadian Knight Ike",
@@ -1461,19 +3560,73 @@
     "min_pvp_rank": 15,
     "levels": [{
         "level": 1,
-        "cards_to_upgrade": 2,
+        "cards_to_upgrade": 4,
         "upgrades": [{
-            "upgrade": 1,
+            "upgrade": 0,
             "health": 60,
             "attack": 60,
             "ability_info": {
-                "ability": false,
-                "description": "Charged: Increases his max health and fully heals."
+                "ability": true,
+                "description": "Charged: Increases his max health and fully heals.",
+                "spawn_level": null
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 8,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 71,
+            "attack": 71,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 40,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 93,
+            "attack": 93,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 200,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 121,
+            "attack": 121,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 600,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 162,
+            "attack": 162,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 1500,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 209,
+            "attack": 209,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": 0,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 260,
+            "attack": 261,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Underpants Gnomes",
@@ -1502,7 +3655,7 @@
     "min_pvp_rank": 15,
     "levels": [{
         "level": 1,
-        "cards_to_upgrade": 2,
+        "cards_to_upgrade": 4,
         "upgrades": [{
             "upgrade": 1,
             "health": 10,
@@ -1512,9 +3665,62 @@
                 "description": "Three sneaky underwear collectors."
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 8,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 13,
+            "attack": 14,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 40,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 20,
+            "attack": 21,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 200,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 28,
+            "attack": 29,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 600,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 40,
+            "attack": 40,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 1500,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 52,
+            "attack": 53,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": 0,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 66,
+            "attack": 66,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Dwarf King Clyde",
@@ -1545,17 +3751,70 @@
         "level": 1,
         "cards_to_upgrade": 2,
         "upgrades": [{
-            "upgrade": 1,
+            "upgrade": 0,
             "health": 156,
             "attack": 34,
             "ability_info": {
                 "ability": false,
-                "description": "Warcry: Strike nearest enemy with a mighty blow."
+                "description": "Warcy: Strike nearest enemy with a mighty blow."
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 8,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 184,
+            "attack": 40,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 40,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 243,
+            "attack": 53,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 200,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 317,
+            "attack": 69,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 600,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 422,
+            "attack": 92,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 1500,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 543,
+            "attack": 118,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": 0,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 677,
+            "attack": 147,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Dark Mage Craig",
@@ -1584,7 +3843,7 @@
     "min_pvp_rank": 15,
     "levels": [{
         "level": 1,
-        "cards_to_upgrade": 2,
+        "cards_to_upgrade": 4,
         "upgrades": [{
             "upgrade": 1,
             "health": 92,
@@ -1594,9 +3853,62 @@
                 "description": "Area damage. Warcry: Halves enemy leader attack for 5 sec."
             }
         }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 8,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 108,
+            "attack": 20,
+            "ability_info": null
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 40,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 21,
+            "attack": 53,
+            "ability_info": null
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 200,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 317,
+            "attack": 69,
+            "ability_info": null
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 600,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 422,
+            "attack": 92,
+            "ability_info": null
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 1500,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 543,
+            "attack": 118,
+            "ability_info": null
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": 0,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 677,
+            "attack": 147,
+            "ability_info": null
+        }]
     }],
-    "spawn_count": null,
-    "spawn_level": null
+    "spawn_count": null
 }, {
     "type": "dev-test",
     "name": "Kyle og the Drow Elves",
@@ -2009,6 +4321,125 @@
     "spawn_level": null
 }, {
     "type": "dev-test",
+    "name": "Sexy Nun Randy",
+    "theme": "Mystical",
+    "rarity": "Epic",
+    "art": "RandyMysCard.jpg",
+    "class": "Fighter",
+    "energy": 5,
+    "attack_info": {
+        "attack_range": 0.8,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 0.495,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": 0.07,
+    "health_loss": null,
+    "tags": ["male", "human", "melee", "adults", "adv", "parent"],
+    "min_pvp_rank": 15,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 3,
+        "upgrades": [{
+            "upgrade": 1,
+            "health": 400,
+            "attack": 40,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Brings a chorboy to the battle.",
+                "spawn_level": 1
+            }
+        }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 6,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 453,
+            "attack": 57,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Brings a chorboy to the battle.",
+                "spawn_level": 2
+            }
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 25,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 566,
+            "attack": 71,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Brings a chorboy to the battle.",
+                "spawn_level": 3
+            }
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 100,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 708,
+            "attack": 89,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Brings a chorboy to the battle.",
+                "spawn_level": 4
+            }
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 350,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 910,
+            "attack": 114,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Brings a chorboy to the battle.",
+                "spawn_level": 5
+            }
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 720,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 1141,
+            "attack": 143,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Brings a chorboy to the battle.",
+                "spawn_level": 6
+            }
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 1400,
+            "attack": 175,
+            "ability_info": {
+                "ability": true,
+                "description": "Charged: Brings a chorboy to the battle.",
+                "spawn_level": 7
+            }
+        }]
+    }],
+    "spawn_count": 1
+}, {
+    "type": "dev-test",
     "name": "Pope Timmy",
     "theme": "Mystical",
     "rarity": "Epic",
@@ -2135,7 +4566,7 @@
     "name": "The Master Ninjew",
     "theme": "Mystical",
     "rarity": "Legendary",
-    "art": "KyleMysCard",
+    "art": "KyleMysCard.jpg",
     "class": "Ranged",
     "energy": 4,
     "attack_info": {
@@ -2707,7 +5138,7 @@
 }, {
     "type": "dev-test",
     "name": "Towelie",
-    "theme": "Nutral",
+    "theme": "Neutral",
     "rarity": "Epic",
     "art": "TowelieGenCard.jpg",
     "class": "fighter",
