@@ -3545,7 +3545,7 @@ const commands = [
         name: "card",
         desc: "Phone Destroyer!",
         type: "command",
-        match: "card",
+        match: "Y2FyZA==",
         call: async function (client, message, guild) {
 
             let cardName = message.content.substring(guild.settings.prefix.length + this.match.length + 1);
@@ -3925,7 +3925,7 @@ const commands = [
 
             bg.autocrop(0.0002, false);
 
-            if (cardSending === 20) {
+            if (cardSending >= 20) {
                 cardSending = 0;
             }
 
