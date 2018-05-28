@@ -3917,7 +3917,7 @@ const commands = [
                 if (card.levels[i - 1].upgrades[0].ability_info.description === null) {
                     continue;
                 }
-                
+
                 levelIndex = i - 1;
                 break;
             }
@@ -3967,7 +3967,7 @@ const commands = [
 
                 await message.channel.send(embed);
 
-                fs.unlinkSync(path.join(__dirname, "assets", `${date}.png`));
+                //fs.unlinkSync(path.join(__dirname, "assets", `${date}.png`));
 
                 cardSending = false;
             });
