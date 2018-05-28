@@ -22,7 +22,7 @@ const vm = require("vm");
 
 let cachedeplist;
 
-let cardSending = false;
+let cardSending = 0;
 
 const timeout = ms => new Promise(res => setTimeout(res, ms));
 
@@ -3925,25 +3925,16 @@ const commands = [
 
             bg.autocrop(0.0002, false);
 
-            const date = "test";
-
-            //while (cardSending === true) {
-            //    await timeout(200);
-            //}
-
-            for (let i = 0; i < 5; i++) {
-                if (cardSending === false) {
-                    break;
-                }
-                await timeout(200);
+            if (cardSending === 20) {
+                cardSending = 0;
             }
 
-            cardSending = true;
+            cardSending++;
 
-            bg.write(path.join(__dirname, "assets", `${date}.png`), async function() {
+            bg.write(path.join(__dirname, "assets", `${cardSending}.png`), async function() {
 
                 await message.channel.send("", {
-                    file: path.join(__dirname, "assets", `${date}.png`)
+                    file: path.join(__dirname, "assets", `${cardSending}.png`)
                 });
 
                 const embed = new discord.RichEmbed();
@@ -3973,10 +3964,6 @@ const commands = [
                 }
 
                 await message.channel.send(embed);
-
-                //fs.unlinkSync(path.join(__dirname, "assets", `${date}.png`));
-
-                cardSending = false;
             });
         }
     }),
