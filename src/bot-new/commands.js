@@ -3967,7 +3967,7 @@ const commands = [
 
                 await message.channel.send(embed);
 
-                fs.unlinkSync(path.join(__dirname, "assets", `${date}.png`));
+                //fs.unlinkSync(path.join(__dirname, "assets", `${date}.png`));
 
                 cardSending = false;
             });
