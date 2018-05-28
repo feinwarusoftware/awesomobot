@@ -3925,15 +3925,15 @@ const commands = [
 
             bg.autocrop(0.0002, false);
 
-            const date = Date.now();
+            const date = "test";
+
+            while (cardSending === true) {
+                await timeout(200);
+            }
+
+            cardSending = true;
 
             bg.write(path.join(__dirname, "assets", `${date}.png`), async function() {
-
-                while (cardSending === true) {
-                    await timeout(200);
-                }
-
-                cardSending = true;
 
                 await message.channel.send("", {
                     file: path.join(__dirname, "assets", `${date}.png`)
