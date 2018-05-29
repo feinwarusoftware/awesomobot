@@ -22,7 +22,7 @@ const vm = require("vm");
 
 let cachedeplist;
 
-let cardSending = 0;
+let cardSending = false;
 
 const timeout = ms => new Promise(res => setTimeout(res, ms));
 
@@ -3545,7 +3545,7 @@ const commands = [
         name: "card",
         desc: "Phone Destroyer!",
         type: "command",
-        match: "Y2FyZA==",
+        match: "card",
         call: async function (client, message, guild) {
 
             let cardName = message.content.substring(guild.settings.prefix.length + this.match.length + 1);
@@ -3925,16 +3925,16 @@ const commands = [
 
             bg.autocrop(0.0002, false);
 
-            if (cardSending >= 20) {
-                cardSending = 0;
+            while (cardSending === true) {
+                await timeout(200);
             }
 
-            cardSending++;
+            cardSending = true;
 
-            bg.write(path.join(__dirname, "assets", `${cardSending}.png`), async function() {
+            bg.write(path.join(__dirname, "assets", `temp.png`), async function() {
 
                 await message.channel.send("", {
-                    file: path.join(__dirname, "assets", `${cardSending}.png`)
+                    file: path.join(__dirname, "assets", `temp.png`)
                 });
 
                 const embed = new discord.RichEmbed();
@@ -3964,6 +3964,8 @@ const commands = [
                 }
 
                 await message.channel.send(embed);
+
+                cardSending = false;
             });
         }
     }),
