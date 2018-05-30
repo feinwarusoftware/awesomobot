@@ -575,7 +575,9 @@ const commands = [
         match: "test",
         call: function (client, message, guild) {
 
-
+            message.reply(utils.similarity("apples", "apples"));
+            message.reply(utils.similarity("oranges", "orang"));
+            message.reply(utils.similarity("abc", "xyw"));
         }
     }),
     new Command({
@@ -3545,10 +3547,17 @@ const commands = [
         name: "card",
         desc: "Phone Destroyer!",
         type: "command",
-        match: "card",
+        match: ["card", "dcard"],
         call: async function (client, message, guild) {
 
-            let cardName = message.content.substring(guild.settings.prefix.length + this.match.length + 1);
+            let cardName = message.content.substring(message.content.split(" ")[0].length + 1);
+
+            let cardLevel = parseInt(message.content[message.content.length - 1]);
+            if (isNaN(cardLevel) || cardLevel < 1 || cardLevel > 7) {
+                cardLevel = 1;
+            } else {
+                cardName = cardName.substring(0, cardName.length - 2);
+            }
 
             let test = jimpAssets;
 
@@ -3562,25 +3571,27 @@ const commands = [
                 return;
             }
 
-            let card;
+            const threshold = 0.0;
+
+            let index;
+            let current = threshold;
+
             for (let i = 0; i < cardObject.length; i++) {
-                if (cardName.toLowerCase().startsWith(cardObject[i].name.toLowerCase())) {
-                    card = cardObject[i];
-                    break;
+
+                let similarity = utils.similarity(cardObject[i].name.toLowerCase(), cardName.toLowerCase());
+
+                if (similarity > current) {
+
+                    current = similarity;
+                    index = i;
                 }
             }
-            if (card === undefined) {
+            if (index === undefined) {
                 message.reply("card not found");
                 return;
             }
 
-            let cardLevel = 1;
-            if (message.content.length > (guild.settings.prefix.length + this.match.length + card.name.length + 1)) {
-                cardLevel = parseInt(message.content.substring(guild.settings.prefix.length + this.match.length + card.name.length + 2));
-            }
-            if (cardLevel == NaN) {
-                cardLevel = 1;
-            }
+            let card = cardObject[index];
 
             // Get the frame outline.
             const frameWidth = 305;
@@ -3887,7 +3898,7 @@ const commands = [
             }
 
             bg.composite(typeIcon, 130, 182);
-            bg.composite(themeIcon, (bg.bitmap.width / 2 - themeIcon.bitmap.width / 2) - 168, 845);
+            bg.composite(themeIcon, (bg.bitmap.width / 2 - themeIcon.bitmap.width / 2) - 168, 843);
 
             let xoffset = 0;
             if (card.rarity === "Legendary") {
@@ -3939,7 +3950,118 @@ const commands = [
 
                 const embed = new discord.RichEmbed();
                 embed.setAuthor(card.name);
-                embed.setDescription("card stats go here");
+                embed.setDescription("");
+
+                // Card info.
+                /*
+                    Attack Info:
+                    Attack Range:
+                    Attack Speed:
+                    Pre Attack Delay:
+                    Time Between Attacks:
+
+                    Ability Info:
+                    Charge Time:
+                    Ability Power:
+                    Ability Range:
+                    Ability Duration: 
+
+                    Speed:
+                    Max Speed:
+                */
+
+                // Spells
+                // just ability power
+
+                // Anything other than spells
+                // everything, but ability info only sometimes (only if ability === true)
+
+                //embed.setDescription(`some text... ${"variable goes here without the quotations"}\n for new line`);
+                //embed.description += `may be useful if you need to add conditional sttuff, in an if statement`;
+
+            
+                //card.attack_info.pre_attack_delay
+
+                const removeNull = (str, check) => {
+                    if (check === undefined || check === null) {
+                        return "";
+                    }
+                    return str + check;
+                }
+
+                if (card.class !== "Spell" && card.levels[levelIndex].upgrades[0].ability_info.ability === true) {                
+                    let tempDesc = "";
+
+                    tempDesc += removeNull("Attack Range: ", card.attack_info.attack_range);
+                    tempDesc += removeNull("\nAttack Speed: ", card.attack_info.attack_speed);
+                    tempDesc += removeNull("\nPre Attack Delay: ", card.attack_info.pre_attack_delay);
+                    tempDesc += removeNull("\nTime Between Attacks: ", card.attack_info.time_between_delay);
+
+                    if (tempDesc !== "") {
+                        embed.description += `**Attack Info:**\n${tempDesc}`;
+                        tempDesc = "";
+                    }
+
+                    tempDesc += removeNull("Charge Time: ", null);
+                    tempDesc += removeNull("\nAbility Power: ", null);
+                    tempDesc += removeNull("\nAbility Range: ", null);
+                    tempDesc += removeNull("\nAbility Duration: ", null);
+
+                    if (tempDesc !== "") {
+                        embed.description += `\n\n**Ability Info:**\n${tempDesc}`;
+                        tempDesc = "";
+                    }
+
+                    tempDesc += removeNull("Max Speed: ", card.speed_info.max_speed);
+
+                    if (tempDesc !== "") {
+                        embed.description += `\n\n**Speed Info:**\n${tempDesc}`;
+                        tempDesc = "";
+                    }
+                }
+                if (card.class !== "Spell" && card.levels[levelIndex].upgrades[0].ability_info.ability === false) {                
+                    let tempDesc = "";
+
+                    tempDesc += removeNull("Attack Range: ", card.attack_info.attack_range);
+                    tempDesc += removeNull("\nAttack Speed: ", card.attack_info.attack_speed);
+                    tempDesc += removeNull("\nPre Attack Delay: ", card.attack_info.pre_attack_delay);
+                    tempDesc += removeNull("\nTime Between Attacks: ", card.attack_info.time_between_delay);
+
+                    if (tempDesc !== "") {
+                        embed.description += `**Attack Info:**\n${tempDesc}`;
+                        tempDesc = "";
+                    }
+
+                    tempDesc += removeNull("Max Speed: ", card.speed_info.max_speed);
+
+                    if (tempDesc !== "") {
+                        embed.description += `\n\n**Speed Info:**\n${tempDesc}`;
+                        tempDesc = "";
+                    }
+                }
+                if (card.class === "Spell") {
+                    let tempDesc = "";
+
+                    tempDesc += removeNull("Ability Power: ", null);
+                    tempDesc += removeNull("\nAbility Range: ", null);
+                    tempDesc += removeNull("\nAbility Duration: ", null);
+
+                    if (tempDesc !== "") {
+                        embed.description += `\n\n**Ability Info:**\n${tempDesc}`;
+                        tempDesc = "";
+                    }
+                }
+
+                // Debug info and disclaimer.
+                if (card.name === "Redlynx Disclaimer") {
+                    embed.description += "This content is in no way approved, endorsed, sponsored, or connected to South Park Digital Studios, Ubisoft, RedLynx, or associated/affiliated entities, nor are these entities responsible for this content. This content is subject to all terms and conditions outlined by the South Park: Phone Destroyer Fan Content guidelines.";
+                }
+
+                if (message.content.split(" ")[0].substring(guild.settings.prefix.length) === "dcard") {
+                    embed.description += `\n\n**Debug info:**\ndebug-similarity: ${current}`;
+                }
+
+                embed.description += `\n\n[Redlynx Disclaimer](https://awesomobot.com/)`;
 
                 switch(card.theme) {
                     case "Neutral":
