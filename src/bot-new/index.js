@@ -258,7 +258,14 @@ client.on("message", message => {
 
             guilds.push(guildDoc);
 
-            logger.log(logConstants.LOG_DEBUG, "new guid created");
+            logger.log(logConstants.LOG_DEBUG, "new guild created");
+
+            // sp server blacklist
+            if (message.guild.id === "371762864790306817" && message.content.startsWith(guildDoc.settings.prefix)) {
+                message.reply("**AWESOM-O** is banned here... We're sorry... Join this server to use his commands:\nhttps://discord.gg/GrHQNNw/");
+                return;
+            }
+            //
 
             let first = [];
             let any = [];
@@ -392,6 +399,13 @@ client.on("message", message => {
     }
 
     logger.log(logConstants.LOG_DEBUG, "guild found");
+
+    // sp server blacklist
+    if (message.guild.id === "371762864790306817" && message.content.startsWith(guild.settings.prefix)) {
+        message.reply("**AWESOM-O** is banned here... We're sorry... Join this server to use his commands:\nhttps://discord.gg/GrHQNNw/");
+        return;
+    }
+    //
 
     let first = [];
     let any = [];

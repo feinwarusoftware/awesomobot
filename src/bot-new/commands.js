@@ -589,10 +589,10 @@ const commands = [
 
             // Remove this and actually use permissions lol.
             let nkRole = message.member.roles.find(e => {
-                return e.id === "375413987338223616";
+                return e.id === "451511710516510721";
             });
             if (nkRole === undefined || nkRole === null) {
-                message.reply("you need to be a new kid to use this command");
+                message.reply("you need to be a regular to use this command");
                 return;
             }
             //
@@ -693,8 +693,8 @@ const commands = [
                 //message.channel.send(`<@${"*mods (temp)*"}>, <@${message.author.id}> has started a vote to ground <@${targetMember.displayName}>!\n**${numVotes - 1}** more votes are needed to ground the target.\nUse: '${guild.settings.prefix}vg ${targetMember.displayName}' to add your vote.\nThis vote will expire in 10 minutes.\n**Abuse of this command may result in a ban!**`);
                 message.channel.send(new discord.RichEmbed()
                     .setAuthor("AWESOM-O // Vote Ground", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846")
-                    .setDescription(`<@${message.author.id}> has started a vote to ground <@${targetMember.user.id}>.\n\nTo add your vote, please use the command: ${"```"}${guild.settings.prefix}vg ${targetMember.displayName}${"```"}\n**${numVotes - 1}** more votes are needed to ground the target user.\n\nThis vote will expire in **10 minutes**!\n\n**Abuse of this command will result in removal of your New Kid role.**`)).then((message) => {
-                        message.channel.send("<@&372409853894983690>");
+                    .setDescription(`<@${message.author.id}> has started a vote to ground <@${targetMember.user.id}>.\n\nTo add your vote, please use the command: ${"```"}${guild.settings.prefix}vg ${targetMember.displayName}${"```"}\n**${numVotes - 1}** more votes are needed to ground the target user.\n\nThis vote will expire in **10 minutes**!\n\n**Abuse of this command will result in removal of your Regular role.**`)).then((message) => {
+                        message.channel.send("<@&449652228991746048>");
                     });
 
                 setTimeout(() => {
@@ -721,7 +721,7 @@ const commands = [
                 //message.channel.send(`<@${message.author.id}>, your vote has been added to ground ${targetMember.displayName}\n**${currentVotes + 1}/${numVotes}** votes are needed to ground the target.`);
                 message.channel.send(new discord.RichEmbed()
                     .setAuthor("AWESOM-O // Vote Ground", "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846")
-                    .setDescription(`<@${message.author.id}>, your vote has been added to ground <@${targetMember.user.id}>.\n\n**${numVotes - (currentVotes + 1)}** more ${numVotes - (currentVotes + 1) === 1 ? "vote is" : "votes are"} needed to ground the target user.\n\n**Abuse of this command will result in removal of your New Kid role.**`));   
+                    .setDescription(`<@${message.author.id}>, your vote has been added to ground <@${targetMember.user.id}>.\n\n**${numVotes - (currentVotes + 1)}** more ${numVotes - (currentVotes + 1) === 1 ? "vote is" : "votes are"} needed to ground the target user.\n\n**Abuse of this command will result in removal of your Regular role.**`));   
             }
                     
             vg.push({
@@ -4126,22 +4126,37 @@ const commands = [
             });
         }
     }),
+    new Command ({
+        name: "resistance",
+        desc: "",
+        type: "command",
+        match: "resistance",
+        call: function (client, message, guild) {
+            message.channel.send(new discord.RichEmbed().setColor(0xff594f).setImage("https://cdn.discordapp.com/attachments/394504208222650369/451833476929552384/Flag.png")).then(() => {
+                message.channel.send(new discord.RichEmbed().setColor(0xff594f).setDescription("Welcome to the first **Feinwaru Software** update. Here, we will be discussing why this server exists and what happened to **/r/SouthPark.**\n\nTo put it simply, this server exists because a certain reddit moderator was acting extremely stubborn for an unacceptable amount of time, and we were fed up with it. **We will no longer be active on that server,** let alone moderate it under such a dictatorship. This wasn't the best possible outcome, but it's the outcome we have and must make work.\n\nThat being said, we hope this server is as enjoyable as the **/r/SouthPark** server, if not more enjoyable. Nothing is going to change and we will still be hosting events as if nothing had changed.\n\nThanks for understanding our circumstances and joining us on this new journey. **Viva la Resistance!**"));
+            });
+        }                        
+    }),
     new Command({
         name: "welcome-all",
         desc: "",
         type: "command",
         match: "welcome-all",
         call: function (client, message, guild) {
-            message.channel.send(new discord.RichEmbed().setColor("FFC600").setImage("https://cdn.discordapp.com/attachments/379432139856412682/416011052946554890/welcome.png")).then(() => {
-                message.channel.send(new discord.RichEmbed().setColor("FFC600").setDescription("**Before you start jumping into different rooms and such;**\nMake sure you have read and understand our rules as well as the discord community guidelines: https://discordapp.com/guidelines\n\nNow go jump into some text channels and introduce yourself!")).then(() => {
-                    message.channel.send(new discord.RichEmbed().setColor("FFC600").setImage("https://cdn.discordapp.com/attachments/379432139856412682/416011054926135296/rules.png")).then(() => {
-                        message.channel.send(new discord.RichEmbed().setColor("FFC600").setDescription("**1.** Don't be **racist**, **sexist**, **homophobic** or **transphobic**.\n**2.** Keep spamming restricted to <#375414794536222720>.\n**3.** Repeated trolling will result in a kick followed by a ban.\n**4.** Harassment of other members is not allowed.\n**5.** Any NSFW content must be taken from the show and relate to your conversation.\n**6.** Don't be a Scott, he's a massive dick.")).then(() => {
-                            message.channel.send(new discord.RichEmbed().setColor("FFC600").setImage("https://cdn.discordapp.com/attachments/379432139856412682/416011057866342410/channels.png")).then(() => {
-                                message.channel.send(new discord.RichEmbed().setColor("FFC600").setDescription("For updates and server news, check out <#371762996206370817>. All our staff members have written a short introduction in <#416257180677832714>, just in case you want to get to know us better <:tweeksmile:404537999800664064>.\n\nUse <#375414466659221524> for anything that doesn't relate to the other channels. As a general rule, anything that could be considered disruptive or spam should go in <#375414794536222720>.\n\nIf you love our bot, and want to support the server, consider donating on our [patreon](https://www.patreon.com/awesomo) to gain exclusive channel access and many other perks!\n\nWe have a <#419960751843704833> channel for anything that could be considered too heavy for general chats. To gain access, be active on the server and you will be rewarded with <@&375413987338223616>.\n\nCan't talk in vc but still want to take part in the conversation? Just use <#403582424921145356>!")).then(() => {
-                                    message.channel.send(new discord.RichEmbed().setColor("FFC600").setImage("https://cdn.discordapp.com/attachments/379432139856412682/416011060416348160/roles.png")).then(() => {
-                                        message.channel.send(new discord.RichEmbed().setColor("FFC600").setDescription("Our staff team ensures that everything runs smoothly and organises events for the community. If you have any issues, dont be afraid to tag <@&378287077806309386> or <@&372409853894983690>. They're always happy to help.\n\nOur regulars are given <@&375413987338223616>, which allows them to join any of the eight other groups; <@&402834156238929920>, <@&377185900431540234>, <@&377181687458824197>, <@&405321120250855425>, <@&446100157910482954>, <@&446100221039083531>, <@&438045466408648705>, or <@&446100194430418956>. If you're active and nice in chat, you'll be given the role by one of our mods.\n\n<@&375414190174896130> are the special people who post their art in our server. You dont need to be the best out there to get this role, just share some of your art with us!")).then(() => {
-                                            message.channel.send(new discord.RichEmbed().setColor("FFC600").setImage("https://cdn.discordapp.com/attachments/379432139856412682/416011063230726154/support.png")).then(() => {
-                                                message.channel.send(new discord.RichEmbed().setColor("FFC600").setDescription("If you have any complaints or sugestions for the server and its staff, ask either <@&378287077806309386> or <@&372409853894983690> to dm you. They are always happy to listen and will do their best to solve any issues that you might have.\n\nIf you need to contact the staff, just tag them in any of our channels. If you need to talk to any of us privately and we have dms blocked, just ask us to dm you."));
+            message.channel.send(new discord.RichEmbed().setColor(0xff594f).setImage("https://cdn.discordapp.com/attachments/394504208222650369/451822849041235998/feinwaru-welcome.png")).then(() => {
+                message.channel.send(new discord.RichEmbed().setColor(0xff594f).setDescription("**Before you start jumping into different rooms and such;**\nMake sure you have read and understand our rules as well as the discord community guidelines: https://discordapp.com/guidelines\n\nNow go jump into <#449651727856304153> and let others know you're here!")).then(() => {
+                    message.channel.send(new discord.RichEmbed().setColor(0xff594f).setImage("https://cdn.discordapp.com/attachments/394504208222650369/451830420170997770/feinwaru-rules-small.png")).then(() => {
+                        message.channel.send(new discord.RichEmbed().setColor(0xff594f).setDescription("**1.** Don't be racist, sexist, homophobic or transphobic.\n**2.** Keep spamming restricted to <#451494933002453013> and <#451492401626873857>.\n**3.** Repeated trolling will result in a kick followed by a ban.\n**4.** Harassment of other members is not allowed.\n**5.** No NSFW images are permitted in this Christian server.\n**6.** Don't be a dick. You don't want to be like Scott or 2th.")).then(() => {
+                            message.channel.send(new discord.RichEmbed().setColor(0xff594f).setImage("https://cdn.discordapp.com/attachments/394504208222650369/451830502135955457/feinwaru-about-small.png")).then(() => {
+                                message.channel.send(new discord.RichEmbed().setColor(0xff594f).setDescription("**Feinwaru Software** is a group of programmers who work on Discord related things, such as the **AWESOM-O** bot. We created **AWESOM-O** from the ground up to be a interactive and fun South Park discord bot, and have been consistently adding new features on a regular basis.\n\nWe created this server as we were former moderators on the official **/r/SouthPark** discord server, but after many complications with a certain member of the reddit team and being unable to produce the environment we wanted for our long time regulars, we decided to create this server to promote our brand and get a fresh start.")).then(() => {
+                                    message.channel.send(new discord.RichEmbed().setColor(0xff594f).setImage("https://cdn.discordapp.com/attachments/394504208222650369/451830526077042688/feinwaru-channels-small.png")).then(() => {
+                                        message.channel.send(new discord.RichEmbed().setColor(0xff594f).setDescription("For **updates and server news,** check out <#449651727856304153>. All our staff members have written a short introduction in <#449651675334967306>, just in case you want to get to know us better.\n\nPlease use the appropriate channels for your conversations, such as South Park talk being restricted to the South Park category. When in doubt, use <#449656364097208352>.\n\nIf you love [**AWESOM-O**](https://awesomobot.com/) and want to support the server, consider donating on our [**Patreon**](https://www.patreon.com/awesomo/overview) to gain exclusive channel access, custom comamnds and many other perks!\n\nSince this server was for the Feinwaru brand, South Park is no longer the main focus. However, we haven't left those of you who care about South Park out. As such, we have an entire section dedicated to South Park discussion named **South Park,** so be sure to discuss the show there!\n\nCan't talk in VC but still want to take part in the conversation? Just use <#451816813450231809>!")).then(() => {
+                                            message.channel.send(new discord.RichEmbed().setColor(0xff594f).setImage("https://cdn.discordapp.com/attachments/394504208222650369/451830543009710080/feinwaru-roles-small.png")).then(() => {
+                                               message.channel.send(new discord.RichEmbed().setColor(0xff594f).setDescription("Our staff team ensures that everything runs smoothly and organises events for the community. If you have any issues, dont be afraid to tag <@&438701780482785282> or <@&449652228991746048>. **They're always happy to help!**\n\nOur regulars are given <@&451511710516510721>, which allows them to join any of the four other groups; <@&451496801263026187>, <@&451496691552747520>, <@&449653147460436018> or <@&451496529673584640>. If you're active and nice in chat, you'll be given the role by one of our mods.\n\n<@&451818736718970881> are the special people who create and post their art in our server. You don't need to be the best out there to get this role, just share some of your art with us!")).then(() => {
+                                                   message.channel.send(new discord.RichEmbed().setColor(0xff594f).setImage("https://cdn.discordapp.com/attachments/394504208222650369/451831750113361920/feinwaru-patreon-small.png")).then(() => {
+                                                       message.channel.send(new discord.RichEmbed().setColor(0xff594f).setDescription("While what we do is free and we will never directly ask for money, we do take Patreon donations from users. 100% of the donations we collect will go towards the future of AWESOM-O, such as paying for server slots and domain payments. **We will never use this money for anything else other than that.** By becoming a patron, you help us evolve AWESOM-O and our future projects, while also gaining some cool server perks.\n\nWe appreciate every member in this server, regardless of donations or not. **You simply being here keeps the server alive, and we can't thank you enough for that.**"));
+                                                   });
+                                               });
                                             });
                                         });
                                     });
