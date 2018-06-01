@@ -80,7 +80,7 @@ client.on("ready", async () => {
 
             channel.bulkDelete(20, true).then(() => {
 
-                channel.send(`React with any of the following emoji to get the corresponding role. Please note that you can only use this once every ${dbGuild.settings.roleSwitchTimeout} seconds.\n\nRoles that are in **bold** are exclusive to the Regular role.\nRoles that are in *italics* are available to everyone!\n\n**For exclusive roles:** Please note that you may only have one of these roles at any given time.\n\n**Towel:** <:to:452177299794558976>\n**Coon & Friends:** <:cf:452177312952090625>\n**Freedom Pals:** <:fp:452177322158718978>\n**Chaos Minions:** <:cm:452177331352633364>\n**Goth Kids:** <:gk:452177342366744587>\n*Streamers:* <:st:452177388093308948>`).then(message => {
+                channel.send(`React with any of the following emoji to get the corresponding role. Please note that you can only use this once every ${dbGuild.settings.roleSwitchTimeout} seconds.\n\nRoles that are in **bold** are exclusive to the Regular role.\nRoles that are in *italics* are available to everyone!\n\n**For exclusive roles:** Please note that you may only have one of these roles at any given time.\n\n<:to:452177299794558976> - **Towel**\n<:cf:452177312952090625> - **Coon & Friends**\n<:fp:452177322158718978> - **Freedom Pals**\n<:cm:452177331352633364> - **Chaos Minions**\n<:gk:452177342366744587> - **Goth Kids**\n<:st:452177388093308948> - *Streamers*`).then(message => {
 
                     dbGuild.settings.roleMessage = message.id;
                     
