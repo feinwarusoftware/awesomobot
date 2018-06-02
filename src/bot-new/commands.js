@@ -4061,7 +4061,7 @@ const commands = [
                     embed.description += `\n**Debug info:**\ndebug-similarity: ${current}\n`;
                 }
 
-                embed.description += `\n[Redlynx Disclaimer](https://awesomobot.com/disclaimer)`;
+                embed.description += `\n[Redlynx Disclaimer](https://awesomobot.com/disclaimer) | Our card data was sourced from sanktanglia's [website](https://southparkphone.gg/)`;
 
                 switch(card.theme) {
                     case "Neutral":
