@@ -2676,16 +2676,6 @@ const commands = [
         }
     }),
     new Command({
-        name: "subreddit link",
-        desc: "(no description)",
-        type: "command",
-        match: "sub",
-        call: function (client, message, guild) {
-
-            message.reply("https://reddit.com/r/southpark/");
-        }
-    }),
-    new Command({
         name: "microaggression",
         desc: "(no description)",
         type: "command",
