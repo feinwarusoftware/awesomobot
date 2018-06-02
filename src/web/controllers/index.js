@@ -27,6 +27,10 @@ router.get("/", (req, res) => {
     res.render("index");
 });
 
+router.get("/disclaimer", (req, res) => {
+    res.render("disclaimer");
+});
+
 const langs = ["es", "fr", "it", "pl", "pt", "ie"];
 // Homepage other lang.
 router.get("/:lang", (req, res, next) => {

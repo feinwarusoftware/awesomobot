@@ -3986,36 +3986,36 @@ const commands = [
                     if (check === undefined || check === null) {
                         return "";
                     }
-                    return str + check;
+                    return str + check + "\n";
                 }
 
                 if (card.class !== "Spell" && card.levels[levelIndex].upgrades[0].ability_info.ability === true) {                
                     let tempDesc = "";
 
                     tempDesc += removeNull("Attack Range: ", card.attack_info.attack_range);
-                    tempDesc += removeNull("\nAttack Speed: ", card.attack_info.attack_speed);
-                    tempDesc += removeNull("\nPre Attack Delay: ", card.attack_info.pre_attack_delay);
-                    tempDesc += removeNull("\nTime Between Attacks: ", card.attack_info.time_between_delay);
+                    tempDesc += removeNull("Attack Speed: ", card.attack_info.attack_speed);
+                    tempDesc += removeNull("Pre Attack Delay: ", card.attack_info.pre_attack_delay);
+                    tempDesc += removeNull("Time Between Attacks: ", card.attack_info.time_between_delay);
 
                     if (tempDesc !== "") {
                         embed.description += `**Attack Info:**\n${tempDesc}`;
                         tempDesc = "";
                     }
 
-                    tempDesc += removeNull("Charge Time: ", null);
-                    tempDesc += removeNull("\nAbility Power: ", null);
-                    tempDesc += removeNull("\nAbility Range: ", null);
-                    tempDesc += removeNull("\nAbility Duration: ", null);
+                    tempDesc += removeNull("Charge Time: ", card.levels[levelIndex].upgrades[0].ability_info.charge_time);
+                    tempDesc += removeNull("Ability Power: ", card.levels[levelIndex].upgrades[0].ability_info.ability_power);
+                    tempDesc += removeNull("Ability Range: ", card.levels[levelIndex].upgrades[0].ability_info.ability_range);
+                    tempDesc += removeNull("Ability Duration: ", card.levels[levelIndex].upgrades[0].ability_info.ability_duration);
 
                     if (tempDesc !== "") {
-                        embed.description += `\n\n**Ability Info:**\n${tempDesc}`;
+                        embed.description += `\n**Ability Info:**\n${tempDesc}`;
                         tempDesc = "";
                     }
 
                     tempDesc += removeNull("Max Speed: ", card.speed_info.max_speed);
 
                     if (tempDesc !== "") {
-                        embed.description += `\n\n**Speed Info:**\n${tempDesc}`;
+                        embed.description += `\n**Speed Info:**\n${tempDesc}`;
                         tempDesc = "";
                     }
                 }
@@ -4023,9 +4023,9 @@ const commands = [
                     let tempDesc = "";
 
                     tempDesc += removeNull("Attack Range: ", card.attack_info.attack_range);
-                    tempDesc += removeNull("\nAttack Speed: ", card.attack_info.attack_speed);
-                    tempDesc += removeNull("\nPre Attack Delay: ", card.attack_info.pre_attack_delay);
-                    tempDesc += removeNull("\nTime Between Attacks: ", card.attack_info.time_between_delay);
+                    tempDesc += removeNull("Attack Speed: ", card.attack_info.attack_speed);
+                    tempDesc += removeNull("Pre Attack Delay: ", card.attack_info.pre_attack_delay);
+                    tempDesc += removeNull("Time Between Attacks: ", card.attack_info.time_between_delay);
 
                     if (tempDesc !== "") {
                         embed.description += `**Attack Info:**\n${tempDesc}`;
@@ -4035,7 +4035,7 @@ const commands = [
                     tempDesc += removeNull("Max Speed: ", card.speed_info.max_speed);
 
                     if (tempDesc !== "") {
-                        embed.description += `\n\n**Speed Info:**\n${tempDesc}`;
+                        embed.description += `\n**Speed Info:**\n${tempDesc}`;
                         tempDesc = "";
                     }
                 }
@@ -4043,11 +4043,11 @@ const commands = [
                     let tempDesc = "";
 
                     tempDesc += removeNull("Ability Power: ", null);
-                    tempDesc += removeNull("\nAbility Range: ", null);
-                    tempDesc += removeNull("\nAbility Duration: ", null);
+                    tempDesc += removeNull("Ability Range: ", null);
+                    tempDesc += removeNull("Ability Duration: ", null);
 
                     if (tempDesc !== "") {
-                        embed.description += `\n\n**Ability Info:**\n${tempDesc}`;
+                        embed.description += `**Ability Info:**\n${tempDesc}`;
                         tempDesc = "";
                     }
                 }
@@ -4058,10 +4058,10 @@ const commands = [
                 }
 
                 if (message.content.split(" ")[0].substring(guild.settings.prefix.length) === "dcard") {
-                    embed.description += `\n\n**Debug info:**\ndebug-similarity: ${current}`;
+                    embed.description += `\n**Debug info:**\ndebug-similarity: ${current}\n`;
                 }
 
-                embed.description += `\n\n[Redlynx Disclaimer](https://awesomobot.com/)`;
+                embed.description += `\n[Redlynx Disclaimer](https://awesomobot.com/disclaimer)`;
 
                 switch(card.theme) {
                     case "Neutral":
