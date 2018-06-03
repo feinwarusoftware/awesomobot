@@ -575,9 +575,7 @@ const commands = [
         match: "test",
         call: function (client, message, guild) {
 
-            message.reply(utils.similarity("apples", "apples"));
-            message.reply(utils.similarity("oranges", "orang"));
-            message.reply(utils.similarity("abc", "xyw"));
+            message.reply("testing...");
         }
     }),
     new Command({
@@ -1550,38 +1548,6 @@ const commands = [
         }
     }),
     new Command({
-        name: "pd test",
-        desc: "a test command for testing lol",
-        type: "command",
-        match: "cardtest",
-        call: function (client, message, guild) {
-
-            const text = message.content.split(" ")[1];
-            if (text === undefined) {
-                return;
-            }
-
-            jimp.read(path.join(__dirname, "assets", "card_base.png")).then(cardBase => {
-                jimp.loadFont(path.join(__dirname, "assets", "font.fnt")).then(spFont => {
-
-                    cardBase.print(spFont, 50, 370, text);
-
-                    cardBase.write(path.join(__dirname, "assets", "temp.png"), () => {
-
-                        message.channel.send("", {
-                            file: path.join(__dirname, "assets", "temp.png")
-                        });
-                    });
-
-                }).catch(error => {
-                    console.log(error);
-                });
-            }).catch(error => {
-                console.log(error);
-            });
-        }
-    }),
-    new Command({
         name: "activity position",
         desc: "shows your activity and that of two members above and below you",
         type: "command",
@@ -1900,59 +1866,6 @@ const commands = [
             message.reply(`your shit score is: ${stat.value}`);
         }
     }),
-    /*
-    new Command({
-        name: "one scripty boii",
-        desc: "its ya big boii js",
-        type: "command",
-        match: "script",
-        call: function (client, message, guild) {
-
-            if (message.content.indexOf(" ") === -1) {
-                message.reply("please enter a message id after the command");
-                return;
-            }
-
-            const id = message.content.substring(message.content.indexOf(" ") + 1);
-
-            const channels = message.guild.channels.array();
-            for (let i = 0; i < channels.length; i++) {
-                if (channels[i].type !== "text" || channels[i].name !== "scripts") {
-                    continue;
-                }
-                channels[i].fetchMessage(id).then(script => {
-
-                    //
-                    let code = script.content;
-
-                    if (code.startsWith("```js")) {
-                        code = code.substring(5);
-                    }
-                    if (code.startsWith("```")) {
-                        code = code.substring(3);
-                    }
-                    if (code.endsWith("```")) {
-                        code = code.substring(0, code.length - 3)
-                    }
-                    
-                    // Node sandbox.
-                    const sandbox = {
-                        message: message
-                    };
-
-                    vm.createContext(sandbox);
-
-                    vm.runInContext(`"use strict"\n${code}`, sandbox);
-                    //
-
-                }).catch(error => {
-                    message.reply(`message with id: ${id}, not found in channel #${channels[i].name}`);
-                });
-            }
-        }
-    }),
-    */
-    //
     new Command({
         name: "addscript",
         desc: "adds a script to the bot",
@@ -2707,7 +2620,7 @@ const commands = [
         call: function (client, message, guild) {
 
             message.channel.send("", {
-                file: "https://cdn.discordapp.com/attachments/371762864790306820/378305844959248385/Welcome.png"
+                file: "https://cdn.discordapp.com/attachments/430447280932388865/452875532435193876/Welcome2.png"
             });
         }
     }),
@@ -2735,6 +2648,7 @@ const commands = [
                 .addField("EST", momentTz().tz("America/New_York").format("Do MMMM YYYY, h:mm:ss a"))
                 .addField("GMT", momentTz().tz("Europe/Dublin").format("Do MMMM YYYY, h:mm:ss a"))
                 .addField("CST", momentTz().tz("Asia/Hong_Kong").format("Do MMMM YYYY, h:mm:ss a"))
+                .addField("MST", momentTz().tz("America/Creston").format("Do MMMM YYYY, h:mm:ss a"))
                 .setThumbnail("https://cdn.discordapp.com/attachments/379432139856412682/401485874040143872/hmmwhatsthetime.png"));
         }
     }),
@@ -2879,6 +2793,7 @@ const commands = [
                 .setURL("https://youtu.be/6H3UiwU1N5I?t=3m2s"));
         }
     }),
+    /*
     new Command({
         name: "join team",
         desc: "(no description)",
@@ -2963,6 +2878,7 @@ const commands = [
             message.reply("you can't leave a group if you're not part of any");
         }
     }),
+    */
     new Command({
         name: "fuck yourself",
         desc: "(no description)",
@@ -3032,16 +2948,6 @@ const commands = [
 
             const rand = Math.floor(Math.random() * 3);
             message.reply(rand === 0 ? "Rock" : rand === 1 ? "Paper" : "Scissors");
-        }
-    }),
-    new Command({
-        name: "nk",
-        desc: "(no description)",
-        type: "",
-        match: "",
-        call: function (client, message, guild) {
-
-            // temp
         }
     }),
     new Command({
@@ -4256,6 +4162,7 @@ const commands = [
             });
         }
     }),
+    /*
     new Command({
         name: "play",
         desc: "*should* stream a youtube video",
@@ -4288,6 +4195,37 @@ const commands = [
             disp.on("end", () => {
                 conn.disconnect();
             });
+        }
+    }),
+    */
+    new Command({
+        name: "advice",
+        desc: "Awesom-e advice!",
+        type: "command",
+        match: "advice",
+        call: function(client, message, guild) {
+            let advice = [
+                "Stop being so lame. It's not kewl.",
+                "Kill all jews... and gingers...",
+                "Respect Eric Cartman. He is totally cool and not at all lame.",
+                "Kid picking on you? Turn their parents into chili and feed it to them.",
+                "Not invited to a party? Trick the most gullible kid.",
+                "Need a superhero? Call on the Coon! He is the saviour this town needs!",
+                "Have no idea what to do? Think: What would Brian Boitano do?"
+            ];
+            let advicerandom = advice[Math.floor(Math.random() * advice.length)];
+            message.reply("**Here's some advice:** " + advicerandom);
+        }
+    }),
+    new Command({
+        name: "kickbaby",
+        desc: "Awesom-e advice!",
+        type: "startswith",
+        match: "kick the baby",
+        call: function(client, message, guild) {
+
+            message.reply("Don't kick the goddamn baby!");
+
         }
     })
 ];
