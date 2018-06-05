@@ -130,8 +130,8 @@ client.on("ready", async () => {
 
 client.on("message", message => {
     if (message.author.equals(client.user)) {
-        logger.log(logConstants.LOG_DEBUG, "aborting - message came from the bot");
-        return;
+         console.log("ur mum");
+         return;
     }
 
     // TEMP.
@@ -260,13 +260,6 @@ client.on("message", message => {
 
             logger.log(logConstants.LOG_DEBUG, "new guild created");
 
-            // sp server blacklist
-            if (message.guild.id === "371762864790306817" && message.content.startsWith(guildDoc.settings.prefix)) {
-                message.reply("**AWESOM-O** is banned here... We're sorry... Join this server to use his commands:\nhttps://discord.gg/GrHQNNw/");
-                return;
-            }
-            //
-
             let first = [];
             let any = [];
             let last = [];
@@ -347,65 +340,15 @@ client.on("message", message => {
                                 return;
                             }
                         }
-                    }
-        
+                    }        
                     return;
                 }
             }
-
-            //
-            for (let i = 0; i < guildDoc.scripts.length; i++) {
-
-                if (message.content.split(" ")[0].toLowerCase() === guildDoc.settings.prefix + guildDoc.scripts[i].name) {
-                
-                    //
-                    let code = guildDoc.scripts[i].value;
-
-                    if (code.startsWith("```js")) {
-                        code = code.substring(5);
-                    }
-                    if (code.startsWith("```")) {
-                        code = code.substring(3);
-                    }
-                    if (code.endsWith("```")) {
-                        code = code.substring(0, code.length - 3)
-                    }
-
-                    const sandbox = {
-                        message,
-                        random: array => {
-        
-                            if (array.isArray === false) {
-                                return `random() takes an array, ${typeof array} was used instead.`;
-                            }
-        
-                            return array[Math.floor(Math.random() * array.length)];
-                        }
-                    }
-
-                    try {
-                        vm.runInNewContext(`"use strict"\n${code}`, sandbox);
-                    } catch(error) {
-                        message.reply(`error running script: ${error}`);
-                    }
-
-                    return;
-                }
-            }
-            //
-
         });
         return;
     }
 
     logger.log(logConstants.LOG_DEBUG, "guild found");
-
-    // sp server blacklist
-    if (message.guild.id === "371762864790306817" && message.content.startsWith(guild.settings.prefix)) {
-        message.reply("**AWESOM-O** is banned here... We're sorry... Join this server to use his commands:\nhttps://discord.gg/GrHQNNw/");
-        return;
-    }
-    //
 
     let first = [];
     let any = [];
