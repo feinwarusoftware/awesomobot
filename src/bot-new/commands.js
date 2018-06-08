@@ -3474,7 +3474,27 @@ const commands = [
 
             for (let i = 0; i < cardObject.length; i++) {
 
-                let similarity = utils.similarity(cardObject[i].name.toLowerCase(), cardName.toLowerCase());
+                let similarity;
+
+                if (cardObject[i].name.constructor === Array) {
+
+                    for (let j = 0; j < cardObject[i].name.length; j++) {
+
+                        similarity = utils.similarity(cardObject[i].name[j].toLowerCase(), cardName.toLowerCase());
+
+                        if (similarity > current) {
+
+                            current = similarity;
+                            index = i;
+                        }
+                    }
+
+                } else {
+
+                    similarity = utils.similarity(cardObject[i].name.toLowerCase(), cardName.toLowerCase());
+                }
+
+                //let similarity = utils.similarity(cardObject[i].name.toLowerCase(), cardName.toLowerCase());
 
                 if (similarity > current) {
 
@@ -3803,7 +3823,12 @@ const commands = [
 
             bg.composite(crystal, (bg.bitmap.width / 2 - themeIcon.bitmap.width / 2) - 168 - xoffset, 745);
 
-            printCenter(bg, jimpAssets.sp25Font, 20, 315, card.name);
+            if (card.name instanceof Array) {
+                printCenter(bg, jimpAssets.sp25Font, 20, 315, card.name[0]);
+            } else {
+                printCenter(bg, jimpAssets.sp25Font, 20, 315, card.name);
+            }
+
             printCenter(bg, jimpAssets.sp60Font, -168, 350, card.energy.toString());
 
             if (ox === 0) {
