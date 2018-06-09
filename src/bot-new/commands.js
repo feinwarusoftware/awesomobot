@@ -3870,7 +3870,12 @@ const commands = [
                 });
 
                 const embed = new discord.RichEmbed();
-                embed.setAuthor(card.name);
+
+                if (card.name instanceof Array) {
+                    embed.setAuthor(card.name[0]);
+                } else {
+                    embed.setAuthor(card.name);
+                }
                 embed.setDescription("");
 
                 // Card info.
