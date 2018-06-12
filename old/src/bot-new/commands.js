@@ -575,7 +575,7 @@ const commands = [
         match: "test",
         call: function (client, message, guild) {
 
-            message.reply("testing...");
+            message.channel.send("<:mattthink:451843404721029120>");
         }
     }),
     new Command({
