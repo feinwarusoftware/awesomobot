@@ -1,16 +1,8 @@
 "use strict";
 
-// timers
-// logs
-// asset streaming
-// search
-// apis
-// events
-// config
-// storage/mem space calc
-// sandbox
-// other shit
+const timeout = ms => new Promise(res => setTimeout(res, ms));
 
 module.exports = {
 
+    timeout
 }

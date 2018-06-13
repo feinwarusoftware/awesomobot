@@ -10,7 +10,7 @@ class Sandbox {
         this.base = base;
         this.timeout = timeout;
 
-        this.childProcess = fork(path.join(__dirname, "sandbox.js"), [], { silent: true });
+        this.childProcess = fork(path.join(__dirname, "env.js"), ["--inspect"], { silent: true });
         this.childProcess.stdout.on("data", data => {
             console.log(`cp-${id}: ${data}`);
         });
@@ -25,7 +25,11 @@ class Sandbox {
     }
     exec(code, sandbox) {
 
-        this.childProcess.send({ type: "script", code, sandbox });
+        this.childProcess.send({ type: "script", id: null, code, sandbox });
+    }
+    execCached(id, code, sandbox) {
+
+        this.childProcess.send({ type: "script", id, code, sandbox });
     }
 }
 
