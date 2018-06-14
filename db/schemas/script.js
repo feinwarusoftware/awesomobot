@@ -17,7 +17,7 @@ const scriptSchema = new Schema({
         lowercase: true
     }],
     event: { type: String, lowercase: true },
-    emit: { type: String, lowercase: true },
+    relay: { type: String, lowercase: true },
     code: String
 });
 

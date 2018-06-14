@@ -29,4 +29,7 @@ class Sandbox {
     }
 }
 
-module.exports = Sandbox;
+module.exports = {
+    
+    Sandbox
+};
