@@ -1,7 +1,10 @@
 "use strict";
 
-//
+class Bot {
+    constructor() {
 
-module.exports = {
-
+        // do stuff
+    }
 }
+
+module.exports = Bot;

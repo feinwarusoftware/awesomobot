@@ -2,7 +2,11 @@
 
 // custom db wrapper
 
-module.exports = {
+class Database {
+    constructor() {
 
+        // do stuff
+    }
+}
 
-};
+module.exports = Database;
