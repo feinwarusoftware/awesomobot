@@ -27,10 +27,6 @@ class Sandbox {
 
         this.childProcess.send({ type: "script", id: null, code, sandbox });
     }
-    execCached(id, code, sandbox) {
-
-        this.childProcess.send({ type: "script", id, code, sandbox });
-    }
 }
 
 module.exports = Sandbox;

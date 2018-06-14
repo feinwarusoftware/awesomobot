@@ -27,28 +27,20 @@ process.on("message", message => {
             let script;
             let sandbox;
 
-            if (message.id !== null) {
+            let out;
+            try {
 
-                console.error("cached scripts not implemented yet");
+                out = babel.transform(message.code, {
+                    plugins: [loopTimeout]
+                });
+            } catch(err) {
+
+                console.error(`babel error: ${err}`);
                 return;
-
-            } else {
-
-                let out;
-                try {
-
-                    out = babel.transform(message.code, {
-                        plugins: [loopTimeout]
-                    });
-                } catch(err) {
-
-                    console.error(`babel error: ${err}`);
-                    return;
-                }
-                code = out.code;
-
-                script = new vm.Script(code);
             }
+            code = out.code;
+
+            script = new vm.Script(code);
 
             sandbox = {...JSON.parse(JSON.stringify(base)), ...message.sandbox};
 
