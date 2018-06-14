@@ -6,7 +6,12 @@ const Schema = mongoose.Schema;
 
 const guildSchema = new Schema({
 
+    //  _id: ObjectId,
+    discordId: { type: String, required: true, unique: true },
+    scripts: [Schema.Types.ObjectId],
+    data: [{
+        index: false
+    }]
 });
 
 module.exports = mongoose.model("Guild", guildSchema);
-

@@ -1,6 +1,6 @@
 "use strict";
 
-// custom db wrapper
+const { guildSchema, userSchema, scriptSchema } = require("./schemas");
 
 class Database {
     constructor() {
