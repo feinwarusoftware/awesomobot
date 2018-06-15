@@ -109,6 +109,19 @@ class Database {
             });
         });
     }
+    getScriptsByObjectIds(objectIds) {
+
+        return new Promise((resolve, reject) => {
+
+            scriptSchema.find({ _id: { $in: objectIds } }, (err, scripts) => {
+                if (err !== undefined && err !== null) {
+                    reject(err);
+                    return;
+                }
+                resolve(scripts);
+            });
+        });
+    }
     getScriptByObjectId(objectId) {
 
         return new Promise((resolve, reject) => {
