@@ -15,7 +15,7 @@ const EVENTS = {
     DISCONNECT: 7,
     EMOJI_CREATE: 8,
     EMOJI_DELETE: 9,
-    EMOJI_UPDATE: 01,
+    EMOJI_UPDATE: 10,
     ERROR: 11,
     GUILD_BAN_ADD: 12,
     GUILD_BAN_REMOVE: 13,
@@ -86,9 +86,10 @@ class Bot {
     constructor(id, token) {
 
         this.id = id;
+        this.token = token;
         this.paused = false;
         this.client = new discord.Client();
-        this.db = new db.Database(`bot:${id}-db`, `bot:${id}`);
+        this.db = new db.Database(`bot:${id}-db`, `mongodb://localhost/bot-${id}`);
         this.sandbox = new sandbox.Sandbox(`bot:${id}-sb`);
         
         this.client.on("channelCreate", channel => {
@@ -110,7 +111,7 @@ class Bot {
             this._handleEvent(EVENTS.CLIENT_USER_SETTINGS_UPDATE, null, arguments);
         });
         this.client.on("debug", info => {
-            this._handleEvent(EVENTS.DEBUG, null, arguments);
+            this._handleEvent(EVENTS.DEBUG, null, null);
         });
         this.client.on("disconnect", event => {
             this._handleEvent(EVENTS.DISCONNECT, null, arguments);
@@ -225,9 +226,13 @@ class Bot {
         }); 
     }
     async _handleEvent(event, guildId, args) {
-        console.log(`bot:${id} event: ${event}`);
+        if (guildId === null) {
+            return;
+        }
+
+        console.log(`bot:${this.id} event: ${event}`);
         if (this.paused === true) {
-            break;
+            return;
         }
 
         const guild = await this._loadGuild(guildId);
@@ -259,7 +264,7 @@ class Bot {
         }
 
         this.client.login(this.token).then(() => {
-            console.log(`${id}: bot started`);
+            console.log(`${this.id}: bot started`);
         }).catch(err => {
             console.error(err);
         });
@@ -268,7 +273,7 @@ class Bot {
 
         this.client.destroy().then(() => {
             this.client = null;
-            console.log(`${id}: bot stopped`);
+            console.log(`${this.id}: bot stopped`);
         }).catch(err => {
             console.error(err);
         });
@@ -276,13 +281,19 @@ class Bot {
     pause() {
 
         this.paused = true;
-        console.log(`${id}: bot paused`);
+        console.log(`${this.id}: bot paused`);
     }
     resume() {
 
         this.paused = false;
-        console.log(`${id}: bot resumed`);
+        console.log(`${this.id}: bot resumed`);
     }
 }
 
-module.exports = Bot;
+module.exports = {
+ 
+    Bot,
+
+    EVENTS,
+    PERMS
+};

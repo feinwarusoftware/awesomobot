@@ -2,6 +2,7 @@
 
 const db = require("./db");
 const utils = require("./utils");
+const bot = require("./bot");
 
 utils.hookStderr(write => {
     
@@ -17,12 +18,12 @@ const test = async () => {
 
     const testScript = new db.scriptSchema({
         author: null,
-        name: "testScript1",
-        description: "a script for testing database stuff",
-        type: "js",
+        name: "test2",
+        description: "a script for testing bot stuff",
+        type: "javascript",
         dependencies: [],
         permissions: [],
-        event: "discord:message",
+        event: bot.EVENTS.MESSAGE,
         relay: null,
         code: "while(true);"
     });
@@ -32,6 +33,14 @@ const test = async () => {
     console.log("finished");
 }
 
+const test2 = async () => {
+
+    const awesomo = new bot.Bot("awesomo", "MzcyNDYyNDI4NjkwMDU1MTY5.DgXdnw.y5wKs2e_L2PYgIfn4P5eWg7dksA");
+
+    awesomo.start();
+}
+
 console.error("***awesomo 3.0 wip*** - run 'cd old && node .' to start the old bot");
 
-test();
+test2();
+
