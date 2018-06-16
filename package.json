@@ -1,8 +1,11 @@
 {
   "name": "awesomobot",
   "version": "3.0.0",
-  "description": "A modular discord bot.",
+  "description": "our bot",
   "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,16 +13,10 @@
     "type": "git",
     "url": "git+https://github.com/feinwarusoftware/awesomobot.git"
   },
-  "author": "Dragon1320, Mattheous, TowelRoyale, Umustalldie2",
+  "author": "Dragon1320, Mattheous, TowelRoyale",
   "license": "UNLICENSED",
   "bugs": {
     "url": "https://github.com/feinwarusoftware/awesomobot/issues"
   },
-  "homepage": "https://github.com/feinwarusoftware/awesomobot#readme",
-  "dependencies": {
-    "mongoose": "^5.1.4",
-    "node-sass-middleware": "^0.11.0",
-    "babel-core": "^6.26.3",
-    "discord.js": "^11.3.2"
-  }
+  "homepage": "https://github.com/feinwarusoftware/awesomobot#readme"
 }

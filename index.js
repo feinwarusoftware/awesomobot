@@ -10,4 +10,4 @@ utils.hookStderr(write => {
     }
 });
 
-console.error("***AWESOM-O 3.0 WIP*** - The project structure has chaned! Please go to ./cmd/<module_name> and run 'node .' to launch the appropriate module.");
+console.error("***AWESOM-O 3.0 WIP*** - The project structure has changed! Please go to ./cmd/<module_name> and run 'node .' to launch the appropriate module.");
