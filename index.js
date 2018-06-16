@@ -2,6 +2,7 @@
 
 const db = require("./db");
 const utils = require("./utils");
+require("./web");
 
 utils.hookStderr(write => {
     
@@ -34,4 +35,4 @@ const test = async () => {
 
 console.error("***awesomo 3.0 wip*** - run 'cd old && node .' to start the old bot");
 
-test();
+//test();

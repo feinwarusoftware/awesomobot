@@ -1,0 +1,75 @@
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="/img/navbarlogo.png" height="30" alt="">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7" aria-controls="navbarSupportedContent-7"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">
+                        <%= trans.HOME %>
+                            <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <%= trans.DASHBOARD %>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <%= trans.COMMANDS %>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <%= trans.SUPPORT_ON_PATREON %>
+                    </a>
+                </li>
+            </ul>
+            <form class="form-inline">
+                <a class="nav-link white-text" data-toggle="modal" data-target="#LangModal">
+                    <i class="fa fa-globe" aria-hidden="true"></i>
+                </a>
+                <a class="">
+                    <button class="btn btn-sm align-middle btn-outline-white btn-rounded" type="button">
+                        <%= trans.LOGIN %>
+                    </button>
+                </a>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!-- Select Language Modal -->
+<div class="modal fade right" id="LangModal" tabindex="-1" role="dialog" aria-labelledby="LangModalAria" aria-hidden="true">
+    <div class="modal-dialog modal-full-height modal-right modal-notify modal-danger" role="document">
+<!--Content-->
+<div class="modal-content">
+        <div class="modal-header">
+                <p class="heading lead"><%= trans.SELECT_LANGUAGE %></p>
+    
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+        <div class="list-group">
+                <a href="?lang=en" class="list-group-item list-group-item-action waves-effect">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" width="10%"> English
+                </a>
+                <a href="?lang=ie" class="list-group-item list-group-item-action waves-effect">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Flag_of_Ireland.svg" width="10%"> Gaeilge</a>
+                </a>
+                <a href="?lang=pt" class="list-group-item list-group-item-action waves-effect">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_Portugal.svg" width="10%"> Português</a></a>
+            </div>
+
+    </div>
+    <!--/.Content-->
+    </div>
+</div>

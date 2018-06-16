@@ -1,0 +1,56 @@
+{
+    "HOME": "Home",
+    "DASHBOARD": "Dashboard",
+    "COMMANDS": "Commands",
+    "SUPPORT_ON_PATREON": "Support on Patreon",
+    "SELECT_LANGUAGE": "Select a language",
+
+    "LOGIN": "Login with Discord",
+    "LEARN_MORE": "Learn More",
+
+    "OUR_PATRONS": "Our Patrons",
+    "PATRON_5": "$5 Patron",
+    "PATRON_10": "$10 Patron",
+    "PATRON_SINCE": "Patron since",
+    "VIEW_PROFILE": "View profile",
+
+    "FRIENDS": "Friends",
+    "FRIENDS_ROLE": "**Friends** role",
+    "CUSTOM_COMMANDS": "**Custom** Commands",
+    "PATRON_CHANNEL_ACCESS": "**Patron-Only** channel access",
+    "EARLY_FEATURES": "**Access to early features**",
+
+    "BEST_FRIENDS": "Best Friends",
+    "BF_ROLE": "**Super Best Friends** role",
+    "AWESOMO_BETA": "**Get AWESOM-O Beta** on your server",
+    "YOUR_NAME": "**Your name** on the website",
+    "LOWER_TIERS": "All perks from the lower tiers",
+
+    "SUPER_BEST_FRIENDS": "Super Best Friends",
+    "SBF_ROLE": "**Your own custom** role",
+    "AWESOMO_BETA_2": "**Get AWESOM-O** on 2 additional servers",
+    "EARLIEST_ACCESS_TM": "**Try beta features** before anyone else",
+    "API_ACCESS": "**Access to our API**",
+
+    "BECOME_A_PATRON": "Become a Patron",
+
+    "GET_CONNECTED": "Get connected with us on social networks!",
+
+    "FEINWARU_SOFTWARE": "Feinwaru Software",
+    "ABOUT": "About",
+    "PROJECTS": "Projects",
+    "DISCORD": "Discord",
+    "PATREON": "Patreon",
+
+    "AWESOMO": "AWESOM-O",
+    "FEATURES": "Features",
+    "STATUS": "Status",
+    "BRANDING": "Branding",
+    "GITHUB": "Github",
+
+    "RESOURCES": "Resources",
+    "HELP_AND_SUPPORT": "Help & Support",
+    "GUIDELINES": "Guidelines",
+    "FEEDBACK": "Feedback",
+    "TERMS": "Terms & Conditions"
+}
