@@ -1,55 +1,38 @@
 "use strict";
 
-const fs = require("fs");
 const path = require("path");
 const http = require("http");
 
 const express = require("express");
 const logger = require("morgan");
-const sassMiddleware = require("node-sass-middleware");
 const ejs = require("ejs");
 
 const app = express();
 const server = http.createServer(app);
 
-const routes = require("./routes");
-
-let config;
-try {
-    config = JSON.parse(fs.readFileSync(path.join(__dirname, "config.json")));
-} catch (error) {
-    console.error(error);
-}
-if (config === undefined || config.env === undefined || config.port === undefined) {
-    console.error("config file data error");
-    return;
-}
+const port = 80;
+const env = "dev";
 
 app.set("views", path.join(__dirname, "templates"));
 app.set("view engine", "ejs");
 app.engine("ejs", ejs.renderFile);
 
-app.use(logger(config.env === "dev" ? "dev" : "common"));
-app.use(sassMiddleware({
-    root: path.join(__dirname, "static"),
-    src: "/scss",
-    dest: "/css",
-    indentedSyntax: false, // true: sass, false: scss.
-    sourceMap: true
-}));
+app.use(logger(env));
 app.use(express.static(path.join(__dirname, "static")));
 
-app.use(routes);
+app.get("/", (req, res) => {
+    res.render("index");
+});
 
 app.use((req, res, next) => {
-    var err = new Error("Not Found");
+    const err = new Error("Not Found");
     err.status = 404;
     next(err);
 });
 
 app.use((err, req, res, next) => {
     res.locals.message = err.message;
-    res.locals.error = config.env === "dev" ? err : {};
+    res.locals.error = env === "dev" ? err : {};
 
     res.status(err.status || 500);
     res.render("error");
@@ -60,7 +43,7 @@ server.on("error", (err) => {
         throw err;
     }
 
-    let bind = typeof port === "string" ?
+    const bind = typeof port === "string" ?
         "Pipe " + port :
         "Port " + port;
 
@@ -79,11 +62,11 @@ server.on("error", (err) => {
 });
 
 server.on("listening", () => {
-    let addr = server.address();
-    let bind = typeof addr === "string" ?
+    const addr = server.address();
+    const bind = typeof addr === "string" ?
         "pipe " + addr :
         "port " + addr.port;
     console.log("Magic happens on port " + bind);
 });
 
-server.listen(config.port);
+server.listen(port);
