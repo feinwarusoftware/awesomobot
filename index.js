@@ -14,9 +14,9 @@ utils.hookStderr(write => {
 
 const test = async () => {
 
-    const mongo = new db.Database("db-test", "mongodb://localhost/rawrxd");
+    const mongo = new db.Database("db-test", "mongodb://localhost/bot-awesomo");
 
-    const testScript = new db.scriptSchema({
+    const testScript1 = new db.scriptSchema({
         author: null,
         name: "test2",
         description: "a script for testing bot stuff",
@@ -28,7 +28,27 @@ const test = async () => {
         code: "while(true);"
     });
 
-    await mongo.saveScript(testScript);
+    const testScript2 = new db.scriptSchema({
+        author: null,
+        name: "test2",
+        description: "a script for testing bot stuff",
+        type: "javascript",
+        dependencies: [],
+        permissions: [],
+        event: bot.EVENTS.MESSAGE,
+        relay: null,
+        code: "while(true);"
+    });
+
+    await mongo.saveScript(testScript1);
+    await mongo.saveScript(testScript2);
+
+    const testGuild = new db.guildSchema({
+        discordId: "405129031445381120",
+        scripts: [ testScript1._id, testScript2._id ]
+    });
+
+    await mongo.saveGuild(testGuild);
 
     console.log("finished");
 }
@@ -42,5 +62,5 @@ const test2 = async () => {
 
 console.error("***awesomo 3.0 wip*** - run 'cd old && node .' to start the old bot");
 
-test2();
+//test2();
 
