@@ -236,7 +236,16 @@ class Bot {
         }
 
         const guild = await this._loadGuild(guildId);
+        if (guild === null) {
+            console.error("guild not found");
+            return;
+        }
+
         const scripts = await this._loadScripts(guild);
+        if (scripts === null) {
+            console.error("scripts not found");
+            return;
+        }
 
         let eventScripts = [];
         for (let i = 0; i < scripts.length; i++) {
