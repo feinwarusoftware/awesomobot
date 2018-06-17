@@ -1,4 +1,8 @@
 {
+    "LANG": "?lang=pt",
+    "ERROR_404": "Erro 404",
+    "ERROR_404_BUTTON": "Porra, volte!",
+
     "HOME": "Casa",
     "DASHBOARD": "Tabela",
     "COMMANDS": "Comandos",
@@ -50,20 +54,20 @@
     "GET_CONNECTED": "Liga-te ás nossas redes sociais!",
 
     "FEINWARU_SOFTWARE": "Software Feinwaru",
-    "ABOUT": "Sobre",
+    "ABOUT": "Nosso time",
     "PROJECTS": "Projetos",
+    "BRANDING": "Marca",
     "DISCORD": "Discord",
-    "PATREON": "Patreon",
 
     "AWESOMO": "AWESOM-O",
-    "FEATURES": "Funções",
+    "CREDITS": "Funções",
     "STATUS": "Estado",
-    "BRANDING": "Marca",
+    "PATREON": "Patreon",
     "GITHUB": "Github",
 
     "RESOURCES": "Recursos",
     "HELP_AND_SUPPORT": "Ajuda e Suporte",
-    "GUIDELINES": "Normas",
+    "DEVELOPERS": "Programadores",
     "FEEDBACK": "Feedback",
     "TERMS": "Termos e condições"
 }

@@ -50,12 +50,16 @@ app.use(i18n({
 app.use(routes);
 
 app.use((req, res, next) => {
-    var err = new Error("Not Found");
+    const err = new Error("Not Found");
     err.status = 404;
     next(err);
 });
 
 app.use((err, req, res, next) => {
+    if (err.status === 404) {
+        return res.render("404");
+    }
+
     res.locals.message = err.message;
     res.locals.error = config.env === "dev" ? err : {};
 

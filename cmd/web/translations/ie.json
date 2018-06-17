@@ -1,4 +1,8 @@
 {
+    "LANG": "?lang=ie",
+    "ERROR_404": "Earráid 404",
+    "ERROR_404_BUTTON": "Focáil , téigh ar ais!",
+
     "HOME": "Baile",
     "DASHBOARD": "Painéal",
     "COMMANDS": "Orduithe",
