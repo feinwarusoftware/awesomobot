@@ -8,8 +8,8 @@ const guildLogSchema = new Schema({
 
     //  _id: ObjectId,
     type: { type: String, required: true },
-    guild: { type: Schema.Types.ObjectId, required: true },
     message: { type: String, required: true },
+    guild: { type: Schema.Types.ObjectId, required: true },
     time: { type: Date, default: Date.now } 
 });
 
