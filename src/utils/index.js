@@ -3,6 +3,7 @@
 const fs = require("fs");
 
 const timeout = ms => new Promise(res => setTimeout(res, ms));
+const clone = obj => JSON.parse(JSON.stringify(obj));
 
 const loadJson = fp => {
     try {
@@ -48,7 +49,9 @@ const unhookStderr = () => {
 module.exports = {
 
     timeout,
-    loadConfig,
+    clone,
+
+    loadJson,
 
     hookStdout,
     unhookStdout,
