@@ -1,7 +1,7 @@
 "use strict";
 
 const discord = require("discord.js");
-const db = require("../db");
+const db = require("../../lib/db");
 const sandbox = require("./sandbox");
 
 const EVENTS = {
@@ -237,7 +237,7 @@ class Bot {
 
         const guild = await this._loadGuild(guildId);
         if (guild === null) {
-            console.error("guild not found");
+            console.error(`guild not found: ${guildId}`);
             return;
         }
 
@@ -249,7 +249,7 @@ class Bot {
 
         let eventScripts = [];
         for (let i = 0; i < scripts.length; i++) {
-            if (scripts.event === event) {
+            if (scripts[i].event === event.toString()) {
                 eventScripts.push(scripts[i]);
             }
         }
