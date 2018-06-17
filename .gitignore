@@ -65,5 +65,3 @@ typings/
 
 # Serverless directories
 .serverless
-
-web/config.json
