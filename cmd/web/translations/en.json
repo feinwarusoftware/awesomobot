@@ -14,6 +14,25 @@
     "PATRON_SINCE": "Patron since",
     "VIEW_PROFILE": "View profile",
 
+    "DATE_ST": "st",
+    "DATE_ND": "nd",
+    "DATE_RD": "rd",
+    "DATE_TH": "th",
+
+    "JANUARY": "January",
+    "FEBRUARY": "February",
+    "MARCH": "March",
+    "APRIL": "April",
+    "MAY": "May",
+    "JUNE": "June",
+    "JULY": "July",
+    "AUGUST": "August",
+    "SEPTEMBER": "September",
+    "OCTOBER": "October",
+    "NOVEMBER": "November", 
+    "DECEMBER": "December", 
+
+
     "FRIENDS": "Friends",
     "FRIENDS_ROLE": "**Friends** role",
     "CUSTOM_COMMANDS": "**Custom** Commands",
