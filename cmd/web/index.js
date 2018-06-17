@@ -45,7 +45,7 @@ app.use(i18n({
     siteLangs: ["en","ie","es","pt"],
     paramLangName: "lang",
     textsVarName: 'trans'
-  }));
+}));
 
 app.use(routes);
 
