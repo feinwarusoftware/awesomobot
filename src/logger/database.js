@@ -10,6 +10,7 @@ const LOG_TYPE = {
 
 class DatabaseLogger extends Logger {
     constructor(db) {
+        super();
 
         this.db = db;
     }

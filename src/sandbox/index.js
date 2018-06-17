@@ -5,7 +5,7 @@ const babel = require("babel-core");
 const vm = require("vm");
 const { fork } = require("child_process");
 
-const { loadConfig } = require("./utils");
+const { loadConfig } = require("../utils");
 const { loopTimeout } = require("./plugins");
 
 class Sandbox {
@@ -33,6 +33,7 @@ class Sandbox {
             case "dev":
 
                 this.childProcess = null;
+                console.log(`sb-${this.id}: sandbox started in dev mode`);
                 break;
             default:
 

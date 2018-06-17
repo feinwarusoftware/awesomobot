@@ -1,8 +1,11 @@
 "use strict";
 
-const db = require("./src/database");
+const path = require("path");
 
-const { hookStderr } = require("./src/utils");
+const bot = require("./src/bot");
+const { hookStderr, loadJson } = require("./src/utils");
+
+const cfg = loadJson(path.join(__dirname, "config.json"));
 
 hookStderr(write => {
 
@@ -14,20 +17,5 @@ hookStderr(write => {
 
 console.error("***AWESOM-O 3.0 WIP*** - If you're using this branch, you're fucked...");
 
-const test = async () => {
-
-    const mongo = new db.Database("test", "mongodb://localhost/rawrxd");
-
-    /*
-    for (let i = 0; i < 100; i++) {
-        await mongo.addBotLog("test2", `this is bot log: ${i}`);
-        await mongo.addBotLog("test3", `this is bot log: ${i}`);
-    }
-    */
-
-    console.log(await mongo.getBotLogs(5, "test2"));
-
-    console.log("done");
-}
-
-test();
+const awesomo = new bot.Bot(cfg.bot_id, cfg.bot_token);
+awesomo.start();

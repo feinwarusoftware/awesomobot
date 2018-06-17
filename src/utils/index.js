@@ -9,7 +9,7 @@ const loadJson = fp => {
     try {
         return JSON.parse(fs.readFileSync(fp));
     } catch(err) {
-        console.err(err);
+        console.error(err);
         return null;
     }
 };

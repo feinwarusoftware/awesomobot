@@ -5,6 +5,8 @@ const babel = require("babel-core");
 
 const { loopTimeout } = require("./plugins");
 
+console.log("sandbox started in prod mode");
+
 process.on("message", message => {
 
     console.log(`received message: ${message}`);
