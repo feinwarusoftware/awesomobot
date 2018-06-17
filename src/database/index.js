@@ -40,7 +40,7 @@ class Database {
 
         return BotLogSchema.find(type === null ? {} : { type }).sort({ time: -1 }).limit(count);
     }
-    addBotLog(type, message) {
+    addBotLog(message, type) {
 
         const botLog = new BotLogSchema({
 
@@ -55,7 +55,7 @@ class Database {
 
         return BotLogSchema.find(type === null ? { _id: objectId } : { _id: objectId, type }).sort({ time: -1 }).limit(count);
     }
-    addGuildLog(objectId, type, message) {
+    addGuildLog(objectId, message, type) {
 
         const guildLog = new GuildLogSchema({
 

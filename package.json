@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/feinwarusoftware/awesomobot/issues"
   },
-  "homepage": "https://github.com/feinwarusoftware/awesomobot#readme"
+  "homepage": "https://github.com/feinwarusoftware/awesomobot#readme",
+  "dependencies": {
+    "mongoose": "^5.1.5"
+  }
 }
