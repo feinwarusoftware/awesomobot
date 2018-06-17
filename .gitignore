@@ -66,4 +66,4 @@ typings/
 # Serverless directories
 .serverless
 
-src/config/main.json
+main.json
