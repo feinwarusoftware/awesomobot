@@ -8,6 +8,7 @@ const userSchema = new Schema({
 
     //  _id: ObjectId,
     discordId: { type: String, required: true, unique: true },
+    scripts: [ Schema.Types.ObjectId ],
 
     scriptData: [{
         index: false

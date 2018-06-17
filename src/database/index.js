@@ -38,29 +38,60 @@ class Database {
 
     getBotLogs(count = 50, type = null) {
 
-
+        return BotLogSchema.find(type === null ? {} : { type }).sort({ time: -1 }).limit(count);
     }
-    addBotLog(type, message, time = null) {
+    addBotLog(type, message) {
 
+        const botLog = new BotLogSchema({
 
+            type,
+            message
+        });
+
+        return this._saveDoc(botLog);
     }
 
-    getGuildLogs(guild, count = 50, type = null) {
+    getGuildLogs(objectId, count = 50, type = null) {
 
-
+        return BotLogSchema.find(type === null ? { _id: objectId } : { _id: objectId, type }).sort({ time: -1 }).limit(count);
     }
-    addGuildLog(guild, type, message, time = null) {
+    addGuildLog(objectId, type, message) {
 
+        const guildLog = new GuildLogSchema({
 
+            guild: objectId,
+            type,
+            message
+        });
+
+        return this._saveDoc(guildLog);
     }
 
     getGuildByDiscordId(discordId) {
 
+        return new Promise((resolve, reject) => {
 
+            GuildSchema.findOne({ discordId }, (err, guild) => {
+                if (err !== undefined && err !== null) {
+                    reject(err);
+                    return;
+                }
+                resolve(guild);
+            });
+        });
     }
-    getGuildByObjectId(id) {
+    getGuildByObjectId(objectId) {
 
+        return new Promise((resolve, reject) => {
 
+            GuildSchema.findById(objectId, (err, guild) => {
+                if (err !== undefined && err !== null) {
+                    reject(err);
+                    return;
+                }
+                resolve(guild);
+            });
+        });
     }
     saveGuild(guild) {
 
@@ -68,33 +99,81 @@ class Database {
     }
     addGuild(discordId, scripts = []) {
 
+        const guild = new GuildSchema({
 
+            discordId,
+            scripts
+        });
+
+        return this._saveDoc(guild);
     }
 
     getUserByDiscordId(discordId) {
 
+        return new Promise((resolve, reject) => {
 
+            UserSchema.findOne({ discordId }, (err, user) => {
+                if (err !== undefined && err !== null) {
+                    reject(err);
+                    return;
+                }
+                resolve(user);
+            });
+        });
     }
-    getUserByObjectId(id) {
+    getUserByObjectId(objectId) {
 
+        return new Promise((resolve, reject) => {
 
+            UserSchema.findById(objectId, (err, user) => {
+                if (err !== undefined && err !== null) {
+                    reject(err);
+                    return;
+                }
+                resolve(user);
+            });
+        });
     }
     saveUser(user) {
 
         return this._saveDoc(user);
     }
-    addUser(discordId) {
+    addUser(discordId, scripts = []) {
 
+        const user = new UserSchema({
 
+            discordId,
+            scripts
+        });
+
+        return this._saveDoc(user);
     }
 
-    getScriptsByObjectIdArray(ids) {
+    getScriptsByObjectIdArray(ObjectIds) {
 
+        return new Promise((resolve, reject) => {
 
+            ScriptSchema.find({ _id: { $in: objectIds } }, (err, scripts) => {
+                if (err !== undefined && err !== null) {
+                    reject(err);
+                    return;
+                }
+                resolve(scripts);
+            });
+        });
     }
-    getScriptByObjectId(id) {
+    getScriptByObjectId(ObjectId) {
 
+        return new Promise((resolve, reject) => {
 
+            ScriptSchema.findById(ObjectId, (err, script) => {
+                if (err !== undefined && err !== null) {
+                    reject(err);
+                    return;
+                }
+                resolve(script);
+            });
+        });
     }
     saveScript(script) {
 
@@ -102,7 +181,18 @@ class Database {
     }
     addScript(author, name, description, type, permissions, dependencies, code) {
 
+        const script = new ScriptSchema({
 
+            author,
+            name,
+            description,
+            type,
+            permissions,
+            dependencies,
+            code
+        });
+
+        return this._saveDoc(script);
     }
 }
 

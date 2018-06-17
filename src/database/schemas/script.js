@@ -11,8 +11,8 @@ const scriptSchema = new Schema({
     name: { type: String, required: true },
     description: { type: String, default: "rawrxd" },
     type: { type: String, required: true },
-    permissions: { type: Schema.Types.Array, default: [] },
-    dependencies: { type: Schema.Types.Array, default: [] },
+    permissions: { type: Number, required: true },
+    dependencies: [ Schema.Types.ObjectId ],
     code: { type: String, required: true }
 });
 
