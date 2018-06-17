@@ -104,137 +104,214 @@ class Bot {
         this.dlogger = new log.DLogger.DiscordLogger(this.db, this.client);
         this.clogger = new log.DBLogger.DatabaseLogger(this.db);
         
-        this.client.on(EVENTS.CHANNEL_CREATE, channel => {
+        this.client.on(EVENTS.CHANNEL_CREATE, async channel => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(channel.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.CHANNEL_CREATE, arguments);
         });
-        this.client.on(EVENTS.CHANNEL_DELETE, channel => {
+        this.client.on(EVENTS.CHANNEL_DELETE, async channel => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(channel.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.CHANNEL_DELETE, arguments);
         });
-        this.client.on(EVENTS.CHANNEL_PINS_UPDATE, (channel, time) => {
+        this.client.on(EVENTS.CHANNEL_PINS_UPDATE, async (channel, time) => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(channel.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.CHANNEL_PINS_UPDATE, arguments);
         });
-        this.client.on(EVENTS.CHANNEL_UPDATE, (oldChannel, newChannel) => {
+        this.client.on(EVENTS.CHANNEL_UPDATE, async (oldChannel, newChannel) => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(oldChannel.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.CHANNEL_UPDATE, arguments);
         });
-        this.client.on(EVENTS.CLIENT_USER_GUILD_SETTINGS_UPDATE, clientUserGuildSettings => {
+        this.client.on(EVENTS.CLIENT_USER_GUILD_SETTINGS_UPDATE, async clientUserGuildSettings => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(clientUserGuildSettings.guildID);
+            this.dlogger.log(guildDoc, EVENTS.CLIENT_USER_GUILD_SETTINGS_UPDATE, arguments);
         });
-        this.client.on(EVENTS.CLIENT_USER_SETTINGS_UPDATE, clientUserSettings => {
+        this.client.on(EVENTS.CLIENT_USER_SETTINGS_UPDATE, async clientUserSettings => {
             
+            this.clogger.log(`bot-${this.id}: bot client user settings update - ${JSON.stringify(clientUserSettings)}`, log.DBLogger.LOG_TYPE.STDOUT);
         });
-        this.client.on(EVENTS.DEBUG, info => {
+        this.client.on(EVENTS.DEBUG, async info => {
 
+            this.clogger.log(`bot-${this.id}: bot debug - ${info}`, log.DBLogger.LOG_TYPE.STDOUT);
         });
-        this.client.on(EVENTS.DISCONNECT, event => {
+        this.client.on(EVENTS.DISCONNECT, async event => {
 
+            this.clogger.log(`bot-${this.id}: bot disconnected - ${JSON.stringify(event)}`, log.DBLogger.LOG_TYPE.STDOUT);
         });
-        this.client.on(EVENTS.EMOJI_CREATE, emoji => {
+        this.client.on(EVENTS.EMOJI_CREATE, async emoji => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(emoji.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.EMOJI_CREATE, arguments);
         });
-        this.client.on(EVENTS.EMOJI_DELETE, emoji => {
+        this.client.on(EVENTS.EMOJI_DELETE, async emoji => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(emoji.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.EMOJI_DELETE, arguments);
         });
-        this.client.on(EVENTS.EMOJI_UPDATE, (oldEmoji, newEmoji) => {
+        this.client.on(EVENTS.EMOJI_UPDATE, async (oldEmoji, newEmoji) => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(oldEmoji.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.EMOJI_UPDATE, arguments);
         });
-        this.client.on(EVENTS.ERROR, error => {
+        this.client.on(EVENTS.ERROR, async error => {
 
+            this.clogger.log(`bot-${this.id}: bot error - ${error}`, log.DBLogger.LOG_TYPE.STDERR);
         });
-        this.client.on(EVENTS.GUILD_BAN_ADD, (guild, user) => {
+        this.client.on(EVENTS.GUILD_BAN_ADD, async (guild, user) => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(guild.id);
+            this.dlogger.log(guildDoc, EVENTS.GUILD_BAN_ADD, arguments);
         });
-        this.client.on(EVENTS.GUILD_BAN_REMOVE, (guild, user) => {
+        this.client.on(EVENTS.GUILD_BAN_REMOVE, async (guild, user) => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(guild.id);
+            this.dlogger.log(guildDoc, EVENTS.GUILD_BAN_REMOVE, arguments);
         });
-        this.client.on(EVENTS.GUILD_CREATE, guild => {
+        this.client.on(EVENTS.GUILD_CREATE, async guild => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(guild.id);
+            this.dlogger.log(guildDoc, EVENTS.GUILD_CREATE, arguments);
         });
-        this.client.on(EVENTS.GUILD_DELETE, guild => {
+        this.client.on(EVENTS.GUILD_DELETE, async guild => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(guild.id);
+            this.dlogger.log(guildDoc, EVENTS.GUILD_DELETE, arguments);
         });
-        this.client.on(EVENTS.GUILD_MEMBER_ADD, member => {
+        this.client.on(EVENTS.GUILD_MEMBER_ADD, async member => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(member.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.GUILD_MEMBER_ADD, arguments);
         });
-        this.client.on(EVENTS.GUILD_MEMBER_AVAILABLE, member => {
+        this.client.on(EVENTS.GUILD_MEMBER_AVAILABLE, async member => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(member.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.GUILD_MEMBER_AVAILABLE, arguments);
         });
-        this.client.on(EVENTS.GUILD_MEMBER_REMOVE, member => {
+        this.client.on(EVENTS.GUILD_MEMBER_REMOVE, async member => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(member.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.GUILD_MEMBER_REMOVE, arguments);
         });
-        this.client.on(EVENTS.GUILD_MEMBER_CHUNK, (members, guild) => {
+        this.client.on(EVENTS.GUILD_MEMBER_CHUNK, async (members, guild) => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(guild.id);
+            this.dlogger.log(guildDoc, EVENTS.GUILD_MEMBER_CHUNK, arguments);
         });
-        this.client.on(EVENTS.GUILD_MEMBER_SPEAKING, (member, speaking) => {
+        this.client.on(EVENTS.GUILD_MEMBER_SPEAKING, async (member, speaking) => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(member.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.GUILD_MEMBER_SPEAKING, arguments);
         });
-        this.client.on(EVENTS.GUILD_MEMBER_UPDATE, (oldMember, newMember) => {
+        this.client.on(EVENTS.GUILD_MEMBER_UPDATE, async (oldMember, newMember) => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(oldMember.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.GUILD_MEMBER_UPDATE, arguments);
         });
-        this.client.on(EVENTS.GUILD_UNAVAILABLE, guild => {
+        this.client.on(EVENTS.GUILD_UNAVAILABLE, async guild => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(guild.id);
+            this.dlogger.log(guildDoc, EVENTS.GUILD_UNAVAILABLE, arguments);
         });
-        this.client.on(EVENTS.GUILD_UPDATE, (oldGuild, newGuild) => {
+        this.client.on(EVENTS.GUILD_UPDATE, async (oldGuild, newGuild) => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(oldGuild.id);
+            this.dlogger.log(guildDoc, EVENTS.GUILD_UPDATE, arguments);
         });
-        this.client.on(EVENTS.MESSAGE, message => {
+        this.client.on(EVENTS.MESSAGE, async message => {
 
+            //
         });
-        this.client.on(EVENTS.MESSAGE_DELETE, message => {
+        this.client.on(EVENTS.MESSAGE_DELETE, async message => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(message.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.MESSAGE_DELETE, arguments);
         });
-        this.client.on(EVENTS.MESSAGE_DELETE_BULK, messages => {
+        this.client.on(EVENTS.MESSAGE_DELETE_BULK, async messages => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(messages.array()[0].guild.id);
+            this.dlogger.log(guildDoc, EVENTS.MESSAGE_DELETE_BULK, arguments);
         });
-        this.client.on(EVENTS.MESSAGE_REACTION_ADD, (messageReaction, user) => {
+        this.client.on(EVENTS.MESSAGE_REACTION_ADD, async (messageReaction, user) => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(messageReaction.message.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.MESSAGE_REACTION_ADD, arguments);
         });
-        this.client.on(EVENTS.MESSAGE_REACTION_REMOVE, (messageReaction, user) => {
+        this.client.on(EVENTS.MESSAGE_REACTION_REMOVE, async (messageReaction, user) => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(messageReaction.message.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.MESSAGE_REACTION_REMOVE, arguments);
         });
-        this.client.on(EVENTS.MESSAGE_REACTION_REMOVE_ALL, message => {
+        this.client.on(EVENTS.MESSAGE_REACTION_REMOVE_ALL, async message => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(message.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.MESSAGE_REACTION_REMOVE_ALL, arguments);
         });
-        this.client.on(EVENTS.MESSAGE_UPDATE, (oldMessage, newMessage) => {
+        this.client.on(EVENTS.MESSAGE_UPDATE, async (oldMessage, newMessage) => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(oldMessage.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.MESSAGE_UPDATE, arguments);
         });
-        this.client.on(EVENTS.PRESENCE_UPDATE, (oldMember, newMember) => {
+        this.client.on(EVENTS.PRESENCE_UPDATE, async (oldMember, newMember) => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(oldMember.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.PRESENCE_UPDATE, arguments);
         });
-        this.client.on(EVENTS.READY, () => {
-            console.log(`bot-${this.id}: bot started`);
-        });
-        this.client.on(EVENTS.RECONNECTING, () => {
+        this.client.on(EVENTS.READY, async () => {
 
+            this.clogger.log(`bot-${this.id}: bot ready`, log.DBLogger.LOG_TYPE.STDOUT);
         });
-        this.client.on(EVENTS.RESUME, replayed => {
+        this.client.on(EVENTS.RECONNECTING, async () => {
 
+            this.clogger.log(`bot-${this.id}: bot reconnectiong`, log.DBLogger.LOG_TYPE.STDOUT);
         });
-        this.client.on(EVENTS.ROLE_CREATE, role => {
+        this.client.on(EVENTS.RESUME, async replayed => {
 
+            this.clogger.log(`bot-${this.id}: bot replayed ${replayed} events`, log.DBLogger.LOG_TYPE.STDOUT);
         });
-        this.client.on(EVENTS.ROLE_DELETE, role => {
+        this.client.on(EVENTS.ROLE_CREATE, async role => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(role.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.ROLE_CREATE, arguments);
         });
-        this.client.on(EVENTS.ROLE_UPDATE, (oldRole, newRole) => {
+        this.client.on(EVENTS.ROLE_DELETE, async role => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(role.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.ROLE_DELETE, arguments);
         });
-        this.client.on(EVENTS.TYPING_START, (channel, user) => {
+        this.client.on(EVENTS.ROLE_UPDATE, async (oldRole, newRole) => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(oldRole.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.ROLE_UPDATE, arguments);
         });
-        this.client.on(EVENTS.TYPING_STOP, (channel, user) => {
+        this.client.on(EVENTS.TYPING_START, async (channel, user) => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(channel.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.TYPING_START, arguments);
         });
-        this.client.on(EVENTS.USER_NOTE_UPDATE, (user, oldNote, newNote) => {
+        this.client.on(EVENTS.TYPING_STOP, async (channel, user) => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(channel.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.TYPING_STOP, arguments);
         });
-        this.client.on(EVENTS.USER_UPDATE, (oldUser, newUser) => {
+        this.client.on(EVENTS.USER_NOTE_UPDATE, async (user, oldNote, newNote) => {
 
+            this.clogger.log(`bot-${this.id}: bot user note update - user: ${JSON.stringify(user)}, oldNote: ${oldNote}, newNote: ${newNote}`, log.DBLogger.LOG_TYPE.STDOUT);
         });
-        this.client.on(EVENTS.VOICE_STATE_UPDATE, (oldMember, newMember) => {
+        this.client.on(EVENTS.USER_UPDATE, async (oldUser, newUser) => {
 
+            this.clogger.log(`bot-${this.id}: bot user update - oldUser: ${JSON.stringify(oldUser)}, newUser: ${JSON.stringify(newUser)}`, log.DBLogger.LOG_TYPE.STDOUT);
         });
-        this.client.on(EVENTS.WARN, info => {
+        this.client.on(EVENTS.VOICE_STATE_UPDATE, async (oldMember, newMember) => {
 
+            const guildDoc = await this.db.getGuildByDiscordId(oldMember.guild.id);
+            this.dlogger.log(guildDoc, EVENTS.VOICE_STATE_UPDATE, arguments);
+        });
+        this.client.on(EVENTS.WARN, async info => {
+
+            this.clogger.log(`bot-${this.id}: bot warning - ${info}`, log.DBLogger.LOG_TYPE.STDOUT);
         });
     }
     start() {
