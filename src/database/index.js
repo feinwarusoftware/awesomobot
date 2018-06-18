@@ -97,11 +97,12 @@ class Database {
 
         return this._saveDoc(guild);
     }
-    addGuild(discordId, prefix, errorChannelId, logChannelId, logEvents, scripts) {
+    addGuild(discordId, premium, prefix, errorChannelId, logChannelId, logEvents, scripts) {
 
         const guild = new GuildSchema({
 
             discordId,
+            premium,
             prefix,
             errorChannelId,
             logChannelId,

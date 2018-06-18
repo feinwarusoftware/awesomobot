@@ -8,6 +8,7 @@ const guildSchema = new Schema({
 
     //  _id: ObjectId,
     discordId: { type: String, required: true, unique: true },
+    premium: { type: Boolean, default: false },
     prefix: { type: String, default: "-" },
     errorChannelId: { type: String, default: null },
     logChannelId: { type: String, default: null },

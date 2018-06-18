@@ -35,7 +35,7 @@ const test = async () => {
     user.scripts = [script._id];
     await mongo.saveUser(user);
 
-    await mongo.addGuild("405129031445381120", "<<", null, null, [], [{ objectId: script._id }]);
+    await mongo.addGuild("405129031445381120", true, "<<", null, null, [], [{ objectId: script._id }]);
 
     console.log("done");
 }
