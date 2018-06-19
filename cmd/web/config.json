@@ -1,4 +1,5 @@
 {
     "env": "dev",
+    "sess_secret": "dragonhasasmalldicklol",
     "port": 80
 }

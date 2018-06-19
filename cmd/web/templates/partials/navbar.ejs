@@ -36,9 +36,9 @@
                 <a class="nav-link white-text" data-toggle="modal" data-target="#LangModal">
                     <i class="fa fa-globe" aria-hidden="true"></i>
                 </a>
-                <a class="">
+                <a id="btn_login">
                     <button href="/login<%= trans.LANG %>" class="btn btn-sm align-middle btn-outline-white btn-rounded" type="button">
-                        <%= trans.LOGIN %>
+                        <%= avatar === null ? trans.LOGIN : "you're logged in yay!" %>
                     </button>
                 </a>
             </form>
@@ -76,3 +76,33 @@
         <!--/.Content-->
     </div>
 </div>
+
+<script type="text/javascript">
+    "use strict";
+
+    window.onload = () => {
+
+        const loginButton = document.getElementById("btn_login");
+        if (loginButton === null || loginButton === undefined) {
+            console.log("could not find login button");
+            return;
+        }
+
+        let popupWindow;
+        loginButton.onclick = e => {
+
+            popupWindow = window.open("/auth/discord", "_blank", "width = 500, height = 720");
+            
+            const redirectIntervalId = setInterval(() => {
+
+                if (popupWindow.location.href === `${popupWindow.location.protocol}//${popupWindow.location.hostname}/dashboard/profiles/mattheous`) {
+
+                    clearInterval(redirectIntervalId);
+
+                    popupWindow.close();
+                    window.location.href = "/dashboard/profiles/mattheous";
+                }
+            }, 50);
+        }
+    }
+</script>

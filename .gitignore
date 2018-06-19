@@ -67,3 +67,4 @@ typings/
 .serverless
 
 web/config.json
+config.json

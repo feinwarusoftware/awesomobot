@@ -5,6 +5,7 @@ const path = require("path");
 const http = require("http");
 
 const express = require("express");
+const session = require("express-session")
 const logger = require("morgan");
 const sassMiddleware = require("node-sass-middleware");
 const ejs = require("ejs");
@@ -46,6 +47,18 @@ app.use(i18n({
     paramLangName: "lang",
     textsVarName: 'trans'
 }));
+
+const sess = {
+    secret: config.sess_secret,
+    cookie: {}
+}
+  
+if (config.env === "prod") {
+    app.set("trust proxy", 1) // trust first proxy
+    sess.cookie.secure = true // serve secure cookies
+}
+  
+app.use(session(sess))
 
 app.use(routes);
 

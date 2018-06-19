@@ -7,6 +7,12 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Debug Web",
+            "program": "${workspaceFolder}/cmd/web/index.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Debug ARG",
             "program": "${workspaceFolder}/cmd/arg/index.js"
         }
