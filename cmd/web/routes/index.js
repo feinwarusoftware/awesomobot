@@ -81,7 +81,7 @@ router.get("/auth/discord/callback", (req, res) => {
     }).then(res2 => {
 
         req.session.discord_login = res2.data;
-        res.redirect("/dashboard/profiles/mattheous");
+        res.redirect("/dashboard");
         return;
     }).catch(err => {
 

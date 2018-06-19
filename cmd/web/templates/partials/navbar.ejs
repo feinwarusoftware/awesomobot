@@ -95,12 +95,12 @@
             
             const redirectIntervalId = setInterval(() => {
 
-                if (popupWindow.location.href === `${popupWindow.location.protocol}//${popupWindow.location.hostname}/dashboard/profiles/mattheous`) {
+                if (popupWindow.location.href === `${popupWindow.location.protocol}//${popupWindow.location.hostname}/dashboard`) {
 
                     clearInterval(redirectIntervalId);
 
                     popupWindow.close();
-                    window.location.href = "/dashboard/profiles/mattheous";
+                    window.location.href = "/dashboard";
                 }
             }, 50);
         }
