@@ -24,6 +24,14 @@ app.get("/", (req, res) => {
     res.render("index");
 });
 
+app.get("/test", (req, res) => {
+    res.render("test");
+});
+
+app.get("/dark", (req, res) => {
+    res.render("dark");
+});
+
 app.use((req, res, next) => {
     const err = new Error("Not Found");
     err.status = 404;

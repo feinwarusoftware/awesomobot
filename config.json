@@ -1,0 +1,12 @@
+{
+    "env": "dev",
+
+    "bot_id": "awesomoid",
+    "bot_token": "MzcyNDYyNDI4NjkwMDU1MTY5.DghkJA.Aap5kEJ3uTtdVjM_MBDFrE1TvKM",
+
+    "db_id": "awesomodb",
+    "db_address": "mongodb://localhost/rawrxd",
+
+    "sb_id": "awesomosb",
+    "sb_timeout": 2000
+}
