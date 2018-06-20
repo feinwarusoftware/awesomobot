@@ -32,15 +32,41 @@
                     </a>
                 </li>
             </ul>
-            <form class="form-inline">
-                <a class="nav-link white-text" data-toggle="modal" data-target="#LangModal">
-                    <i class="fa fa-globe" aria-hidden="true"></i>
-                </a>
-                <a id="btn_login">
-                    <button href="/login<%= trans.LANG %>" class="btn btn-sm align-middle btn-outline-white btn-rounded" type="button">
-                        <%= avatar === null ? trans.LOGIN : "you're logged in yay!" %>
-                    </button>
-                </a>
+            
+            <ul class="navbar-nav ml-auto nav-flex-icons">
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" data-toggle="modal" data-target="#LangModal">
+                        <i class="fa fa-globe"></i>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="btn_login_discord">
+                        <button href="/login<%= trans.LANG %>" class="btn btn-sm align-middle btn-outline-white btn-rounded" type="button">
+                            <%= trans.LOGIN %>
+                        </button>
+                    </a>
+                </li>
+
+                <% if (user === null) { %>
+
+
+                <% } else { %>
+                    
+                    <li class="nav-item avatar dropdown">
+                        <a class="nav-link dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <img src="<%= 'https://cdn.discordapp.com/avatars/' + user.id + '/' + user.avatar + '.png?size=128' %>" class="rounded-circle z-depth-0" alt="avatar image">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-feinwaru">
+                            <a class="dropdown-item waves-effect waves-light" href="#">Action</a>
+                            <a class="dropdown-item waves-effect waves-light" href="#">Another action</a>
+                            <a class="dropdown-item waves-effect waves-light" href="#">Something else here</a>
+                        </div>
+                    </li>
+
+                <% } %>
+
+
             </form>
         </div>
     </div>
@@ -76,33 +102,3 @@
         <!--/.Content-->
     </div>
 </div>
-
-<script type="text/javascript">
-    "use strict";
-
-    window.onload = () => {
-
-        const loginButton = document.getElementById("btn_login");
-        if (loginButton === null || loginButton === undefined) {
-            console.log("could not find login button");
-            return;
-        }
-
-        let popupWindow;
-        loginButton.onclick = e => {
-
-            popupWindow = window.open("/auth/discord", "_blank", "width = 500, height = 720");
-            
-            const redirectIntervalId = setInterval(() => {
-
-                if (popupWindow.location.href === `${popupWindow.location.protocol}//${popupWindow.location.hostname}/dashboard`) {
-
-                    clearInterval(redirectIntervalId);
-
-                    popupWindow.close();
-                    window.location.href = "/dashboard";
-                }
-            }, 50);
-        }
-    }
-</script>

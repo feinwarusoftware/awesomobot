@@ -47,6 +47,16 @@ header,
 .top-nav-collapse {
   background-color: #ff594f !important; }
 
+.dropdown .dropdown-menu.dropdown-feinwaru .dropdown-item:active,
+.dropdown .dropdown-menu.dropdown-feinwaru .dropdown-item:hover,
+.dropleft .dropdown-menu.dropdown-feinwaru .dropdown-item:active,
+.dropleft .dropdown-menu.dropdown-feinwaru .dropdown-item:hover,
+.dropright .dropdown-menu.dropdown-feinwaru .dropdown-item:active,
+.dropright .dropdown-menu.dropdown-feinwaru .dropdown-item:hover,
+.dropup .dropdown-menu.dropdown-feinwaru .dropdown-item:active,
+.dropup .dropdown-menu.dropdown-feinwaru .dropdown-item:hover {
+  background-color: #ff594f !important; }
+
 .feinwaru {
   background-color: #ff594f; }
 

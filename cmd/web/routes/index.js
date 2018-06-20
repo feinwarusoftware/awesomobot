@@ -19,17 +19,17 @@ router.get("/",  (req, res) => {
         axios({
             method: "get",
             url: "https://discordapp.com/api/v6/users/@me",
-           headers: {
+            headers: {
                 "Authorization": "Bearer "+req.session.discord_login.access_token
             }
         }).then(res2 => {
-            res.render("index", { md: text => { return converter.makeHtml(text); }, avatar: res2.avatar });
+            res.render("index", { md: text => { return converter.makeHtml(text); }, user: res2 });
         }).catch(err => {
             res.status(500).send("Error logging in.");
         });
     } else {
 
-        res.render("index", { md: text => { return converter.makeHtml(text); }, avatar: null });
+        res.render("index", { md: text => { return converter.makeHtml(text); }, user: null });
     }
 });
 
