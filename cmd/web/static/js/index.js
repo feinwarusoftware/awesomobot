@@ -14,6 +14,7 @@ const windowOpenCenteredFocused = (url, title, w, h) => {
     const popupWindow = window.open(url, title, `width = ${w}, height = ${h}, top = ${top}, left = ${left}`);
 
     if (window.focus) {
+        
         popupWindow.focus();
     }
 

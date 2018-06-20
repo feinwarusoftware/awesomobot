@@ -40,16 +40,15 @@
                     </a>
                 </li>
 
-                <li>
-                    <a class="btn_login_discord">
-                        <button href="/login<%= trans.LANG %>" class="btn btn-sm align-middle btn-outline-white btn-rounded" type="button">
-                            <%= trans.LOGIN %>
-                        </button>
-                    </a>
-                </li>
-
                 <% if (user === null) { %>
 
+                    <li>
+                        <a class="btn_login_discord">
+                            <button href="/login<%= trans.LANG %>" class="btn btn-sm align-middle btn-outline-white btn-rounded" type="button">
+                                <%= trans.LOGIN %>
+                            </button>
+                        </a>
+                    </li>
 
                 <% } else { %>
                     
