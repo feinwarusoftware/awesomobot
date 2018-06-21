@@ -7,29 +7,80 @@ const router = express.Router();
 
 /* TEMP */
 
-const showdown = require("showdown");
+/* const showdown = require("showdown");
 const converter = new showdown.Converter();
 
-//
+const fs = require("fs");
+const path = require("path");
 
-router.get("/",  (req, res) => {
+const commandsfile = fs.readFileSync(path.join(__dirname, "..", "translations", "commands", "commands.json"));
+const commands = JSON.parse(commandsfile);
+*/
 
-    if (req.session.discord_login !== null && req.session.discord_login !== undefined) {
-        
+const getUserData = async token => {
+
+    return new Promise((resolve, reject) => {
+
         axios({
             method: "get",
             url: "https://discordapp.com/api/v6/users/@me",
             headers: {
-                "Authorization": "Bearer "+req.session.discord_login.access_token
+                "Authorization": `Bearer ${token}`
             }
-        }).then(res2 => {
-            res.render("index", { md: text => { return converter.makeHtml(text); }, user: res2.data });
+        }).then(res => {
+
+            res.data.time = Date.now();
+            resolve(res.data);
         }).catch(err => {
-            res.status(500).send("Error logging in.");
+
+            reject(err);
         });
+    });
+}
+
+router.get("/",  async (req, res) => {
+
+    if (req.session.discord_login !== null && req.session.discord_login !== undefined) {
+        
+        if (req.session.userData === null || req.session.userData === undefined || (Date.now() - req.session.userData.time) / 1000 > 300) {
+
+            req.session.userData = await getUserData(req.session.discord_login.access_token);
+            if (req.session.userData === null) {
+
+                res.status(500).send("Error getting user info.");
+                return;
+            }
+        }
+
+        res.render("index", { md: text => { return converter.makeHtml(text); }, user: req.session.userData });
+
     } else {
 
         res.render("index", { md: text => { return converter.makeHtml(text); }, user: null });
+    }
+});
+
+// /commands
+
+router.get("/commands", async (req, res) => {
+
+    if (req.session.discord_login !== null && req.session.discord_login !== undefined) {
+        
+        if (req.session.userData === null || req.session.userData === undefined || (Date.now() - req.session.userData.time) / 1000 > 300) {
+
+            req.session.userData = await getUserData(req.session.discord_login.access_token);
+            if (req.session.userData === null) {
+
+                res.status(500).send("Error getting user info.");
+                return;
+            }
+        }
+
+        res.render("commands", { md: text => { return converter.makeHtml(text); }, user: req.session.userData});
+
+    } else {
+
+        res.render("commands", { md: text => { return converter.makeHtml(text); }, user: null});
     }
 });
 

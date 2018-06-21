@@ -20,6 +20,11 @@
 .btn-floating:active {
   background-color: #eb3f36 !important; }
 
+.pills-feinwaru .nav-link.active,
+.pills-feinwaru .show > .nav-link,
+.tabs-feinwaru {
+  background-color: #eb3f36 !important; }
+
 /* Required for full background image */
 html,
 body,
