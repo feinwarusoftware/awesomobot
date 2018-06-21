@@ -2,7 +2,7 @@
 
 const mongoose = require("mongoose");
 
-const { BotLogSchema, GuildLogSchema, GuildSchema, ScriptSchema, UserSchema } = require("./schemas");
+const { BotLogSchema, GuildSchema, ScriptSchema, UserSchema } = require("./schemas");
 
 class Database {
     constructor(id, address) {
@@ -49,22 +49,6 @@ class Database {
         });
 
         return this._saveDoc(botLog);
-    }
-
-    getGuildLogs(objectId, count = 50, type = null) {
-
-        return BotLogSchema.find(type === null ? { _id: objectId } : { _id: objectId, type }).sort({ time: -1 }).limit(count);
-    }
-    addGuildLog(objectId, message, type) {
-
-        const guildLog = new GuildLogSchema({
-
-            guild: objectId,
-            type,
-            message
-        });
-
-        return this._saveDoc(guildLog);
     }
 
     getGuildByDiscordId(discordId) {
@@ -206,7 +190,6 @@ module.exports = {
     Database,
 
     BotLogSchema,
-    GuildLogSchema,
     GuildSchema,
     ScriptSchema,
     UserSchema

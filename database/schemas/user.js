@@ -8,11 +8,7 @@ const userSchema = new Schema({
 
     //  _id: ObjectId,
     discordId: { type: String, required: true, unique: true },
-    scripts: [ Schema.Types.ObjectId ],
-
-    scriptData: [{
-        index: false
-    }]
+    scripts: [ Schema.Types.ObjectId ]
 });
 
 module.exports = mongoose.model("User", userSchema);

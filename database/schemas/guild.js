@@ -9,8 +9,7 @@ const guildSchema = new Schema({
     //  _id: ObjectId,
     discordId: { type: String, required: true, unique: true },
     premium: { type: Boolean, default: false },
-    prefix: { type: String, default: "-" },
-    errorChannelId: { type: String, default: null },
+    prefix: { type: String, default: "<<" },
     logChannelId: { type: String, default: null },
     logEvents: [ String ],
     scripts: [{
@@ -30,10 +29,6 @@ const guildSchema = new Schema({
                 list: [ String ]
             }
         }
-    }],
-
-    scriptData: [{
-        index: false
     }]
 });
 
