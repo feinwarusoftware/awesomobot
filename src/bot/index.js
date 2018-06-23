@@ -311,8 +311,8 @@ client.on("message", async message => {
 
         /*
             BIG BOII ISSUES
-            - ability to set a command match and match type per guild to prevent clashes
-            - if the match checks pass but not the perm checks, stop script iteration
+            *- ability to set a command match and match type per guild to prevent clashes
+            *- if the match checks pass but not the perm checks, stop script iteration
         */
 
         // match each of them
@@ -344,11 +344,6 @@ client.on("message", async message => {
 
         if (matched === false) {
             continue;
-        }
-        // local? - fixpls
-        if (script.local === false) {
-            message.reply(`error trying to call non local script: '${script.name}', non local scripts are currently unsupported`);
-            break;
         }
 
         // perms checks
@@ -478,23 +473,29 @@ client.on("message", async message => {
             break;
         }
 
-        // find matching local command
-        for (let command of (config.env === "dev" ? await loadCommands() : await commands)) {
+        // local? - fixpls
+        if (script.local === true) {
 
-            if (script.name === command.name) {
+            // find matching local command
+            for (let command of (config.env === "dev" ? await loadCommands() : await commands)) {
 
-                try {
+                if (script.name === command.name) {
 
-                    command.run(client, message, guildDoc);
-                } catch(err) {
+                    try {
 
-                    botLogger.error(`error running local command '${command.name}': ${err}`);
+                        command.run(client, message, guildDoc);
+                    } catch(err) {
+
+                        botLogger.error(`error running local command '${command.name}': ${err}`);
+                    }
+                    break;
                 }
-                break;
             }
-        }
+        } else {
 
-        break;
+            message.reply(`error trying to call non local script: '${script.name}', non local scripts are currently unsupported`);
+            break;
+        }
     }
 });
 client.on("messageDelete", message => {
