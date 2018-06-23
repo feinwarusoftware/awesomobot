@@ -13,6 +13,8 @@ const GuildSchema = new Schema({
     log_events: [ String ],
     scripts: [{
         object_id: { type: Schema.Types.ObjectId, required: true },
+        match_override: { type: String, default: null },
+        match_type_override: { type: String, default: null },
         perms: {
             enabled: { type: Boolean, default: true },
             members: {

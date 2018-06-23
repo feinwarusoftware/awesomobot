@@ -257,7 +257,7 @@ client.on("message", async message => {
                 prefix: "<<",
                 log_channel_id: null,
                 log_events: [],
-                scripts: []
+                scripts: [{ object_id: mongoose.Types.ObjectId("5b2e66d914016b34d0403a45"), match_override: "test" }]
             });
 
             await guild.save().catch(err => {
@@ -291,10 +291,23 @@ client.on("message", async message => {
             botLogger.error(`error loading guild dev scripts on message event: ${err}`);
         });
 
+        for (let devScript of devScripts) {
+
+            guildDoc.scripts.push({ object_id: devScript._id });
+        }
+
         scripts = [...scripts, ...devScripts];
     }
 
     for (let script of scripts) {
+
+        const guildOverrides = guildDoc.scripts.find(e => {
+            return e.object_id.equals(script._id);
+        });
+        if (guildOverrides === undefined) {
+            botLogger.error(`could not find guild overrides for script`);
+            return;
+        }
 
         /*
             BIG BOII ISSUES
@@ -311,18 +324,18 @@ client.on("message", async message => {
 
         // matching - big boii issue
         let matched = false;
-        switch(script.match_type) {
+        switch(guildOverrides.match_type_override === null ? script.match_type : guildOverrides.match_type_override) {
             case "command":
-                matched = message.content.split(" ")[0].toLowerCase() === guildDoc.prefix + script.match.toLowerCase();
+                matched = message.content.split(" ")[0].toLowerCase() === guildDoc.prefix + (guildOverrides.match_override === null ? script.match.toLowerCase() : guildOverrides.match_override.toLowerCase());
                 break;
             case "startswith":
-                matched = message.content.toLowerCase().startsWith(script.match.toLowerCase());
+                matched = message.content.toLowerCase().startsWith(guildOverrides.match_override === null ? script.match.toLowerCase() : guildOverrides.match_override.toLowerCase());
                 break;
             case "contains":
-                matched = message.content.toLowerCase().indexOf(script.match.toLowerCase()) !== -1;
+                matched = message.content.toLowerCase().indexOf(guildOverrides.match_override === null ? script.match.toLowerCase() : guildOverrides.match_override.toLowerCase()) !== -1;
                 break;
             case "exactmatch":
-                matched = message.content === script.match;
+                matched = message.content === (guildOverrides.match_override === null ? script.match : guildOverrides.match_override);
                 break;
             default:
                 botLogger.error(`incorrect script match type: name - ${script.name}, match_type - ${script.match_type}`);
@@ -332,14 +345,138 @@ client.on("message", async message => {
         if (matched === false) {
             continue;
         }
-
         // local? - fixpls
         if (script.local === false) {
             message.reply(`error trying to call non local script: '${script.name}', non local scripts are currently unsupported`);
             break;
         }
 
-        // perm checks - todo
+        // perms checks
+        let passed = true;
+
+        if (guildOverrides.perms.enabled === false) {
+            passed = false;
+            message.reply("debug: you dont have perms to run this command - the command is disabled");
+        }
+
+        if (passed === false) {
+            break;
+        }
+
+        // member perms
+        if (guildOverrides.perms.members.allow_list === false) {
+            
+            for (let memberId of guildOverrides.perms.members.list) {
+
+                if (message.author.id === memberId) {
+
+                    passed = false;
+                    message.reply("debug: you dont have perms to run this command - you can't run this command while blacklisted");
+                    break;
+                }
+            }
+        } else {
+            
+            let found = false;
+            for (let memberId of guildOverrides.perms.members.list) {
+
+                if (message.author.id === memberId) {
+
+                    found = true;
+                    break;
+                }
+            }
+            if (found === false) {
+
+                passed = false;
+                message.reply("debug: you dont have perms to run this command - you can't run this command as you aren't whitelisted");
+                break;
+            }
+        }
+
+        if (passed === false) {
+            break;
+        }
+
+        // channel perms
+        if (guildOverrides.perms.channels.allow_list === false) {
+
+            for (let channelId of guildOverrides.perms.channels.list) {
+
+                if (message.channel.id === channelId) {
+
+                    passed = false;
+                    message.reply("debug: you dont have perms to run this command - this command is not allowed in this channel");
+                    break;
+                }
+            }
+        } else {
+            
+            let found = false;
+            for (let channelId of guildOverrides.perms.channels.list) {
+
+                if (message.channel.id === channelId) {
+
+                    found = true;
+                    break;
+                }
+            }
+            if (found === false) {
+
+                passed = false;
+                message.reply("debug: you dont have perms to run this command - youre not in a channel where this command is allowed");
+                break;
+            }
+        }
+
+        if (passed === false) {
+            break;
+        }
+
+        // rule perms
+        if (guildOverrides.perms.roles.allow_list === false) {
+
+            for (let roleId of guildOverrides.perms.roles.list) {
+
+                for (let role of message.member.roles.array()) {
+
+                    if (roleId === role.id) {
+
+                        passed = false;
+                        message.reply("debug: you dont have perms to run this command - one of your roles is blacklisted");
+                        break;
+                    }
+                }
+                if (passed === false) {
+                    break;
+                }
+            }
+
+        } else {
+            
+            let found = 0;
+
+            for (let roleId of guildOverrides.perms.roles.list) {
+
+                for (let role of message.member.roles.array()) {
+
+                    if (roleId === role.id) {
+
+                        found++;
+                        break;
+                    }
+                }
+            }
+            if (found !== guildOverrides.perms.roles.list.length) {
+
+                passed = false;
+                message.reply("debug: you dont have perms to run this command - you dont have all the required roles");
+            }
+        }
+
+        if (passed === false) {
+            break;
+        }
 
         // find matching local command
         for (let command of (config.env === "dev" ? await loadCommands() : await commands)) {
