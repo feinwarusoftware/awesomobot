@@ -12,12 +12,6 @@ const schemas = require("../db");
 
 const botLogger = new Logger();
 
-// init db
-// init logger
-// init sandbox
-// load local commands
-// make sure theyre in db
-
 const isFile = fp => fs.lstatSync(fp).isFile();
 const getFiles = fp => fs.readdirSync(fp).map(name => path.join(fp, name)).filter(isFile);
 
@@ -85,6 +79,14 @@ const loadCommands = async () => {
                         doc.permissions = command.permissions;
                         change = true;
                     }
+                    if (doc.match !== command.match) {
+                        doc.match = command.match;
+                        change = true;
+                    }
+                    if (doc.match_type !== command.match_type) {
+                        doc.match_type = command.match_type;
+                        change = true;
+                    }
                     if (doc.code !== null) {
                         doc.code = null;
                         change = true;
@@ -133,6 +135,8 @@ const loadCommands = async () => {
                 description: command.description,
                 type: command.type,
                 permissions: command.permissions,
+                match: command.match,
+                match_type: command.match_type,
                 code : null
             });
 
@@ -149,7 +153,7 @@ const loadCommands = async () => {
     return commands;
 }
 
-const commands = loadCommands();
+let commands = loadCommands();
 
 const client = new discord.Client();
 client.on("channelCreate", channel => {
@@ -224,7 +228,7 @@ client.on("guildUnavailable", guild => {
 client.on("guildUpdate", (oldGuild, newGuild) => {
 
 });
-client.on("message", message => {
+client.on("message", async message => {
     //special
 
     // load guild
@@ -233,6 +237,107 @@ client.on("message", message => {
     // run perms checks
     // fetch code (local vs db)
     // run code appropriately
+
+    const guildDoc = await schemas.GuildSchema.findOne({ discord_id: message.guild.id }).then(async doc => {
+
+        if (doc === null) {
+            const guild = new schemas.GuildSchema({
+                discord_id: message.guild.id,
+                prefix: "<<",
+                log_channel_id: null,
+                log_events: [],
+                scripts: [{ object_id: mongoose.Types.ObjectId("5b2e566861b374144c337550") }, { object_id: mongoose.Types.ObjectId("5b2e566a61b374144c337551") }]
+            });
+
+            await guild.save().catch(err => {
+
+                botLogger.error(`error saving new guild on message event: ${err}`);
+            });
+
+            return guild;
+        }
+
+        return doc;
+    }).catch(err => {
+
+        botLogger.error(`error fetching guild on 'message' event: ${err}`);
+    });
+
+    const scriptIds = [];
+    for (let script of guildDoc.scripts) {
+        scriptIds.push(script.object_id);
+    }
+
+    const scripts = await schemas.ScriptSchema.find({ _id: { $in: scriptIds } }).catch(err => {
+
+        botLogger.error(`error loading guild scripts on message event: ${err}`);
+    });
+
+    for (let script of scripts) {
+
+        /*
+            BIG BOII ISSUES
+            - ability to set a command match and match type per guild to prevent clashes
+            - if the match checks pass but not the perm checks, stop script iteration
+        */
+
+        // match each of them
+        // run perm checks
+        // identify if local
+
+        // if local - call normally
+        // if not, error for now
+
+        // matching - big boii issue
+        let matched = false;
+        switch(script.match_type) {
+            case "command":
+                matched = message.content.split(" ")[0].toLowerCase() === guildDoc.prefix + script.match.toLowerCase();
+                break;
+            case "startswith":
+                matched = message.content.toLowerCase().startsWith(script.match.toLowerCase());
+                break;
+            case "contains":
+                matched = message.content.toLowerCase().indexOf(script.match.toLowerCase()) !== -1;
+                break;
+            case "exactmatch":
+                matched = message.content === script.match;
+                break;
+            default:
+                botLogger.error(`incorrect script match type: name - ${script.name}, match_type - ${script.match_type}`);
+                break;
+        }
+
+        if (matched === false) {
+            continue;
+        }
+
+        // local? - fixpls
+        if (script.local === false) {
+            message.reply(`error trying to call non local script: '${script.name}', non local scripts are currently unsupported`);
+            break;
+        }
+
+        // perm checks - todo
+
+        // find matching local command
+        for (let command of await commands) {
+
+            if (script.name === command.name) {
+
+                try {
+
+                    command.run(client, message, guildDoc);
+                } catch(err) {
+
+                    botLogger.error(`error running local command '${command.name}': ${err}`);
+                }
+                break;
+            }
+        }
+
+        break;
+    }
 });
 client.on("messageDelete", message => {
 
@@ -292,4 +397,4 @@ client.on("warn", info => {
     //client
 });
 
-client.login("");
+client.login("MzcyNDYyNDI4NjkwMDU1MTY5.Dg_UdQ.n2Pdm6KriUcviXXU7mNFWJh6T54");
