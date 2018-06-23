@@ -7,7 +7,8 @@
     "HOME": "Home",
     "DASHBOARD": "Dashboard",
     "COMMANDS": "Commands",
-    "SUPPORT_ON_PATREON": "Support on Patreon",
+    "BLOG": "Blog",
+    "PREMIUM": "Premium",
     "SELECT_LANGUAGE": "Select a language",
     
     "LOGGED_IN_AS": "Logged in as",
@@ -17,10 +18,25 @@
     "LOGIN": "Login with Discord",
     "LEARN_MORE": "Learn More",
 
-    "OUR_PATRONS": "Our Patrons",
-    "PATRON_5": "$5 Patron",
-    "PATRON_10": "$10 Patron",
-    "PATRON_SINCE": "Patron since",
+    "FULLY_FEATURED": "A Fully Featured Bot",
+    "CUSTOM_SCRIPTS": "Custom Scripts",
+    "PD_CARDS": "Phone Destroyer Cards",
+    "SURVEYS": "Custom Surveys",
+    "MUSIC": "Music Functionality",
+    "ANALYTICS": "Server Analytics",
+    "PROFILES": "Custom Profiles",
+    "CUSTOM_SCRIPTS_DESC": "Make your own commands and scripts easily with our online script creator. *Currently only available to Subscribers*",
+    "PD_CARDS_DESC": "Phone Destroyer Cards",
+    "SURVEYS_DESC": "Custom Surveys",
+    "MUSIC_DESC": "Music Functionality",
+    "ANALYTICS_DESC": "Server Analytics",
+    "PROFILES_DESC": "Custom Profiles",
+    "MANY_MORE": "..and many more!",
+
+    "OUR_SUBSCRIBERS": "Our Subscribers",
+    "SUBSCRIBER_5": "$5 Subscriber",
+    "SUBSCRIBER_10": "$10 Subscriber",
+    "SUBSCRIBER_SINCE": "Subscriber since",
     "VIEW_PROFILE": "View profile",
 
     "DATE_ST": "st",
@@ -41,11 +57,16 @@
     "NOVEMBER": "November", 
     "DECEMBER": "December", 
 
+    "GET_AWESOMO": "Get AWESOM-O",
+    "MONTHLY_SUBSCRIPTIONS": "Monthly Subscriptions",
+    "ONE_TIME_PAYMENTS": "One-Time Payments",
+    "MONTH": "month",
+    "MONTHS": "months",
 
     "FRIENDS": "Friends",
     "FRIENDS_ROLE": "**Friends** role",
     "CUSTOM_COMMANDS": "**Custom** Commands",
-    "PATRON_CHANNEL_ACCESS": "**Patron-Only** channel access",
+    "SUBSCRIBER_CHANNEL_ACCESS": "**Subscriber-Only** channel access",
     "EARLY_FEATURES": "**Access to early features**",
 
     "BEST_FRIENDS": "Best Friends",
@@ -60,7 +81,7 @@
     "EARLIEST_ACCESS_TM": "**Try beta features** before anyone else",
     "API_ACCESS": "**Access to our API**",
 
-    "BECOME_A_PATRON": "Become a Patron",
+    "BECOME_A_SUBSCRIBER": "Become a Subscriber",
 
 
 

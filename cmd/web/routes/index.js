@@ -7,9 +7,10 @@ const router = express.Router();
 
 /* TEMP */
 
-/* const showdown = require("showdown");
+const showdown = require("showdown");
 const converter = new showdown.Converter();
 
+/*
 const fs = require("fs");
 const path = require("path");
 
