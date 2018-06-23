@@ -6,7 +6,7 @@ const path = require("path");
 const discord = require("discord.js");
 const mongoose = require("mongoose");
 
-const sandbox = require("./sandbox");
+//const sandbox = require("./sandbox");
 const Logger = require("../logger");
 
 const botLogger = new Logger();
@@ -18,7 +18,48 @@ const botLogger = new Logger();
 // run commands preloading
 // make sure theyre in db
 
+const isFile = fp => fs.lstatSync(fp).isFile();
+const getFiles = fp => fs.readdirSync(fp).map(name => path.join(fp, name)).filter(isFile);
 
+const loadCommands = () => {
+
+    let commands = [];
+
+    let files;
+    try {
+
+        files = getFiles(path.join(__dirname, "commands"))
+    } catch (err) {
+
+        botLogger.fatalError(`error loading commands: ${err}`);
+    }
+
+    for (let file of files) {
+
+        let extname = path.extname(file);
+        if (extname !== ".js") {
+
+            botLogger.fatalError(`error loading commands: found file with '${extname}', but only '.js' files are supported`);
+        }
+
+        let command;
+        try {
+
+            command = require(file);
+        } catch (err) {
+
+            botLogger.fatalError(`error loading commands: ${err}`);
+        }
+
+        commands.push(command);
+    }
+
+    return commands;
+}
+
+const commands = loadCommands();
+
+console.log(commands);
 
 const client = new discord.Client();
 client.on("channelCreate", channel => {
@@ -161,4 +202,4 @@ client.on("warn", info => {
     //client
 });
 
-client.login("token");
+client.login("");

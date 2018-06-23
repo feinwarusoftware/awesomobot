@@ -1,5 +1,7 @@
 "use strict";
 
+const mongoose = require("mongoose");
+
 const Logger = require("./logger");
 
 const genLogger = new Logger();
@@ -9,10 +11,11 @@ mongoose.Promise = global.Promise;
 
 const db = mongoose.connection;
 db.on("error", err => {
-    logger.log(err);
+    genLogger.log("stderr", err);
 });
 db.on("open", () => {
-    logger.log("connected to db");
+    genLogger.log("stdout", "connected to db");
 });
 
 // do stuff
+require("./bot");

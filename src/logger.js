@@ -22,6 +22,10 @@ class Logger {
     error(message) {
         this.log("stderr", message);
     }
+    fatalError(message) {
+        this.log("stderr", message);
+        throw message;
+    }
 }
 
 module.exports = Logger;
