@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 
 //const sandbox = require("./sandbox");
 const Logger = require("../logger");
+const schemas = require("../db");
 
 const botLogger = new Logger();
 
@@ -15,13 +16,12 @@ const botLogger = new Logger();
 // init logger
 // init sandbox
 // load local commands
-// run commands preloading
 // make sure theyre in db
 
 const isFile = fp => fs.lstatSync(fp).isFile();
 const getFiles = fp => fs.readdirSync(fp).map(name => path.join(fp, name)).filter(isFile);
 
-const loadCommands = () => {
+const loadCommands = async () => {
 
     let commands = [];
 
@@ -33,6 +33,8 @@ const loadCommands = () => {
 
         botLogger.fatalError(`error loading commands: ${err}`);
     }
+
+    botLogger.log("stdout", `detected command files: ${JSON.stringify(files)}`);
 
     for (let file of files) {
 
@@ -54,12 +56,100 @@ const loadCommands = () => {
         commands.push(command);
     }
 
+    botLogger.log("stdout", `loaded command files: ${JSON.stringify(commands)}`);
+
+    await schemas.ScriptSchema.find({ local: true }).then(async docs => {
+
+        for (let doc of docs) {
+            let found = false
+
+            for (let command of commands) {
+                if (doc.name === command.name) {
+                    found = true;
+
+                    let change = false;
+
+                    if (doc.author !== null) {
+                        doc.author = null;
+                        change = true;
+                    }
+                    if (doc.description !== command.description) {
+                        doc.description = command.description;
+                        change = true;
+                    }
+                    if (doc.type !== command.type) {
+                        doc.type = command.type;
+                        change = true;
+                    }
+                    if (doc.permissions !== command.permissions) {
+                        doc.permissions = command.permissions;
+                        change = true;
+                    }
+                    if (doc.code !== null) {
+                        doc.code = null;
+                        change = true;
+                    }
+            
+                    if (change === true) {
+            
+                        await doc.save().catch(err => {
+            
+                            botLogger.fatalError(`error updaing '${command.name}' command in db: ${err}`);
+                        });
+                    }
+
+                    break;
+                }
+            }
+
+            if (found === true) {
+                continue;
+            }
+
+            await doc.remove().catch(err => {
+
+                botLogger.fatalError(`error removing '${doc.name}' command from db: ${err}`);
+            });
+        }
+
+        for (let command of commands) {
+            let found = false;
+
+            for (let doc of docs) {
+                if (command.name === doc.name) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found === true) {
+                continue;
+            }
+
+            const script = new schemas.ScriptSchema({
+                local: true,
+                name: command.name,
+                author: null,
+                description: command.description,
+                type: command.type,
+                permissions: command.permissions,
+                code : null
+            });
+
+            await script.save().catch(err => {
+
+                botLogger.fatalError(`error saving '${command.name}' command to db: ${err}`);
+            });
+        }
+    }).catch(err => {
+
+        botLogger.fatalError(`error fetching current commands from db: ${err}`);
+    });
+
     return commands;
 }
 
 const commands = loadCommands();
-
-console.log(commands);
 
 const client = new discord.Client();
 client.on("channelCreate", channel => {

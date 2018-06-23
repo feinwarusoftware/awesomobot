@@ -3,6 +3,7 @@
 const mongoose = require("mongoose");
 
 const Logger = require("./logger");
+const schemas = require("./db");
 
 const genLogger = new Logger();
 
