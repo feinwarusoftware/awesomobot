@@ -12,6 +12,15 @@ const schemas = require("../db");
 
 const botLogger = new Logger();
 
+let config;
+try {
+
+    config = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "..", "config.json")));
+} catch(err) {
+
+    botLogger.fatalError(`error loading config: ${err}`);
+}
+
 const isFile = fp => fs.lstatSync(fp).isFile();
 const getFiles = fp => fs.readdirSync(fp).map(name => path.join(fp, name)).filter(isFile);
 
@@ -41,10 +50,11 @@ const loadCommands = async () => {
         let command;
         try {
 
+            delete require.cache[require.resolve(file)];
             command = require(file);
         } catch (err) {
 
-            botLogger.fatalError(`error loading commands: ${err}`);
+            botLogger.fatalError(`error loading command file: ${file}, with error: ${err}`);
         }
 
         commands.push(command);
@@ -153,7 +163,7 @@ const loadCommands = async () => {
     return commands;
 }
 
-let commands = loadCommands();
+let commands = config.env === "dev" ? null : loadCommands();
 
 const client = new discord.Client();
 client.on("channelCreate", channel => {
@@ -241,12 +251,13 @@ client.on("message", async message => {
     const guildDoc = await schemas.GuildSchema.findOne({ discord_id: message.guild.id }).then(async doc => {
 
         if (doc === null) {
+
             const guild = new schemas.GuildSchema({
                 discord_id: message.guild.id,
                 prefix: "<<",
                 log_channel_id: null,
                 log_events: [],
-                scripts: [{ object_id: mongoose.Types.ObjectId("5b2e566861b374144c337550") }, { object_id: mongoose.Types.ObjectId("5b2e566a61b374144c337551") }]
+                scripts: []
             });
 
             await guild.save().catch(err => {
@@ -268,10 +279,20 @@ client.on("message", async message => {
         scriptIds.push(script.object_id);
     }
 
-    const scripts = await schemas.ScriptSchema.find({ _id: { $in: scriptIds } }).catch(err => {
+    let scripts = await schemas.ScriptSchema.find({ _id: { $in: scriptIds } }).catch(err => {
 
         botLogger.error(`error loading guild scripts on message event: ${err}`);
     });
+
+    if (config.env === "dev") {
+
+        const devScripts = await schemas.ScriptSchema.find({ local: true }).catch(err => {
+
+            botLogger.error(`error loading guild dev scripts on message event: ${err}`);
+        });
+
+        scripts = [...scripts, ...devScripts];
+    }
 
     for (let script of scripts) {
 
@@ -321,7 +342,7 @@ client.on("message", async message => {
         // perm checks - todo
 
         // find matching local command
-        for (let command of await commands) {
+        for (let command of (config.env === "dev" ? await loadCommands() : await commands)) {
 
             if (script.name === command.name) {
 
@@ -397,4 +418,4 @@ client.on("warn", info => {
     //client
 });
 
-client.login("MzcyNDYyNDI4NjkwMDU1MTY5.Dg_UdQ.n2Pdm6KriUcviXXU7mNFWJh6T54");
+client.login(config.token);
