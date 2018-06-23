@@ -16,9 +16,14 @@ const server = http.createServer(app);
 
 const routes = require("./routes");
 
+const parseJsonc = text => {
+
+    return JSON.parse(text.toString().replace(/(\/\*[\S\s]*?\*\/)|(\/\/[^\n]*)+/g, ""));
+}
+
 let config;
 try {
-    config = JSON.parse(fs.readFileSync(path.join(__dirname, "config.json")));
+    config = parseJsonc(fs.readFileSync(path.join(__dirname, "config.jsonc")));
 } catch (error) {
     console.error(error);
 }

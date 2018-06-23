@@ -93,74 +93,32 @@
 
         <div class="container">
 
-            <!-- Section: About -->
-            <section id="about" class="section about mt-5 mb-5 py-3 wow fadeIn" data-wow-delay="0.2s">
-
-                <!-- Grid row -->
-                <div class="row pt-2 mt-5">
-
-                    <!-- Grid column -->
-                    <div class="col-lg-5 col-md-12 mb-3 wow fadeIn" data-wow-delay="0.4s">
-                        <!-- Image -->
-                        <img src="https://mdbootstrap.com/img/Photos/Others/images/66.jpg" class="img-fluid z-depth-1 rounded" alt="My photo">
-                    </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div class="col-lg-6 ml-auto col-md-12 wow fadeIn" data-wow-delay="0.4s">
-
-                        <!-- Secion heading -->
-                        <h3 class="mb-5 dark-grey-text title font-weight-bold wow fadeIn" data-wow-delay="0.2s">
-                            <strong>Build your brand with us</strong>
-                        </h3>
-
-                        <!-- Description -->
-                        <p align="justify" class="grey-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo animi soluta ratione quisquam, dicta
-                            ab cupiditate iure eaque? Repellendus voluptatum, magni impedit delectus, beatae maxime temporibus
-                            maiores quibusdam.</p>
-                        <p align="justify" class="grey-text">Rem magnam ad perferendis iusto sint tempora ea voluptatibus iure, animi excepturi modi aut possimus
-                            in hic molestias repellendus illo ullam odit quia velit. Lorem ipsum dolor sit amet, consectetur
-                            adipisicing elit.</p>
-                        <p align="justify" class="grey-text mb-5">Incidunt eligendi mollitia labore ipsum ex fugit explicabo saepe error neque beatae in, expedita
-                            eveniet quae aliquam assumenda voluptatibus!</p>
-
-                    </div>
-                    <!-- Grid column -->
-
-                </div>
-                <!-- Grid row -->
-
-            </section>
-            <!-- Section: About -->
-
-            <hr>
 
             <!-- Section: Features v.4 -->
             <section id="features" class="section feature-box mb-5 pb-4">
 
                 <!-- Section heading -->
-                <h3 class="text-center title my-5 dark-grey-text font-weight-bold wow fadeIn" data-wow-delay="0.2s">
-                    <strong>Awesome features</strong>
+                <h3 class="text-center title my-5 dark-grey-text font-weight-bold">
+                    <strong>
+                        <%= trans.FULLY_FEATURED %>
+                    </strong>
                 </h3>
-
-                <!-- Section sescription -->
-                <p class="text-center w-responsive mx-auto my-5 grey-text wow fadeIn" data-wow-delay="0.2s">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum quas, eos officia maiores ipsam ipsum dolores reiciendis
-                    ad voluptas, animi obcaecati adipisci sapiente mollitia.</p>
                 <!-- Grid row -->
-                <div class="row features-small wow fadeIn" data-wow-delay="0.4s">
+                <div class="row features-small">
 
                     <!-- Grid column -->
                     <div class="col-lg-4 col-md-12">
                         <!-- Grid row -->
-                        <div class="row mb-3">
+                        <div id="feature1" class="row mb-3">
                             <div class="col-2">
-                                <i class="fa fa-edit orange-text fa-2x"></i>
+                                <i class="fa fa-code feinwaru-text fa-2x"></i>
                             </div>
                             <div class="col-10 mb-2">
-                                <h5 class="font-weight-bold title">Modern design</h5>
-                                <p class="grey-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit maiores nam, aperiam
-                                    minima.
+                                <h5 class="font-weight-bold title">
+                                    <%= trans.CUSTOM_SCRIPTS %>
+                                </h5>
+                                <p class="grey-text">
+                                    <%- md(trans.CUSTOM_SCRIPTS_DESC); %>
                                 </p>
                             </div>
                         </div>
@@ -169,12 +127,15 @@
                         <!-- Grid row -->
                         <div class="row mb-3">
                             <div class="col-2">
-                                <i class="fa fa-cogs orange-text fa-2x"></i>
+                                <i class="fa fa-question feinwaru-text fa-2x"></i>
                             </div>
                             <div class="col-10 mb-2">
-                                <h5 class="font-weight-bold title">Easy customize</h5>
-                                <p class="grey-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit maiores nam, aperiam
-                                    minima assumenda.</p>
+                                <h5 class="font-weight-bold title">
+                                    <%= trans.SURVEYS %>
+                                </h5>
+                                <p class="grey-text">
+                                    <%- md(trans.SURVEYS_DESC); %>
+                                </p>
                             </div>
                         </div>
                         <!-- Grid row -->
@@ -182,11 +143,15 @@
                         <!-- Grid row -->
                         <div class="row">
                             <div class="col-2">
-                                <i class="fa fa-tablet orange-text fa-2x"></i>
+                                <i class="fa fa-line-chart feinwaru-text fa-2x"></i>
                             </div>
                             <div class="col-10 mb-2">
-                                <h5 class="font-weight-bold title">Responsive layouts</h5>
-                                <p class="grey-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit maiores nam, aperiam.</p>
+                                <h5 class="font-weight-bold title">
+                                    <%= trans.ANALYTICS %>
+                                </h5>
+                                <p class="grey-text">
+                                    <%- md(trans.ANALYTICS_DESC); %>
+                                </p>
                             </div>
                         </div>
                         <!-- Grid row -->
@@ -195,7 +160,7 @@
 
                     <!-- Grid column -->
                     <div class="col-lg-4 col-md-12 mb-1 text-center text-md-left">
-                        <img src="https://mdbootstrap.com/img/Mockups/Transparent/Small/admin-new.png" alt="" class="z-depth-0 img-fluid">
+                        <img id="featureimg" src="https://mdbootstrap.com/img/Mockups/Transparent/Small/admin-new.png" alt="" class="z-depth-0 img-fluid">
                     </div>
                     <!-- Grid column -->
 
@@ -204,11 +169,15 @@
                         <!-- Grid row -->
                         <div class="row mb-3">
                             <div class="col-2">
-                                <i class="fa fa-line-chart orange-text fa-2x"></i>
+                                <i class="fa fa-gamepad feinwaru-text fa-2x"></i>
                             </div>
                             <div class="col-10 mb-2">
-                                <h5 class="font-weight-bold title">Optymized for SEO</h5>
-                                <p class="grey-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit maiores nam, aperiam.</p>
+                                <h5 class="font-weight-bold title">
+                                    <%= trans.PD_CARDS %>
+                                </h5>
+                                <p class="grey-text">
+                                    <%- md(trans.PD_CARDS_DESC); %>
+                                </p>
                             </div>
                         </div>
                         <!-- Grid row -->
@@ -216,14 +185,15 @@
                         <!-- Grid row -->
                         <div class="row mb-3">
                             <div class="col-2">
-                                <i class="fa fa-group orange-text fa-2x"></i>
+                                <i class="fa fa-music feinwaru-text fa-2x"></i>
                             </div>
                             <div class="col-10 mb-2">
                                 <h5 class="font-weight-bold title">
-                                    <%- md("**Technical support**"); %>
+                                    <%= trans.MUSIC %>
                                 </h5>
-                                <p class="grey-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit maiores nam, aperiam
-                                    minima assumenda.</p>
+                                <p class="grey-text">
+                                    <%- md(trans.MUSIC_DESC); %>
+                                </p>
                             </div>
                         </div>
                         <!-- Grid row -->
@@ -231,12 +201,14 @@
                         <!-- Grid row -->
                         <div class="row">
                             <div class="col-2">
-                                <i class="fa fa-diamond orange-text fa-2x"></i>
+                                <i class="fa fa-users feinwaru-text fa-2x"></i>
                             </div>
                             <div class="col-10 mb-2">
-                                <h5 class="font-weight-bold title">High quality</h5>
-                                <p class="grey-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit maiores nam, aperiam
-                                    minima.
+                                <h5 class="font-weight-bold title">
+                                    <%= trans.PROFILES %>
+                                </h5>
+                                <p class="grey-text">
+                                    <%- md(trans.PROFILES_DESC); %>
                                 </p>
                             </div>
                         </div>
@@ -245,7 +217,10 @@
                     <!-- Third column -->
                 </div>
                 <!-- Grid row -->
-
+                <!-- Section sescription -->
+                <p class="text-center w-responsive pt-3 mx-auto grey-text">
+                    <%= trans.MANY_MORE %>
+                </p>
             </section>
             <!-- Section: Features v.4 -->
 
@@ -256,7 +231,7 @@
                 <div class="container">
 
                     <!-- Section heading -->
-                    <h3 class="text-center mb-5 pb-4 white-text font-weight-bold wow fadeIn" data-wow-delay="0.2s">
+                    <h3 class="text-center mb-5 pb-4 white-text font-weight-bold">
                         <strong>Some facts about us</strong>
                     </h3>
 
@@ -304,8 +279,8 @@
                 <section id="testimonials" class="section mb-0">
 
                     <!-- Section heading -->
-                    <h2 class="text-center mb-5 my-5 dark-grey-text font-weight-bold wow fadeIn" data-wow-delay="0.2s">
-                        <%= trans.OUR_PATRONS %>
+                    <h2 class="text-center mb-5 my-5 dark-grey-text font-weight-bold">
+                        <%= trans.OUR_SUBSCRIBERS %>
                     </h2>
 
                     <!--Carousel Wrapper-->
@@ -331,15 +306,14 @@
                                                 <div class="mx-auto">
                                                     <h5 class="feinwaru-text">
                                                         <b>
-                                                            <%= trans.PATRON_10 %>
+                                                            <%= trans.SUBSCRIBER_10 %>
                                                         </b>
                                                     </h5>
                                                     <h3 class="card-title">
                                                         <strong>Kenny McCormick</strong>
                                                     </h3>
                                                     <p>
-                                                        <%= trans.PATRON_SINCE %> 5
-                                                            <%= trans.DATE_TH %>
+                                                        <%= trans.SUBSCRIBER_SINCE %> 5<%= trans.DATE_TH %>
                                                                 <%= trans.FEBRUARY %> 2018</p>
                                                     <br>
                                                     <br>
@@ -367,15 +341,14 @@
                                                 <div class="mx-auto">
                                                     <h5 class="feinwaru-text">
                                                         <strong>
-                                                            <%= trans.PATRON_10 %>
+                                                            <%= trans.SUBSCRIBER_10 %>
                                                         </strong>
                                                     </h5>
                                                     <h3 class="card-title">
                                                         <strong>Airborn56</strong>
                                                     </h3>
                                                     <p>
-                                                        <%= trans.PATRON_SINCE %> 27
-                                                            <%= trans.DATE_TH %>
+                                                        <%= trans.SUBSCRIBER_SINCE %> 27<%= trans.DATE_TH %>
                                                                 <%= trans.APRIL %> 2018</p>
                                                     <br>
                                                     <br>
@@ -404,15 +377,14 @@
                                                 <div class="mx-auto">
                                                     <h5 class="feinwaru-text">
                                                         <strong>
-                                                            <%= trans.PATRON_10 %>
+                                                            <%= trans.SUBSCRIBER_10 %>
                                                         </strong>
                                                     </h5>
                                                     <h3 class="card-title">
                                                         <strong>Savagekiller115</strong>
                                                     </h3>
                                                     <p>
-                                                        <%= trans.PATRON_SINCE %> 24
-                                                            <%= trans.DATE_TH %>
+                                                        <%= trans.SUBSCRIBER_SINCE %> 24<%= trans.DATE_TH %>
                                                                 <%= trans.MAY %> 2018</p>
                                                     <br>
                                                     <br>
@@ -451,15 +423,14 @@
                                                 <div class="mx-auto">
                                                     <h5 class="feinwaru-text">
                                                         <b>
-                                                            <%= trans.PATRON_10 %>
+                                                            <%= trans.SUBSCRIBER_10 %>
                                                         </b>
                                                     </h5>
                                                     <h3 class="card-title">
                                                         <b>LonelyChef</b>
                                                     </h3>
                                                     <p>
-                                                        <%= trans.PATRON_SINCE %> 27
-                                                            <%= trans.DATE_TH %>
+                                                        <%= trans.SUBSCRIBER_SINCE %> 27<%= trans.DATE_TH %>
                                                                 <%= trans.MAY %> 2018</p>
                                                     <br>
                                                     <br>
@@ -482,13 +453,15 @@
                             <!--/.First slide-->
 
                             <!--Controls-->
-                            <div class="controls-top">
-                                <a class="btn-floating" href="#multi-item-example" data-slide="prev">
-                                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                                </a>
-                                <a class="btn-floating" href="#multi-item-example" data-slide="next">
-                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                                </a>
+                            <div class="text-center mt-0 mb-5">
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-feinwaru btn-rounded" href="#multi-item-example" data-slide="prev">
+                                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-feinwaru btn-rounded" href="#multi-item-example" data-slide="next">
+                                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                    </button>
+                                </div>
                             </div>
                             <!--/.Controls-->
                 </section>
@@ -497,136 +470,483 @@
                 <section id="pricing" class="section pb-2">
 
                     <!--Secion heading-->
-                    <h2 class="text-center mb-5 my-5 dark-grey-text font-weight-bold wow fadeIn" data-wow-delay="0.2s">
-                        <%= trans.SUPPORT_ON_PATREON %>
+                    <h2 class="text-center mb-5 my-5 dark-grey-text font-weight-bold">
+                        <%= trans.GET_AWESOMO %>
+                            <span class="orange-text">
+                                <%= trans.PREMIUM %>
+                            </span>
                     </h2>
+                    <ul class="nav md-pills nav-justified pills-feinwaru">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#panel1" role="tab">
+                                <%= trans.MONTHLY_SUBSCRIPTIONS %>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#panel2" role="tab">
+                                <%= trans.ONE_TIME_PAYMENTS %>
+                            </a>
+                        </li>
+                    </ul>
 
-                    <!--Grid row-->
-                    <div class="row">
+                    <!-- Tab panels -->
+                    <div class="tab-content">
 
-                        <!--Grid column-->
-                        <div class="col-lg-4 col-md-12 mb-4">
-                            <!--Card-->
-                            <div class="pricing-card naked-card">
+                        <!--Panel 1-->
+                        <div class="tab-pane fade in show active" id="panel1" role="tabpanel">
+                            <br>
 
-                                <!--Content-->
-                                <div class="card-body dark-grey-text">
-                                    <h5 class="font-weight-bold mt-3">
-                                        <%= trans.FRIENDS %>
-                                    </h5>
+                            <!--Grid row-->
+                            <div class="row">
 
-                                    <!-- Price -->
-                                    <div class="price pt-0">
-                                        <h2 class="number purple-text-2 mb-0">1</h2>
-                                    </div>
-                                    <ul class="striped dark-grey-text">
-                                        <li>
-                                            <%- md(trans.FRIENDS_ROLE); %>
-                                        </li>
-                                        <li>
-                                            <%- md(trans.CUSTOM_COMMANDS); %>
-                                        </li>
-                                        <li>
-                                            <%- md(trans.PATRON_CHANNEL_ACCESS); %>
-                                        </li>
-                                        <li>
-                                            <%- md(trans.EARLY_FEATURES); %>
-                                        </li>
-                                    </ul>
-                                    <a class="btn feinwaru white-text btn-rounded">
-                                        <%= trans.BECOME_A_PATRON %>
-                                    </a>
-                                </div>
-                            </div>
-                            <!--Card-->
-                        </div>
-                        <!--Grid column-->
+                                <!--Grid column-->
+                                <div class="col-lg-4 col-md-12 mb-4">
+                                    <!--Card-->
+                                    <div class="pricing-card naked-card">
 
-                        <!--Grid column-->
-                        <div class="col-lg-4 col-md-12 mb-4">
+                                        <!--Content-->
+                                        <div class="card-body dark-grey-text">
+                                            <h5 class="font-weight-bold mt-3">
+                                                <%= trans.FRIENDS %>
+                                            </h5>
 
-                            <!-- Card -->
-                            <div class="card card-image" style="background-image: url('/img/awesomo-card.jpg');">
-
-                                <!-- Content -->
-                                <div class="text-white text-center pricing-card d-flex align-items-center rgba-gradient py-3 px-3">
-
-                                    <!--Content-->
-                                    <div class="card-body white-text">
-                                        <h5 class="font-weight-bold mt-3">
-                                            <%= trans.SUPER_BEST_FRIENDS %>
-                                        </h5>
-
-                                        <!-- Price -->
-                                        <div class="price pt-0">
-                                            <h2 class="number purple-text-2 mb-0">10</h2>
+                                            <!-- Price -->
+                                            <div class="price pt-0">
+                                                <h2 class="number purple-text-2 mb-0">1</h2>
+                                            </div>
+                                            <ul class="striped dark-grey-text">
+                                                <li>
+                                                    <%- md(trans.FRIENDS_ROLE); %>
+                                                </li>
+                                                <li>
+                                                    <%- md(trans.CUSTOM_COMMANDS); %>
+                                                </li>
+                                                <li>
+                                                    <%- md(trans.SUBSCRIBER_CHANNEL_ACCESS); %>
+                                                </li>
+                                                <li>
+                                                    <%- md(trans.EARLY_FEATURES); %>
+                                                </li>
+                                            </ul>
+                                            <a class="btn feinwaru white-text btn-rounded">
+                                                <%= trans.GET_AWESOMO %>
+                                                    <%= trans.PREMIUM %>
+                                            </a>
                                         </div>
-                                        <ul class="striped white-text">
-                                            <li>
-                                                <%- md(trans.SBF_ROLE); %>
-                                            </li>
-                                            <li>
-                                                <%- md(trans.AWESOMO_BETA_2); %>
-                                            </li>
-                                            <li>
-                                                <%- md(trans.EARLIEST_ACCESS_TM); %>
-                                            </li>
-                                            <li>
-                                                <%- md(trans.API_ACCESS); %>
-                                            </li>
-                                        </ul>
-                                        <a class="btn btn-outline-white btn-rounded">
-                                            <%= trans.BECOME_A_PATRON %>
-                                        </a>
                                     </div>
+                                    <!--Card-->
                                 </div>
-                            </div>
-                            <!--Card-->
-                        </div>
-                        <!--Grid column-->
+                                <!--Grid column-->
 
-                        <!--Grid column-->
-                        <div class="col-lg-4 col-md-12 mb-4">
-                            <!--Card-->
-                            <div class="pricing-card naked-card">
+                                <!--Grid column-->
+                                <div class="col-lg-4 col-md-12 mb-4">
 
-                                <!--Content-->
-                                <div class="card-body dark-grey-text">
-                                    <h5 class="font-weight-bold">
-                                        <%= trans.BEST_FRIENDS %>
-                                    </h5>
+                                    <!-- Card -->
+                                    <div class="card card-image" style="background-image: url('/img/awesomo-card.jpg');">
 
-                                    <!-- Price -->
-                                    <div class="price pt-0">
-                                        <h2 class="number mb-0">5</h2>
+                                        <!-- Content -->
+                                        <div class="text-white text-center pricing-card d-flex align-items-center rgba-gradient py-3 px-3">
+
+                                            <!--Content-->
+                                            <div class="card-body white-text">
+                                                <h5 class="font-weight-bold mt-3">
+                                                    <%= trans.SUPER_BEST_FRIENDS %>
+                                                </h5>
+
+                                                <!-- Price -->
+                                                <div class="price pt-0">
+                                                    <h2 class="number purple-text-2 mb-0">10</h2>
+                                                </div>
+                                                <ul class="striped white-text">
+                                                    <li>
+                                                        <%- md(trans.SBF_ROLE); %>
+                                                    </li>
+                                                    <li>
+                                                        <%- md(trans.AWESOMO_BETA_2); %>
+                                                    </li>
+                                                    <li>
+                                                        <%- md(trans.EARLIEST_ACCESS_TM); %>
+                                                    </li>
+                                                    <li>
+                                                        <%- md(trans.API_ACCESS); %>
+                                                    </li>
+                                                </ul>
+                                                <a class="btn btn-outline-white btn-rounded">
+                                                    <%= trans.GET_AWESOMO %>
+                                                        <%= trans.PREMIUM %>
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <!--/.Price-->
-                                    <ul class="striped">
-                                        <li>
-                                            <%- md(trans.BF_ROLE); %>
-                                        </li>
-                                        <li>
-                                            <%- md(trans.AWESOMO_BETA); %>
-                                        </li>
-                                        <li>
-                                            <%- md(trans.YOUR_NAME); %>
-                                        </li>
-                                        <li>
-                                            <%- md(trans.LOWER_TIERS); %>
-                                        </li>
-                                    </ul>
-                                    <a class="btn feinwaru white-text btn-rounded">
-                                        <%= trans.BECOME_A_PATRON %>
-                                    </a>
+                                    <!--Card-->
                                 </div>
+                                <!--Grid column-->
+
+                                <!--Grid column-->
+                                <div class="col-lg-4 col-md-12 mb-4">
+                                    <!--Card-->
+                                    <div class="pricing-card naked-card">
+
+                                        <!--Content-->
+                                        <div class="card-body dark-grey-text">
+                                            <h5 class="font-weight-bold">
+                                                <%= trans.BEST_FRIENDS %>
+                                            </h5>
+
+                                            <!-- Price -->
+                                            <div class="price pt-0">
+                                                <h2 class="number mb-0">5</h2>
+                                            </div>
+                                            <!--/.Price-->
+                                            <ul class="striped">
+                                                <li>
+                                                    <%- md(trans.BF_ROLE); %>
+                                                </li>
+                                                <li>
+                                                    <%- md(trans.AWESOMO_BETA); %>
+                                                </li>
+                                                <li>
+                                                    <%- md(trans.YOUR_NAME); %>
+                                                </li>
+                                                <li>
+                                                    <%- md(trans.LOWER_TIERS); %>
+                                                </li>
+                                            </ul>
+                                            <a class="btn feinwaru white-text btn-rounded">
+                                                <%= trans.GET_AWESOMO %>
+                                                    <%= trans.PREMIUM %>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                    <!--Card-->
+                                </div>
+                                <!--Grid column-->
 
                             </div>
-                            <!--Card-->
+                            <!--Grid row-->
+
                         </div>
-                        <!--Grid column-->
+                        <!--/.Panel 1-->
+
+                        <!--Panel 2-->
+                        <div class="tab-pane fade" id="panel2" role="tabpanel">
+                            <br>
+
+                            <div class="row">
+
+                                <!--Grid column-->
+                                <div class="col-lg-4 col-md-12 mb-4">
+                                    <!--Card-->
+                                    <div class="pricing-card naked-card">
+
+                                        <!--Content-->
+                                        <div class="card-body dark-grey-text">
+                                            <h5 class="font-weight-bold mt-3">
+                                                <%= trans.FRIENDS %>
+                                            </h5>
+
+                                            <!-- Price -->
+                                            <div class="pt-3">
+                                                <table width="100%">
+                                                    <col width="40%">
+                                                    <col width="60%">
+                                                    <tr>
+                                                        <td class="text-right">
+                                                            <h2>
+                                                                <b>$1</b>
+                                                            </h2>
+                                                        </td>
+                                                        <td class="text-left">
+                                                            <h2>
+                                                                <span style="font-size: 1.2rem">/ 1
+                                                                    <%= trans.MONTH %>
+                                                                </span>
+                                                            </h2>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-right">
+                                                            <h2>
+                                                                <b>$3</b>
+                                                            </h2>
+                                                        </td>
+                                                        <td class="text-left">
+                                                            <h2>
+                                                                <span style="font-size: 1.2rem">/ 3
+                                                                    <%= trans.MONTHS %>
+                                                                </span>
+                                                            </h2>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-right">
+                                                            <h2>
+                                                                <b>$5</b>
+                                                            </h2>
+                                                        </td>
+                                                        <td class="text-left">
+                                                            <h2>
+                                                                <span style="font-size: 1.2rem">/ 6
+                                                                    <%= trans.MONTHS %>
+                                                                        <span class="badge green">$1 off</span>
+                                                            </h2>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-right">
+                                                            <h2>
+                                                                <b>$10</b>
+                                                            </h2>
+                                                        </td>
+                                                        <td class="text-left">
+                                                            <h2>
+                                                                <span style="font-size: 1.2rem">/ 12
+                                                                    <%= trans.MONTHS %>
+                                                                        <span class="badge green">$2 off</span>
+                                                            </h2>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                            </div>
+                                            <ul class="striped dark-grey-text">
+                                                <li>
+                                                    <%- md(trans.FRIENDS_ROLE); %>
+                                                </li>
+                                                <li>
+                                                    <%- md(trans.CUSTOM_COMMANDS); %>
+                                                </li>
+                                                <li>
+                                                    <%- md(trans.SUBSCRIBER_CHANNEL_ACCESS); %>
+                                                </li>
+                                                <li>
+                                                    <%- md(trans.EARLY_FEATURES); %>
+                                                </li>
+                                            </ul>
+                                            <a class="btn feinwaru white-text btn-rounded">
+                                                <%= trans.GET_AWESOMO %>
+                                                    <%= trans.PREMIUM %>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!--Card-->
+                                </div>
+                                <!--Grid column-->
+
+                                <!--Grid column-->
+                                <div class="col-lg-4 col-md-12 mb-4">
+
+                                    <!-- Card -->
+                                    <div class="card card-image" style="background-image: url('/img/awesomo-card.jpg');">
+
+                                        <!-- Content -->
+                                        <div class="text-white text-center pricing-card d-flex align-items-center rgba-gradient py-3 px-3">
+
+                                            <!--Content-->
+                                            <div class="card-body white-text">
+                                                <h5 class="font-weight-bold mt-3">
+                                                    <%= trans.SUPER_BEST_FRIENDS %>
+                                                </h5>
+
+                                                <!-- Price -->
+                                                <div class="pt-3">
+                                                    <table width="100%">
+                                                        <col width="35%">
+                                                        <col width="65%">
+                                                        <tr>
+                                                            <td class="text-right">
+                                                                <h2>
+                                                                    <b>$10</b>
+                                                                </h2>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <h2>
+                                                                    <span style="font-size: 1.2rem">/ 1
+                                                                        <%= trans.MONTH %>
+                                                                    </span>
+                                                                </h2>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-right">
+                                                                <h2>
+                                                                    <b>$30</b>
+                                                                </h2>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <h2>
+                                                                    <span style="font-size: 1.2rem">/ 3
+                                                                        <%= trans.MONTHS %>
+                                                                    </span>
+                                                                </h2>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-right">
+                                                                <h2>
+                                                                    <b>$50</b>
+                                                                </h2>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <h2>
+                                                                    <span style="font-size: 1.2rem">/ 6
+                                                                        <%= trans.MONTHS %>
+                                                                            <span class="badge green">$10 off</span>
+                                                                </h2>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-right">
+                                                                <h2>
+                                                                    <b>$100</b>
+                                                                </h2>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <h2>
+                                                                    <span style="font-size: 1.2rem">/ 12
+                                                                        <%= trans.MONTHS %>
+                                                                            <span class="badge green">$20 off</span>
+                                                                </h2>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+
+                                                </div>
+                                                <ul class="striped white-text">
+                                                    <li>
+                                                        <%- md(trans.SBF_ROLE); %>
+                                                    </li>
+                                                    <li>
+                                                        <%- md(trans.AWESOMO_BETA_2); %>
+                                                    </li>
+                                                    <li>
+                                                        <%- md(trans.EARLIEST_ACCESS_TM); %>
+                                                    </li>
+                                                    <li>
+                                                        <%- md(trans.API_ACCESS); %>
+                                                    </li>
+                                                </ul>
+                                                <a class="btn btn-outline-white btn-rounded">
+                                                    <%= trans.GET_AWESOMO %>
+                                                        <%= trans.PREMIUM %>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Card-->
+                                </div>
+                                <!--Grid column-->
+
+                                <!--Grid column-->
+                                <div class="col-lg-4 col-md-12 mb-4">
+                                    <!--Card-->
+                                    <div class="pricing-card naked-card">
+
+                                        <!--Content-->
+                                        <div class="card-body dark-grey-text">
+                                            <h5 class="font-weight-bold">
+                                                <%= trans.BEST_FRIENDS %>
+                                            </h5>
+
+                                            <!-- Price -->
+                                            <div class="pt-3">
+                                                <table width="100%">
+                                                    <col width="40%">
+                                                    <col width="60%">
+                                                    <tr>
+                                                        <td class="text-right">
+                                                            <h2>
+                                                                <b>$5</b>
+                                                            </h2>
+                                                        </td>
+                                                        <td class="text-left">
+                                                            <h2>
+                                                                <span style="font-size: 1.2rem">/ 1
+                                                                    <%= trans.MONTH %>
+                                                                </span>
+                                                            </h2>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-right">
+                                                            <h2>
+                                                                <b>$15</b>
+                                                            </h2>
+                                                        </td>
+                                                        <td class="text-left">
+                                                            <h2>
+                                                                <span style="font-size: 1.2rem">/ 3
+                                                                    <%= trans.MONTHS %>
+                                                                </span>
+                                                            </h2>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-right">
+                                                            <h2>
+                                                                <b>$25</b>
+                                                            </h2>
+                                                        </td>
+                                                        <td class="text-left">
+                                                            <h2>
+                                                                <span style="font-size: 1.2rem">/ 6
+                                                                    <%= trans.MONTHS %>
+                                                                        <span class="badge green">$5 off</span>
+                                                            </h2>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-right">
+                                                            <h2>
+                                                                <b>$50</b>
+                                                            </h2>
+                                                        </td>
+                                                        <td class="text-left">
+                                                            <h2>
+                                                                <span style="font-size: 1.2rem">/ 12
+                                                                    <%= trans.MONTHS %>
+                                                                        <span class="badge green">$10 off</span>
+                                                            </h2>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                            </div>
+                                            <!--/.Price-->
+                                            <ul class="striped">
+                                                <li>
+                                                    <%- md(trans.BF_ROLE); %>
+                                                </li>
+                                                <li>
+                                                    <%- md(trans.AWESOMO_BETA); %>
+                                                </li>
+                                                <li>
+                                                    <%- md(trans.YOUR_NAME); %>
+                                                </li>
+                                                <li>
+                                                    <%- md(trans.LOWER_TIERS); %>
+                                                </li>
+                                            </ul>
+                                            <a class="btn feinwaru white-text btn-rounded">
+                                                <%= trans.GET_AWESOMO %>
+                                                    <%= trans.PREMIUM %>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                    <!--Card-->
+                                </div>
+                                <!--Grid column-->
+
+                            </div>
+                            <!--Grid row-->
+
+                        </div>
+                        <!--/.Panel 2-->
 
                     </div>
-                    <!--Grid row-->
+
 
                 </section>
                 <!--/Section: Pricing v.5-->
@@ -669,6 +989,13 @@
                         // Material Select Initialization
                         $(document).ready(function () {
                             $('.mdb-select').material_select();
+                        });
+
+                        $("#feature1").mouseenter(function () {
+                            $("#featureimg").fadeOut(100, () => {
+                                $("#featureimg").attr("src", "img/logo.png");
+                                $("#featureimg").fadeIn(100)
+                            })
                         });
                     </script>
 
