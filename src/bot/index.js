@@ -9,8 +9,10 @@ const mongoose = require("mongoose");
 //const sandbox = require("./sandbox");
 const Logger = require("../logger");
 const schemas = require("../db");
+const Sandbox = require("./sandbox");
 
 const botLogger = new Logger();
+const botSandbox = new Sandbox({}, 2000);
 
 let config;
 try {
@@ -257,7 +259,7 @@ client.on("message", async message => {
                 prefix: "<<",
                 log_channel_id: null,
                 log_events: [],
-                scripts: [{ object_id: mongoose.Types.ObjectId("5b2e66d914016b34d0403a45"), match_override: "test" }]
+                scripts: [{ object_id: mongoose.Types.ObjectId("5b2ffb6734835a4e98be4c69") }]
             });
 
             await guild.save().catch(err => {
@@ -493,7 +495,14 @@ client.on("message", async message => {
             }
         } else {
 
-            message.reply(`error trying to call non local script: '${script.name}', non local scripts are currently unsupported`);
+            try {
+
+                botSandbox.exec(script.code, { message });
+            } catch(err) {
+
+                message.reply(err);
+            }
+
             break;
         }
     }
