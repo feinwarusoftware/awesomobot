@@ -19,4 +19,5 @@ db.on("open", () => {
 });
 
 // do stuff
-require("./bot");
+//require("./bot");
+require("./api");
