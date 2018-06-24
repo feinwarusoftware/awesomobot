@@ -32,11 +32,11 @@ class Sandbox {
 
         let script = new vm.Script(out.code);
 
-        sandbox = { ...JSON.parse(JSON.stringify(this.base)), ...sandbox };
+        let context = vm.createContext({ ...JSON.parse(JSON.stringify(this.base)), ...sandbox });
 
         try {
 
-            script.runInThisContext(sandbox, { timeout: this.timeout });
+            script.runInContext(context, { timeout: this.timeout });
         } catch(err) {
 
             sbLogger.fatalError(`error running sandbox code: ${err}`);

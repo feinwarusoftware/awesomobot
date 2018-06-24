@@ -500,7 +500,7 @@ client.on("message", async message => {
                 botSandbox.exec(script.code, { message });
             } catch(err) {
 
-                message.reply(err);
+                message.reply(`error running script: ${err}`);
             }
 
             break;
