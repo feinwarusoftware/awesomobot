@@ -7,6 +7,7 @@ const stream = require("stream");
 
 const express = require("express");
 const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
 
 const Logger = require("../logger");
 const routes = require("./routes");
@@ -32,6 +33,9 @@ app.use(morgan(config.env === "dev" ? "dev" : "combined", { stream: config.env =
         next();
     }
 }) }));
+
+app.use(express.json());
+app.use(cookieParser());
 
 app.use(routes);
 

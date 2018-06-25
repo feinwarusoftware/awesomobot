@@ -1,8 +1,7 @@
 "use strict";
 
 class Command {
-    constructor(author, name, description, type, permissions, match, match_type, assets, cb) {
-        this.author = author;
+    constructor(name, description, type, permissions, match, match_type, assets, cb) {
         this.name = name;
         this.description = description;
         this.type = type;

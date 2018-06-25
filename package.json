@@ -18,8 +18,11 @@
   "homepage": "https://github.com/feinwarusoftware/awesomobot#readme",
   "dependencies": {
     "babel-core": "^6.26.3",
+    "bcrypt": "^2.0.1",
+    "cookie-parser": "^1.4.3",
     "discord.js": "^11.3.2",
     "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.1.6",
     "morgan": "^1.9.0"
   }

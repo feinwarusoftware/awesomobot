@@ -25,7 +25,7 @@ router.get("/", (req, res) => {
 });
 
 // Data search.
-router.route("/logs").get((req, res) => {
+router.get("/logs", (req, res) => {
 
     // Api key checking.
     /*
@@ -72,7 +72,7 @@ router.route("/logs").get((req, res) => {
         });
 });
 
-router.route("/scripts").get((req, res) => {
+router.get("/scripts", (req, res) => {
 
     const limitDef = 10;
     const limitMax = 25;
@@ -126,6 +126,7 @@ router.route("/scripts").get((req, res) => {
         });
 });
 
+/*
 // Data manipulation.
 router.route("/guilds/:discord_id").get((req, res) => {
 
@@ -192,7 +193,7 @@ router.route("/scripts/:object_id").get((req, res) => {
         });
 
 }).post((req, res) => {
-    
+
     // needs api key
     // admin
     // user
@@ -217,7 +218,83 @@ router.route("/scripts/:object_id").get((req, res) => {
 
 });
 
+router.post("/users", (req, res) => {
+
+
+});
+router.post("/users", async (req, res) => {
+
+    // check type of token
+    // - dev token
+    // - user token
+
+    // if dev token - verify - allow all access
+
+    // if user token - fetch user schema
+
+    const token = req.headers["xxx-access-token"] === undefined ? null : req.headers["xxx-access-token"];
+    if (token === null || token !== config.api_token) {
+
+        res.json({ err: 403 });
+        return;
+    }
+    
+    const discord_id = req.body.discord_id === undefined ? null : req.body.discord_id;
+    if (discord_id === null) {
+
+        res.json({ err: "field 'discord_id' is required" });
+        return;
+    }
+
+    const api_token = req.body.api_token === undefined ? null : mongoose.Types.ObjectId(req.body.api_token);
+    const scripts = req.body.scripts === undefined ? [] : req.body.scripts.map(e => mongoose.Types.ObjectId(e));
+
+    if (scripts.length > 0) {
+
+        const status = await schemas.ScriptSchema.find({ _id: { $in: scripts } }).then(docs => {
+
+            if (docs.length !== scripts.length) {
+
+                res.json({ err: "1 or more specified scripts doesnt exist" });
+                return -1;
+            }
+            return 0;
+        }).catch(err => {
+    
+            res.json({ err });
+            return -1;
+        });
+        if (status === -1) {
+            return;
+        }
+    }
+
+    const user = new schemas.UserSchema({
+        discord_id,
+        api_token,
+        scripts
+    });
+
+    user
+        .save()
+        .then(doc => {
+
+            res.json({ message: "posted user successfully" });
+        })
+        .catch(err => {
+
+            res.json({ err });
+        });
+
+});
 router.route("/users/:discord_id").get((req, res) => {
+
+    const token = req.headers["xxx-access-token"] === undefined ? null : req.headers["xxx-access-token"];
+    if (token === null || token !== config.api_token) {
+
+        res.json({ err: 403 });
+        return;
+    }
 
     schemas.UserSchema
         .find({
@@ -236,29 +313,125 @@ router.route("/users/:discord_id").get((req, res) => {
             res.json({ err });
         });
 
-}).post((req, res) => {
+}).put(async (req, res) => {
     
-    // needs api key
-    // admin
+    const token = req.headers["xxx-access-token"] === undefined ? null : req.headers["xxx-access-token"];
+    if (token === null || token !== config.api_token) {
 
-}).put((req, res) => {
-    
-    // needs api key
-    // admin
-    // user
+        res.json({ err: 403 });
+        return;
+    }
 
-}).patch((req, res) => {
+    const api_token = req.body.api_token === undefined ? null : mongoose.Types.ObjectId(req.body.api_token);
+    const scripts = req.body.scripts === undefined ? [] : req.body.scripts.map(e => mongoose.Types.ObjectId(e));
+
+    if (scripts.length > 0) {
+
+        const status = await schemas.ScriptSchema.find({ _id: { $in: scripts } }).then(docs => {
+
+            if (docs.length !== scripts.length) {
+
+                res.json({ err: "1 or more specified scripts doesnt exist" });
+                return -1;
+            }
+            return 0;
+        }).catch(err => {
     
-    // needs api key
-    // admin
-    // user
+            res.json({ err });
+            return -1;
+        });
+        if (status === -1) {
+            return;
+        }
+    }
+
+    schemas.UserSchema
+        .updateOne({
+            discord_id: req.params.discord_id
+        }, {
+            api_token,
+            scripts
+        })
+        .then(raw => {
+
+            res.json({ message: "updated user successfully" });
+        })
+        .catch(err => {
+
+            res.json({ err });
+        });
+
+}).patch(async (req, res) => {
+    
+    const token = req.headers["xxx-access-token"] === undefined ? null : req.headers["xxx-access-token"];
+    if (token === null || token !== config.api_token) {
+
+        res.json({ err: 403 });
+        return;
+    }
+
+    const api_token = req.body.api_token === undefined ? null : mongoose.Types.ObjectId(req.body.api_token);
+    const scripts = req.body.scripts === undefined ? null : req.body.scripts.map(e => mongoose.Types.ObjectId(e));
+
+    if (scripts.length > 0) {
+
+        const status = await schemas.ScriptSchema.find({ _id: { $in: scripts } }).then(docs => {
+
+            if (docs.length !== scripts.length) {
+
+                res.json({ err: "1 or more specified scripts doesnt exist" });
+                return -1;
+            }
+            return 0;
+        }).catch(err => {
+    
+            res.json({ err });
+            return -1;
+        });
+        if (status === -1) {
+            return;
+        }
+    }
+
+    schemas.UserSchema
+        .updateOne({
+            discord_id: req.params.discord_id
+        }, {
+            ...(api_token === null ? {} : { api_token }),
+            ...(scripts === null ? {} : { scripts })
+        })
+        .then(raw => {
+
+            res.json({ message: "patched user successfully" });
+        })
+        .catch(err => {
+
+            res.json({ err });
+        });
 
 }).delete((req, res) => {
     
-    // needs api key
-    // admin
-    // user
+    const token = req.headers["xxx-access-token"] === undefined ? null : req.headers["xxx-access-token"];
+    if (token === null || token !== config.api_token) {
+
+        res.json({ err: 403 });
+        return;
+    }
+
+    schemas.UserSchema
+        .deleteOne({
+            discord_id: req.params.discord_id
+        })
+        .then(() => {
+
+            res.json({ message: "deleted user successfully" });
+        })
+        .catch(err => {
+
+            res.json({ err });
+        });
 
 });
+*/
 
 module.exports = router;

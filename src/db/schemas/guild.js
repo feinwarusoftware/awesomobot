@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 const GuildSchema = new Schema({
 
     //  _id: ObjectId,
-    discord_id: { type: String, required: true, unique: true },
+    discord_id: { type: String, required: true, unique: true, maxlength: 18, minlength: 18 },
     prefix: { type: String, default: "<<" },
     log_channel_id: { type: String, default: null },
     log_events: [ String ],
