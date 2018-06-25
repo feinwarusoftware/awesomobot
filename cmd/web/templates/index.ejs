@@ -43,6 +43,8 @@
                 background: rgba(255, 89, 79, 1) !important;
             }
         }
+
+        .anchor { padding-top: 50px; }
     </style>
 
 </head>
@@ -62,10 +64,10 @@
                         <!--Grid row-->
                         <div class="row">
                             <!--Grid column-->
-                            <div class="col-md-7 white-text text-center text-md-center mt-lg-5 mb-5 wow fadeInLeft pt-4" data-wow-delay="0.3s">
+                            <div class="col-md-7 white-text text-center text-md-center mt-lg-5 mb-5 wow fadeInLeft pt-4 smooth-scroll" data-wow-delay="0.3s">
                                 <img class="img-fluid mt-lg-5 pt-5" src="/img/headerlogo.png">
                                 <br>
-                                <a class="btn btn-outline-white btn-rounded">
+                                <a href="#learnmore" class="btn btn-outline-white btn-rounded">
                                     <%= trans.LEARN_MORE %>
                                 </a>
                                 <a class="btn btn-white btn-rounded btn_login_discord">
@@ -91,7 +93,7 @@
     <!-- Main content -->
     <main>
 
-        <div class="container">
+        <div id="learnmore" class="container anchor">
 
 
             <!-- Section: Features v.4 -->
