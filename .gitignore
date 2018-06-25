@@ -66,6 +66,5 @@ typings/
 # Serverless directories
 .serverless
 
+src/web/config.jsonc
 config.json
-
-cmd/web/config.json
