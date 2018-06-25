@@ -58,8 +58,10 @@ router.route("/logs").get((req, res) => {
             ...(type === null ? {} : { type })
         })
         .skip(page * limit).limit(limit)
-        .select("-_id")
-        .select("-__v")
+        .select({
+            _id: 0,
+            __v: 0
+        })
         .then(docs => {
 
             res.json(docs);
@@ -105,7 +107,10 @@ router.route("/scripts").get((req, res) => {
         })
         .skip(page * limit)
         .limit(limit)
-        .select("-__v")
+        .select({
+            _id: 0,
+            __v: 0
+        })
         .then(docs => {
 
             docs = docs.filter(doc => {
@@ -127,6 +132,11 @@ router.route("/guilds/:discord_id").get((req, res) => {
     schemas.GuildSchema
         .find({
             discord_id: req.params.discord_id
+        })
+        .select({
+            _id: 0,
+            __v: 0,
+            "scripts._id": 0
         })
         .then(doc => {
 
@@ -168,6 +178,10 @@ router.route("/scripts/:object_id").get((req, res) => {
         .find({
             _id: mongoose.Types.ObjectId(req.params.object_id)
         })
+        .select({
+            _id: 0,
+            __v: 0
+        })
         .then(doc => {
 
             res.json(doc);
@@ -208,6 +222,10 @@ router.route("/users/:discord_id").get((req, res) => {
     schemas.UserSchema
         .find({
             discord_id: req.params.discord_id
+        })
+        .select({
+            _id: 0,
+            __v: 0
         })
         .then(doc => {
 
