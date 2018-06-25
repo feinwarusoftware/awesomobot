@@ -3,10 +3,12 @@
 const fs = require("fs");
 const path = require("path");
 
+const mongoose = require("mongoose");
 const express = require("express");
-const router = express.Router();
 
 const schemas = require("../../db");
+
+const router = express.Router();
 
 let config;
 try {
@@ -103,7 +105,6 @@ router.route("/scripts").get((req, res) => {
         })
         .skip(page * limit)
         .limit(limit)
-        .select("-_id")
         .select("-__v")
         .then(docs => {
 
@@ -123,52 +124,122 @@ router.route("/scripts").get((req, res) => {
 // Data manipulation.
 router.route("/guilds/:discord_id").get((req, res) => {
 
+    schemas.GuildSchema
+        .find({
+            discord_id: req.params.discord_id
+        })
+        .then(doc => {
+
+            res.json(doc);
+        })
+        .catch(err => {
+
+            res.json({ err });
+        });
 
 }).post((req, res) => {
     
+    // needs api key
+    // admin
 
 }).put((req, res) => {
     
+    // needs api key
+    // admin
+    // mod
 
 }).patch((req, res) => {
     
+    // needs api key
+    // admin
+    // mod
 
 }).delete((req, res) => {
     
+    // needs api key
+    // admin
+    // mod
 
 });
 
 router.route("/scripts/:object_id").get((req, res) => {
 
+    schemas.ScriptSchema
+        .find({
+            _id: mongoose.Types.ObjectId(req.params.object_id)
+        })
+        .then(doc => {
+
+            res.json(doc);
+        })
+        .catch(err => {
+            
+            res.json({ err });
+        });
 
 }).post((req, res) => {
     
+    // needs api key
+    // admin
+    // user
 
 }).put((req, res) => {
-    
+
+    // needs api key
+    // admin
+    // user
 
 }).patch((req, res) => {
     
+    // needs api key
+    // admin
+    // user
 
 }).delete((req, res) => {
     
+    // needs api key
+    // admin
+    // user
 
 });
 
 router.route("/users/:discord_id").get((req, res) => {
 
+    schemas.UserSchema
+        .find({
+            discord_id: req.params.discord_id
+        })
+        .then(doc => {
+
+            res.json(doc);
+        })
+        .catch(err => {
+
+            res.json({ err });
+        });
 
 }).post((req, res) => {
     
+    // needs api key
+    // admin
 
 }).put((req, res) => {
     
+    // needs api key
+    // admin
+    // user
 
 }).patch((req, res) => {
     
+    // needs api key
+    // admin
+    // user
 
 }).delete((req, res) => {
     
+    // needs api key
+    // admin
+    // user
 
 });
 
