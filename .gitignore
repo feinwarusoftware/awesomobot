@@ -71,7 +71,3 @@ config.json
 
 src/web/config.jsonc
 config.json
-
-src/bot/
-
-src/
