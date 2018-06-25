@@ -62,3 +62,16 @@ typings/
 .env
 
 config.json
+
+# vuepress build output
+.vuepress/dist
+
+# Serverless directories
+.serverless
+
+src/web/config.jsonc
+config.json
+
+src/bot/
+
+src/
