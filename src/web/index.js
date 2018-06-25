@@ -8,6 +8,8 @@ const stream = require("stream");
 const express = require("express");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+const i18n = require("i18n-express");
+const ejs = require("ejs");
 
 const Logger = require("../logger");
 const routes = require("./routes");
@@ -34,8 +36,21 @@ app.use(morgan(config.env === "dev" ? "dev" : "combined", { stream: config.env =
     }
 }) }));
 
+app.set("views", path.join(__dirname, "templates"));
+app.set("view engine", "ejs");
+app.engine("ejs", ejs.renderFile);
+
+app.use(express.static(path.join(__dirname, "static")));
+
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(i18n({
+    translationsPath: path.join(__dirname, 'translations'),
+    siteLangs: ["en","ie","es","pt"],
+    paramLangName: "lang",
+    textsVarName: 'trans'
+}));
 
 app.use(routes);
 
@@ -62,10 +77,10 @@ server.on("error", err => {
 
     switch(err.code) {
         case "EACCES":
-            apiLogger.fatalError(`Port ${config.api_port} requires elevated privileges`);
+            apiLogger.fatalError(`Port ${config.port} requires elevated privileges`);
             break;
         case "EADDRINUSE":
-            apiLogger.fatalError(`Port ${config.api_port} is already in use`);
+            apiLogger.fatalError(`Port ${config.port} is already in use`);
             break;
         default:
             apiLogger.fatalError(`Could not start http server: ${err}`);
@@ -73,7 +88,7 @@ server.on("error", err => {
 });
 
 server.on("listening", () => {
-    apiLogger.log("stdout", `Magic happens on port ${config.api_port}`);
+    apiLogger.log("stdout", `Magic happens on port ${config.port}`);
 });
 
-server.listen(config.api_port);
+server.listen(config.port);
