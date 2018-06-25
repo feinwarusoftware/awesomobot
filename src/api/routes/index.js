@@ -25,6 +25,7 @@ router.get("/", (req, res) => {
 // Data search.
 router.route("/logs").get((req, res) => {
 
+    // Api key checking.
     /*
     if (req.query.key === undefined || req.query.key !== config.api_key) {
 
@@ -55,6 +56,8 @@ router.route("/logs").get((req, res) => {
             ...(type === null ? {} : { type })
         })
         .skip(page * limit).limit(limit)
+        .select("-_id")
+        .select("-__v")
         .then(docs => {
 
             res.json(docs);
@@ -100,9 +103,12 @@ router.route("/scripts").get((req, res) => {
         })
         .skip(page * limit)
         .limit(limit)
+        .select("-_id")
+        .select("-__v")
         .then(docs => {
 
             docs = docs.filter(doc => {
+
                 return permissions === null ? true : doc.permissions & permissions;
             });
 
