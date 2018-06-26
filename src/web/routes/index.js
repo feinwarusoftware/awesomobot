@@ -12,6 +12,7 @@ const jwt = require("jsonwebtoken");
 const schemas = require("../../db");
 const Logger = require("../../logger");
 const api = require("./api");
+const { fetchSession, authLogin } = require("../middlewares");
 
 const apiLogger = new Logger();
 const router = express.Router();
@@ -28,94 +29,12 @@ const getUserData = token => {
             }
         }).then(res => {
 
-            res.data.time = Date.now();
             resolve(res.data);
         }).catch(err => {
 
             reject(err);
         });
     });
-}
-
-// Promise wrapper for jwt.verify().
-const jwtVerify = (token, secret) => {
-    return new Promise((resolve, reject) => {
-
-        jwt.verify(token, secret, (err, decoded) => {
-            if (err !== null && err !== undefined) {
-
-                return reject(err);
-            }
-
-            resolve(decoded);
-        });
-    });
-}
-
-// Ensures req.cookies is defined.
-const defineCookies = (req, res, next) => {
-    if (req.cookies === null || req.cookies === undefined) {
-        req.cookies = {};
-    }
-    next();
-}
-
-// Ensures req.session is defined or null.
-const nullSession = (req, res, next) => {
-    if (req.session === null || req.session === undefined) {
-        req.session = null;
-    }
-    next();
-}
-
-// Ensire req.login is defined or null.
-const nullLogin = (req, res, next) => {
-    if (req.login === null || req.login === undefined) {
-        req.login = null;
-    }
-    next();
-}
-
-const fetchSession = (req, res, next) => {
-    if (req.cookies === undefined || req.cookies.session === undefined) {
-        return next();
-    }
-
-    jwtVerify(req.cookies.session, config.rawrxd).then(decoded => {
-
-        schemas.SessionSchema.findOne({ _id: decoded.id }).then(doc => {
-            if (doc === null || doc === undefined) {
-
-                return next();
-            }
-
-            req.session = doc;
-            next();
-
-        }).catch(err => {
-
-            res.json({ code: 401, err });
-        });
-    }).catch(err => {
-
-        res.json({ code: 401, err });
-    });
-}
-
-const fetchLogin = (req, res, next) => {
-    if (req.session === null || req.session.discord === null) {
-        return next();
-    }
-
-    req.login = req.session.discord;
-    next();
-}
-
-const authLogin = (req, res, next) => {
-    if (req.login === null) {
-        return res.json({ err: 403 });
-    }
-    next();
 }
 
 let config;
@@ -129,10 +48,11 @@ try {
 
 router.use("/api/v3", api);
 
-router.get("/auth/discord", defineCookies, nullSession, nullLogin, fetchSession, fetchLogin, (req, res) => {
+router.get("/auth/discord", fetchSession, (req, res) => {
 
-    if (req.login !== null) {
-        
+    if (req.session !== undefined && req.session.discord.id !== null) {
+
+        // Already logged in.
         return res.redirect("/dashboard");
     }
 
@@ -150,15 +70,18 @@ router.get("/auth/discord", defineCookies, nullSession, nullLogin, fetchSession,
 
     }).catch(err => {
 
-        res.json({ code: 401, err });
+        res.json({ status: 401, message: "Unauthorized", error: err });
     });
 });
 
-router.get("/auth/discord/callback", defineCookies, nullSession, nullLogin, fetchSession, (req, res) => {
+router.get("/auth/discord/callback", fetchSession, (req, res) => {
 
-    if (req.query.state !== req.session.nonce) {
-        res.json({ code: 401 });
-        return;
+    if (req.session === undefined || req.session.nonce === null) {
+        return res.json({ status: 401, message: "Unauthorized", error: "Error fatching session" });
+    }
+
+    if (req.session.nonce !== req.query.state) {
+        return res.json({ status: 401, message: "Unauthorized", error: "Login state was incorrect" });
     }
 
     axios({
@@ -167,45 +90,61 @@ router.get("/auth/discord/callback", defineCookies, nullSession, nullLogin, fetc
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         }
-    }).then(discord => {
+    }).then(tokenres => {
 
-        req.session.discord.access_token = discord.data.access_token;
-        req.session.discord.token_type = discord.data.token_type;
-        req.session.discord.expires_in = discord.data.expires_in;
-        req.session.discord.refresh_token = discord.data.refresh_token;
-        req.session.discord.scope = discord.data.scope;
+        axios({
+            method: "get",
+            url: "https://discordapp.com/api/v6/users/@me",
+            headers: {
+                "Authorization": `Bearer ${tokenres.data.access_token}`
+            }
+        }).then(userres => {
 
-        req.session.save().then(doc => {
+            req.session.discord.id = userres.data.id;
+            req.session.discord.access_token = tokenres.data.access_token;
+            req.session.discord.token_type = tokenres.data.token_type;
+            req.session.discord.expires_in = tokenres.data.expires_in;
+            req.session.discord.refresh_token = tokenres.data.refresh_token;
+            req.session.discord.scope = tokenres.data.scope;
 
-            res.redirect("/dashboard");
+            req.session.save().then(doc => {
+
+                res.redirect("/dashboard");
+            }).catch(err => {
+
+                res.json({ status: 401, message: "Unauthorized", error: err });
+            });
+
         }).catch(err => {
 
-            res.json({ code: 401, err });
+            res.json({ status: 401, message: "Unauthorized", error: err });
         });
     }).catch(err => {
 
-        res.json({ code: 401, err });
+        res.json({ status: 401, message: "Unauthorized", error: err });
     });
 });
 
-router.get("/", defineCookies, nullSession, nullLogin, fetchSession, fetchLogin, async (req, res, next) => {
+router.get("/", fetchSession, async (req, res, next) => {
 
     let user = null;
 
-    if (req.login !== null) {
+    if (req.session !== undefined && req.session.discord.id !== null) {
 
-        user = await getUserData(req.login.access_token);
-        if (user === null) {
-            return;
-        }
+        user = await getUserData(req.session.discord.access_token);
     }
 
     res.render("index", { md: text => { return converter.makeHtml(text); }, user });
 });
 
-router.get("/dashboard", defineCookies, nullSession, nullLogin, fetchSession, fetchLogin, authLogin, (req, res, next) => {
+router.get("/dashboard", fetchSession, authLogin, (req, res, next) => {
 
     res.send("this is the shitty commands page lol");
+});
+
+router.get("/token", fetchSession, authLogin, (req, res) => {
+    
+    res.json({ token: req.cookies.session });
 });
 
 /*

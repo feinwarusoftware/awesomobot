@@ -7,13 +7,14 @@ const Schema = mongoose.Schema;
 const SessionSchema = new Schema({
 
     //  _id: ObjectId,
-    nonce: String,
+    nonce: { type: String, default: null },
     discord: {
-        access_token: String,
-        token_type: String,
-        expires_in: String,
-        refresh_token: String,
-        scope: String,
+        id: { type: String, default: null },
+        access_token: { type: String, default: null },
+        token_type: { type: String, default: null },
+        expires_in: { type: String, default: null },
+        refresh_token: { type: String, default: null },
+        scope: { type: String, default: null },
     }
 });
 
