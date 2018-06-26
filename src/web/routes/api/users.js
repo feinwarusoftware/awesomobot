@@ -16,55 +16,68 @@ router.post("/", fetchSession, authLogin, (req, res) => {
 
     // Admin only.
 
-    schemas.UserSchema.findOne({ discord_id: req.session.discord.id }).then(async doc => {
-        if (doc === null) {
-            return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
-        }
+    schemas.UserSchema
+        .findOne({
+            discord_id: req.session.discord.id
+        })
+        .then(async doc => {
+            if (doc === null) {
+                return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
+            }
 
-        if (doc.admin === false) {
-            return res.json({ status: 403, message: "Forbidden", error: "Admin only path" });
-        }
+            if (doc.admin === false) {
+                return res.json({ status: 403, message: "Forbidden", error: "Admin only path" });
+            }
 
-        const discord_id = req.body.discord_id === undefined ? null : req.body.discord_id;
-        const admin = req.body.admin === undefined ? null : req.body.admin;
-        const scripts = req.body.scripts === undefined ? null : req.body.scripts;
+            const discord_id = req.body.discord_id === undefined ? null : req.body.discord_id;
+            const admin = req.body.admin === undefined ? null : req.body.admin;
+            const scripts = req.body.scripts === undefined ? null : req.body.scripts;
 
-        // Make sure script ids are valid.
-        if (scripts instanceof Array && scripts.length > 0) {
+            // Make sure script ids are valid.
+            if (scripts instanceof Array && scripts.length > 0) {
 
-            const status = await schemas.ScriptSchema.find({ _id: { $in: scripts } }).then(docs => {
-                if (docs.length !== scripts.length) {
-                    return -1;
+                const status = await schemas.ScriptSchema
+                    .find({
+                        _id: { $in: scripts }
+                    })
+                    .then(docs => {
+                        if (docs.length !== scripts.length) {
+                            return -1;
+                        }
+
+                        return 0;
+                    })
+                    .catch(err => {
+
+                        return err;
+                    });
+
+                if (status !== 0) {
+                    return res.json({ status: 500, message: "Internal Server Error", error: status === -1 ? "Could not find script(s) specified" : status });
                 }
+            }
 
-                return 0;
-            }).catch(err => {
-
-                return err;
+            const user = new schemas.UserSchema({
+                ...(discord_id === null ? {} : { discord_id }),
+                ...(admin === null ? {} : { admin }),
+                ...(scripts === null ? {} : { scripts })
             });
 
-            if (status !== 0) {
-                return res.json({ status: 500, message: "Internal Server Error", error: status === -1 ? "Could not find script(s) specified" : status });
-            }
-        }
+            user
+                .save()
+                .then(doc => {
 
-        const user = new schemas.UserSchema({
-            ...(discord_id === null ? {} : { discord_id }),
-            ...(admin === null ? {} : { admin }),
-            ...(scripts === null ? {} : { scripts })
-        });
+                    res.json({ status: 200, message: "OK", error: null });
+                })
+                .catch(err => {
 
-        user.save().then(doc => {
-
-            res.json({ status: 200, message: "OK", error: null });
-        }).catch(err => {
+                    res.json({ status: 500, message: "Internal Server Error", error: err });
+                });
+        })
+        .catch(err => {
 
             res.json({ status: 500, message: "Internal Server Error", error: err });
         });
-    }).catch(err => {
-
-        res.json({ status: 500, message: "Internal Server Error", error: err });
-    });
 });
 
 router.get("/@me", fetchSession, authLogin, (req, res) => {
@@ -101,40 +114,50 @@ router.route("/:discord_id").get(fetchSession, authLogin, (req, res) => {
 
     // Admin, user (limited, if discord_id === user.id).
 
-    schemas.UserSchema.findOne({ discord_id: req.session.discord.id }).then(userdoc => {
-        if (userdoc === null) {
-            return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
-        }
-
-        if (userdoc.admin === false && req.session.discord.id !== req.params.discord_id) {
-            return res.json({ status: 403, message: "Forbidden", error: "Admin only use" });
-        }
-
-        schemas.UserSchema.findOne({ discord_id: req.params.discord_id }).then(querydoc => {
-            if (querydoc === null) {
-                return res.json({ status: 404, message: "Not Found", error: "User doc not found" });
+    schemas.UserSchema
+        .findOne({
+            discord_id: req.session.discord.id
+        })
+        .then(userdoc => {
+            if (userdoc === null) {
+                return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
             }
 
-            const resdoc = querydoc.toObject();
-
-            if (userdoc.admin === false) {
-
-                delete resdoc._id;
-                delete resdoc.__v;
-                delete resdoc.admin;
+            if (userdoc.admin === false && req.session.discord.id !== req.params.discord_id) {
+                return res.json({ status: 403, message: "Forbidden", error: "Admin only use" });
             }
 
-            res.json(resdoc);
+            schemas.UserSchema
+                .findOne({
+                    discord_id: req.params.discord_id
+                })
+                .then(querydoc => {
+                    if (querydoc === null) {
+                        return res.json({ status: 404, message: "Not Found", error: "User doc not found" });
+                    }
 
-        }).catch(err => {
+                    const resdoc = querydoc.toObject();
+
+                    if (userdoc.admin === false) {
+
+                        delete resdoc._id;
+                        delete resdoc.__v;
+                        delete resdoc.admin;
+                    }
+
+                    res.json(resdoc);
+
+                })
+                .catch(err => {
+
+                    res.json({ status: 500, message: "Internal Server Error", error: err });
+                });
+
+        })
+        .catch(err => {
 
             res.json({ status: 500, message: "Internal Server Error", error: err });
         });
-
-    }).catch(err => {
-
-        res.json({ status: 500, message: "Internal Server Error", error: err });
-    });
 
 }).put(fetchSession, authLogin, (req, res) => {
     
@@ -308,29 +331,39 @@ router.route("/:discord_id").get(fetchSession, authLogin, (req, res) => {
     
     // Admin only.
 
-    schemas.UserSchema.findOne({ discord_id: req.session.discord.id }).then(doc => {
-        if (doc === null) {
-            return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
-        }
-
-        if (doc.admin === false) {
-            return res.json({ status: 403, message: "Forbidden", error: "Admin only path" });
-        }
-
-        schemas.UserSchema.findOneAndRemove({ discord_id: req.params.discord_id }).then(doc => {
+    schemas.UserSchema
+        .findOne({
+            discord_id: req.session.discord.id
+        })
+        .then(doc => {
             if (doc === null) {
-                return res.json({ status: 404, message: "Not Found", error: "Could not find the doc that youre trying to remove" });
+                return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
             }
 
-            res.json({ status: 200, message: "OK", error: null });
-        }).catch(err => {
+            if (doc.admin === false) {
+                return res.json({ status: 403, message: "Forbidden", error: "Admin only path" });
+            }
+
+            schemas.UserSchema
+                .findOneAndRemove({
+                    discord_id: req.params.discord_id
+                })
+                .then(doc => {
+                    if (doc === null) {
+                        return res.json({ status: 404, message: "Not Found", error: "Could not find the doc that youre trying to remove" });
+                    }
+
+                    res.json({ status: 200, message: "OK", error: null });
+                })
+                .catch(err => {
+
+                    res.json({ status: 500, message: "Internal Server Error", error: err });
+                });
+        })
+        .catch(err => {
 
             res.json({ status: 500, message: "Internal Server Error", error: err });
         });
-    }).catch(err => {
-
-        res.json({ status: 500, message: "Internal Server Error", error: err });
-    });
 
 });
 
