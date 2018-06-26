@@ -165,7 +165,7 @@ const loadCommands = async () => {
     return commands;
 }
 
-let commands = config.env === "dev" ? null : loadCommands();
+let commands = loadCommands();
 
 const client = new discord.Client();
 client.on("channelCreate", channel => {
@@ -250,6 +250,10 @@ client.on("message", async message => {
     // fetch code (local vs db)
     // run code appropriately
 
+    if (client.user.id === message.author.id) {
+        return;
+    }
+
     const guildDoc = await schemas.GuildSchema.findOne({ discord_id: message.guild.id }).then(async doc => {
 
         if (doc === null) {
@@ -301,7 +305,55 @@ client.on("message", async message => {
         scripts = [...scripts, ...devScripts];
     }
 
-    for (let script of scripts) {
+    const commands = config.env === "dev" ? await loadCommands() : await commands;
+
+    scripts.sort((a, b) => {
+
+        let na, nb;
+
+        if (a.local === false) {
+
+            na = Number.MAX_SAFE_INTEGER;
+        } else {
+
+            const match = commands.find(e => {
+                return e.name === a.name;
+            });
+
+            if (match === undefined) {
+
+                na = match.order;
+            } else {
+
+                na = Number.MAX_SAFE_INTEGER;
+            }
+        }
+
+        if (b.local === false) {
+
+            nb = Number.MAX_SAFE_INTEGER;
+        } else {
+
+            const match = commands.find(e => {
+                return e.name === b.name;
+            });
+
+            if (match === undefined) {
+
+                nb = match.order;
+            } else {
+
+                nb = Number.MAX_SAFE_INTEGER;
+            }
+        }
+
+        return na - nb;
+    });
+
+    sloop: for (let i = 0; i < scripts.length; i++) {
+
+        // Keep array order.
+        const script = scripts[i];
 
         const guildOverrides = guildDoc.scripts.find(e => {
             return e.object_id.equals(script._id);
@@ -478,8 +530,9 @@ client.on("message", async message => {
         // local? - fixpls
         if (script.local === true) {
 
-            // find matching local command
-            for (let command of (config.env === "dev" ? await loadCommands() : await commands)) {
+            // find matching local command.
+            // Normal for loop used as for of does not preserve the array order.
+            for (let command of commands) {
 
                 if (script.name === command.name) {
 
@@ -490,9 +543,13 @@ client.on("message", async message => {
 
                         botLogger.error(`error running local command '${command.name}': ${err}`);
                     }
-                    break;
+
+                    if (command.passthrough === false) {
+                        break sloop;
+                    }
                 }
             }
+
         } else {
 
             try {
