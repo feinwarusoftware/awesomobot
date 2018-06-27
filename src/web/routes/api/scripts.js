@@ -413,58 +413,99 @@ router.route("/:object_id").get(fetchSession, authLogin, (req, res) => {
                 return res.json({ status: 403, message: "Forbidden", error: "Admin only use" });
             }
 
-            schemas.ScriptSchema
-                .findOneAndRemove({
-                    _id: req.params.object_id
+            schemas.UserSchema
+                .findOne({
+                    scripts: req.params.object_id
                 })
-                .then(scriptdoc => {
-                    if (scriptdoc === null) {
+                .then(quserdoc => {
+                    if (quserdoc === null) {
+
                         return res.json({ status: 404, message: "Not Found", error: "Could not find the doc that youre trying to remove" });
                     }
 
-                    schemas.GuildSchema
-                        .find({
-                            scripts: { $elemMatch: { object_id: req.params.object_id } }
-                        })
-                        .then(guilddocs => {
+                    let found = false;
+                    for (let i = 0; i < quserdoc.scripts.length; i++) {
+                        if (quserdoc.scripts[i].equals(mongoose.Types.ObjectId(req.params.object_id))) {
 
-                            const promises = [];
+                            found = true;
+                            quserdoc.scripts.splice(i, 1);
+                            break;
+                        }
+                    }
+                    if (found === false) {
 
-                            for (let i = 0; i < guilddocs.length; i++) {
+                        return res.json({ status: 404, message: "Not Found", error: "Could not find the doc that youre trying to remove" });
+                    }
 
-                                let found = false;
-                                for (let j = 0; j < guilddocs[i].scripts.length; j++) {
-                                    if (guilddocs[i].scripts[j].object_id.equals(scriptdoc._id)) {
+                    quserdoc
+                        .save()
+                        .then(doc => {
+                            if (doc === null) {
 
-                                        found = true;
-                                        guilddocs[i].scripts.splice(j, 1);
-                                        break;
-                                    }
-                                }
-
-                                if (found === false) {
-                                    return res.json({ status: 500, message: "Internal Server Error", error: err, debug: "script not removed" });
-                                }
-
-                                promises.push(guilddocs[i].save());
+                                return res.json({ status: 404, message: "Not Found", error: "Could not find the doc that youre trying to remove" });
                             }
 
-                            if (promises.length === 0) {
-                                return res.json({ status: 200, message: "OK", error: null, debug: "no guilds found" });
-                            }
-
-                            Promise
-                                .all(promises)
-                                .then(uguilddocs => {
-                                    if (uguilddocs.length !== guilddocs.length) {
-                                        return res.json({ status: 500, message: "Internal Server Error", error: err, debug: "not all saved" });
+                            schemas.GuildSchema
+                                .find({
+                                    scripts: { $elemMatch: { object_id: req.params.object_id } }
+                                })
+                                .then(guilddocs => {
+        
+                                    const promises = [];
+        
+                                    for (let i = 0; i < guilddocs.length; i++) {
+        
+                                        let found = false;
+                                        for (let j = 0; j < guilddocs[i].scripts.length; j++) {
+                                            if (guilddocs[i].scripts[j].object_id.equals(mongoose.Types.ObjectId(req.params.object_id))) {
+        
+                                                found = true;
+                                                guilddocs[i].scripts.splice(j, 1);
+                                                break;
+                                            }
+                                        }
+        
+                                        if (found === false) {
+                                            return res.json({ status: 500, message: "Internal Server Error", error: err, debug: "script not removed" });
+                                        }
+        
+                                        promises.push(guilddocs[i].save());
                                     }
+        
+                                    if (promises.length === 0) {
+                                        return res.json({ status: 200, message: "OK", error: null, debug: "no guilds found" });
+                                    }
+        
+                                    Promise
+                                        .all(promises)
+                                        .then(uguilddocs => {
+                                            if (uguilddocs.length !== guilddocs.length) {
+                                                return res.json({ status: 500, message: "Internal Server Error", error: err, debug: "not all saved" });
+                                            }
 
-                                    res.json({ status: 200, message: "OK", error: null });
-
+                                            schemas.ScriptSchema
+                                                .findOneAndRemove({
+                                                    _id: req.params.object_id
+                                                })
+                                                .then(scriptdoc => {
+                                                    if (scriptdoc === null) {
+                                                        return res.json({ status: 404, message: "Not Found", error: "Could not find the doc that youre trying to remove" });
+                                                    }
+                                
+                                                    res.json({ status: 200, message: "OK", error: null });
+                                                })
+                                                .catch(err => {
+                                
+                                                    res.json({ status: 500, message: "Internal Server Error", error: err });
+                                                });
+                                        })
+                                        .catch(err => {
+                                            
+                                            res.json({ status: 500, message: "Internal Server Error", error: err });
+                                        });
                                 })
                                 .catch(err => {
-                                    
+        
                                     res.json({ status: 500, message: "Internal Server Error", error: err });
                                 });
                         })
