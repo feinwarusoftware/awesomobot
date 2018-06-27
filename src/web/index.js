@@ -27,7 +27,7 @@ try {
     apiLogger.fatalError(`Could not read config file: ${err}`);
 }
 
-app.use(morgan(config.env === "dev" ? "dev" : "combined", { stream: config.env === "aaa" ? undefined : new stream.Writable({
+app.use(morgan(config.env === "dev" ? "combined" : "combined", { stream: new stream.Writable({
     write: (chunk, encoding, next) => {
 
         const string = chunk.toString();
