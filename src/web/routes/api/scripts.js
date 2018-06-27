@@ -11,7 +11,71 @@ const { fetchSession, authLogin } = require("../../middlewares");
 const router = express.Router();
 const apiLogger = new Logger();
 
-router.post("/", fetchSession, authLogin, (req, res) => {
+router.route("/").get(fetchSession, authLogin, (req, res) => {
+
+    schemas.UserSchema
+        .findOne({
+            discord_id: req.session.discord.id
+        })
+        .then(userdoc => {
+            if (userdoc === null) {
+                return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
+            }
+
+            const limitDef = 10;
+            const limitMax = 25;
+
+            const pageDef = 0;
+
+            const page = req.query.page === undefined ? pageDef : req.query.page;
+            let limit = req.query.limit === undefined ? limitDef : parseInt(req.query.limit);
+            
+            if (isNaN(limit)) {
+                limit = limitDef;
+            }
+            if (limit > limitMax) {
+                limit = limitMax;
+            }
+
+            const local = req.query.local === undefined ? null : req.query.local === "true";
+            const name = req.query.name === undefined ? null : req.query.name;
+            const type = req.query.type === undefined ? null : req.query.type;
+            const permissions = req.query.permissions === undefined ? null : req.query.permissions;
+            const match = req.query.match === undefined ? null : req.query.match;
+            const match_type = req.query.match_type === undefined ? null : req.query.match_type;
+
+            schemas.ScriptSchema
+                .find({
+                    ...(local === null ? {} : { local }),
+                    ...(name === null ? {} : { name }),
+                    ...(type === null ? {} : { type }),
+                    ...(match === null ? {} : { match }),
+                    ...(match_type === null ? {} : { match_type })
+                })
+                .skip(page * limit)
+                .limit(limit)
+                .select({
+                    _id: 0,
+                    __v: 0
+                })
+                .then(scriptdocs => {
+                    scriptdocs = scriptdocs.filter(doc => {
+                        return permissions === null ? true : doc.permissions & permissions;
+                    });
+
+                    res.json(scriptdocs);
+                })
+                .catch(err => {
+
+                    res.json({ err });
+                });
+        })
+        .catch(err => {
+
+            res.json({ status: 500, message: "Internal Server Error", error: err });
+        });
+
+}).post(fetchSession, authLogin, (req, res) => {
 
     // Admin only.
 
