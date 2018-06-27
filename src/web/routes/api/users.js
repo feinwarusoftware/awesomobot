@@ -1,8 +1,5 @@
 "use strict";
 
-const fs = require("fs");
-const path = require("path");
-
 const express = require("express");
 
 const schemas = require("../../../db");
@@ -80,7 +77,7 @@ router.post("/", fetchSession, authLogin, (req, res) => {
         });
 });
 
-router.get("/@me", fetchSession, authLogin, (req, res) => {
+router.route("/@me").get(fetchSession, authLogin, (req, res) => {
     
     // Admin, user (limited).
 
@@ -108,6 +105,167 @@ router.get("/@me", fetchSession, authLogin, (req, res) => {
 
             res.json({ status: 500, message: "Internal Server Error", error: err });
         });
+
+}).put(fetchSession, authLogin, (req, res) => {
+
+    // Admin, user (limited).
+
+    schemas.UserSchema
+        .findOne({
+            discord_id: req.session.discord.id
+        })
+        .then(async userdoc => {
+            if (userdoc === null) {
+                return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
+            }
+
+            let admin = req.body.admin === undefined ? false : req.body.admin;
+            let scripts = req.body.scripts === undefined ? [] : req.body.scripts;
+
+            // Ignore user input for the following fields if theyre not admin.
+            if (userdoc.admin === false) {
+
+                admin = null;
+                scripts = null;
+            }
+
+            // Make sure script ids are valid.
+            if (scripts instanceof Array && scripts.length > 0) {
+
+                const status = await schemas.ScriptSchema
+                    .find({
+                        _id: { $in: scripts }
+                    })
+                    .then(docs => {
+                        if (docs.length !== scripts.length) {
+                            return -1;
+                        }
+
+                        return 0;
+                    })
+                    .catch(err => {
+
+                        return err;
+                    });
+
+                    if (status !== 0) {
+                        return res.json({ status: 500, message: "Internal Server Error", error: status === -1 ? "Could not find script(s) specified" : status });
+                    }
+            }
+
+            const update = {
+                ...(admin === null ? {} : { admin }),
+                ...(scripts === null ? {} : { scripts })
+            };
+
+            // Return if theres nothing to update.
+            if (Object.keys(update).length === 0) {
+                return res.json({ status: 200, message: "OK", error: null, debug: "no changes made" });
+            }
+
+            schemas.UserSchema
+                .findOneAndUpdate({
+                    discord_id: req.session.discord.id
+                }, 
+                    update
+                )
+                .then(doc => {
+                    if (doc === null) {
+                        return res.json({ status: 404, message: "Not Found", error: "Could not find the doc that youre trying to put" });
+                    }
+
+                    res.json({ status: 200, message: "OK", error: null });
+                })
+                .catch(err => {
+
+                    res.json({ status: 500, message: "Internal Server Error", error: err });
+                });
+        })
+        .catch(err => {
+
+            res.json({ status: 500, message: "Internal Server Error", error: err });
+        });
+
+}).patch(fetchSession, authLogin, (req, res) => {
+    
+    // Admin, user (limited).
+
+    schemas.UserSchema
+        .findOne({
+            discord_id: req.session.discord.id
+        })
+        .then(async userdoc => {
+            if (userdoc === null) {
+                return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
+            }
+
+            let admin = req.body.admin === undefined ? null : req.body.admin;
+            let scripts = req.body.scripts === undefined ? null : req.body.scripts;
+
+            // Ignore user input for the following fields if theyre not admin.
+            if (userdoc.admin === false) {
+
+                admin = null;
+                scripts = null;
+            }
+
+            // Make sure script ids are valid.
+            if (scripts instanceof Array && scripts.length > 0) {
+
+                const status = await schemas.ScriptSchema
+                    .find({
+                        _id: { $in: scripts }
+                    })
+                    .then(docs => {
+                        if (docs.length !== scripts.length) {
+                            return -1;
+                        }
+
+                        return 0;
+                    })
+                    .catch(err => {
+
+                        return err;
+                    });
+
+                    if (status !== 0) {
+                        return res.json({ status: 500, message: "Internal Server Error", error: status === -1 ? "Could not find script(s) specified" : status });
+                    }
+            }
+
+            const update = {
+                ...(admin === null ? {} : { admin }),
+                ...(scripts === null ? {} : { scripts })
+            };
+
+            // Return if theres nothing to update.
+            if (Object.keys(update).length === 0) {
+                return res.json({ status: 200, message: "OK", error: null, debug: "no changes made" });
+            }
+
+            schemas.UserSchema
+                .findOneAndUpdate({
+                    discord_id: req.session.discord.id
+                }, 
+                    update
+                )
+                .then(doc => {
+                    if (doc === null) {
+                        return res.json({ status: 404, message: "Not Found", error: "Could not find the doc that youre trying to patch" });
+                    }
+
+                    res.json({ status: 200, message: "OK", error: null });
+                })
+                .catch(err => {
+
+                    res.json({ status: 500, message: "Internal Server Error", error: err });
+                });
+        })
+        .catch(err => {
+
+            res.json({ status: 500, message: "Internal Server Error", error: err });
+        });
+
 });
 
 router.route("/:discord_id").get(fetchSession, authLogin, (req, res) => {
@@ -231,7 +389,7 @@ router.route("/:discord_id").get(fetchSession, authLogin, (req, res) => {
                         return res.json({ status: 404, message: "Not Found", error: "Could not find the doc that youre trying to put" });
                     }
 
-                    res.json({ status: 200, message: "OK", error: null, debug: raw });
+                    res.json({ status: 200, message: "OK", error: null });
                 })
                 .catch(err => {
 
@@ -315,7 +473,7 @@ router.route("/:discord_id").get(fetchSession, authLogin, (req, res) => {
                         return res.json({ status: 404, message: "Not Found", error: "Could not find the doc that youre trying to patch" });
                     }
 
-                    res.json({ status: 200, message: "OK", error: null, debug: raw });
+                    res.json({ status: 200, message: "OK", error: null });
                 })
                 .catch(err => {
 
