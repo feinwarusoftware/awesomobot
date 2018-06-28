@@ -75,7 +75,7 @@ const authAdmin = (req, res, next) => {
                 .then(user_doc => {
 
                     if (user_doc.admin === false) {
-                        return res.json({ status: 403, message: "Forbidden", error: "Your are not authorised to access this path" });
+                        return res.json({ status: 403, message: "Forbidden", error: "You are not authorised to access this path" });
                     }
 
                     req.user = user_doc
