@@ -1,6 +1,23 @@
 "use strict";
 
+const fs = require("fs");
+const path = require("path");
+
 const jwt = require("jsonwebtoken");
+
+const schemas = require("../../db");
+const Logger = require("../../logger");
+
+const apiLogger = new Logger();
+
+let config;
+try {
+
+    config = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "..", "..", "config.json")));
+} catch(err) {
+
+    apiLogger.fatalError(`Could not read config file: ${err}`);
+}
 
 // Promise wrapper for jwt.verify().
 const jwtVerify = (token, secret) => {
@@ -16,45 +33,62 @@ const jwtVerify = (token, secret) => {
     });
 }
 
-const checkSessionCookie = (req, res) => {
-    if (req.cookies === undefined || req.cookies.session === undefined) {
-        return false;
-    }
-    return true;
+const fetchSession = token => {
+    return new Promise((resolve, reject) => {
+
+        jwtVerify(token, config.jwt_secret)
+            .then(decoded => {
+
+                schemas.SessionSchema
+                    .findById(decoded.id)
+                    .then(session_doc => {
+                        if (session_doc === null) {
+
+                            return reject("Session doc not found");
+                        }
+
+                        resolve(session_doc);
+                    })
+                    .catch(error => {
+
+                        apiLogger.error(error);
+                        reject(error);
+                    });
+            })
+            .catch(error => {
+
+                apiLogger.error(error);
+                reject(error);
+            });
+    });
 }
 
-const addSessionCookie = (req, res, token) => {
-    res.cookie("session", token);
-}
+const fetchUser = discord_id => {
+    return new Promise((resolve, reject) => {
 
-const remSessionCookie = (req, res) => {
-    if (checkSessionCookie(...arguments) === true) {
-        res.clearCookie("session");
-        req.cookies.session = undefined;
-    }
-}
+        schemas.UserSchema
+            .findOne({
+                discord_id
+            })
+            .then(user_doc => {
+                if (user_doc === null) {
 
-const checkSession = (req, res) => {
-    if (req.session === undefined || req.session.complete === false) {
-        return false;
-    }
-    return true;
-}
+                    return reject("User doc not found");
+                }
 
-const checkUser = (req, res) => {
-    if (req.user === undefined) {
-        return false;
-    }
-    return true;
+                resolve(user_doc);
+            })
+            .catch(error => {
+
+                apiLogger.error(error);
+                reject(error);
+            });
+    });
 }
 
 module.exports = {
 
     jwtVerify,
-
-    checkSessionCookie,
-    addSessionCookie,
-    remSessionCookie,
-    checkSession,
-    checkUser
+    fetchSession,
+    fetchUser
 };

@@ -11,31 +11,13 @@ const jwt = require("jsonwebtoken");
 
 const schemas = require("../../db");
 const Logger = require("../../logger");
-const api = require("./api");
-const { fetchSession, authLogin } = require("../middlewares");
+//const api = require("./api");
+const { authSession, authUser, authAdmin } = require("../middlewares");
+const { fetchSession } = require("../helpers");
 
 const apiLogger = new Logger();
 const router = express.Router();
 const converter = new showdown.Converter();
-
-const getUserData = token => {
-    return new Promise((resolve, reject) => {
-
-        axios({
-            method: "get",
-            url: "https://discordapp.com/api/v6/users/@me",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }).then(res => {
-
-            resolve(res.data);
-        }).catch(err => {
-
-            reject(err);
-        });
-    });
-}
 
 let config;
 try {
@@ -46,13 +28,49 @@ try {
     apiLogger.fatalError(`Could not read config file: ${err}`);
 }
 
-router.use("/api/v3", api);
+//router.use("/api/v3", api);
 
-router.get("/auth/discord", fetchSession, (req, res) => {
+router.get("/auth/discord", async (req, res) => {
 
-    if (req.session !== undefined && req.session.discord.id !== null) {
+    let session_doc;
+    try {
 
-        // Already logged in.
+        session_doc = await fetchSession(req.cookies.session);
+    } catch(error) {
+
+        // fail silently
+        apiLogger.error(error);
+    }
+
+    if (session_doc !== undefined && session_doc.complete === true) {
+
+        return res.redirect("/dashboard");
+    }
+
+    const nonce = crypto.randomBytes(20).toString("hex");
+
+    const session = new schemas.SessionSchema({
+        nocne
+    });
+
+    try {
+
+        session.save()
+    } catch(error) {
+
+        apiLogger.error(error);
+        res.json({ status: 401, message: "Unauthorized", error });
+    }
+
+    /*
+    let session_doc = null;
+    if (req.cookies !== undefined && req.cookies.session !== undefined) {
+        session_doc = await fetchSession(req.cookies.session).catch(error => {
+            return null;
+        });
+    }
+
+    if (session_doc !== null && session_doc.complete === true) {
         return res.redirect("/dashboard");
     }
 
@@ -62,235 +80,138 @@ router.get("/auth/discord", fetchSession, (req, res) => {
         nonce
     });
 
-    session.save().then(doc => {
+    session
+        .save()
+        .then(session_doc => {
+            if (session_doc === null) {
+                return res.json({ status: 401, message: "Unauthorized", error: "Session doc not found after saving" });
+            }
 
-        const token = jwt.sign({ id: doc._id }, config.rawrxd);
-        res.cookie("session", token);
-        res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=${config.id}&redirect_uri=${encodeURIComponent(config.redirect)}&response_type=code&scope=guilds%20identify&state=${nonce}`);
+            res.cookie("session", jwt.sign({ id: session_doc._id }, config.jwt_secret));
+            res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=${config.discord_id}&redirect_uri=${encodeURIComponent(config.discord_redirect)}&response_type=code&scope=guilds%20identify&state=${nonce}`);
+        })
+        .catch(error => {
 
-    }).catch(err => {
-
-        res.json({ status: 401, message: "Unauthorized", error: err });
-    });
+            apiLogger.error(error);
+            res.json({ status: 401, message: "Unauthorized", error });
+        });
+    */
 });
 
-router.get("/auth/discord/callback", fetchSession, (req, res) => {
+router.get("/auth/discord/callback", async (req, res) => {
 
-    if (req.session === undefined || req.session.nonce === null) {
-        return res.json({ status: 401, message: "Unauthorized", error: "Error fatching session" });
+    let session_doc = null;
+    if (req.cookies !== undefined && req.cookies.session !== undefined) {
+        session_doc = await fetchSession(req.cookies.session).catch(error => {
+            return null;
+        });
     }
 
-    if (req.session.nonce !== req.query.state) {
+    if (session_doc === null || session_doc.nonce === null) {
+        return res.json({ status: 401, message: "Unauthorized", error: "Error fetching session" });
+    }
+
+    if (session_doc.nonce !== req.query.state) {
         return res.json({ status: 401, message: "Unauthorized", error: "Login state was incorrect" });
     }
 
     axios({
-        method: "post",
-        url: `https://discordapp.com/api/oauth2/token?client_id=${config.id}&client_secret=${config.secret}&grant_type=authorization_code&code=${req.query.code}&redirect_uri=${encodeURIComponent(config.redirect)}`,
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
-    }).then(tokenres => {
-
-        axios({
-            method: "get",
-            url: "https://discordapp.com/api/v6/users/@me",
+            method: "post",
+            url: `https://discordapp.com/api/oauth2/token?client_id=${config.discord_id}&client_secret=${config.discord_secret}&grant_type=authorization_code&code=${req.query.code}&redirect_uri=${encodeURIComponent(config.discord_redirect)}`,
             headers: {
-                "Authorization": `Bearer ${tokenres.data.access_token}`
+                "Content-Type": "application/x-www-form-urlencoded"
             }
-        }).then(userres => {
+        })
+        .then(token_res => {
 
-            req.session.discord.id = userres.data.id;
-            req.session.discord.access_token = tokenres.data.access_token;
-            req.session.discord.token_type = tokenres.data.token_type;
-            req.session.discord.expires_in = tokenres.data.expires_in;
-            req.session.discord.refresh_token = tokenres.data.refresh_token;
-            req.session.discord.scope = tokenres.data.scope;
+            session_doc.discord.access_token = token_res.data.access_token;
+            session_doc.discord.token_type = token_res.data.token_type;
+            session_doc.discord.expires_in = token_res.data.expires_in;
+            session_doc.discord.refresh_token = token_res.data.refresh_token;
+            session_doc.discord.scope = token_res.data.scope;
 
-            req.session.save().then(doc => {
+            axios({
+                    method: "get",
+                    url: "https://discordapp.com/api/v6/users/@me",
+                    headers: {
+                        "Authorization": `Bearer ${token_res.data.access_token}`
+                    }
+                })
+                .then(user_res => {
 
-                res.redirect("/dashboard");
-            }).catch(err => {
+                    session_doc.discord.id = user_res.data.id;
+                    session_doc.nonce = null;
+                    session_doc.complete = true;
 
-                res.json({ status: 401, message: "Unauthorized", error: err });
-            });
+                    session_doc
+                        .save()
+                        .then(session_doc => {
+                            if (session_doc === null) {
+                                return res.json({ status: 401, message: "Unauthorized", error: "Session doc not found after saving" });
+                            }
 
-        }).catch(err => {
+                            schemas.UserSchema
+                                .findOne({
+                                    discord_id: session_doc.discord.id
+                                })
+                                .then(user_doc => {
+                                    if (user_doc !== null) {
 
-            res.json({ status: 401, message: "Unauthorized", error: err });
+                                        return res.redirect("/dashboard");
+                                    }
+
+                                    const new_user_doc = new schemas.UserSchema({
+                                        discord_id: session_doc.discord.id
+                                    });
+
+                                    new_user_doc
+                                        .save()
+                                        .then(new_user_doc => {
+                                            if (new_user_doc === null) {
+                                                return res.json({ status: 401, message: "Unauthorized", error: "User doc not found after saving" });
+                                            }
+
+                                            res.redirect("/dashboard");
+                                        })
+                                        .catch(error => {
+
+                                            res.json({ status: 401, message: "Unauthorized", error });
+                                        });
+                                })
+                                .catch(error => {
+
+                                    res.json({ status: 401, message: "Unauthorized", error });
+                                });
+                        })
+                        .catch(error => {
+
+                            res.json({ status: 401, message: "Unauthorized", error });
+                        });
+                })
+                .catch(error => {
+
+                    res.json({ status: 401, message: "Unauthorized", error });
+                });
+        })
+        .catch(error => {
+
+            res.json({ status: 401, message: "Unauthorized", error });
         });
-    }).catch(err => {
-
-        res.json({ status: 401, message: "Unauthorized", error: err });
-    });
 });
 
-router.get("/", fetchSession, async (req, res, next) => {
+router.get("/", (req, res, next) => {
 
-    let user = null;
-
-    if (req.session !== undefined && req.session.discord.id !== null) {
-
-        user = await getUserData(req.session.discord.access_token);
-    }
-
-    res.render("index", { md: text => { return converter.makeHtml(text); }, user });
+    res.render("index", { md: text => { return converter.makeHtml(text); }, user: {} });
 });
 
-router.get("/dashboard", fetchSession, authLogin, (req, res, next) => {
+router.get("/dashboard", authUser, (req, res, next) => {
 
     res.send("this is the shitty commands page lol");
 });
 
-router.get("/token", fetchSession, authLogin, (req, res) => {
+router.get("/token", authAdmin, (req, res) => {
     
     res.json({ token: req.cookies.session });
 });
-
-/*
-const fs = require("fs");
-const path = require("path");
-
-const commandsfile = fs.readFileSync(path.join(__dirname, "..", "translations", "commands", "commands.json"));
-const commands = JSON.parse(commandsfile);
-*/
-
-/*
-router.get("/",  async (req, res) => {
-
-    /*
-    if (req.session.discord_login !== null && req.session.discord_login !== undefined) {
-        
-        if (req.session.userData === null || req.session.userData === undefined || (Date.now() - req.session.userData.time) / 1000 > 300) {
-
-            req.session.userData = await getUserData(req.session.discord_login.access_token);
-            if (req.session.userData === null) {
-
-                res.status(500).send("Error getting user info.");
-                return;
-            }
-        }
-
-        res.render("index", { md: text => { return converter.makeHtml(text); }, user: req.session.userData });
-
-    } else {
-
-        res.render("index", { md: text => { return converter.makeHtml(text); }, user: null });
-    }
-
-
-    res.render("index", { md: text => { return converter.makeHtml(text); }, user: null });
-});
-*/
-
-// /commands
-
-/*
-router.get("/commands", async (req, res) => {
-
-    if (req.session.discord_login !== null && req.session.discord_login !== undefined) {
-        
-        if (req.session.userData === null || req.session.userData === undefined || (Date.now() - req.session.userData.time) / 1000 > 300) {
-
-            req.session.userData = await getUserData(req.session.discord_login.access_token);
-            if (req.session.userData === null) {
-
-                res.status(500).send("Error getting user info.");
-                return;
-            }
-        }
-
-        res.render("commands", { md: text => { return converter.makeHtml(text); }, user: req.session.userData});
-
-    } else {
-
-        res.render("commands", { md: text => { return converter.makeHtml(text); }, user: null});
-    }
-});
-
-// /dashboard
-
-router.get("/dashboard/profiles/mattheous", (req, res) => {
-    return res.render("profile-admin", { md: text => { return converter.makeHtml(text); } });
-});
-*/
-
-/* -------------------------- */
-/* >>> DISCORD LOGIN SHIT <<< */
-/* -------------------------- */
-
-/*
-router.get("/auth/discord", (req, res) => {
-
-    const state = crypto.randomBytes(20).toString("hex");
-
-    req.session.nonce = state;
-
-    res.redirect("https://discordapp.com/api/oauth2/authorize?client_id=372462428690055169&redirect_uri=http%3A%2F%2F81.156.215.77%3A80%2Fauth%2Fdiscord%2Fcallback&response_type=code&scope=guilds%20identify&state="+state);
-    return;
-});
-
-router.get("/auth/discord/callback", (req, res) => {
-
-    if (req.session.nonce === null || req.session.nonce === undefined) {
-        res.status(500).send("Error logging in.");
-        return;
-    }
-
-    if (req.query.code === null || req.query.code === undefined) {
-        res.status(500).send("Error logging in.");
-        return;
-    }
-
-    if (req.session.nonce !== req.query.state) {
-        res.status(500).send("Error logging in.");
-        return;
-    }
-
-    req.session.nonce = null;
-
-    axios({
-        method: "post",
-        url: "https://discordapp.com/api/oauth2/token?client_id=372462428690055169&client_secret=e-GgLn0Ndv9LJc1jupdpsk1zNGPy4g4U&grant_type=authorization_code&code="+req.query.code+"&redirect_uri=http%3A%2F%2F81.156.215.77%3A80%2Fauth%2Fdiscord%2Fcallback",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
-    }).then(res2 => {
-
-        req.session.discord_login = res2.data;
-        res.redirect("/dashboard");
-        return;
-    }).catch(err => {
-
-        res.status(500).send("Error logging in.");
-        return;
-    });
-});
-*/
-
-/*
-router.get("/auth/discord/me", (req, res) => {
-    
-    if (!req.session.token.access_token) {
-        return res.status(500).send("Error logging in.");
-    }
-    axios({
-        method: "get",
-        url: "https://discordapp.com/api/v6/users/@me",
-        headers: {
-            "Authorization": "Bearer "+req.session.token.access_token
-        }
-    }).then(res2 => {
-        req.session.user = res2.data;
-        return res.redirect("/");
-    }).catch(err => {
-        return res.status(500).send("Error logging in.");
-    });
-});
-*/
-
-/* -------------------------- */
-/*        >>> END <<<         */
-/* -------------------------- */
 
 module.exports = router;
