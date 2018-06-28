@@ -4,7 +4,7 @@ const express = require("express");
 
 const schemas = require("../../../db");
 const Logger = require("../../../logger");
-const { fetchSession, authLogin } = require("../../middlewares");
+const { fetchSession, authLogin, fetchUser, authAdmin } = require("../../middlewares");
 
 const router = express.Router();
 const apiLogger = new Logger();

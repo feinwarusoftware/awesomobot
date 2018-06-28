@@ -8,6 +8,7 @@ const SessionSchema = new Schema({
 
     //  _id: ObjectId,
     nonce: { type: String, default: null },
+    complete: { type: Boolean, default: false },
     discord: {
         id: { type: String, default: null },
         access_token: { type: String, default: null },
