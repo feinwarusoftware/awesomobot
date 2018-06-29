@@ -11,7 +11,7 @@ const jwt = require("jsonwebtoken");
 
 const schemas = require("../../db");
 const Logger = require("../../logger");
-//const api = require("./api");
+const api = require("./api");
 const { authSession, authUser, authAdmin } = require("../middlewares");
 const { fetchSession } = require("../helpers");
 
@@ -28,7 +28,7 @@ try {
     apiLogger.fatalError(`Could not read config file: ${err}`);
 }
 
-//router.use("/api/v3", api);
+router.use("/api/v3", api);
 
 router.get("/auth/discord", async (req, res) => {
 

@@ -4,79 +4,118 @@ const express = require("express");
 
 const schemas = require("../../../db");
 const Logger = require("../../../logger");
-const { fetchSession, authLogin, fetchUser, authAdmin } = require("../../middlewares");
+const { authUser, authAdmin } = require("../../middlewares");
 
 const router = express.Router();
 const apiLogger = new Logger();
 
-router.post("/", fetchSession, authLogin, (req, res) => {
+router.post("/", authAdmin, async (req, res) => {
 
-    // Admin only.
+    // Get input.
+    const discord_id = req.body.discord_id === undefined ? null : req.body.discord_id;
+    const admin = req.body.admin === undefined ? false : req.body.admin;
+    const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
 
-    schemas.UserSchema
-        .findOne({
-            discord_id: req.session.discord.id
-        })
-        .then(async doc => {
-            if (doc === null) {
-                return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
-            }
+    // Check discord id.
+    if (discord_id === null || discord_id.length !== 18) {
+        return res.json({ status: 400, message: "Bad Request", error: "Discord id not specified or incorrect" });
+    }
 
-            if (doc.admin === false) {
-                return res.json({ status: 403, message: "Forbidden", error: "Admin only path" });
-            }
+    let old_discord_id;
+    try {
 
-            const discord_id = req.body.discord_id === undefined ? null : req.body.discord_id;
-            const admin = req.body.admin === undefined ? null : req.body.admin;
-            const scripts = req.body.scripts === undefined ? null : req.body.scripts;
-
-            // Make sure script ids are valid.
-            if (scripts instanceof Array && scripts.length > 0) {
-
-                const status = await schemas.ScriptSchema
-                    .find({
-                        _id: { $in: scripts }
-                    })
-                    .then(docs => {
-                        if (docs.length !== scripts.length) {
-                            return -1;
-                        }
-
-                        return 0;
-                    })
-                    .catch(err => {
-
-                        return err;
-                    });
-
-                if (status !== 0) {
-                    return res.json({ status: 500, message: "Internal Server Error", error: status === -1 ? "Could not find script(s) specified" : status });
-                }
-            }
-
-            const user = new schemas.UserSchema({
-                ...(discord_id === null ? {} : { discord_id }),
-                ...(admin === null ? {} : { admin }),
-                ...(scripts === null ? {} : { scripts })
+        old_discord_id = await schemas.UserSchema
+            .findOne({
+                discord_id
             });
+    } catch(error) {
 
-            user
-                .save()
-                .then(doc => {
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
 
-                    res.json({ status: 200, message: "OK", error: null });
-                })
-                .catch(err => {
+    if (old_discord_id !== null) {
+        return res.json({ status: 400, message: "Bad Request", error: "Duplicate discord id" });
+    }
 
-                    res.json({ status: 500, message: "Internal Server Error", error: err });
+    // Check scripts.
+    if (scripts instanceof Array === false) {
+        return res.json({ status: 400, message: "Bad Request", error: "Scripts should be an array" });
+    }
+
+    if (scripts.length > 0) {
+
+        let script_docs;
+        try {
+    
+            script_docs = await schemas.ScriptSchema
+                .find({
+                    _id: { $in: scripts }
                 });
-        })
-        .catch(err => {
+        } catch(error) {
+    
+            return res.json({ status: 500, message: "Internal Server Error", error });
+        }
 
-            res.json({ status: 500, message: "Internal Server Error", error: err });
-        });
+        if (script_docs.length !== scripts.length) {
+            return res.json({ status: 400, message: "Bad Request", error: "Script(s) specified could not be found" });
+        }
+    }
+
+    // Create new user.
+    const user = new schemas.UserSchema({
+        discord_id,
+        admin,
+        scripts
+    });
+
+    try {
+
+        await user.save();
+    } catch(error) {
+
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
+    res.json({ status: 200, message: "OK", error: null });
 });
 
+router.route("/@me").get(authUser, (req, res) => {
+
+
+
+}).put(authUser, (req, res) => {
+    
+
+
+}).patch(authUser, (req, res) => {
+    
+
+
+}).delete(authUser, (req, res) => {
+    
+
+
+});
+
+router.route("/:discord_id").get(authAdmin, (req, res) => {
+
+
+    
+}).put(authAdmin, (req, res) => {
+    
+
+
+}).patch(authAdmin, (req, res) => {
+    
+
+
+}).delete(authAdmin, (req, res) => {
+    
+
+
+});
+
+/*
 router.route("/@me").get(fetchSession, authLogin, (req, res) => {
     
     // Admin, user (limited).
@@ -524,5 +563,6 @@ router.route("/:discord_id").get(fetchSession, authLogin, (req, res) => {
         });
 
 });
+*/
 
 module.exports = router;

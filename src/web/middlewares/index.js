@@ -4,11 +4,21 @@ const { fetchSession, fetchUser } = require("../helpers");
 
 const authSession = (req, res, next) => {
 
-    if (req.cookies === undefined || req.cookies.session === undefined) {
+    let token;
+
+    if (req.cookies !== undefined && req.cookies.session !== undefined) {
+        token = req.cookies.session;
+    }
+
+    if (req.headers["xxx-access-token"] !== undefined) {
+        token = req.headers["xxx-access-token"];
+    }
+
+    if (token === undefined) {
         return res.json({ status: 401, message: "Unauthorized", error: "There was an issue fetching your session" });
     }
 
-    fetchSession(req.cookies.session)
+    fetchSession(token)
         .then(session_doc => {
 
             if (session_doc.complete === false) {
@@ -26,11 +36,21 @@ const authSession = (req, res, next) => {
 
 const authUser = (req, res, next) => {
 
-    if (req.cookies === undefined || req.cookies.session === undefined) {
+    let token;
+
+    if (req.cookies !== undefined && req.cookies.session !== undefined) {
+        token = req.cookies.session;
+    }
+
+    if (req.headers["xxx-access-token"] !== undefined) {
+        token = req.headers["xxx-access-token"];
+    }
+
+    if (token === undefined) {
         return res.json({ status: 401, message: "Unauthorized", error: "There was an issue fetching your session" });
     }
 
-    fetchSession(req.cookies.session)
+    fetchSession(token)
         .then(session_doc => {
 
             if (session_doc.complete === false) {
@@ -58,11 +78,21 @@ const authUser = (req, res, next) => {
 
 const authAdmin = (req, res, next) => {
 
-    if (req.cookies === undefined || req.cookies.session === undefined) {
+    let token;
+
+    if (req.cookies !== undefined && req.cookies.session !== undefined) {
+        token = req.cookies.session;
+    }
+
+    if (req.headers["xxx-access-token"] !== undefined) {
+        token = req.headers["xxx-access-token"];
+    }
+
+    if (token === undefined) {
         return res.json({ status: 401, message: "Unauthorized", error: "There was an issue fetching your session" });
     }
 
-    fetchSession(req.cookies.session)
+    fetchSession(token)
         .then(session_doc => {
 
             if (session_doc.complete === false) {
