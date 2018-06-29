@@ -114,28 +114,6 @@ router.get("/auth/discord/callback", async (req, res) => {
         return res.json({ status: 401, message: "Unauthorized", error });
     }
 
-    let user_doc;
-    try {
-
-        user_doc = await schemas.UserSchema.findOne({ discord_id: user_res.data.id });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ status: 401, message: "Unauthorized", error });
-    }
-
-    if (user_doc === null) {
-
-        try {
-
-            user_doc = await new schemas.UserSchema({ discord_id: user_res.data.id }).save();
-        } catch(error) {
-
-            apiLogger.error(error);
-            return res.json({ status: 401, message: "Unauthorized", error });
-        }
-    }
-
     session_doc.discord.access_token = token_res.data.access_token;
     session_doc.discord.token_type = token_res.data.token_type;
     session_doc.discord.expires_in = token_res.data.expires_in;

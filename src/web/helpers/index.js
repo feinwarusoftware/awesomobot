@@ -73,10 +73,29 @@ const fetchUser = discord_id => {
             .then(user_doc => {
                 if (user_doc === null) {
 
-                    return reject("User doc not found");
-                }
+                    const new_user_doc = new schemas.UserSchema({
+                        discord_id
+                    });
 
-                resolve(user_doc);
+                    new_user_doc
+                        .save()
+                        .then(new_user_doc => {
+                            if (new_user_doc === null) {
+
+                                return reject("Error on user creation");
+                            }
+
+                            resolve(new_user_doc);
+                        })
+                        .catch(error => {
+                            
+                            apiLogger.error(error);
+                            reject(error);
+                        });
+                } else {
+
+                    resolve(user_doc);
+                }
             })
             .catch(error => {
 

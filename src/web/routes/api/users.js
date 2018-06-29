@@ -30,6 +30,7 @@ router.post("/", authAdmin, async (req, res) => {
             });
     } catch(error) {
 
+        apiLogger.error(error);
         return res.json({ status: 500, message: "Internal Server Error", error });
     }
 
@@ -53,6 +54,7 @@ router.post("/", authAdmin, async (req, res) => {
                 });
         } catch(error) {
     
+            apiLogger.error(error);
             return res.json({ status: 500, message: "Internal Server Error", error });
         }
 
@@ -73,6 +75,7 @@ router.post("/", authAdmin, async (req, res) => {
         await user.save();
     } catch(error) {
 
+        apiLogger.error(error);
         return res.json({ status: 500, message: "Internal Server Error", error });
     }
 
@@ -81,26 +84,50 @@ router.post("/", authAdmin, async (req, res) => {
 
 router.route("/@me").get(authUser, (req, res) => {
 
+    const user_obj = req.user.toObject();
 
+    delete user_obj._id;
+    delete user_obj.__v;
+
+    res.json(user_obj);
 
 }).put(authUser, (req, res) => {
     
-
+    // Currently no fields that users can edit.
+    res.json({ status: 200, message: "OK", error: null });
 
 }).patch(authUser, (req, res) => {
     
+    // Currently no fields that users can edit.
+    res.json({ status: 200, message: "OK", error: null });
 
-
-}).delete(authUser, (req, res) => {
+}).delete(authUser, async (req, res) => {
     
+    let del_user;
+    try {
 
+        del_user = await schemas.UserSchema
+            .findOneAndRemove({
+                discord_id: req.user.discord_id
+            });
+    } catch(error) {
 
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
+    if (del_user === null) {
+
+        return res.json({ status: 404, message: "Not Found", error: "The user that you are trying to delete could not be found" });
+    }
+
+    res.json({ status: 200, message: "OK", error: null });
 });
 
 router.route("/:discord_id").get(authAdmin, (req, res) => {
 
 
-    
+
 }).put(authAdmin, (req, res) => {
     
 
