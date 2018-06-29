@@ -5,537 +5,417 @@ const axios = require("axios");
 
 const schemas = require("../../../db");
 const Logger = require("../../../logger");
-const { fetchSession, authLogin } = require("../../middlewares");
+const { authUser, authAdmin } = require("../../middlewares");
 
 const router = express.Router();
 const apiLogger = new Logger();
 
-router.post("/", fetchSession, authLogin, (req, res) => {
+router.post("/", authAdmin, async (req, res) => {
 
-    // Admin only.
+    // Get input.
+    const discord_id = req.body.discord_id === undefined ? null : req.body.discord_id;
+    const prefix = req.body.prefix === undefined ? null : req.body.prefix;
+    const log_channel_id = req.body.log_channel_id === undefined ? null : req.body.log_channel_id;
+    const log_events = req.body.log_events === undefined ? null : req.body.log_events;
+    const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
 
-    schemas.UserSchema
-        .findOne({
-            discord_id: req.session.discord.id
-        })
-        .then(async userdoc => {
-            if (userdoc === null) {
-                return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
-            }
+    // Check discord id.
+    if (discord_id === null || discord_id.length !== 18) {
+        return res.json({ status: 400, message: "Bad Request", error: "Discord id not specified or incorrect" });
+    }
 
-            if (userdoc.admin === false) {
-                return res.json({ status: 403, message: "Forbidden", error: "Admin only path" });
-            }
+    let old_discord_id;
+    try {
 
-            const discord_id = req.body.discord_id === undefined ? null : req.body.discord_id;
-            const prefix = req.body.prefix === undefined ? null : req.body.prefix;
-            const log_channel_id = req.body.log_channel_id === undefined ? null : req.body.log_channel_id;
-            const log_events = req.body.log_events === undefined ? null : req.body.log_events;
-            const scripts = req.body.scripts === undefined ? null : req.body.scripts;
-
-            // Make sure script ids are valid.
-            if (scripts instanceof Array && scripts.length > 0) {
-
-                let scriptIds = [];
-                for (let script of scripts) {
-                    if (script.object_id === undefined) {
-                        return res.json({ status: 404, message: "Not Found", error: "One or more scripts not found" });
-                    }
-                    scriptIds.push(script.object_id);
-                }
-
-                const status = await schemas.ScriptSchema
-                    .find({
-                        _id: { $in: scriptIds }
-                    })
-                    .then(docs => {
-                        if (docs.length !== scriptIds.length) {
-                            return -1;
-                        }
-            
-                        return 0;
-                    })
-                    .catch(err => {
-            
-                        return err;
-                    });
-            
-                if (status !== 0) {
-                    return res.json({ status: 500, message: "Internal Server Error", error: status === -1 ? "Could not find script(s) specified" : status });
-                }
-            }
-
-            const guild = new schemas.GuildSchema({
-                ...(discord_id === null ? {} : { discord_id }),
-                ...(prefix === null ? {} : { prefix }),
-                ...(log_channel_id === null ? {} : { log_channel_id }),
-                ...(log_events === null ? {} : { log_events }),
-                ...(scripts === null ? {} : { scripts })
+        old_discord_id = await schemas.GuildSchema
+            .findOne({
+                discord_id
             });
+    } catch(error) {
 
-            guild
-                .save()
-                .then(doc => {
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
 
-                    res.json({ status: 200, message: "OK", error: null });
-                })
-                .catch(err => {
+    if (old_discord_id !== null) {
+        return res.json({ status: 400, message: "Bad Request", error: "Duplicate discord id" });
+    }
 
-                    res.json({ status: 500, message: "Internal Server Error", error: err });
-                });
-        })
-        .catch(err => {
+    // Check scripts.
+    if (scripts instanceof Array === false) {
+        return res.json({ status: 400, message: "Bad Request", error: "Scripts should be an array" });
+    }
 
-            res.json({ status: 500, message: "Internal Server Error", error: err });
-        });
+    if (scripts.length > 0) {
 
-});
-
-router.get("/@me", fetchSession, authLogin, (req, res) => {
-
-    // Admin, user (limited, if user.roles | manage server).
-
-    schemas.UserSchema
-        .findOne({
-            discord_id: req.session.discord.id
-        })
-        .then(async userdoc => {
-            if (userdoc === null) {
-                return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
+        let scriptIds = [];
+        for (let script of scripts) {
+            if (script.object_id === undefined) {
+                return res.json({ status: 400, message: "Bad Request", error: "Script(s) specified could not be found" });
             }
+            scriptIds.push(script.object_id);
+        }
 
-            let ids = await axios({
-                    method: "get",
-                    url: "https://discordapp.com/api/v6/users/@me/guilds",
-                    headers: {
-                        "Authorization": `Bearer ${"HYrvwyjKjkkxlKWRtpf6VFaCQNYlpm"}`
-                    }
-                })
-                .then(userguilds => {
-
-                    const ids = [];
-                    for (let userguild of userguilds.data) {
-                        if ((userguild.permissions & 8) === 8) {
-
-                            ids.push(userguild.id);
-                        }
-                    }
-
-                    return ids;
-                })
-                .catch(err => {
-
-                    return err;
-                });
-
-            if (ids instanceof Array === false) {
-                return res.json({ status: 403, message: "Forbidden", error: "Discord perm lookup" });
-            }
-
-            schemas.GuildSchema
+        let script_docs;
+        try {
+    
+            script_docs = await schemas.ScriptSchema
                 .find({
-                    discord_id: { $in: ids }
-                })
-                .then(guilddocs => {
-
-
-                    let resdocs = guilddocs.map(e => {
-
-                        return e.toObject();
-                    });
-
-                    if (userdoc.admin === false) {
-
-                        resdocs = resdocs.map(e => {
-
-                            delete e.__v;
-                            delete e.local;
-
-                            return e;
-                        });
-                    }
-
-                    res.json(resdocs);
-
-                })
-                .catch(err => {
-
-                    res.json({ status: 500, message: "Internal Server Error", error: err });
+                    _id: { $in: scriptIds }
                 });
-        })
-        .catch(err => {
+        } catch(error) {
+    
+            apiLogger.error(error);
+            return res.json({ status: 500, message: "Internal Server Error", error });
+        }
 
-            res.json({ status: 500, message: "Internal Server Error", error: err });
-        });
+        if (script_docs.length !== scripts.length) {
+            return res.json({ status: 400, message: "Bad Request", error: "Script(s) specified could not be found" });
+        }
+    }
 
+    const guild = new schemas.GuildSchema({
+        discord_id,
+        prefix,
+        log_channel_id,
+        log_events,
+        scripts
+    });
+
+    try {
+
+        await guild.save();
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
+    res.json({ status: 200, message: "OK", error: null });
 });
 
-router.route("/:discord_id").get(fetchSession, authLogin, (req, res) => {
+router.get("/@me", authUser, async (req, res) => {
+    
+    let user_guilds;
+    try {
 
-    // Admin, user (limited, if user.roles | manage server).
-
-    schemas.UserSchema
-        .findOne({
-            discord_id: req.session.discord.id
-        })
-        .then(async userdoc => {
-            if (userdoc === null) {
-                return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
+        user_guilds = await axios({
+            method: "get",
+            url: "https://discordapp.com/api/v6/users/@me/guilds",
+            headers: {
+                "Authorization": `Bearer ${"HYrvwyjKjkkxlKWRtpf6VFaCQNYlpm"}`
             }
-
-            let perms = await axios({
-                    method: "get",
-                    url: "https://discordapp.com/api/v6/users/@me/guilds",
-                    headers: {
-                        "Authorization": `Bearer ${req.session.discord.access_token}`
-                    }
-                })
-                .then(userguilds => {
-
-                    let perms = 0;
-                    for (let userguild of userguilds.data) {
-                        if (userguild.id === req.params.discord_id) {
-
-                            perms = userguild.permissions;
-                            break;
-                        }
-                    }
-                    return perms;
-
-                })
-                .catch(err => {
-
-                    return err;
-                });
-
-            if (userdoc.admin === false && (typeof perms !== "number" || (perms & 8) === 0)) {
-                return res.json({ status: 403, message: "Forbidden", error: "Discord perm lookup" });
-            }
-
-            schemas.GuildSchema
-                .findOne({
-                    discord_id: req.params.discord_id
-                })
-                .then(guilddoc => {
-                    if (guilddoc === null) {
-                        return res.json({ status: 404, message: "Not Found", error: "Guild doc not found" });
-                    }
-
-                    const resdoc = guilddoc.toObject();
-
-                    if (userdoc.admin === false) {
-
-                        delete resdoc._id;
-                        delete resdoc.__v;
-                    }
-
-                    res.json(resdoc);
-
-                })
-                .catch(err => {
-
-                    res.json({ status: 500, message: "Internal Server Error", error: err });
-                });
-        })
-        .catch(err => {
-
-            res.json({ status: 500, message: "Internal Server Error", error: err });
         });
+    } catch(error) {
 
-}).put(fetchSession, authLogin, (req, res) => {
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
 
-    // Admin, user (limited, if user.roles | manage server).
+    let user_guild_ids = [];
+    for (let user_guild of user_guilds) {
+        if (user_guild.data.permissions & 8 === 8) {
+            user_guild_ids.push(user_guild.data.id);
+        }
+    }
 
-    schemas.UserSchema
-        .findOne({
-            discord_id: req.session.discord.id
-        })
-        .then(async userdoc => {
-            if (userdoc === null) {
-                return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
+    let user_guild_docs;
+    try {
+
+        user_guild_docs = await schemas.GuildSchema
+            .find({
+                discord_id: { $in: user_guild_ids }
+            });
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
+    if (user_guild_docs.length === 0) {
+        return res.json({ status: 404, message: "Not Found", error: "No guilds with sufficient permissions found" });
+    }
+
+    res.json(user_guild_docs);
+});
+
+router.route("/@me/:discord_id").get(authUser, (req, res) => {
+    
+    let user_guilds;
+    try {
+
+        user_guilds = await axios({
+            method: "get",
+            url: "https://discordapp.com/api/v6/users/@me/guilds",
+            headers: {
+                "Authorization": `Bearer ${"HYrvwyjKjkkxlKWRtpf6VFaCQNYlpm"}`
             }
+        });
+    } catch(error) {
 
-            let perms = await axios({
-                    method: "get",
-                    url: "https://discordapp.com/api/v6/users/@me/guilds",
-                    headers: {
-                        "Authorization": `Bearer ${req.session.discord.access_token}`
-                    }
-                })
-                .then(userguilds => {
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
 
-                    let perms = 0;
-                    for (let userguild of userguilds.data) {
-                        if (userguild.id === req.params.discord_id) {
+    let found = false;
+    for (let user_guild of user_guilds) {
+        if (user_guild.data.permissions & 8 === 8 && user_guild.data.id === req.params.discord_id) {
+            found = true;
+            break;
+        }
+    }
+    if (found === false) {
+        return res.json({ status: 404, message: "Not Found", error: "No guilds with sufficient permissions found" });
+    }
 
-                            perms = userguild.permissions;
-                            break;
-                        }
-                    }
-                    return perms;
+    let user_guild_doc;
+    try {
 
-                })
-                .catch(err => {
+        user_guild_docs = await schemas.GuildSchema
+            .findOne({
+                discord_id: req.params.discord_id
+            });
+    } catch(error) {
 
-                    return err;
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
+    if (user_guild_doc === null) {
+        return res.json({ status: 404, message: "Not Found", error: "No guilds with sufficient permissions found" });
+    }
+
+    res.json(user_guild_doc);
+
+}).patch(authUser, (req, res) => {
+    
+    let user_guilds;
+    try {
+
+        user_guilds = await axios({
+            method: "get",
+            url: "https://discordapp.com/api/v6/users/@me/guilds",
+            headers: {
+                "Authorization": `Bearer ${"HYrvwyjKjkkxlKWRtpf6VFaCQNYlpm"}`
+            }
+        });
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
+    let found = false;
+    for (let user_guild of user_guilds) {
+        if (user_guild.data.permissions & 8 === 8 && user_guild.data.id === req.params.discord_id) {
+            found = true;
+            break;
+        }
+    }
+    if (found === false) {
+        return res.json({ status: 404, message: "Not Found", error: "No guilds with sufficient permissions found" });
+    }
+
+    const prefix = req.body.prefix === undefined ? null : req.body.prefix;
+    const log_channel_id = req.body.log_channel_id === undefined ? null : req.body.log_channel_id;
+    const log_events = req.body.log_events === undefined ? null : req.body.log_events;
+    const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
+
+    // Check scripts.
+    if (scripts instanceof Array === false) {
+        return res.json({ status: 400, message: "Bad Request", error: "Scripts should be an array" });
+    }
+
+    if (scripts.length > 0) {
+
+        let script_docs;
+        try {
+    
+            script_docs = await schemas.ScriptSchema
+                .find({
+                    _id: { $in: scripts }
                 });
+        } catch(error) {
+    
+            apiLogger.error(error);
+            return res.json({ status: 500, message: "Internal Server Error", error });
+        }
 
-            if (userdoc.admin === false && (typeof perms !== "number" || (perms & 8) === 0)) {
-                return res.json({ status: 403, message: "Forbidden", error: "Discord perm lookup" });
-            }
+        if (script_docs.length !== scripts.length) {
+            return res.json({ status: 400, message: "Bad Request", error: "Script(s) specified could not be found" });
+        }
+    }
 
-            const prefix = req.body.prefix === undefined ? "<<" : req.body.prefix;
-            const log_channel_id = req.body.log_channel_id === undefined ? "000000000000000000" : req.body.log_channel_id;
-            const log_events = req.body.log_events === undefined ? "000000000000000000" : req.body.log_events;
-            const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
+    let upd_guild;
+    try {
 
-            // Make sure script ids are valid.
-            if (scripts instanceof Array && scripts.length > 0) {
-
-                let scriptIds = [];
-                for (let script of scripts) {
-                    if (script.object_id === undefined) {
-                        return res.json({ status: 404, message: "Not Found", error: "One or more scripts not found" });
-                    }
-                    scriptIds.push(script.object_id);
-                }
-
-                const status = await schemas.ScriptSchema
-                    .find({
-                        _id: { $in: scriptIds }
-                    })
-                    .then(docs => {
-                        if (docs.length !== scriptIds.length) {
-                            return -1;
-                        }
-            
-                        return 0;
-                    })
-                    .catch(err => {
-            
-                        return err;
-                    });
-            
-                if (status !== 0) {
-                    return res.json({ status: 500, message: "Internal Server Error", error: status === -1 ? "Could not find script(s) specified" : status });
-                }
-            }
-
-            const update = {
-                ...(discord_id === null ? {} : { discord_id }),
+        upd_guild = await schemas.GuildSchema
+            .findOneAndUpdate({
+                discord_id: req.params.discord_id
+            }, {
                 ...(prefix === null ? {} : { prefix }),
                 ...(log_channel_id === null ? {} : { log_channel_id }),
                 ...(log_events === null ? {} : { log_events }),
-                ...(scripts === null ? {} : { scripts })
-            };
+                ...(scripts.length === 0 ? {} : { scripts })
+            });
+    } catch(error) {
 
-            // Return if theres nothing to update.
-            if (Object.keys(update).length === 0) {
-                return res.json({ status: 200, message: "OK", error: null, debug: "no changes made" });
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
+    if (upd_guild === null) {
+        return res.json({ status: 404, message: "Not Found", error: "The guild that you are trying to update could not be found" });
+    }
+
+    res.json({ status: 200, message: "OK", error: null });
+
+}).delete(authUser, (req, res) => {
+    
+    let user_guilds;
+    try {
+
+        user_guilds = await axios({
+            method: "get",
+            url: "https://discordapp.com/api/v6/users/@me/guilds",
+            headers: {
+                "Authorization": `Bearer ${"HYrvwyjKjkkxlKWRtpf6VFaCQNYlpm"}`
             }
-
-            schemas.GuildSchema
-                .findOneAndUpdate({
-                    discord_id: req.params.discord_id
-                }, 
-                    update
-                )
-                .then(guilddoc => {
-                    if (guilddoc === null) {
-                        return res.json({ status: 404, message: "Not Found", error: "Could not find the doc that youre trying to put" });
-                    }
-
-                    res.json({ status: 200, message: "OK", error: null });
-                })
-                .catch(err => {
-
-                    res.json({ status: 500, message: "Internal Server Error", error: err });
-                });
-        })
-        .catch(err => {
-
-            res.json({ status: 500, message: "Internal Server Error", error: err });
         });
+    } catch(error) {
 
-}).patch(fetchSession, authLogin, (req, res) => {
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
 
-    // Admin, user (limited, if user.roles | manage server).
+    let found = false;
+    for (let user_guild of user_guilds) {
+        if (user_guild.data.permissions & 8 === 8 && user_guild.data.id === req.params.discord_id) {
+            found = true;
+            break;
+        }
+    }
+    if (found === false) {
+        return res.json({ status: 404, message: "Not Found", error: "No guilds with sufficient permissions found" });
+    }
 
-    schemas.UserSchema
-        .findOne({
-            discord_id: req.session.discord.id
-        })
-        .then(async userdoc => {
-            if (userdoc === null) {
-                return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
-            }
+    let del_guild;
+    try {
 
-            let perms = await axios({
-                    method: "get",
-                    url: "https://discordapp.com/api/v6/users/@me/guilds",
-                    headers: {
-                        "Authorization": `Bearer ${req.session.discord.access_token}`
-                    }
-                })
-                .then(userguilds => {
+        del_guild =  await schemas.GuildSchema
+            .findOneAndRemove({
+                discord_id: req.params.discord_id
+            });
+    } catch(error) {
 
-                    let perms = 0;
-                    for (let userguild of userguilds.data) {
-                        if (userguild.id === req.params.discord_id) {
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
 
-                            perms = userguild.permissions;
-                            break;
-                        }
-                    }
-                    return perms;
+    if (del_guild === null) {
+        return res.json({ status: 404, message: "Not Found", error: "The user that you are trying to delete could not be found" });
+    }
 
-                })
-                .catch(err => {
+    res.json({ status: 200, message: "OK", error: null });
+});
 
-                    return err;
+router.route("/:discord_id").get(authAdmin, (req, res) => {
+
+    let user_guild_doc;
+    try {
+
+        user_guild_docs = await schemas.GuildSchema
+            .findOne({
+                discord_id: req.params.discord_id
+            });
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
+    if (user_guild_doc === null) {
+        return res.json({ status: 404, message: "Not Found", error: "No guilds found" });
+    }
+
+    res.json(user_guild_doc);
+
+}).patch(authAdmin, (req, res) => {
+
+    const prefix = req.body.prefix === undefined ? null : req.body.prefix;
+    const log_channel_id = req.body.log_channel_id === undefined ? null : req.body.log_channel_id;
+    const log_events = req.body.log_events === undefined ? null : req.body.log_events;
+    const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
+
+    // Check scripts.
+    if (scripts instanceof Array === false) {
+        return res.json({ status: 400, message: "Bad Request", error: "Scripts should be an array" });
+    }
+
+    if (scripts.length > 0) {
+
+        let script_docs;
+        try {
+    
+            script_docs = await schemas.ScriptSchema
+                .find({
+                    _id: { $in: scripts }
                 });
+        } catch(error) {
+    
+            apiLogger.error(error);
+            return res.json({ status: 500, message: "Internal Server Error", error });
+        }
 
-            if (userdoc.admin === false && (typeof perms !== "number" || (perms & 8) === 0)) {
-                return res.json({ status: 403, message: "Forbidden", error: "Discord perm lookup" });
-            }
+        if (script_docs.length !== scripts.length) {
+            return res.json({ status: 400, message: "Bad Request", error: "Script(s) specified could not be found" });
+        }
+    }
 
-            const prefix = req.body.prefix === undefined ? "<<" : req.body.prefix;
-            const log_channel_id = req.body.log_channel_id === undefined ? "000000000000000000" : req.body.log_channel_id;
-            const log_events = req.body.log_events === undefined ? "000000000000000000" : req.body.log_events;
-            const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
+    let upd_guild;
+    try {
 
-            // Make sure script ids are valid.
-            if (scripts instanceof Array && scripts.length > 0) {
-
-                let scriptIds = [];
-                for (let script of scripts) {
-                    if (script.object_id === undefined) {
-                        return res.json({ status: 404, message: "Not Found", error: "One or more scripts not found" });
-                    }
-                    scriptIds.push(script.object_id);
-                }
-
-                const status = await schemas.ScriptSchema
-                    .find({
-                        _id: { $in: scriptIds }
-                    })
-                    .then(docs => {
-                        if (docs.length !== scriptIds.length) {
-                            return -1;
-                        }
-            
-                        return 0;
-                    })
-                    .catch(err => {
-            
-                        return err;
-                    });
-            
-                if (status !== 0) {
-                    return res.json({ status: 500, message: "Internal Server Error", error: status === -1 ? "Could not find script(s) specified" : status });
-                }
-            }
-
-            const update = {
-                ...(discord_id === null ? {} : { discord_id }),
+        upd_guild = await schemas.GuildSchema
+            .findOneAndUpdate({
+                discord_id: req.params.discord_id
+            }, {
                 ...(prefix === null ? {} : { prefix }),
                 ...(log_channel_id === null ? {} : { log_channel_id }),
                 ...(log_events === null ? {} : { log_events }),
-                ...(scripts === null ? {} : { scripts })
-            };
+                ...(scripts.length === 0 ? {} : { scripts })
+            });
+    } catch(error) {
 
-            // Return if theres nothing to update.
-            if (Object.keys(update).length === 0) {
-                return res.json({ status: 200, message: "OK", error: null, debug: "no changes made" });
-            }
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
 
-            schemas.GuildSchema
-                .findOneAndUpdate({
-                    discord_id: req.params.discord_id
-                }, 
-                    update
-                )
-                .then(guilddoc => {
-                    if (guilddoc === null) {
-                        return res.json({ status: 404, message: "Not Found", error: "Could not find the doc that youre trying to put" });
-                    }
+    if (upd_guild === null) {
+        return res.json({ status: 404, message: "Not Found", error: "The guild that you are trying to update could not be found" });
+    }
 
-                    res.json({ status: 200, message: "OK", error: null });
-                })
-                .catch(err => {
+    res.json({ status: 200, message: "OK", error: null });
 
-                    res.json({ status: 500, message: "Internal Server Error", error: err });
-                });
-        })
-        .catch(err => {
+}).delete(authAdmin, (req, res) => {
 
-            res.json({ status: 500, message: "Internal Server Error", error: err });
-        });
+    let del_guild;
+    try {
 
-}).delete(fetchSession, authLogin, (req, res) => {
+        del_guild =  await schemas.GuildSchema
+            .findOneAndRemove({
+                discord_id: req.params.discord_id
+            });
+    } catch(error) {
 
-    // Admin, user (limited, if user.roles | manage server).
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
 
-    schemas.UserSchema
-        .findOne({
-            discord_id: req.session.discord.id
-        })
-        .then(async userdoc => {
-            if (userdoc === null) {
-                return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
-            }
+    if (del_guild === null) {
+        return res.json({ status: 404, message: "Not Found", error: "The user that you are trying to delete could not be found" });
+    }
 
-            let perms = await axios({
-                    method: "get",
-                    url: "https://discordapp.com/api/v6/users/@me/guilds",
-                    headers: {
-                        "Authorization": `Bearer ${req.session.discord.access_token}`
-                    }
-                })
-                .then(userguilds => {
-
-                    let perms = 0;
-                    for (let userguild of userguilds.data) {
-                        if (userguild.id === req.params.discord_id) {
-
-                            perms = userguild.permissions;
-                            break;
-                        }
-                    }
-                    return perms;
-
-                })
-                .catch(err => {
-
-                    return err;
-                });
-
-            if (userdoc.admin === false && (typeof perms !== "number" || (perms & 8) === 0)) {
-                return res.json({ status: 403, message: "Forbidden", error: "Discord perm lookup" });
-            }
-
-            schemas.GuildSchema
-                .findOneAndRemove({
-                    discord_id: req.params.discord_id
-                })
-                .then(guilddoc => {
-                    if (guilddoc === null) {
-                        return res.json({ status: 404, message: "Not Found", error: "Guild doc not found" });
-                    }
-
-                    res.json({ status: 200, message: "OK", error: null });
-
-                })
-                .catch(err => {
-
-                    res.json({ status: 500, message: "Internal Server Error", error: err });
-                });
-        })
-        .catch(err => {
-
-            res.json({ status: 500, message: "Internal Server Error", error: err });
-        });
-
+    res.json({ status: 200, message: "OK", error: null });
 });
 
 module.exports = router;
