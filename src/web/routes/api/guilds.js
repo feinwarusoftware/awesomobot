@@ -136,10 +136,26 @@ router.get("/@me", authUser, async (req, res) => {
         return res.json({ status: 404, message: "Not Found", error: "No guilds with sufficient permissions found" });
     }
 
-    res.json(user_guild_docs);
+    user_objs = user_guild_docs.map(e => {
+        
+        const obj = e.toObject();
+
+        delete obj._id;
+        delete obj.__v;
+
+        for (let i = 0; i < obj.scripts.length; i++) {
+
+            delete obj.scripts[i]._id;
+            delete obj.scripts[i].__v;
+        }
+
+        return obj;
+    })
+
+    res.json(user_objs);
 });
 
-router.route("/@me/:discord_id").get(authUser, (req, res) => {
+router.route("/@me/:discord_id").get(authUser, async (req, res) => {
     
     let user_guilds;
     try {
@@ -185,9 +201,20 @@ router.route("/@me/:discord_id").get(authUser, (req, res) => {
         return res.json({ status: 404, message: "Not Found", error: "No guilds with sufficient permissions found" });
     }
 
-    res.json(user_guild_doc);
+    const guild_obj = user_guild_doc.toObject();
 
-}).patch(authUser, (req, res) => {
+    delete guild_obj._id;
+    delete guild_obj.__v;
+
+    for (let i = 0; i < guild_obj.scripts.length; i++) {
+
+        delete guild_obj.scripts[i]._id;
+        delete guild_obj.scripts[i].__v;
+    }
+
+    res.json(guild_obj);
+
+}).patch(authUser, async (req, res) => {
     
     let user_guilds;
     try {
@@ -270,7 +297,7 @@ router.route("/@me/:discord_id").get(authUser, (req, res) => {
 
     res.json({ status: 200, message: "OK", error: null });
 
-}).delete(authUser, (req, res) => {
+}).delete(authUser, async (req, res) => {
     
     let user_guilds;
     try {
@@ -319,7 +346,7 @@ router.route("/@me/:discord_id").get(authUser, (req, res) => {
     res.json({ status: 200, message: "OK", error: null });
 });
 
-router.route("/:discord_id").get(authAdmin, (req, res) => {
+router.route("/:discord_id").get(authAdmin, async (req, res) => {
 
     let user_guild_doc;
     try {
@@ -340,7 +367,7 @@ router.route("/:discord_id").get(authAdmin, (req, res) => {
 
     res.json(user_guild_doc);
 
-}).patch(authAdmin, (req, res) => {
+}).patch(authAdmin, async (req, res) => {
 
     const prefix = req.body.prefix === undefined ? null : req.body.prefix;
     const log_channel_id = req.body.log_channel_id === undefined ? null : req.body.log_channel_id;
@@ -396,7 +423,7 @@ router.route("/:discord_id").get(authAdmin, (req, res) => {
 
     res.json({ status: 200, message: "OK", error: null });
 
-}).delete(authAdmin, (req, res) => {
+}).delete(authAdmin, async (req, res) => {
 
     let del_guild;
     try {

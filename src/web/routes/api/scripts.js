@@ -2,106 +2,462 @@
 
 const express = require("express");
 const mongoose = require("mongoose");
-const crypto = require("crypto");
 
 const schemas = require("../../../db");
 const Logger = require("../../../logger");
-const { fetchSession, authLogin } = require("../../middlewares");
+const { authUser, authAdmin } = require("../../middlewares");
 
 const router = express.Router();
 const apiLogger = new Logger();
 
-router.route("/").get(fetchSession, authLogin, (req, res) => {
+const limitDef = 10;
+const limitMax = 25;
 
-    schemas.UserSchema
-        .findOne({
-            discord_id: req.session.discord.id
-        })
-        .then(userdoc => {
-            if (userdoc === null) {
-                return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
-            }
+const pageDef = 0;
 
-            const limitDef = 10;
-            const limitMax = 25;
+router.route("/").get(authUser, async (req, res) => {
 
-            const pageDef = 0;
+    const page = req.query.page === undefined ? pageDef : req.query.page;
+    const local = req.query.local === undefined ? null : req.query.local === "true";
+    const name = req.query.name === undefined ? null : req.query.name;
+    const type = req.query.type === undefined ? null : req.query.type;
+    const permissions = req.query.permissions === undefined ? null : req.query.permissions;
+    const match = req.query.match === undefined ? null : req.query.match;
+    const match_type = req.query.match_type === undefined ? null : req.query.match_type;
 
-            const page = req.query.page === undefined ? pageDef : req.query.page;
-            let limit = req.query.limit === undefined ? limitDef : parseInt(req.query.limit);
+    let limit = req.query.limit === undefined ? limitDef : parseInt(req.query.limit);
+    if (isNaN(limit)) {
+        limit = limitDef;
+    }
+    if (limit > limitMax) {
+        limit = limitMax;
+    }
+
+    let script_schemas;
+    try {
+
+        script_schemas = await schemas.ScriptSchema
+            .find({
+                ...(local === null ? {} : { local }),
+                ...(name === null ? {} : { name }),
+                ...(type === null ? {} : { type }),
+                ...(match === null ? {} : { match }),
+                ...(match_type === null ? {} : { match_type })
+            })
+            .skip(page * limit)
+            .limit(limit)
+            .select({
+                __v: 0
+            });
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
+    script_schemas = script_schemas.filter(e => {
+        return permissions === null ? true : e.permissions & permissions;
+    });
+
+    if (script_schemas.length === 0) {
+        return res.json({ status: 404, message: "Not Found", error: "No logs found" });
+    }
+
+    res.json(script_schemas);
+
+}).post(authAdmin, async (req, res) => {
+    
+    // Get input.
+    const local = req.body.local === undefined ? null : req.body.local;
+    const name = req.body.name === undefined ? null : req.body.name;
+    const description = req.body.description === undefined ? null : req.body.description;
+    const type = req.body.type === undefined ? null : req.body.type;
+    const permissions = req.body.permissions === undefined ? null : req.body.permissions;
+    const match = req.body.match === undefined ? null : req.body.match;
+    const match_type = req.body.match_type === undefined ? null : req.body.match_type;
+    const code = req.body.code === undefined ? null : req.body.code;
+
+    if (local === null || name === null || type === null || permissions === null || match === null) {
+        return res.json({ status: 400, message: "Bad Request", error: "Not enough data specified" });
+    }
+
+    if (local !== "true" && local !== "false") {
+        return res.json({ status: 400, message: "Bad Request", error: "Local needs to be a boolean" });
+    }
+
+    if (local === false && code === null) {
+        return res.json({ status: 400, message: "Bad Request", error: "Code needs to be specified if local is set to false" });
+    }
+
+    if (type !== "js" && type !== "basic") {
+        return res.json({ status: 400, message: "Bad Request", error: "Type needs to be either js or basic" });
+    }
+
+    if (isNaN(parseInt(permissions)) === true) {
+        return res.json({ status: 400, message: "Bad Request", error: "Permissions needs to be a number" });
+    }
+
+    if (match.length === 0) {
+        return res.json({ status: 400, message: "Bad Request", error: "Match cannot be 0 length" });
+    }
+
+    if (match_type !== "command" && match_type !== "startswith" && match_type !== "contains" && match_type !== "exactmatch") {
+        return res.json({ status: 400, message: "Bad Request", error: "Match type needs to be either command, startswith, contains or exactmatch" });
+    }
+
+    const script = new schemas.ScriptSchema({
+        local,
+        name,
+        description,
+        type,
+        permissions,
+        match,
+        match_type,
+        code
+    });
+
+    try {
+
+        await script.save();
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
+    res.json({ status: 200, message: "OK", error: null });
+});
+
+router.route("/@me").get(authUser, async (req, res) => {
+
+    if (req.user.scripts.length === 0) {
+        return res.json({ status: 404, message: "Not Found", error: "No scripts found" });
+    }
+
+    let user_scripts;
+    try {
+
+        user_scripts = await schemas.ScriptSchema
+            .find({
+                _id: { $in: req.user.scripts }
+            });
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
+    if (user_scripts.length === 0) {
+        return res.json({ status: 404, message: "Not Found", error: "No scripts found" });
+    }
+
+    const script_objs = user_scripts.map(e => {
+
+        const obj = e.toObject();
+
+        delete onj.__v;
+
+        return obj;
+    });
+
+    res.json(script_objs);
+
+}).post(authUser, (req, res) => {
+
+        // Get input.
+        const local = false;
+        const name = req.body.name === undefined ? null : req.body.name;
+        const description = req.body.description === undefined ? null : req.body.description;
+        const type = req.body.type === undefined ? null : req.body.type;
+        const permissions = req.body.permissions === undefined ? null : req.body.permissions;
+        const match = req.body.match === undefined ? null : req.body.match;
+        const match_type = req.body.match_type === undefined ? null : req.body.match_type;
+        const code = req.body.code === undefined ? null : req.body.code;
+    
+        if (name === null || type === null || permissions === null || match === null || code === null) {
+            return res.json({ status: 400, message: "Bad Request", error: "Not enough data specified" });
+        }
+    
+        if (type !== "js" && type !== "basic") {
+            return res.json({ status: 400, message: "Bad Request", error: "Type needs to be either js or basic" });
+        }
+    
+        if (isNaN(parseInt(permissions)) === true) {
+            return res.json({ status: 400, message: "Bad Request", error: "Permissions needs to be a number" });
+        }
+    
+        if (match.length === 0) {
+            return res.json({ status: 400, message: "Bad Request", error: "Match cannot be 0 length" });
+        }
+    
+        if (match_type !== "command" && match_type !== "startswith" && match_type !== "contains" && match_type !== "exactmatch") {
+            return res.json({ status: 400, message: "Bad Request", error: "Match type needs to be either command, startswith, contains or exactmatch" });
+        }
+    
+        const script = new schemas.ScriptSchema({
+            local,
+            name,
+            description,
+            type,
+            permissions,
+            match,
+            match_type,
+            code
+        });
+    
+        try {
+    
+            await script.save();
+        } catch(error) {
+    
+            apiLogger.error(error);
+            return res.json({ status: 500, message: "Internal Server Error", error });
+        }
+    
+        res.json({ status: 200, message: "OK", error: null });
+});
+
+router.route("/@me/:object_id").get(authUser, async (req, res) => {
+
+    let object_id;
+    try {
+
+        object_id = mongoose.Types.ObjectId(req.params.object_id);
+    } catch(error) {
+
+        return res.json({ status: 400, message: "Bad Request", error });
+    }
+
+    let found = false;
+    for (let script_id of req.user.scripts) {
+        if (script_id.equals(object_id)) {
             
-            if (isNaN(limit)) {
-                limit = limitDef;
-            }
-            if (limit > limitMax) {
-                limit = limitMax;
-            }
+            found = true;
+            break;
+        }
+    }
 
-            const local = req.query.local === undefined ? null : req.query.local === "true";
-            const name = req.query.name === undefined ? null : req.query.name;
-            const type = req.query.type === undefined ? null : req.query.type;
-            const permissions = req.query.permissions === undefined ? null : req.query.permissions;
-            const match = req.query.match === undefined ? null : req.query.match;
-            const match_type = req.query.match_type === undefined ? null : req.query.match_type;
+    if (found === false) {
+        return res.json({ status: 404, message: "Not Found", error: "No scripts found" });
+    }
 
-            schemas.ScriptSchema
-                .find({
-                    ...(local === null ? {} : { local }),
-                    ...(name === null ? {} : { name }),
-                    ...(type === null ? {} : { type }),
-                    ...(match === null ? {} : { match }),
-                    ...(match_type === null ? {} : { match_type })
-                })
-                .skip(page * limit)
-                .limit(limit)
-                .select({
-                    _id: 0,
-                    __v: 0
-                })
-                .then(scriptdocs => {
-                    scriptdocs = scriptdocs.filter(doc => {
-                        return permissions === null ? true : doc.permissions & permissions;
-                    });
+    let script_doc;
+    try {
 
-                    res.json(scriptdocs);
-                })
-                .catch(err => {
+        script_doc = await schemas.ScriptSchema.findById(object_id);
+    } catch(error) {
 
-                    res.json({ err });
-                });
-        })
-        .catch(err => {
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
 
-            res.json({ status: 500, message: "Internal Server Error", error: err });
-        });
+    if (script_doc === null) {
+        return res.json({ status: 404, message: "Not Found", error: "No scripts found" });
+    }
 
-}).post(fetchSession, authLogin, (req, res) => {
+    const script_obj = script_doc.toObject();
 
-    // Admin only.
+    delete script_obj._id;
 
-    schemas.UserSchema
-        .findOne({
-            discord_id: req.session.discord.id
-        })
-        .then(doc => {
-            if (doc === null) {
-                return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
-            }
+    res.json(script_obj);
 
-            if (doc.admin === false) {
-                return res.json({ status: 403, message: "Forbidden", error: "Admin only path" });
-            }
+}).patch(authUser, async (req, res) => {
 
-            const local = req.body.local === undefined ? null : req.body.local;
-            const name = req.body.local === undefined ? null : req.body.name;
-            const description = req.body.local === undefined ? null : req.body.description;
-            const type = req.body.local === undefined ? null : req.body.type;
-            const permissions = req.body.local === undefined ? null : req.body.permissions;
-            const match = req.body.local === undefined ? null : req.body.match;
-            const match_type = req.body.local === undefined ? null : req.body.match_type;
-            const code = req.body.local === undefined ? null : req.body.code;
+    let object_id;
+    try {
 
-            const script = new schemas.ScriptSchema({
+        object_id = mongoose.Types.ObjectId(req.params.object_id);
+    } catch(error) {
+
+        return res.json({ status: 400, message: "Bad Request", error });
+    }
+
+    let found = false;
+    for (let script_id of req.user.scripts) {
+        if (script_id.equals(object_id)) {
+            
+            found = true;
+            break;
+        }
+    }
+
+    if (found === false) {
+        return res.json({ status: 404, message: "Not Found", error: "No scripts found" });
+    }
+
+    const name = req.body.name === undefined ? null : req.body.name;
+    const description = req.body.description === undefined ? null : req.body.description;
+    const type = req.body.type === undefined ? null : req.body.type;
+    const permissions = req.body.permissions === undefined ? null : req.body.permissions;
+    const match = req.body.match === undefined ? null : req.body.match;
+    const match_type = req.body.match_type === undefined ? null : req.body.match_type;
+    const code = req.body.code === undefined ? null : req.body.code;
+
+    if (type !== null && type !== "js" && type !== "basic") {
+        return res.json({ status: 400, message: "Bad Request", error: "Type needs to be either js or basic" });
+    }
+
+    if (permissions !== null && isNaN(parseInt(permissions)) === true) {
+        return res.json({ status: 400, message: "Bad Request", error: "Permissions needs to be a number" });
+    }
+
+    if (match !== null && match.length === 0) {
+        return res.json({ status: 400, message: "Bad Request", error: "Match cannot be 0 length" });
+    }
+
+    if (match_type !== null && match_type !== "command" && match_type !== "startswith" && match_type !== "contains" && match_type !== "exactmatch") {
+        return res.json({ status: 400, message: "Bad Request", error: "Match type needs to be either command, startswith, contains or exactmatch" });
+    }
+
+    let upd_script;
+    try {
+
+        upd_script = await schemas.ScriptSchema
+            .findOneAndUpdate({
+                _id: object_id
+            }, {
+                ...(name === null ? {} : { name }),
+                ...(description === null ? {} : { description }),
+                ...(type === null ? {} : { type }),
+                ...(permissions === null ? {} : { permissions }),
+                ...(match === null ? {} : { match }),
+                ...(match_type === null ? {} : { match_type }),
+                ...(code === null ? {} : { code })
+            });
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
+    if (upd_script === null) {
+        return res.json({ status: 404, message: "Not Found", error: "The script that you are trying to update could not be found" });
+    }
+
+    res.json({ status: 200, message: "OK", error: null });
+
+}).delete(authUser, async (req, res) => {
+
+    let object_id;
+    try {
+
+        object_id = mongoose.Types.ObjectId(req.params.object_id);
+    } catch(error) {
+
+        return res.json({ status: 400, message: "Bad Request", error });
+    }
+
+    let found = false;
+    for (let script_id of req.user.scripts) {
+        if (script_id.equals(object_id)) {
+            
+            found = true;
+            break;
+        }
+    }
+
+    if (found === false) {
+        return res.json({ status: 404, message: "Not Found", error: "No scripts found" });
+    }
+
+    let del_script;
+    try {
+
+        del_script =  await schemas.ScriptSchema
+            .findOneAndRemove({
+                _id: object_id
+            });
+    } catch(error) {
+      
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
+    if (del_script === null) {
+        return res.json({ status: 404, message: "Not Found", error: "The script that you are trying to delete could not be found" });
+    }
+
+    res.json({ status: 200, message: "OK", error: null });
+});
+
+router.route("/:object_id").get(authAdmin, async (req, res) => {
+    
+    let object_id;
+    try {
+
+        object_id = mongoose.Types.ObjectId(req.params.object_id);
+    } catch(error) {
+
+        return res.json({ status: 400, message: "Bad Request", error });
+    }
+
+    let script_doc;
+    try {
+
+        script_doc = await schemas.ScriptSchema.findById(object_id);
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
+    if (script_doc === null) {
+        return res.json({ status: 404, message: "Not Found", error: "No scripts found" });
+    }
+
+    res.json(script_doc);
+
+}).patch(authAdmin, async (req, res) => {
+    
+    let object_id;
+    try {
+
+        object_id = mongoose.Types.ObjectId(req.params.object_id);
+    } catch(error) {
+
+        return res.json({ status: 400, message: "Bad Request", error });
+    }
+
+    const local = req.body.local === undefined ? null : req.body.local;
+    const name = req.body.name === undefined ? null : req.body.name;
+    const description = req.body.description === undefined ? null : req.body.description;
+    const type = req.body.type === undefined ? null : req.body.type;
+    const permissions = req.body.permissions === undefined ? null : req.body.permissions;
+    const match = req.body.match === undefined ? null : req.body.match;
+    const match_type = req.body.match_type === undefined ? null : req.body.match_type;
+    const code = req.body.code === undefined ? null : req.body.code;
+
+    if (local !== null && local !== "true" && local !== "false") {
+        return res.json({ status: 400, message: "Bad Request", error: "Local needs to be a boolean" });
+    }
+
+    if (local !== null && local === false && code === null) {
+        return res.json({ status: 400, message: "Bad Request", error: "Code needs to be specified if local is set to false" });
+    }
+
+    if (type !== null && type !== "js" && type !== "basic") {
+        return res.json({ status: 400, message: "Bad Request", error: "Type needs to be either js or basic" });
+    }
+
+    if (permissions !== null && isNaN(parseInt(permissions)) === true) {
+        return res.json({ status: 400, message: "Bad Request", error: "Permissions needs to be a number" });
+    }
+
+    if (match !== null && match.length === 0) {
+        return res.json({ status: 400, message: "Bad Request", error: "Match cannot be 0 length" });
+    }
+
+    if (match_type !== null && match_type !== "command" && match_type !== "startswith" && match_type !== "contains" && match_type !== "exactmatch") {
+        return res.json({ status: 400, message: "Bad Request", error: "Match type needs to be either command, startswith, contains or exactmatch" });
+    }
+
+    let upd_script;
+    try {
+
+        upd_script = await schemas.ScriptSchema
+            .findOneAndUpdate({
+                _id: object_id
+            }, {
                 ...(local === null ? {} : { local }),
                 ...(name === null ? {} : { name }),
                 ...(description === null ? {} : { description }),
@@ -111,483 +467,47 @@ router.route("/").get(fetchSession, authLogin, (req, res) => {
                 ...(match_type === null ? {} : { match_type }),
                 ...(code === null ? {} : { code })
             });
+    } catch(error) {
 
-            script
-                .save()
-                .then(doc => {
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
 
-                    res.json({ status: 200, message: "OK", error: null });
-                })
-                .catch(err => {
+    if (upd_script === null) {
+        return res.json({ status: 404, message: "Not Found", error: "The script that you are trying to update could not be found" });
+    }
 
-                    res.json({ status: 500, message: "Internal Server Error", error: err });
-                });
-        })
-        .catch(err => {
+    res.json({ status: 200, message: "OK", error: null });
 
-            res.json({ status: 500, message: "Internal Server Error", error: err });
-        });
+}).delete(authAdmin, async (req, res) => {
+    
+    let object_id;
+    try {
 
-});
+        object_id = mongoose.Types.ObjectId(req.params.object_id);
+    } catch(error) {
 
-router.route("/@me").get(fetchSession, authLogin, (req, res) => {
+        return res.json({ status: 400, message: "Bad Request", error });
+    }
 
-    // Admin, user (limited).
+    let del_script;
+    try {
 
-    schemas.UserSchema
-        .findOne({
-            discord_id: req.session.discord.id
-        })
-        .then(userdoc => {
-            if (userdoc === null) {
-                return res.json({ status: 404, message: "Not Found", error: null });
-            }
-
-            schemas.ScriptSchema
-                .find({
-                    _id: { $in: userdoc.scripts }
-                })
-                .then(scriptdocs => {
-                    if (scriptdocs.length === 0) {
-                        return res.json({ status: 404, message: "Not Found", error: null });
-                    }
-
-                    let resdocs = scriptdocs.map(e => {
-
-                        return e.toObject();
-                    });
-
-                    if (userdoc.admin === false) {
-
-                        resdocs = resdocs.map(e => {
-
-                            delete e.__v;
-                            delete e.local;
-
-                            return e;
-                        });
-                    }
-
-                    res.json(resdocs);
-
-                })
-                .catch(err => {
-
-                    res.json({ status: 500, message: "Internal Server Error", error: err });
-                });
-        })
-        .catch(err => {
-
-            res.json({ status: 500, message: "Internal Server Error", error: err });
-        });
-
-}).post(fetchSession, authLogin, (req, res) => {
-
-    // Admin, user (limited).
-
-    schemas.UserSchema
-        .findOne({
-            discord_id: req.session.discord.id
-        })
-        .then(userdoc => {
-            if (userdoc === null) {
-                return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
-            }
-
-            let local = req.body.local === undefined ? null : req.body.local;
-            const name = req.body.local === undefined ? null : req.body.name;
-            const description = req.body.local === undefined ? null : req.body.description;
-            const type = req.body.local === undefined ? null : req.body.type;
-            const permissions = req.body.local === undefined ? null : req.body.permissions;
-            const match = req.body.local === undefined ? null : req.body.match;
-            const match_type = req.body.local === undefined ? null : req.body.match_type;
-            const code = req.body.local === undefined ? null : req.body.code;
-
-            if (userdoc.admin === false) {
-                local = false;
-            }
-
-            const script = new schemas.ScriptSchema({
-                ...(local === null ? {} : { local }),
-                ...(name === null ? {} : { name }),
-                ...(description === null ? {} : { description }),
-                ...(type === null ? {} : { type }),
-                ...(permissions === null ? {} : { permissions }),
-                ...(match === null ? {} : { match }),
-                ...(match_type === null ? {} : { match_type }),
-                ...(code === null ? {} : { code })
+        del_script =  await schemas.ScriptSchema
+            .findOneAndRemove({
+                _id: object_id
             });
+    } catch(error) {
+      
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
 
-            script
-                .save()
-                .then(scriptdoc => {
+    if (del_script === null) {
+        return res.json({ status: 404, message: "Not Found", error: "The script that you are trying to delete could not be found" });
+    }
 
-                    userdoc.scripts.push(scriptdoc._id);
-
-                    userdoc
-                        .save()
-                        .then(userdoc => {
-
-                            res.json({ status: 200, message: "OK", error: null });
-                        })
-                        .catch(err => {
-
-                            res.json({ status: 500, message: "Internal Server Error", error: err });
-                        });
-                })
-                .catch(err => {
-
-                    res.json({ status: 500, message: "Internal Server Error", error: err });
-                });
-        })
-        .catch(err => {
-
-            res.json({ status: 500, message: "Internal Server Error", error: err });
-        });
-
-});
-
-router.route("/:object_id").get(fetchSession, authLogin, (req, res) => {
-
-    // Admin, user (limited).
-
-    schemas.UserSchema
-        .findOne({
-            discord_id: req.session.discord.id
-        })
-        .then(userdoc => {
-            if (userdoc === null) {
-                return res.json({ status: 404, message: "Not Found", error: null });
-            }
-
-            schemas.ScriptSchema
-                .findOne({
-                    _id: { $in: req.params.object_id }
-                })
-                .then(scriptdoc => {
-                    if (scriptdoc.length === 0) {
-                        return res.json({ status: 404, message: "Not Found", error: null });
-                    }
-
-                    let resdoc = scriptdoc.toObject();
-
-                    if (userdoc.admin === false) {
-
-                        delete resdoc.__v;
-                        delete resdoc.local;
-                    }
-
-                    res.json(resdoc);
-
-                })
-                .catch(err => {
-
-                    res.json({ status: 500, message: "Internal Server Error", error: err });
-                });
-        })
-        .catch(err => {
-
-            res.json({ status: 500, message: "Internal Server Error", error: err });
-        });
-
-}).put(fetchSession, authLogin, (req, res) => {
-
-    // Admin, user (limited, if Object_id in user.scripts).
-
-    schemas.UserSchema
-        .findOne({
-            discord_id: req.session.discord.id
-        })
-        .then(userdoc => {
-            if (userdoc === null) {
-                return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
-            }
-
-            let found = false;
-            for (let script of userdoc.scripts) {
-                if (script.equals(mongoose.Types.ObjectId(req.params.object_id))) {
-                    
-                    found = true;
-                    break;
-                }
-            }
-
-            if (userdoc.admin === false && found === false) {
-                return res.json({ status: 403, message: "Forbidden", error: "Admin only use" });
-            }
-
-            let local = req.body.local === undefined ? false : req.body.local;
-            let name = req.body.name === undefined ? `cmd_${crypto.randomBytes(4).toString("hex")}` : req.body.name;
-            let description = req.body.description === undefined ? "*(placeholder)*" : req.body.description;
-            let type = req.body.type === undefined ? "js" : req.body.type;
-            let permissions = req.body.permissions === undefined ? 0 : req.body.permissions;
-            let match = req.body.match === undefined ? `match_${crypto.randomBytes(4).toString("hex")}` : req.body.match;
-            let match_type = req.body.match_type === undefined ? "command" : req.body.match_type;
-            let code = req.body.code === undefined ? "message.reply('default');" : req.body.code;
-
-            // Ignore user input for the following fields if theyre not admin.
-            if (userdoc.admin === false) {
-
-                local = null;
-            }
-
-            const update = {
-                ...(local === null ? {} : { local }),
-                ...(name === null ? {} : { name }),
-                ...(description === null ? {} : { description }),
-                ...(type === null ? {} : { type }),
-                ...(permissions === null ? {} : { permissions }),
-                ...(match === null ? {} : { match }),
-                ...(match_type === null ? {} : { match_type }),
-                ...(code === null ? {} : { code })
-            };
-
-            // Return if theres nothing to update.
-            if (Object.keys(update).length === 0) {
-                return res.json({ status: 200, message: "OK", error: null, debug: "no changes made" });
-            }
-
-            schemas.ScriptSchema
-                .findOneAndUpdate({
-                    discord_id: req.params.discord_id
-                }, 
-                    update
-                )
-                .then(scriptdoc => {
-                    if (scriptdoc === null) {
-                        return res.json({ status: 404, message: "Not Found", error: "Could not find the doc that youre trying to put" });
-                    }
-
-                    res.json({ status: 200, message: "OK", error: null });
-                })
-                .catch(err => {
-
-                    res.json({ status: 500, message: "Internal Server Error", error: err });
-                });
-        })
-        .catch(err => {
-
-            res.json({ status: 500, message: "Internal Server Error", error: err });
-        });
-    
-}).patch(fetchSession, authLogin, (req, res) => {
-
-    // Admin, user (limited, if Object_id in user.scripts).
-
-    schemas.UserSchema
-        .findOne({
-            discord_id: req.session.discord.id
-        })
-        .then(userdoc => {
-            if (userdoc === null) {
-                return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
-            }
-
-            let found = false;
-            for (let script of userdoc.scripts) {
-                if (script.equals(mongoose.Types.ObjectId(req.params.object_id))) {
-                    
-                    found = true;
-                    break;
-                }
-            }
-
-            if (userdoc.admin === false && found === false) {
-                return res.json({ status: 403, message: "Forbidden", error: "Admin only use" });
-            }
-
-            let local = req.body.local === undefined ? null : req.body.local;
-            let name = req.body.name === undefined ? null : req.body.name;
-            let description = req.body.description === undefined ? null : req.body.description;
-            let type = req.body.type === undefined ? null : req.body.type;
-            let permissions = req.body.permissions === undefined ? null : req.body.permissions;
-            let match = req.body.match === undefined ? null : req.body.match;
-            let match_type = req.body.match_type === undefined ? null : req.body.match_type;
-            let code = req.body.code === undefined ? null : req.body.code;
-
-            // Ignore user input for the following fields if theyre not admin.
-            if (userdoc.admin === false) {
-
-                local = null;
-            }
-
-            const update = {
-                ...(local === null ? {} : { local }),
-                ...(name === null ? {} : { name }),
-                ...(description === null ? {} : { description }),
-                ...(type === null ? {} : { type }),
-                ...(permissions === null ? {} : { permissions }),
-                ...(match === null ? {} : { match }),
-                ...(match_type === null ? {} : { match_type }),
-                ...(code === null ? {} : { code })
-            };
-
-            // Return if theres nothing to update.
-            if (Object.keys(update).length === 0) {
-                return res.json({ status: 200, message: "OK", error: null, debug: "no changes made" });
-            }
-
-            schemas.ScriptSchema
-                .findOneAndUpdate({
-                    discord_id: req.params.discord_id
-                }, 
-                    update
-                )
-                .then(scriptdoc => {
-                    if (scriptdoc === null) {
-                        return res.json({ status: 404, message: "Not Found", error: "Could not find the doc that youre trying to put" });
-                    }
-
-                    res.json({ status: 200, message: "OK", error: null });
-                })
-                .catch(err => {
-
-                    res.json({ status: 500, message: "Internal Server Error", error: err });
-                });
-        })
-        .catch(err => {
-
-            res.json({ status: 500, message: "Internal Server Error", error: err });
-        });
-    
-}).delete(fetchSession, authLogin, (req, res) => {
-
-    // Admin, user (limited, if Object_id in user.scripts).
-    // Removes the script from the user and all guilds.
-
-    schemas.UserSchema
-        .findOne({
-            discord_id: req.session.discord.id
-        })
-        .then(userdoc => {
-            if (userdoc === null) {
-                return res.json({ status: 403, message: "Forbidden", error: "User doc not found" });
-            }
-
-            let found = false;
-            for (let script of userdoc.scripts) {
-                if (script.equals(mongoose.Types.ObjectId(req.params.object_id))) {
-                    
-                    found = true;
-                    break;
-                }
-            }
-
-            if (userdoc.admin === false && found === false) {
-                return res.json({ status: 403, message: "Forbidden", error: "Admin only use" });
-            }
-
-            schemas.UserSchema
-                .findOne({
-                    scripts: req.params.object_id
-                })
-                .then(quserdoc => {
-                    if (quserdoc === null) {
-
-                        return res.json({ status: 404, message: "Not Found", error: "Could not find the doc that youre trying to remove" });
-                    }
-
-                    let found = false;
-                    for (let i = 0; i < quserdoc.scripts.length; i++) {
-                        if (quserdoc.scripts[i].equals(mongoose.Types.ObjectId(req.params.object_id))) {
-
-                            found = true;
-                            quserdoc.scripts.splice(i, 1);
-                            break;
-                        }
-                    }
-                    if (found === false) {
-
-                        return res.json({ status: 404, message: "Not Found", error: "Could not find the doc that youre trying to remove" });
-                    }
-
-                    quserdoc
-                        .save()
-                        .then(doc => {
-                            if (doc === null) {
-
-                                return res.json({ status: 404, message: "Not Found", error: "Could not find the doc that youre trying to remove" });
-                            }
-
-                            schemas.GuildSchema
-                                .find({
-                                    scripts: { $elemMatch: { object_id: req.params.object_id } }
-                                })
-                                .then(guilddocs => {
-        
-                                    const promises = [];
-        
-                                    for (let i = 0; i < guilddocs.length; i++) {
-        
-                                        let found = false;
-                                        for (let j = 0; j < guilddocs[i].scripts.length; j++) {
-                                            if (guilddocs[i].scripts[j].object_id.equals(mongoose.Types.ObjectId(req.params.object_id))) {
-        
-                                                found = true;
-                                                guilddocs[i].scripts.splice(j, 1);
-                                                break;
-                                            }
-                                        }
-        
-                                        if (found === false) {
-                                            return res.json({ status: 500, message: "Internal Server Error", error: err, debug: "script not removed" });
-                                        }
-        
-                                        promises.push(guilddocs[i].save());
-                                    }
-        
-                                    if (promises.length === 0) {
-                                        return res.json({ status: 200, message: "OK", error: null, debug: "no guilds found" });
-                                    }
-        
-                                    Promise
-                                        .all(promises)
-                                        .then(uguilddocs => {
-                                            if (uguilddocs.length !== guilddocs.length) {
-                                                return res.json({ status: 500, message: "Internal Server Error", error: err, debug: "not all saved" });
-                                            }
-
-                                            schemas.ScriptSchema
-                                                .findOneAndRemove({
-                                                    _id: req.params.object_id
-                                                })
-                                                .then(scriptdoc => {
-                                                    if (scriptdoc === null) {
-                                                        return res.json({ status: 404, message: "Not Found", error: "Could not find the doc that youre trying to remove" });
-                                                    }
-                                
-                                                    res.json({ status: 200, message: "OK", error: null });
-                                                })
-                                                .catch(err => {
-                                
-                                                    res.json({ status: 500, message: "Internal Server Error", error: err });
-                                                });
-                                        })
-                                        .catch(err => {
-                                            
-                                            res.json({ status: 500, message: "Internal Server Error", error: err });
-                                        });
-                                })
-                                .catch(err => {
-        
-                                    res.json({ status: 500, message: "Internal Server Error", error: err });
-                                });
-                        })
-                        .catch(err => {
-
-                            res.json({ status: 500, message: "Internal Server Error", error: err });
-                        });
-                })
-                .catch(err => {
-
-                    res.json({ status: 500, message: "Internal Server Error", error: err });
-                });
-        })
-        .catch(err => {
-
-            res.json({ status: 500, message: "Internal Server Error", error: err });
-        });
-
+    res.json({ status: 200, message: "OK", error: null });
 });
 
 module.exports = router;

@@ -42,7 +42,12 @@ router.get("/", authAdmin, async (req, res) => {
             });
     } catch(error) {
 
-        res.json({ status: 500, message: "Internal Server Error", error });
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
+    if (log_schemas,length === 0) {
+
     }
 
     res.json(log_schemas);
