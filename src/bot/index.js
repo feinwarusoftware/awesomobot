@@ -75,10 +75,6 @@ const loadCommands = async () => {
 
                     let change = false;
 
-                    if (doc.author !== null) {
-                        doc.author = null;
-                        change = true;
-                    }
                     if (doc.description !== command.description) {
                         doc.description = command.description;
                         change = true;
@@ -142,13 +138,12 @@ const loadCommands = async () => {
 
             const script = new schemas.ScriptSchema({
                 local: true,
-                name: command.name,
-                author: null,
-                description: command.description,
-                type: command.type,
-                permissions: command.permissions,
-                match: command.match,
-                match_type: command.match_type,
+                name: command.name === undefined ? "name" : command.name,
+                description: command.description === undefined ? "desc" : command.description,
+                type: command.type === undefined ? "js" : command.type,
+                permissions: command.permissions === undefined ? 0 : command.permissions,
+                match: command.match === undefined ? "_wip" : command.match,
+                match_type: command.match_type === undefined ? "command" : command.match_type,
                 code : null
             });
 
@@ -320,7 +315,10 @@ client.on("message", async message => {
                 return e.name === a.name;
             });
 
-            if (match === undefined) {
+            if (match !== undefined) {
+                if (match.order === undefined) {
+                    match.order = 0;
+                }
 
                 na = match.order;
             } else {
@@ -338,7 +336,10 @@ client.on("message", async message => {
                 return e.name === b.name;
             });
 
-            if (match === undefined) {
+            if (match !== undefined) {
+                if (match.order === undefined) {
+                    match.order = 0;
+                }
 
                 nb = match.order;
             } else {

@@ -60,7 +60,7 @@ router.route("/").get(authUser, async (req, res) => {
     });
 
     if (script_schemas.length === 0) {
-        return res.json({ status: 404, message: "Not Found", error: "No logs found" });
+        return res.json({ status: 404, message: "Not Found", error: "No scripts found" });
     }
 
     res.json(script_schemas);
@@ -155,14 +155,14 @@ router.route("/@me").get(authUser, async (req, res) => {
 
         const obj = e.toObject();
 
-        delete onj.__v;
+        delete obj.__v;
 
         return obj;
     });
 
     res.json(script_objs);
 
-}).post(authUser, (req, res) => {
+}).post(authUser, async (req, res) => {
 
         // Get input.
         const local = false;

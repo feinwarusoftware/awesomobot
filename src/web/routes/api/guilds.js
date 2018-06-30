@@ -340,7 +340,7 @@ router.route("/@me/:discord_id").get(authUser, async (req, res) => {
     }
 
     if (del_guild === null) {
-        return res.json({ status: 404, message: "Not Found", error: "The user that you are trying to delete could not be found" });
+        return res.json({ status: 404, message: "Not Found", error: "The guild that you are trying to delete could not be found" });
     }
 
     res.json({ status: 200, message: "OK", error: null });

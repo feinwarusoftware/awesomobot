@@ -46,8 +46,8 @@ router.get("/", authAdmin, async (req, res) => {
         return res.json({ status: 500, message: "Internal Server Error", error });
     }
 
-    if (log_schemas,length === 0) {
-
+    if (log_schemas.length === 0) {
+        return res.json({ status: 404, message: "Not Found", error: "No logs found" });
     }
 
     res.json(log_schemas);

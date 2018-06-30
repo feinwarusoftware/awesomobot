@@ -139,7 +139,7 @@ router.route("/:discord_id").get(authAdmin, async (req, res) => {
 
     res.json(user_doc);
 
-}).patch(authAdmin, (req, res) => {
+}).patch(authAdmin, async (req, res) => {
     
     const admin = req.body.admin === undefined ? null : req.body.admin;
     const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
