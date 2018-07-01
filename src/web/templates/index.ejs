@@ -45,6 +45,7 @@
         }
 
         .anchor { padding-top: 50px; }
+
     </style>
 
 </head>
@@ -56,9 +57,9 @@
         <%- include partials/navbar.ejs %>
 
             <!-- Full Page Intro -->
-            <div class="view" style="background-image: url('/img/awesomo-bg.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+            <div class="view jarallax" data-jarallax='{"speed": 0.5}' style="background: url('https://media.discordapp.net/attachments/379432139856412682/462737165806338058/abstract2.png');">
                 <!-- Mask & flexbox options-->
-                <div class="mask rgba-gradient d-flex justify-content-center align-items-center">
+                <div class="mask d-flex justify-content-center align-items-center">
                     <!-- Content -->
                     <div class="container">
                         <!--Grid row-->
@@ -228,7 +229,7 @@
 
         </div>
         <!-- Streak -->
-        <div class="streak streak-photo streak-long-2" style="background-image: url('/img/awesomo-bg.jpg');">
+        <div class="view jarallax" data-jarallax='{"speed": 0.5}' style="background: url('/img/awesomo-bg.jpg');height: 300px">
             <div class="flex-center rgba-gradient">
                 <div class="container">
 
@@ -977,7 +978,7 @@
                     <!-- MDB core JavaScript -->
                     <script type="text/javascript" src="/js/mdb.min.js"></script>
 
-                    <script type="text/javascript" src="/js/index.js"></script>
+                    <script type="text/javascript" src="/js/script.js"></script>
 
                     <script>
                         //Animation init

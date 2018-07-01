@@ -17,7 +17,12 @@ const { fetchSession } = require("../helpers");
 
 const apiLogger = new Logger();
 const router = express.Router();
-const converter = new showdown.Converter();
+const converter = new showdown.Converter({
+    tables: true,
+    emoji: true,
+    customizedHeaderId: true,
+    ghCodeBlocks: true
+});
 
 let config;
 try {
@@ -33,13 +38,16 @@ router.use("/api/v3", api);
 router.get("/auth/discord", async (req, res) => {
 
     let session_doc;
-    try {
+    if (req.cookies !== undefined && req.cookies.session !== undefined) {
 
-        session_doc = await fetchSession(req.cookies.session);
-    } catch(error) {
+        try {
 
-        // fail silently
-        apiLogger.error(error);
+            session_doc = await fetchSession(req.cookies.session);
+        } catch(error) {
+
+            // fail silently
+            apiLogger.error(error);
+        }
     }
 
     if (session_doc !== undefined && session_doc.complete === true) {
@@ -142,9 +150,27 @@ router.get("/", (req, res, next) => {
     res.render("index", { md: text => { return converter.makeHtml(text); }, user: {} });
 });
 
+router.get("/api/docs", async (req, res, next) => {
+    const apidocs = fs.readFileSync(path.join(__dirname, "..", "markdown",  "api-docs", "reference.md")).toString();
+    res.render("apidocs", { md: text => { return converter.makeHtml(text); }, user: {}, apidocs});
+});
+
+router.get("/privacy", async (req, res, next) => {
+    const privacy = fs.readFileSync(path.join(__dirname, "..", "markdown", "terms", "privacy.md")).toString();
+    res.render("privacy", { md: text => { return converter.makeHtml(text); }, user: {}, privacy});
+});
+
+router.get("/credits", async (req, res, next) => {
+    res.render("credits", { md: text => { return converter.makeHtml(text); }, user: {}});
+});
+
+router.get("/commands", async (req, res, next) => {
+    res.render("commands", { md: text => { return converter.makeHtml(text); }, user: {}});
+});
+
 router.get("/dashboard", authUser, (req, res, next) => {
 
-    res.send("this is the shitty commands page lol");
+    res.send("this is the shitty dashboard page lol");
 });
 
 router.get("/token", authAdmin, (req, res) => {

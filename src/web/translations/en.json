@@ -94,6 +94,32 @@
     "USAGE": "Usage",
     "MINIMUM_ROLE": "Minimum Role",
 
+    "_CREDITS PAGE": "Below is all the shit for the credits page",
+    "BACKEND_DEV": "Backend Developer",
+    "DRAGON_DESC": "I'm gay",
+    "FRONTEND_DEV": "Frontend Developer",
+    "MATT_DESC": "Your Granny Tranny",
+    "ASSISTANT_BACKEND_DEV": "Assistant Backend Developer",
+    "TOWEL_DESC": "I'm gay",
+    "PD_COMMANDS": "Phone Destroyer Commands",
+    "UMUSTALL_DESC": "I'm American",
+
+    "ARTISTS": "Artists",
+    "AWESOMO_PORTRAIT": "AWESOM-O Portrait",
+    "PHIN_DESC": "Phin Desc",
+    "AWESOMO_404": "404 Page Art",
+    "FENNY_DESC": "Fenny Desc",
+    
+    "TRANSLATORS": "Translators",
+    "PORTUGESE_TRANSLATION": "Portugese Translation",
+    "TWEENO_DESC": "ur ma",
+    "CHINESE_TRANSLATION": "Chinese Translation",
+    "TWEAK_DESC": "ur mum gay",  
+
+
+    "_PRIVACY PAGE": "Below is all the shit for the privacy page",
+    "PRIVACY_POLICY": "Privacy Policy",
+
     "_FOOTER": "Below is the shit for the footer",
 
     "GET_CONNECTED": "Get connected with us on social networks!",
@@ -114,7 +140,8 @@
     "HELP_AND_SUPPORT": "Help & Support",
     "DEVELOPERS": "Developers",
     "FEEDBACK": "Feedback",
-    "TERMS": "Terms & Conditions",
+    "TERMS": "Terms",
+    "PRIVACY": "Privacy",
 
     "COMMANDS_DESC": [{
         "NAME": "activelist",

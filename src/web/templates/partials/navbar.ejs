@@ -27,18 +27,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="https://feinwaru.tumblr.com">
+                    <a class="nav-link" href="https://blog.feinwaru.com">
                         <%= trans.BLOG %>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link yellow-text" href="https://patreon.com/awesomo">
-                        <b><%= trans.PREMIUM %></b>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link waves-effect waves-light" data-toggle="modal" data-target="#LangModal">
-                        <i class="fa fa-globe"></i>
+                        <b>
+                            <%= trans.PREMIUM %>
+                        </b>
                     </a>
                 </li>
             </ul>
@@ -59,7 +56,7 @@
                         <li class="nav-item avatar dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 <img src="<%= 'https://cdn.discordapp.com/avatars/' + user.id + '/' + user.avatar + '.png?size=128' %>" class="rounded-circle z-depth-0"
-                                    alt="avatar image">
+                                    alt="there is supposed to be an image but dragon 🅱roke it">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-feinwaru text-right">
                                 <h6 class="dropdown-header">
@@ -76,9 +73,14 @@
                         </li>
 
                         <% } %>
-
-
-                            </form>
+                        <li class="nav-item">
+                            <p> | </p>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link waves-effect waves-light" data-toggle="modal" data-target="#LangModal">
+                                <i class="fa fa-language"></i>
+                            </a>
+                        </li>
         </div>
     </div>
 </nav>
