@@ -1,6 +1,7 @@
 "use strict";
 
 const express = require("express");
+const mongoose = require("mongoose");
 
 const schemas = require("../../../db");
 const Logger = require("../../../logger");
@@ -38,6 +39,11 @@ router.post("/", authAdmin, async (req, res) => {
         return res.json({ status: 400, message: "Bad Request", error: "Duplicate discord id" });
     }
 
+    // Check admin.
+    if (admin !== null && typeof admin !== "boolean") {
+        return res.json({ status: 400, message: "Bad Request", error: "Admin needs to be either true or false" });
+    }
+
     // Check scripts.
     if (scripts instanceof Array === false) {
         return res.json({ status: 400, message: "Bad Request", error: "Scripts should be an array" });
@@ -45,12 +51,23 @@ router.post("/", authAdmin, async (req, res) => {
 
     if (scripts.length > 0) {
 
+        let script_ids = [];
+        for (let script of scripts) {
+            try {
+
+                script_ids.push(mongoose.Types.ObjectId(script));
+            } catch(error) {
+                
+                return res.json({ status: 400, message: "Bad Request", error: "Invalid script id provided" });
+            }
+        }
+
         let script_docs;
         try {
     
             script_docs = await schemas.ScriptSchema
                 .find({
-                    _id: { $in: scripts }
+                    _id: { $in: script_ids }
                 });
         } catch(error) {
     
@@ -144,6 +161,11 @@ router.route("/:discord_id").get(authAdmin, async (req, res) => {
     const admin = req.body.admin === undefined ? null : req.body.admin;
     const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
 
+    // Check admin.
+    if (admin !== null && typeof admin !== "boolean") {
+        return res.json({ status: 400, message: "Bad Request", error: "Admin needs to be either true or false" });
+    }
+
     // Check scripts.
     if (scripts instanceof Array === false) {
         return res.json({ status: 400, message: "Bad Request", error: "Scripts should be an array" });
@@ -151,12 +173,23 @@ router.route("/:discord_id").get(authAdmin, async (req, res) => {
 
     if (scripts.length > 0) {
 
+        let script_ids = [];
+        for (let script of scripts) {
+            try {
+
+                script_ids.push(mongoose.Types.ObjectId(script));
+            } catch(error) {
+                
+                return res.json({ status: 400, message: "Bad Request", error: "Invalid script id provided" });
+            }
+        }
+
         let script_docs;
         try {
     
             script_docs = await schemas.ScriptSchema
                 .find({
-                    _id: { $in: scripts }
+                    _id: { $in: script_ids }
                 });
         } catch(error) {
     

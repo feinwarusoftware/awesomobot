@@ -77,11 +77,11 @@ router.route("/").get(authUser, async (req, res) => {
     const match_type = req.body.match_type === undefined ? null : req.body.match_type;
     const code = req.body.code === undefined ? null : req.body.code;
 
-    if (local === null || name === null || type === null || permissions === null || match === null) {
+    if (local === null || description === null || name === null || type === null || permissions === null || match === null) {
         return res.json({ status: 400, message: "Bad Request", error: "Not enough data specified" });
     }
 
-    if (local !== "true" && local !== "false") {
+    if (typeof local !== "boolean") {
         return res.json({ status: 400, message: "Bad Request", error: "Local needs to be a boolean" });
     }
 
@@ -97,7 +97,7 @@ router.route("/").get(authUser, async (req, res) => {
         return res.json({ status: 400, message: "Bad Request", error: "Permissions needs to be a number" });
     }
 
-    if (match.length === 0) {
+    if (typeof match !== "string" || match.length === 0) {
         return res.json({ status: 400, message: "Bad Request", error: "Match cannot be 0 length" });
     }
 
@@ -174,7 +174,7 @@ router.route("/@me").get(authUser, async (req, res) => {
         const match_type = req.body.match_type === undefined ? null : req.body.match_type;
         const code = req.body.code === undefined ? null : req.body.code;
     
-        if (name === null || type === null || permissions === null || match === null || code === null) {
+        if (name === null || description === null || type === null || permissions === null || match === null || code === null) {
             return res.json({ status: 400, message: "Bad Request", error: "Not enough data specified" });
         }
     
@@ -186,7 +186,7 @@ router.route("/@me").get(authUser, async (req, res) => {
             return res.json({ status: 400, message: "Bad Request", error: "Permissions needs to be a number" });
         }
     
-        if (match.length === 0) {
+        if (typeof match !== "string" || match.length === 0) {
             return res.json({ status: 400, message: "Bad Request", error: "Match cannot be 0 length" });
         }
     
@@ -205,11 +205,23 @@ router.route("/@me").get(authUser, async (req, res) => {
             code
         });
     
+        let user_script;
         try {
     
-            await script.save();
+            user_script = await script.save();
         } catch(error) {
     
+            apiLogger.error(error);
+            return res.json({ status: 500, message: "Internal Server Error", error });
+        }
+
+        req.user.scripts.push(user_script._id);
+
+        try {
+
+            await req.user.save();
+        } catch(error) {
+
             apiLogger.error(error);
             return res.json({ status: 500, message: "Internal Server Error", error });
         }
@@ -257,7 +269,7 @@ router.route("/@me/:object_id").get(authUser, async (req, res) => {
 
     const script_obj = script_doc.toObject();
 
-    delete script_obj._id;
+    delete script_obj.__v;
 
     res.json(script_obj);
 
@@ -301,7 +313,7 @@ router.route("/@me/:object_id").get(authUser, async (req, res) => {
         return res.json({ status: 400, message: "Bad Request", error: "Permissions needs to be a number" });
     }
 
-    if (match !== null && match.length === 0) {
+    if (match !== null && typeof match !== "string" || match.length === 0) {
         return res.json({ status: 400, message: "Bad Request", error: "Match cannot be 0 length" });
     }
 
@@ -348,9 +360,10 @@ router.route("/@me/:object_id").get(authUser, async (req, res) => {
     }
 
     let found = false;
-    for (let script_id of req.user.scripts) {
-        if (script_id.equals(object_id)) {
+    for (let i = 0; i < req.user.scripts.length; i++) {
+        if (req.user.scripts[i].equals(object_id)) {
             
+            req.user.scripts.splice(i, 1);
             found = true;
             break;
         }
@@ -360,21 +373,13 @@ router.route("/@me/:object_id").get(authUser, async (req, res) => {
         return res.json({ status: 404, message: "Not Found", error: "No scripts found" });
     }
 
-    let del_script;
     try {
 
-        del_script =  await schemas.ScriptSchema
-            .findOneAndRemove({
-                _id: object_id
-            });
+        await req.user.save();
     } catch(error) {
-      
+
         apiLogger.error(error);
         return res.json({ status: 500, message: "Internal Server Error", error });
-    }
-
-    if (del_script === null) {
-        return res.json({ status: 404, message: "Not Found", error: "The script that you are trying to delete could not be found" });
     }
 
     res.json({ status: 200, message: "OK", error: null });
@@ -427,7 +432,7 @@ router.route("/:object_id").get(authAdmin, async (req, res) => {
     const match_type = req.body.match_type === undefined ? null : req.body.match_type;
     const code = req.body.code === undefined ? null : req.body.code;
 
-    if (local !== null && local !== "true" && local !== "false") {
+    if (local !== null && local !== true && local !== false) {
         return res.json({ status: 400, message: "Bad Request", error: "Local needs to be a boolean" });
     }
 
@@ -443,7 +448,7 @@ router.route("/:object_id").get(authAdmin, async (req, res) => {
         return res.json({ status: 400, message: "Bad Request", error: "Permissions needs to be a number" });
     }
 
-    if (match !== null && match.length === 0) {
+    if (match !== null && typeof match !== "string" || match.length === 0) {
         return res.json({ status: 400, message: "Bad Request", error: "Match cannot be 0 length" });
     }
 

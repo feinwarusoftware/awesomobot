@@ -2,6 +2,7 @@
 
 const express = require("express");
 const axios = require("axios");
+const mongoose = require("mongoose");
 
 const schemas = require("../../../db");
 const Logger = require("../../../logger");
@@ -14,7 +15,7 @@ router.post("/", authAdmin, async (req, res) => {
 
     // Get input.
     const discord_id = req.body.discord_id === undefined ? null : req.body.discord_id;
-    const prefix = req.body.prefix === undefined ? null : req.body.prefix;
+    const prefix = req.body.prefix === undefined ? "-" : req.body.prefix;
     const log_channel_id = req.body.log_channel_id === undefined ? null : req.body.log_channel_id;
     const log_events = req.body.log_events === undefined ? null : req.body.log_events;
     const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
@@ -41,6 +42,11 @@ router.post("/", authAdmin, async (req, res) => {
         return res.json({ status: 400, message: "Bad Request", error: "Duplicate discord id" });
     }
 
+    // Check prefix.
+    if (prefix !== null && (typeof prefix !== "string" || prefix.length === 0)) {
+        return res.json({ status: 400, message: "Bad Request", error: "Prefix needs to be a string and cannot be 0 length" });
+    }
+
     // Check scripts.
     if (scripts instanceof Array === false) {
         return res.json({ status: 400, message: "Bad Request", error: "Scripts should be an array" });
@@ -48,12 +54,54 @@ router.post("/", authAdmin, async (req, res) => {
 
     if (scripts.length > 0) {
 
-        let scriptIds = [];
+        let script_ids = [];
         for (let script of scripts) {
+            if (typeof script.perms.enabled !== "boolean") {
+                return res.json({ status: 400, message: "Bad Request", error: "Enabled must be either true or false" });
+            }
+            if (typeof script.perms.members.allow_list !== "boolean") {
+                return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
+            }
+            if (script.perms.members.list instanceof Array === false) {
+                return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
+            }
+            for (let ml of script.perms.members.list) {
+                if (typeof ml !== "string") {
+                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+                }
+            }
+            if (typeof script.perms.channels.allow_list !== "boolean") {
+                return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
+            }
+            if (script.perms.channels.list instanceof Array === false) {
+                return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
+            }
+            for (let cl of script.perms.channels.list) {
+                if (typeof cl !== "string") {
+                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+                }
+            }
+            if (typeof script.perms.roles.allow_list !== "boolean") {
+                return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
+            }
+            if (script.perms.roles.list instanceof Array === false) {
+                return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
+            }
+            for (let rl of script.perms.roles.list) {
+                if (typeof rl !== "string") {
+                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+                }
+            }
             if (script.object_id === undefined) {
                 return res.json({ status: 400, message: "Bad Request", error: "Script(s) specified could not be found" });
             }
-            scriptIds.push(script.object_id);
+            try {
+
+                script_ids.push(mongoose.Types.ObjectId(script.object_id));
+            } catch(error) {
+                
+                return res.json({ status: 400, message: "Bad Request", error: "Invalid script id provided" });
+            }
         }
 
         let script_docs;
@@ -61,7 +109,7 @@ router.post("/", authAdmin, async (req, res) => {
     
             script_docs = await schemas.ScriptSchema
                 .find({
-                    _id: { $in: scriptIds }
+                    _id: { $in: script_ids }
                 });
         } catch(error) {
     
@@ -113,9 +161,9 @@ router.get("/@me", authUser, async (req, res) => {
     }
 
     let user_guild_ids = [];
-    for (let user_guild of user_guilds) {
-        if (user_guild.data.permissions & 8 === 8) {
-            user_guild_ids.push(user_guild.data.id);
+    for (let user_guild of user_guilds.data) {
+        if ((user_guild.permissions & 8) === 8) {
+            user_guild_ids.push(user_guild.id);
         }
     }
 
@@ -136,7 +184,7 @@ router.get("/@me", authUser, async (req, res) => {
         return res.json({ status: 404, message: "Not Found", error: "No guilds with sufficient permissions found" });
     }
 
-    user_objs = user_guild_docs.map(e => {
+    const guild_objs = user_guild_docs.map(e => {
         
         const obj = e.toObject();
 
@@ -152,7 +200,7 @@ router.get("/@me", authUser, async (req, res) => {
         return obj;
     })
 
-    res.json(user_objs);
+    res.json(guild_objs);
 });
 
 router.route("/@me/:discord_id").get(authUser, async (req, res) => {
@@ -174,8 +222,8 @@ router.route("/@me/:discord_id").get(authUser, async (req, res) => {
     }
 
     let found = false;
-    for (let user_guild of user_guilds) {
-        if (user_guild.data.permissions & 8 === 8 && user_guild.data.id === req.params.discord_id) {
+    for (let user_guild of user_guilds.data) {
+        if (((user_guild.permissions & 8) === 8) && user_guild.id === req.params.discord_id) {
             found = true;
             break;
         }
@@ -187,7 +235,7 @@ router.route("/@me/:discord_id").get(authUser, async (req, res) => {
     let user_guild_doc;
     try {
 
-        user_guild_docs = await schemas.GuildSchema
+        user_guild_doc = await schemas.GuildSchema
             .findOne({
                 discord_id: req.params.discord_id
             });
@@ -233,8 +281,8 @@ router.route("/@me/:discord_id").get(authUser, async (req, res) => {
     }
 
     let found = false;
-    for (let user_guild of user_guilds) {
-        if (user_guild.data.permissions & 8 === 8 && user_guild.data.id === req.params.discord_id) {
+    for (let user_guild of user_guilds.data) {
+        if (((user_guild.permissions & 8) === 8) && user_guild.id === req.params.discord_id) {
             found = true;
             break;
         }
@@ -248,6 +296,11 @@ router.route("/@me/:discord_id").get(authUser, async (req, res) => {
     const log_events = req.body.log_events === undefined ? null : req.body.log_events;
     const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
 
+    // Check prefix.
+    if (prefix !== null && (typeof prefix !== "string" || prefix.length === 0)) {
+        return res.json({ status: 400, message: "Bad Request", error: "Prefix needs to be a string and cannot be 0 length" });
+    }
+
     // Check scripts.
     if (scripts instanceof Array === false) {
         return res.json({ status: 400, message: "Bad Request", error: "Scripts should be an array" });
@@ -255,12 +308,62 @@ router.route("/@me/:discord_id").get(authUser, async (req, res) => {
 
     if (scripts.length > 0) {
 
+        let script_ids = [];
+        for (let script of scripts) {
+            if (typeof script.perms.enabled !== "boolean") {
+                return res.json({ status: 400, message: "Bad Request", error: "Enabled must be either true or false" });
+            }
+            if (typeof script.perms.members.allow_list !== "boolean") {
+                return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
+            }
+            if (script.perms.members.list instanceof Array === false) {
+                return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
+            }
+            for (let ml of script.perms.members.list) {
+                if (typeof ml !== "string") {
+                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+                }
+            }
+            if (typeof script.perms.channels.allow_list !== "boolean") {
+                return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
+            }
+            if (script.perms.channels.list instanceof Array === false) {
+                return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
+            }
+            for (let cl of script.perms.channels.list) {
+                if (typeof cl !== "string") {
+                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+                }
+            }
+            if (typeof script.perms.roles.allow_list !== "boolean") {
+                return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
+            }
+            if (script.perms.roles.list instanceof Array === false) {
+                return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
+            }
+            for (let rl of script.perms.roles.list) {
+                if (typeof rl !== "string") {
+                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+                }
+            }
+            if (script.object_id === undefined) {
+                return res.json({ status: 400, message: "Bad Request", error: "Script(s) specified could not be found" });
+            }
+            try {
+
+                script_ids.push(mongoose.Types.ObjectId(script.object_id));
+            } catch(error) {
+                
+                return res.json({ status: 400, message: "Bad Request", error: "Invalid script id provided" });
+            }
+        }
+
         let script_docs;
         try {
     
             script_docs = await schemas.ScriptSchema
                 .find({
-                    _id: { $in: scripts }
+                    _id: { $in: script_ids }
                 });
         } catch(error) {
     
@@ -316,8 +419,8 @@ router.route("/@me/:discord_id").get(authUser, async (req, res) => {
     }
 
     let found = false;
-    for (let user_guild of user_guilds) {
-        if (user_guild.data.permissions & 8 === 8 && user_guild.data.id === req.params.discord_id) {
+    for (let user_guild of user_guilds.data) {
+        if (((user_guild.permissions & 8) === 8) && user_guild.id === req.params.discord_id) {
             found = true;
             break;
         }
@@ -351,7 +454,7 @@ router.route("/:discord_id").get(authAdmin, async (req, res) => {
     let user_guild_doc;
     try {
 
-        user_guild_docs = await schemas.GuildSchema
+        user_guild_doc = await schemas.GuildSchema
             .findOne({
                 discord_id: req.params.discord_id
             });
@@ -374,6 +477,11 @@ router.route("/:discord_id").get(authAdmin, async (req, res) => {
     const log_events = req.body.log_events === undefined ? null : req.body.log_events;
     const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
 
+    // Check prefix.
+    if (prefix !== null && (typeof prefix !== "string" || prefix.length === 0)) {
+        return res.json({ status: 400, message: "Bad Request", error: "Prefix needs to be a string and cannot be 0 length" });
+    }
+
     // Check scripts.
     if (scripts instanceof Array === false) {
         return res.json({ status: 400, message: "Bad Request", error: "Scripts should be an array" });
@@ -381,21 +489,54 @@ router.route("/:discord_id").get(authAdmin, async (req, res) => {
 
     if (scripts.length > 0) {
 
-        let script_docs;
-        try {
-    
-            script_docs = await schemas.ScriptSchema
-                .find({
-                    _id: { $in: scripts }
-                });
-        } catch(error) {
-    
-            apiLogger.error(error);
-            return res.json({ status: 500, message: "Internal Server Error", error });
-        }
+        let script_ids = [];
+        for (let script of scripts) {
+            if (typeof script.perms.enabled !== "boolean") {
+                return res.json({ status: 400, message: "Bad Request", error: "Enabled must be either true or false" });
+            }
+            if (typeof script.perms.members.allow_list !== "boolean") {
+                return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
+            }
+            if (script.perms.members.list instanceof Array === false) {
+                return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
+            }
+            for (let ml of script.perms.members.list) {
+                if (typeof ml !== "string") {
+                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+                }
+            }
+            if (typeof script.perms.channels.allow_list !== "boolean") {
+                return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
+            }
+            if (script.perms.channels.list instanceof Array === false) {
+                return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
+            }
+            for (let cl of script.perms.channels.list) {
+                if (typeof cl !== "string") {
+                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+                }
+            }
+            if (typeof script.perms.roles.allow_list !== "boolean") {
+                return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
+            }
+            if (script.perms.roles.list instanceof Array === false) {
+                return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
+            }
+            for (let rl of script.perms.roles.list) {
+                if (typeof rl !== "string") {
+                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+                }
+            }
+            if (script.object_id === undefined) {
+                return res.json({ status: 400, message: "Bad Request", error: "Script(s) specified could not be found" });
+            }
+            try {
 
-        if (script_docs.length !== scripts.length) {
-            return res.json({ status: 400, message: "Bad Request", error: "Script(s) specified could not be found" });
+                script_ids.push(mongoose.Types.ObjectId(script.object_id));
+            } catch(error) {
+                
+                return res.json({ status: 400, message: "Bad Request", error: "Invalid script id provided" });
+            }
         }
     }
 
@@ -439,7 +580,7 @@ router.route("/:discord_id").get(authAdmin, async (req, res) => {
     }
 
     if (del_guild === null) {
-        return res.json({ status: 404, message: "Not Found", error: "The user that you are trying to delete could not be found" });
+        return res.json({ status: 404, message: "Not Found", error: "The guild that you are trying to delete could not be found" });
     }
 
     res.json({ status: 200, message: "OK", error: null });
