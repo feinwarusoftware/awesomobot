@@ -94,7 +94,7 @@ router.route("/@me").get(authUser, (req, res) => {
 }).patch(authUser, (req, res) => {
     
     // Currently no fields that users can edit.
-    res.json({ status: 200, message: "OK", error: null });
+    res.json({ status: 200, message: "OK - no changes made", error: null });
 
 }).delete(authUser, async (req, res) => {
     
