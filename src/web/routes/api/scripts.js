@@ -495,6 +495,80 @@ router.route("/:object_id").get(authAdmin, async (req, res) => {
         return res.json({ status: 400, message: "Bad Request", error });
     }
 
+    let promises = [];
+    let del_log = [];
+
+    let user_docs;
+    try {
+
+        user_docs = await schemas.UserSchema
+            .find({
+                scripts: object_id
+            });
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
+    if (user_docs.length !== 0) {
+
+        for (let user_doc of user_docs) {
+
+            for (let i = 0; i < user_doc.scripts.length; i++) {
+                if (object_id.equals(user_doc.scripts[i])) {
+                    
+                    user_doc.scripts.splice(i, 1);
+                    break;
+                }
+            }
+    
+            promises.push(user_doc.save());
+        }
+
+        del_log.push(`${user_docs.length} user(s)`);
+    }
+
+    let guild_docs;
+    try {
+
+        guild_docs = await schemas.GuildSchema
+            .find({
+                scripts: { $elemMatch: { object_id } }
+            });
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
+    if (guild_docs.length !== 0) {
+
+        for (let guild_doc of guild_docs) {
+
+            for (let i = 0; i < guild_doc.scripts.length; i++) {
+                if (object_id.equals(guild_doc.scripts[i].object_id)) {
+                    
+                    guild_doc.scripts.splice(i, 1);
+                    break;
+                }
+            }
+
+            promises.push(guild_doc.save());
+        }
+
+        del_log.push(`${guild_docs.length} guild(s)`);
+    }
+
+    try {
+
+        await Promise.all(promises);
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
     let del_script;
     try {
 
@@ -508,11 +582,16 @@ router.route("/:object_id").get(authAdmin, async (req, res) => {
         return res.json({ status: 500, message: "Internal Server Error", error });
     }
 
-    if (del_script === null) {
-        return res.json({ status: 404, message: "Not Found", error: "The script that you are trying to delete could not be found" });
+    if (del_script !== null) {
+
+        del_log.push("script doc");
     }
 
-    res.json({ status: 200, message: "OK", error: null });
+    if (del_log.length === 0) {
+        return res.json({ status: 404, message: "Not Found", error: "The script that youre trying to delete could not be found anywhere" });
+    }
+
+    res.json({ status: 200, message: `OK ${del_log}`, error: null });
 });
 
 module.exports = router;
