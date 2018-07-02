@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>AWESOM-O //
+            <%= trans.DASHBOARD %>
+        </title>
+    
+        <link rel="icon" type="image/png" href="/img/favicon.png" />
+        <link rel="shortcut icon" type="image/png" href="/img/favicon.png" />
+        <meta name="theme-color" content="#ff594f">
+    
+        <link rel="alternate" href="/" hreflang="x-default" />
+        <link rel="alternate" href="/?lang=en" hreflang="en" />
+        <link rel="alternate" href="/?lang=ie" hreflang="ie" />
+        <link rel="alternate" href="/?lang=pt" hreflang="pt" />
+    
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- Bootstrap core CSS -->
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="/css/mdb.min.css" rel="stylesheet">
+    
+        <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body class="fixed-sn">
+    <!--
+    <div id="mdb-preloader" class="flex-center">
+        <div id="preloader-markup" class="text-center">
+            <img src="/img/headerlogo.png">
+            <br>
+            <div class="preloader-wrapper active">
+                <div class="spinner-layer spinner-red-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+-->
+    <%- include partials/d-navbar.ejs %>
+        <!--Main Layout-->
+
+
+        <main>
+            <div class="mb-5">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row pl-md-4">
+                            <!-- Card -->
+                            <div class="card text-center" style="width: 100%">
+                                <div class="card-body">
+
+                                    <!-- Title -->
+                                    <h4 class="font-weight-bold mb-4">About Mattheous</h4>
+                                    <div class="container">
+                                        <p>OCEAN MAN 🌊 😍 Take me by the hand ✋ lead me to the land that you understand 🙌
+                                            🌊 OCEAN MAN 🌊 😍 The voyage 🚲 to the corner of the 🌎 globe is a real trip
+                                            👌 🌊 OCEAN MAN 🌊 😍 The crust of a tan man 👳 imbibed by the sand 👍 Soaking
+                                            up the 💦 thirst of the land 💯</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row pl-md-4 pt-4">
+                            <!-- Card -->
+                            <div class="card text-center" style="width: 100%">
+                                <div class="card-body">
+
+                                    <!-- Title -->
+                                    <h4 class="font-weight-bold mb-4">
+                                        Artwork Showcase
+                                    </h4>
+
+                                    <%- include partials/lightbox.ejs %>
+
+                                        <div class="mdb-lightbox">
+                                            <figure class="col-lg-4 col-md-6">
+                                                <a href="https://images-ext-1.discordapp.net/external/hSPZ7rqNXNLtTPYZjSdkH9O7jPXK70aT6wPn5RNDV9s/https/cdn.discordapp.com/attachments/394504208222650369/453235134817107988/just_ryan.rpy.png?width=1178&height=663"
+                                                    data-size="1920x1080">
+                                                    <img src="https://images-ext-1.discordapp.net/external/hSPZ7rqNXNLtTPYZjSdkH9O7jPXK70aT6wPn5RNDV9s/https/cdn.discordapp.com/attachments/394504208222650369/453235134817107988/just_ryan.rpy.png?width=1178&height=663"
+                                                        alt="placeholder" class="img-fluid">
+                                                </a>
+                                            </figure>
+
+                                            <figure class="col-lg-4 col-md-6">
+                                                <a href="https://cdn.discordapp.com/attachments/379432139856412682/453306913740816394/ryan-notasfucked-tm.png" data-size="1920x1080">
+                                                    <img src="https://cdn.discordapp.com/attachments/379432139856412682/453306913740816394/ryan-notasfucked-tm.png" alt="placeholder"
+                                                        class="img-fluid">
+                                                </a>
+                                            </figure>
+
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row pl-md-4 pt-4"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!--/Section: Pricing v.5-->
+        <!-- Streak -->
+
+        <%- include partials/footer.ejs %>
+
+            <!--/.Footer-->
+
+
+            <!-- SCRIPTS -->
+
+            <!-- JQuery -->
+            <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+
+            <!-- Bootstrap tooltips -->
+            <script type="text/javascript" src="/js/popper.min.js"></script>
+
+            <!-- Bootstrap core JavaScript -->
+            <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+            <!-- MDB core JavaScript -->
+            <script type="text/javascript" src="/js/mdb.min.js"></script>
+
+            <script>
+                //Animation init
+                new WOW().init();
+
+                //Modal
+                $('#myModal').on('shown.bs.modal', function () {
+                    $('#myInput').focus()
+                })
+
+                // Material Select Initialization
+                $(document).ready(function () {
+                    $('.mdb-select').material_select();
+                });
+
+                // SideNav Button Initialization
+                $(".button-collapse").sideNav();
+                // SideNav Scrollbar Initialization
+                var sideNavScrollbar = document.querySelector('.custom-scrollbar');
+                Ps.initialize(sideNavScrollbar);
+
+                // Tooltips Initialization
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+                })
+            </script>
+
+
+</body>
+
+</html>

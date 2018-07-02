@@ -164,13 +164,16 @@ router.get("/credits", async (req, res, next) => {
     res.render("credits", { md: text => { return converter.makeHtml(text); }, user: {}});
 });
 
-router.get("/commands", async (req, res, next) => {
+router.get("/commands", (req, res, next) => {
     res.render("commands", { md: text => { return converter.makeHtml(text); }, user: {}});
 });
 
 router.get("/dashboard", authUser, (req, res, next) => {
+    res.render("dashboard/main");
+});
 
-    res.send("this is the shitty dashboard page lol");
+router.get("/dashboard/scripts/creator", authUser, (req, res, next) => {
+    res.render("dashboard/creator");
 });
 
 router.get("/token", authAdmin, (req, res) => {
