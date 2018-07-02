@@ -17,7 +17,7 @@ router.post("/", authAdmin, async (req, res) => {
     const discord_id = req.body.discord_id === undefined ? null : req.body.discord_id;
     const prefix = req.body.prefix === undefined ? "-" : req.body.prefix;
     const log_channel_id = req.body.log_channel_id === undefined ? null : req.body.log_channel_id;
-    const log_events = req.body.log_events === undefined ? null : req.body.log_events;
+    const log_events = req.body.log_events === undefined ? [] : req.body.log_events;
     const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
 
     // Check discord id.
@@ -47,6 +47,11 @@ router.post("/", authAdmin, async (req, res) => {
         return res.json({ status: 400, message: "Bad Request", error: "Prefix needs to be a string and cannot be 0 length" });
     }
 
+    // Check log events.
+    if (log_events instanceof Array === false) {
+        return res.json({ status: 400, message: "Bad Request", error: "Log events should be an array" });
+    }
+
     // Check scripts.
     if (scripts instanceof Array === false) {
         return res.json({ status: 400, message: "Bad Request", error: "Scripts should be an array" });
@@ -56,40 +61,52 @@ router.post("/", authAdmin, async (req, res) => {
 
         let script_ids = [];
         for (let script of scripts) {
+            if (script.perms === undefined) {
+                continue;
+            }
             if (typeof script.perms.enabled !== "boolean") {
                 return res.json({ status: 400, message: "Bad Request", error: "Enabled must be either true or false" });
             }
-            if (typeof script.perms.members.allow_list !== "boolean") {
-                return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
-            }
-            if (script.perms.members.list instanceof Array === false) {
-                return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
-            }
-            for (let ml of script.perms.members.list) {
-                if (typeof ml !== "string") {
-                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+            if (script.perms.members !== undefined) {
+
+                if (typeof script.perms.members.allow_list !== "boolean") {
+                    return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
+                }
+                if (script.perms.members.list instanceof Array === false) {
+                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
+                }
+                for (let ml of script.perms.members.list) {
+                    if (typeof ml !== "string") {
+                        return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+                    }
                 }
             }
-            if (typeof script.perms.channels.allow_list !== "boolean") {
-                return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
-            }
-            if (script.perms.channels.list instanceof Array === false) {
-                return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
-            }
-            for (let cl of script.perms.channels.list) {
-                if (typeof cl !== "string") {
-                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+            if (script.perms.channels !== undefined) {
+
+                if (typeof script.perms.channels.allow_list !== "boolean") {
+                    return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
+                }
+                if (script.perms.channels.list instanceof Array === false) {
+                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
+                }
+                for (let cl of script.perms.channels.list) {
+                    if (typeof cl !== "string") {
+                        return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+                    }
                 }
             }
-            if (typeof script.perms.roles.allow_list !== "boolean") {
-                return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
-            }
-            if (script.perms.roles.list instanceof Array === false) {
-                return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
-            }
-            for (let rl of script.perms.roles.list) {
-                if (typeof rl !== "string") {
-                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+            if (script.perms.roles !== undefined) {
+                
+                if (typeof script.perms.roles.allow_list !== "boolean") {
+                    return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
+                }
+                if (script.perms.roles.list instanceof Array === false) {
+                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
+                }
+                for (let rl of script.perms.roles.list) {
+                    if (typeof rl !== "string") {
+                        return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+                    }
                 }
             }
             if (script.object_id === undefined) {
@@ -301,6 +318,11 @@ router.route("/@me/:discord_id").get(authUser, async (req, res) => {
         return res.json({ status: 400, message: "Bad Request", error: "Prefix needs to be a string and cannot be 0 length" });
     }
 
+    // Check log events.
+    if (log_events instanceof Array === false) {
+        return res.json({ status: 400, message: "Bad Request", error: "Log events should be an array" });
+    }
+
     // Check scripts.
     if (scripts instanceof Array === false) {
         return res.json({ status: 400, message: "Bad Request", error: "Scripts should be an array" });
@@ -310,40 +332,52 @@ router.route("/@me/:discord_id").get(authUser, async (req, res) => {
 
         let script_ids = [];
         for (let script of scripts) {
+            if (script.perms === undefined) {
+                continue;
+            }
             if (typeof script.perms.enabled !== "boolean") {
                 return res.json({ status: 400, message: "Bad Request", error: "Enabled must be either true or false" });
             }
-            if (typeof script.perms.members.allow_list !== "boolean") {
-                return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
-            }
-            if (script.perms.members.list instanceof Array === false) {
-                return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
-            }
-            for (let ml of script.perms.members.list) {
-                if (typeof ml !== "string") {
-                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+            if (script.perms.members !== undefined) {
+
+                if (typeof script.perms.members.allow_list !== "boolean") {
+                    return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
+                }
+                if (script.perms.members.list instanceof Array === false) {
+                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
+                }
+                for (let ml of script.perms.members.list) {
+                    if (typeof ml !== "string") {
+                        return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+                    }
                 }
             }
-            if (typeof script.perms.channels.allow_list !== "boolean") {
-                return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
-            }
-            if (script.perms.channels.list instanceof Array === false) {
-                return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
-            }
-            for (let cl of script.perms.channels.list) {
-                if (typeof cl !== "string") {
-                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+            if (script.perms.channels !== undefined) {
+
+                if (typeof script.perms.channels.allow_list !== "boolean") {
+                    return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
+                }
+                if (script.perms.channels.list instanceof Array === false) {
+                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
+                }
+                for (let cl of script.perms.channels.list) {
+                    if (typeof cl !== "string") {
+                        return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+                    }
                 }
             }
-            if (typeof script.perms.roles.allow_list !== "boolean") {
-                return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
-            }
-            if (script.perms.roles.list instanceof Array === false) {
-                return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
-            }
-            for (let rl of script.perms.roles.list) {
-                if (typeof rl !== "string") {
-                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+            if (script.perms.roles !== undefined) {
+                
+                if (typeof script.perms.roles.allow_list !== "boolean") {
+                    return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
+                }
+                if (script.perms.roles.list instanceof Array === false) {
+                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
+                }
+                for (let rl of script.perms.roles.list) {
+                    if (typeof rl !== "string") {
+                        return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+                    }
                 }
             }
             if (script.object_id === undefined) {
@@ -482,6 +516,11 @@ router.route("/:discord_id").get(authAdmin, async (req, res) => {
         return res.json({ status: 400, message: "Bad Request", error: "Prefix needs to be a string and cannot be 0 length" });
     }
 
+    // Check log events.
+    if (log_events instanceof Array === false) {
+        return res.json({ status: 400, message: "Bad Request", error: "Log events should be an array" });
+    }
+
     // Check scripts.
     if (scripts instanceof Array === false) {
         return res.json({ status: 400, message: "Bad Request", error: "Scripts should be an array" });
@@ -491,40 +530,52 @@ router.route("/:discord_id").get(authAdmin, async (req, res) => {
 
         let script_ids = [];
         for (let script of scripts) {
+            if (script.perms === undefined) {
+                continue;
+            }
             if (typeof script.perms.enabled !== "boolean") {
                 return res.json({ status: 400, message: "Bad Request", error: "Enabled must be either true or false" });
             }
-            if (typeof script.perms.members.allow_list !== "boolean") {
-                return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
-            }
-            if (script.perms.members.list instanceof Array === false) {
-                return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
-            }
-            for (let ml of script.perms.members.list) {
-                if (typeof ml !== "string") {
-                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+            if (script.perms.members !== undefined) {
+
+                if (typeof script.perms.members.allow_list !== "boolean") {
+                    return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
+                }
+                if (script.perms.members.list instanceof Array === false) {
+                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
+                }
+                for (let ml of script.perms.members.list) {
+                    if (typeof ml !== "string") {
+                        return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+                    }
                 }
             }
-            if (typeof script.perms.channels.allow_list !== "boolean") {
-                return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
-            }
-            if (script.perms.channels.list instanceof Array === false) {
-                return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
-            }
-            for (let cl of script.perms.channels.list) {
-                if (typeof cl !== "string") {
-                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+            if (script.perms.channels !== undefined) {
+
+                if (typeof script.perms.channels.allow_list !== "boolean") {
+                    return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
+                }
+                if (script.perms.channels.list instanceof Array === false) {
+                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
+                }
+                for (let cl of script.perms.channels.list) {
+                    if (typeof cl !== "string") {
+                        return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+                    }
                 }
             }
-            if (typeof script.perms.roles.allow_list !== "boolean") {
-                return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
-            }
-            if (script.perms.roles.list instanceof Array === false) {
-                return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
-            }
-            for (let rl of script.perms.roles.list) {
-                if (typeof rl !== "string") {
-                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+            if (script.perms.roles !== undefined) {
+                
+                if (typeof script.perms.roles.allow_list !== "boolean") {
+                    return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
+                }
+                if (script.perms.roles.list instanceof Array === false) {
+                    return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
+                }
+                for (let rl of script.perms.roles.list) {
+                    if (typeof rl !== "string") {
+                        return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
+                    }
                 }
             }
             if (script.object_id === undefined) {
@@ -537,6 +588,23 @@ router.route("/:discord_id").get(authAdmin, async (req, res) => {
                 
                 return res.json({ status: 400, message: "Bad Request", error: "Invalid script id provided" });
             }
+        }
+
+        let script_docs;
+        try {
+    
+            script_docs = await schemas.ScriptSchema
+                .find({
+                    _id: { $in: script_ids }
+                });
+        } catch(error) {
+    
+            apiLogger.error(error);
+            return res.json({ status: 500, message: "Internal Server Error", error });
+        }
+
+        if (script_docs.length !== scripts.length) {
+            return res.json({ status: 400, message: "Bad Request", error: "Script(s) specified could not be found" });
         }
     }
 

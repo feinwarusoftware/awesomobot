@@ -68,8 +68,12 @@ app.use((err, req, res, next) => {
     if (err.status === 404) {
         return res.render("404");
     }
+
+    res.locals.message = err.message;
+    res.locals.error = config.env === "dev" ? err : {};
+
     res.status(err.status || 500);
-    res.json({ error: err.status || 500 });
+    res.render("error");
 });
 
 const server = http.createServer(app);

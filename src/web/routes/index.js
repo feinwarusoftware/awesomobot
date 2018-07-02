@@ -145,35 +145,39 @@ router.get("/auth/discord/callback", async (req, res) => {
     res.redirect("/dashboard");
 });
 
-router.get("/", (req, res, next) => {
+router.get("/", (req, res) => {
 
     res.render("index", { md: text => { return converter.makeHtml(text); }, user: {} });
 });
 
-router.get("/api/docs", async (req, res, next) => {
+router.get("/api/docs", async (req, res) => {
     const apidocs = fs.readFileSync(path.join(__dirname, "..", "markdown",  "api-docs", "reference.md")).toString();
     res.render("apidocs", { md: text => { return converter.makeHtml(text); }, user: {}, apidocs});
 });
 
-router.get("/privacy", async (req, res, next) => {
+router.get("/privacy", async (req, res) => {
     const privacy = fs.readFileSync(path.join(__dirname, "..", "markdown", "terms", "privacy.md")).toString();
     res.render("privacy", { md: text => { return converter.makeHtml(text); }, user: {}, privacy});
 });
 
-router.get("/credits", async (req, res, next) => {
+router.get("/credits", async (req, res) => {
     res.render("credits", { md: text => { return converter.makeHtml(text); }, user: {}});
 });
 
-router.get("/commands", (req, res, next) => {
+router.get("/commands", (req, res) => {
     res.render("commands", { md: text => { return converter.makeHtml(text); }, user: {}});
 });
 
-router.get("/dashboard", authUser, (req, res, next) => {
+router.get("/dashboard", (req, res) => {
     res.render("dashboard/main");
 });
 
-router.get("/dashboard/scripts/creator", authUser, (req, res, next) => {
-    res.render("dashboard/creator");
+router.get("/dashboard/scripts/editor", authUser, (req, res) => {
+    res.render("dashboard/editor");
+});
+
+router.get("/dashboard/scripts/me", authUser, (req, res) => {
+    res.render("dashboard/userscripts");
 });
 
 router.get("/token", authAdmin, (req, res) => {

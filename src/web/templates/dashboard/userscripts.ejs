@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>AWESOM-O //
+        <%= trans.MY_SCRIPTS %>
+    </title>
+
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png" />
+    <meta name="theme-color" content="#ff594f">
+
+    <link rel="alternate" href="/" hreflang="x-default" />
+    <link rel="alternate" href="/?lang=en" hreflang="en" />
+    <link rel="alternate" href="/?lang=ie" hreflang="ie" />
+    <link rel="alternate" href="/?lang=pt" hreflang="pt" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="/css/mdb.min.css" rel="stylesheet">
+
+    <link href="/css/style.css" rel="stylesheet">
+
+    <style>
+        html,
+        body,
+        header,
+        .jarallax {
+            height: 200px;
+        }
+
+        @media (max-width: 740px) {
+            html,
+            body,
+            header,
+            .view {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body class="fixed-sn">
+    <!--
+    <div id="mdb-preloader" class="flex-center">
+        <div id="preloader-markup" class="text-center">
+            <img src="/img/headerlogo.png">
+            <br>
+            <div class="preloader-wrapper active">
+                <div class="spinner-layer spinner-red-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+-->
+    <%- include ../partials/d-navbar.ejs %>
+        <!--Main Layout-->
+        <!-- Intro Section -->
+        <header>
+            <div class="view jarallax mt-5 pl-0 pl-lg-5" data-jarallax='{"speed": 0.5}' style="background: url('https://media.discordapp.net/attachments/379432139856412682/462737165806338058/abstract2.png');">
+                <div class="mask">
+                    <div class="container h-100 d-flex justify-content-center align-items-center">
+                        <div class="row pt-5 mt-3">
+                            <div class="col-md-12 wow fadeIn mb-3">
+                                <div class="text-center white-text">
+                                    <ul class="list-unstyled ">
+                                        <li>
+                                            <h1 class="display-4 mt-md-5 mt-lg-0 mb-5 pl-0 pl-lg-5 font-weight-bold white-text wow fadeIn" data-wow-delay="0.3s">
+                                                <strong>
+                                                    <%= trans.MY_SCRIPTS %>
+                                                </strong>
+                                            </h1>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <main>
+                <div class="col-12 mb-5">
+                    <div class="row">
+                        <div class="accordion col-12" id="accordionEx" role="tablist" aria-multiselectable="true">
+
+                        </div>
+                    </div>
+            </main>
+
+            <!-- Central Modal Small -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div id="editorHolder" class="modal-dialog modal-lg" role="document">
+                </div>
+            </div>
+
+            <%- include ../partials/footer.ejs %>
+
+                <!--/.Footer-->
+
+                <!-- SCRIPTS -->
+
+                <!-- JQuery -->
+                <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+
+                <!-- Bootstrap tooltips -->
+                <script type="text/javascript" src="/js/popper.min.js"></script>
+
+                <!-- Bootstrap core JavaScript -->
+                <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+                <!-- MDB core JavaScript -->
+                <script type="text/javascript" src="/js/mdb.min.js"></script>
+
+                <script>
+                    //Animation init
+                    new WOW().init();
+
+                    //Modal
+                    $('#myModal').on('shown.bs.modal', function () {
+                        $('#myInput').focus()
+                    })
+
+                    // Material Select Initialization
+                    $(document).ready(function () {
+                        $('.mdb-select').material_select();
+                    });
+
+                    // SideNav Button Initialization
+                    $(".button-collapse").sideNav();
+                    // SideNav Scrollbar Initialization
+                    var sideNavScrollbar = document.querySelector('.custom-scrollbar');
+                    Ps.initialize(sideNavScrollbar);
+
+                    // Tooltips Initialization
+                    $(function () {
+                        $('[data-toggle="tooltip"]').tooltip()
+                    })
+                </script>
+
+                <script>
+                    "use strict";
+
+                    const req = new XMLHttpRequest();
+                    req.open("GET", "/api/v3/scripts/@me", false);
+                    req.send();
+
+                    const scripts = $("#accordionEx");
+                    for (let script of JSON.parse(req.response)) {
+
+                        scripts.append(
+                            `
+                        <div class="card">
+                        <div class="card-header" role="tab" id="headingOne">
+                            <a data-toggle="collapse" href="#${script._id}" aria-expanded="false" aria-controls="collapseOne">
+                                <h5 class="mb-0 black-text">
+                                    ${script.name}
+                                    <i class="fa fa-angle-down rotate-icon"></i>
+                                </h5>
+                            </a>
+                        </div>
+
+                        <!-- Card body -->
+                        <div id="${script._id}" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordionEx">
+                            <div class="card-body">
+                                    <!--Table-->
+                                        <table class="table">
+                                            <col width="25%">
+                                            <col width="35%">
+                                            <col width="25%">
+                                            <col width="15%">
+                                            <!--Table head-->
+                                            <thead class="feinwaru white-text">
+                                                <tr>
+                                                    <th>Command</th>
+                                                    <th>Description</th>
+                                                    <th>Type</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                        <!--Table head-->
+
+                                            <!--Table body-->
+                                            <tbody>
+                                                <tr>
+                                                    <td>${script.match}</td>
+                                                    <td>${script.description}</th>
+                                                    <td>${script.type}</td>
+                                                    <td class="text-right">
+                                                        <a id="edit" type="button" class="btn-floating orange"><i class="fa fa-pencil" aria-hidden="true" data-toggle="modal" data-target="#editModal"></i></a>
+                                                        <a type="button" class="btn-floating red"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <!--Table body-->
+
+                                        </table>
+                                    <!--Table-->
+                            </div>
+                        </div>
+                        </div>`
+                        );
+                    };
+                </script>
+                <script src="/monaco/min/vs/loader.js"></script>
+                <script>
+                    require.config({
+                        paths: {
+                            'vs': '/monaco/min/vs'
+                        }
+                    });
+
+                    require(['vs/editor/editor.main'], function () {
+
+                        monaco.editor.defineTheme('TowelTest', {
+                            base: 'vs', // can also be vs-dark or hc-black
+                            inherit: true, // can also be false to completely replace the builtin rules
+                            rules: [{
+                                    token: 'comment',
+                                    foreground: 'ffa500',
+                                    fontStyle: 'italic underline'
+                                },
+                                {
+                                    token: 'comment.js',
+                                    foreground: '008800',
+                                    fontStyle: 'bold'
+                                },
+                                {
+                                    token: 'comment.css',
+                                    foreground: '0000ff'
+                                } // will inherit fontStyle from `comment` above
+                            ]
+                        });
+
+                        monaco.editor.defineTheme('MattIsTrueWaifu', {
+                            base: 'vs-dark',
+                            inherit: true,
+                            rules: [{
+                                    background: '282c34'
+                                },
+                                {
+                                    token: 'comment',
+                                    foreground: '5C6370',
+                                    fontStyle: 'italic'
+                                },
+                                {
+                                    token: 'string.escape',
+                                    foreground: 'EF596F',
+                                    fontStyle: 'italic'
+                                },
+                                {
+                                    token: 'constant.js',
+                                    foreground: 'A6B2C0',
+                                    fontStyle: 'italic'
+                                }
+                            ],
+                            colors: {
+                                "activityBar.background": "#2F333D",
+                                "activityBar.foreground": "#D7DAE0",
+                                "activityBarBadge.background": "#4D78CC",
+                                "activityBarBadge.foreground": "#F8FAFD",
+                                "badge.background": "#282c34",
+                                "button.background": "#404754",
+                                "debugToolBar.background": "#21252b",
+                                "dropdown.background": "#1d1f23",
+                                "diffEditor.insertedTextBackground": "#00809B33",
+                                "dropdown.border": "#181A1F",
+                                "editor.background": "#282c34",
+                                "editorError.foreground": "#c24038",
+                                "editorIndentGuide.activeBackground": "#C8C8C859",
+                                "editorMarkerNavigation.background": "#21252b",
+                                "editorRuler.foreground": "#AAB1C026",
+                                "editor.lineHighlightBackground": "#2c313c",
+                                "editor.selectionBackground": "#67769660",
+                                "editor.selectionHighlightBackground": "#ffffff10",
+                                "editor.selectionHighlightBorder": "#ddd",
+                                "editorCursor.background": "#ffffffc9",
+                                "editorCursor.foreground": "#528bff",
+                                "editorBracketMatch.border": "#515a6b",
+                                "editorBracketMatch.background": "#515a6b",
+                                "editor.findMatchBackground": "#42557B",
+                                "editor.findMatchBorder": "#457dff",
+                                "editor.findMatchHighlightBackground": "#314365",
+                                "editor.wordHighlightBackground": "#484e5b",
+                                "editor.wordHighlightBorder": "#7f848e",
+                                "editor.wordHighlightStrongBackground": "#AAB1C026",
+                                "editor.wordHighlightStrongBorder": "#7f848e",
+                                "editorGroup.background": "#181A1F",
+                                "editorGroup.border": "#181A1F",
+                                "editorGroupHeader.tabsBackground": "#21252B",
+                                "editorIndentGuide.background": "#3B4048",
+                                "editorLineNumber.foreground": "#495162",
+                                "editorActiveLineNumber.foreground": "#737984",
+                                "editorWhitespace.foreground": "#3B4048",
+                                "editorHoverWidget.background": "#21252B",
+                                "editorHoverWidget.border": "#181A1F",
+                                "editorSuggestWidget.background": "#21252B",
+                                "editorSuggestWidget.border": "#181A1F",
+                                "editorSuggestWidget.selectedBackground": "#2c313a",
+                                "editorWidget.background": "#21252B",
+                                "focusBorder": "#21252b",
+                                "input.background": "#1d1f23",
+                                "list.activeSelectionBackground": "#2c313a",
+                                "list.activeSelectionForeground": "#d7dae0",
+                                "list.focusBackground": "#383E4A",
+                                "list.hoverBackground": "#292d35",
+                                "list.highlightForeground": "#C5C5C5",
+                                "list.inactiveSelectionBackground": "#2c313a",
+                                "list.inactiveSelectionForeground": "#d7dae0",
+                                "peekViewEditor.matchHighlightBackground": "#29244b",
+                                "scrollbarSlider.background": "#4e566660",
+                                "scrollbarSlider.activeBackground": "#747D9180",
+                                "scrollbarSlider.hoverBackground": "#5A637580",
+                                "sideBar.background": "#21252b",
+                                "sideBarSectionHeader.background": "#282c34",
+                                "statusBar.background": "#21252B",
+                                "statusBar.foreground": "#9da5b4",
+                                "statusBarItem.hoverBackground": "#2c313a",
+                                "statusBar.noFolderBackground": "#21252B",
+                                "statusBar.debuggingBackground": "#7e0097",
+                                "statusBar.debuggingBorder": "#66017a",
+                                "statusBar.debuggingForeground": "#ffffff",
+                                "tab.activeBackground": "#2c313a",
+                                "tab.border": "#181A1F",
+                                "tab.inactiveBackground": "#21252B",
+                                "tab.hoverBackground": "#323842",
+                                "tab.unfocusedHoverBackground": "#323842",
+                                "terminal.foreground": "#C8C8C8",
+                                "terminal.ansiBlack": "#2D3139",
+                                "terminal.ansiBlue": "#61AFEF",
+                                "terminal.ansiGreen": "#98C379",
+                                "terminal.ansiYellow": "#D19A66",
+                                "titleBar.activeBackground": "#282c34",
+                                "titleBar.activeForeground": "#9da5b4",
+                                "titleBar.inactiveBackground": "#282C34",
+                                "titleBar.inactiveForeground": "#6B717D"
+                            }
+                        });
+                    });
+                    
+                    $("#editModal").on("shown.bs.modal", e => {
+                        $("#editorHolder").append(`<div id="advancedEditor" style="width: 100%; height:600px"></div>`)
+
+                            var editor = monaco.editor.create(document.getElementById('advancedEditor'), {
+                                value: [].join('\n'),
+                                language: 'javascript',
+                                theme: "MattIsTrueWaifu"
+                            })
+                        
+                    })
+                    $("#editModal").on("hidden.bs.modal", e => {
+                        $("#advancedEditor").remove()
+                    })
+</script>
+</body>
+
+</html>
