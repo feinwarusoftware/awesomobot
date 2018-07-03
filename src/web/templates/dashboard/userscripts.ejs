@@ -97,17 +97,16 @@
             <main>
                 <div class="col-12 mb-5">
                     <div class="row">
-                        <div class="accordion col-12" id="accordionEx" role="tablist" aria-multiselectable="true">
-
-                        </div>
+                        <div class="accordion col-6" id="accordionEx" role="tablist" aria-multiselectable="true"></div>
+                        <div id="advancedEditor" class="col-6" style="width: 100%; height:600px"></div>
                     </div>
             </main>
 
-            <!-- Central Modal Small -->
+            <!-- Central Modal Small 
             <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div id="editorHolder" class="modal-dialog modal-lg" role="document">
                 </div>
-            </div>
+            </div>-->
 
             <%- include ../partials/footer.ejs %>
 
@@ -153,70 +152,6 @@
                     })
                 </script>
 
-                <script>
-                    "use strict";
-
-                    const req = new XMLHttpRequest();
-                    req.open("GET", "/api/v3/scripts/@me", false);
-                    req.send();
-
-                    const scripts = $("#accordionEx");
-                    for (let script of JSON.parse(req.response)) {
-
-                        scripts.append(
-                            `
-                        <div class="card">
-                        <div class="card-header" role="tab" id="headingOne">
-                            <a data-toggle="collapse" href="#${script._id}" aria-expanded="false" aria-controls="collapseOne">
-                                <h5 class="mb-0 black-text">
-                                    ${script.name}
-                                    <i class="fa fa-angle-down rotate-icon"></i>
-                                </h5>
-                            </a>
-                        </div>
-
-                        <!-- Card body -->
-                        <div id="${script._id}" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordionEx">
-                            <div class="card-body">
-                                    <!--Table-->
-                                        <table class="table">
-                                            <col width="25%">
-                                            <col width="35%">
-                                            <col width="25%">
-                                            <col width="15%">
-                                            <!--Table head-->
-                                            <thead class="feinwaru white-text">
-                                                <tr>
-                                                    <th>Command</th>
-                                                    <th>Description</th>
-                                                    <th>Type</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                        <!--Table head-->
-
-                                            <!--Table body-->
-                                            <tbody>
-                                                <tr>
-                                                    <td>${script.match}</td>
-                                                    <td>${script.description}</th>
-                                                    <td>${script.type}</td>
-                                                    <td class="text-right">
-                                                        <a id="edit" type="button" class="btn-floating orange"><i class="fa fa-pencil" aria-hidden="true" data-toggle="modal" data-target="#editModal"></i></a>
-                                                        <a type="button" class="btn-floating red"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            <!--Table body-->
-
-                                        </table>
-                                    <!--Table-->
-                            </div>
-                        </div>
-                        </div>`
-                        );
-                    };
-                </script>
                 <script src="/monaco/min/vs/loader.js"></script>
                 <script>
                     require.config({
@@ -351,22 +286,96 @@
                                 "titleBar.inactiveForeground": "#6B717D"
                             }
                         });
-                    });
-                    
-                    $("#editModal").on("shown.bs.modal", e => {
-                        $("#editorHolder").append(`<div id="advancedEditor" style="width: 100%; height:600px"></div>`)
+                        const editor = monaco.editor.create(document.getElementById('advancedEditor'), {
+                            value: [].join('\n'),
+                            language: 'javascript',
+                            theme: "MattIsTrueWaifu"
+                        });
 
-                            var editor = monaco.editor.create(document.getElementById('advancedEditor'), {
-                                value: [].join('\n'),
-                                language: 'javascript',
-                                theme: "MattIsTrueWaifu"
-                            })
-                        
-                    })
-                    $("#editModal").on("hidden.bs.modal", e => {
-                        $("#advancedEditor").remove()
-                    })
-</script>
-</body>
+                        const req = new XMLHttpRequest();
+                        req.open("GET", "/api/v3/scripts/@me", false);
+                        req.send();
+
+                        const scripts = $("#accordionEx");
+                        for (let script of JSON.parse(req.response)) {
+
+                            scripts.append(
+                                `
+                                <div class="card">
+                                <div class="card-header" role="tab" id="headingOne">
+                                    <a id="${script._id}-clicker" data-toggle="collapse" href="#${script._id}" aria-expanded="false" aria-controls="collapseOne">
+                                        <h5 class="mb-0 black-text">
+                                            ${script.name}
+                                            <i class="fa fa-angle-down rotate-icon"></i>
+                                        </h5>
+                                    </a>
+                                </div>
+
+                                <!-- Card body -->
+                                <div id="${script._id}" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordionEx">
+                                    <div class="card-body">
+                                            <!--Table-->
+                                                <table class="table">
+                                                    <col width="25%">
+                                                    <col width="35%">
+                                                    <col width="15%">
+                                                    <col width="25%">
+                                                    <!--Table head-->
+                                                    <thead class="feinwaru white-text">
+                                                        <tr>
+                                                            <th>Command</th>
+                                                            <th>Description</th>
+                                                            <th>Type</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                <!--Table head-->
+
+                                                    <!--Table body-->
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>${script.match}</td>
+                                                            <td>${script.description}</th>
+                                                            <td>${script.type}</td>
+                                                            <td class="text-right">
+                                                                <a type="button" class="btn-floating btn-sm red"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <!--Table body-->
+
+                                                </table>
+                                            <!--Table-->
+                                    </div>
+                                </div>
+                                </div>
+                                `
+                            );
+
+                            document.getElementById(`${script._id}-clicker`).onclick = () => {
+                                if(document.getElementById(`${script._id}`).classList.contains("show")) {
+                                    return;
+                                }
+                                editor.setValue(script.code);
+                            };
+                        };
+                    });
+                </script>
+                <script>
+                    /* $("#editModal").on("shown.bs.modal", e => {
+                                                                $("#editorHolder").append(`<div id="advancedEditor" class="card" style="width: 100%; height:600px"></div>`)
+
+                                                                    var editor = monaco.editor.create(document.getElementById('advancedEditor'), {
+                                                                        value: [].join('\n'),
+                                                                        language: 'javascript',
+                                                                        theme: "MattIsTrueWaifu"
+                                                                    })
+                                                                
+                                                            })
+                                                            $("#editModal").on("hidden.bs.modal", e => {
+                                                                $("#advancedEditor").remove()
+                                                            }) */
+                </script>
+</body>|
 
 </html>

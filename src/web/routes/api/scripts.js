@@ -305,7 +305,7 @@ router.route("/@me/:object_id").get(authUser, async (req, res) => {
     const match_type = req.body.match_type === undefined ? null : req.body.match_type;
     const code = req.body.code === undefined ? null : req.body.code;
 
-    if (type !== null && type !== "js" && type !== "basic") {
+    if (type !== null && (type !== "js" && type !== "basic")) {
         return res.json({ status: 400, message: "Bad Request", error: "Type needs to be either js or basic" });
     }
 
@@ -313,11 +313,11 @@ router.route("/@me/:object_id").get(authUser, async (req, res) => {
         return res.json({ status: 400, message: "Bad Request", error: "Permissions needs to be a number" });
     }
 
-    if (match !== null && typeof match !== "string" || match.length === 0) {
+    if (match !== null && (typeof match !== "string" || match.length === 0)) {
         return res.json({ status: 400, message: "Bad Request", error: "Match cannot be 0 length" });
     }
 
-    if (match_type !== null && match_type !== "command" && match_type !== "startswith" && match_type !== "contains" && match_type !== "exactmatch") {
+    if (match_type !== null && (match_type !== "command" && match_type !== "startswith" && match_type !== "contains" && match_type !== "exactmatch")) {
         return res.json({ status: 400, message: "Bad Request", error: "Match type needs to be either command, startswith, contains or exactmatch" });
     }
 
@@ -432,15 +432,15 @@ router.route("/:object_id").get(authAdmin, async (req, res) => {
     const match_type = req.body.match_type === undefined ? null : req.body.match_type;
     const code = req.body.code === undefined ? null : req.body.code;
 
-    if (local !== null && local !== true && local !== false) {
+    if (local !== null && (local !== true && local !== false)) {
         return res.json({ status: 400, message: "Bad Request", error: "Local needs to be a boolean" });
     }
 
-    if (local !== null && local === false && code === null) {
+    if (local !== null && (local === false && code === null)) {
         return res.json({ status: 400, message: "Bad Request", error: "Code needs to be specified if local is set to false" });
     }
 
-    if (type !== null && type !== "js" && type !== "basic") {
+    if (type !== null && (type !== "js" && type !== "basic")) {
         return res.json({ status: 400, message: "Bad Request", error: "Type needs to be either js or basic" });
     }
 
@@ -448,11 +448,11 @@ router.route("/:object_id").get(authAdmin, async (req, res) => {
         return res.json({ status: 400, message: "Bad Request", error: "Permissions needs to be a number" });
     }
 
-    if (match !== null && typeof match !== "string" || match.length === 0) {
+    if (match !== null && (typeof match !== "string" || match.length === 0)) {
         return res.json({ status: 400, message: "Bad Request", error: "Match cannot be 0 length" });
     }
 
-    if (match_type !== null && match_type !== "command" && match_type !== "startswith" && match_type !== "contains" && match_type !== "exactmatch") {
+    if (match_type !== null && (match_type !== "command" && match_type !== "startswith" && match_type !== "contains" && match_type !== "exactmatch")) {
         return res.json({ status: 400, message: "Bad Request", error: "Match type needs to be either command, startswith, contains or exactmatch" });
     }
 
