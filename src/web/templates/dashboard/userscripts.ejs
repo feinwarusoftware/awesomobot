@@ -97,8 +97,11 @@
             <main>
                 <div class="col-12 mb-5">
                     <div class="row">
-                        <div class="accordion col-6" id="accordionEx" role="tablist" aria-multiselectable="true"></div>
-                        <div id="advancedEditor" class="col-6" style="width: 100%; height:600px"></div>
+                        <div class="accordion col-md-6 col-sm-12 pb-4" id="accordionEx" role="tablist" aria-multiselectable="true"></div>
+                        <div class="col-md-6 col-sm-12">
+                            <div id="advancedEditor" style="width:100%; height:600px"></div>
+                            <button type="button" id="updateCode" class="btn btn-info float-right">Update</button>
+                        </div>
                     </div>
             </main>
 
@@ -109,7 +112,7 @@
             </div>-->
 
             <%- include ../partials/footer.ejs %>
-
+        </body>
                 <!--/.Footer-->
 
                 <!-- SCRIPTS -->
@@ -289,7 +292,8 @@
                         const editor = monaco.editor.create(document.getElementById('advancedEditor'), {
                             value: [].join('\n'),
                             language: 'javascript',
-                            theme: "MattIsTrueWaifu"
+                            theme: "MattIsTrueWaifu",
+                            automaticLayout: true
                         });
 
                         const req = new XMLHttpRequest();
@@ -353,28 +357,51 @@
                             );
 
                             document.getElementById(`${script._id}-clicker`).onclick = () => {
-                                if(document.getElementById(`${script._id}`).classList.contains("show")) {
+                                if (document.getElementById(`${script._id}`).classList.contains("show")) {
                                     return;
                                 }
+                                current_id = script._id;
                                 editor.setValue(script.code);
                             };
                         };
+
+                        let current_id = "rawrxd";
+
+                        document.getElementById("updateCode").onclick = () => {
+                            
+                            const upd = new XMLHttpRequest();
+                            upd.open("PATCH", `/api/v3/scripts/@me/${current_id}`, false);
+                            upd.setRequestHeader("Content-Type", "application/json");       
+                            upd.send(JSON.stringify({ code: editor.getValue() }));
+
+                            const upd_res = JSON.parse(upd.response);
+                            if (upd_res.status === 200) {
+
+                                // success
+                                toastr["success"]("Script updated successfully");
+
+                            } else {
+
+                                // failure
+                                toastr["error"](typeof upd_res.error === "string" ? upd_res.error : `${upd_res.status} - ${upd_res.message}`);
+                            }
+                        }
                     });
                 </script>
                 <script>
                     /* $("#editModal").on("shown.bs.modal", e => {
-                                                                $("#editorHolder").append(`<div id="advancedEditor" class="card" style="width: 100%; height:600px"></div>`)
+                                                                                    $("#editorHolder").append(`<div id="advancedEditor" class="card" style="width: 100%; height:600px"></div>`)
 
-                                                                    var editor = monaco.editor.create(document.getElementById('advancedEditor'), {
-                                                                        value: [].join('\n'),
-                                                                        language: 'javascript',
-                                                                        theme: "MattIsTrueWaifu"
-                                                                    })
-                                                                
-                                                            })
-                                                            $("#editModal").on("hidden.bs.modal", e => {
-                                                                $("#advancedEditor").remove()
-                                                            }) */
+                                                                                        var editor = monaco.editor.create(document.getElementById('advancedEditor'), {
+                                                                                            value: [].join('\n'),
+                                                                                            language: 'javascript',
+                                                                                            theme: "MattIsTrueWaifu"
+                                                                                        })
+                                                                                    
+                                                                                })
+                                                                                $("#editModal").on("hidden.bs.modal", e => {
+                                                                                    $("#advancedEditor").remove()
+                                                                                }) */
                 </script>
 </body>|
 
