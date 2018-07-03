@@ -15,6 +15,8 @@ router.post("/", authAdmin, async (req, res) => {
     // Get input.
     const discord_id = req.body.discord_id === undefined ? null : req.body.discord_id;
     const admin = req.body.admin === undefined ? false : req.body.admin;
+    const verified = req.body.verified === undefined ? false : req.body.verified;
+    const developer = req.body.developer === undefined ? false : req.body.developer;
     const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
 
     // Check discord id.
@@ -42,6 +44,16 @@ router.post("/", authAdmin, async (req, res) => {
     // Check admin.
     if (admin !== null && typeof admin !== "boolean") {
         return res.json({ status: 400, message: "Bad Request", error: "Admin needs to be either true or false" });
+    }
+
+    // Check verified.
+    if (verified !== null && typeof verified !== "boolean") {
+        return res.json({ status: 400, message: "Bad Request", error: "Verified needs to be either true or false" });
+    }
+
+    // Check developer.
+    if (developer !== null && typeof developer !== "boolean") {
+        return res.json({ status: 400, message: "Bad Request", error: "Developer needs to be either true or false" });
     }
 
     // Check scripts.
@@ -84,6 +96,8 @@ router.post("/", authAdmin, async (req, res) => {
     const user = new schemas.UserSchema({
         discord_id,
         admin,
+        verified,
+        developer,
         scripts
     });
 
@@ -159,11 +173,23 @@ router.route("/:discord_id").get(authAdmin, async (req, res) => {
 }).patch(authAdmin, async (req, res) => {
     
     const admin = req.body.admin === undefined ? null : req.body.admin;
+    const verified = req.body.verified === undefined ? null : req.body.verified;
+    const developer = req.body.developer === undefined ? null : req.body.developer;
     const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
 
     // Check admin.
     if (admin !== null && typeof admin !== "boolean") {
         return res.json({ status: 400, message: "Bad Request", error: "Admin needs to be either true or false" });
+    }
+
+    // Check verified.
+    if (verified !== null && typeof verified !== "boolean") {
+        return res.json({ status: 400, message: "Bad Request", error: "Verified needs to be either true or false" });
+    }
+
+    // Check developer.
+    if (developer !== null && typeof developer !== "boolean") {
+        return res.json({ status: 400, message: "Bad Request", error: "Developer needs to be either true or false" });
     }
 
     // Check scripts.
@@ -210,6 +236,8 @@ router.route("/:discord_id").get(authAdmin, async (req, res) => {
                 discord_id: req.params.discord_id
             }, {
                 ...(admin === null ? {} : { admin }),
+                ...(verified === null ? {} : { verified }),
+                ...(developer === null ? {} : { developer }),
                 ...(scripts.length === 0 ? {} : { scripts })
             });
     } catch(error) {
