@@ -14,7 +14,10 @@ const ScriptSchema = new Schema({
     permissions: { type: Number, required: true },
     match: { type: String, required: true },
     match_type: { type: String, default: "command" },
-    code: { type: String, required: false }
+    code: { type: String, required: false },
+    featured: { type: Boolean, default: false },
+    upvotes: { type: Number, default: 0 },
+    downvotes: { type: Number, default: 0 }
 });
 
 module.exports = mongoose.model("Script", ScriptSchema);

@@ -24,6 +24,7 @@ router.route("/").get(authUser, async (req, res) => {
     const permissions = req.query.permissions === undefined ? null : req.query.permissions;
     const match = req.query.match === undefined ? null : req.query.match;
     const match_type = req.query.match_type === undefined ? null : req.query.match_type;
+    const featured = req.query.featured === undefined ? null : req.query.featured;
 
     let limit = req.query.limit === undefined ? limitDef : parseInt(req.query.limit);
     if (isNaN(limit)) {
@@ -42,7 +43,8 @@ router.route("/").get(authUser, async (req, res) => {
                 ...(name === null ? {} : { name }),
                 ...(type === null ? {} : { type }),
                 ...(match === null ? {} : { match }),
-                ...(match_type === null ? {} : { match_type })
+                ...(match_type === null ? {} : { match_type }),
+                ...(featured === null ? {} : { featured })
             })
             .skip(page * limit)
             .limit(limit)
@@ -76,6 +78,9 @@ router.route("/").get(authUser, async (req, res) => {
     const match = req.body.match === undefined ? null : req.body.match;
     const match_type = req.body.match_type === undefined ? null : req.body.match_type;
     const code = req.body.code === undefined ? null : req.body.code;
+    const featured = req.body.featured === undefined ? false : req.body.featured;
+    const upvotes = req.body.upvotes === undefined ? 0 : req.body.upvotes;
+    const downvotes = req.body.downvotes === undefined ? 0 : req.body.downvotes;
 
     if (local === null || description === null || name === null || type === null || permissions === null || match === null) {
         return res.json({ status: 400, message: "Bad Request", error: "Not enough data specified" });
@@ -105,6 +110,18 @@ router.route("/").get(authUser, async (req, res) => {
         return res.json({ status: 400, message: "Bad Request", error: "Match type needs to be either command, startswith, contains or exactmatch" });
     }
 
+    if (featured !== null && typeof featured !== "boolean") {
+        return res.json({ status: 400, message: "Bad Request", error: "Featured needs to be either true or false" });
+    }
+
+    if (upvotes !== null && typeof upvotes !== "number") {
+        return res.json({ status: 400, message: "Bad Request", error: "Upvotes needs to be a number" });
+    }
+
+    if (downvotes !== null && typeof downvotes !== "number") {
+        return res.json({ status: 400, message: "Bad Request", error: "Downvotes needs to be a number" });
+    }
+
     const script = new schemas.ScriptSchema({
         local,
         name,
@@ -113,7 +130,10 @@ router.route("/").get(authUser, async (req, res) => {
         permissions,
         match,
         match_type,
-        code
+        code,
+        featured,
+        upvotes,
+        downvotes
     });
 
     try {
@@ -334,7 +354,7 @@ router.route("/@me/:object_id").get(authUser, async (req, res) => {
                 ...(permissions === null ? {} : { permissions }),
                 ...(match === null ? {} : { match }),
                 ...(match_type === null ? {} : { match_type }),
-                ...(code === null ? {} : { code })
+                ...(code === null ? {} : { code }),
             });
     } catch(error) {
 
@@ -431,6 +451,9 @@ router.route("/:object_id").get(authAdmin, async (req, res) => {
     const match = req.body.match === undefined ? null : req.body.match;
     const match_type = req.body.match_type === undefined ? null : req.body.match_type;
     const code = req.body.code === undefined ? null : req.body.code;
+    const featured = req.body.featured === undefined ? null : req.body.featured;
+    const upvotes = req.body.upvotes === undefined ? null : req.body.upvotes;
+    const downvotes = req.body.downvotes === undefined ? null : req.body.downvotes;
 
     if (local !== null && (local !== true && local !== false)) {
         return res.json({ status: 400, message: "Bad Request", error: "Local needs to be a boolean" });
@@ -456,6 +479,18 @@ router.route("/:object_id").get(authAdmin, async (req, res) => {
         return res.json({ status: 400, message: "Bad Request", error: "Match type needs to be either command, startswith, contains or exactmatch" });
     }
 
+    if (featured !== null && typeof featured !== "boolean") {
+        return res.json({ status: 400, message: "Bad Request", error: "Featured needs to be either true or false" });
+    }
+
+    if (upvotes !== null && typeof upvotes !== "number") {
+        return res.json({ status: 400, message: "Bad Request", error: "Upvotes needs to be a number" });
+    }
+
+    if (downvotes !== null && typeof downvotes !== "number") {
+        return res.json({ status: 400, message: "Bad Request", error: "Downvotes needs to be a number" });
+    }
+
     let upd_script;
     try {
 
@@ -470,7 +505,10 @@ router.route("/:object_id").get(authAdmin, async (req, res) => {
                 ...(permissions === null ? {} : { permissions }),
                 ...(match === null ? {} : { match }),
                 ...(match_type === null ? {} : { match_type }),
-                ...(code === null ? {} : { code })
+                ...(code === null ? {} : { code }),
+                ...(featured === null ? {} : { featured }),
+                ...(upvotes === null ? {} : { upvotes }),
+                ...(downvotes === null ? {} : { downvotes })
             });
     } catch(error) {
 
