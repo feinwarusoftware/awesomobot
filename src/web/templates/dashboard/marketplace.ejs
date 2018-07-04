@@ -76,25 +76,26 @@
         }
 
         #sandbox {
-            position: fixed; /* Sit on top of the page content */
-            display: none; /* Hidden by default */
-            width: 100%; /* Full width (cover the whole page) */
-            height: 100%; /* Full height (cover the whole page) */
+            position: fixed;
+            /* Sit on top of the page content */
+            display: none;
+            /* Hidden by default */
+            width: 100%;
+            /* Full width (cover the whole page) */
+            height: 100%;
+            /* Full height (cover the whole page) */
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0,0,0,0.5); /* Black background with opacity */
-            z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
-            cursor: pointer; /* Add a pointer on hover */
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Black background with opacity */
+            z-index: 2;
+            /* Specify a stack order in case you're using a different order for other elements */
+            cursor: pointer;
+            /* Add a pointer on hover */
             justify-content: center;
         }
-        
-        @media (max-width: 768px) { 
-            .tableImage {
-                display:none;
-            }
-         }
     </style>
 
 </head>
@@ -175,7 +176,15 @@
                                         <div class="card-body">
 
                                             <!-- Title -->
-                                            <h4 class="card-title">Card title</h4>
+                                            <span data-toggle="tooltip" data-placement="top" title="Verified Script">
+                                                <h4 class="card-title font-weight-bold">Script Name
+                                                    <span class="text-success font-weight-bold">
+                                                        <sup>
+                                                            <i class="fa fa-check pr-1"></i>
+                                                        </sup>
+                                                    </span>
+                                                </h4>
+                                            </span>
                                             <hr>
                                             <!-- Text -->
                                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
@@ -183,115 +192,207 @@
                                             </p>
                                             <p>
                                                 <code>-dothisshit</code>
-                                                        <span class="card-text text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="This creator has been verified by Feinwaru Software">
-                                                            <i class="fa fa-check pr-1"></i>Verified Creator</span>
-                                                    <span class="card-text text-success font-weight-bold" data-toggle="tooltip" data-placement="top" title="This script has been verified by Feinwaru Software">
-                                                        <i class="fa fa-check pr-1"></i>Verified Script</span>
+                                            </p>
+                                            <p class="mb-0">by Mattheous
+                                                    <sup>
+                                                        <span class="text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="Verified Creator">
+                                                            <i class="fa fa-check pr-1"></i>
+                                                        </span>
+                                                    </sup>
+                                                </p>
                                         </div>
-                                    <!-- Card footer -->
-                                    <div class="rounded-bottom blue lighten-2 text-center pt-3">
-                                        <ul class="list-unstyled list-inline font-small">
-                                            <li class="list-inline-item pr-2 white-text">
-                                                <i class="fa fa-pencil pr-1"></i> Mattheous</li>
-                                            <li class="list-inline-item pr-2">
-                                                <a href="#" class="white-text">
-                                                    <i class="fa fa-cloud pr-1"></i>12</a>
-                                            </li>
-                                            <li class="list-inline-item pr-2">
-                                                <a href="#" class="white-text">
-                                                    <i class="fa fa-heart red-text pr-1"> </i>21</a>
-                                            </li>
-                                        </ul>
+                                        <!-- Card footer -->
+                                        <div class="rounded-bottom blue lighten-2 text-center pt-3">
+                                            <ul class="list-unstyled list-inline font-small">
+                                                <li class="list-inline-item pr-2">
+                                                    <a href="#" class="white-text">
+                                                        <i class="fa fa-cloud pr-1"></i>12 Servers</a>
+                                                </li>
+                                                <li class="list-inline-item pr-2">
+                                                    <a href="#" class="white-text">
+                                                        <i class="fa fa-heart red-text pr-1"> </i>21 Likes</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="text-center" style="width: 100%">
-                                <h4 class="font-weight-bold mb-5 pb-1">
-                                    All the rest
-                                </h4>
+                            <div class="row">
+                                <div class="text-center" style="width: 100%">
+                                    <h4 class="font-weight-bold mb-5 pb-1">
+                                        All the rest
+                                    </h4>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <table class="table table-borderless">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <table class="table table-borderless">
                                             <col width="10%">
-                                            <col width="40%">
-                                            <col width="35%">
-                                            <col width="15%">
+                                            <col width="70%">
+                                            <col width="20%">
 
-                                        <!--Table body-->
-                                        <tbody>
-                                            <tr class="border-bottom" style="height: 8vh">
-                                                <th scope="row" class="tableImage">
-                                                    <img class="img-fluid" src="https://cdn.discordapp.com/embed/avatars/2.png">
-                                                </th>
-                                                <td>
-                                                    <h3 class="my-auto font-weight-bold">Script Name</h3>
-                                                    <p class="mb-0">Script description blah blah kill me</p
-                                                </td>
-                                                <td><code>-dothisshit</code>
-                                                        <span class="card-text text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="This creator has been verified by Feinwaru Software">
-                                                            <i class="fa fa-check pr-1"></i>Verified Creator</span>
-                                                    <span class="card-text text-success font-weight-bold" data-toggle="tooltip" data-placement="top" title="This script has been verified by Feinwaru Software">
-                                                        <i class="fa fa-check pr-1"></i>Verified Script</span></td>
-                                                <td class="">
+                                            <!--Table body-->
+                                            <tbody>
+                                                <tr class="border-bottom" style="height: 8vh">
+                                                    <th scope="row" class="tableImage">
+                                                        <img class="img-fluid" src="https://cdn.discordapp.com/embed/avatars/2.png">
+                                                        
+                                                    </th>
+                                                    <td>
+                                                        <h3 class="my-auto font-weight-bold">Script Name
+                                                            <sup>
+                                                                <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" title="Verified Script">
+                                                                    <i class="fa fa-check pr-1"></i>
+                                                                </span>
+                                                            </sup>
+                                                        </h3>
+                                                        <p class="mb-0 grey-text">Script description blah blah kill me</p>
+                                                        <p class="mb-0">by Mattheous
+                                                            <sup>
+                                                                <span class="text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="Verified Creator">
+                                                                    <i class="fa fa-check pr-1"></i>
+                                                                </span>
+                                                            </sup>
+                                                        </p>
+                                                    </td>
+                                                    <td class="">
+                                                            <a class="btn-floating btn-sm ml-auto mr-4 blue lighten-2" style="margin-top: -2.1rem; float: right">
+                                                                    <i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add this script to {server name}"></i>
+                                                                </a>
                                                         <ul class="list-unstyled">
-                                                        <li class="list-item">
-                                                            <a href="#">
-                                                                <i class="fa fa-cloud blue-text pr-1"></i>12 Servers</a>
-                                                        </li>
-                                                        <li class="list-item">
-                                                            <a href="#">
-                                                                <i class="fa fa-heart red-text pr-1"> </i>21 Likes</a>
-                                                        </li>
-                                                    </ul></td>
-                                            </tr>
-                                        </tbody>
-                                        <!--Table body-->
+                                                            <li class="list-item">
+                                                                <a href="#">
+                                                                    <i class="fa fa-cloud blue-text pr-1"></i>12 Servers</a>
+                                                            </li>
+                                                            <li class="list-item">
+                                                                <a href="#">
+                                                                    <i class="fa fa-heart red-text pr-1"> </i>21 Likes</a>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-bottom" style="height: 8vh">
+                                                        <th scope="row" class="tableImage">
+                                                            <img class="img-fluid" src="https://cdn.discordapp.com/embed/avatars/2.png">
+                                                            
+                                                        </th>
+                                                        <td>
+                                                            <h3 class="my-auto font-weight-bold">Script Name
+                                                                <sup>
+                                                                    <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" title="Verified Script">
+                                                                        <i class="fa fa-check pr-1"></i>
+                                                                    </span>
+                                                                </sup>
+                                                            </h3>
+                                                            <p class="mb-0 grey-text">Script description blah blah kill me</p>
+                                                            <p class="mb-0">by Mattheous
+                                                                <sup>
+                                                                    <span class="text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="Verified Creator">
+                                                                        <i class="fa fa-check pr-1"></i>
+                                                                    </span>
+                                                                </sup>
+                                                            </p>
+                                                        </td>
+                                                        <td class="">
+                                                                <a class="btn-floating btn-sm ml-auto mr-4 blue lighten-2" style="margin-top: -2.1rem; float: right">
+                                                                        <i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add this script to {server name}"></i>
+                                                                    </a>
+                                                            <ul class="list-unstyled">
+                                                                <li class="list-item">
+                                                                    <a href="#">
+                                                                        <i class="fa fa-cloud blue-text pr-1"></i>12 Servers</a>
+                                                                </li>
+                                                                <li class="list-item">
+                                                                    <a href="#">
+                                                                        <i class="fa fa-heart red-text pr-1"> </i>21 Likes</a>
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-bottom" style="height: 8vh">
+                                                            <th scope="row" class="tableImage">
+                                                                <img class="img-fluid" src="https://cdn.discordapp.com/embed/avatars/2.png">
+                                                                
+                                                            </th>
+                                                            <td>
+                                                                <h3 class="my-auto font-weight-bold">Script Name
+                                                                    <sup>
+                                                                        <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" title="Verified Script">
+                                                                            <i class="fa fa-check pr-1"></i>
+                                                                        </span>
+                                                                    </sup>
+                                                                </h3>
+                                                                <p class="mb-0 grey-text">Script description blah blah kill me</p>
+                                                                <p class="mb-0">by Mattheous
+                                                                    <sup>
+                                                                        <span class="text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="Verified Creator">
+                                                                            <i class="fa fa-check pr-1"></i>
+                                                                        </span>
+                                                                    </sup>
+                                                                </p>
+                                                            </td>
+                                                            <td class="">
+                                                                    <a class="btn-floating btn-sm ml-auto mr-4 blue lighten-2" style="margin-top: -2.1rem; float: right">
+                                                                            <i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add this script to {server name}"></i>
+                                                                        </a>
+                                                                <ul class="list-unstyled">
+                                                                    <li class="list-item">
+                                                                        <a href="#">
+                                                                            <i class="fa fa-cloud blue-text pr-1"></i>12 Servers</a>
+                                                                    </li>
+                                                                    <li class="list-item">
+                                                                        <a href="#">
+                                                                            <i class="fa fa-heart red-text pr-1"> </i>21 Likes</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </td>
+                                                        </tr>
+                                                
+                                            </tbody>
+                                            <!--Table body-->
 
-                                    </table>
-                                </div>
-                            </div>
-                            <!--Table-->
-                        </div>
-
-                    </div>
-
-                    <div class="col-md-3 col-sm-12 pb-2">
-                        <!-- Card -->
-                        <div class="card text-center" style="width: 100%">
-                            <div id="fun" class="card-body">
-
-                                <!-- Title -->
-                                <h4 class="font-weight-bold mb-1">
-                                    Your Scripts
-                                </h4>
-                                <p class="card-text">Allow your scripts to be used on the Marketplace</p>
-
-                                <div class="row">
-                                    <div class="col-12 border-bottom pb-2 mb-3">
-                                        <h5 class="float-left">Script Name</h5>
-                                        <div class="switch round red-white-switch float-right">
-                                            <label>
-                                                <input id="checkbox" type="checkbox">
-                                                <span class="lever"></span>
-                                            </label>
-                                        </div>
+                                        </table>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-12 border-bottom pb-2 mb-3">
-                                        <h5 class="float-left">Script Name</h5>
-                                        <div class="switch round red-white-switch float-right">
-                                            <label>
-                                                <input id="checkbox" type="checkbox">
-                                                <span class="lever"></span>
-                                            </label>
+                                <!--Table-->
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-3 col-sm-12 pb-2">
+                            <!-- Card -->
+                            <div class="card text-center" style="width: 100%">
+                                <div id="fun" class="card-body">
+
+                                    <!-- Title -->
+                                    <h4 class="font-weight-bold mb-1">
+                                        Your Scripts
+                                    </h4>
+                                    <p class="card-text">Allow your scripts to be used on the Marketplace</p>
+
+                                    <div class="row">
+                                        <div class="col-12 border-bottom pb-2 mb-3">
+                                            <h5 class="float-left">Script Name</h5>
+                                            <div class="switch round red-white-switch float-right">
+                                                <label>
+                                                    <input id="checkbox" type="checkbox">
+                                                    <span class="lever"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 border-bottom pb-2 mb-3">
+                                            <h5 class="float-left">Script Name</h5>
+                                            <div class="switch round red-white-switch float-right">
+                                                <label>
+                                                    <input id="checkbox" type="checkbox">
+                                                    <span class="lever"></span>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -299,8 +400,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row pl-md-4 pt-4"></div>
+                <div class="row pl-md-4 pt-4"></div>
             </div>
         </main>
         <!--/Section: Pricing v.5-->
@@ -377,7 +477,7 @@
 
                     const featured = document.getElementById("featured");
 
-                    for (let i = 0; i < 2; i++) {
+                    for (let i = 0; i < 0; i++) {
 
                         featured.innerHTML +=
                             `<div class="col-sm-6 col-md-6 col-lg-4 col-xxl-3 mb-4">
@@ -454,8 +554,8 @@
                     const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
                     const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
-                    const sandbox = document.getElementById("sandbox");                                 
-                    
+                    const sandbox = document.getElementById("sandbox");
+
                     for (let i = 0; i < 50; i++) {
 
                         const radius = Math.floor((Math.random() * 140) + 60);
@@ -464,11 +564,13 @@
                         const g = (Math.floor(Math.random() * 256)).toString(16);
                         const b = (Math.floor(Math.random() * 256)).toString(16);
 
-                        const colour = `#${r.length === 1 ? `0${r}` : r}${g.length === 1 ? `0${g}` : g}${b.length === 1 ? `0${b}` : b}`;
+                        const colour =
+                            `#${r.length === 1 ? `0${r}` : r}${g.length === 1 ? `0${g}` : g}${b.length === 1 ? `0${b}` : b}`;
 
                         console.log(colour);
 
-                        sandbox.innerHTML += `<div class="ball" style="width: ${Math.floor(radius / 2)}px; height: ${Math.floor(radius / 2)}px; border-radius: 50%; background-color: ${colour}; position: absolute;"></div>`;
+                        sandbox.innerHTML +=
+                            `<div class="ball" style="width: ${Math.floor(radius / 2)}px; height: ${Math.floor(radius / 2)}px; border-radius: 50%; background-color: ${colour}; position: absolute;"></div>`;
                     }
 
                     const balls = document.getElementsByClassName("ball");
@@ -508,7 +610,7 @@
 
                             ball.style.left = `${ball.px}px`;
                             ball.style.top = `${ball.py}px`;
-                            
+
                         }, 10);
                     }
 
@@ -517,8 +619,8 @@
             </script>
 
             <div id="sandbox">
-                
-            </div> 
+
+            </div>
 
 </body>
 
