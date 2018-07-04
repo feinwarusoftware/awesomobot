@@ -88,19 +88,51 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            /* Black background with opacity */
-            z-index: 2;
-            /* Specify a stack order in case you're using a different order for other elements */
-            cursor: pointer;
-            /* Add a pointer on hover */
+            background-color: rgba(0,0,0,0); /* Black background with opacity */
+            z-index: -2; /* Specify a stack order in case you're using a different order for other elements */
+            cursor: pointer; /* Add a pointer on hover */
             justify-content: center;
         }
+
+        @keyframes test {
+            0% {
+                background-color: red;
+            }
+            15% {
+                background-color: orange;
+            }
+            30% {
+                background-color: yellow;
+            }
+            45% {
+                background-color: green;
+            }
+            60% {
+                background-color: blue;
+            }
+            75% {
+                background-color: indigo;
+            }
+            90% {
+                background-color: violet;
+            }
+            100% {
+                background-color: red;
+            }
+        }
+        
+        @media (max-width: 768px) { 
+            .tableImage {
+                display:none;
+            }
+         }
     </style>
 
 </head>
 
 <body class="fixed-sn">
+
+    <div id="sandbox"></div>
     <!--
     <div id="mdb-preloader" class="flex-center">
         <div id="preloader-markup" class="text-center">
@@ -551,38 +583,104 @@
 
                     // fuck me
 
-                    const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-                    const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-
-                    const sandbox = document.getElementById("sandbox");
-
-                    for (let i = 0; i < 50; i++) {
-
-                        const radius = Math.floor((Math.random() * 140) + 60);
+                    const randomHex = () => {
 
                         const r = (Math.floor(Math.random() * 256)).toString(16);
                         const g = (Math.floor(Math.random() * 256)).toString(16);
                         const b = (Math.floor(Math.random() * 256)).toString(16);
 
-                        const colour =
-                            `#${r.length === 1 ? `0${r}` : r}${g.length === 1 ? `0${g}` : g}${b.length === 1 ? `0${b}` : b}`;
+                        const colour = `#${r.length === 1 ? `0${r}` : r}${g.length === 1 ? `0${g}` : g}${b.length === 1 ? `0${b}` : b}`;
 
-                        console.log(colour);
+                        return colour;
+                    }
 
-                        sandbox.innerHTML +=
-                            `<div class="ball" style="width: ${Math.floor(radius / 2)}px; height: ${Math.floor(radius / 2)}px; border-radius: 50%; background-color: ${colour}; position: absolute;"></div>`;
+                    const oppositehexes = () => {
+
+                        const r = (Math.floor(Math.random() * 256)).toString(16);
+                        const g = (Math.floor(Math.random() * 256)).toString(16);
+                        const b = (Math.floor(Math.random() * 256)).toString(16);
+
+                        const r2 = Math.abs(255 - r);
+                        const g2 = Math.abs(255 - g);
+                        const b2 = Math.abs(255 - b);
+
+                        const colour = `#${r.length === 1 ? `0${r}` : r}${g.length === 1 ? `0${g}` : g}${b.length === 1 ? `0${b}` : b}`;
+                        const colour2 = `#${r2.length === 1 ? `0${r2}` : r2}${g2.length === 1 ? `0${g2}` : g2}${b2.length === 1 ? `0${b2}` : b2}`;
+
+                        return { colour, colour2 };
+                    }
+
+                    const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+                    const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+                    const sandbox = document.getElementById("sandbox");    
+                    
+                    for (let i = 0; i < 50; i++) {
+
+                        const radius = Math.floor((Math.random() * 140) + 60);
+
+                        const style = document.createElement("style");
+                        style.type = "text/css";
+
+                        //const { colour, colour2 } = oppositehexes();
+
+                        const keyframes = `
+                            @keyframes ball-${i} {
+                                0% {
+                                    background-color: ${randomHex()};
+                                }
+                                20% {
+                                    background-color: ${randomHex()};
+                                }
+                                40% {
+                                    background-color: ${randomHex()};
+                                }
+                                60% {
+                                    background-color: ${randomHex()};
+                                }
+                                80% {
+                                    background-color: ${randomHex()};
+                                }
+                                100% {
+                                    background-color: ${randomHex()};
+                                }
+                            }
+                        `;
+                        style.innerHTML = keyframes;
+                        document.head.appendChild(style);
+
+                        sandbox.innerHTML += `<div class="ball" style="width: ${Math.floor(radius / 2)}px; height: ${Math.floor(radius / 2)}px; border-radius: 50%; background-color: ${randomHex()}; position: absolute; animation-name: ball-${i}; animation-duration: 5s; animation-direction: alternate; animation-iteration-count: infinite;"></div>`;
                     }
 
                     const balls = document.getElementsByClassName("ball");
 
                     for (let ball of balls) {
 
-                        const px = Math.floor(Math.random() * w);
-                        const py = Math.floor(Math.random() * h);
+                        const widthcss = ball.style.width;
+                        const width = parseInt(widthcss.substring(0, widthcss.length - 2));
 
-                        const vx = Math.max(Math.random() * 5, 2);
-                        const vy = Math.max(Math.random() * 5, 2);
+                        const heightcss = ball.style.height;
+                        const height = parseInt(heightcss.substring(0, heightcss.length - 2));
 
+                        //const px = Math.floor(Math.random() * w);
+                        //const py = Math.floor(Math.random() * h);
+
+                        //const px = Math.max(Math.min(w - (width * 2)), 0 + (width * 2));
+                        //const py = Math.max(Math.min(h - (height * 2)), 0 + (height * 2));
+
+                        const px = Math.floor(w / 2);
+                        const py = Math.floor(h / 2);
+
+                        //const vx = Math.max(Math.random() * 10, 4);
+                        //const vy = Math.max(Math.random() * 10, 4);
+
+                        const tsvx = Math.random() - 0.5;
+                        const svx = tsvx > 0 ? Math.ceil(tsvx) : Math.floor(tsvx);
+                        const vx = Math.max(Math.random() * 10, 4) * svx;
+
+                        const tsvy = Math.random() - 0.5;
+                        const svy = tsvy > 0 ? Math.ceil(tsvy) : Math.floor(tsvy);
+                        const vy = Math.max(Math.random() * 10, 4) * svy;
 
                         ball.px = px;
                         ball.py = py;
@@ -591,15 +689,11 @@
 
                         setInterval(() => {
 
-                            const widthcss = ball.style.width;
-                            const width = parseInt(widthcss.substring(0, widthcss.length - 2));
                             if (ball.px > (w - width) || ball.px < (0 + width)) {
 
                                 ball.vx = -ball.vx;
                             }
 
-                            const heightcss = ball.style.height;
-                            const height = parseInt(heightcss.substring(0, heightcss.length - 2));
                             if (ball.py > (h - height) || ball.py < (0 + height)) {
 
                                 ball.vy = -ball.vy;
@@ -610,17 +704,13 @@
 
                             ball.style.left = `${ball.px}px`;
                             ball.style.top = `${ball.py}px`;
-
-                        }, 10);
+                            
+                        }, 15);
                     }
 
-                    //sandbox.style.display = "block";
+                    sandbox.style.display = "block";
                 }
             </script>
-
-            <div id="sandbox">
-
-            </div>
 
 </body>
 
