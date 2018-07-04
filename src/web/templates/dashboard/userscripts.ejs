@@ -87,7 +87,7 @@
     <div class="editor-space">
         <div class="col-12 mb-5">
             <div class="row">
-                <div class="col-md-8 col-sm-12 pb-5">
+                <div class="col-md-8 col-sm-12 pb-2">
                     <h4>
                         <b>
                             <%= trans.CODE %>
@@ -102,14 +102,30 @@
                         </b>
                     </h4>
                     <div id="optionsEditor" style="width:100%; height:80vh"></div>
-                    <button type="button" id="createCode" class="btn btn-success float-right" style="display:none">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 col-sm-12 pb-2">
+                    <a href="/help/dashboard/editor">
+                        <button type="button" class="btn btn-feinwaru mx-auto">
+                            <%= trans.BEGINNERS_GUIDE %>
+                        </button>
+                    </a>
+                    <a href="/api/docs/editor">
+                        <button type="button" class="btn btn-feinwaru float-left">
+                            <%= trans.API_DOCUMENTATION %>
+                        </button>
+                    </a>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <button type="button" id="createCode" class="btn btn-success" style="display:none">
                         <%= trans.CREATE %>
                     </button>
-                    <button type="button" id="updateCode" class="btn btn-info float-right" style="display:none">
-                        <%= trans.UPDATE %>
-                    </button>
-                    <button type="button" id="deleteCode" class="btn btn-danger float-right" style="display:none" data-toggle="modal" data-target="#deleteModal">
+                    <button type="button" id="deleteCode" class="btn btn-danger" style="display:none" data-toggle="modal" data-target="#deleteModal">
                         <%= trans.DELETE %>
+                    </button>
+                    <button type="button" id="updateCode" class="btn btn-info" style="display:none">
+                        <%= trans.UPDATE %>
                     </button>
                 </div>
             </div>
@@ -122,7 +138,7 @@
             <div class="modal-content">
                 <!--Header-->
                 <div class="modal-header">
-                    <p class="heading lead">Woah woah, Wait!</p>
+                    <p class="heading lead"><%= trans.WAIT_UP %></p>
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="white-text">&times;</span>
@@ -132,24 +148,24 @@
                 <!--Body-->
                 <div class="modal-body">
                     <div class="text-center">
-                        <i class="fa fa-exclamation fa-4x mb-3 animated bounceIn red-text"></i>
-                        <p>This will remove your permissions to edit the script, this will not remove it from our database.
-                            If you want to delete it from everywhere, then please send an email to
-                            <a href="mailto:deletescript@feinwaru.com">deletescript@feinwaru.com</a>
-                            with your script ID in the body.</p>
+                        <i id="metalgearexclamation" class="fa fa-exclamation fa-4x mb-3 red-text"></i>
+                        <p><%- trans.DELETE_MSG %></p>
                     </div>
                 </div>
 
                 <!--Footer-->
                 <div class="modal-footer justify-content-center">
-                    <a type="button" id="yaDelet" class="btn btn-danger">Delet</a>
-                    <a type="button" id="noKThanksBye" class="btn btn-outline-danger waves-effect" data-dismiss="modal">Plz No, I love my shitty code</a>
+                    <a type="button" id="yaDelet" class="btn btn-danger"><%= trans.DELETE %></a>
+                    <a type="button" id="noKThanksBye" class="btn btn-outline-danger waves-effect" data-dismiss="modal"><%= trans.DONT_DELET %></a>
                 </div>
             </div>
             <!--/.Content-->
         </div>
     </div>
-
+    <audio id="metalgearalert" style="display:none;" volume="0.2">
+            <source src="/audio/metalgear.mp3" type="audio/mp3">
+            <embed height="50" width="100" src="/audio/metalgear.mp3">
+        </audio>
     <%- include ../partials/footer.ejs %>
 </body>
 <!--/.Footer-->
@@ -416,7 +432,9 @@
             }, ]
         });
         const editorCode = monaco.editor.create(document.getElementById('codeEditor'), {
-            value: [].join('\n'),
+            value: [
+                `/*\nWelcome to the Feinwaru editor. You are currently editing your own scripts.\n\n< -- Access your scripts here / create new ones\n\nEdit the options of the script here -->\n\nIf you need help, we have extensive API documentation available below and an easy\nto follow guide which would be recommended for beginners to read.\n\nIf you are not familiar with Javascript or Discord.js, It would be advised to do further research\nand read our documentation to familarise yourself first.\n*/`
+            ].join('\n'),
             language: 'javascript',
             theme: "MattIsTrueWaifu",
             automaticLayout: true
@@ -648,22 +666,29 @@
             $("#deleteCode").hide();
             $("#createCode").show();
         };
+
+        document.getElementById("metalgearalert").volume = 0.2;
+
+        $("#deleteModal").on("shown.bs.modal", function(){
+            $("#metalgearalert")[0].play();
+            $("#metalgearexclamation").addClass("animated tada");
+        });
     });
 </script>
 <script>
     /* $("#editModal").on("shown.bs.modal", e => {
-                                                                                                                                                                        $("#editorHolder").append(`<div id="advancedEditor" class="card" style="width: 100%; height:600px"></div>`)
+                                                                                                                                                                                $("#editorHolder").append(`<div id="advancedEditor" class="card" style="width: 100%; height:600px"></div>`)
 
-                                                                                                                                                                            var editor = monaco.editor.create(document.getElementById('advancedEditor'), {
-                                                                                                                                                                                value: [].join('\n'),
-                                                                                                                                                                                language: 'javascript',
-                                                                                                                                                                                theme: "MattIsTrueWaifu"
+                                                                                                                                                                                    var editor = monaco.editor.create(document.getElementById('advancedEditor'), {
+                                                                                                                                                                                        value: [].join('\n'),
+                                                                                                                                                                                        language: 'javascript',
+                                                                                                                                                                                        theme: "MattIsTrueWaifu"
+                                                                                                                                                                                    })
+                                                                                                                                                                                
                                                                                                                                                                             })
-                                                                                                                                                                        
-                                                                                                                                                                    })
-                                                                                                                                                                    $("#editModal").on("hidden.bs.modal", e => {
-                                                                                                                                                                        $("#advancedEditor").remove()
-                                                                                                                                                                    }) */
+                                                                                                                                                                            $("#editModal").on("hidden.bs.modal", e => {
+                                                                                                                                                                                $("#advancedEditor").remove()
+                                                                                                                                                                            }) */
 </script>
 </body>
 

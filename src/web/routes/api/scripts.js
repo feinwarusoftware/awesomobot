@@ -81,6 +81,7 @@ router.route("/").get(authUser, async (req, res) => {
     const featured = req.body.featured === undefined ? false : req.body.featured;
     const upvotes = req.body.upvotes === undefined ? 0 : req.body.upvotes;
     const downvotes = req.body.downvotes === undefined ? 0 : req.body.downvotes;
+    const thumbnail = req.query.thumbnail === undefined ? null : req.query.thumbnail;
 
     if (local === null || description === null || name === null || type === null || permissions === null || match === null) {
         return res.json({ status: 400, message: "Bad Request", error: "Not enough data specified" });
@@ -122,6 +123,10 @@ router.route("/").get(authUser, async (req, res) => {
         return res.json({ status: 400, message: "Bad Request", error: "Downvotes needs to be a number" });
     }
 
+    if (thumbnail !== null && typeof thumbnail !== "string") {
+        return res.json({ status: 400, message: "Bad Request", error: "Thumbnail needs to be a string" });
+    }
+
     const script = new schemas.ScriptSchema({
         local,
         name,
@@ -133,7 +138,8 @@ router.route("/").get(authUser, async (req, res) => {
         code,
         featured,
         upvotes,
-        downvotes
+        downvotes,
+        ...(thumbnail === null ? {} : { thumbnail })
     });
 
     try {
@@ -193,6 +199,7 @@ router.route("/@me").get(authUser, async (req, res) => {
         const match = req.body.match === undefined ? null : req.body.match;
         const match_type = req.body.match_type === undefined ? null : req.body.match_type;
         const code = req.body.code === undefined ? null : req.body.code;
+        const thumbnail = req.query.thumbnail === undefined ? null : req.query.thumbnail;
     
         if (name === null || description === null || type === null || permissions === null || match === null || code === null) {
             return res.json({ status: 400, message: "Bad Request", error: "Not enough data specified" });
@@ -213,6 +220,10 @@ router.route("/@me").get(authUser, async (req, res) => {
         if (match_type !== "command" && match_type !== "startswith" && match_type !== "contains" && match_type !== "exactmatch") {
             return res.json({ status: 400, message: "Bad Request", error: "Match type needs to be either command, startswith, contains or exactmatch" });
         }
+
+        if (thumbnail !== null && typeof thumbnail !== "string") {
+            return res.json({ status: 400, message: "Bad Request", error: "Thumbnail needs to be a string" });
+        }
     
         const script = new schemas.ScriptSchema({
             local,
@@ -222,7 +233,8 @@ router.route("/@me").get(authUser, async (req, res) => {
             permissions,
             match,
             match_type,
-            code
+            code,
+            ...(thumbnail === null ? {} : { thumbnail })
         });
     
         let user_script;
@@ -324,6 +336,7 @@ router.route("/@me/:object_id").get(authUser, async (req, res) => {
     const match = req.body.match === undefined ? null : req.body.match;
     const match_type = req.body.match_type === undefined ? null : req.body.match_type;
     const code = req.body.code === undefined ? null : req.body.code;
+    const thumbnail = req.query.thumbnail === undefined ? null : req.query.thumbnail;
 
     if (type !== null && (type !== "js" && type !== "basic")) {
         return res.json({ status: 400, message: "Bad Request", error: "Type needs to be either js or basic" });
@@ -341,6 +354,10 @@ router.route("/@me/:object_id").get(authUser, async (req, res) => {
         return res.json({ status: 400, message: "Bad Request", error: "Match type needs to be either command, startswith, contains or exactmatch" });
     }
 
+    if (thumbnail !== null && typeof thumbnail !== "string") {
+        return res.json({ status: 400, message: "Bad Request", error: "Thumbnail needs to be a string" });
+    }
+
     let upd_script;
     try {
 
@@ -355,6 +372,7 @@ router.route("/@me/:object_id").get(authUser, async (req, res) => {
                 ...(match === null ? {} : { match }),
                 ...(match_type === null ? {} : { match_type }),
                 ...(code === null ? {} : { code }),
+                ...(thumbnail === null ? {} : { thumbnail })
             });
     } catch(error) {
 
@@ -454,6 +472,7 @@ router.route("/:object_id").get(authAdmin, async (req, res) => {
     const featured = req.body.featured === undefined ? null : req.body.featured;
     const upvotes = req.body.upvotes === undefined ? null : req.body.upvotes;
     const downvotes = req.body.downvotes === undefined ? null : req.body.downvotes;
+    const thumbnail = req.query.thumbnail === undefined ? null : req.query.thumbnail;
 
     if (local !== null && (local !== true && local !== false)) {
         return res.json({ status: 400, message: "Bad Request", error: "Local needs to be a boolean" });
@@ -491,6 +510,10 @@ router.route("/:object_id").get(authAdmin, async (req, res) => {
         return res.json({ status: 400, message: "Bad Request", error: "Downvotes needs to be a number" });
     }
 
+    if (thumbnail !== null && typeof thumbnail !== "string") {
+        return res.json({ status: 400, message: "Bad Request", error: "Thumbnail needs to be a string" });
+    }
+
     let upd_script;
     try {
 
@@ -508,7 +531,8 @@ router.route("/:object_id").get(authAdmin, async (req, res) => {
                 ...(code === null ? {} : { code }),
                 ...(featured === null ? {} : { featured }),
                 ...(upvotes === null ? {} : { upvotes }),
-                ...(downvotes === null ? {} : { downvotes })
+                ...(downvotes === null ? {} : { downvotes }),
+                ...(thumbnail === null ? {} : { thumbnail })
             });
     } catch(error) {
 

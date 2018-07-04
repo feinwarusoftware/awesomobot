@@ -123,13 +123,18 @@
     "_DASHBOARD_PAGE": "Below is all the shit for the dashboard",
     "MY_SCRIPTS": "My Scripts",
     "FEINWARU_EDITOR": "Feinwaru Editor",
+    "RETURN_TO_DASHBOARD": "Return to Dashboard",
+    "NEW_SCRIPT": "New Script",
     "CODE": "Code",
     "OPTIONS": "Options",
+    "BEGINNERS_GUIDE": "Beginner's Guide",
+    "API_DOCUMENTATION": "API Documentation",
     "CREATE": "Create",
     "UPDATE": "Update",
     "DELETE": "Delete",
-
-
+    "DELETE_MSG": "This will remove your permissions to edit the script, this will not remove it from our database. If you want to delete it from everywhere, then please send an email to <a href='mailto:deletescript@feinwaru.com'>deletescript@feinwaru.com</a> with your script ID in the body.</p>",
+    "WAIT_UP": "Woah woah, Wait!",
+    "DONT_DELET": "plz no, I love my shitty code",
 
     "_FOOTER": "Below is the shit for the footer",
 

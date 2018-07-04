@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>AWESOM-O //
+        <%= trans.MARKETPLACE %>
+    </title>
+
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png" />
+    <meta name="theme-color" content="#ff594f">
+
+    <link rel="alternate" href="/" hreflang="x-default" />
+    <link rel="alternate" href="/?lang=en" hreflang="en" />
+    <link rel="alternate" href="/?lang=ie" hreflang="ie" />
+    <link rel="alternate" href="/?lang=pt" hreflang="pt" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="/css/mdb.min.css" rel="stylesheet">
+
+    <link href="/css/style.css" rel="stylesheet">
+
+    <style>
+        @media (min-width: 2300px) {
+            .col-xxl-3 {
+                -ms-flex: 0 0 25%;
+                flex: 0 0 25%;
+                max-width: 25%
+            }
+        }
+
+        code {
+            display: block;
+            overflow-x: auto;
+            padding: 0.5em;
+            color: #e2e2e2;
+            background: #282c34;
+            border-radius: 4px
+        }
+    </style>
+
+</head>
+
+<body class="fixed-sn">
+    <!--
+    <div id="mdb-preloader" class="flex-center">
+        <div id="preloader-markup" class="text-center">
+            <img src="/img/headerlogo.png">
+            <br>
+            <div class="preloader-wrapper active">
+                <div class="spinner-layer spinner-red-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+-->
+    <%- include ../partials/d-navbar.ejs %>
+        <!--Main Layout-->
+
+
+        <main>
+            <div class="mb-5">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-md-12 pb-4">
+                            <div class="card card-image" style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);">
+                                <div class="text-white text-center py-5 px-4 my-5">
+                                    <div>
+                                        <h1 class="card-title pt-3 mb-5 font-bold">
+                                            <strong>Welcome to the AWESOM-O Marketplace</strong>
+                                        </h1>
+                                        <p class="mx-5 mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat fugiat, laboriosam,
+                                            voluptatem, optio vero odio nam sit officia accusamus minus error nisi architecto
+                                            nulla ipsum dignissimos. Odit sed qui, dolorum!.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-9 col-sm-12 pb-2">
+                            <!-- Card -->
+                            <div class="text-center" style="width: 100%">
+                                <!-- Title -->
+                                <h4 class="font-weight-bold mb-5 pb-1">
+                                    Featured Scripts
+                                </h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 col-xxl-3 mb-4">
+                                    <!-- Card -->
+                                    <div class="card">
+
+                                        <!-- Card image -->
+                                        <div class="view overlay">
+                                            <img class="card-img-top" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Card image cap">
+                                            <a>
+                                                <div class="mask rgba-white-slight"></div>
+                                            </a>
+                                        </div>
+
+                                        <!-- Button -->
+                                        <a class="btn-floating btn-action ml-auto mr-4 feinwaru">
+                                            <i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add this script to {server name}"></i>
+                                        </a>
+
+                                        <!-- Card content -->
+                                        <div class="card-body">
+
+                                            <!-- Title -->
+                                            <h4 class="card-title">Card title</h4>
+                                            <hr>
+                                            <!-- Text -->
+                                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                                                card's content.
+                                            </p>
+                                            <p>
+                                                <code>-dothisshit</code>
+                                                <p>
+                                                    <p>
+                                                        <span class="card-text text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="This creator has been verified by Feinwaru Software">
+                                                            <i class="fa fa-check pr-1"></i>Verified Creator</span>
+                                                    </p>
+                                                    <span class="card-text text-success font-weight-bold" data-toggle="tooltip" data-placement="top" title="This script has been verified by Feinwaru Software">
+                                                        <i class="fa fa-check pr-1"></i>Verified Script</span>
+                                        </div>
+
+                                        <!-- Card footer -->
+                                        <div class="rounded-bottom feinwaru text-center pt-3">
+                                            <ul class="list-unstyled list-inline font-small">
+                                                <li class="list-inline-item pr-2 white-text">
+                                                    <i class="fa fa-user pr-1"></i> Mattheous</li>
+                                                <li class="list-inline-item pr-2">
+                                                    <a href="#" class="white-text">
+                                                        <i class="fa fa-comments-o pr-1"></i>12</a>
+                                                </li>
+                                                <li class="list-inline-item pr-2">
+                                                    <a href="#" class="white-text">
+                                                        <i class="fa fa-facebook pr-1"> </i>21</a>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <a href="#" class="white-text">
+                                                        <i class="fa fa-twitter pr-1"> </i>5</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                    <!-- Card -->
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-12 pb-2">
+                            <!-- Card -->
+                            <div class="card text-center" style="width: 100%">
+                                <div class="card-body">
+
+                                    <!-- Title -->
+                                    <h4 class="font-weight-bold mb-1">
+                                        Your Scripts
+                                    </h4>
+                                    <p class="card-text">Allow your scripts to be used on the Marketplace</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row pl-md-4 pt-4"></div>
+            </div>
+        </main>
+        <!--/Section: Pricing v.5-->
+        <!-- Streak -->
+
+        <%- include ../partials/footer.ejs %>
+
+            <!--/.Footer-->
+
+
+            <!-- SCRIPTS -->
+
+            <!-- JQuery -->
+            <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+
+            <!-- Bootstrap tooltips -->
+            <script type="text/javascript" src="/js/popper.min.js"></script>
+
+            <!-- Bootstrap core JavaScript -->
+            <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+            <!-- MDB core JavaScript -->
+            <script type="text/javascript" src="/js/mdb.min.js"></script>
+
+            <script>
+                //Animation init
+                new WOW().init();
+
+                //Modal
+                $('#myModal').on('shown.bs.modal', function () {
+                    $('#myInput').focus()
+                })
+
+                // Material Select Initialization
+                $(document).ready(function () {
+                    $('.mdb-select').material_select();
+                });
+
+                // SideNav Button Initialization
+                $(".button-collapse").sideNav();
+                // SideNav Scrollbar Initialization
+                var sideNavScrollbar = document.querySelector('.custom-scrollbar');
+                Ps.initialize(sideNavScrollbar);
+
+                // Tooltips Initialization
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+                })
+            </script>
+
+            <script type="text/javascript" src="/js/api.js"></script>
+
+            <script>
+                "use strict";
+
+                const featuredList = document.getElementById("featuredList");
+
+                window.onload = async () => {
+
+
+                }
+            </script>
+
+</body>
+
+</html>

@@ -168,16 +168,71 @@ router.get("/commands", (req, res) => {
     res.render("commands", { md: text => { return converter.makeHtml(text); }, user: {}});
 });
 
-router.get("/dashboard", (req, res) => {
-    res.render("dashboard/main");
+router.get("/dashboard", authUser, async (req, res) => {
+
+    let user_res;
+    try {
+
+        user_res = await axios({
+            method: "get",
+            url: "https://discordapp.com/api/v6/users/@me",
+            headers: {
+                "Authorization": `Bearer ${req.session.discord.access_token}`
+            }
+        });
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ error: "error fetching discord data lol" });
+    }
+
+    res.render("dashboard/main", { user_data: user_res.data });
 });
 
 router.get("/dashboard/scripts/editor", authUser, (req, res) => {
     res.render("dashboard/editor");
 });
 
-router.get("/dashboard/scripts/me", authUser, (req, res) => {
-    res.render("dashboard/userscripts");
+router.get("/dashboard/scripts/marketplace", authUser, async (req, res) => {
+
+    let user_res;
+    try {
+
+        user_res = await axios({
+            method: "get",
+            url: "https://discordapp.com/api/v6/users/@me",
+            headers: {
+                "Authorization": `Bearer ${req.session.discord.access_token}`
+            }
+        });
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ error: "error fetching discord data lol" });
+    }
+
+    res.render("dashboard/marketplace", { user_data: user_res.data });
+});
+
+router.get("/dashboard/scripts/me", authUser, async (req, res) => {
+
+    let user_res;
+    try {
+
+        user_res = await axios({
+            method: "get",
+            url: "https://discordapp.com/api/v6/users/@me",
+            headers: {
+                "Authorization": `Bearer ${req.session.discord.access_token}`
+            }
+        });
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ error: "error fetching discord data lol" });
+    }
+
+    res.render("dashboard/userscripts", { user_data: user_res.data });
 });
 
 router.get("/token", authAdmin, (req, res) => {

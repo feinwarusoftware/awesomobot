@@ -4,6 +4,19 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+const thumbnails = [
+    "https://cdn.discordapp.com/embed/avatars/0.png",
+    "https://cdn.discordapp.com/embed/avatars/1.png",
+    "https://cdn.discordapp.com/embed/avatars/2.png",
+    "https://cdn.discordapp.com/embed/avatars/3.png",
+    "https://cdn.discordapp.com/embed/avatars/4.png"
+];
+
+const def_thumbnail = () => {
+
+    return thumbnails[Math.floor(Math.random() * thumbnails.length)];
+}
+
 const ScriptSchema = new Schema({
 
     //  _id: ObjectId,
@@ -17,7 +30,8 @@ const ScriptSchema = new Schema({
     code: { type: String, required: false },
     featured: { type: Boolean, default: false },
     upvotes: { type: Number, default: 0 },
-    downvotes: { type: Number, default: 0 }
+    downvotes: { type: Number, default: 0 },
+    thumbnail: { type: String, default: def_thumbnail}
 });
 
 module.exports = mongoose.model("Script", ScriptSchema);

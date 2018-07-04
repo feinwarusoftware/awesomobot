@@ -1,56 +1,110 @@
-
-        <!--Double navigation-->
-            <!-- Sidebar navigation -->
-            <div id="slide-out" class="side-nav fixed dark">
-                <ul class="custom-scrollbar">
-                    <!-- Logo -->
-                        <div class="logo-wrapper waves-light active" style="border-style: none">
-                            <a href="#"><img src="/img/navbarlogo.png" class="img-fluid flex-center"></a>
-                        </div>
-                    <!--/. Logo -->
-                    <!-- Side navigation links -->
-                    <div>
+iduser_data<!--Double navigation-->
+<!-- Sidebar navigation -->
+<div id="slide-out" class="side-nav fixed dark">
+    <ul class="custom-scrollbar">
+        <!-- Logo -->
+        <div class="logo-wrapper waves-light active" style="border-style: none">
+            <a href="#">
+                <img src="/img/navbarlogo.png" class="img-fluid flex-center">
+            </a>
+        </div>
+        <!--/. Logo -->
+        <!-- Side navigation links -->
+        <div>
+            <li>
+                <ul class="collapsible collapsible-accordion">
                     <li>
-                        <ul class="collapsible collapsible-accordion">
-                                <li><a id="newScript" class="waves-effect selection"><i class="fa fa-plus"></i> New Script</a></li>
-                                </ul>
-                                <br>        
-                        <ul id="scriptList" class="collapsible collapsible-accordion">
+                        <a id="newScript" class="waves-effect selection">
+                            <i class="fa fa-plus"></i> <%= trans.NEW_SCRIPT %></a>
+                    </li>
+                </ul>
+                <br>
+                <ul id="scriptList" class="collapsible collapsible-accordion">
 
-                        </ul>
-                    </li>
-                    </div>
-                    <!--/. Side navigation links -->
                 </ul>
-                <div class="sidenav-bg mask-strong"></div>
+            </li>
+        </div>
+        <!--/. Side navigation links -->
+    </ul>
+    <div class="sidenav-bg mask-strong"></div>
+</div>
+<!--/. Sidebar navigation -->
+<!-- Navbar -->
+<nav class="navbar fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav">
+    <!-- SideNav slide-out button -->
+    <div class="float-left">
+        <a href="#" data-activates="slide-out" class="button-collapse">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+    <ul class="nav navbar-nav nav-flex-icons ml-2">
+        <li class="nav-item">
+            <strong>
+                <a class="nav-link" href="/dashboard<%= trans.LANG %>">
+                    <i class="fa fa-angle-left"></i>
+                    <span class="clearfix d-none d-sm-inline-block">
+                        <%= trans.RETURN_TO_DASHBOARD %>
+                    </span>
+                </a>
+            </strong>
+        </li>
+    </ul>
+    <ul class="nav navbar-nav nav-flex-icons ml-auto">
+        <li class="nav-item avatar dropdown border-right pr-3 mr-2">
+                <a class="nav-link dropdown-toggle waves-effect waves-light rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <img src="https://cdn.discordapp.com/avatars/<%= user_data.id %>/<%= user_data.avatar %>.png?size=128" class="rounded-circle z-depth-0"
+                        alt="there is supposed to be an image but dragon 🅱roke it">
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-feinwaru text-left">
+                    <h6 class="dropdown-item">
+                        <%= trans.LOGGED_IN_AS %>
+                            <%= user_data.username %>
+                    </h6>
+                    <a class="dropdown-item waves-effect waves-light" href="/dashboard/profiles/<%= user_data.id %><%= trans.LANG %>">
+                        <%= trans.VIEW_PROFILE %>
+                    </a>
+                    <a class="dropdown-item waves-effect waves-light" href="#">
+                        <%= trans.LOGOUT %>
+                    </a>
+                </div>
+            </li>
+        <li class="nav-item">
+            <a class="nav-link waves-effect waves-light" data-toggle="modal" data-target="#LangModal">
+                <i class="fa fa-language"></i>
+            </a>
+        </li>
+    </ul>
+</nav>
+<!-- /.Navbar -->
+<!--/.Double navigation-->
+
+<!-- Select Language Modal -->
+<div class="modal fade right" id="LangModal" tabindex="-1" role="dialog" aria-labelledby="LangModalAria" aria-hidden="true">
+    <div class="modal-dialog modal-full-height modal-right modal-notify modal-danger" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading lead">
+                    <%= trans.SELECT_LANGUAGE %>
+                </p>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
             </div>
-            <!--/. Sidebar navigation -->
-            <!-- Navbar -->
-            <nav class="navbar fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav">
-                <!-- SideNav slide-out button -->
-                <div class="float-left">
-                    <a href="#" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
-                </div>
-                <!-- Breadcrumb-->
-                <div class="breadcrumb-dn mr-auto">
-                    <p><b>AWESOM-O Dashboard</b></p>
-                </div>
-                <ul class="nav navbar-nav nav-flex-icons ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link"><i class="fa fa-user"></i> <span class="clearfix d-none d-sm-inline-block">Profile</span></a>
-                    </li>
-                    <li class="nav-item avatar dropdown">
-                        <a class="nav-link dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle z-depth-0" alt="avatar image">
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right dropdown-secondary">
-                            <a class="dropdown-item waves-effect waves-light" href="#">Action</a>
-                            <a class="dropdown-item waves-effect waves-light" href="#">Another action</a>
-                            <a class="dropdown-item waves-effect waves-light" href="#">Something else here</a>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-            <!-- /.Navbar -->
-        <!--/.Double navigation-->
-    
+            <div class="list-group">
+                <a href="?lang=en" class="list-group-item list-group-item-action waves-effect">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" width="10%"> English
+                </a>
+                <a href="?lang=ie" class="list-group-item list-group-item-action waves-effect">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Flag_of_Ireland.svg" width="10%"> Gaeilge
+                </a>
+                <a href="?lang=pt" class="list-group-item list-group-item-action waves-effect">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_Portugal.svg" width="10%"> Português
+                </a>
+            </div>
+
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
