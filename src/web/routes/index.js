@@ -235,6 +235,27 @@ router.get("/dashboard/scripts/me", authUser, async (req, res) => {
     res.render("dashboard/userscripts", { user_data: user_res.data });
 });
 
+router.get("/dragonsplayroom", authUser, async (req, res) => {
+
+    let user_res;
+    try {
+
+        user_res = await axios({
+            method: "get",
+            url: "https://discordapp.com/api/v6/users/@me",
+            headers: {
+                "Authorization": `Bearer ${req.session.discord.access_token}`
+            }
+        });
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ error: "error fetching discord data lol" });
+    }
+
+    res.render("dumbshit/dragonsplayroom", { user_data: user_res.data });
+});
+
 router.get("/token", authAdmin, (req, res) => {
     
     res.json({ token: req.cookies.session });

@@ -14,9 +14,9 @@
     <meta name="theme-color" content="#ff594f">
 
     <link rel="alternate" href="/" hreflang="x-default" />
-    <link rel="alternate" href="/?lang=en" hreflang="en" />
-    <link rel="alternate" href="/?lang=ie" hreflang="ie" />
-    <link rel="alternate" href="/?lang=pt" hreflang="pt" />
+    <link rel="alternate" href="/?hl=en" hreflang="en" />
+    <link rel="alternate" href="/?hl=ie" hreflang="ie" />
+    <link rel="alternate" href="/?hl=pt" hreflang="pt" />
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -75,57 +75,18 @@
             background-color: #fff;
         }
 
-        #sandbox {
-            position: fixed;
-            /* Sit on top of the page content */
-            display: none;
-            /* Hidden by default */
-            width: 100%;
-            /* Full width (cover the whole page) */
-            height: 100%;
-            /* Full height (cover the whole page) */
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0,0,0,0); /* Black background with opacity */
-            z-index: -2; /* Specify a stack order in case you're using a different order for other elements */
-            cursor: pointer; /* Add a pointer on hover */
-            justify-content: center;
+        .switch label input[type=checkbox]:checked+.lever:after {
+            background-color: #ff594f;
+            left: 24px;
         }
 
-        @keyframes test {
-            0% {
-                background-color: red;
-            }
-            15% {
-                background-color: orange;
-            }
-            30% {
-                background-color: yellow;
-            }
-            45% {
-                background-color: green;
-            }
-            60% {
-                background-color: blue;
-            }
-            75% {
-                background-color: indigo;
-            }
-            90% {
-                background-color: violet;
-            }
-            100% {
-                background-color: red;
-            }
+        .switch label input[type=checkbox]:checked+.lever {
+            background-color: #f8c9c9
         }
-        
-        @media (max-width: 768px) { 
-            .tableImage {
-                display:none;
-            }
-         }
+
+        .dropdown-content li>a, .dropdown-content li>span {
+            color: #2c2c2c;
+        }
     </style>
 
 </head>
@@ -167,7 +128,7 @@
                                 <div class="text-white text-center py-5 px-4 my-5">
                                     <div>
                                         <h1 class="card-title pt-3 mb-5 font-bold">
-                                            <strong>Welcome to the AWESOM-O Marketplace</strong>
+                                            <strong><%= trans.MARKET_WELCOME %></strong>
                                         </h1>
                                         <p class="mx-5 mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat fugiat, laboriosam,
                                             voluptatem, optio vero odio nam sit officia accusamus minus error nisi architecto
@@ -181,11 +142,11 @@
 
                     <div class="row">
                         <div class="col-md-9 col-sm-12 pb-2">
-                            <div class="text-center" style="width: 100%">
-                                <h4 class="font-weight-bold mb-5 pb-1">
-                                    Featured Scripts
-                                </h4>
-                            </div>
+                                <div class="text-center" style="width: 100%">
+                                        <h1 class="font-weight-bold mb-2 mt-2 mb-5">
+                                            <%= trans.FEATURED_SCRIPTS %>
+                                        </h1>
+                                    </div>
                             <div class="row justify-content-center" id="featured">
                                 <div class="col-sm-6 col-md-6 col-lg-4 col-xxl-3 mb-4">
                                     <!-- Card -->
@@ -201,7 +162,7 @@
 
                                         <!-- Button -->
                                         <a class="btn-floating btn-action ml-auto mr-4 blue lighten-2">
-                                            <i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add this script to {server name}"></i>
+                                            <i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="<%= trans.ADD_SCRIPT_TO %> {server name}"></i>
                                         </a>
 
                                         <!-- Card content -->
@@ -225,24 +186,24 @@
                                             <p>
                                                 <code>-dothisshit</code>
                                             </p>
-                                            <p class="mb-0">by Mattheous
-                                                    <sup>
-                                                        <span class="text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="Verified Creator">
-                                                            <i class="fa fa-check pr-1"></i>
-                                                        </span>
-                                                    </sup>
-                                                </p>
+                                            <p class="mb-0"><%= trans.BY %> Mattheous
+                                                <sup>
+                                                    <span class="text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="Verified Creator">
+                                                        <i class="fa fa-check pr-1"></i>
+                                                    </span>
+                                                </sup>
+                                            </p>
                                         </div>
                                         <!-- Card footer -->
                                         <div class="rounded-bottom blue lighten-2 text-center pt-3">
                                             <ul class="list-unstyled list-inline font-small">
                                                 <li class="list-inline-item pr-2">
                                                     <a href="#" class="white-text">
-                                                        <i class="fa fa-cloud pr-1"></i>12 Servers</a>
+                                                        <i class="fa fa-cloud pr-1"></i>12 <%= trans.SERVERS %></a>
                                                 </li>
                                                 <li class="list-inline-item pr-2">
                                                     <a href="#" class="white-text">
-                                                        <i class="fa fa-heart red-text pr-1"> </i>21 Likes</a>
+                                                        <i class="fa fa-heart red-text pr-1"> </i>21 <%= trans.LIKES %></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -252,14 +213,28 @@
 
                             <div class="row">
                                 <div class="text-center" style="width: 100%">
-                                    <h4 class="font-weight-bold mb-5 pb-1">
-                                        All the rest
-                                    </h4>
+                                    <h1 class="font-weight-bold mb-2 mt-5 pb-1">
+                                        <%= trans.ALL_SCRIPTS %>
+                                    </h1>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <form class="form-inline md-form mr-auto mb-4">
+                                                <select class="mdb-select mr-4">
+                                                    <option value="1"><%= trans.NAME %></option>
+                                                    <option value="2"><%= trans.AUTHOR %></option>
+
+                                                </select>
+                                                <input class="form-control mr-sm-2" type="text" placeholder="<%= trans.SEARCH %>" aria-label="Search">
+                                                <button class="btn btn-feinwaru btn-rounded btn-sm my-0" type="submit"><%= trans.SEARCH %></button>
+                                            </form>
+                                        </div>
+
+                                    </div>
                                     <div class="card">
                                         <table class="table table-borderless">
                                             <col width="10%">
@@ -271,122 +246,95 @@
                                                 <tr class="border-bottom" style="height: 8vh">
                                                     <th scope="row" class="tableImage">
                                                         <img class="img-fluid" src="https://cdn.discordapp.com/embed/avatars/2.png">
-                                                        
+
                                                     </th>
                                                     <td>
                                                         <h3 class="my-auto font-weight-bold">Script Name
                                                             <sup>
-                                                                <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" title="Verified Script">
+                                                                <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" title="<%= trans.VERIFIED_SCRIPT %>">
                                                                     <i class="fa fa-check pr-1"></i>
                                                                 </span>
                                                             </sup>
                                                         </h3>
                                                         <p class="mb-0 grey-text">Script description blah blah kill me</p>
-                                                        <p class="mb-0">by Mattheous
+                                                        <p class="mb-0"><%= trans.BY %> Mattheous
                                                             <sup>
-                                                                <span class="text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="Verified Creator">
+                                                                <span class="text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="<%= trans.VERIFIED_CREATOR %>">
                                                                     <i class="fa fa-check pr-1"></i>
                                                                 </span>
                                                             </sup>
                                                         </p>
                                                     </td>
                                                     <td class="">
-                                                            <a class="btn-floating btn-sm ml-auto mr-4 blue lighten-2" style="margin-top: -2.1rem; float: right">
-                                                                    <i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add this script to {server name}"></i>
-                                                                </a>
+                                                        <a class="btn-floating btn-sm ml-auto mr-4 blue lighten-2" style="margin-top: -2.1rem; float: right">
+                                                            <i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="<%= trans.ADD_SCRIPT_TO %> {server name}"></i>
+                                                        </a>
                                                         <ul class="list-unstyled">
                                                             <li class="list-item">
                                                                 <a href="#">
-                                                                    <i class="fa fa-cloud blue-text pr-1"></i>12 Servers</a>
+                                                                    <i class="fa fa-cloud blue-text pr-1"></i>12 <%= trans.SERVERS %></a>
                                                             </li>
                                                             <li class="list-item">
                                                                 <a href="#">
-                                                                    <i class="fa fa-heart red-text pr-1"> </i>21 Likes</a>
+                                                                    <i class="fa fa-heart red-text pr-1"> </i>21 <%= trans.LIKES %></a>
                                                             </li>
                                                         </ul>
                                                     </td>
                                                 </tr>
-                                                <tr class="border-bottom" style="height: 8vh">
-                                                        <th scope="row" class="tableImage">
-                                                            <img class="img-fluid" src="https://cdn.discordapp.com/embed/avatars/2.png">
-                                                            
-                                                        </th>
-                                                        <td>
-                                                            <h3 class="my-auto font-weight-bold">Script Name
-                                                                <sup>
-                                                                    <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" title="Verified Script">
-                                                                        <i class="fa fa-check pr-1"></i>
-                                                                    </span>
-                                                                </sup>
-                                                            </h3>
-                                                            <p class="mb-0 grey-text">Script description blah blah kill me</p>
-                                                            <p class="mb-0">by Mattheous
-                                                                <sup>
-                                                                    <span class="text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="Verified Creator">
-                                                                        <i class="fa fa-check pr-1"></i>
-                                                                    </span>
-                                                                </sup>
-                                                            </p>
-                                                        </td>
-                                                        <td class="">
-                                                                <a class="btn-floating btn-sm ml-auto mr-4 blue lighten-2" style="margin-top: -2.1rem; float: right">
-                                                                        <i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add this script to {server name}"></i>
-                                                                    </a>
-                                                            <ul class="list-unstyled">
-                                                                <li class="list-item">
-                                                                    <a href="#">
-                                                                        <i class="fa fa-cloud blue-text pr-1"></i>12 Servers</a>
-                                                                </li>
-                                                                <li class="list-item">
-                                                                    <a href="#">
-                                                                        <i class="fa fa-heart red-text pr-1"> </i>21 Likes</a>
-                                                                </li>
-                                                            </ul>
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="border-bottom" style="height: 8vh">
-                                                            <th scope="row" class="tableImage">
-                                                                <img class="img-fluid" src="https://cdn.discordapp.com/embed/avatars/2.png">
-                                                                
-                                                            </th>
-                                                            <td>
-                                                                <h3 class="my-auto font-weight-bold">Script Name
-                                                                    <sup>
-                                                                        <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" title="Verified Script">
-                                                                            <i class="fa fa-check pr-1"></i>
-                                                                        </span>
-                                                                    </sup>
-                                                                </h3>
-                                                                <p class="mb-0 grey-text">Script description blah blah kill me</p>
-                                                                <p class="mb-0">by Mattheous
-                                                                    <sup>
-                                                                        <span class="text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="Verified Creator">
-                                                                            <i class="fa fa-check pr-1"></i>
-                                                                        </span>
-                                                                    </sup>
-                                                                </p>
-                                                            </td>
-                                                            <td class="">
-                                                                    <a class="btn-floating btn-sm ml-auto mr-4 blue lighten-2" style="margin-top: -2.1rem; float: right">
-                                                                            <i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add this script to {server name}"></i>
-                                                                        </a>
-                                                                <ul class="list-unstyled">
-                                                                    <li class="list-item">
-                                                                        <a href="#">
-                                                                            <i class="fa fa-cloud blue-text pr-1"></i>12 Servers</a>
-                                                                    </li>
-                                                                    <li class="list-item">
-                                                                        <a href="#">
-                                                                            <i class="fa fa-heart red-text pr-1"> </i>21 Likes</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </td>
-                                                        </tr>
                                                 
                                             </tbody>
                                             <!--Table body-->
 
                                         </table>
+                                        <!--Pagination -->
+                                        <nav aria-label="pagination example">
+                                            <ul class="pagination pagination-circle pg-feinwaru mb-3 justify-content-center">
+
+                                                <!--First-->
+                                                <li class="page-item disabled">
+                                                    <a class="page-link">First</a>
+                                                </li>
+
+                                                <!--Arrow left-->
+                                                <li class="page-item disabled">
+                                                    <a class="page-link" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                        <span class="sr-only">Previous</span>
+                                                    </a>
+                                                </li>
+
+                                                <!--Numbers-->
+                                                <li class="page-item active">
+                                                    <a class="page-link">1</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link">2</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link">3</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link">4</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link">5</a>
+                                                </li>
+
+                                                <!--Arrow right-->
+                                                <li class="page-item">
+                                                    <a class="page-link" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
+                                                </li>
+
+                                                <!--Last-->
+                                                <li class="page-item">
+                                                    <a class="page-link">Last</a>
+                                                </li>
+
+                                            </ul>
+                                        </nav>
                                     </div>
                                 </div>
                                 <!--Table-->
@@ -427,6 +375,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <h4 class="font-weight-bold">You have no scripts :(</h4>
+                                    <p class="card-text">Create a script for it to show up here</p>
                                 </div>
                             </div>
                         </div>
@@ -488,227 +438,8 @@
             <script>
                 "use strict";
 
-                window.onload = async () => {
+                window.onload = () => {
 
-                    const fun = document.getElementById("fun");
-
-                    for (let i = 0; i < 10; i++) {
-                        fun.innerHTML +=
-                            `                                    <div class="row">
-                                        <div class="col-12 border-bottom pb-2 mb-3">
-                                            <h5 class="float-left">Script Name</h5>
-                                            <div class="switch round red-white-switch float-right">
-                                                <label>
-                                                    <input id="checkbox" type="checkbox">
-                                                    <span class="lever"></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>`;
-                    }
-
-                    const featured = document.getElementById("featured");
-
-                    for (let i = 0; i < 0; i++) {
-
-                        featured.innerHTML +=
-                            `<div class="col-sm-6 col-md-6 col-lg-4 col-xxl-3 mb-4">
-                                    <!-- Card -->
-                                    <div class="card">
-
-                                        <!-- Card image -->
-                                        <div class="view overlay">
-                                            <img class="card-img-top" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Card image cap">
-                                            <a>
-                                                <div class="mask rgba-white-slight"></div>
-                                            </a>
-                                        </div>
-
-                                        <!-- Button -->
-                                        <a class="btn-floating btn-action ml-auto mr-4 blue lighten-2">
-                                            <i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add this script to {server name}"></i>
-                                        </a>
-
-                                        <!-- Card content -->
-                                        <div class="card-body">
-
-                                            <!-- Title -->
-                                            <h4 class="card-title">Card title</h4>
-                                            <hr>
-                                            <!-- Text -->
-                                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                                                card's content.
-                                            </p>
-                                            <p>
-                                                <code>-dothisshit</code>
-                                                <p>
-                                                    <p>
-                                                        <span class="card-text text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="This creator has been verified by Feinwaru Software">
-                                                            <i class="fa fa-check pr-1"></i>Verified Creator</span>
-                                                    </p>
-                                                    <span class="card-text text-success font-weight-bold" data-toggle="tooltip" data-placement="top" title="This script has been verified by Feinwaru Software">
-                                                        <i class="fa fa-check pr-1"></i>Verified Script</span>
-                                        </div>
-
-                                        <!-- Card footer -->
-                                        <div class="rounded-bottom blue lighten-2 text-center pt-3">
-                                            <ul class="list-unstyled list-inline font-small">
-                                                <li class="list-inline-item pr-2 white-text">
-                                                    <i class="fa fa-pencil pr-1"></i> Mattheous</li>
-                                                <li class="list-inline-item pr-2">
-                                                    <a href="#" class="white-text">
-                                                        <i class="fa fa-cloud pr-1"></i>12</a>
-                                                </li>
-                                                <li class="list-inline-item pr-2">
-                                                    <a href="#" class="white-text">
-                                                        <i class="fa fa-heart red-text pr-1"> </i>21</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>`;
-                    }
-
-                    const checkboxes = document.querySelectorAll("input[type='checkbox']");
-
-                    for (let i = 0; i < checkboxes.length; i++) {
-
-                        setInterval(() => {
-
-                            checkboxes[i].checked === true ? checkboxes[i].checked = false : checkboxes[i].checked =
-                                true;
-
-                        }, (Math.random() * 800) + 200);
-                    }
-
-                    // fuck me
-
-                    const randomHex = () => {
-
-                        const r = (Math.floor(Math.random() * 256)).toString(16);
-                        const g = (Math.floor(Math.random() * 256)).toString(16);
-                        const b = (Math.floor(Math.random() * 256)).toString(16);
-
-                        const colour = `#${r.length === 1 ? `0${r}` : r}${g.length === 1 ? `0${g}` : g}${b.length === 1 ? `0${b}` : b}`;
-
-                        return colour;
-                    }
-
-                    const oppositehexes = () => {
-
-                        const r = (Math.floor(Math.random() * 256)).toString(16);
-                        const g = (Math.floor(Math.random() * 256)).toString(16);
-                        const b = (Math.floor(Math.random() * 256)).toString(16);
-
-                        const r2 = Math.abs(255 - r);
-                        const g2 = Math.abs(255 - g);
-                        const b2 = Math.abs(255 - b);
-
-                        const colour = `#${r.length === 1 ? `0${r}` : r}${g.length === 1 ? `0${g}` : g}${b.length === 1 ? `0${b}` : b}`;
-                        const colour2 = `#${r2.length === 1 ? `0${r2}` : r2}${g2.length === 1 ? `0${g2}` : g2}${b2.length === 1 ? `0${b2}` : b2}`;
-
-                        return { colour, colour2 };
-                    }
-
-                    const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-                    const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-
-                    const sandbox = document.getElementById("sandbox");    
-                    
-                    for (let i = 0; i < 50; i++) {
-
-                        const radius = Math.floor((Math.random() * 140) + 60);
-
-                        const style = document.createElement("style");
-                        style.type = "text/css";
-
-                        //const { colour, colour2 } = oppositehexes();
-
-                        const keyframes = `
-                            @keyframes ball-${i} {
-                                0% {
-                                    background-color: ${randomHex()};
-                                }
-                                20% {
-                                    background-color: ${randomHex()};
-                                }
-                                40% {
-                                    background-color: ${randomHex()};
-                                }
-                                60% {
-                                    background-color: ${randomHex()};
-                                }
-                                80% {
-                                    background-color: ${randomHex()};
-                                }
-                                100% {
-                                    background-color: ${randomHex()};
-                                }
-                            }
-                        `;
-                        style.innerHTML = keyframes;
-                        document.head.appendChild(style);
-
-                        sandbox.innerHTML += `<div class="ball" style="width: ${Math.floor(radius / 2)}px; height: ${Math.floor(radius / 2)}px; border-radius: 50%; background-color: ${randomHex()}; position: absolute; animation-name: ball-${i}; animation-duration: 5s; animation-direction: alternate; animation-iteration-count: infinite;"></div>`;
-                    }
-
-                    const balls = document.getElementsByClassName("ball");
-
-                    for (let ball of balls) {
-
-                        const widthcss = ball.style.width;
-                        const width = parseInt(widthcss.substring(0, widthcss.length - 2));
-
-                        const heightcss = ball.style.height;
-                        const height = parseInt(heightcss.substring(0, heightcss.length - 2));
-
-                        //const px = Math.floor(Math.random() * w);
-                        //const py = Math.floor(Math.random() * h);
-
-                        //const px = Math.max(Math.min(w - (width * 2)), 0 + (width * 2));
-                        //const py = Math.max(Math.min(h - (height * 2)), 0 + (height * 2));
-
-                        const px = Math.floor(w / 2);
-                        const py = Math.floor(h / 2);
-
-                        //const vx = Math.max(Math.random() * 10, 4);
-                        //const vy = Math.max(Math.random() * 10, 4);
-
-                        const tsvx = Math.random() - 0.5;
-                        const svx = tsvx > 0 ? Math.ceil(tsvx) : Math.floor(tsvx);
-                        const vx = Math.max(Math.random() * 10, 4) * svx;
-
-                        const tsvy = Math.random() - 0.5;
-                        const svy = tsvy > 0 ? Math.ceil(tsvy) : Math.floor(tsvy);
-                        const vy = Math.max(Math.random() * 10, 4) * svy;
-
-                        ball.px = px;
-                        ball.py = py;
-                        ball.vx = vx;
-                        ball.vy = vy;
-
-                        setInterval(() => {
-
-                            if (ball.px > (w - width) || ball.px < (0 + width)) {
-
-                                ball.vx = -ball.vx;
-                            }
-
-                            if (ball.py > (h - height) || ball.py < (0 + height)) {
-
-                                ball.vy = -ball.vy;
-                            }
-
-                            ball.px += ball.vx;
-                            ball.py += ball.vy;
-
-                            ball.style.left = `${ball.px}px`;
-                            ball.style.top = `${ball.py}px`;
-                            
-                        }, 15);
-                    }
-
-                    sandbox.style.display = "block";
                 }
             </script>
 
