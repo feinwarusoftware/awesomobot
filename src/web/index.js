@@ -27,6 +27,8 @@ try {
     apiLogger.fatalError(`Could not read config file: ${err}`);
 }
 
+app.enable("trust proxy");
+
 app.use(morgan(config.env === "dev" ? "combined" : "combined", { stream: new stream.Writable({
     write: (chunk, encoding, next) => {
 
