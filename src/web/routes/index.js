@@ -70,7 +70,7 @@ router.get("/auth/discord", async (req, res) => {
         res.json({ status: 401, message: "Unauthorized", error });
     }
 
-    res.cookie("session", jwt.sign({ id: new_session_doc._id }, config.jwt_secret));
+    res.cookie("session", jwt.sign({ id: new_session_doc._id }, config.jwt_secret), config.rawrxd, { maxAge: 604800, expire: new Date() + 604800, secure: true });
     res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=${config.discord_id}&redirect_uri=${encodeURIComponent(config.discord_redirect)}&response_type=code&scope=guilds%20identify&state=${nonce}`);
 });
 
@@ -254,6 +254,11 @@ router.get("/dragonsplayroom", authUser, async (req, res) => {
     }
 
     res.render("dumbshit/dragonsplayroom", { user_data: user_res.data });
+});
+
+router.get("/dragonsplayroompp", authUser, (req, res) => {
+
+    res.render("dumbshit/dragonsplayroompp");
 });
 
 router.get("/token", authAdmin, (req, res) => {

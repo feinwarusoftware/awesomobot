@@ -43,9 +43,7 @@ app.engine("ejs", ejs.renderFile);
 app.use(express.static(path.join(__dirname, "static")));
 
 app.use(express.json());
-app.use(cookieParser(config.rawrxd, {
-    secure: config.env === "dev" ? false : true
-}));
+app.use(cookieParser());
 
 app.use(i18n({
     translationsPath: path.join(__dirname, 'translations'),
