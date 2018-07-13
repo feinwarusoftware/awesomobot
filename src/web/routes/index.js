@@ -168,6 +168,19 @@ router.get("/commands", (req, res) => {
     res.render("commands", { md: text => { return converter.makeHtml(text); }, user: {}});
 });
 
+router.get("/surveys", (req, res) => {
+    res.render("surveys", { md: text => { return converter.makeHtml(text); }, user: {}});
+});
+
+router.get("/surveys/results", (req, res) => {
+    res.render("survey-results", { md: text => { return converter.makeHtml(text); }, user: {}});
+});
+
+router.get("/premium", (req, res) => {
+    const premium = fs.readFileSync(path.join(__dirname, "..", "markdown", "premium", "premium.md")).toString();
+    res.render("premium", { md: text => { return converter.makeHtml(text); }, user: {}, premium});
+});
+
 router.get("/dashboard", authUser, async (req, res) => {
 
     let user_res;
@@ -233,6 +246,27 @@ router.get("/dashboard/scripts/me", authUser, async (req, res) => {
     }
 
     res.render("dashboard/userscripts", { user_data: user_res.data });
+});
+
+router.get("/dashboard/scripts/manager", authUser, async (req, res) => {
+
+    let user_res;
+    try {
+
+        user_res = await axios({
+            method: "get",
+            url: "https://discordapp.com/api/v6/users/@me",
+            headers: {
+                "Authorization": `Bearer ${req.session.discord.access_token}`
+            }
+        });
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ error: "error fetching discord data lol" });
+    }
+
+    res.render("dashboard/scriptmanager", { user_data: user_res.data });
 });
 
 router.get("/dragonsplayroom", authUser, async (req, res) => {

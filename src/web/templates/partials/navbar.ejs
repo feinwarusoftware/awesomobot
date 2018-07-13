@@ -85,33 +85,4 @@
     </div>
 </nav>
 
-<!-- Select Language Modal -->
-<div class="modal fade right" id="LangModal" tabindex="-1" role="dialog" aria-labelledby="LangModalAria" aria-hidden="true">
-    <div class="modal-dialog modal-full-height modal-right modal-notify modal-danger" role="document">
-        <!--Content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <p class="heading lead">
-                    <%= trans.SELECT_LANGUAGE %>
-                </p>
-
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true" class="white-text">&times;</span>
-                </button>
-            </div>
-            <div class="list-group">
-                <a href="?hl=en" class="list-group-item list-group-item-action waves-effect">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" width="10%"> English
-                </a>
-                <a href="?hl=ie" class="list-group-item list-group-item-action waves-effect">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Flag_of_Ireland.svg" width="10%"> Gaeilge
-                </a>
-                <a href="?hl=pt" class="list-group-item list-group-item-action waves-effect">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_Portugal.svg" width="10%"> Português
-                </a>
-            </div>
-
-        </div>
-        <!--/.Content-->
-    </div>
-</div>
+<%- include ../partials/langpicker.ejs %>

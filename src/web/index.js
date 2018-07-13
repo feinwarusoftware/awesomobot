@@ -49,7 +49,7 @@ app.use(cookieParser(config.rawrxd, {
 
 app.use(i18n({
     translationsPath: path.join(__dirname, 'translations'),
-    siteLangs: ["en","ie","es","pt"],
+    siteLangs: ["en","ie","es","pt","cn","ro","ni", "pl"],
     paramLangName: "hl",
     textsVarName: 'trans'
 }));
