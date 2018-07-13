@@ -27,6 +27,8 @@ try {
     apiLogger.fatalError(`Could not read config file: ${err}`);
 }
 
+app.enable("trust proxy");
+
 app.use(morgan(config.env === "dev" ? "combined" : "combined", { stream: new stream.Writable({
     write: (chunk, encoding, next) => {
 
@@ -43,9 +45,7 @@ app.engine("ejs", ejs.renderFile);
 app.use(express.static(path.join(__dirname, "static")));
 
 app.use(express.json());
-app.use(cookieParser(config.rawrxd, {
-    secure: config.env === "dev" ? false : true
-}));
+app.use(cookieParser());
 
 app.use(i18n({
     translationsPath: path.join(__dirname, 'translations'),
