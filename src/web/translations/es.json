@@ -18,7 +18,7 @@
 
     "FULLY_FEATURED": "Un Bot completamente destacado",
     "CUSTOM_SCRIPTS": "Scripts personalizados",
-    "PD_CARDS": "Tarjetas de Destructor Telefónico",
+    "PD_CARDS": "Tarjetas de Phone Destroyer",
     "SURVEYS": "Encuestas personalizadas",
     "MUSIC": "Funcionalidad de la música",
     "ANALYTICS": "Analítica del servidor",
@@ -32,8 +32,8 @@
     "MANY_MORE": "..y muchos más!",
 
     "OUR_SUBSCRIBERS": "Nuestros Suscriptores",
-    "SUBSCRIBER_5": "Suscriptor de $ 5",
-    "SUBSCRIBER_10": "Suscriptor de $ 10",
+    "SUBSCRIBER_5": "Suscriptor de $5",
+    "SUBSCRIBER_10": "Suscriptor de $10",
     "SUBSCRIBER_SINCE": "Suscriptor desde",
     "VIEW_PROFILE": "Ver perfil",
 

@@ -7,33 +7,31 @@
 
 # WHAT IS AWESOM-O?
 
-Discord provides a social online and mobile chat platform via the Discord website (the “Site”), the Discord application (the “App”) and related Internet services (collectively, the “Service(s)”). The Service is operated by Discord, Inc. (the “Company”, “we” or “us”) for users of the Service (“you”). This Privacy Policy sets forth our policy with respect to information that is collected from visitors to the Site and users of the App and/or the Services. Under applicable law, Discord Inc. is the “data controller” of personal data collected through the Services.
+AWESOM-O is a bot for the chat program "Discord". It is used to build upon and add extra features to the user experience on Discord. AWESOM-O uses a website (the “Site”) and related Internet services (collectively, the “Service(s)”). The Service is operated by Feinwaru Software. (the “Company”, “we” or “us”) for users of the Service (“you”). This Privacy Policy sets forth our policy with respect to information that is collected from visitors to the Site and/or the Services. Under applicable law, Feinwaru Software is the “data controller” of personal data collected through the Services.
 
 # INFORMATION WE COLLECT
 
 When you interact with us through the Services, we may collect information from you, as further described below:
 
-Information You Provide: We collect information from you when you voluntarily provide such information, such as when you register for access to the Services or use certain Services. Information we collect may include but not be limited to username, email address, and any messages, images, transient VOIP data (to enable communication delivery only) or other content you send via the chat feature.
+Information You Provide: We collect information from you when you voluntarily provide such information, such as when you register for access to the Services or use certain Services. Information we collect may include but not be limited to Discord username, user image, activity statistics,  or other content you send via the chat feature on Discord.
 
 ## OTHER INFORMATION:
 
-- **Data We Collect Automatically:** When you interact with us through the Services, we receive and store certain information such as an IP address, device ID, and your activities within the Services. We may store such information or such information may be included in databases owned and maintained by affiliates, agents or service providers. The Services may use such information and pool it with other information to track, for example, the total number of visitors to our Site, the number of messages users have sent, as well as the sites which refer visitors to Discord.
+- **Data We Collect Automatically:** When you interact with us through the Services, we receive and store certain information such as an IP address, country of origin, and your activities within the Services. We may store such information or such information may be included in databases owned and maintained by affiliates, agents or service providers. The Services may use such information and pool it with other information to track, for example, the total number of visitors to our Site, the number of messages users have sent, as well as the sites which refer visitors to Discord.
 
-- **Aggregated Information:** In an ongoing effort to better understand and serve the users of the Services, we may conduct research on our customer demographics, interests and behavior based on the information collected. This research may be compiled and analyzed on an aggregate basis, and we may share this aggregate data with our affiliates, agents and business partners. We may also disclose aggregated user statistics in order to describe our services to current and prospective business partners, and to other third parties for other lawful purposes.
+- **Info through other Services:** You may give us permission to collect your information in other services. For example, you may connect a social networking service (&quot;SNS&quot;) such as last.fm and other connections displayed on the dashboard. When you do this, it allows us to obtain information from those accounts.
 
-- **Info through other Services:** You may give us permission to collect your information in other services. For example, you may connect a social networking service (&quot;SNS&quot;) such as Facebook or Twitter to your Discord account. When you do this, it allows us to obtain information from those accounts (for example, your friends or contacts).
-
-- **Cookies:** We employ cookies and similar technologies to keep track of your local computer’s settings such as which account you have logged into and notification settings. Cookies are pieces of data that sites and services can set on your browser or device that can be read on future visits. We may expand our use of cookies to save additional data as new features are added to the Service. In addition, we use technologies such as web beacons and single-pixel gifs to record log data such as open rates for emails sent by the system.
+- **Cookies:** We employ cookies and similar technologies to keep track of your local computer’s settings such as which account you have logged into and your login status. Cookies are pieces of data that sites and services can set on your browser or device that can be read on future visits. We may expand our use of cookies to save additional data as new features are added to the Service.
 
 - We may use third party web site analytic tools such as Google Analytics on our website that employ cookies to collect certain information concerning your use of our Services. However, you can disable cookies by changing your browser settings. Further information about the procedure to follow in order to disable cookies can be found on your Internet browser provider's website via your help screen.
 
 - **Advertisements:** You may see our Service advertised in other applications or websites. After clicking on one of these advertisements and installing our Service, you will become a user of the Service. Advertising platforms, which include Twitter and Facebook (and whose SDKs are integrated within our Service), may collect information for optimizing advertising campaigns outside of the Service.
 
-If you do not wish to receive personalized advertising that is delivered by third parties outside of the Discord Service, you may be able to exercise that choice through opt-out programs that are administered by third parties, including the Network Advertising Initiative (NAI), the Digital Advertising Alliance (DAA). Our Services currently do not respond to “Do Not Track” (DNT) signals and operate as described in this Privacy Policy whether or not a DNT signal is received, as there is no consistent industry standard for compliance.
+If you do not wish to receive personalized advertising that is delivered by third parties outside of AWESOM-O, you may be able to exercise that choice through opt-out programs that are administered by third parties, including the Network Advertising Initiative (NAI), the Digital Advertising Alliance (DAA). Our Services currently do not respond to “Do Not Track” (DNT) signals and operate as described in this Privacy Policy whether or not a DNT signal is received, as there is no consistent industry standard for compliance.
 
 # WHERE INFORMATION IS PROCESSED
 
-The Company is based in the United States. No matter where you are located, you consent to the processing and transferring of your information in and to the U.S. and other countries. The laws of the U.S. and other countries governing data collection and use may not be as comprehensive or protective as the laws of the country where you live.
+The Company is based in the United Kingdom and Ireland. No matter where you are located, you consent to the processing and transferring of your information in and to the U.K. and other countries. The laws of the European Union and other countries governing data collection and use may not be as comprehensive or protective as the laws of the country where you live.
 
 # OUR USE OF YOUR INFORMATION
 
@@ -65,13 +63,11 @@ The laws in some jurisdictions require companies to tell you about the legal gro
 
 The Company is not in the business of selling your information. We consider this information to be a vital part of our relationship with you. There are, however, certain circumstances in which we may share your information with certain third parties, as set forth below:
 
-- **Business Transfers**: As we develop our business, we might sell or buy businesses or assets. In the event of a corporate sale, merger, reorganization, bankruptcy, dissolution or similar event, your information may be part of the transferred assets.
-
 - **Consent**: We may transfer your information with your consent.
 
 - **Related Companies**: We may also share your information with our Related Companies for purposes consistent with this Privacy Policy.
 
-- **Developers**: Developers using our SDK or API will have access to their end users’ information, including message content, message metadata, and voice metadata. Developers must use such information only to provide the SDK/API functionality within their applications and/or services.
+- **Developers**: Developers using our API will have access to their end users’ information, including statistics and other metadata. Developers must use such information only to provide the API functionality within their applications and/or services.
 
 - **Agents, Consultants and Related Third Parties**: Like many businesses, we sometimes hire other companies or individuals to perform certain business-related functions. Examples of such functions include mailing information, maintaining databases and processing payments.
 
@@ -85,7 +81,7 @@ You may provide us with ideas for new products or modifications to existing prod
 
 # CHILDREN
 
-Our Services are for users age 13 and over and we do not knowingly collect personal information from children under the age of 13. If you are a parent or guardian of a child under the age of 13 and believe he or she has disclosed personal information to us please contact us at support@discordapp.com. For residents of the EEA, where processing of personal information is based on consent, Discord will not knowingly engage in that processing for users under the age of consent established by applicable data protection law. If we learn that we are engaged in that processing with such users, we will halt such processing and will take reasonable measures to promptly remove applicable information from our records.
+[Our Services are based off the same policy that Discord emplies users which you can read here](discordurlhere)
 
 # LINKS TO OTHER WEB SITES
 
@@ -103,19 +99,15 @@ We take reasonable steps to protect the information provided via the Services fr
 
 We believe that users should be treated equally no matter where they are, and so we are making the following options to control your data available to all users, regardless of their location.
 
-You can update certain information by accessing your profile via “Settings.” You can also unsubscribe from certain emails by clicking the “unsubscribe” link they contain. You can opt out from certain cookie-related processing by following the instructions above in “Other Information.”
-
-Individuals in the European Economic Area, Canada, Costa Rica and some other jurisdictions outside the United States have certain legal rights to obtain confirmation of whether we hold personal data about them, to access personal data we hold about them (including, in some cases, in portable form), and to obtain its correction, update, amendment or deletion in appropriate circumstances. They may also object to our uses or disclosures of personal data, to request a restriction on its processing, or withdraw any consent, though such actions typically will not have retroactive effect. They also will not affect our ability to continue processing data in lawful ways.
-
-- How can I access the personal data you have about me?
+- **How can I access the personal data you have about me?**
 
 If you would like to submit a data access request, you can do so from the “Settings” page of the Services, where there is a button to download your data. We will then start the process and provide you a link to access the personal data that Discord has on you within 30 days.
 
-- How do I correct, update, amend, or delete the personal data you have about me?
+- **How do I correct, update, amend, or delete the personal data you have about me?**
 
-In addition to the functionality available through the “Settings” of the Services, in which you can correct, update, amend, or delete certain personal data, you can also request other modifications from us directly. Please write us at privacy@discordapp.com with the words “Personal Data Request” in the subject or body of your message, along with an explanation of what data subject right you are seeking to exercise. For your protection, we may take steps to verify identity before responding to your request.
+In addition to the functionality available through the “Settings” of the Services, in which you can correct, update, amend, or delete certain personal data, you can also request other modifications from us directly. Please write us at privacy@feinwaru.com with the words “Personal Data Request” in the subject or body of your message, along with an explanation of what data subject right you are seeking to exercise. For your protection, we may take steps to verify identity before responding to your request.
 
-- How do I object or restrict the manner in which Discord processes my personal data?
+- **How do I object or restrict the manner in which AWESOM-O processes my personal data?**
 
 You have a right to ask us to stop using or limit our use of your personal data in certain circumstances—for example, if we have no lawful basis to keep using your data, or if you think your personal data is inaccurate.
 
@@ -127,7 +119,7 @@ The rights and options described above are subject to limitations and exceptions
 
 Discord complies with the EU-U.S. Privacy Shield Framework and the Swiss – U.S. Privacy Shield Framework as set forth by the U.S. Department of Commerce regarding the collection, use, and retention of personal information transferred from the European Union and Switzerland to the United States, respectively.  Discord has certified to the Department of Commerce that it adheres to the Privacy Shield Principles.  If there is any conflict between the terms in this privacy policy and the Privacy Shield Principles, the Privacy Shield Principles shall govern.  To learn more about the Privacy Shield program, and to view our certification, please visit https://www.privacyshield.gov/.
 
-Discord is potentially liable for onward transfers to third parties of personal data of EU or Swiss individuals received pursuant to Privacy Shield. Discord is subject to oversight by the U.S. FTC. JAMS is the US-based alternative dispute resolution provider responsible for reviewing and resolving complaints about Discord’s Privacy Shield compliance. We ask that you first submit any complaints to us at privacy@discord.com. If you aren't satisfied with our response, you can then contact JAMS at https://www.jamsadr.com/eu-us-privacy-shield. In the event your concern still isn't addressed by JAMS, you may be entitled to a binding arbitration under Privacy Shield and its principles.
+Feinwaru Software is potentially liable for onward transfers to third parties of personal data of EU or Swiss individuals received pursuant to Privacy Shield. Feinwaru Software is subject to oversight by the U.S. FTC. JAMS is the US-based alternative dispute resolution provider responsible for reviewing and resolving complaints about Discord’s Privacy Shield compliance. We ask that you first submit any complaints to us at privacy@feinwaru.com. If you aren't satisfied with our response, you can then contact JAMS at https://www.jamsadr.com/eu-us-privacy-shield. In the event your concern still isn't addressed by JAMS, you may be entitled to a binding arbitration under Privacy Shield and its principles.
 
 # CHANGES TO THIS PRIVACY POLICY
 
@@ -135,4 +127,4 @@ We reserve the right to update or modify this Privacy Policy at any time and fro
 
 # CONTACTING US
 
-Please also feel free to contact us if you have any questions about this Privacy Policy or the information practices of the Services. You may contact us as follows: privacy@discordapp.com.
+Please also feel free to contact us if you have any questions about this Privacy Policy or the information practices of the Services. You may contact us as follows: privacy@feinwaru.com.

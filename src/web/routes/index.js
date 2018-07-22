@@ -181,6 +181,10 @@ router.get("/premium", (req, res) => {
     res.render("premium", { md: text => { return converter.makeHtml(text); }, user: {}, premium});
 });
 
+router.get("/premium/checkout", (req, res) => {
+    res.render("premiumcheckout", { md: text => { return converter.makeHtml(text); }, user: {}});
+});
+
 router.get("/dashboard", authUser, async (req, res) => {
 
     let user_res;
