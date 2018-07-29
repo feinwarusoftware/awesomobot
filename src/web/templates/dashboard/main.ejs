@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>AWESOM-O //
-            <%= trans.DASHBOARD %>
-        </title>
-    
-        <link rel="icon" type="image/png" href="/img/favicon.png" />
-        <link rel="shortcut icon" type="image/png" href="/img/favicon.png" />
-        <meta name="theme-color" content="#ff594f">
-    
-        <link rel="alternate" href="/" hreflang="x-default" />
-        <link rel="alternate" href="/?hl=en" hreflang="en" />
-        <link rel="alternate" href="/?hl=ie" hreflang="ie" />
-        <link rel="alternate" href="/?hl=pt" hreflang="pt" />
-    
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <!-- Bootstrap core CSS -->
-        <link href="/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Material Design Bootstrap -->
-        <link href="/css/mdb.min.css" rel="stylesheet">
-    
-        <link href="/css/style.css" rel="stylesheet">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>AWESOM-O //
+        <%= trans.DASHBOARD %>
+    </title>
+
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png" />
+    <meta name="theme-color" content="#ff594f">
+
+    <link rel="alternate" href="/" hreflang="x-default" />
+    <link rel="alternate" href="/?hl=en" hreflang="en" />
+    <link rel="alternate" href="/?hl=ie" hreflang="ie" />
+    <link rel="alternate" href="/?hl=pt" hreflang="pt" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="/css/mdb.min.css" rel="stylesheet">
+
+    <link href="/css/style.css" rel="stylesheet">
 </head>
 
 <body class="fixed-sn">
@@ -55,63 +55,331 @@
 
 
         <main>
-            <div class="mb-5">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="row pl-md-4">
-                            <!-- Card -->
-                            <div class="card text-center" style="width: 100%">
-                                <div class="card-body">
 
-                                    <!-- Title -->
-                                    <h4 class="font-weight-bold mb-4">About Mattheous</h4>
-                                    <div class="container">
-                                        <p>OCEAN MAN 🌊 😍 Take me by the hand ✋ lead me to the land that you understand 🙌
-                                            🌊 OCEAN MAN 🌊 😍 The voyage 🚲 to the corner of the 🌎 globe is a real trip
-                                            👌 🌊 OCEAN MAN 🌊 😍 The crust of a tan man 👳 imbibed by the sand 👍 Soaking
-                                            up the 💦 thirst of the land 💯</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row pl-md-4 pt-4">
-                            <!-- Card -->
-                            <div class="card text-center" style="width: 100%">
-                                <div class="card-body">
-
-                                    <!-- Title -->
-                                    <h4 class="font-weight-bold mb-4">
-                                        Artwork Showcase
-                                    </h4>
-
-
-                                        <div class="mdb-lightbox">
-                                            <figure class="col-lg-4 col-md-6">
-                                                <a href="https://images-ext-1.discordapp.net/external/hSPZ7rqNXNLtTPYZjSdkH9O7jPXK70aT6wPn5RNDV9s/https/cdn.discordapp.com/attachments/394504208222650369/453235134817107988/just_ryan.rpy.png?width=1178&height=663"
-                                                    data-size="1920x1080">
-                                                    <img src="https://images-ext-1.discordapp.net/external/hSPZ7rqNXNLtTPYZjSdkH9O7jPXK70aT6wPn5RNDV9s/https/cdn.discordapp.com/attachments/394504208222650369/453235134817107988/just_ryan.rpy.png?width=1178&height=663"
-                                                        alt="placeholder" class="img-fluid">
-                                                </a>
-                                            </figure>
-
-                                            <figure class="col-lg-4 col-md-6">
-                                                <a href="https://cdn.discordapp.com/attachments/379432139856412682/453306913740816394/ryan-notasfucked-tm.png" data-size="1920x1080">
-                                                    <img src="https://cdn.discordapp.com/attachments/379432139856412682/453306913740816394/ryan-notasfucked-tm.png" alt="placeholder"
-                                                        class="img-fluid">
-                                                </a>
-                                            </figure>
-
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row pl-md-4 pt-4"></div>
+            <div class="container-fluid">
+                <div class="col-md-12 col-sm-12 pb-2">
+                    <div class="text-center" style="width: 100%">
+                        <h1 class="font-weight-bold mb-2 mt-2 mb-5">
+                            <%= trans.WELCOME %> <%= user_data.username %><br>
+                            <%= trans.WELCOME_DASH_2 %>
+                        </h1>
                     </div>
                 </div>
-            </div>
+                <!-- First row -->
+                <div class="row mt-2">
+                    <!-- First column -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <!--Card-->
+                        <div class="card card-cascade cascading-admin-card">
+
+                            <!--Card Data-->
+                            <div class="admin-up">
+                                <i class="fa fa-globe primary-color"></i>
+                                <div class="data">
+                                    <p><%= trans.TOTAL_ONLINE %></p>
+                                    <h3 class="font-weight-bold dark-grey-text">60</h3>
+                                </div>
+                            </div>
+                            <!--/.Card Data-->
+
+                            <!--Card content-->
+                            <div class="card-body">
+                                <div class="progress">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 19%"></div>
+                                </div>
+                                <!--Text-->
+                                <p class="card-text"><%= trans.OUT_OF %> 311 <%= trans.TOTAL_USERS %></p>
+                            </div>
+                            <!--/.Card content-->
+
+                        </div>
+                        <!--/.Card-->
+                    </div>
+
+                    <!-- Second column -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <!--Card-->
+                        <div class="card card-cascade cascading-admin-card">
+
+                            <!--Card Data-->
+                            <div class="admin-up">
+                                <i class="fa fa-bar-chart warning-color"></i>
+                                <div class="data">
+                                    <p><%= trans.ACTIVITY_RANKING %></p>
+                                    <h3 class="font-weight-bold dark-grey-text">23<%= trans.DATE_RD %></h3>
+                                </div>
+                            </div>
+                            <!--/.Card Data-->
+
+                            <!--Card content-->
+                            <div class="card-body">
+                                <div class="progress">
+                                    <div class="progress-bar warning-color" role="progressbar" style="width: 90%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <!--Text-->
+                                <p class="card-text"><%= trans.OUT_OF %> 311 <%= trans.TOTAL_USERS %></p>
+                            </div>
+                            <!--/.Card content-->
+
+                        </div>
+                        <!--/.Card-->
+                    </div>
+
+                    <!-- Third column -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <!--Card-->
+                        <div class="card card-cascade cascading-admin-card">
+
+                            <!--Card Data-->
+                            <div class="admin-up">
+                                <i class="fa fa-code light-blue lighten-1"></i>
+                                <div class="data">
+                                    <p><%= trans.TOTAL_COMMANDS_USED %></p>
+                                    <h3 class="font-weight-bold dark-grey-text">21,479</h3>
+                                </div>
+                            </div>
+                            <!--/.Card Data-->
+
+                            <!--Card content-->
+                            <div class="card-body">
+                                <div class="progress">
+                                    <div class="progress-bar light-blue lighten-1" role="progressbar" style="width: 75%"></div>
+                                </div>
+                                <!--Text-->
+                                <p class="card-text"><%= trans.SO_FAR_THIS_MONTH %></p>
+                            </div>
+                            <!--/.Card content-->
+
+                        </div>
+                        <!--/.Card-->
+                    </div>
+
+                    <!-- Fourth column -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <!--Card-->
+                        <div class="card card-cascade cascading-admin-card">
+
+                            <!--Card Data-->
+                            <div class="admin-up">
+                                <p class="fa fa-exclamation-circle brown accent-2"></p>
+                                <div class="data">
+                                    <p><%= trans.IT_HITS_THE_FAN %></p>
+                                    <h3 class="font-weight-bold dark-grey-text">4,567 <%= trans.SHITS %></h3>
+                                </div>
+                            </div>
+                            <!--/.Card Data-->
+
+                            <!--Card content-->
+                            <div class="card-body">
+                                <div class="progress">
+                                    <div class="progress-bar brown accent-2" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <!--Text-->
+                                <p class="card-text"><%= trans.SHITS_DESC %></p>
+                            </div>
+                            <!--/.Card content-->
+
+                        </div>
+                        <!--/.Card-->
+                    </div>
+                </div>
+                <!-- /.First row -->
+
+                <!-- Second row -->
+
+                <div class="row">
+
+                    <!-- First column -->
+
+                    <div class="col-lg-6 col-md-12">
+
+                            <div class="card mb-4 text-center py-3 blue-gradient white-text">
+                                    <div id="world-map" class="mx-auto" style="width:96%;height:420px;"></div>
+                                </div>
+
+                        <!-- Panel -->
+
+                        <div class="card mb-4">
+                            <div class="card-header white-text primary-color">
+                                Issues
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+
+                                    <table class="table">
+
+                                        <thead>
+                                            <tr>
+                                                <th class="font-weight-bold dark-grey-text">Status</th>
+                                                <th class="font-weight-bold dark-grey-text">Title</th>
+                                                <th class="font-weight-bold dark-grey-text">User</th>
+                                                <th class="font-weight-bold dark-grey-text">Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <span class="badge green">Open</span>
+                                                </td>
+                                                <td>Lorem ipsum dolor</td>
+                                                <td>John Doe</td>
+                                                <td class="hour">
+                                                    <small>
+                                                        <span class="grey-text">
+                                                            <i class="fa fa-clock-o" aria-hidden="true"></i> 12 min</span>
+                                                    </small>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="badge green">Open</span>
+                                                </td>
+                                                <td>Lorem ipsum dolor</td>
+                                                <td>John Doe</td>
+                                                <td class="hour">
+                                                    <small>
+                                                        <span class="grey-text">
+                                                            <i class="fa fa-clock-o" aria-hidden="true"></i> 12 min</span>
+                                                    </small>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="badge warning-color">In progress</span>
+                                                </td>
+                                                <td>Lorem ipsum dolor</td>
+                                                <td>John Doe</td>
+                                                <td class="hour">
+                                                    <small>
+                                                        <span class="grey-text">
+                                                            <i class="fa fa-clock-o" aria-hidden="true"></i> 12 min</span>
+                                                    </small>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="badge red">Closed</span>
+                                                </td>
+                                                <td>Lorem ipsum dolor</td>
+                                                <td>John Doe</td>
+                                                <td class="hour">
+                                                    <small>
+                                                        <span class="grey-text">
+                                                            <i class="fa fa-clock-o" aria-hidden="true"></i> 12 min</span>
+                                                    </small>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- /.Panel -->
+
+                    </div>
+
+                    <!-- /.First column -->
+
+                    <div class="col-lg-6 col-md-12">
+
+                        <!-- Card -->
+                        <div class="card card-image mb-4" style="background-image: url(https://cdn.discordapp.com/attachments/456771924639612940/466128291171008522/banner.png);">
+                            <a href="/dashboard/scripts/marketplace<%= trans.LANG %>">
+                                <!-- Content -->
+                                <div class="text-white text-center d-flex align-items-center rgba-red-strong waves-effect py-5 px-4">
+                                    <div class="mx-auto">
+                                        <h1 class="card-title pt-3 mt-5 mb-5 font-bold">
+                                            <strong>Visit the Marketplace!</strong>
+                                        </h1>
+                                    </div>
+                                </div>
+                                <!-- Content -->
+                            </a>
+                        </div>
+
+                        <!--Section: Intro-->
+                        <section class="mt-lg-5">
+
+                            <!--Grid row-->
+                            <div class="row">
+
+                                <!--Grid column-->
+                                <div class="col-md-6 mb-4">
+
+                                    <!--Panel-->
+                                    <div class="card">
+                                        <div class="card-header white-text grey darken-1">
+                                            Orders
+                                        </div>
+
+                                        <h6 class="ml-4 pt-4 mt-1 dark-grey-text font-weight-bold">
+                                            <i class="fa fa-long-arrow-up blue-text mr-3" aria-hidden="true"></i> 2000</h6>
+                                        <!--/.Card Data-->
+
+                                        <!--Card content-->
+                                        <div class="card-body">
+                                            <div class="progress">
+                                                <div class="progress-bar grey darken-2" role="progressbar" style="width: 45%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <!--Text-->
+                                            <p class="font-small grey-text">Better than last week (25%)</p>
+                                        </div>
+                                        <!--/.Card content-->
+
+                                    </div>
+                                    <!--/.Panel-->
+
+                                </div>
+                                <!--Grid column-->
+
+                                <!--Grid column-->
+                                <div class=" col-md-6 mb-4">
+
+                                    <!--Panel-->
+                                    <div class="card">
+                                        <div class="card-header white-text warning-color">
+                                            Monthly sales
+                                        </div>
+
+                                        <h6 class="ml-4 pt-4 mt-1 dark-grey-text font-weight-bold">
+                                            <i class="fa fa-long-arrow-up blue-text mr-3" aria-hidden="true"></i> $ 2000</h6>
+                                        <!--/.Card Data-->
+
+                                        <!--Card content-->
+                                        <div class="card-body">
+                                            <div class="progress">
+                                                <div class="progress-bar grey darken-2" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <!--Text-->
+                                            <p class="font-small grey-text">Better than last week (25%)</p>
+                                        </div>
+                                        <!--/.Card content-->
+
+                                    </div>
+                                    <!--/.Panel-->
+
+                                </div>
+                                <!--Grid column-->
+                            </div>
+                            <!--Grid row-->
+                        </section>
+
+                        <!-- Second column -->
+
+
+                        <!-- /.Second column -->
+
+                    </div>
+
+                    <!-- /.Second row -->
+
+                </div>
+
         </main>
-        <!--/Section: Pricing v.5-->
-        <!-- Streak -->
+
 
         <%- include ../partials/footer.ejs %>
 
@@ -131,6 +399,11 @@
 
             <!-- MDB core JavaScript -->
             <script type="text/javascript" src="/js/mdb.min.js"></script>
+
+    <!-- JVectorMap -->
+    <link rel="stylesheet" href="/css/jvectormap.css" type="text/css" media="screen" />
+    <script src="/js/jvectormap.js"></script>
+    <script src="/js/jvectormap-mil.js"></script>
 
             <script>
                 //Animation init
@@ -157,7 +430,34 @@
                     $('[data-toggle="tooltip"]').tooltip()
                 })
             </script>
-
+    <script>
+            $(function () {
+    
+                colors = {};
+                colors['us'] = '#87CEEB';
+    
+                $('#world-map').vectorMap({
+                    colors: colors,
+                    hoverOpacity: 0.7, // opacity for :hover
+                    hoverColor: false,
+                    color: '#aaaaaa',
+                    regionStyle: {
+                        initial: {
+                            fill: '#ffffff'
+                        }
+                    },
+                    series: {
+                      regions: [{
+                        values: {
+                            US:'#00ff00'
+                        }
+                      }]
+                    }
+                });
+    
+            });
+        </script>
+        <!-- /.JVectorMap -->
 
 </body>
 

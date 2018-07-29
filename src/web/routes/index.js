@@ -34,6 +34,93 @@ try {
 }
 
 router.use("/api/v3", api);
+router.get("/api/v3/uptime", (req, res) => {
+
+    axios({
+        method: "post",
+        url: "https://api.uptimerobot.com/v2/getMonitors",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        data: {
+            "api_key": config.uptime_key,
+            "all_time_uptime_ratio": "1"
+        }
+    }).then(api_res => {
+
+        return res.json({ uptime: api_res.data.monitors[0].all_time_uptime_ratio });
+
+    }).catch(error => {
+
+        return res.json({ rip: "fucking rip" });
+    });
+});
+router.get("/api/v3/patrons", (req, res) => {
+
+    axios({
+        method: "get",
+        url: "https://www.patreon.com/api/oauth2/api/campaigns/1430518/pledges?include=patron.null",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${config.patreon_key}`
+        }
+    }).then(api_res => {
+
+        const promises = [];
+
+        for (let i = 0; i < api_res.data.included.length; i++) {
+
+            let promise;
+
+            if (api_res.data.included[i].attributes.social_connections.discord === null) {
+
+                promise = new Promise((resolve, reject) => resolve({ data: null }));
+
+            } else {
+   
+                promise = axios({
+                    method: "get",
+                    url: `https://discordapp.com/api/v6/users/${api_res.data.included[i].attributes.social_connections.discord.user_id}`,
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bot ${config.discord_token}`
+                    }
+                });
+            }
+
+            promises.push(promise);
+        }
+
+        Promise.all(promises).then(users => {
+
+            const info = [];
+
+            for (let i = 0; i < users.length; i++) {
+
+                let username = users[i].data === null ? "undefined" : users[i].data.username;
+                let avatar = users[i].data === null ? `https://cdn.discordapp.com/embed/avatars/${Math.floor(Math.random() * 5)}.png` : `https://cdn.discordapp.com/avatars/${users[i].data.id}/${users[i].data.avatar}.png?size=512`;
+
+                info.push({
+
+                    username,
+                    avatar,
+                    date: api_res.data.data[i].attributes.created_at,
+                    amount: api_res.data.data[i].attributes.amount_cents / 100
+                });
+            }
+
+            return res.json(info);
+
+        }).catch(error => {
+
+            return res.json({ oof: "mega oof" });
+        });
+
+    }).catch(error => {
+
+        return res.json({ rip: "fucking rip" });
+    });
+});
 
 router.get("/auth/discord", async (req, res) => {
 
@@ -271,6 +358,27 @@ router.get("/dashboard/scripts/manager", authUser, async (req, res) => {
     }
 
     res.render("dashboard/scriptmanager", { user_data: user_res.data });
+});
+
+router.get("/dashboard/patrons/getawesomo", authUser, async (req, res) => {
+
+    let user_res;
+    try {
+
+        user_res = await axios({
+            method: "get",
+            url: "https://discordapp.com/api/v6/users/@me",
+            headers: {
+                "Authorization": `Bearer ${req.session.discord.access_token}`
+            }
+        });
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ error: "error fetching discord data lol" });
+    }
+
+    res.render("dashboard/patron-steps", { user_data: user_res.data });
 });
 
 router.get("/dragonsplayroom", authUser, async (req, res) => {

@@ -84,7 +84,8 @@
             background-color: #f8c9c9
         }
 
-        .dropdown-content li>a, .dropdown-content li>span {
+        .dropdown-content li>a,
+        .dropdown-content li>span {
             color: #2c2c2c;
         }
     </style>
@@ -127,7 +128,7 @@
                             <div class="card card-image" style="background-image: url(https://cdn.discordapp.com/attachments/456771924639612940/466128291171008522/banner.png);">
                                 <div class="text-white text-center py-5 px-4 my-5">
                                     <div>
-                                        
+
                                         <h1 class="card-title pt-3 mt-5 mb-5 font-bold">
                                             <strong></strong>
                                         </h1>
@@ -140,11 +141,11 @@
 
                     <div class="row">
                         <div class="col-md-9 col-sm-12 pb-2">
-                                <div class="text-center" style="width: 100%">
-                                        <h1 class="font-weight-bold mb-2 mt-2 mb-5">
-                                            <%= trans.FEATURED_SCRIPTS %>
-                                        </h1>
-                                    </div>
+                            <div class="text-center" style="width: 100%">
+                                <h1 class="font-weight-bold mb-2 mt-2 mb-5">
+                                    <%= trans.FEATURED_SCRIPTS %>
+                                </h1>
+                            </div>
                             <div class="row justify-content-center" id="featured">
                                 <div class="col-sm-6 col-md-6 col-lg-4 col-xxl-3 mb-4">
                                     <!-- Card -->
@@ -184,12 +185,13 @@
                                             <p>
                                                 <code>-dothisshit</code>
                                             </p>
-                                            <p class="mb-0"><%= trans.BY %> Mattheous
-                                                <sup>
-                                                    <span class="text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="Verified Creator">
-                                                        <i class="fa fa-check pr-1"></i>
-                                                    </span>
-                                                </sup>
+                                            <p class="mb-0">
+                                                <%= trans.BY %> Mattheous
+                                                    <sup>
+                                                        <span class="text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="Verified Creator">
+                                                            <i class="fa fa-check pr-1"></i>
+                                                        </span>
+                                                    </sup>
                                             </p>
                                         </div>
                                         <!-- Card footer -->
@@ -197,11 +199,15 @@
                                             <ul class="list-unstyled list-inline font-small">
                                                 <li class="list-inline-item pr-2">
                                                     <a href="#" class="white-text">
-                                                        <i class="fa fa-cloud pr-1"></i>12 <%= trans.SERVERS %></a>
+                                                        <i class="fa fa-cloud pr-1"></i>12
+                                                        <%= trans.SERVERS %>
+                                                    </a>
                                                 </li>
                                                 <li class="list-inline-item pr-2">
                                                     <a href="#" class="white-text">
-                                                        <i class="fa fa-heart red-text pr-1"> </i>21 <%= trans.LIKES %></a>
+                                                        <i class="fa fa-heart red-text pr-1"> </i>21
+                                                        <%= trans.LIKES %>
+                                                    </a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -223,12 +229,18 @@
                                         <div class="col-12">
                                             <form class="form-inline md-form mr-auto mb-4">
                                                 <select class="mdb-select mr-4">
-                                                    <option value="1"><%= trans.NAME %></option>
-                                                    <option value="2"><%= trans.AUTHOR %></option>
+                                                    <option value="1">
+                                                        <%= trans.NAME %>
+                                                    </option>
+                                                    <option value="2">
+                                                        <%= trans.AUTHOR %>
+                                                    </option>
 
                                                 </select>
                                                 <input class="form-control mr-sm-2" type="text" placeholder="<%= trans.SEARCH %>" aria-label="Search">
-                                                <button class="btn btn-feinwaru btn-rounded btn-sm my-0" type="submit"><%= trans.SEARCH %></button>
+                                                <button class="btn btn-feinwaru btn-rounded btn-sm my-0" type="submit">
+                                                    <%= trans.SEARCH %>
+                                                </button>
                                             </form>
                                         </div>
 
@@ -255,12 +267,13 @@
                                                             </sup>
                                                         </h3>
                                                         <p class="mb-0 grey-text">Script description blah blah kill me</p>
-                                                        <p class="mb-0"><%= trans.BY %> Mattheous
-                                                            <sup>
-                                                                <span class="text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="<%= trans.VERIFIED_CREATOR %>">
-                                                                    <i class="fa fa-check pr-1"></i>
-                                                                </span>
-                                                            </sup>
+                                                        <p class="mb-0">
+                                                            <%= trans.BY %> Mattheous
+                                                                <sup>
+                                                                    <span class="text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="<%= trans.VERIFIED_CREATOR %>">
+                                                                        <i class="fa fa-check pr-1"></i>
+                                                                    </span>
+                                                                </sup>
                                                         </p>
                                                     </td>
                                                     <td class="">
@@ -270,16 +283,20 @@
                                                         <ul class="list-unstyled">
                                                             <li class="list-item">
                                                                 <a href="#">
-                                                                    <i class="fa fa-cloud blue-text pr-1"></i>12 <%= trans.SERVERS %></a>
+                                                                    <i class="fa fa-cloud blue-text pr-1"></i>12
+                                                                    <%= trans.SERVERS %>
+                                                                </a>
                                                             </li>
                                                             <li class="list-item">
                                                                 <a href="#">
-                                                                    <i class="fa fa-heart red-text pr-1"> </i>21 <%= trans.LIKES %></a>
+                                                                    <i class="fa fa-heart red-text pr-1"> </i>21
+                                                                    <%= trans.LIKES %>
+                                                                </a>
                                                             </li>
                                                         </ul>
                                                     </td>
                                                 </tr>
-                                                
+
                                             </tbody>
                                             <!--Table body-->
 

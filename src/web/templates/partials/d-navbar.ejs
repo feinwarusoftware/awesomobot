@@ -81,37 +81,36 @@
                 <div class="float-left">
                     <a href="#" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
                 </div>
-                <ul class="navbar-nav ml-3">
+                <ul class="nav navbar-nav nav-flex-icons ml-3">
                         <li class="nav-item">
                             <a class="nav-link" href="/<%= trans.LANG %>">
-                                <%= trans.HOME %>
+                                <i class="fa fa-chevron-left"></i> <b><%= trans.RETURN_TO_HOME %></b>
                                     <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/dashboard<%= trans.LANG %>">
-                                <%= trans.DASHBOARD %>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/commands<%= trans.LANG %>">
-                                <%= trans.COMMANDS %>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://blog.feinwaru.com">
-                                <%= trans.BLOG %>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link yellow-text" href="https://patreon.com/awesomo">
-                                <b>
-                                    <%= trans.PREMIUM %>
-                                </b>
                             </a>
                         </li>
                     </ul>
                 <ul class="nav navbar-nav nav-flex-icons ml-auto">
+                        <li class="nav-item avatar dropdown pr-2 mr-2">
+                                <a class="nav-link dropdown-toggle waves-effect waves-light rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <img src="https://cdn.discordapp.com/icons/438701535208275978/c5bde67f9f079d283d39b3ae80f5292f.webp" class="rounded-circle z-depth-0"
+                                        alt="there is supposed to be an image but dragon 🅱roke it" style="background-color: #333333;">
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-feinwaru">
+                                        <h6 class="dropdown-item">
+                                                <%= trans.SELECT_A_SERVER %>
+                                            </h6>
+                                    <a class="dropdown-item waves-effect waves-light" href="<%= trans.LANG %>&server=438701535208275978">
+                                        <img src="https://cdn.discordapp.com/icons/438701535208275978/c5bde67f9f079d283d39b3ae80f5292f.webp" class="rounded-circle z-depth-0 mr-2"
+                                        alt="there is supposed to be an image but dragon 🅱roke it" style="background-color: #333333; height: 32px">
+                                        Feinwaru Server
+                                    </a>
+                                    <a class="dropdown-item waves-effect waves-light" href="/dashboard/profiles/<%= user_data.id %><%= trans.LANG %>">
+                                        <img src="https://cdn.discordapp.com/icons/405129031445381120/cc25586f0ba64afbc7d3bcf09b78bbac.webp" class="rounded-circle z-depth-0 mr-2"
+                                        alt="there is supposed to be an image but dragon 🅱roke it" style="background-color: #333333; height: 32px">
+                                        !DragonRoyale
+                                    </a>
+                                </div>
+                            </li>
                         <li class="nav-item avatar dropdown border-right pr-3 mr-2">
                                 <a class="nav-link dropdown-toggle waves-effect waves-light rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <img src="https://cdn.discordapp.com/avatars/<%= user_data.id %>/<%= user_data.avatar %>.png?size=128" class="rounded-circle z-depth-0"
@@ -130,13 +129,15 @@
                                     </a>
                                 </div>
                             </li>
-                        <li class="nav-item">
-                            <a class="nav-link waves-effect waves-light" data-toggle="modal" data-target="#LangModal">
-                                <i class="fa fa-language"></i>
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link waves-effect waves-light" data-toggle="modal" data-target="#LangModal">
+                                    <i class="fa fa-globe"></i> <b><%= trans.INITIALS %></b>
+                                </a>
+                            </li>
                     </ul>
             </nav>
+            <!-- <img src="https://cdn.discordapp.com/icons/438701535208275978/c5bde67f9f079d283d39b3ae80f5292f.webp" class="rounded-circle z-depth-0"
+                                        alt="there is supposed to be an image but dragon 🅱roke it" style="background-color: #333333;">-->
             <!-- /.Navbar -->
         <!--/.Double navigation-->
         <%- include ../partials/langpicker.ejs %>

@@ -1,5 +1,6 @@
 {
     "LANG": "?hl=en",
+    "INITIALS": "EN",
     "ERROR_404": "Error 404",
     "ERROR_404_BUTTON": "Fuck, go back!",
 
@@ -34,8 +35,7 @@
     "MANY_MORE": "..and many more!",
 
     "OUR_SUBSCRIBERS": "Our Subscribers",
-    "SUBSCRIBER_5": "$5 Subscriber",
-    "SUBSCRIBER_10": "$10 Subscriber",
+    "SUBSCRIBER_AMOUNT": "$${patron.amount} Subscriber",
     "SUBSCRIBER_SINCE": "Subscriber since",
     "VIEW_PROFILE": "View profile",
 
@@ -102,14 +102,15 @@
 
     "ARTISTS": "Artists",
     "AWESOMO_PORTRAIT": "AWESOM-O Portrait",
-    "PHIN_DESC": "Phin Desc",
     "AWESOMO_404": "404 Page Art",
-    "FENNY_DESC": "Fenny Desc",
     
     "TRANSLATORS": "Translators",
     "PORTUGESE_TRANSLATION": "Portugese Translation",
     "CHINESE_TRANSLATION": "Chinese Translation",
     "ROMANIAN_TRANSLATION": "Romanian Translation",
+    "POLISH_TRANSLATION": "Polish Translation",
+    "GERMAN_TRANSLATION": "German Translation",
+    "SPANISH_FRENCH_TRANSLATION" : "Spanish and French Translation",
 
 
     "_PRIVACY PAGE": "Below is all the shit for the privacy page",
@@ -154,8 +155,6 @@
     "NO_SCRIPTS": "You have no scripts :(",
     "NO_SCRIPTS_DESC": "Create a script for it to show up here",
 
-    "SCRIPT_MANAGER": "Script Manager",
-
     "_FOOTER": "Below is the shit for the footer",
 
     "GET_CONNECTED": "Get connected with us on social networks!",
@@ -178,6 +177,28 @@
     "FEEDBACK": "Feedback",
     "TERMS": "Terms",
     "PRIVACY": "Privacy",
+
+    "FACTS": "Facts about AWESOM-O",
+    "UPTIME": "Uptime",
+    "UNIQUE_USERS": "Unique Users",
+    "LINES_OF_CODE": "Lines of code",
+    "RETURN_TO_HOME":"Return to Home",
+    "SCRIPT_MANAGER": "Script Manager",
+    "GET_YOUR_AWESOMO": "Get Your AWESOM-O",
+    "SELECT_A_SERVER": "Select a server",
+    "WELCOME": "Welcome",
+    "WELCOME_DASH_2": "to the AWESOM-O Dashboard!",
+    "TOTAL_ONLINE": "TOTAL ONLINE",
+    "OUT_OF": "out of",
+    "TOTAL_USERS": "total users",
+    "ACTIVITY_RANKING": "ACTIVITY RANKING",
+    "TOTAL_COMMANDS_USED": "TOTAL COMMANDS USED",
+    "SO_FAR_THIS_MONTH": "so far this month...",
+    "IT_HITS_THE_FAN": "IT HITS THE FAN",
+    "SHITS": "shits",
+    "SHITS_DESC": "that's a lot of shits given",
+    "VISIT_MARKETPLACE": "Visit the Marketplace!",
+
 
     "COMMANDS_DESC": [{
         "NAME": "activelist",

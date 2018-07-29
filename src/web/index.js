@@ -49,7 +49,7 @@ app.use(cookieParser());
 
 app.use(i18n({
     translationsPath: path.join(__dirname, 'translations'),
-    siteLangs: ["en","ie","es","pt","cn","ro","ni", "pl"],
+    siteLangs: ["en","ga","es","pt","zh","ro","ni", "pl"],
     paramLangName: "hl",
     textsVarName: 'trans'
 }));
