@@ -39,7 +39,7 @@ const loadCommands = async () => {
         botLogger.fatalError(`error loading commands: ${err}`);
     }
 
-    botLogger.log("stdout", `detected command files: ${JSON.stringify(files)}`);
+    //botLogger.log("stdout", `detected command files: ${JSON.stringify(files)}`);
 
     for (let file of files) {
 
@@ -62,7 +62,7 @@ const loadCommands = async () => {
         commands.push(command);
     }
 
-    botLogger.log("stdout", `loaded command files: ${JSON.stringify(commands)}`);
+    //botLogger.log("stdout", `loaded command files: ${JSON.stringify(commands)}`);
 
     await schemas.ScriptSchema.find({ local: true }).then(async docs => {
 
