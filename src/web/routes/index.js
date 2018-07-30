@@ -142,6 +142,11 @@ router.get("/api/v3/sloc", (req, res) => {
     return res.json({ code: 0 });
 });
 
+router.get("/dashboard/profiles/:discord_id", (req, res) => {
+
+    res.render("dashboard/profile", { user_data: { id: "190914446774763520", avatar: "3e7f5ad61d210caf3c17a09b7e4a29c3", username: "gay boii mattheous" } });
+});
+
 router.get("/auth/discord", async (req, res) => {
 
     let session_doc;

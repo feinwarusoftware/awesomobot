@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>AWESOM-O //
-            <%= trans.DASHBOARD %>
-        </title>
-    
-        <link rel="icon" type="image/png" href="/img/favicon.png" />
-        <link rel="shortcut icon" type="image/png" href="/img/favicon.png" />
-        <meta name="theme-color" content="#ff594f">
-    
-        <link rel="alternate" href="/" hreflang="x-default" />
-        <link rel="alternate" href="/?hl=en" hreflang="en" />
-        <link rel="alternate" href="/?hl=ie" hreflang="ie" />
-        <link rel="alternate" href="/?hl=pt" hreflang="pt" />
-    
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <!-- Bootstrap core CSS -->
-        <link href="/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Material Design Bootstrap -->
-        <link href="/css/mdb.min.css" rel="stylesheet">
-    
-        <link href="/css/style.css" rel="stylesheet">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>AWESOM-O //
+        <%= trans.DASHBOARD %>
+    </title>
+
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png" />
+    <meta name="theme-color" content="#ff594f">
+
+    <link rel="alternate" href="/" hreflang="x-default" />
+    <link rel="alternate" href="/?hl=en" hreflang="en" />
+    <link rel="alternate" href="/?hl=ie" hreflang="ie" />
+    <link rel="alternate" href="/?hl=pt" hreflang="pt" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="/css/mdb.min.css" rel="stylesheet">
+
+    <link href="/css/style.css" rel="stylesheet">
 </head>
 
 <body class="fixed-sn">
@@ -50,7 +50,7 @@
         </div>
     </div>
 -->
-    <%- include partials/d-navbar.ejs %>
+    <%- include ../partials/d-navbar.ejs %>
         <!--Main Layout-->
 
 
@@ -63,34 +63,25 @@
                             <div class="card testimonial-card">
                                 <!--Background color-->
                                 <div class="card-up">
-                                    <img class="img-fluid" src="https://ddlc.moe/images/itch-banner.png">
+                                    <img id="banner" class="img-fluid" src="">
                                 </div>
                                 <!--Avatar-->
                                 <div class="avatar mx-auto white">
-                                    <img src="https://cdn.discordapp.com/avatars/190914446774763520/3c10ddd0528f970ec99aea4795e21b59.png?size=512" class="rounded-circle img-fluid">
+                                    <img src="https://cdn.discordapp.com/avatars/<%= user_data.id %>/<%= user_data.avatar %>.png?size=128" class="rounded-circle img-fluid">
                                 </div>
                                 <div class="card-body">
                                     <!--Name-->
-                                    <h4 class="font-weight-bold mb-4">Mattheous</h4>
+                                    <h4 id="username" class="font-weight-bold mb-4">
+                                        <%= user_data.username %>
+                                            <sup id="verified"></sup>
+                                    </h4>
                                     <hr>
                                     <!--Quotation-->
-                                    <p class="dark-grey-text mt-4">Your Mum Gay</p>
+                                    <p id="bio" class="dark-grey-text mt-4"></p>
                                 </div>
                                 <!-- Card footer -->
                                 <div class="rounded-bottom feinwaru lighten-3 text-center pt-3">
-                                    <ul class="list-unstyled list-inline font-small">
-                                        <li class="list-inline-item pr-2">
-                                            <a href="#" class="white-text">
-                                                <i class="fa fa-twitch pr-1"></i>Mattheous</a>
-                                        </li>
-                                        <li class="list-inline-item pr-2">
-                                            <a href="#" class="white-text">
-                                                <i class="fa fa-instagram pr-1"> </i>matthewwattdt</a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#" class="white-text">
-                                                <i class="fa fa-github pr-1"> </i>MattheousDT</a>
-                                        </li>
+                                    <ul id="socials" class="list-unstyled list-inline font-small">
                                     </ul>
                                 </div>
                             </div>
@@ -123,12 +114,11 @@
                                 <div class="card-body">
 
                                     <!-- Title -->
-                                    <h4 class="font-weight-bold mb-4">About Mattheous</h4>
+                                    <h4 class="font-weight-bold mb-4">About
+                                        <%= user_data.username %>
+                                    </h4>
                                     <div class="container">
-                                        <p>OCEAN MAN 🌊 😍 Take me by the hand ✋ lead me to the land that you understand 🙌
-                                            🌊 OCEAN MAN 🌊 😍 The voyage 🚲 to the corner of the 🌎 globe is a real trip
-                                            👌 🌊 OCEAN MAN 🌊 😍 The crust of a tan man 👳 imbibed by the sand 👍 Soaking
-                                            up the 💦 thirst of the land 💯</p>
+                                        <p id="about"></p>
                                     </div>
                                 </div>
                             </div>
@@ -143,23 +133,10 @@
                                         Artwork Showcase
                                     </h4>
 
-                                    <%- include partials/lightbox.ejs %>
+                                    <%- include ../partials/lightbox.ejs %>
 
-                                        <div class="mdb-lightbox">
-                                            <figure class="col-lg-4 col-md-6">
-                                                <a href="https://images-ext-1.discordapp.net/external/hSPZ7rqNXNLtTPYZjSdkH9O7jPXK70aT6wPn5RNDV9s/https/cdn.discordapp.com/attachments/394504208222650369/453235134817107988/just_ryan.rpy.png?width=1178&height=663"
-                                                    data-size="1920x1080">
-                                                    <img src="https://images-ext-1.discordapp.net/external/hSPZ7rqNXNLtTPYZjSdkH9O7jPXK70aT6wPn5RNDV9s/https/cdn.discordapp.com/attachments/394504208222650369/453235134817107988/just_ryan.rpy.png?width=1178&height=663"
-                                                        alt="placeholder" class="img-fluid">
-                                                </a>
-                                            </figure>
+                                        <div id="artwork" class="mdb-lightbox">
 
-                                            <figure class="col-lg-4 col-md-6">
-                                                <a href="https://cdn.discordapp.com/attachments/379432139856412682/453306913740816394/ryan-notasfucked-tm.png" data-size="1920x1080">
-                                                    <img src="https://cdn.discordapp.com/attachments/379432139856412682/453306913740816394/ryan-notasfucked-tm.png" alt="placeholder"
-                                                        class="img-fluid">
-                                                </a>
-                                            </figure>
 
                                         </div>
                                 </div>
@@ -173,7 +150,7 @@
         <!--/Section: Pricing v.5-->
         <!-- Streak -->
 
-        <%- include partials/footer.ejs %>
+        <%- include ../partials/footer.ejs %>
 
             <!--/.Footer-->
 
@@ -193,6 +170,18 @@
             <script type="text/javascript" src="/js/mdb.min.js"></script>
 
             <script>
+                const getImageSize = url => {
+                    return new Promise((resolve, reject) => {
+
+                        const img = new Image();
+                        img.addEventListener("load", function() {
+                            
+                            resolve(`${this.naturalWidth}x${this.naturalHeight}`);
+                        });
+                        img.src = url;
+                    });
+                }
+
                 //Animation init
                 new WOW().init();
 
@@ -216,8 +205,62 @@
                 $(function () {
                     $('[data-toggle="tooltip"]').tooltip()
                 })
-            </script>
+                const id = window.location.pathname.substring(20);
+                const profile = new XMLHttpRequest();
+                profile.open("GET", `/api/v3/users/${id}`, false);
+                profile.send();
+                const profileyay = JSON.parse(profile.response);
+                //$("#username").text("YOUR FUCKING MA");
+                $("#bio").text(profileyay.bio);
+                $("#about").text(profileyay.about);
+                $("#banner").attr("src", profileyay.banner);
 
+                if (profileyay.verified == true) {
+                    $("#verified").html(
+                        `<span class="text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="Verified">
+        <i class="fa fa-check pr-1"></i>
+    </span>`
+                    )
+                };
+
+                for (let i = 0; i < profileyay.artwork.length; i++) {
+                    
+                    $("#artwork").append(
+                        `
+                    <figure class="col-lg-4 col-md-6">
+                        <a id='${`art-${i}`}' href="${profileyay.artwork[i]}">
+                            <img id="artworkimg" src="${profileyay.artwork[i]}" alt="placeholder" class="img-fluid">
+                        </a>
+                    </figure>
+                    `
+                    );
+
+                    getImageSize(profileyay.artwork[i]).then(size => {
+
+                        document.getElementById(`art-${i}`).setAttribute("data-size", size);
+                    });
+                };
+                for (let i = 0; i < profileyay.socials.length; i++) {
+                    $("#socials").append(
+                        `
+                        <li class="list-inline-item pr-2">
+                            <a href="${profileyay.socials[i].link}" class="white-text">
+                            <i class="fa fa-${profileyay.socials[i].icon} pr-1"></i>${profileyay.socials[i].name}</a>
+                        </li>
+                    `
+                    );
+                };
+
+                if (profileyay.socials === undefined || profileyay.socials.length == 0) {
+                    $("#socials").append(
+                        `
+                        <li class="list-inline-item pr-2">
+                            <a class="white-text">This user has no socials :(</a>
+                        </li>
+                    `
+                    );
+                }
+            </script>
 
 </body>
 

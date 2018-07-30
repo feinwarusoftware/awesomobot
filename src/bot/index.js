@@ -564,6 +564,49 @@ client.on("message", async message => {
             break;
         }
     }
+
+    // hardcoded activity, yay fuck me!
+    // ...also hardcoded shits, even fucking better!
+    schemas.UserSchema.findOne({ discord_id: message.author.id }).then(doc => {
+        if (doc === null) {
+
+            const newUser = new schemas.UserSchema({
+                discord_id: message.author.id
+            });
+
+            newUser.save().then(doc => {
+                if (doc === null) {
+
+                    botLogger.error("error saving new user doc at activity");
+                }
+            }).catch(error => {
+
+                botLogger.error(error);
+            });
+            
+        } else {
+
+            if (message.content.indexOf("shit") !== -1) {
+
+                doc.shits++;
+            }
+
+            doc.activity++;
+
+            doc.save().then(doc => {
+                if (doc === null) {
+
+                    botLogger.error("error updating user doc at activity");
+                }
+            }).catch(error => {
+
+                botLogger.error(error);
+            });
+        }
+    }).catch(error => {
+
+        botLogger.error(error);
+    });
 });
 client.on("messageDelete", message => {
 

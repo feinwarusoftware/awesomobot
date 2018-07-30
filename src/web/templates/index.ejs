@@ -17,7 +17,7 @@
     <link rel="alternate" href="/?hl=en" hreflang="en" />
     <link rel="alternate" href="/?hl=ie" hreflang="ie" />
     <link rel="alternate" href="/?hl=pt" hreflang="pt" />
-
+    <link rel="stylesheet" href="/css/odometer-theme-default.css" />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap core CSS -->
@@ -275,22 +275,11 @@
                         <div class="col-md-3 mb-2">
                             <h1 class="white-text mb-1 font-weight-bold">
                                 <span class="odometer" id="usersplaceholder">
-                                    <div class="preloader-wrapper small active">
-                                        <div class="spinner-layer spinner-yellow-only">
-                                            <div class="circle-clipper left">
-                                                <div class="circle"></div>
-                                            </div>
-                                            <div class="gap-patch">
-                                                <div class="circle"></div>
-                                            </div>
-                                            <div class="circle-clipper right">
-                                                <div class="circle"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </span></h1>
+                                    0
+                                </span>
+                            </h1>
                             <p class="white-text">
-                                <%= trans.UNIQUE_USERS %>
+                                <%= trans.ACTIVE_USERS %>
                             </p>
                         </div>
                         <!--/Second column-->
@@ -298,21 +287,10 @@
                         <!--Third column-->
                         <div class="col-md-3 mb-2">
                             <h1 class="white-text mb-1 font-weight-bold">
-                                <span id="serversplaceholder">
-                                    <div class="preloader-wrapper small active">
-                                        <div class="spinner-layer spinner-yellow-only">
-                                            <div class="circle-clipper left">
-                                                <div class="circle"></div>
-                                            </div>
-                                            <div class="gap-patch">
-                                                <div class="circle"></div>
-                                            </div>
-                                            <div class="circle-clipper right">
-                                                <div class="circle"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </span></h1>
+                                <span class="odometer" id="serversplaceholder">
+                                    0
+                                </span>
+                            </h1>
                             <p class="white-text">
                                 <%= trans.SERVERS %>
                             </p>
@@ -321,7 +299,11 @@
 
                         <!--Fourth column-->
                         <div class="col-md-3">
-                            <h1 class="white-text mb-1 font-weight-bold">324</h1>
+                            <h1 class="white-text mb-1 font-weight-bold">
+                                <span class="odometer" id="locplaceholder">
+                                    0
+                                </span>
+                            </h1>
                             <p class="white-text">
                                 <%= trans.LINES_OF_CODE %>
                             </p>
@@ -866,8 +848,7 @@
 
             <script type="text/javascript" src="/js/script.js"></script>
 
-            <link rel="stylesheet" href="odometer-theme-car.css" />
-            <script src="odometer.js"></script>
+            <script type="text/javascript" src="/js/odometer.min.js"></script>
 
             <script>
                 //Animation init
@@ -888,17 +869,15 @@
                 uptime.send();
                 const uptimeyay = JSON.parse(uptime.response);
                 $("#uptimeplaceholder").html(Math.round(uptimeyay.uptime));
-                
-                setTimeout(function(){
-                const stats = new XMLHttpRequest();
-                stats.open("GET", `/api/v3/stats`, false);
-                stats.send();
-                const statsyay = JSON.parse(stats.response);
-                    $("#usersplaceholder").html(statsyay.members);  
+
+                setInterval(function () {
+                    const stats = new XMLHttpRequest();
+                    stats.open("GET", `/api/v3/stats`, false);
+                    stats.send();
+                    const statsyay = JSON.parse(stats.response);
+                    $("#usersplaceholder").html(statsyay.members);
                     $("#serversplaceholder").html(statsyay.guilds);
-                }, 5000);
-
-
+                }, 15000);
 
 
                 $("#feature1").mouseenter(function () {
@@ -938,60 +917,60 @@
                     })
                 });
 
-/*                const getpatrons = new XMLHttpRequest();
-                getpatrons.open("GET", `/api/v3/patrons`, false);
-                getpatrons.send();
-                const patronsyay = JSON.parse(getpatrons.response);
-                const patronlist = $("#patrons");
-                validpatrons = [];
-                for (let i = 0; i < patronsyay.length; i++) {
-                    if (patronsyay[i].amount === 1){
-                        continue;
-                    }
-                    validpatrons.push(patronsyay[i])
-                }
-                for (let patron of validpatrons) {
-                    patronlist.append(
-                        `
-                        <!-- Grid column  -->
-                            <div class="col-lg-4 col-md-12 mt-2">
+                /*                const getpatrons = new XMLHttpRequest();
+                                getpatrons.open("GET", `/api/v3/patrons`, false);
+                                getpatrons.send();
+                                const patronsyay = JSON.parse(getpatrons.response);
+                                const patronlist = $("#patrons");
+                                validpatrons = [];
+                                for (let i = 0; i < patronsyay.length; i++) {
+                                    if (patronsyay[i].amount === 1){
+                                        continue;
+                                    }
+                                    validpatrons.push(patronsyay[i])
+                                }
+                                for (let patron of validpatrons) {
+                                    patronlist.append(
+                                        `
+                                        <!-- Grid column  -->
+                                            <div class="col-lg-4 col-md-12 mt-2">
 
 
-                                <!-- Card -->
-                                <div class="card card-image mb-3 mx-auto" style="background-image: url(${patron.avatar});">
+                                                <!-- Card -->
+                                                <div class="card card-image mb-3 mx-auto" style="background-image: url(${patron.avatar});">
 
-                                    <!-- Content -->
-                                    <div class="text-white text-center d-flex align-items-center rgba-black-strong py-5 px-4">
-                                        <div class="mx-auto">
-                                            <h5 class="feinwaru-text">
-                                                <b id="subamount">
-                                                    <%- trans.SUBSCRIBER_AMOUNT %>
-                                                </b>
-                                            </h5>
-                                            <h3 class="card-title">
-                                                <strong>${patron.username}</strong>
-                                            </h3>
-                                            <p>
-                                                <%= trans.SUBSCRIBER_SINCE %> ${new Date(patron.date).toDateString().substring(4)} </p>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <a href="/profiles/id<%= trans.LANG %>" class="btn feinwaru">
-                                                <i class="fa fa-user left"></i>
-                                                <%= trans.VIEW_PROFILE %>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <!-- Content -->
-                                </div>
-                                <!-- Card -->
+                                                    <!-- Content -->
+                                                    <div class="text-white text-center d-flex align-items-center rgba-black-strong py-5 px-4">
+                                                        <div class="mx-auto">
+                                                            <h5 class="feinwaru-text">
+                                                                <b id="subamount">
+                                                                    <%- trans.SUBSCRIBER_AMOUNT %>
+                                                                </b>
+                                                            </h5>
+                                                            <h3 class="card-title">
+                                                                <strong>${patron.username}</strong>
+                                                            </h3>
+                                                            <p>
+                                                                <%= trans.SUBSCRIBER_SINCE %> ${new Date(patron.date).toDateString().substring(4)} </p>
+                                                            <br>
+                                                            <br>
+                                                            <br>
+                                                            <a href="/profiles/id<%= trans.LANG %>" class="btn feinwaru">
+                                                                <i class="fa fa-user left"></i>
+                                                                <%= trans.VIEW_PROFILE %>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Content -->
+                                                </div>
+                                                <!-- Card -->
 
-                            </div>
-                            `
-                            
-                    );
-                };
-                */
+                                            </div>
+                                            `
+                                            
+                                    );
+                                };
+                                */
             </script>
 
 </body>

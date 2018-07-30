@@ -117,11 +117,6 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <form class="form-inline md-form mr-auto mb-4">
-                                            <select class="mdb-select mr-4">
-                                                <option value="1"><%= trans.NAME %></option>
-                                                <option value="2"><%= trans.AUTHOR %></option>
-
-                                            </select>
                                             <input class="form-control mr-sm-2" type="text" placeholder="<%= trans.SEARCH %>" aria-label="Search">
                                             <button class="btn btn-feinwaru btn-rounded btn-sm my-0" type="submit"><%= trans.SEARCH %></button>
                                         </form>
@@ -141,7 +136,7 @@
                                                     <th></th>
                                                     <th><h4 class="dark-grey-text">Script Name</h4></th>
                                                     <th><h4 class="dark-grey-text">Roles</h4></th>
-                                                    <th><h4 class="dark-grey-text">Blacklisted Users</h4></th>
+                                                    <th><h4 class="dark-grey-text">Users</h4></th>
                                                     <th><h4 class="dark-grey-text">Servers</h4></th>
                                                 </tr>
                                             </thead>
@@ -160,7 +155,10 @@
                                                     <p class="mb-0 grey-text">Downloaded from the Marketplace</p>
                                                 </td>
                                                 <td>
+                                                        <button class="btn-save btn btn-grey btn-sm">Deselect All</button>
+                                                        <button class="btn-save btn btn-primary btn-sm">Select All</button>
                                                         <select class="mdb-select" multiple>
+                                                            
                                                                 <option value="1" selected>@everyone</option>
                                                                 <option value="2">@Admin Boiiz</option>
                                                                 <option value="3">@Moddy Boiiz</option>
@@ -168,6 +166,8 @@
                                                             <button class="btn-save btn btn-feinwaru btn-sm">Save</button>
                                                 </td>
                                                 <td>
+                                                        <button class="btn-save btn btn-grey btn-sm">Deselect All</button>
+                                                        <button class="btn-save btn btn-primary btn-sm">Select All</button>
                                                         <select class="mdb-select" multiple searchable="Search Users">
                                                                 <option value="1" selected>Tweeno</option>
                                                                 <option value="2">@Admin Boiiz</option>
@@ -176,6 +176,8 @@
                                                             <button class="btn-save btn btn-feinwaru btn-sm">Save</button>
                                                 </td>
                                                 <td>
+                                                        <button class="btn-save btn btn-grey btn-sm">Deselect All</button>
+                                                        <button class="btn-save btn btn-primary btn-sm">Select All</button>
                                                         <select class="mdb-select" multiple>
                                                                 <option value="1" selected>Feinwaru Server</option>
                                                                 <option value="2">Dream Theater</option>
