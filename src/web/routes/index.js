@@ -8,6 +8,7 @@ const axios = require("axios");
 const express = require("express");
 const showdown = require("showdown");
 const jwt = require("jsonwebtoken"); 
+const discord = require("discord.js");
 
 const schemas = require("../../db");
 const Logger = require("../../logger");
@@ -32,6 +33,9 @@ try {
 
     apiLogger.fatalError(`Could not read config file: ${err}`);
 }
+
+const client = new discord.Client();
+client.login(config.discord_token);
 
 router.use("/api/v3", api);
 router.get("/api/v3/uptime", (req, res) => {
@@ -120,6 +124,22 @@ router.get("/api/v3/patrons", (req, res) => {
 
         return res.json({ rip: "fucking rip" });
     });
+});
+router.get("/api/v3/stats", (req, res) => {
+
+    const guilds = client.guilds.array();
+
+    let memberCount = 0;
+    for (let i = 0; i < guilds.length; i++) {
+
+        memberCount += guilds[i].members.array().length;
+    }
+
+    return res.json({ guilds: guilds.length, members: memberCount });
+});
+router.get("/api/v3/sloc", (req, res) => {
+
+    return res.json({ code: 0 });
 });
 
 router.get("/auth/discord", async (req, res) => {

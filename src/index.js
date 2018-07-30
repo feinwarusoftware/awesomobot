@@ -20,4 +20,4 @@ db.on("open", () => {
 
 // do stuff
 require("./bot");
-//require("./web");
+require("./web");
