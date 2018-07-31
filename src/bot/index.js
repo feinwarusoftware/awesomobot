@@ -668,5 +668,5 @@ client.on("warn", info => {
 
 client.login(config.discord_token).then(() => {
     
-    botLogger.log("logged into discord");
+    botLogger.log("stdout", "logged into discord");
 });
