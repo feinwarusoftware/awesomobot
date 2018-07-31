@@ -1,5 +1,7 @@
 "use strict"
 
+const discord = require("discord.js")
+
 const Command = require("../command");
 
 const love = new Command("love", "quotes chef", "js", 0, "love", "command", 0, false, null, function(client, message, guildDoc) {
@@ -28,9 +30,11 @@ const love = new Command("love", "quotes chef", "js", 0, "love", "command", 0, f
                 "I'm gonna make love to ya woman!",
                 "Suck on ma chocolate salty balls!",
                 "An anal probe is when they stick a big metal hoob-a-joo up your butt.",
+                "Sieg Heil!",
                 "https://www.youtube.com/watch?v=b3npXX9vQ20",
             ];
-    message.reply(chefquotes[Math.floor(Math.random() * chefquotes.length)]);
+
+    message.channel.send(new discord.RichEmbed().setColor(0xff594f).setAuthor("AWESOM-O // Love!", "https://cdn.discordapp.com/attachments/437671103536824340/462653108636483585/a979694bf250f2293d929278328b707c.png").setThumbnail("https://vignette.wikia.nocookie.net/southpark/images/3/38/JeromeChef.png/revision/latest?cb=20160402120214").setDescription(chefquotes[Math.floor(Math.random() * chefquotes.length)]).setFooter("Hello there, children!"));        
 });
 
 module.exports = love;

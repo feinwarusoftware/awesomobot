@@ -25,7 +25,7 @@ const avatar = new Command("avatar", "get users avatars", "js", 0, "avatar", "co
 
         }
     }
-    if (subMessage === undefined) {
+    if (subMessage === "") {
         let currentSize = parseInt(message.author.avatarURL.substring(message.author.avatarURL.indexOf("size=") + 5), 10);
         if (currentSize === undefined) {
             message.reply("so... the bot shit itself, blame dragon");

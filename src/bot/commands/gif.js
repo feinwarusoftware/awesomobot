@@ -32,12 +32,12 @@ const gif = new Command("gif", "posts a random gif related to south park", "js",
             const args = message.content.split(" ")
 
             if (!args[1] || !gifs[args[1]]) {
-                let embed = new discord.RichEmbed().setImage(gifs[map[Math.floor(Math.random() * map.length)]]);
+                let embed = new discord.RichEmbed().setColor(0xff594f).setImage(gifs[map[Math.floor(Math.random() * map.length)]]);
                 message.channel.send(embed);
                 return;
             }
 
-            let embed = new discord.RichEmbed().setImage(gifs[args[1]]);
+            let embed = new discord.RichEmbed().setColor(0xff594f).setImage(gifs[args[1]]);
             message.channel.send(embed);
 
 });

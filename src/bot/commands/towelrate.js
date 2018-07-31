@@ -19,7 +19,7 @@ let towelrate = new Command("towelrate", "Towelie rates you!", "js", 0, "towelra
             "**10/10.** Tynacorp approved!",
         ];
         const random = Math.floor(Math.random() * quotes.length);
-        message.channel.send(new discord.RichEmbed().setDescription(quotes[random]).setFooter("Don't forget to bring a towel!"));
+        message.channel.send(new discord.RichEmbed().setColor(0xff594f).setDescription(quotes[random]).setFooter("Don't forget to bring a towel!"));
 });
 
 module.exports = towelrate;

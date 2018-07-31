@@ -32,7 +32,7 @@ const infor = new Command("infor", "a command for getting info on roles", "js", 
 
             // role found
             let embed = new discord.RichEmbed()
-                .setColor(0xF0433A)
+                .setColor(0xff594f)
                 .setAuthor(`AWESOM-O // Role Info`);
 
             embed.addField("Id:", "```" + roles[i].id + "```");

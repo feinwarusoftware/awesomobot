@@ -2,8 +2,20 @@
 
 const Command = require("../command");
 
-let someone = new Command("someone", "Fuck you, Discord.", "js", 0, "someone", "command", 0, false, null, function(client, message, guildDoc){
+let someone = new Command("someone", "Fuck you, Discord.", "js", 0, "@someone", "startswith", 0, false, null, function(client, message, guildDoc){
     const quotes = [
+            "ʢ⸌人⸍ʡ",
+            "\\(・╭╮・)/",
+            "\\(❍ᨓ❍)/",
+            "乁(ᵔ ͜ʖᵔ)ㄏ",
+            "└[ȍ‿ȍ]┘",
+            "ᖗTωTᖘ",
+            "ᕦ(♥ᨓ♥)ᕥ",
+            "ᕦ(ᵔ ͜つᵔ)ᕥ",
+            "⤜( ﾟ╭∩╮ ﾟ)⤏",
+            "\\(• ʖ̯•)/",
+            "(ง◥▶◞ ◀◤)ง",
+            "(╯⩾▾⩽）╯︵ ┻━┻",
             "(∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ. o ･ ｡ﾟ",
             "ヽ༼ ಠ益ಠ ༽ﾉ",
             "¯\\_(ツ)_/¯",
