@@ -490,7 +490,7 @@
                 for (let i = 0; i < meyay.artwork.length; i++) {
                     $("#form-artwork-section").append(
                         `
-                        <input placeholder="Enter an Image URL" value="${meyay.artwork[i]}" type="text" id="form-artwork-${i}" class="form-control">
+                        <input placeholder="Enter an Image URL" value="${meyay.artwork[i]}" type="text" id="form-artwork-${i}" class="form-control form-art-api">
                         `
                     );
                 };
@@ -538,13 +538,37 @@
                             $("#artwork-label").html("<strong>Artwork Showcase (Disabled)</strong>");
                         }
                     }
-                    $("#form-artwork-add").click(function() {
-                    $("#form-artwork-section").append(
+                    $("#form-artwork-add").click(function () {
+                        $("#form-artwork-section").append(
+                            `
+                            <input placeholder="Enter an Image URL" value="" type="text" id="form-artwork-${artworkcunt++}" class="form-control form-art-api">
                         `
-                            <input placeholder="Enter an Image URL" value="" type="text" id="form-artwork-${artworkcunt++}" class="form-control">
-                        `
-                    );
-                });
+                        );
+                    });
+
+                    {
+                        // dragons nice code goes here, if you put jquery here i will actually end you
+
+                        const submitButton = document.getElementById("save-profile");
+
+                        const banner = document.getElementById("form-imageurl");
+                        const bio = document.getElementById("for-bio");
+                        const name_1 = document.getElementById("form-social-name1");
+                        const social_url_1 = document.getElementById("form-social-url1");
+                        const social_name_2 = document.getElementById("form-social-name2");
+                        const social_url_2 = document.getElementById("form-social-url2");
+                        const social_name_3 = document.getElementById("form-social-name3");
+                        const social_url_3 = document.getElementById("form-social-url3");
+                        const about_checkbox = document.getElementById("form-about-checkbox");
+                        const artwork_checkbox = document.getElementById("form-artwork-checkbox");
+                        const about = document.getElementById("form-about");
+                        const artwork = document.getElementsByClassName("form-art-api");
+
+                        submitButton.onclick = () => {
+
+                            alert(banner.value);
+                        }
+                    }
                 };
             </script>
 
