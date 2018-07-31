@@ -666,4 +666,4 @@ client.on("warn", info => {
     //client
 });
 
-client.login(config.token);
+client.login(config.discord_token);
