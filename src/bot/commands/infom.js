@@ -23,7 +23,7 @@ const infom = new Command("infom", "a command for getting info on members", "js"
 
             // user found
             let embed = new discord.RichEmbed()
-                .setColor(0xF0433A)
+                .setColor(0xff594f)
                 .setAuthor(`AWESOM-O // Member Info`);
 
             embed.addField("Id:", "```" + members[i].user.id + "```");

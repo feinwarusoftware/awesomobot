@@ -96,8 +96,8 @@ const fm = new Command("fm", "lastfm lol", "js", 0, "fm", "command", 0, false, n
         }
 
         let embed = new discord.RichEmbed()
-            .setColor(0x8bc34a)
-            .setAuthor("AWESOM-O // Last.fm", "https://b.thumbs.redditmedia.com/9JuhorqoOt0_VAPO6vvvewcuy1Fp-oBL3ejJkQjjpiQ.png")
+            .setColor(0xff594f)
+            .setAuthor("AWESOM-O // Last.fm", "https://cdn.discordapp.com/attachments/437671103536824340/462653108636483585/a979694bf250f2293d929278328b707c.png")
             .setThumbnail(response.data[topFieldName][scopeName][0].image[response.data[topFieldName][scopeName][0].image.length - 1]["#text"])
             .setTitle(`last.fm ${args[2] === "recent" ? "" : "top"} ${args[3] === null ? "" : args[3]} ${args[2]}`)
             .setFooter("View full stats on last.fm")

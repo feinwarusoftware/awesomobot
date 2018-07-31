@@ -228,7 +228,7 @@ const artcomp = new Command("artcomp", "permissions lol", "js", 0, "artcomp", "c
         ]
         let randall = Math.floor(Math.random() * artall.length);
         let randomobject = artall[randall];
-        message.channel.send(new discord.RichEmbed().setColor(0Xce82ff).setAuthor(randomobject.name).setDescription(randomobject.desc).setImage(randomobject.file));
+        message.channel.send(new discord.RichEmbed().setColor(0xff594f).setAuthor(randomobject.name).setDescription(randomobject.desc).setImage(randomobject.file));
 });
 
 module.exports = artcomp;

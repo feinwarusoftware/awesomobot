@@ -160,7 +160,7 @@ const loadCommands = async () => {
     return commands;
 }
 
-let commands = loadCommands();
+let loadedCommands = loadCommands();
 
 const client = new discord.Client();
 client.on("channelCreate", channel => {
@@ -300,7 +300,7 @@ client.on("message", async message => {
         scripts = [...scripts, ...devScripts];
     }
 
-    const commands = config.env === "dev" ? await loadCommands() : await commands;
+    const commands = config.env === "dev" ? await loadCommands() : await loadedCommands;
 
     scripts.sort((a, b) => {
 
@@ -666,4 +666,7 @@ client.on("warn", info => {
     //client
 });
 
-client.login(config.token);
+client.login(config.discord_token).then(() => {
+    
+    botLogger.log("stdout", "logged into discord");
+});

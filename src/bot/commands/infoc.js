@@ -31,7 +31,7 @@ const infoc = new Command("infoc", "a command for getting info on channels", "js
 
             // channel found
             let embed = new discord.RichEmbed()
-                .setColor(0xF0433A)
+                .setColor(0xff594f)
                 .setAuthor(`AWESOM-O // Channel Info`);
 
             embed.addField("Id:", "```" + channels[i].id + "```");

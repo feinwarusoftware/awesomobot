@@ -31,7 +31,7 @@ const infoe = new Command("infoe", "a command for getting info on emojis", "js",
 
             // emoji found
             let embed = new discord.RichEmbed()
-                .setColor(0xF0433A)
+                .setColor(0xff594f)
                 .setAuthor(`AWESOM-O // Emoji Info`);
 
             embed.addField("Id:", "```" + emojis[i].id + "```");

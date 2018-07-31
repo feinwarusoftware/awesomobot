@@ -77,6 +77,14 @@ const fetchUser = discord_id => {
                         discord_id
                     });
 
+                    // admin defaults
+                    for (let id of config.admins) {
+                        if (id === discord_id) {
+                            new_user_doc.admin = true;
+                            break;
+                        }
+                    }
+
                     new_user_doc
                         .save()
                         .then(new_user_doc => {

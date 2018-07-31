@@ -55,7 +55,7 @@ const butters = new Command("butters", "random photo of butters", "js", 0, "butt
                 "https://cdn.discordapp.com/attachments/394504208222650369/447785636376870943/Butters79.png"
             ];
 
-            message.channel.send(new discord.RichEmbed().setImage(buttersimg[Math.floor(Math.random() * buttersimg.length)]));
+            message.channel.send(new discord.RichEmbed().setColor(0xff594f).setImage(buttersimg[Math.floor(Math.random() * buttersimg.length)]));
         
 });
 
