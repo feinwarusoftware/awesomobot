@@ -309,7 +309,7 @@ router.route("/@me/:discord_id").get(authUser, async (req, res) => {
 
     const prefix = req.body.prefix === undefined ? null : req.body.prefix;
     const log_channel_id = req.body.log_channel_id === undefined ? null : req.body.log_channel_id;
-    const log_events = req.body.log_events === undefined ? null : req.body.log_events;
+    const log_events = req.body.log_events === undefined ? [] : req.body.log_events;
     const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
 
     // Check prefix.
@@ -506,7 +506,7 @@ router.route("/:discord_id").get(authAdmin, async (req, res) => {
 
     const prefix = req.body.prefix === undefined ? null : req.body.prefix;
     const log_channel_id = req.body.log_channel_id === undefined ? null : req.body.log_channel_id;
-    const log_events = req.body.log_events === undefined ? null : req.body.log_events;
+    const log_events = req.body.log_events === undefined ? [] : req.body.log_events;
     const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
 
     // Check prefix.
