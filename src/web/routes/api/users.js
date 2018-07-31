@@ -122,10 +122,70 @@ router.route("/@me").get(authUser, (req, res) => {
 
     res.json(user_obj);
 
-}).patch(authUser, (req, res) => {
-    
-    // Currently no fields that users can edit.
-    res.json({ status: 200, message: "OK - no changes made", error: null });
+}).patch(authUser, async (req, res) => {
+
+    const bio = req.body.bio === undefined ? null : req.body.bio;
+    const about = req.body.about === undefined ? null : req.body.about;
+    const socials = req.body.socials === undefined ? null : req.body.socials;
+    const trophies = req.body.trophies === undefined ? null : req.body.trophies;
+    const banner = req.body.banner === undefined ? null : req.body.banner;
+    const artwork = req.body.artwork === undefined ? null : req.body.artwork;
+    const modules = req.body.modules === undefined ? null : req.body.modules;
+
+    if (bio !== null && typeof bio !== "string") {
+        return res.json({ status: 400, message: "Bad Request", error: "bio must be a string" });
+    }
+
+    if (about !== null && typeof about !== "string") {
+        return res.json({ status: 400, message: "Bad Request", error: "about must be a string" });
+    }
+
+    if (socials !== null && (socials instanceof Array === false || socials.length > 3)) {
+        return res.json({ status: 400, message: "Bad Request", error: "socials must be an array of length no greater than 3" });
+    }
+
+    if (trophies !== null && trophies instanceof Array === false) {
+        return res.json({ status: 400, message: "Bad Request", error: "trophies must be an array" });
+    }
+
+    if (banner !== null && typeof banner !== "string") {
+        return res.json({ status: 400, message: "Bad Request", error: "banner must be a string" });
+    }
+
+    if (artwork !== null && artwork instanceof Array === false) {
+        return res.json({ status: 400, message: "Bad Request", error: "artwork must be an array" });
+    }
+
+    if (modules !== null && modules instanceof Object === false) {
+        return res.json({ status: 400, message: "Bad Request", error: "modules must be an object" });
+    }
+
+    let upd_user;
+    try {
+
+        upd_user = await schemas.UserSchema
+            .findOneAndUpdate({
+                discord_id: req.user.discord_id
+            }, {
+                ...(bio === null ? {} : { bio }),
+                ...(about === null ? {} : { about }),
+                ...(socials === null ? {} : { socials }),
+                ...(trophies === null ? {} : { trophies }),
+                ...(banner === null ? {} : { banner }),
+                ...(artwork === null ? {} : { artwork }),
+                ...(modules === null ? {} : { modules })
+            });
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
+    if (upd_user === null) {
+        return res.json({ status: 404, message: "Not Found", error: "The user that you are trying to update could not be found" });
+    }
+
+    res.json({ status: 200, message: "OK", error: null });
 
 }).delete(authUser, async (req, res) => {
     
