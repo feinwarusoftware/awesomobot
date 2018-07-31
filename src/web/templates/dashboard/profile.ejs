@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>AWESOM-O //
-        <%= trans.DASHBOARD %>
+        <%= user_data.username %>
     </title>
 
     <link rel="icon" type="image/png" href="/img/favicon.png" />
@@ -90,17 +90,11 @@
                             <!-- Card -->
                             <div class="card text-center" style="width: 100%">
                                 <div class="card-body">
-
                                     <!-- Title -->
                                     <h4 class="font-weight-bold mb-4">
                                         Trophy Case
                                     </h4>
-                                    <div class="mx-auto chip white-text feinwaru" data-toggle="tooltip" data-placement="top" title="Pretends that he develops, but he does the html so no lol">
-                                        <img src="/img/trophy/trophy-fs.png"> Feinwaru Developer
-                                    </div>
-                                    <div class="mx-auto chip white-text" style="background-color: #7289DA;">
-                                        <img src="/img/trophy/trophy-art.png" alt="Contact Person"> Art Contest 2018 Weekly Winner
-                                    </div>
+                                    <div id="trophycase"></div>
                                 </div>
 
                             </div>
@@ -123,7 +117,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row pl-md-4 pt-4">
+                        <div id="artwork-card" class="row pl-md-4 pt-4">
                             <!-- Card -->
                             <div class="card text-center" style="width: 100%">
                                 <div class="card-body">
@@ -149,6 +143,172 @@
         </main>
         <!--/Section: Pricing v.5-->
         <!-- Streak -->
+        <!--Modal: editing your page-->
+        <div class="modal fade bottom show modal-content-clickable" id="modalPrompt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            data-backdrop="false" style="padding-right: 17px; display: none;">
+            <div class="modal-dialog modal-frame modal-bottom modal-notify modal-info" role="document">
+                <div class="modal-content">
+                    <div class="modal-body py-1 grey darken-2">
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <p class="pt-3 pr-2 text-white">You are viewing your profile</p>
+                            <a type="button" class="btn btn-outline-white btn-md" data-toggle="modal" data-target="#modalEdit">Edit your profile</a>
+                            <a type="button" class="btn btn-outline-white btn-md" data-dismiss="modal">Dismiss</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Modal: modalCookie-->
+
+
+        <!-- Modal: modalPoll -->
+        <div class="modal fade top" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+            data-backdrop="false">
+            <div class="modal-dialog modal-notify modal-success" role="document">
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <p class="heading lead">Edit Profile
+                        </p>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="white-text">×</span>
+                        </button>
+                    </div>
+
+                    <!--Body-->
+                    <div class="modal-body">
+                        <p class="text-center">
+                            <strong>Banner Image</strong>
+                        </p>
+                        <div class="md-form">
+                            <input value="" type="text" id="form-imageurl" class="form-control">
+                            <label for="imageurl">Enter an Image URL</label>
+                        </div>
+
+                        <p class="text-center">
+                            <strong>Short Bio</strong>
+                        </p>
+                        <!--Basic textarea-->
+                        <div class="md-form">
+                            <input id="form-bio" value="" type="text" length="150" class="form-control">
+                            <label for="form-bio">A short bio for underneath your avatar</label>
+                        </div>
+                        <p class="text-center">
+                            <strong>Social Links</strong>
+                        </p>
+                        <div class="form-row">
+                            <!-- Grid column -->
+                            <div class="col">
+                                <!-- Material input -->
+                                <div class="md-form">
+                                    <input value="" type="text" id="form-social-name1" class="form-control">
+                                    <label for="form-social-name1">Username</label>
+                                </div>
+                            </div>
+                            <!-- Grid column -->
+
+                            <!-- Grid column -->
+                            <div class="col">
+                                <!-- Material input -->
+                                <div class="md-form">
+                                    <input value="" type="text" id="form-social-url1" class="form-control">
+                                    <label for="form-social-url1">URL</label>
+                                </div>
+                            </div>
+                            <!-- Grid column -->
+                        </div>
+                        <div class="form-row">
+                            <!-- Grid column -->
+                            <div class="col">
+                                <!-- Material input -->
+                                <div class="md-form">
+                                    <input value="" type="text" id="form-social-name2" class="form-control">
+                                    <label for="form-social-name2">Username</label>
+                                </div>
+                            </div>
+                            <!-- Grid column -->
+
+                            <!-- Grid column -->
+                            <div class="col">
+                                <!-- Material input -->
+                                <div class="md-form">
+                                    <input value="" type="text" id="form-social-url2" class="form-control">
+                                    <label for="form-social-url2">URL</label>
+                                </div>
+                            </div>
+                            <!-- Grid column -->
+                        </div>
+                        <div class="form-row">
+                            <!-- Grid column -->
+                            <div class="col">
+                                <!-- Material input -->
+                                <div class="md-form">
+                                    <input value="" type="text" id="form-social-name3" class="form-control">
+                                    <label for="form-social-name3">Username</label>
+                                </div>
+                            </div>
+                            <!-- Grid column -->
+
+                            <!-- Grid column -->
+                            <div class="col">
+                                <!-- Material input -->
+                                <div class="md-form">
+                                    <input value="" type="text" id="form-social-url3" class="form-control">
+                                    <label for="form-social-url3">URL</label>
+                                </div>
+                            </div>
+                            <!-- Grid column -->
+                        </div>
+
+                        <h4 class="text-center">
+                            <strong>Modules</strong>
+                        </h4>
+                        <!-- Material inline 1 -->
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" class="form-check-input" id="form-about-checkbox">
+                            <label class="form-check-label" for="form-about-checkbox">About Section</label>
+                        </div>
+
+                        <!-- Material inline 2 -->
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" class="form-check-input" id="form-artwork-checkbox">
+                            <label class="form-check-label" for="form-artwork-checkbox">Artwork Showcase</label>
+                        </div>
+                        <hr>
+                        <!-- Grid row -->
+                        <p id="about-label" class="text-center">
+                            <strong>About Section</strong>
+                        </p>
+                        <!--Basic textarea-->
+                        <div id="form-about-section" class="md-form">
+                            <textarea id="form-about" value="fgfgdfgdfg" class="form-control md-textarea" rows="5"></textarea>
+                            <label for="form-about">Enter anything you want the world to know</label>
+                            <small id="" class="form-text text-muted">
+                                <a href="https://github.com/showdownjs/showdown/wiki/Showdown's-Markdown-syntax">You can use markdown in this field. Click here for a helpsheet.</a>
+                            </small>
+                        </div>
+
+                        <p id="artwork-label" class="text-center">
+                            <strong>Artwork Showcase</strong>
+                        </p>
+                        <div id="form-artwork-section" class="md-form">
+
+                        </div>
+                        <button id="form-artwork-add" class="btn btn-success btn-sm mx-auto">
+                            <i class="fa fa-plus mr-1"></i> Add Another Image</button>
+                    </div>
+
+                    <!--Footer-->
+                    <div class="modal-footer justify-content-center">
+                        <a id="save-profile" type="button" class="btn btn-success waves-effect waves-light">Save
+                        </a>
+                        <a type="button" class="btn btn-outline-success waves-effect" data-dismiss="modal">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal: modalPoll -->
 
         <%- include ../partials/footer.ejs %>
 
@@ -174,8 +334,8 @@
                     return new Promise((resolve, reject) => {
 
                         const img = new Image();
-                        img.addEventListener("load", function() {
-                            
+                        img.addEventListener("load", function () {
+
                             resolve(`${this.naturalWidth}x${this.naturalHeight}`);
                         });
                         img.src = url;
@@ -188,32 +348,47 @@
                 //Modal
                 $('#myModal').on('shown.bs.modal', function () {
                     $('#myInput').focus()
-                })
+                });
 
                 // Material Select Initialization
                 $(document).ready(function () {
                     $('.mdb-select').material_select();
+
                 });
+
+                /*$(window).load(function () {
+                    $("#form-about-checkbox").click(function () {
+                        if ($("#form-about-checkbox").checked === true) {
+                            $("#form-about-section").hide();
+                        } else {
+                            $("#form-about-section").show();
+                        }
+                    })
+                }); */
+
 
                 // SideNav Button Initialization
                 $(".button-collapse").sideNav();
                 // SideNav Scrollbar Initialization
                 var sideNavScrollbar = document.querySelector('.custom-scrollbar');
-                Ps.initialize(sideNavScrollbar);
+                Ps.initialize(
+                    sideNavScrollbar);
 
                 // Tooltips Initialization
                 $(function () {
                     $('[data-toggle="tooltip"]').tooltip()
-                })
+                });
                 const id = window.location.pathname.substring(20);
                 const profile = new XMLHttpRequest();
                 profile.open("GET", `/api/v3/users/${id}`, false);
-                profile.send();
+                profile
+                    .send();
                 const profileyay = JSON.parse(profile.response);
                 //$("#username").text("YOUR FUCKING MA");
                 $("#bio").text(profileyay.bio);
                 $("#about").text(profileyay.about);
-                $("#banner").attr("src", profileyay.banner);
+                $("#banner").attr("src",
+                    profileyay.banner);
 
                 if (profileyay.verified == true) {
                     $("#verified").html(
@@ -224,7 +399,7 @@
                 };
 
                 for (let i = 0; i < profileyay.artwork.length; i++) {
-                    
+
                     $("#artwork").append(
                         `
                     <figure class="col-lg-4 col-md-6">
@@ -259,9 +434,126 @@
                         </li>
                     `
                     );
-                }
+                };
+                if (profileyay.artwork === undefined || profileyay.artwork.length == 0) {
+                    $("#artwork-card").hide();
+                };
+
+                //trophies
+                if (profileyay.trophies === undefined || profileyay.trophies.length == 0) {
+                    $("#trophycase").append(
+                        `
+                        <h5 class="grey-text">it's very lonely here</h5>
+                    `
+                    );
+                };
+                if (profileyay.trophies.indexOf("feinwaru-dev") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text feinwaru" data-toggle="tooltip" data-placement="top" title="Pretends that he develops, but he does the html so no lol">
+    <img src="/img/trophy/trophy-fs.png"> Feinwaru Developer
+</div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("ac18ww") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #7289DA;">
+    <img src="/img/trophy/trophy-art.png"> Art Contest 2018 Weekly Winner
+</div>`
+                    )
+                };
+
+                const me = new XMLHttpRequest();
+                me.open("GET", `/api/v3/users/@me`, false);
+                me.send();
+                const meyay = JSON.parse(me.response);
+                if (meyay.discord_id === id) {
+                    //show da modal
+                    $('#modalPrompt').modal('show');
+                    //fill out da form
+                    $('#form-imageurl').attr("value", meyay.banner);
+                    $('#form-bio').attr("value", meyay.bio);
+                    $('#form-about').text(meyay.about);
+
+                    $('#form-social-name1').attr("value", meyay.socials[0].name);
+                    $('#form-social-url1').attr("value", meyay.socials[0].link);
+
+                    $('#form-social-name2').attr("value", meyay.socials[1].name);
+                    $('#form-social-url2').attr("value", meyay.socials[1].link);
+
+                    $('#form-social-name3').attr("value", meyay.socials[2].name);
+                    $('#form-social-url3').attr("value", meyay.socials[2].link);
+
+                };
+
+                let artworkcunt = meyay.artwork.length;
+
+                for (let i = 0; i < meyay.artwork.length; i++) {
+                    $("#form-artwork-section").append(
+                        `
+                        <input placeholder="Enter an Image URL" value="${meyay.artwork[i]}" type="text" id="form-artwork-${i}" class="form-control">
+                        `
+                    );
+                };
+
+                window.onload = () => {
+                    const aboutcheckbox = document.getElementById("form-about-checkbox");
+                    const artworkcheckbox = document.getElementById("form-artwork-checkbox");
+
+                    if (meyay.modules.about === true) {
+                        aboutcheckbox.checked = true;
+                        $("#form-about-section").show();
+                        $("#about-label").html("<strong>About Section</strong>");
+                    } else {
+                        aboutcheckbox.checked = false;
+                        $("#form-about-section").hide();
+                        $("#about-label").html("<strong>About Section (Disabled)</strong>");
+                    }
+
+                    aboutcheckbox.onclick = () => {
+                        if (aboutcheckbox.checked === true) {
+                            $("#form-about-section").show();
+                            $("#about-label").html("<strong>About Section</strong>");
+                        } else {
+                            $("#form-about-section").hide();
+                            $("#about-label").html("<strong>About Section (Disabled)</strong>");
+                        }
+                    }
+
+                    if (meyay.modules.artwork === true) {
+                        artworkcheckbox.checked = true;
+                        $("#form-artwork-section").show();
+                        $("#artwork-label").html("<strong>Artwork Showcase</strong>");
+                    } else {
+                        aboutcheckbox.checked = false;
+                        $("#form-artwork-section").hide();
+                        $("#artwork-label").html("<strong>Artwork Showcase (Disabled)</strong>");
+                    }
+
+                    artworkcheckbox.onclick = () => {
+                        if (artworkcheckbox.checked === true) {
+                            $("#form-artwork-section").show();
+                            $("#artwork-label").html("<strong>Artwork Showcase</strong>");
+                        } else {
+                            $("#form-artwork-section").hide();
+                            $("#artwork-label").html("<strong>Artwork Showcase (Disabled)</strong>");
+                        }
+                    }
+                    $("#form-artwork-add").click(function() {
+                    $("#form-artwork-section").append(
+                        `
+                            <input placeholder="Enter an Image URL" value="" type="text" id="form-artwork-${artworkcunt++}" class="form-control">
+                        `
+                    );
+                });
+                };
             </script>
 
 </body>
+<div class="mx-auto chip white-text feinwaru" data-toggle="tooltip" data-placement="top" title="Pretends that he develops, but he does the html so no lol">
+    <img src="/img/trophy/trophy-fs.png"> Feinwaru Developer
+</div>
+<div class="mx-auto chip white-text" style="background-color: #7289DA;">
+    <img src="/img/trophy/trophy-art.png" alt="Contact Person"> Art Contest 2018 Weekly Winner
+</div>
 
 </html>

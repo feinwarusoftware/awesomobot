@@ -17,14 +17,18 @@ const UserSchema = new Schema({
     about: { type: String, default: "OCEAN MAN" },
     socials: [{
         icon: { type: String, required: true },
-        name: { type: String, require: true },
+        name: { type: String, required: true },
         link: { type: String, required: true }
     }],
     trophies: [ { type: String, required: true } ],
     banner: { type: String, default: "https://ddlc.moe/images/itch-banner.png" },
     artwork: [ { type: String, required: true } ],
     activity: { type: Number, default: 0 },
-    shits: { type: Number, default: 0 }
+    shits: { type: Number, default: 0 },
+    modules: {
+        about: { type: Boolean, default: true },
+        artwork: { type: Boolean, default: true }
+    }
 });
 
 module.exports = mongoose.model("User", UserSchema);

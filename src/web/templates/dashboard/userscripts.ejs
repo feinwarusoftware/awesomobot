@@ -138,7 +138,9 @@
             <div class="modal-content">
                 <!--Header-->
                 <div class="modal-header">
-                    <p class="heading lead"><%= trans.WAIT_UP %></p>
+                    <p class="heading lead">
+                        <%= trans.WAIT_UP %>
+                    </p>
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="white-text">&times;</span>
@@ -149,23 +151,29 @@
                 <div class="modal-body">
                     <div class="text-center">
                         <i id="metalgearexclamation" class="fa fa-exclamation fa-4x mb-3 red-text"></i>
-                        <p><%- trans.DELETE_MSG %></p>
+                        <p>
+                            <%- trans.DELETE_MSG %>
+                        </p>
                     </div>
                 </div>
 
                 <!--Footer-->
                 <div class="modal-footer justify-content-center">
-                    <a type="button" id="yaDelet" class="btn btn-danger"><%= trans.DELETE %></a>
-                    <a type="button" id="noKThanksBye" class="btn btn-outline-danger waves-effect" data-dismiss="modal"><%= trans.DONT_DELET %></a>
+                    <a type="button" id="yaDelet" class="btn btn-danger">
+                        <%= trans.DELETE %>
+                    </a>
+                    <a type="button" id="noKThanksBye" class="btn btn-outline-danger waves-effect" data-dismiss="modal">
+                        <%= trans.DONT_DELET %>
+                    </a>
                 </div>
             </div>
             <!--/.Content-->
         </div>
     </div>
     <audio id="metalgearalert" style="display:none;" volume="0.2">
-            <source src="/audio/metalgear.mp3" type="audio/mp3">
-            <embed height="50" width="100" src="/audio/metalgear.mp3">
-        </audio>
+        <source src="/audio/metalgear.mp3" type="audio/mp3">
+        <embed height="50" width="100" src="/audio/metalgear.mp3">
+    </audio>
     <%- include ../partials/footer.ejs %>
 </body>
 <!--/.Footer-->
@@ -669,7 +677,7 @@
 
         document.getElementById("metalgearalert").volume = 0.2;
 
-        $("#deleteModal").on("shown.bs.modal", function(){
+        $("#deleteModal").on("shown.bs.modal", function () {
             $("#metalgearalert")[0].play();
             $("#metalgearexclamation").addClass("animated tada");
         });
@@ -677,18 +685,18 @@
 </script>
 <script>
     /* $("#editModal").on("shown.bs.modal", e => {
-                                                                                                                                                                                $("#editorHolder").append(`<div id="advancedEditor" class="card" style="width: 100%; height:600px"></div>`)
+                                                                                                                                                                                    $("#editorHolder").append(`<div id="advancedEditor" class="card" style="width: 100%; height:600px"></div>`)
 
-                                                                                                                                                                                    var editor = monaco.editor.create(document.getElementById('advancedEditor'), {
-                                                                                                                                                                                        value: [].join('\n'),
-                                                                                                                                                                                        language: 'javascript',
-                                                                                                                                                                                        theme: "MattIsTrueWaifu"
-                                                                                                                                                                                    })
-                                                                                                                                                                                
-                                                                                                                                                                            })
-                                                                                                                                                                            $("#editModal").on("hidden.bs.modal", e => {
-                                                                                                                                                                                $("#advancedEditor").remove()
-                                                                                                                                                                            }) */
+                                                                                                                                                                                        var editor = monaco.editor.create(document.getElementById('advancedEditor'), {
+                                                                                                                                                                                            value: [].join('\n'),
+                                                                                                                                                                                            language: 'javascript',
+                                                                                                                                                                                            theme: "MattIsTrueWaifu"
+                                                                                                                                                                                        })
+                                                                                                                                                                                    
+                                                                                                                                                                                })
+                                                                                                                                                                                $("#editModal").on("hidden.bs.modal", e => {
+                                                                                                                                                                                    $("#advancedEditor").remove()
+                                                                                                                                                                                }) */
 </script>
 </body>
 
