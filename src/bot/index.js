@@ -160,7 +160,7 @@ const loadCommands = async () => {
     return commands;
 }
 
-let commands = loadCommands();
+let loadedCommands = loadCommands();
 
 const client = new discord.Client();
 client.on("channelCreate", channel => {
@@ -300,7 +300,7 @@ client.on("message", async message => {
         scripts = [...scripts, ...devScripts];
     }
 
-    const commands = config.env === "dev" ? await loadCommands() : await commands;
+    const commands = config.env === "dev" ? await loadCommands() : await loadedCommands;
 
     scripts.sort((a, b) => {
 
