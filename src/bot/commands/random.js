@@ -25,8 +25,8 @@ const random = new Command("random", "random episodes", "js", 0, "random", "comm
 
     spnav.wikiaSearch(query).then(result => {
         const embed = new discord.RichEmbed()
-            .setColor(0x8bc34a)
-            .setAuthor("AWESOM-O // " + result.title, "https://vignette.wikia.nocookie.net/southpark/images/1/14/AwesomeO06.jpg/revision/latest/scale-to-width-down/250?cb=20100310004846")
+            .setColor(0xff594f)
+            .setAuthor("AWESOM-O // " + result.title, "https://cdn.discordapp.com/attachments/437671103536824340/462653108636483585/a979694bf250f2293d929278328b707c.png")
             .setURL(result.url)
             .setDescription(result.desc);
 

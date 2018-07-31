@@ -19,7 +19,7 @@ const nathanrate = new Command("nathanrate", "possible downs kid 2", "js", 0, "n
             "**10/10.** You're a Downs Syndrome destroyer!"
     ];
     const random = Math.floor(Math.random() * quotes.length);
-    message.channel.send(new discord.RichEmbed().setDescription(quotes[random]).setFooter("Don't forget to bring a towel!"));
+    message.channel.send(new discord.RichEmbed().setColor(0xff594f).setDescription(quotes[random]));
 });
 
 module.exports = nathanrate;
