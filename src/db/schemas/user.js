@@ -17,7 +17,7 @@ const UserSchema = new Schema({
     about: { type: String, default: "OCEAN MAN" },
     socials: [{
         icon: { type: String, required: true },
-        name: { type: String, require: true },
+        name: { type: String, required: true },
         link: { type: String, required: true }
     }],
     trophies: [ { type: String, required: true } ],
