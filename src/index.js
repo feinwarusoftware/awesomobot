@@ -17,6 +17,11 @@ db.on("open", () => {
     genLogger.log("stdout", "connected to db");
 });
 
+process.on("exit", code => {
+
+    genLogger.fatalError(`process exited with code: ${code}`);
+});
+
 // do stuff
 require("./bot");
 require("./web");
