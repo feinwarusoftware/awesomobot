@@ -23,5 +23,5 @@ process.on("exit", code => {
 });
 
 // do stuff
-require("./bot");
+//require("./bot");
 require("./web");
