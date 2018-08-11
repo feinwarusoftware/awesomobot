@@ -333,7 +333,7 @@ const renderCard = async card => {
 
         // image overlaying stuff.
         let bg = await new jimp(800, 1200);
-        
+
         //
         let bg2 = await new jimp(800, 1200);
         //
@@ -353,7 +353,7 @@ const renderCard = async card => {
         //
         bg2.composite(cardArt, bg.bitmap.width / 2 - cardArt.bitmap.width / 2, bg.bitmap.height / 2 - cardArt.bitmap.height / 2);
         //
-        
+
         bg.composite(frameOverlay, bg.bitmap.width / 2 - frameOverlay.bitmap.width / 2, bg.bitmap.height / 2 - frameOverlay.bitmap.height / 2);
         bg.composite(frameOutline, bg.bitmap.width / 2 - frameOutline.bitmap.width / 2, bg.bitmap.height / 2 - frameOutline.bitmap.height / 2);
 
@@ -419,16 +419,17 @@ const renderCard = async card => {
 
 for (let card of cards) {
 
-    promises.push(renderCard(card));
+    //promises.push(renderCard(card));
 }
 
 Promise.all(promises).then(() => {
 
     console.log("rendered all pd cards");
 
-    // do stuff
-    //require("./bot");
-    require("./web");
 });
 
 //
+
+// do stuff
+//require("./bot");
+require("./web");
