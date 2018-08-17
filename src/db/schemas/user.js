@@ -28,7 +28,9 @@ const UserSchema = new Schema({
     modules: {
         about: { type: Boolean, default: true },
         artwork: { type: Boolean, default: true }
-    }
+    },
+    premium: { type: Boolean, default: false },
+    premium_amount: { type: String, required: false,}
 });
 
 module.exports = mongoose.model("User", UserSchema);

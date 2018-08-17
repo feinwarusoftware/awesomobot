@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>AWESOM-O // <%= trans.HOME %></title>
+    
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png" />
+    <meta name="theme-color" content="#ff594f">
+
+    <link rel="alternate" href="/" hreflang="x-default" />
+    <link rel="alternate" href="/?hl=en" hreflang="en" />
+    <link rel="alternate" href="/?hl=ie" hreflang="ie" />
+    <link rel="alternate" href="/?hl=pt" hreflang="pt" />
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="/css/mdb.min.css" rel="stylesheet">
+
+    <link href="/css/style.css" rel="stylesheet">
+
+<style>
+
+    html,
+    body,
+    header,
+    .view {
+      height: 100%;
+    }
+
+    @media (max-width: 740px) {
+      html,
+      body,
+      header,
+      .view {
+        height: 815px;
+      }
+    }
+
+    @media (min-width: 800px) and (max-width: 850px) {
+      html,
+      body,
+      header,
+      .view {
+        height: 600px;
+      }
+    }
+
+    .intro-2 {
+        background: url("/img/404.jpg")no-repeat center center;
+        background-size: cover;
+    }
+</style>
+
+<body class="creative-lp">
+
+    <!-- Navigation & Intro -->
+    <header>
+
+        <!--Intro Section-->
+        <section class="view intro-2">
+            <div class="mask rgba-gradient-2">
+                <div class="container h-100 d-flex justify-content-center align-items-center">
+                    <div class="row">
+                        <div class="col-md-12 wow fadeIn mb-3">
+                            <div class="text-center white-text">
+                                <ul class="list-unstyled py-5 mx-lg-5">
+                                    <li>
+                                        <h1 class="display-1 mt-5 mx-5 mt-lg-0 mb-5 font-weight-bold white-text wow fadeIn" data-wow-delay="0.3s">
+                                            <strong><%= trans.CARD_NOT_FOUND %></strong>
+                                        </h1>
+                                        <a class="btn btn-white btn-lg wow fadeInUp " onclick="goBack()" data-wow-delay="0.2s" rel="nofollow"><%= trans.CARD_ERROR_BUTTON %></a>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </header>
+    <!-- Navigation & Intro -->
+
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="../../js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="../../js/mdb.min.js"></script>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+        </script>
+</body>
+
+</html>

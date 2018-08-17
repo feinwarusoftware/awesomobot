@@ -1,0 +1,138 @@
+{
+    "developers": [{
+            "id": "168690518899949569",
+            "name": "Dragon1320",
+            "role": "BACKEND_DEV",
+            "image": "https://cdn.discordapp.com/attachments/379432139856412682/462725985356218368/Gai2.png",
+            "caption": "i want to die",
+            "socials": [{
+                "fa": "github",
+                "ic": "git",
+                "link": "https://github.com/dragon1320"
+            },
+            {
+                "fa": "reddit-alien",
+                "ic": "reddit",
+                "link": "https://reddit.com/u/dragon1320"
+            },
+            {
+                "fa": "",
+                "ic": "",
+                "link": "#"
+            }]
+        },
+        {
+            "id": "190914446774763520",
+            "name": "Mattheous",
+            "role": "FRONTEND_DEV",
+            "image": "https://cdn.discordapp.com/attachments/379432139856412682/462726578783256578/yaboi.jpg",
+            "caption": "i want to die",
+            "socials": [{
+                "fa": "github",
+                "ic": "git",
+                "link": "https://github.com/mattheousdt"
+            },
+            {
+                "fa": "reddit-alien",
+                "ic": "reddit",
+                "link": "https://reddit.com/u/redditmattheous"
+            },
+            {
+                "fa": "twitter",
+                "ic": "tw",
+                "link": "https://twitter.com/feinwaru"
+            }]
+        },
+        {
+            "id": "262345465306021888",
+            "name": "TowelRoyale",
+            "role": "ASSISTANT_BACKEND_DEV",
+            "image": "https://cdn.discordapp.com/attachments/379432139856412682/462726052280533003/Gai1.png",
+            "caption": "i want to die",
+            "socials": [{
+                "fa": "github",
+                "ic": "git",
+                "link": "https://github.com/towelroyale"
+            },
+            {
+                "fa": "reddit-alien",
+                "ic": "reddit",
+                "link": "https://reddit.com/u/smashroyaleyt"
+            },
+            {
+                "fa": "twitter",
+                "ic": "tw",
+                "link": "https://twitter.com/smashroyaleyt"
+            }]
+        },
+        {
+            "id": "215216840085864448",
+            "name": "Umustalldie2",
+            "role": "PD_COMMANDS",
+            "image": "https://cdn.discordapp.com/attachments/379432139856412682/462726578783256578/yaboi.jpg",
+            "caption": "i want to die",
+            "socials": [{
+                "fa": "github",
+                "ic": "git",
+                "link": "https://github.com/mattheousdt"
+            },
+            {
+                "fa": "reddit-alien",
+                "ic": "reddit",
+                "link": "https://reddit.com/u/redditmattheous"
+            },
+            {
+                "fa": "twitter",
+                "ic": "tw",
+                "link": "https://twitter.com/feinwaru"
+            }]
+        }
+
+    ],
+    "artists": [{
+        "id": "168690518899949569",
+        "name": "Phinbella Flynn",
+        "role": "BACKEND_DEV",
+        "image": "https://cdn.discordapp.com/attachments/379432139856412682/462725985356218368/Gai2.png",
+        "caption": "i want to die",
+        "socials": [{
+            "fa": "github",
+            "ic": "git",
+            "link": "https://github.com/dragon1320"
+        },
+        {
+            "fa": "reddit-alien",
+            "ic": "reddit",
+            "link": "https://reddit.com/u/dragon1320"
+        },
+        {
+            "fa": "",
+            "ic": "",
+            "link": "#"
+        }]
+    },
+    {
+        "id": "190914446774763520",
+        "name": "Mattheous",
+        "role": "FRONTEND_DEV",
+        "image": "https://cdn.discordapp.com/attachments/379432139856412682/462726578783256578/yaboi.jpg",
+        "caption": "i want to die",
+        "socials": [{
+            "fa": "github",
+            "ic": "git",
+            "link": "https://github.com/mattheousdt"
+        },
+        {
+            "fa": "reddit-alien",
+            "ic": "reddit",
+            "link": "https://reddit.com/u/redditmattheous"
+        },
+        {
+            "fa": "twitter",
+            "ic": "tw",
+            "link": "https://twitter.com/feinwaru"
+        }]
+    }
+
+]
+}

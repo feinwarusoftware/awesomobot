@@ -142,9 +142,45 @@ router.get("/api/v3/sloc", (req, res) => {
     return res.json({ code: 0 });
 });
 
-router.get("/dashboard/profiles/:discord_id", (req, res) => {
+router.get("/dashboard/profiles/:discord_id", authUser, async (req, res) => {
 
-    res.render("dashboard/profile", { user_data: { id: "190914446774763520", avatar: "3e7f5ad61d210caf3c17a09b7e4a29c3", username: "gay boii mattheous" } });
+    let profile;
+    try {
+
+        profile = await axios({
+            method: "get",
+            url: `https://discordapp.com/api/v6/users/${req.params.discord_id}`,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bot ${config.discord_token}`
+            }
+        });
+    } catch(error) {
+
+        apiLogger.error(error);
+    }
+
+    let user;
+    try {
+
+        user = await axios({
+            method: "get",
+            url: `https://discordapp.com/api/v6/users/@me`,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${req.session.discord.access_token}`
+            }
+        });
+    } catch(error) {
+
+        apiLogger.error(error);
+    }
+
+    if (profile.data.id === undefined){
+        res.render("index", { md: text => { return converter.makeHtml(text); }, user: {} });
+    } else {
+        res.render("dashboard/profile", { user_data: { id: user.data.id, avatar: user.data.avatar, username: user.data.username }, profile_data: { id: profile.data.id, avatar: profile.data.avatar, username: profile.data.username } })
+    }
 });
 
 router.get("/auth/discord", async (req, res) => {
@@ -273,11 +309,39 @@ router.get("/privacy", async (req, res) => {
 });
 
 router.get("/credits", async (req, res) => {
-    res.render("credits", { md: text => { return converter.makeHtml(text); }, user: {}});
+    let credits;
+    try {
+    
+        credits = JSON.parse(fs.readFileSync(path.join(__dirname, "json", "credits.json")));
+    } catch (err) {
+    
+        apiLogger.fatalError(`Could not read config file: ${err}`);
+    }
+    res.render("credits", { md: text => { return converter.makeHtml(text); }, user: {}, credits:credits});
 });
 
 router.get("/commands", (req, res) => {
     res.render("commands", { md: text => { return converter.makeHtml(text); }, user: {}});
+});
+
+router.get("/phonedestroyer/cards", async (req, res) => {
+    let card;
+    try {
+    
+        card = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "static" , "img",  "pd-assets", "cards.json")));
+    } catch (err) {
+    
+        apiLogger.fatalError(`Could not read cards file: ${err}`);
+    }
+    res.render("pd-cards-list", { md: text => { return converter.makeHtml(text); }, user: {}, card:card});
+});
+
+router.get("/phonedestroyer/cards/404", async (req, res) => {
+    res.render("pd-404", { md: text => { return converter.makeHtml(text); }, user: {}});
+});
+
+router.get("/phonedestroyer/cards/:cardid", async (req, res) => {
+    res.render("pd-card", { md: text => { return converter.makeHtml(text); }, user: {}});
 });
 
 router.get("/surveys", (req, res) => {
@@ -341,6 +405,35 @@ router.get("/dashboard/scripts/marketplace", authUser, async (req, res) => {
     }
 
     res.render("dashboard/marketplace", { user_data: user_res.data });
+});
+
+router.get("/dashboard/leaderboards/legacy", authUser, async (req, res) => {
+
+    let v1;
+    try {
+    
+        v1 = JSON.parse(fs.readFileSync(path.join(__dirname, "json", "v1.json")));
+    } catch (err) {
+    
+        apiLogger.fatalError(`Could not read config file: ${err}`);
+    }
+    let user;
+    try {
+
+        user = await axios({
+            method: "get",
+            url: `https://discordapp.com/api/v6/users/@me`,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${req.session.discord.access_token}`
+            }
+        });
+    } catch(error) {
+
+        apiLogger.error(error);
+    }
+
+    res.render("dashboard/legacy-leaderboards", { user_data: { id: user.data.id, avatar: user.data.avatar, username: user.data.username }, v1:v1});
 });
 
 router.get("/dashboard/scripts/me", authUser, async (req, res) => {

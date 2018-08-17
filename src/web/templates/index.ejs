@@ -103,7 +103,7 @@
 
                 <!-- Section heading -->
                 <h3 class="text-center title my-5 dark-grey-text font-weight-bold">
-                    <strong>
+                    <strong id="featurehead">
                         <%= trans.FULLY_FEATURED %>
                     </strong>
                 </h3>
@@ -145,8 +145,8 @@
                         <!-- Grid row -->
 
                         <!-- Grid row -->
-                        <div class="row">
-                            <div id="feature3" class="col-2">
+                        <div id="feature3" class="row">
+                            <div class="col-2">
                                 <i class="fa fa-line-chart feinwaru-text fa-2x"></i>
                             </div>
                             <div class="col-10 mb-2">
@@ -164,15 +164,16 @@
 
                     <!-- Grid column -->
                     <div class="col-lg-4 col-md-12 mb-1 text-center text-md-left">
-                        <img id="featureimg" src="https://mdbootstrap.com/img/Mockups/Transparent/Small/admin-new.png" alt="" class="z-depth-0 img-fluid">
+                        <img id="featureimg" src="https://cdn.discordapp.com/attachments/430447280932388865/474253854465196042/headerawesomo.png"
+                            alt="" class="z-depth-0 img-fluid">
                     </div>
                     <!-- Grid column -->
 
                     <!-- Third column -->
                     <div class="col-lg-4 col-md-12">
                         <!-- Grid row -->
-                        <div class="row mb-3">
-                            <div id="feature4" class="col-2">
+                        <div id="feature4" class="row mb-3">
+                            <div class="col-2">
                                 <i class="fa fa-gamepad feinwaru-text fa-2x"></i>
                             </div>
                             <div class="col-10 mb-2">
@@ -187,8 +188,8 @@
                         <!-- Grid row -->
 
                         <!-- Grid row -->
-                        <div class="row mb-3">
-                            <div id="feature5" class="col-2">
+                        <div id="feature5" class="row mb-3">
+                            <div class="col-2">
                                 <i class="fa fa-music feinwaru-text fa-2x"></i>
                             </div>
                             <div class="col-10 mb-2">
@@ -203,8 +204,8 @@
                         <!-- Grid row -->
 
                         <!-- Grid row -->
-                        <div class="row">
-                            <div id="feature6" class="col-2">
+                        <div id="feature6" class="row">
+                            <div class="col-2">
                                 <i class="fa fa-users feinwaru-text fa-2x"></i>
                             </div>
                             <div class="col-10 mb-2">
@@ -870,6 +871,13 @@
                 const uptimeyay = JSON.parse(uptime.response);
                 $("#uptimeplaceholder").html(Math.round(uptimeyay.uptime));
 
+                const stats = new XMLHttpRequest();
+                stats.open("GET", `/api/v3/stats`, false);
+                stats.send();
+                const statsyay = JSON.parse(stats.response);
+                $("#usersplaceholder").html(statsyay.members);
+                $("#serversplaceholder").html(statsyay.guilds);
+
                 setInterval(function () {
                     const stats = new XMLHttpRequest();
                     stats.open("GET", `/api/v3/stats`, false);
@@ -879,6 +887,14 @@
                     $("#serversplaceholder").html(statsyay.guilds);
                 }, 15000);
 
+                $("#featurehead").mouseenter(function () {
+                    $("#featureimg").fadeOut(100, () => {
+                        $("#featureimg").attr("src",
+                            "https://cdn.discordapp.com/attachments/430447280932388865/474253854465196042/headerawesomo.png"
+                        );
+                        $("#featureimg").fadeIn(100)
+                    })
+                });
 
                 $("#feature1").mouseenter(function () {
                     $("#featureimg").fadeOut(100, () => {

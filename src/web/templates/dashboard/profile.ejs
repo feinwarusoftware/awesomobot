@@ -63,7 +63,7 @@
                             <div class="card testimonial-card" style="width: 100%;">
                                 <!--Background color-->
                                 <div class="card-up">
-                                    <img id="banner" class="img-fluid" src=""style="width: 100%;">
+                                    <img id="banner" class="img-fluid" src="" style="width: 100%;">
                                 </div>
                                 <!--Avatar-->
                                 <div class="avatar mx-auto white">
@@ -94,7 +94,8 @@
                                     <h4 class="font-weight-bold mb-4">
                                         <%= trans.TROPHY_CASE %>
                                     </h4>
-                                    <div id="trophycase"></div>
+                                    <div id="trophycase">
+                                    </div>
                                 </div>
 
                             </div>
@@ -445,8 +446,8 @@
                 if (profileyay.verified == true) {
                     $("#verified").html(
                         `<span class="text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title="<%= trans.VERIFIED %>">
-        <i class="fa fa-check pr-1"></i>
-    </span>`
+<i class="fa fa-check pr-1"></i>
+</span>`
                     )
                 };
 
@@ -454,12 +455,12 @@
 
                     $("#artwork").append(
                         `
-                    <figure class="col-lg-4 col-md-6">
-                        <a id='${`art-${i}`}' href="${profileyay.artwork[i]}">
-                            <img id="artworkimg" src="${profileyay.artwork[i]}" alt="placeholder" class="img-fluid">
-                        </a>
-                    </figure>
-                    `
+    <figure class="col-lg-4 col-md-6">
+        <a id='${`art-${i}`}' href="${profileyay.artwork[i]}">
+            <img id="artworkimg" src="${profileyay.artwork[i]}" alt="placeholder" class="img-fluid">
+        </a>
+    </figure>
+    `
                     );
 
                     getImageSize(profileyay.artwork[i]).then(size => {
@@ -470,21 +471,21 @@
                 for (let i = 0; i < profileyay.socials.length; i++) {
                     $("#socials").append(
                         `
-                        <li class="list-inline-item pr-2">
-                            <a href="${profileyay.socials[i].link}" class="white-text">
-                            <i class="fa fa-${profileyay.socials[i].icon} pr-1"></i>${profileyay.socials[i].name}</a>
-                        </li>
-                    `
+        <li class="list-inline-item pr-2">
+            <a href="${profileyay.socials[i].link}" class="white-text">
+            <i class="fa fa-${profileyay.socials[i].icon} pr-1"></i>${profileyay.socials[i].name}</a>
+        </li>
+    `
                     );
                 };
 
                 if (profileyay.socials === undefined || profileyay.socials.length == 0) {
                     $("#socials").append(
                         `
-                        <li class="list-inline-item pr-2">
-                            <a class="white-text"><%= trans.NO_SOCIALS %></a>
-                        </li>
-                    `
+        <li class="list-inline-item pr-2">
+            <a class="white-text"><%= trans.NO_SOCIALS %></a>
+        </li>
+    `
                     );
                 };
 
@@ -501,23 +502,178 @@
                     $("#trophycase").append(
                         `
                         <h5 class="grey-text"><%= trans.NO_TROPHIES %></h5>
-                    `
+                        `
                     );
                 };
                 if (profileyay.trophies.indexOf("feinwaru-dev") !== -1) {
                     $("#trophycase").append(
                         `<div class="mx-auto chip white-text feinwaru" data-toggle="tooltip" data-placement="top" title="Pretends that he develops, but he does the html so no lol">
-    <img src="/img/trophy/trophy-fs.png"> <%= trans.FEINWARU_DEV %>
-</div>`
+                            <img src="/img/trophy/trophy-fs.png">
+                            <%= trans.FEINWARU_DEV %>
+                        </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("mod") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #099b10;">
+                            <img src="/img/trophy/trophy-mod.png">
+                            <%= trans.MODERATOR %>
+                        </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("partner") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #1cb891;">
+                            <img src="/img/trophy/trophy-group.png">
+                            <%= trans.PARTNER %>
+                        </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("bot") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text feinwaru">
+                            <img src="/img/trophy/trophy-bot.png">
+                            AWESOM-O
+                        </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("patron-1") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #fb664e;">
+                            <img src="/img/trophy/trophy-patreon.png">
+                            <%= trans.FRIEND %>
+                        </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("patron-5") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #fb664e;">
+                            <img src="/img/trophy/trophy-patreon.png">
+                            <%= trans.BEST_FRIEND %>
+                        </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("patron-10") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #fb664e;">
+                            <img src="/img/trophy/trophy-patreon.png">
+                            <%= trans.SUPER_BEST_FRIEND %>
+                        </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("translator") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #1c65b8;">
+                            <img src="/img/trophy/trophy-trans.png">
+                            <%= trans.TRANSLATOR %>
+                    </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("artist") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #df3cb6;">
+                            <img src="/img/trophy/trophy-art.png">
+                            <%= trans.SERVER_ARTIST %>
+                        </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("ac18_1") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #fd9a19;">
+                            <img src="/img/trophy/trophy-art.png">
+                            <%= trans.AC18_1 %>
+                        </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("ac18_2") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #838383;">
+                            <img src="/img/trophy/trophy-art.png">
+                            <%= trans.AC18_2 %>
+                        </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("ac18_3") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #a55029;">
+                            <img src="/img/trophy/trophy-art.png">
+                            <%= trans.AC18_3 %>
+                        </div>`
                     )
                 };
                 if (profileyay.trophies.indexOf("ac18ww") !== -1) {
                     $("#trophycase").append(
                         `<div class="mx-auto chip white-text" style="background-color: #7289DA;">
-    <img src="/img/trophy/trophy-art.png"> <%= trans.AC18WW %>
-</div>`
+                            <img src="/img/trophy/trophy-art.png">
+                            <%= trans.AC18WW %>
+                        </div>`
                     )
                 };
+                if (profileyay.trophies.indexOf("cc18_1") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #fd9a19;">
+                            <img src="/img/trophy/trophy-crayon.png">
+                            <%= trans.CC18_1 %>
+                        </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("cc18_2") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #838383;">
+                            <img src="/img/trophy/trophy-crayon.png">
+                            <%= trans.CC18_2 %>
+                        </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("cc18_3") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #a55029;">
+                            <img src="/img/trophy/trophy-crayon.png">
+                            <%= trans.CC18_3 %>
+                        </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("cc18ww") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #7289DA;">
+                            <img src="/img/trophy/trophy-crayon.png">
+                            <%= trans.CC18WW %>
+                        </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("awesomo-1") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #4e9ffb;">
+                            <img src="/img/trophy/trophy-1.0.png">
+                            <%= trans.AWESOMO_1 %>
+                        </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("awesomo-2") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #68358a;">
+                            <img src="/img/trophy/trophy-2.0.png">
+                            <%= trans.AWESOMO_2 %>
+                        </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("verified-script") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #222222;">
+                            <img src="/img/trophy/trophy-code.png">
+                            <%= trans.VERIFIED_SCRIPTER %>
+                        </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("featured-script") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #222222;">
+                            <img src="/img/trophy/trophy-code.png">
+                            <%= trans.FEATURED_SCRIPT %>
+                        </div>`
+                    )
+                };
+
 
                 const me = new XMLHttpRequest();
                 me.open("GET", `/api/v3/users/@me`, false);
@@ -550,8 +706,8 @@
                 for (let i = 0; i < meyay.artwork.length; i++) {
                     $("#form-artwork-section").append(
                         `
-                        <input placeholder="<%= trans.ENTER_IMAGE_URL %>" value="${meyay.artwork[i]}" type="text" id="form-artwork-${i}" class="form-control form-art-api">
-                        `
+        <input placeholder="<%= trans.ENTER_IMAGE_URL %>" value="${meyay.artwork[i]}" type="text" id="form-artwork-${i}" class="form-control form-art-api">
+        `
                     );
                 };
 
@@ -819,8 +975,8 @@
                     $("#form-artwork-add").click(function () {
                         $("#form-artwork-section").append(
                             `
-                            <input placeholder="<%= trans.ENTER_IMAGE_URL %>" value="" type="text" id="form-artwork-${artworkcunt++}" class="form-control form-art-api">
-                        `
+            <input placeholder="<%= trans.ENTER_IMAGE_URL %>" value="" type="text" id="form-artwork-${artworkcunt++}" class="form-control form-art-api">
+        `
                         );
                     });
 
@@ -898,10 +1054,10 @@
                                 // success
                                 toastr["success"]("<%= trans.USER_UPDATE_SUCCESS %>");
 
-                                setTimeout(function(){
+                                setTimeout(function () {
                                     location.reload();
-                                },2000)
-                                
+                                }, 2000)
+
                             } else {
                                 // failure
                                 toastr["error"](typeof upd_res.error === "string" ? upd_res.error :
@@ -912,6 +1068,7 @@
 
                 };
             </script>
+
 
 </body>
 

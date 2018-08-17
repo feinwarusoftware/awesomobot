@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>AWESOM-O //
+        <%= trans.PD_CARDS %>
+    </title>
+
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png" />
+    <meta name="theme-color" content="#ff594f">
+
+    <link rel="alternate" href="/" hreflang="x-default" />
+    <link rel="alternate" href="/?hl=en" hreflang="en" />
+    <link rel="alternate" href="/?hl=ie" hreflang="ie" />
+    <link rel="alternate" href="/?hl=pt" hreflang="pt" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="/css/mdb.min.css" rel="stylesheet">
+
+    <link href="/css/style.css" rel="stylesheet">
+
+    <style>
+        html,
+        body,
+        header,
+        .jarallax {
+            height: 400px;
+        }
+
+        @media (max-width: 740px) {
+            html,
+            body,
+            header,
+            .view {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar:not(.top-nav-collapse) {
+                background: #ff594f !important;
+            }
+        }
+
+        @media (min-width: 800px) and (max-width: 850px) {
+            .navbar:not(.top-nav-collapse) {
+                background: rgba(255, 89, 79, 1) !important;
+            }
+        }
+
+        .divider {
+            height: 3px;
+            display: block;
+            background-color: rgba(0, 0, 0, .1);
+            margin: 1em 0;
+            width: 30px
+        }
+
+        .cardBg {
+            -webkit-clip-path: polygon(15% 8%, 88% 8%, 93% 11%, 93% 88%, 88% 91%, 13% 91%, 9% 87%, 9% 11%);
+            clip-path: polygon(15% 8%, 88% 8%, 93% 11%, 93% 88%, 88% 91%, 13% 91%, 9% 87%, 9% 11%);
+            transform: translateY(22px);
+            outline: red dashed;
+        }
+
+        .cardContainer {
+            width: 90%;
+            position: absolute;
+            z-index: 10;
+            transform-style: preserve-3d;
+            will-change: transform;
+            transform: perspective(500px) rotateX(0deg) rotateY(0deg);
+        }
+
+        .cardFrame {
+            width: 100%;
+            position: absolute;
+            z-index: 20;
+            transform: translateZ(15px) translateY(-100%);
+            cursor: pointer;
+        }
+
+        .sortbutton {
+            cursor: pointer;
+        }
+
+        .Neutral {
+            background-color: #857468;
+            color: white;
+        }
+
+        .Adventure {
+            background-color: #4f80ba;
+            color: white;
+        }
+
+        .Sci-Fi {
+            background-color: #db571d;
+            color: white;
+        }
+
+        .Mystical {
+            background-color: #4b9b38;
+            color: white;
+        }
+
+        .Fantasy {
+            background-color: #d34f5f;
+            color: white;
+        }
+
+        .NeutralText {
+            color: #857468;
+        }
+
+        .AdventureText {
+            color: #4f80ba;
+        }
+
+        .Sci-FiText {
+            color: #db571d;
+        }
+
+        .MysticalText {
+            color: #4b9b38;
+        }
+
+        .FantasyText {
+            color: #d34f5f;
+        }
+
+        @media (min-width: 992px) {
+            .fixed-action-btn {
+                display: none;
+            }
+        }
+
+        @media (max-width: 992px) {
+            #filters {
+                padding-top:20px;
+            }
+        }
+
+    @media (min-width: 2300px) {
+            .col-xxl-3 {
+                -ms-flex: 0 0 25%;
+                flex: 0 0 25%;
+                max-width: 25%
+            }
+        }
+
+        /* .cardCol {
+            outline: red dashed 
+        } */
+    </style>
+
+</head>
+
+<body class="">
+
+    <%- include partials/navbar.ejs %>
+        <div class="view jarallax" data-jarallax='{"speed": 0.5}' style="background: url('https://vgtimes.ru/uploads/gallery/main/147200/1510317416_3989.jpg');">
+            <div class="mask rgba-black-light">
+                <div class="container h-100 d-flex justify-content-center align-items-center">
+                    <div class="row pt-5 mt-3">
+                        <div class="col-md-12 mb-3">
+                            <div class="text-center white-text">
+                                <ul class="list-unstyled ">
+                                    <li>
+                                        <h1 class="display-4 mt-md-5 mt-lg-0 mb-5 font-weight-bold white-text">
+                                            <strong>
+                                                <%= trans.PD_CARDS %>
+                                            </strong>
+                                        </h1>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main>
+
+            <div id="filters-scroll" class="container pb-5 pt-5">
+
+                <div class="fixed-action-btn smooth-scroll" style="bottom: 45px; right: 24px;">
+                    <a href="#filters" class="btn-floating red">
+                        <i class="fa fa-filter"></i>
+                    </a>
+                </div>
+
+                <div class="row">
+                    <!-- Sidebar -->
+                    <div class="col-lg-3">
+
+                        <div id="filters" class="collapse-show">
+                            <!-- Grid row -->
+                            <div class="row">
+                                <div class="col-md-6 col-lg-12 mb-5">
+                                    <!-- Panel -->
+                                    <h5 class="font-weight-bold dark-grey-text">
+                                        <strong>Order By</strong>
+                                        </h3>
+                                        <div class="divider"></div>
+
+                                        <p id="sort-nameaz" class="sortbutton dark-grey-text">
+                                            Name: A-Z
+                                        </p>
+                                        <p id="sort-nameza" class="sortbutton dark-grey-text">
+                                            Name: Z-A
+                                        </p>
+                                        <p id="sort-energyhl" class="dark-grey-text sortbutton">
+                                            Energy Cost: high to low
+                                        </p>
+                                        <p id="sort-energylh" class="dark-grey-text sortbutton">
+                                            Energy Cost: low to high
+                                        </p>
+                                        <p id="sort-themeaz" class="dark-grey-text sortbutton">
+                                            Theme: A-Z
+                                        </p>
+                                        <p id="sort-themeza" class="dark-grey-text sortbutton">
+                                            Theme: Z-A
+                                        </p>
+                                </div>
+
+                                <!-- Filter by category-->
+                                <div class="col-md-6 col-lg-12 mb-5">
+                                    <h5 class="font-weight-bold dark-grey-text">
+                                        <strong>Theme</strong>
+                                        </h3>
+                                        <div class="divider"></div>
+
+                                        <!--Radio group-->
+                                        <div class="form-group ">
+                                            <input class="theme-radio" name="group100" type="radio" id="theme-all">
+                                            <label class="theme-radio" for="theme-all" class="dark-grey-text">All</label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input class="theme-radio" name="group100" type="radio" id="theme-adventure">
+                                            <label for="theme-adventure" class="dark-grey-text">Adventure</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="theme-radio" name="group100" type="radio" id="theme-fantasy">
+                                            <label for="theme-fantasy" class="dark-grey-text">Fantasy</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="theme-radio" name="group100" type="radio" id="theme-mystical">
+                                            <label for="theme-mystical" class="dark-grey-text">Mystical</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="theme-radio" name="group100" type="radio" id="theme-neutral">
+                                            <label for="theme-neutral" class="dark-grey-text">Neutral</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="theme-radio" name="group100" type="radio" id="theme-sci-fi">
+                                            <label for="theme-sci-fi" class="dark-grey-text">Sci-Fi</label>
+                                        </div>
+                                        <!--Radio group-->
+                                </div>
+                                <!-- /Filter by category-->
+
+                                <!-- Filter by category-->
+                                <div class="col-md-6 col-lg-12 mb-5">
+                                    <h5 class="font-weight-bold dark-grey-text">
+                                        <strong>Theme</strong>
+                                        </h3>
+                                        <div class="divider"></div>
+
+                                        <!--Radio group-->
+                                        <div class="form-group ">
+                                            <input class="theme-radio" name="group100" type="radio" id="theme-all">
+                                            <label class="theme-radio" for="theme-all" class="dark-grey-text">All</label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input class="theme-radio" name="group100" type="radio" id="theme-adventure">
+                                            <label for="theme-adventure" class="dark-grey-text">Adventure</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="theme-radio" name="group100" type="radio" id="theme-fantasy">
+                                            <label for="theme-fantasy" class="dark-grey-text">Fantasy</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="theme-radio" name="group100" type="radio" id="theme-mystical">
+                                            <label for="theme-mystical" class="dark-grey-text">Mystical</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="theme-radio" name="group100" type="radio" id="theme-neutral">
+                                            <label for="theme-neutral" class="dark-grey-text">Neutral</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="theme-radio" name="group100" type="radio" id="theme-sci-fi">
+                                            <label for="theme-sci-fi" class="dark-grey-text">Sci-Fi</label>
+                                        </div>
+                                        <!--Radio group-->
+                                </div>
+                                <!-- /Filter by category-->
+                            </div>
+                            <!-- /Grid row -->
+
+                            <!-- Grid row -->
+                            <div class="row">
+
+                                <!-- Filter by price  -->
+                                <div class="col-md-6 col-lg-12 mb-5">
+                                    <h5 class="font-weight-bold dark-grey-text">
+                                        <strong>Price</strong>
+                                        </h3>
+                                        <div class="divider"></div>
+
+                                        <form class="range-field mt-3">
+                                            <input id="calculatorSlider" class="no-border" type="range" value="0" min="0" max="30" />
+                                        </form>
+
+                                        <!-- Grid row -->
+                                        <div class="row justify-content-center">
+
+                                            <!-- Grid column -->
+                                            <div class="col-md-6 text-left">
+                                                <p class="dark-grey-text">
+                                                    <strong id="resellerEarnings">0$</strong>
+                                                </p>
+                                            </div>
+                                            <!-- Grid column -->
+
+                                            <!-- Grid column -->
+                                            <div class="col-md-6 text-right">
+                                                <p class="dark-grey-text">
+                                                    <strong id="clientPrice">319$</strong>
+                                                </p>
+                                            </div>
+                                            <!-- Grid column -->
+                                        </div>
+                                        <!-- Grid row -->
+
+                                </div>
+                                <!-- /Filter by price -->
+                            </div>
+                            <!-- /Grid row -->
+                        </div>
+
+                    </div>
+                    <!-- /.Sidebar -->
+                    <div class="col-lg-9">
+                        <div class="row">
+                            <div class="col-12 pb-2">
+                                <div class="text-uppercase">
+                                    <ol id="filters-active" class="breadcrumb feinwaru white-text">
+                                        <li class="breadcrumb-item white-text">Filters Active:</li>
+                                        <li id="filter-active-theme" class="breadcrumb-item white-text">All Themes</li>
+                                    </ol>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id="cardsList" class="row pt-5">
+                            <!--
+                            <div class="col-lg-4 col-md-6 col-6 cardCol">
+                                <div class="js-tilt cardContainer" data-tilt data-tilt-perspective="500">
+                                    <img class="img-fluid cardBg" src="/img/pd-assets/art/cards/CartmanSciCard.jpg">
+                                    <div class="cardFrame">
+                                        <img class="img-fluid" src="/img/pd-assets/temp2-4.png">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-6 cardCol">
+                                <div class="js-tilt cardContainer" data-tilt data-tilt-perspective="500">
+                                    <img class="img-fluid cardBg" src="/img/pd-assets/art/cards/StanAdvCard.jpg">
+                                    <div class="cardFrame">
+                                        <img class="img-fluid" src="/img/pd-assets/temp2-5.png">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-6 cardCol">
+                                <div class="js-tilt cardContainer" data-tilt data-tilt-perspective="500">
+                                    <img class="img-fluid cardBg" src="/img/pd-assets/art/cards/TowelieGenCard.jpg">
+                                    <div class="cardFrame">
+                                        <img class="img-fluid" src="/img/pd-assets/temp2-6.png">
+                                    </div>
+                                </div>
+                            </div>
+                        -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Central Modal Small -->
+            <div class="modal fade" id="modalCard" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                <!-- Change class .modal-sm to change the size of the modal -->
+                <div class="modal-dialog modal-lg" role="document" id="modalContent">
+                    <div class="modal-content">
+                        <div id="modal-header" class="modal-header">
+                            <h4 class="modal-title w-100 bold-text text-center" id="myModalLabel"></h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-12 col-12 cardCol">
+                                <div id="" data-toggle="modal" data-target="#modalCard"  class="js-tilt cardContainer" data-tilt data-tilt-perspective="500">
+                                    <img class="img-fluid cardBg" src="/cards/backgrounds/TimmyMysCard.jpg">
+                                    <div class="cardFrame">
+                                        <img class="img-fluid" src="/cards/frames/frame_TimmyMysCard.png">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 col-md-12 col-12">
+                                <h5 class="font-weight-bold MysticalText">Attack Information</h5>
+                                <ul class="list-unstyled">
+                                    <li><span class="font-weight-bold dark-grey-text">Attack Range:</span> <span id="modal-attack-range">5.0</span></li>
+                                    <li><span class="font-weight-bold dark-grey-text">Attack Speed:</span> <span id="modal-attack-speed">0.5</span></li>
+                                    <li><span class="font-weight-bold dark-grey-text">Pre Attack Delay:</span> <span id="modal-pre-attack-delay">0.9</span></li>
+                                    <li><span class="font-weight-bold dark-grey-text">Time Between Attacks:</span> <span id="modal-time-between-attacks">0.5</span></li>
+                                    <li><span class="font-weight-bold dark-grey-text">AOE Attack:</span> <span id="modal-aoe-attack">No</span></li>
+                                </ul>
+                                <h5 class="font-weight-bold MysticalText">Speed Information</h5>
+                                <ul class="list-unstyled">
+                                    <li><span class="font-weight-bold dark-grey-text">Max Speed:</span> <span id="modal-max-speed">0.27</span></li>
+                                    <li><span class="font-weight-bold dark-grey-text">Time To Max Speed:</span> <span id="modal-time-to-max-speed">0.5</span></li>
+                                </ul>
+                                <h5 class="font-weight-bold MysticalText">Requirements</h5>
+                                <ul class="list-unstyled">
+                                    <li><span class="font-weight-bold dark-grey-text">Minimum Episode Completed:</span> <span id="modal-minimum-episode-completed">3</span></li>
+                                    <li><span class="font-weight-bold dark-grey-text">Minimum PVP Rank:</span> <span id="modal-minimum-pvp-rank">10</span></li>
+                                </ul>
+                                <div id="tags"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-12">
+                                <select class="mdb-select">
+                                    <option value="1" selected>Level 1</option>
+                                    <option value="2">Level 2</option>
+                                    <option value="3">Level 3</option>
+                                </select>
+                                <label>Change Level</label>
+                            </div>
+                        </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary btn-sm">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Central Modal Small -->
+            <div class="orange">
+                <div class="container">
+                    <div class="row py-4 d-flex align-items-center">
+
+                        <div class="col-12 text-center mb-4 mb-md-0">
+                            <h6 class="mb-0 white-text">
+                                <a style="color: inherit; text-decoration: inherit;" href="/terms#redlynx">
+                                    <%= trans.RED_LYNX_DISCLAIMER %>
+                                </a>
+                            </h6>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <%- include partials/footer.ejs %>
+
+                <!--/.Footer-->
+
+
+                <!-- SCRIPTS -->
+
+                <!-- JQuery -->
+                <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+
+                <!-- Bootstrap tooltips -->
+                <script type="text/javascript" src="/js/popper.min.js"></script>
+
+                <!-- Bootstrap core JavaScript -->
+                <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+                <!-- MDB core JavaScript -->
+                <script type="text/javascript" src="/js/mdb.min.js"></script>
+
+                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.2.1/tilt.jquery.min.js"></script>
+
+                <script type="text/javascript" src="/js/anime.min.js"></script>
+
+                <script>
+                    //Animation init
+                    new WOW().init();
+
+                    //Modal
+                    $('#myModal').on('shown.bs.modal', function () {
+                        $('#myInput').focus()
+                    });
+
+                    //change size responsively
+                    const changeCardSize = function () {
+                        $(".cardCol").css("height", $(".cardFrame").height());
+                    };
+
+                    //shift card art upwards when on small screens
+                    const mobileArtCompensator = function () {
+                        if ($(window).width() <= 475) {
+                            const width = $(window).width();
+
+                            const compensate = 22 - ((475 - width) / 20)
+
+                            $(".cardBg").css("transform", "translateY(" + compensate + "px)");
+                        };
+                    };
+
+                    // Material Select Initialization
+                    $(document).ready(function () {
+                        $('.mdb-select').material_select();
+
+
+                        //get them cards
+                        const getCards = new XMLHttpRequest();
+                        getCards.open("GET",
+                            `https://gist.githubusercontent.com/MattheousDT/b7149d3932d930ce2fc9ce9056379787/raw/e68e0a57e7820c7fb87d8d5c436ee8fd75bc718e/cards.json`,
+                            false);
+                        getCards.send();
+                        const cardsYay = JSON.parse(getCards.response);
+                        const cardsList = $("#cardsList");
+
+
+                        //sorting
+
+                        //var urlParams = window.location.href.substring(window.location.href.indexOf("?hl=") + 6);
+                        function getCookie(cname) {
+                            var name = cname + "=";
+                            var decodedCookie = decodeURIComponent(document.cookie);
+                            var ca = decodedCookie.split(';');
+                            for (var i = 0; i < ca.length; i++) {
+                                var c = ca[i];
+                                while (c.charAt(0) == ' ') {
+                                    c = c.substring(1);
+                                }
+                                if (c.indexOf(name) == 0) {
+                                    return c.substring(name.length, c.length);
+                                }
+                            }
+                            return "";
+                        }
+                        //make dat grid
+                        const updateGrid = function () {
+
+                            const sortCookie = getCookie("sort");
+
+                            if (sortCookie === "nameaz") {
+                                cardsYay.sort((a, b) => {
+                                    return a.name.toString().localeCompare(b.name.toString())
+                                });
+                                $(".sortbutton").removeClass("dark-grey-text blue-text");
+                                $("#sort-nameaz").addClass("sortbutton blue-text");
+                            } else if (sortCookie === "nameza") {
+                                cardsYay.sort((a, b) => {
+                                    return a.name.toString().localeCompare(b.name.toString())
+                                });
+                                cardsYay.reverse();
+                                $(".sortbutton").removeClass("dark-grey-text blue-text");
+                                $("#sort-nameza").addClass("sortbutton blue-text");
+                            } else if (sortCookie === "energylh") {
+                                cardsYay.sort((a, b) => {
+                                    return a.energy.toString().localeCompare(b.energy.toString())
+                                });
+                                $(".sortbutton").removeClass("dark-grey-text blue-text");
+                                $("#sort-energylh").addClass("sortbutton blue-text");
+                            } else if (sortCookie === "energyhl") {
+                                cardsYay.sort((a, b) => {
+                                    return a.energy.toString().localeCompare(b.energy.toString())
+                                });
+                                cardsYay.reverse();
+                                $(".sortbutton").removeClass("dark-grey-text blue-text");
+                                $("#sort-energyhl").addClass("sortbutton blue-text");
+                            } else if (sortCookie === "themeaz") {
+                                cardsYay.sort((a, b) => {
+                                    return a.theme.toString().localeCompare(b.theme.toString())
+                                });
+                                $(".sortbutton").removeClass("dark-grey-text blue-text");
+                                $("#sort-themeaz").addClass("sortbutton blue-text");
+                            } else if (sortCookie === "themeza") {
+                                cardsYay.sort((a, b) => {
+                                    return a.energy.toString().localeCompare(b.energy.toString())
+                                });
+                                cardsYay.reverse();
+                                $(".sortbutton").removeClass("dark-grey-text blue-text");
+                                $("#sort-themeza").addClass("sortbutton blue-text");
+                            } else {
+                                cardsYay.sort((a, b) => {
+                                    return a.name.toString().localeCompare(b.name.toString())
+                                    $(".sortbutton").removeClass("dark-grey-text blue-text");
+                                    $("#sort-nameaz").addClass("sortbutton blue-text");
+                                });
+                            };
+
+                            //const urlFilter = url.substring(url.indexOf("filtertheme") + 12, );
+
+                            const themeCookie = getCookie("theme");
+
+                            const changeThemeSelection = function () {
+                                $(".theme-radio").removeAttr("checked", "checked");
+                                $("#theme-" + themeCookie).attr("checked", "checked");
+                            }
+
+                            const filtersActive = function () {
+                                $("#filter-active-theme").html(themeCookie);
+                            }
+
+                            changeThemeSelection();
+                            filtersActive();
+
+                            const validThemes = ["all", "neutral", "adventure", "sci-fi", "mystical",
+                                "fantasy"
+                            ];
+                            if (validThemes.includes(themeCookie) === true) {
+                                var theme = themeCookie;
+                            } else {
+                                var theme = false;
+                            }
+                            cardsList.html("");
+                            for (let i = 0; i < cardsYay.length; i++) {
+                                if (cardsYay[i].theme.toLowerCase() === theme) {
+                                    cardsList.append(
+                                        `
+                                        <div class="col-lg-4 col-md-6 col-6 cardCol">
+                                            <a href="cards/${cardsYay[i].art.slice(0, -4)}">
+                                                <div id="card-${[i]}" class="js-tilt cardContainer" data-tilt data-tilt-perspective="500">
+                                                    <img class="img-fluid cardBg" src="/cards/backgrounds/${cardsYay[i].art}">
+                                                    <div class="cardFrame">
+                                                        <img class="img-fluid" src="/cards/frames/frame_${cardsYay[i].art.slice(0, -4)}.png">
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        `
+                                    );
+                                } else if (theme === "all") {
+                                    cardsList.append(
+                                        `
+                                        <div class="col-lg-4 col-md-6 col-6 cardCol">
+                                            <a href="cards/${cardsYay[i].art.slice(0, -4)}">
+                                                <div id="card-${[i]}" class="js-tilt cardContainer" data-tilt data-tilt-perspective="500">
+                                                    <img class="img-fluid cardBg" src="/cards/backgrounds/${cardsYay[i].art}">
+                                                    <div class="cardFrame">
+                                                        <img class="img-fluid" src="/cards/frames/frame_${cardsYay[i].art.slice(0, -4)}.png">
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        `
+                                    );
+                                } else if (theme === false) {
+                                    cardsList.append(
+                                        `
+                                        <div class="col-lg-4 col-md-6 col-6 cardCol">
+                                            <a href="cards/${cardsYay[i].art.slice(0, -4)}">
+                                                <div id="card-${[i]}" class="js-tilt cardContainer" data-tilt data-tilt-perspective="500">
+                                                    <img class="img-fluid cardBg" src="/cards/backgrounds/${cardsYay[i].art}">
+                                                    <div class="cardFrame">
+                                                        <img class="img-fluid" src="/cards/frames/frame_${cardsYay[i].art.slice(0, -4)}.png">
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        `
+                                    );
+                                }
+                            };
+                            $('.js-tilt').tilt({
+                                scale: 1.05,
+                                glare: true,
+                                maxGlare: 0.25
+                            });
+                        };
+
+                        /*card information
+                        const updateModal = function () {
+                            $(".cardContainer").click(function () {
+                                const cardID = $(this).attr("id").substring(5);
+
+                                console.log(cardID)
+                                //$("#modalImg").attr("src", "/img/pd-assets/art/cards/" + cardsYay[cardID].art);
+
+                                //modal title
+                                if (cardsYay[cardID].name instanceof Array) {
+                                    const cardName = cardsYay[cardID].name[0];
+                                    $(".modal-title").text(cardName)
+                                } else {
+                                    const cardName = cardsYay[cardID].name;
+                                    $(".modal-title").text(cardName)
+                                };
+
+
+                                //modal tags
+                                //reset tags
+                                $("#tags").html("");
+                                //loop through those tags
+                                for (let i = 0; i < cardsYay[cardID].tags.length; i++) {
+                                    $("#tags").append(
+                                        ` <span class="badge badge-pill ${cardsYay[cardID].theme}">${cardsYay[cardID].tags[i]}</span> `
+                                    );
+                                };
+
+                                //modal theme
+                                switch (cardsYay[cardID].theme) {
+                                    case "Neutral":
+                                        $("#modal-header").removeClass();
+                                        $("#modal-header").addClass("modal-header Neutral");
+                                        break;
+                                    case "Adventure":
+                                        $("#modal-header").removeClass();
+                                        $("#modal-header").addClass("modal-header Adventure");
+                                        break;
+                                    case "Sci-Fi":
+                                        $("#modal-header").removeClass();
+                                        $("#modal-header").addClass("modal-header Sci-Fi");
+                                        break;
+                                    case "Mystical":
+                                        $("#modal-header").removeClass();
+                                        $("#modal-header").addClass("modal-header Mystical");
+                                        break;
+                                    case "Fantasy":
+                                        $("#modal-header").removeClass();
+                                        $("#modal-header").addClass("modal-header Fantasy");
+                                        break;
+                                };
+                            });
+                        }
+                        */
+
+                        $(".btn-floating").click(function () {
+
+                            if ($("#filters").hasClass("collapse")) {
+                                $("#filters").toggleClass("collapse", "collapse-show");
+                                $(".btn-floating").attr("href", "#filters-scroll")
+                            } else {
+                                $("#filters").toggleClass("collapse", "collapse-show");
+                                $(".btn-floating").attr("href", "#filters-active")
+                            }
+                            //alert("ahh")
+
+
+                        })
+
+                        $('.theme-radio').click(function () {
+                            document.cookie = "theme=" + $(this).attr("id").substring(6);
+                            updateGrid();
+                            //updateModal();
+                            $("#filter-active-theme").html(getCookie("theme"));
+                            console.log(cardsYay)
+                        });
+
+                        $('.sortbutton').click(function () {
+                            document.cookie = "sort=" + $(this).attr("id").substring(5);
+                            updateGrid();
+                            //updateModal();
+                            //console.log()
+                        });
+
+                        updateGrid();
+                        //updateModal();
+
+                        //update the card size quickly on page load
+                        setInterval(function () {
+                            changeCardSize();
+                        }, 500)
+
+                        mobileArtCompensator();
+                    })
+
+                    /*$("#modalCard").on('shown.bs.modal', function(){
+                        changeCardSize();
+                    });
+                    */
+                    //shit to do when people try to resize to see if i've forgot to do stuff but i havent because im a world class web dev
+                    $(window).resize(function () {
+                        changeCardSize();
+                        mobileArtCompensator();
+
+                    })
+                </script>
+
+</body>
+
+</html>

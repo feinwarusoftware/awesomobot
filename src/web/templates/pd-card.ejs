@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>AWESOM-O //
+        <%= trans.PD_CARDS %>
+    </title>
+
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png" />
+    <meta name="theme-color" content="#ff594f">
+
+    <link rel="alternate" href="/" hreflang="x-default" />
+    <link rel="alternate" href="/?hl=en" hreflang="en" />
+    <link rel="alternate" href="/?hl=ie" hreflang="ie" />
+    <link rel="alternate" href="/?hl=pt" hreflang="pt" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="/css/mdb.min.css" rel="stylesheet">
+
+    <link href="/css/style.css" rel="stylesheet">
+
+    <style>
+        html,
+        body,
+        header,
+        .jarallax {
+            height: 400px;
+        }
+
+        .jarallax-card {
+            height: 400px;
+        }
+
+        @media (max-width: 740px) {
+            html,
+            body,
+            header,
+            .view {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar:not(.top-nav-collapse) {
+                background: #ff594f !important;
+            }
+        }
+
+        @media (min-width: 800px) and (max-width: 850px) {
+            .navbar:not(.top-nav-collapse) {
+                background: rgba(255, 89, 79, 1) !important;
+            }
+        }
+
+        .divider {
+            height: 3px;
+            display: block;
+            background-color: rgba(0, 0, 0, .1);
+            margin: 1em 0;
+            width: 30px
+        }
+
+        .cardBg {
+            -webkit-clip-path: polygon(15% 8%, 88% 8%, 93% 11%, 93% 88%, 88% 91%, 13% 91%, 9% 87%, 9% 11%);
+            clip-path: polygon(15% 8%, 88% 8%, 93% 11%, 93% 88%, 88% 91%, 13% 91%, 9% 87%, 9% 11%);
+            transform: translateY(30px);
+            outline: red dashed;
+        }
+
+        .cardContainer {
+            width: 90%;
+            position: absolute;
+            z-index: 10;
+            transform-style: preserve-3d;
+            will-change: transform;
+            transform: perspective(500px) rotateX(0deg) rotateY(0deg);
+        }
+
+        .cardFrame {
+            width: 100%;
+            position: absolute;
+            z-index: 20;
+            transform: translateZ(15px) translateY(-100%);
+            cursor: pointer;
+        }
+
+        .sortbutton {
+            cursor: pointer;
+        }
+
+        .Neutral {
+            background-color: #857468;
+            color: white;
+        }
+
+        .Adventure {
+            background-color: #4f80ba;
+            color: white;
+        }
+
+        .Sci-Fi {
+            background-color: #db571d;
+            color: white;
+        }
+
+        .Mystical {
+            background-color: #4b9b38;
+            color: white;
+        }
+
+        .Fantasy {
+            background-color: #d34f5f;
+            color: white;
+        }
+
+        .NeutralText {
+            color: #857468;
+        }
+
+        .AdventureText {
+            color: #4f80ba;
+        }
+
+        .Sci-FiText {
+            color: #db571d;
+        }
+
+        .MysticalText {
+            color: #4b9b38;
+        }
+
+        .FantasyText {
+            color: #d34f5f;
+        }
+
+
+        @media (max-width: 992px) {
+            #filters {
+                padding-top: 20px;
+            }
+        }
+
+        @media (min-width: 2300px) {
+            .col-xxl-3 {
+                -ms-flex: 0 0 25%;
+                flex: 0 0 25%;
+                max-width: 25%
+            }
+        }
+
+        code {
+            color: #ccc;
+            background-color: #333;
+            padding: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
+            border-radius: 5px
+        }
+
+        /* .cardCol {
+            outline: red dashed 
+        } */
+    </style>
+
+</head>
+
+<body class="">
+
+    <%- include partials/navbar.ejs %>
+
+
+        <main>
+
+            <div class="container pb-5 pt-5">
+
+                <div class="row pt-5">
+                    <!-- Sidebar -->
+                    <div class="col-lg-4 pt-2">
+                        <div class="cardCol">
+                            <div id="" class="cardContainer sticky">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- /.Sidebar -->
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div id="card-info" class="col-12 pb-2">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <!--Accordion wrapper-->
+                                <div class="accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+
+
+
+                                </div>
+                                <!--/.Accordion wrapper-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="sticky-stopper" class="row pb-5"></div>
+            <!-- Central Modal Small -->
+            <div class="ThemeColour">
+                <div class="container">
+                    <div class="row py-4 d-flex align-items-center">
+
+                        <div class="col-12 text-center mb-4 mb-md-0">
+                            <h6 class="mb-0 white-text">
+                                <a style="color: inherit; text-decoration: inherit;" href="/terms#redlynx">
+                                    <%= trans.RED_LYNX_DISCLAIMER %>
+                                </a>
+                            </h6>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <%- include partials/footer.ejs %>
+
+                <!--/.Footer-->
+
+
+                <!-- SCRIPTS -->
+
+                <!-- JQuery -->
+                <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+
+                <!-- Bootstrap tooltips -->
+                <script type="text/javascript" src="/js/popper.min.js"></script>
+
+                <!-- Bootstrap core JavaScript -->
+                <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+                <!-- MDB core JavaScript -->
+                <script type="text/javascript" src="/js/mdb.min.js"></script>
+
+                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.2.1/tilt.jquery.min.js"></script>
+
+                <script type="text/javascript" src="/js/anime.min.js"></script>
+
+                <script>
+                    //Animation init
+                    new WOW().init();
+
+
+                    //change size responsively
+                    const changeCardSize = function () {
+                        $(".cardCol").css("height", $(".cardFrame").height());
+                    };
+
+                    //shift card art upwards when on small screens
+                    const mobileArtCompensator = function () {
+                        if ($(window).width() <= 475) {
+                            const width = $(window).width();
+
+                            const compensate = 22 + ((475 - width) / 20)
+
+                            $(".cardBg").css("transform", "translateY(" + compensate + "px)");
+                        };
+                    };
+
+                    // Material Select Initialization
+                    $(document).ready(function () {
+                        $('.mdb-select').material_select();
+
+                        //get them cards
+                        const getCards = new XMLHttpRequest();
+                        getCards.open("GET",
+                            `https://gist.githubusercontent.com/MattheousDT/b7149d3932d930ce2fc9ce9056379787/raw/e68e0a57e7820c7fb87d8d5c436ee8fd75bc718e/cards.json`,
+                            false);
+                        getCards.send();
+                        const cardsYay = JSON.parse(getCards.response);
+                        const cardsList = $("#cardsList");
+
+
+                        //sorting
+
+                        //var urlParams = window.location.href.substring(window.location.href.indexOf("?hl=") + 6);
+
+                        //const validThemes = ["all", "neutral", "adventure", "sci-fi", "mystical",
+                        //    "fantasy"
+                        //];
+                        //if (validThemes.includes(themeCookie) === true) {
+                        //    var theme = themeCookie;
+                        //} else {
+                        //    var theme = false;
+                        //}
+
+                        const url = window.location.pathname
+                        const currentCard = url.substring(22);
+
+                        $(function () {
+                            $(".sticky").sticky({
+                                topSpacing: 90,
+                                zIndex: 2,
+                                stopper: "#sticky-stopper"
+                            });
+                        });
+
+                        for (let i = 0; i < cardsYay.length; i++) {
+                            if (cardsYay[i].art.slice(0, -4) === currentCard) {
+
+                                if (cardsYay[i].name instanceof Array) {
+                                    var cardName = cardsYay[i].name[0];
+                                } else {
+                                    var cardName = cardsYay[i].name;
+                                };
+
+
+                                $(".cardContainer").html(
+                                    `
+                                <img class="img-fluid cardBg" src="/cards/backgrounds/${cardsYay[i].art}">
+                                <div class="cardFrame">
+                                    <img class="img-fluid" src="/cards/frames/frame_${cardsYay[i].art.slice(0,-4)}.png">
+                                </div>
+                                `
+                                )
+
+                                $("#card-info").html(
+                                    `
+                                    <div class="" style="width: 100%">
+                                                <h1 class="font-weight-bold mb-2 mt-2">
+                                                    ${cardName}
+                                                    <sup>
+                                                        <a id="share-card" style="font-size: 16pt" data-toggle="tooltip" data-placement="top" title="Copy link to card">
+                                                            <i class="fa fa-share-square-o" aria-hidden="true"></i>
+                                                        </a>
+                                                    </sup>
+                                                </h1>
+                                                <h4 class="font-weight-bold dark-grey-text">${cardsYay[i].rarity} - ${cardsYay[i].class} -
+                                                    <span class="light-blue-text">
+                                                        <i class="fa fa-bolt" aria-hidden="true"></i> ${cardsYay[i].energy}</span>
+                                                </h4>
+                                                <h5 class="font-italic">${cardsYay[i].levels[0].upgrades[0].ability_info.description}</h5>
+                                            </div>
+                                            <div class="pt-4">
+                                                    <h5 class="font-weight-bold ThemeText">AWESOM-O Commands</h5>
+                                    <ul id="awesomo-commands" class="list-unstyled">
+                                    </ul>
+                                <h5 class="font-weight-bold ThemeText">Attack Information</h5>
+                                    <ul class="list-unstyled align">
+                                        <li>
+                                            <span class="font-weight-bold dark-grey-text">Attack Range:</span>
+                                            <span id="modal-attack-range">${cardsYay[i].attack_info.attack_range}</span>
+                                        </li>
+                                        <li>
+                                            <span class="font-weight-bold dark-grey-text">Attack Speed:</span>
+                                            <span id="modal-attack-speed">${cardsYay[i].attack_info.attack_speed}</span>
+                                        </li>
+                                        <li>
+                                            <span class="font-weight-bold dark-grey-text">Pre Attack Delay:</span>
+                                            <span id="modal-pre-attack-delay">${cardsYay[i].attack_info.pre_attack_delay}</span>
+                                        </li>
+                                        <li>
+                                            <span class="font-weight-bold dark-grey-text">Time Between Attacks:</span>
+                                            <span id="modal-time-between-attacks">${cardsYay[i].attack_info.time_between_delay}</span>
+                                        </li>
+                                        <li>
+                                            <span class="font-weight-bold dark-grey-text">AOE Attack:</span>
+                                            <span id="modal-aoe-attack">${cardsYay[i].attack_info.aoe_info.aoe}</span>
+                                        </li>
+                                    </ul>
+                                    <h5 class="font-weight-bold ThemeText">Speed Information</h5>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <span class="font-weight-bold dark-grey-text">Max Speed:</span>
+                                            <span id="modal-max-speed">${cardsYay[i].speed_info.max_speed}</span>
+                                        </li>
+                                        <li>
+                                            <span class="font-weight-bold dark-grey-text">Time To Max Speed:</span>
+                                            <span id="modal-time-to-max-speed">${cardsYay[i].speed_info.time_to_max_speed}</span>
+                                        </li>
+                                    </ul>
+                                    <h5 class="font-weight-bold ThemeText">Additional Information</h5>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <span class="font-weight-bold dark-grey-text">Minimum PVP Rank Required:</span>
+                                            <span id="modal-minimum-pvp-rank">${cardsYay[i].min_pvp_rank}</span>
+                                        </li>
+                                        <li>
+                                            <span class="font-weight-bold dark-grey-text">Health Loss:</span>
+                                            <span id="modal-minimum-pvp-rank">${cardsYay[i].health_loss}</span>
+                                        </li>
+                                        <li>
+                                            <span class="font-weight-bold dark-grey-text">Power Charge Rate:</span>
+                                            <span id="modal-minimum-pvp-rank">${cardsYay[i].power_charge_rate}</span>
+                                        </li>
+                                    </ul>
+                                    <h5 class="font-weight-bold ThemeText">southparkphone.gg Tags</h5>
+                                    <div id="tags"></div>
+                                    </div>
+                                `
+                                );
+
+                                const cardID = cardsYay[i]
+
+                                for (let h = 0; h < cardsYay[i].levels.length; h++) {
+                                    $("#accordionEx").append(
+                                        `
+                                    <!-- Accordion card -->
+                                    <div class="card" style="background: inherit">
+
+                                        <!-- Card header -->
+                                        <div class="card-header" role="tab" id="heading${cardsYay[i].levels[h].level}" style="padding-left: 0">
+                                            <a data-toggle="collapse" data-parent="#accordionEx" href="#collapse${cardsYay[i].levels[h].level}" aria-expanded="false" aria-controls="collapse${cardsYay[i].levels[h].level}">
+                                                <h5 class="mb-0 ThemeText font-weight-bold">
+                                                    Level ${cardsYay[i].levels[h].level} Stats
+                                                    <i class="fa fa-angle-down rotate-icon"></i>
+                                                </h5>
+                                            </a>
+                                        </div>
+
+                                        <!-- Card body -->
+                                        <div id="collapse${cardsYay[i].levels[h].level}" class="collapse" role="tabpanel" aria-labelledby="heading${cardsYay[i].levels[h].level}" data-parent="#accordionEx">
+                                            <div class="pt-2">
+                                                <ul class="list-unstyled align">
+                                                    <li>
+                                                        <span class="font-weight-bold purple-text">
+                                                            <i class="fa fa-clone" aria-hidden="true"></i> Cards Needed to Upgrade:</span>
+                                                        <span id="modal-attack-range">${cardsYay[i].levels[h].cards_to_upgrade}</span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="font-weight-bold red-text">
+                                                            <i class="fa fa-heart" aria-hidden="true"></i> Health:</span>
+                                                        <span id="modal-attack-range">${cardsYay[i].levels[h].upgrades[0].health}</span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="font-weight-bold orange-text" style="margin-left: 2.5px">
+                                                            <i class="fa fa-shield" aria-hidden="true"></i> Attack:</span>
+                                                        <span id="modal-attack-range">${cardsYay[i].levels[h].upgrades[0].attack}</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Accordion card -->
+                                    `
+                                    );
+                                    $.each($('span'), function (i, e) {
+                                        $(e).html($(e).html().replace(/null/g, 'N/A'));
+                                    });
+                                
+
+                                    $("#tags").html("");
+
+                                    for (let t = 0; t < cardsYay[i].tags.length; t++) {
+                                        $("#tags").append(
+                                            ` <span class="badge badge-pill ThemeColour">${cardsYay[i].tags[t]}</span> `
+                                        );
+                                    };
+                                    $("#collapse1").collapse();
+                                    $(".ThemeText").addClass(cardsYay[i].theme + "Text");
+                                    $(".ThemeColour").addClass(cardsYay[i].theme);
+                                }
+                                if (cardsYay[i].name instanceof Array) {
+                                        for (let c = 0; c < cardsYay[i].name.length; c++) {
+                                            $("#awesomo-commands").append(
+                                                `<li class="mt-2">
+                                            <span class="font-weight-bold dark-grey-text"><code>-card ${cardsYay[i].name[c].toLowerCase()}</code></span>
+                                        </li>`
+                                            );
+                                        }
+                                    }
+                            }
+                        }
+
+                        $("")
+
+                        $(function () {
+                            $('[data-toggle="tooltip"]').tooltip()
+                        });
+                        $("#share-card").click(function () {
+                            var dummy = document.createElement('input'),
+                                text = window.location.href;
+
+                            document.body.appendChild(dummy);
+                            dummy.value = text;
+                            dummy.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(dummy);
+                        });
+
+                        changeCardSize();
+                        //mobileArtCompensator();
+
+                        //update the card size quickly on page load
+                        setInterval(function () {
+                            changeCardSize();
+
+                        }, 500)
+
+
+                    })
+
+                    //shit to do when people try to resize to see if i've forgot to do stuff but i havent because im a world class web dev
+                    $(window).resize(function () {
+                        changeCardSize();
+                        //mobileArtCompensator();
+
+                    })
+                </script>
+
+</body>
+
+</html>
