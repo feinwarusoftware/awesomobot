@@ -11,6 +11,34 @@ const { authUser, authAdmin } = require("../../middlewares");
 const router = express.Router();
 const apiLogger = new Logger();
 
+router.get("/temp/userguilds", authUser, async (req, res) => {
+  
+    let user_guilds;
+    try {
+
+        user_guilds = await axios({
+            method: "get",
+            url: "https://discordapp.com/api/v6/users/@me/guilds",
+            headers: {
+                "Authorization": `Bearer ${req.session.discord.access_token}`
+            }
+        });
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.json({ status: 500, message: "Internal Server Error", error });
+    }
+
+    let user_admin_guilds = [];
+    for (let user_guild of user_guilds.data) {
+        if ((user_guild.permissions & 8) === 8) {
+            user_admin_guilds.push(user_guild);
+        }
+    }
+
+    res.json(user_admin_guilds);
+});
+
 router.post("/", authAdmin, async (req, res) => {
 
     // Get input.
@@ -167,7 +195,7 @@ router.get("/@me", authUser, async (req, res) => {
             method: "get",
             url: "https://discordapp.com/api/v6/users/@me/guilds",
             headers: {
-                "Authorization": `Bearer ${"HYrvwyjKjkkxlKWRtpf6VFaCQNYlpm"}`
+                "Authorization": `Bearer ${req.session.discord.access_token}`
             }
         });
     } catch(error) {
@@ -228,7 +256,7 @@ router.route("/@me/:discord_id").get(authUser, async (req, res) => {
             method: "get",
             url: "https://discordapp.com/api/v6/users/@me/guilds",
             headers: {
-                "Authorization": `Bearer ${"HYrvwyjKjkkxlKWRtpf6VFaCQNYlpm"}`
+                "Authorization": `Bearer ${req.session.discord.access_token}`
             }
         });
     } catch(error) {
@@ -287,7 +315,7 @@ router.route("/@me/:discord_id").get(authUser, async (req, res) => {
             method: "get",
             url: "https://discordapp.com/api/v6/users/@me/guilds",
             headers: {
-                "Authorization": `Bearer ${"HYrvwyjKjkkxlKWRtpf6VFaCQNYlpm"}`
+                "Authorization": `Bearer ${req.session.discord.access_token}`
             }
         });
     } catch(error) {
@@ -441,7 +469,7 @@ router.route("/@me/:discord_id").get(authUser, async (req, res) => {
             method: "get",
             url: "https://discordapp.com/api/v6/users/@me/guilds",
             headers: {
-                "Authorization": `Bearer ${"HYrvwyjKjkkxlKWRtpf6VFaCQNYlpm"}`
+                "Authorization": `Bearer ${req.session.discord.access_token}`
             }
         });
     } catch(error) {

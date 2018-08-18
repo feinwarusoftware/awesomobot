@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>AWESOM-O //
-            <%= trans.SCRIPT_MANAGER %>
-        </title>
-    
-        <link rel="icon" type="image/png" href="/img/favicon.png" />
-        <link rel="shortcut icon" type="image/png" href="/img/favicon.png" />
-        <meta name="theme-color" content="#ff594f">
-    
-        <link rel="alternate" href="/" hreflang="x-default" />
-        <link rel="alternate" href="/?hl=en" hreflang="en" />
-        <link rel="alternate" href="/?hl=ie" hreflang="ie" />
-        <link rel="alternate" href="/?hl=pt" hreflang="pt" />
-    
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <!-- Bootstrap core CSS -->
-        <link href="/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Material Design Bootstrap -->
-        <link href="/css/mdb.min.css" rel="stylesheet">
-    
-        <link href="/css/style.css" rel="stylesheet">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>AWESOM-O //
+        <%= trans.SCRIPT_MANAGER %>
+    </title>
 
-        <style>
-                .switch.round label .lever {
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png" />
+    <meta name="theme-color" content="#ff594f">
+
+    <link rel="alternate" href="/" hreflang="x-default" />
+    <link rel="alternate" href="/?hl=en" hreflang="en" />
+    <link rel="alternate" href="/?hl=ie" hreflang="ie" />
+    <link rel="alternate" href="/?hl=pt" hreflang="pt" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="/css/mdb.min.css" rel="stylesheet">
+
+    <link href="/css/style.css" rel="stylesheet">
+
+    <style>
+        .switch.round label .lever {
             width: 54px;
             height: 34px;
             border-radius: 10em;
@@ -67,10 +67,11 @@
             background-color: #f8c9c9
         }
 
-                .dropdown-content li>a, .dropdown-content li>span {
+        .dropdown-content li>a,
+        .dropdown-content li>span {
             color: #2c2c2c;
         }
-        </style>
+    </style>
 </head>
 
 <body class="fixed-sn">
@@ -108,7 +109,11 @@
                                 <h1 class="font-weight-bold mb-2 mt-2 pb-1">
                                     <%= trans.SCRIPT_MANAGER %>
                                 </h1>
-                                <th><h4 class="font-weight-bold dark-grey-text">Editing script settings for Feinwaru Server</h4></th>
+                                <th>
+                                    <h4 class="font-weight-bold dark-grey-text">Editing script settings for
+                                        <span id="server-name"></span>
+                                    </h4>
+                                </th>
                             </div>
                         </div>
 
@@ -118,32 +123,48 @@
                                     <div class="col-12">
                                         <form class="form-inline md-form mr-auto mb-4">
                                             <input class="form-control mr-sm-2" type="text" placeholder="<%= trans.SEARCH %>" aria-label="Search">
-                                            <button class="btn btn-feinwaru btn-rounded btn-sm my-0" type="submit"><%= trans.SEARCH %></button>
+                                            <button class="btn btn-feinwaru btn-rounded btn-sm my-0" type="submit">
+                                                <%= trans.SEARCH %>
+                                            </button>
                                         </form>
                                     </div>
 
                                 </div>
                                 <div class="card">
                                     <table class="table table-borderless">
-                                        <col width= "2%">
+                                        <col width="2%">
                                         <col width="15%">
                                         <col width="10%">
                                         <col width="10%">
                                         <col width="10%">
+                                        <col width="2%">
 
                                         <thead>
-                                                <tr>
-                                                    <th></th>
-                                                    <th><h4 class="dark-grey-text">Script Name</h4></th>
-                                                    <th><h4 class="dark-grey-text">Roles</h4></th>
-                                                    <th><h4 class="dark-grey-text">Users</h4></th>
-                                                    <th><h4 class="dark-grey-text">Servers</h4></th>
-                                                </tr>
-                                            </thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>
+                                                    <h4 class="dark-grey-text">Script Name</h4>
+                                                </th>
+                                                <th>
+                                                    <h4 class="dark-grey-text">Channels</h4>
+                                                </th>
+                                                <th>
+                                                    <h4 class="dark-grey-text">Roles</h4>
+                                                </th>
+                                                <th>
+                                                    <h4 class="dark-grey-text">Members</h4>
+                                                </th>
+                                                <th>
+                                                    <h4 class="dark-grey-text text-right">Enabled?</h4>
+                                                </th>
+                                            </tr>
+                                        </thead>
                                         <!--Table body-->
-                                        <tbody>
+                                        <tbody id="script-list">
                                             <tr class="border-bottom" style="height: 8vh">
-                                                <td><h2 class="font-weight-bold text-right">#1</h2></td>
+                                                <td>
+                                                    <h2 class="font-weight-bold text-right">#1</h2>
+                                                </td>
                                                 <td>
                                                     <h3 class="my-auto font-weight-bold">Regional Indicator
                                                         <sup>
@@ -155,38 +176,46 @@
                                                     <p class="mb-0 grey-text">Downloaded from the Marketplace</p>
                                                 </td>
                                                 <td>
-                                                        <button class="btn-save btn btn-grey btn-sm">Deselect All</button>
-                                                        <button class="btn-save btn btn-primary btn-sm">Select All</button>
-                                                        <select class="mdb-select" multiple>
-                                                            
-                                                                <option value="1" selected>@everyone</option>
-                                                                <option value="2">@Admin Boiiz</option>
-                                                                <option value="3">@Moddy Boiiz</option>
-                                                            </select>
-                                                            <button class="btn-save btn btn-feinwaru btn-sm">Save</button>
+                                                    <button class="btn-save btn btn-grey btn-sm">Deselect All</button>
+                                                    <button class="btn-save btn btn-primary btn-sm">Select All</button>
+                                                    <select class="mdb-select" multiple>
+
+                                                        <option value="1" selected>@everyone</option>
+                                                        <option value="2">@Admin Boiiz</option>
+                                                        <option value="3">@Moddy Boiiz</option>
+                                                    </select>
+                                                    <button class="btn-save btn btn-feinwaru btn-sm">Save</button>
                                                 </td>
                                                 <td>
-                                                        <button class="btn-save btn btn-grey btn-sm">Deselect All</button>
-                                                        <button class="btn-save btn btn-primary btn-sm">Select All</button>
-                                                        <select class="mdb-select" multiple searchable="Search Users">
-                                                                <option value="1" selected>Tweeno</option>
-                                                                <option value="2">@Admin Boiiz</option>
-                                                                <option value="3">@Moddy Boiiz</option>
-                                                            </select>
-                                                            <button class="btn-save btn btn-feinwaru btn-sm">Save</button>
+                                                    <button class="btn-save btn btn-grey btn-sm">Deselect All</button>
+                                                    <button class="btn-save btn btn-primary btn-sm">Select All</button>
+                                                    <select class="mdb-select" multiple searchable="Search Users">
+                                                        <option value="1" selected>Tweeno</option>
+                                                        <option value="2">@Admin Boiiz</option>
+                                                        <option value="3">@Moddy Boiiz</option>
+                                                    </select>
+                                                    <button class="btn-save btn btn-feinwaru btn-sm">Save</button>
                                                 </td>
                                                 <td>
-                                                        <button class="btn-save btn btn-grey btn-sm">Deselect All</button>
-                                                        <button class="btn-save btn btn-primary btn-sm">Select All</button>
-                                                        <select class="mdb-select" multiple>
-                                                                <option value="1" selected>Feinwaru Server</option>
-                                                                <option value="2">Dream Theater</option>
-                                                                <option value="3">South Park Phone Destroyer</option>
-                                                            </select>
-                                                            <button class="btn-save btn btn-feinwaru btn-sm">Save</button>
+                                                    <button class="btn-save btn btn-grey btn-sm">Deselect All</button>
+                                                    <button class="btn-save btn btn-primary btn-sm">Select All</button>
+                                                    <select class="mdb-select" multiple>
+                                                        <option value="1" selected>Feinwaru Server</option>
+                                                        <option value="2">Dream Theater</option>
+                                                        <option value="3">South Park Phone Destroyer</option>
+                                                    </select>
+                                                    <button class="btn-save btn btn-feinwaru btn-sm">Save</button>
                                                 </td>
+                                                <td>
+                                                    <div class="switch round red-white-switch float-right">
+                                                        <label>
+                                                            <input id="checkbox" type="checkbox">
+                                                            <span class="lever"></span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+
                                             </tr>
-                                            
                                         </tbody>
                                         <!--Table body-->
 
@@ -270,6 +299,8 @@
             <!-- MDB core JavaScript -->
             <script type="text/javascript" src="/js/mdb.min.js"></script>
 
+            <script type="text/javascript" src="/js/server-select.js"></script>
+
             <script>
                 //Animation init
                 new WOW().init();
@@ -279,21 +310,115 @@
                     $('#myInput').focus()
                 })
 
-                // Material Select Initialization
-                $(document).ready(function () {
-                    $('.mdb-select').material_select();
-                });
-
                 // SideNav Button Initialization
                 $(".button-collapse").sideNav();
                 // SideNav Scrollbar Initialization
                 var sideNavScrollbar = document.querySelector('.custom-scrollbar');
                 Ps.initialize(sideNavScrollbar);
 
-                // Tooltips Initialization
-                $(function () {
-                    $('[data-toggle="tooltip"]').tooltip()
-                })
+
+                window.onload = () => {
+
+                    initServerSelect();
+
+                    /*
+                    const getGuilds = new XMLHttpRequest();
+                    getGuilds.open("GET", `/api/v3/guilds/temp/userguilds`, false);
+                    getGuilds.send();
+
+                    const guildsYay = JSON.parse(getGuilds.response);
+                    */
+
+                    //
+
+                    const currentGuildId = getCookie("guild");
+
+                    console.log(`cookie-id: ${currentGuildId}`);
+
+                    const getCurrentGuild = new XMLHttpRequest();
+                    getCurrentGuild.open("GET", `/api/v3/guilds/@me/${currentGuildId}`, false);
+                    getCurrentGuild.send();
+
+                    const currentGuildYay = JSON.parse(getCurrentGuild.response);
+
+                    //
+
+                    let currentGuildName = "*placeholder*";
+
+                    /*
+                    for (let guild in guildsYay) {
+
+                        if (currentGuildYay.id === guild.id) {
+                            currentGuildName = guild.name;
+                        }
+                    }
+                    */
+
+                    const currentGuildNameSpan = document.getElementById("server-name");
+                    currentGuildNameSpan.innerText = currentGuildName;
+
+                    //
+
+                    /*
+                    const scriptList = document.getElementById("script-list");
+                    for (let script of currentGuildYay.scripts) {
+
+                        scriptList.innerHTML += `<tr class="border-bottom" style="height: 8vh">
+                            <td>
+                                <h2 class="font-weight-bold text-right">#1</h2>
+                            </td>
+                            <td>
+                                <h3 class="my-auto font-weight-bold">${"*placeholder*"}
+                                    <sup id="verified-tick>
+                                        <span class="font-weight-bold" data-toggle="tooltip" data-placement="top" title="<%= trans.VERIFIED_SCRIPT %>">
+                                            <i class="text-success fa fa-check pr-1"></i>
+                                        </span>
+                                    </sup>
+                                </h3>
+                                <p class="mb-0 grey-text">Downloaded from the Marketplace</p>
+                            </td>
+                            <td>
+                                <button class="btn-save btn btn-grey btn-sm">Deselect All</button>
+                                <button class="btn-save btn btn-primary btn-sm">Select All</button>
+                                <select class="mdb-select" multiple>
+
+                                    <option value="1" selected>@everyone</option>
+                                    <option value="2">@Admin Boiiz</option>
+                                    <option value="3">@Moddy Boiiz</option>
+                                </select>
+                                <button class="btn-save btn btn-feinwaru btn-sm">Save</button>
+                            </td>
+                            <td>
+                                <button class="btn-save btn btn-grey btn-sm">Deselect All</button>
+                                <button class="btn-save btn btn-primary btn-sm">Select All</button>
+                                <select class="mdb-select" multiple searchable="Search Users">
+                                    <option value="1" selected>Tweeno</option>
+                                    <option value="2">@Admin Boiiz</option>
+                                    <option value="3">@Moddy Boiiz</option>
+                                </select>
+                                <button class="btn-save btn btn-feinwaru btn-sm">Save</button>
+                            </td>
+                            <td>
+                                <button class="btn-save btn btn-grey btn-sm">Deselect All</button>
+                                <button class="btn-save btn btn-primary btn-sm">Select All</button>
+                                <select class="mdb-select" multiple>
+                                    <option value="1" selected>Feinwaru Server</option>
+                                    <option value="2">Dream Theater</option>
+                                    <option value="3">South Park Phone Destroyer</option>
+                                </select>
+                                <button class="btn-save btn btn-feinwaru btn-sm">Save</button>
+                            </td>
+                        </tr>`;
+                    };
+                    */
+
+                    // Tooltips Initialization
+                    $(function () {
+                        $('[data-toggle="tooltip"]').tooltip();
+                        $('.mdb-select').material_select('destroy');
+                        $('.mdb-select').material_select();
+                    });
+                }
             </script>
 
 

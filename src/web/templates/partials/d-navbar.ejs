@@ -92,23 +92,14 @@
                 <ul class="nav navbar-nav nav-flex-icons ml-auto">
                         <li class="nav-item avatar dropdown pr-2 mr-2">
                                 <a class="nav-link dropdown-toggle waves-effect waves-light rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <img src="https://cdn.discordapp.com/icons/438701535208275978/c5bde67f9f079d283d39b3ae80f5292f.png" class="rounded-circle z-depth-0"
-                                        alt="there is supposed to be an image but dragon 🅱roke it" style="background-color: #333333;">
+                                        <img id="current-server-img" src="" class="rounded-circle z-depth-0"
+                                        alt="" style="background-color: #333333;">
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-right dropdown-feinwaru">
+                                <div id="server-select" class="dropdown-menu dropdown-menu-right dropdown-feinwaru">
                                     <h6 class="font-weight-bold text-center" style="font-size: 0.9em">
                                                 <%= trans.SELECT_A_SERVER %>
                                             </h6>
-                                    <a class="dropdown-item waves-effect waves-light" href="<%= trans.LANG %>&server=438701535208275978">
-                                        <img src="https://cdn.discordapp.com/icons/438701535208275978/c5bde67f9f079d283d39b3ae80f5292f.png" class="rounded-circle z-depth-0 mr-2"
-                                        alt="there is supposed to be an image but dragon 🅱roke it" style="background-color: #333333; height: 32px">
-                                        Feinwaru Server
-                                    </a>
-                                    <a class="dropdown-item waves-effect waves-light" href="/dashboard/profiles/<%= user_data.id %><%= trans.LANG %>">
-                                        <img src="https://cdn.discordapp.com/icons/405129031445381120/cc25586f0ba64afbc7d3bcf09b78bbac.png" class="rounded-circle z-depth-0 mr-2"
-                                        alt="there is supposed to be an image but dragon 🅱roke it" style="background-color: #333333; height: 32px">
-                                        !DragonRoyale
-                                    </a>
+
                                 </div>
                             </li>
                         <li class="nav-item avatar dropdown pr-3 mr-2">
