@@ -1,31 +1,51 @@
+<!--Double navigation-->
+<!-- Sidebar navigation -->
+<div id="slide-out" class="side-nav fixed feinwaru-dark">
+    <ul class="custom-scrollbar">
+        <!-- Logo -->
+        <div class="logo-wrapper waves-light" style="border-style: none; height: 80px">
+            <a href="#">
+                <img src="/img/navbar_dash_logo.png" class="img-fluid flex-center px-4 py-4">
 
-        <!--Double navigation-->
-            <!-- Sidebar navigation -->
-            <div id="slide-out" class="side-nav fixed feinwaru-dark">
-                <ul class="custom-scrollbar">
-                    <!-- Logo -->
-                        <div class="logo-wrapper waves-light" style="border-style: none">
-                            <a href="#"><img src="/img/navbarlogo.png" class="img-fluid flex-center"></a>
-                        </div>
-                    <!--/. Logo -->
-                    <!-- Side navigation links -->
-                    <li>
-                        <ul class="collapsible collapsible-accordion">
-                            <li><a class="waves-effect"><i class="fa fa-home"></i> Overview</a>
+            </a>
+        </div>
+        <!--/. Logo -->
+        <!-- Side navigation links -->
+        <li>
+            <ul class="collapsible collapsible-accordion">
+                <li>
+                    <a href="/dashboard<%= trans.LANG %>" class="waves-effect">
+                        <i class="fa fa-home"></i>
+                        <%= trans.DASH_HOME %>
+                    </a>
+
+                </li>
+                <li>
+                    <a class="collapsible-header waves-effect">
+                        <i class="fa fa-bar-chart"></i>
+                        <%= trans.LEADERBOARDS %>
+                    </a>
+                    <div class="ml-4 pl-3">
+                        <ul>
+                            <li>
+                                <a href="#" class="waves-effect">
+                                    <i class="fa fa-globe"></i>
+                                    <%= trans.MAIN_LEADERBOARD %>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="waves-effect">
+                                    <i class="fa fa-exclamation-circle"></i>
+                                    <%= trans.SHIT_SCORE %>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <!-- future update
                                 
-                            </li>
-                            <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-bar-chart"></i> Leaderboards<i class="fa fa-angle-down rotate-icon"></i></a>
-                                <div class="collapsible-body">
-                                    <ul>
-                                        <li><a href="#" class="waves-effect">Activity Board</a>
-                                        </li>
-                                        <li><a href="#" class="waves-effect">It Hits The Fan</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-share-alt"></i> Integrations<i class="fa fa-angle-down rotate-icon"></i></a>
-                                <div class="collapsible-body">
+                                <li><a class="collapsible-header waves-effect"><i class="fa fa-share-alt"></i> Integrations</a>
+                                <div class="ml-4 pl-3">
                                     <ul>
                                         <li><a href="#" class="waves-effect"><i class="fa fa-lastfm"></i> last.fm</a>
                                         </li>
@@ -33,102 +53,173 @@
                                         </li>
                                     </ul>
                                 </div>
+                            </li>-->
+                <li>
+                    <a class="collapsible-header waves-effect">
+                        <i class="fa fa-gavel"></i>
+                        <%= trans.MODERATION %>
+                    </a>
+                    <div class="ml-4 pl-3">
+                        <ul>
+                            <li>
+                                <a href="#" class="waves-effect pl-4">
+                                    <i class="fa fa-code-fork"></i>
+                                    <%= trans.ISSUE_TRACKER %>
+                                </a>
                             </li>
-                            <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-gavel"></i> Moderation<i class="fa fa-angle-down rotate-icon"></i></a>
-                                <div class="collapsible-body">
-                                    <ul>
-                                        <li><a href="#" class="waves-effect">FAQ</a>
-                                        </li>
-                                        <li><a href="#" class="waves-effect">Write a message</a>
-                                        </li>
-                                        <li><a href="#" class="waves-effect">FAQ</a>
-                                        </li>
-                                        <li><a href="#" class="waves-effect">Write a message</a>
-                                        </li>
-                                        <li><a href="#" class="waves-effect">FAQ</a>
-                                        </li>
-                                        <li><a href="#" class="waves-effect">Write a message</a>
-                                        </li>
-                                        <li><a href="#" class="waves-effect">FAQ</a>
-                                        </li>
-                                        <li><a href="#" class="waves-effect">Write a message</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-code"></i>Commands<i class="fa fa-angle-down rotate-icon"></i></a>
-                                <div class="collapsible-body">
-                                    <ul>
-                                        <li><a href="#" class="waves-effect"> Enabled Commands</a>
-                                        </li>
-                                        <li><a href="#" class="waves-effect"> Command Creator</a>
-                                        </li>
-                                        <li><a href="#" class="waves-effect"> Command Marketplace</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <li>
+                                <a href="#" class="waves-effect">
+                                    <i class="fa fa-binoculars"></i>
+                                    <%= trans.WATCHLIST %>
+                                </a>
                             </li>
                         </ul>
-                    </li>
-                    <!--/. Side navigation links -->
-                </ul>
-                <div class="sidenav-bg mask-strong"></div>
-            </div>
-            <!--/. Sidebar navigation -->
-            <!-- Navbar -->
-            <nav class="navbar fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav">
-                <!-- SideNav slide-out button -->
-                <div class="float-left">
-                    <a href="#" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
-                </div>
-                <ul class="nav navbar-nav nav-flex-icons ml-3">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/<%= trans.LANG %>">
-                                <i class="fa fa-chevron-left"></i> <b><%= trans.RETURN_TO_HOME %></b>
-                                    <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                    </ul>
-                <ul class="nav navbar-nav nav-flex-icons ml-auto">
-                        <li class="nav-item avatar dropdown pr-2 mr-2">
-                                <a class="nav-link dropdown-toggle waves-effect waves-light rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <img id="current-server-img" src="" class="rounded-circle z-depth-0"
-                                        alt="" style="background-color: #333333;">
+                    </div>
+                </li>
+                <li>
+                    <a class="collapsible-header waves-effect">
+                        <i class="fa fa-code"></i>Scripts</a>
+                    <div class="ml-4 pl-2">
+                        <ul>
+                            <li>
+                                <a href="/dashboard/scripts/marketplace<%= trans.LANG %>" class="waves-effect">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <%= trans.MARKETPLACE %>
                                 </a>
-                                <div id="server-select" class="dropdown-menu dropdown-menu-right dropdown-feinwaru">
-                                    <h6 class="font-weight-bold text-center" style="font-size: 0.9em">
-                                                <%= trans.SELECT_A_SERVER %>
-                                            </h6>
 
-                                </div>
                             </li>
-                        <li class="nav-item avatar dropdown pr-3 mr-2">
-                                <a class="nav-link dropdown-toggle waves-effect waves-light rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <img src="https://cdn.discordapp.com/avatars/<%= user_data.id %>/<%= user_data.avatar %>.png?size=128" class="rounded-circle z-depth-0"
-                                        alt="there is supposed to be an image but dragon 🅱roke it">
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right dropdown-feinwaru">
-                                    <h6 class="font-weight-bold text-center" style="font-size: 0.9em">
-                                        <%= trans.LOGGED_IN_AS %>
-                                           <%= user_data.username %>
-                                    </h6>
-                                    <a class="dropdown-item waves-effect waves-light" href="/dashboard/profiles/<%= user_data.id %><%= trans.LANG %>">
-                                        <i class="fa fa-user"></i> <%= trans.VIEW_PROFILE %>
-                                    </a>
-                                    <a class="dropdown-item waves-effect waves-light" href="#">
-                                        <i class="fa fa-sign-out"></i> <%= trans.LOGOUT %>
-                                    </a>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link waves-effect waves-light" data-toggle="modal" data-target="#LangModal">
-                                    <i class="fa fa-globe"></i> <b><%= trans.INITIALS %></b>
+                            <li>
+                                <a href="/dashboard/scripts/manager<%= trans.LANG %>" class="waves-effect">
+                                    <i class="fa fa-list"></i>
+                                    <%= trans.SCRIPT_MANAGER %>
                                 </a>
                             </li>
-                    </ul>
-            </nav>
-            <!-- <img src="https://cdn.discordapp.com/icons/438701535208275978/c5bde67f9f079d283d39b3ae80f5292f.webp" class="rounded-circle z-depth-0"
+                            <li>
+                                <a href="/dashboard/scripts/me<%= trans.LANG %>">
+                                    <i class="fa fa-pencil-alt"></i>
+                                    <%= trans.SCRIPT_CREATOR %>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="/dashboard/patrons<%= trans.LANG %>" class="collapsible-header waves-effect">
+                        <i class="fab fa-patreon" style="margin-right: 13px"></i>
+                        <%= trans.PATRON_MANAGEMENT %>
+                    </a>
+                </li>
+                <li>
+                    <a class="collapsible-header waves-effect">
+                        <i class="fa fa-database"></i>
+                        <%= trans.AWESOMO_LEGACY_FEATURES %>
+                    </a>
+                    <div class="ml-4 pl-3">
+                        <ul>
+
+                            <li>
+                                <p class="ml-3 pl-1 mb-0 mt-2" style="font-size: 10pt;">
+                                    <b>AWESOM-O 2.0 Stats</b>
+                                </p>
+                            </li>
+                            <li>
+                                <a href="/dashboard/leaderboards/legacy<%= trans.LANG %>" class="waves-effect">Activity Scores</a>
+                            </li>
+                            <li>
+                                <a href="/dashboard/leaderboards/legacy#shit<%= trans.LANG %>" class="waves-effect">It Hits The Fan</a>
+                            </li>
+                            <li>
+                                <p class="ml-3 pl-1 mb-0 mt-2" style="font-size: 10pt;">
+                                    <b>AWESOM-O 1.0 Stats</b>
+                                </p>
+                            </li>
+                            <li>
+                                <a href="#" class="waves-effect">Activity Scores</a>
+                            </li>
+                            <li>
+                                <a href="#" class="waves-effect">It Hits The Fan</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </li>
+        <!--/. Side navigation links -->
+    </ul>
+    <div class="sidenav-bg mask-strong"></div>
+</div>
+<!--/. Sidebar navigation -->
+<!-- Navbar -->
+<nav class="navbar fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav">
+    <!-- SideNav slide-out button -->
+    <div class="float-left">
+        <a href="#" data-activates="slide-out" class="button-collapse">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+    <ul class="nav navbar-nav nav-flex-icons ml-3">
+        <li class="nav-item">
+            <a class="nav-link" href="/<%= trans.LANG %>">
+                <i class="fa fa-chevron-left"></i>
+                <b>
+                    <%= trans.RETURN_TO_HOME %>
+                </b>
+                <span class="sr-only">(current)</span>
+            </a>
+        </li>
+    </ul>
+    <ul class="nav navbar-nav nav-flex-icons ml-auto">
+        <li class="nav-item avatar dropdown pr-2 mr-2">
+            <a class="nav-link dropdown-toggle waves-effect waves-light rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <img src="https://cdn.discordapp.com/icons/438701535208275978/c5bde67f9f079d283d39b3ae80f5292f.png" class="rounded-circle z-depth-0"
+                    alt="there is supposed to be an image but dragon 🅱roke it" style="background-color: #333333;">
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-feinwaru">
+                <h6 class="font-weight-bold text-center" style="font-size: 0.9em">
+                    <%= trans.SELECT_A_SERVER %>
+                </h6>
+                <a class="dropdown-item waves-effect waves-light" href="<%= trans.LANG %>&server=438701535208275978">
+                    <img src="https://cdn.discordapp.com/icons/438701535208275978/c5bde67f9f079d283d39b3ae80f5292f.png" class="rounded-circle z-depth-0 mr-2"
+                        alt="there is supposed to be an image but dragon 🅱roke it" style="background-color: #333333; height: 32px"> Feinwaru Server
+                </a>
+                <a class="dropdown-item waves-effect waves-light" href="/dashboard/profiles/<%= user_data.id %><%= trans.LANG %>">
+                    <img src="https://cdn.discordapp.com/icons/405129031445381120/cc25586f0ba64afbc7d3bcf09b78bbac.png" class="rounded-circle z-depth-0 mr-2"
+                        alt="there is supposed to be an image but dragon 🅱roke it" style="background-color: #333333; height: 32px"> !DragonRoyale
+                </a>
+            </div>
+        </li>
+        <li class="nav-item avatar dropdown pr-3 mr-2">
+            <a class="nav-link dropdown-toggle waves-effect waves-light rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <img src="https://cdn.discordapp.com/avatars/<%= user_data.id %>/<%= user_data.avatar %>.png?size=128" class="rounded-circle z-depth-0"
+                    alt="there is supposed to be an image but dragon 🅱roke it">
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-feinwaru">
+                <h6 class="font-weight-bold text-center" style="font-size: 0.9em">
+                    <%= trans.LOGGED_IN_AS %>
+                        <%= user_data.username %>
+                </h6>
+                <a class="dropdown-item waves-effect waves-light" href="/dashboard/profiles/<%= user_data.id %><%= trans.LANG %>">
+                    <i class="fa fa-user"></i>
+                    <%= trans.VIEW_PROFILE %>
+                </a>
+                <a class="dropdown-item waves-effect waves-light" href="#">
+                    <i class="fa fa-sign-out"></i>
+                    <%= trans.LOGOUT %>
+                </a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link waves-effect waves-light" data-toggle="modal" data-target="#LangModal">
+                <i class="fa fa-globe"></i>
+                <b>
+                    <%= trans.INITIALS %>
+                </b>
+            </a>
+        </li>
+    </ul>
+</nav>
+<!-- <img src="https://cdn.discordapp.com/icons/438701535208275978/c5bde67f9f079d283d39b3ae80f5292f.webp" class="rounded-circle z-depth-0"
                                         alt="there is supposed to be an image but dragon 🅱roke it" style="background-color: #333333;">-->
-            <!-- /.Navbar -->
-        <!--/.Double navigation-->
-        <%- include ../partials/langpicker.ejs %>
+<!-- /.Navbar -->
+<!--/.Double navigation-->
+<%- include ../partials/langpicker.ejs %>

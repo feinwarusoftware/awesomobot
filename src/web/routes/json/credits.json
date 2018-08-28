@@ -6,6 +6,332 @@
             "image": "https://cdn.discordapp.com/attachments/379432139856412682/462725985356218368/Gai2.png",
             "caption": "i want to die",
             "socials": [{
+                    "fa": "github",
+                    "ic": "git",
+                    "link": "https://github.com/dragon1320"
+                },
+                {
+                    "fa": "reddit-alien",
+                    "ic": "reddit",
+                    "link": "https://reddit.com/u/dragon1320"
+                },
+                {
+                    "fa": "",
+                    "ic": "",
+                    "link": "#"
+                }
+            ]
+        },
+        {
+            "id": "190914446774763520",
+            "name": "Mattheous",
+            "role": "FRONTEND_DEV",
+            "image": "https://cdn.discordapp.com/attachments/379432139856412682/462726578783256578/yaboi.jpg",
+            "caption": "i want to die",
+            "socials": [{
+                    "fa": "github",
+                    "ic": "git",
+                    "link": "https://github.com/mattheousdt"
+                },
+                {
+                    "fa": "reddit-alien",
+                    "ic": "reddit",
+                    "link": "https://reddit.com/u/redditmattheous"
+                },
+                {
+                    "fa": "twitter",
+                    "ic": "tw",
+                    "link": "https://twitter.com/feinwaru"
+                }
+            ]
+        },
+        {
+            "id": "262345465306021888",
+            "name": "TowelRoyale",
+            "role": "ASSISTANT_BACKEND_DEV",
+            "image": "https://cdn.discordapp.com/attachments/379432139856412682/462726052280533003/Gai1.png",
+            "caption": "Don't forget to bring a towel!",
+            "socials": [{
+                    "fa": "github",
+                    "ic": "git",
+                    "link": "https://github.com/towelroyale"
+                },
+                {
+                    "fa": "reddit-alien",
+                    "ic": "reddit",
+                    "link": "https://reddit.com/u/smashroyaleyt"
+                },
+                {
+                    "fa": "twitter",
+                    "ic": "tw",
+                    "link": "https://twitter.com/smashroyaleyt"
+                }
+            ]
+        },
+        {
+            "id": "215216840085864448",
+            "name": "Umustalldie2",
+            "role": "PD_COMMANDS",
+            "image": "https://cdn.discordapp.com/attachments/437671103536824340/482224279690412033/c8fa56c8d45aeb8bae96aab77316211a.png",
+            "caption": "This boyo does the Phone Destroyer shit. Except the website, cause Mattheous is true waifu at that shit",
+            "socials": [{
+                    "fa": "twitch",
+                    "ic": "twitch",
+                    "link": "https://www.twitch.tv/umustalldie_2"
+                },
+                {
+                    "fa": "twitter",
+                    "ic": "tw",
+                    "link": "https://twitter.com/umustalldie2"
+                },
+                {
+                    "fa": "reddit-alien",
+                    "ic": "reddit",
+                    "link": "https://reddit.com/u/umustalldie2"
+                }
+            ]
+        }
+
+    ],
+    "artists": [{
+            "id": "281033556833206272",
+            "name": "Phinbella Flynn",
+            "role": "AWESOMO_PORTRAIT",
+            "image": "https://pbs.twimg.com/profile_images/1030449167745859584/AHFSCVai.jpg",
+            "caption": "Hey! My name is Phinbella Flynn but for short you can just call me Phin",
+            "socials": [{
+                    "fa": "deviantart",
+                    "ic": "da",
+                    "link": "https://www.deviantart.com/phinbella-flynn"
+                },
+                {
+                    "fa": "twitter",
+                    "ic": "tw",
+                    "link": "https://twitter.com/Phinbella_Flynn"
+                },
+                {
+                    "fa": "",
+                    "ic": "",
+                    "link": "#"
+                }
+            ]
+        },
+        {
+            "id": "117783098623655936",
+            "name": "Fennwayz",
+            "role": "AWESOMO_404",
+            "image": "https://pbs.twimg.com/media/Diq9FlQX0AIs6oZ.jpg",
+            "caption": "<i>“I enjoy talking to you. Your mind appeals to me. It resembles my own mind except that you happen to be insane.”</i> -1984",
+            "socials": [
+                {
+                    "fa": "twitter",
+                    "ic": "tw",
+                    "link": "https://twitter.com/Fennwayz"
+                },
+                {
+                    "fa": "",
+                    "ic": "",
+                    "link": "#"
+                },
+                {
+                    "fa": "",
+                    "ic": "",
+                    "link": "#"
+                }
+            ]
+        },
+        {
+            "id": "361392290343813130",
+            "name": "adoodalz",
+            "role": "MARKETPLACE_ART",
+            "image": "https://yt3.ggpht.com/-Xfd0IRWonGw/AAAAAAAAAAI/AAAAAAAAAAA/5O2ekH5a_ec/s288-mo-c-c0xffffffff-rj-k-no/photo.jpg",
+            "caption": "Animator, artist, also your local Walmart shooter",
+            "socials": [{
+                    "fa": "youtube",
+                    "ic": "yt",
+                    "link": "https://www.youtube.com/channel/UCTrkUL8zIvEfpllq-G4W18A"
+                },
+                {
+                    "fa": "twitter",
+                    "ic": "tw",
+                    "link": "https://twitter.com/adoodalz"
+                },
+                {
+                    "fa": "",
+                    "ic": "",
+                    "link": "#"
+                }
+            ]
+        },
+        {
+            "id": "262345465306021888",
+            "name": "TowelRoyale",
+            "role": "BOT_ART",
+            "image": "https://cdn.discordapp.com/attachments/379432139856412682/462726052280533003/Gai1.png",
+            "caption": "Don't forget to bring a towel!",
+            "socials": [{
+                    "fa": "github",
+                    "ic": "git",
+                    "link": "https://github.com/towelroyale"
+                },
+                {
+                    "fa": "reddit-alien",
+                    "ic": "reddit",
+                    "link": "https://reddit.com/u/smashroyaleyt"
+                },
+                {
+                    "fa": "twitter",
+                    "ic": "tw",
+                    "link": "https://twitter.com/smashroyaleyt"
+                }
+            ]
+        }
+    ],
+    "translators": [{
+        "id": "215982178046181376",
+        "name": "Tweeno",
+        "role": "PORTUGESE_TRANSLATION",
+        "image": "https://cdn.discordapp.com/attachments/379432139856412682/462950191595782154/unknown.png",
+        "caption": "Eletrónica e Jogos são a minha vida. Não hesites em mandar uma mensagem!",
+        "socials": [{
+                "fa": "twitter",
+                "ic": "tw",
+                "link": "https://twitter.com/iSirWolf"
+            },
+            {
+                "fa": "twitch",
+                "ic": "twitch",
+                "link": "https://www.twitch.tv/OfficialSirWolf/"
+            },
+            {
+                "fa": "youtube",
+                "ic": "yt",
+                "link": "https://www.youtube.com/channel/UCLwz8BL15ycQ-8A9KkXQq9g"
+            }
+        ]
+    },
+    {
+        "id": "331641326816854028",
+        "name": "Tweek Tweak",
+        "role": "CHINESE_TRANSLATION",
+        "image": "https://pbs.twimg.com/media/DhlqMaWUYAAsyVH.jpg:large",
+        "caption": "他妈的，我的茶在哪里？！？！ ...per se...",
+        "socials": [{
+                "fa": "youtube",
+                "ic": "yt",
+                "link": "https://www.youtube.com/channel/UCC_PX5I4v7wdOkupxsgJd3Q"
+            },
+            {
+                "fa": "twitter",
+                "ic": "tw",
+                "link": "https://twitter.com/rockz_sg"
+            },
+            {
+                "fa": "reddit-alien",
+                "ic": "reddit",
+                "link": "https://www.reddit.com/user/TheRockzSG"
+            }
+        ]
+    },
+    {
+        "id": "281033556833206272",
+        "name": "Phinbella Flynn",
+        "role": "POLISH_TRANSLATION",
+        "image": "https://pbs.twimg.com/profile_images/1030449167745859584/AHFSCVai.jpg",
+        "caption": "Cześć! Nazywam się Phinbella Flynn ale w skrócie możecie mówić na mnie po prostu Phin",
+        "socials": [{
+            "fa": "deviantart",
+            "ic": "da",
+            "link": "https://www.deviantart.com/phinbella-flynn"
+        },
+        {
+            "fa": "twitter",
+            "ic": "tw",
+            "link": "https://twitter.com/Phinbella_Flynn"
+        },
+        {
+            "fa": "",
+            "ic": "",
+            "link": "#"
+        }
+    ]
+    },
+    {
+        "id": "157923625524133889",
+        "name": "FoxReed",
+        "role": "ROMANIAN_TRANSLATION",
+        "image": "https://pbs.twimg.com/profile_images/1027227876733665281/LcM-1JCe.jpg",
+        "caption": "Desenez chestii cu South Park şi tai oameni din plăcere",
+        "socials": [{
+                "fa": "deviantart",
+                "ic": "da",
+                "link": "https://www.deviantart.com/phinbella-flynn"
+            },
+            {
+                "fa": "twitter",
+                "ic": "tw",
+                "link": "https://twitter.com/foxreed31"
+            },
+            {
+                "fa": "",
+                "ic": "",
+                "link": "#"
+            }
+        ]
+    },
+    {
+        "id": "161573813379792899",
+        "name": "Kamui",
+        "role": "GERMAN_TRANSLATION",
+        "image": "https://pbs.twimg.com/profile_images/1031746391134162945/kib2YvoZ.jpg",
+        "caption": "50% Homosexuell, 200% fabelhaft, stumm aber süß",
+        "socials": [{
+                "fa": "twitter",
+                "ic": "tw",
+                "link": "https://twitter.com/KamuiKam"
+            },
+            {
+                "fa": "",
+                "ic": "",
+                "link": "#"
+            },
+            {
+                "fa": "",
+                "ic": "",
+                "link": "#"
+            }
+        ]
+    },
+    {
+        "id": "190914446774763520",
+        "name": "Mattheous",
+        "role": "SPANISH_TRANSLATION",
+        "image": "https://cdn.discordapp.com/attachments/379432139856412682/462726578783256578/yaboi.jpg",
+        "caption": "lol i can't speak spanish",
+        "socials": [{
+                "fa": "github",
+                "ic": "git",
+                "link": "https://github.com/mattheousdt"
+            },
+            {
+                "fa": "reddit-alien",
+                "ic": "reddit",
+                "link": "https://reddit.com/u/redditmattheous"
+            },
+            {
+                "fa": "twitter",
+                "ic": "tw",
+                "link": "https://twitter.com/feinwaru"
+            }
+        ]
+    },
+    {
+        "id": "168690518899949569",
+        "name": "Dragon1320",
+        "role": "FRENCH_AND_IRISH_TRANSLATION",
+        "image": "https://cdn.discordapp.com/attachments/430447280932388865/482299301964283928/unknown.png",
+        "caption": "is é seo dom tar éis Gaeilge a aistriú",
+        "socials": [{
                 "fa": "github",
                 "ic": "git",
                 "link": "https://github.com/dragon1320"
@@ -19,120 +345,8 @@
                 "fa": "",
                 "ic": "",
                 "link": "#"
-            }]
-        },
-        {
-            "id": "190914446774763520",
-            "name": "Mattheous",
-            "role": "FRONTEND_DEV",
-            "image": "https://cdn.discordapp.com/attachments/379432139856412682/462726578783256578/yaboi.jpg",
-            "caption": "i want to die",
-            "socials": [{
-                "fa": "github",
-                "ic": "git",
-                "link": "https://github.com/mattheousdt"
-            },
-            {
-                "fa": "reddit-alien",
-                "ic": "reddit",
-                "link": "https://reddit.com/u/redditmattheous"
-            },
-            {
-                "fa": "twitter",
-                "ic": "tw",
-                "link": "https://twitter.com/feinwaru"
-            }]
-        },
-        {
-            "id": "262345465306021888",
-            "name": "TowelRoyale",
-            "role": "ASSISTANT_BACKEND_DEV",
-            "image": "https://cdn.discordapp.com/attachments/379432139856412682/462726052280533003/Gai1.png",
-            "caption": "i want to die",
-            "socials": [{
-                "fa": "github",
-                "ic": "git",
-                "link": "https://github.com/towelroyale"
-            },
-            {
-                "fa": "reddit-alien",
-                "ic": "reddit",
-                "link": "https://reddit.com/u/smashroyaleyt"
-            },
-            {
-                "fa": "twitter",
-                "ic": "tw",
-                "link": "https://twitter.com/smashroyaleyt"
-            }]
-        },
-        {
-            "id": "215216840085864448",
-            "name": "Umustalldie2",
-            "role": "PD_COMMANDS",
-            "image": "https://cdn.discordapp.com/attachments/379432139856412682/462726578783256578/yaboi.jpg",
-            "caption": "i want to die",
-            "socials": [{
-                "fa": "github",
-                "ic": "git",
-                "link": "https://github.com/mattheousdt"
-            },
-            {
-                "fa": "reddit-alien",
-                "ic": "reddit",
-                "link": "https://reddit.com/u/redditmattheous"
-            },
-            {
-                "fa": "twitter",
-                "ic": "tw",
-                "link": "https://twitter.com/feinwaru"
-            }]
-        }
-
-    ],
-    "artists": [{
-        "id": "168690518899949569",
-        "name": "Phinbella Flynn",
-        "role": "BACKEND_DEV",
-        "image": "https://cdn.discordapp.com/attachments/379432139856412682/462725985356218368/Gai2.png",
-        "caption": "i want to die",
-        "socials": [{
-            "fa": "github",
-            "ic": "git",
-            "link": "https://github.com/dragon1320"
-        },
-        {
-            "fa": "reddit-alien",
-            "ic": "reddit",
-            "link": "https://reddit.com/u/dragon1320"
-        },
-        {
-            "fa": "",
-            "ic": "",
-            "link": "#"
-        }]
-    },
-    {
-        "id": "190914446774763520",
-        "name": "Mattheous",
-        "role": "FRONTEND_DEV",
-        "image": "https://cdn.discordapp.com/attachments/379432139856412682/462726578783256578/yaboi.jpg",
-        "caption": "i want to die",
-        "socials": [{
-            "fa": "github",
-            "ic": "git",
-            "link": "https://github.com/mattheousdt"
-        },
-        {
-            "fa": "reddit-alien",
-            "ic": "reddit",
-            "link": "https://reddit.com/u/redditmattheous"
-        },
-        {
-            "fa": "twitter",
-            "ic": "tw",
-            "link": "https://twitter.com/feinwaru"
-        }]
+            }
+        ]
     }
-
 ]
 }

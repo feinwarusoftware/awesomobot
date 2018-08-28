@@ -19,7 +19,7 @@
     <link rel="alternate" href="/?hl=pt" hreflang="pt" />
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
@@ -92,7 +92,9 @@
 
                             <!--Card image-->
                             <div class="view gradient-card-header indigo">
-                                <h4 class="h4-responsive mb-0 font-weight-bold"><%= trans.ACTIVITY_LEADERBOARD %></h4>
+                                <h4 class="h4-responsive mb-0 font-weight-bold">
+                                    <%= trans.ACTIVITY_LEADERBOARD %>
+                                </h4>
                             </div>
                         </div>
 
@@ -121,8 +123,12 @@
                                                 <thead class="indigo text-white">
                                                     <tr>
                                                         <th class="text-center">#</th>
-                                                        <th><%= trans.USERNAME %></th>
-                                                        <th><%= trans.ACTIVITY_SCORE %></th>
+                                                        <th>
+                                                            <%= trans.USERNAME %>
+                                                        </th>
+                                                        <th>
+                                                            <%= trans.ACTIVITY_SCORE %>
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -170,13 +176,15 @@
                                             <div class="col-12 mt-3">
                                                 <span class="float-right">
                                                     <a id="btn-yaboi">
-                                                        <button type="button" class="btn btn-indigo"><%= trans.JUMP_TO_YOU %></button>
+                                                        <button type="button" class="btn btn-indigo">
+                                                            <%= trans.JUMP_TO_YOU %>
+                                                        </button>
                                                     </a>
                                                 </span>
                                             </div>
                                         </div>
 
-                                        
+
 
                                     </div>
                                     <!--/.Panel content-->
@@ -194,112 +202,120 @@
 
                 </section>
                 <!--/Section: Main chart-->
-                <section class="pt-5">
+                <section id="shit" class="pt-5" id="">
 
-                        <!--Card-->
-                        <div class="card card-cascade narrower">
-    
+                    <!--Card-->
+                    <div class="card card-cascade narrower">
+
+                        <!--Card image-->
+                        <div class="col-xl-5 col-md-12 mr-0">
+
                             <!--Card image-->
-                            <div class="col-xl-5 col-md-12 mr-0">
-    
-                                <!--Card image-->
-                                <div class="view gradient-card-header brown">
-                                    <h4 class="h4-responsive mb-0 font-weight-bold"><%= trans.IHTF_LEADERBOARD %></h4>
-                                </div>
+                            <div class="view gradient-card-header brown">
+                                <h4 class="h4-responsive mb-0 font-weight-bold">
+                                    <%= trans.IHTF_LEADERBOARD %>
+                                </h4>
                             </div>
-    
-                            <div class="view gradient-card-header mt-4 z-depth-0" style="height:60vh">
-                                <canvas id="shitbar"></canvas>
-                            </div>
-                            <!--/Card image-->
-    
-                            <!--Card content-->
-                            <div class="card-body blue-panel text-center">
-    
-    
-                                <!--Third row-->
-                                <div class="row mb-0 pt-5">
-    
-                                    <!--First column-->
-                                    <div class="col-md-12">
-    
-                                        <!--Panel content-->
-                                        <div class="card-body pt-0">
-                                                <div id="shit-container" class="table-wrapper-2">
-                                                        <table class="table table-sm table-striped">
-                                                            <col width="20%">
-                                                            <col width="40%">
-                                                            <col width="40%">
-                                                            <thead class="brown text-white">
-                                                                <tr>
-                                                                    <th class="text-center">#</th>
-                                                                    <th><%= trans.USERNAME %></th>
-                                                                    <th><%= trans.SHIT_SCORE %></th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <% v1.list.sort((a, b) => { %>
-                                                                    <% return b.shits - a.shits; %>
-                                                                        <% }); %>
-                                                                            <% for (let i = 0; i < v1.list.length; i++) { %>
-                                                                                <% if (v1.list[i].id == user_data.id) { %>
-                                                                                    <tr class="table-warning" id="wonk">
-                                                                                        <th scope="row" class="text-center">
-                                                                                            <%= i + 1 %>
-                                                                                        </th>
-                                                                                        <td>
-                                                                                            <%= v1.list[i].name %>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <%= Math.round(v1.list[i].shits) %>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <% } else { %>
-                                                                                        <% if (v1.list[i].shits != 0) { %>
-                                                                                            <tr>
-                                                                                                <th scope="row" class="text-center">
-                                                                                                    <%= i + 1 %>
-                                                                                                </th>
-                                                                                                <td>
-                                                                                                    <%= v1.list[i].name %>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <%= Math.round(v1.list[i].shits) %>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <% } %>
-                                                                                                <% } %>
-                                                                                                    <% } %>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                            <div class="row">
-                                                <div class="col-12 mt-3">
-                                                    <span class="float-right">
-                                                        <a id="btn-yashit">
-                                                            <button type="button" class="btn btn-brown"><%= trans.JUMP_TO_YOU %></button>
-                                                        </a>
-                                                    </span>
-                                                </div>
-                                            </div>
-    
-                                            
-    
-                                        </div>
-                                        <!--/.Panel content-->
-    
-                                    </div>
-                                    <!--/First column-->
-                                </div>
-                                <!--/Third row-->
-    
-                            </div>
-                            <!--/.Card content-->
-    
                         </div>
-                        <!--/.Card-->
-    
-                    </section>
+
+                        <div class="view gradient-card-header mt-4 z-depth-0" style="height:60vh">
+                            <canvas id="shitbar"></canvas>
+                        </div>
+                        <!--/Card image-->
+
+                        <!--Card content-->
+                        <div class="card-body blue-panel text-center">
+
+
+                            <!--Third row-->
+                            <div class="row mb-0 pt-5">
+
+                                <!--First column-->
+                                <div class="col-md-12">
+
+                                    <!--Panel content-->
+                                    <div class="card-body pt-0">
+                                        <div id="shit-container" class="table-wrapper-2">
+                                            <table class="table table-sm table-striped">
+                                                <col width="20%">
+                                                <col width="40%">
+                                                <col width="40%">
+                                                <thead class="brown text-white">
+                                                    <tr>
+                                                        <th class="text-center">#</th>
+                                                        <th>
+                                                            <%= trans.USERNAME %>
+                                                        </th>
+                                                        <th>
+                                                            <%= trans.SHIT_SCORE %>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% v1.list.sort((a, b) => { %>
+                                                        <% return b.shits - a.shits; %>
+                                                            <% }); %>
+                                                                <% for (let i = 0; i < v1.list.length; i++) { %>
+                                                                    <% if (v1.list[i].id == user_data.id) { %>
+                                                                        <tr class="table-warning" id="wonk">
+                                                                            <th scope="row" class="text-center">
+                                                                                <%= i + 1 %>
+                                                                            </th>
+                                                                            <td>
+                                                                                <%= v1.list[i].name %>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= Math.round(v1.list[i].shits) %>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <% } else { %>
+                                                                            <% if (v1.list[i].shits != 0) { %>
+                                                                                <tr>
+                                                                                    <th scope="row" class="text-center">
+                                                                                        <%= i + 1 %>
+                                                                                    </th>
+                                                                                    <td>
+                                                                                        <%= v1.list[i].name %>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <%= Math.round(v1.list[i].shits) %>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <% } %>
+                                                                                    <% } %>
+                                                                                        <% } %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 mt-3">
+                                                <span class="float-right">
+                                                    <a id="btn-yashit">
+                                                        <button type="button" class="btn btn-brown">
+                                                            <%= trans.JUMP_TO_YOU %>
+                                                        </button>
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                    <!--/.Panel content-->
+
+                                </div>
+                                <!--/First column-->
+                            </div>
+                            <!--/Third row-->
+
+                        </div>
+                        <!--/.Card content-->
+
+                    </div>
+                    <!--/.Card-->
+
+                </section>
             </div>
         </main>
 
@@ -375,19 +391,19 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
                     }
                 })
             </script>
 
             <script>
-                const ctx = document.getElementById("shitbar").getContext('2d');
-                const chart = new Chart(ctx, {
+                const ctx2 = document.getElementById("shitbar").getContext('2d');
+                const chart2 = new Chart(ctx2, {
                     type: "bar",
                     data: {
                         labels: ["Kyrion", "Tweek Tweak", "kratosgow342", "superfloree", "NitroSage"],
@@ -407,12 +423,12 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
                     }
                 })
             </script>

@@ -20,6 +20,8 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+        crossorigin="anonymous">
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
@@ -96,51 +98,55 @@
             cursor: pointer;
         }
 
-        .Neutral {
+        .Gen {
             background-color: #857468;
             color: white;
         }
 
-        .Adventure {
+        .Adv {
             background-color: #4f80ba;
             color: white;
         }
 
-        .Sci-Fi {
+        .Sci {
             background-color: #db571d;
             color: white;
         }
 
-        .Mystical {
+        .Mys {
             background-color: #4b9b38;
             color: white;
         }
 
-        .Fantasy {
+        .Fan {
             background-color: #d34f5f;
             color: white;
         }
 
-        .NeutralText {
+        .Gen {
             color: #857468;
         }
 
-        .AdventureText {
+        .AdvText {
             color: #4f80ba;
         }
 
-        .Sci-FiText {
+        .SciText {
             color: #db571d;
         }
 
-        .MysticalText {
+        .MysText {
             color: #4b9b38;
         }
 
-        .FantasyText {
+        .FanText {
             color: #d34f5f;
         }
 
+        .dropdown-content li>a,
+        .dropdown-content li>span {
+            color: #212529;
+        }
 
         @media (max-width: 992px) {
             #filters {
@@ -200,7 +206,6 @@
                             <div class="col-12">
                                 <!--Accordion wrapper-->
                                 <div class="accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
-
 
 
                                 </div>
@@ -274,16 +279,30 @@
 
                     // Material Select Initialization
                     $(document).ready(function () {
-                        $('.mdb-select').material_select();
-
+                        function camelPad(str) {
+                            return str
+                                // Look for long acronyms and filter out the last letter
+                                .replace(/([A-Z]+)([A-Z][a-z])/g, ' $1 $2')
+                                // Look for lower-case letters followed by upper-case letters
+                                .replace(/([a-z\d])([A-Z])/g, '$1 $2')
+                                // Look for lower-case letters followed by numbers
+                                .replace(/([a-zA-Z])(\d)/g, '$1 $2')
+                                .replace(/^./, function (str) {
+                                    return str.toUpperCase();
+                                })
+                                // Remove any white space left around the word
+                                .trim();
+                        }
                         //get them cards
                         const getCards = new XMLHttpRequest();
                         getCards.open("GET",
-                            `https://gist.githubusercontent.com/MattheousDT/b7149d3932d930ce2fc9ce9056379787/raw/e68e0a57e7820c7fb87d8d5c436ee8fd75bc718e/cards.json`,
+                            `https://gist.githubusercontent.com/MattheousDT/3f45f903f05c1f56cdf7bd528d77dcd1/raw/4e4c6be506b01f93ab51b838adc46d39c85f4fc7/cards_15aug.json`,
                             false);
                         getCards.send();
                         const cardsYay = JSON.parse(getCards.response);
                         const cardsList = $("#cardsList");
+
+
 
 
                         //sorting
@@ -301,7 +320,6 @@
 
                         const url = window.location.pathname
                         const currentCard = url.substring(22);
-
                         $(function () {
                             $(".sticky").sticky({
                                 topSpacing: 90,
@@ -311,20 +329,30 @@
                         });
 
                         for (let i = 0; i < cardsYay.length; i++) {
-                            if (cardsYay[i].art.slice(0, -4) === currentCard) {
-
-                                if (cardsYay[i].name instanceof Array) {
-                                    var cardName = cardsYay[i].name[0];
+                            if (cardsYay[i].Image === currentCard) {
+                                console.log(cardsYay[i])
+                                if (cardsYay[i].Name instanceof Array) {
+                                    var cardName = cardsYay[i].Name[0];
                                 } else {
-                                    var cardName = cardsYay[i].name;
+                                    var cardName = cardsYay[i].Name;
                                 };
+
+                                if (cardsYay[i].Rarity === 0) {
+                                    var rarity = "Common";
+                                } else if (cardsYay[i].Rarity === 1) {
+                                    var rarity = "Rare";
+                                } else if (cardsYay[i].Rarity === 2) {
+                                    var rarity = "Epic";
+                                } else if (cardsYay[i].Rarity === 3) {
+                                    var rarity = "Legendary";
+                                }
 
 
                                 $(".cardContainer").html(
                                     `
-                                <img class="img-fluid cardBg" src="/cards/backgrounds/${cardsYay[i].art}">
+                                <img class="img-fluid cardBg" src="/cards/backgrounds/${cardsYay[i].Image}.jpg">
                                 <div class="cardFrame">
-                                    <img class="img-fluid" src="/cards/frames/frame_${cardsYay[i].art.slice(0,-4)}.png">
+                                    <img class="img-fluid" src="/cards/frames/frame_${cardsYay[i].Image}.png">
                                 </div>
                                 `
                                 )
@@ -336,148 +364,369 @@
                                                     ${cardName}
                                                     <sup>
                                                         <a id="share-card" style="font-size: 16pt" data-toggle="tooltip" data-placement="top" title="Copy link to card">
-                                                            <i class="fa fa-share-square-o" aria-hidden="true"></i>
+                                                            <i class="fa fa-share-square" aria-hidden="true"></i>
                                                         </a>
                                                     </sup>
                                                 </h1>
-                                                <h4 class="font-weight-bold dark-grey-text">${cardsYay[i].rarity} - ${cardsYay[i].class} -
-                                                    <span class="light-blue-text">
-                                                        <i class="fa fa-bolt" aria-hidden="true"></i> ${cardsYay[i].energy}</span>
+                                                <h4 class="font-weight-bold dark-grey-text">${rarity} | ${cardsYay[i].CharacterType}
+                                                    
                                                 </h4>
-                                                <h5 class="font-italic">${cardsYay[i].levels[0].upgrades[0].ability_info.description}</h5>
+                                                <h4 class="font-weight-bold dark-grey-text">
+                                                    <span class="light-blue-text">
+                                                        <i class="fa fa-bolt" aria-hidden="true"></i> ${cardsYay[i].ManaCost}
+                                                    </span> | <span class="red-text">
+                                                        <i class="fa fa-heart" aria-hidden="true"></i> <span id="health">${cardsYay[i].Health}</span>
+                                                    </span> | <span class="orange-text">
+                                                        <i class="fa fa-shield-alt" aria-hidden="true"></i> <span id="damage">${cardsYay[i].Damage}</span>
+                                                    </span>
+                                                </h4>
+                                                <h5 id="desc" class="font-italic">${cardsYay[i].Description}</h5>
                                             </div>
+                                            
                                             <div class="pt-4">
-                                                    <h5 class="font-weight-bold ThemeText">AWESOM-O Commands</h5>
+                                        <h5 class="font-weight-bold ThemeText">Select an upgrade level</h5>
+                                        <div class="col-6 pl-0">
+                                        <select id="level-select" class="mdb-select">
+                                        <option>Upgrade 1 / 70</option>
+                                        <option>Upgrade 2 / 70</option>
+                                        <option>Upgrade 3 / 70</option>
+                                        <option>Upgrade 4 / 70</option>
+                                        <option>Upgrade 5 / 70</option>
+                                        <option>Level 1</option>
+                                        <option>Upgrade 6 / 70</option>
+                                        <option>Upgrade 7 / 70</option>
+                                        <option>Upgrade 8 / 70</option>
+                                        <option>Upgrade 9 / 70</option>
+                                        <option>Upgrade 10 / 70</option>
+                                        <option>Upgrade 11 / 70</option>
+                                        <option>Upgrade 12 / 70</option>
+                                        <option>Upgrade 13 / 70</option>
+                                        <option>Upgrade 14 / 70</option>
+                                        <option>Upgrade 15 / 70</option>
+                                        <option>Level 2</option>
+                                        <option>Upgrade 16 / 70</option>
+                                        <option>Upgrade 17 / 70</option>
+                                        <option>Upgrade 18 / 70</option>
+                                        <option>Upgrade 19 / 70</option>
+                                        <option>Upgrade 20 / 70</option>
+                                        <option>Upgrade 21 / 70</option>
+                                        <option>Upgrade 22 / 70</option>
+                                        <option>Upgrade 23 / 70</option>
+                                        <option>Upgrade 24 / 70</option>
+                                        <option>Upgrade 25 / 70</option>
+                                        <option>Level 3</option>
+                                        <option>Upgrade 26 / 70</option>
+                                        <option>Upgrade 27 / 70</option>
+                                        <option>Upgrade 28 / 70</option>
+                                        <option>Upgrade 29 / 70</option>
+                                        <option>Upgrade 30 / 70</option>
+                                        <option>Upgrade 31 / 70</option>
+                                        <option>Upgrade 32 / 70</option>
+                                        <option>Upgrade 33 / 70</option>
+                                        <option>Upgrade 34 / 70</option>
+                                        <option>Upgrade 35 / 70</option>
+                                        <option>Upgrade 36 / 70</option>
+                                        <option>Upgrade 37 / 70</option>
+                                        <option>Upgrade 38 / 70</option>
+                                        <option>Upgrade 39 / 70</option>
+                                        <option>Upgrade 40 / 70</option>
+                                        <option>Level 4</option>
+                                        <option>Upgrade 41 / 70</option>
+                                        <option>Upgrade 42 / 70</option>
+                                        <option>Upgrade 43 / 70</option>
+                                        <option>Upgrade 44 / 70</option>
+                                        <option>Upgrade 45 / 70</option>
+                                        <option>Upgrade 46 / 70</option>
+                                        <option>Upgrade 47 / 70</option>
+                                        <option>Upgrade 48 / 70</option>
+                                        <option>Upgrade 49 / 70</option>
+                                        <option>Upgrade 50 / 70</option>
+                                        <option>Upgrade 51 / 70</option>
+                                        <option>Upgrade 52 / 70</option>
+                                        <option>Upgrade 53 / 70</option>
+                                        <option>Upgrade 54 / 70</option>
+                                        <option>Upgrade 55 / 70</option>
+                                        <option>Level 5</option>
+                                        <option>Upgrade 56 / 70</option>
+                                        <option>Upgrade 57 / 70</option>
+                                        <option>Upgrade 58 / 70</option>
+                                        <option>Upgrade 59 / 70</option>
+                                        <option>Upgrade 60 / 70</option>
+                                        <option>Upgrade 61 / 70</option>
+                                        <option>Upgrade 62 / 70</option>
+                                        <option>Upgrade 63 / 70</option>
+                                        <option>Upgrade 64 / 70</option>
+                                        <option>Upgrade 65 / 70</option>
+                                        <option>Upgrade 66 / 70</option>
+                                        <option>Upgrade 67 / 70</option>
+                                        <option>Upgrade 68 / 70</option>
+                                        <option>Upgrade 69 / 70</option>
+                                        <option>Upgrade 70 / 70</option>
+                                        <option>Level 6</option>
+                                    </select>
+                                    </div>
+                                    <h5 class="font-weight-bold ThemeText">AWESOM-O Commands</h5>
                                     <ul id="awesomo-commands" class="list-unstyled">
+                                        <code>-card ${cardsYay[i].Name.toLowerCase()}</code>
                                     </ul>
-                                <h5 class="font-weight-bold ThemeText">Attack Information</h5>
+                                    <h5 class="font-weight-bold ThemeText">General Information</h5>
                                     <ul class="list-unstyled align">
                                         <li>
-                                            <span class="font-weight-bold dark-grey-text">Attack Range:</span>
-                                            <span id="modal-attack-range">${cardsYay[i].attack_info.attack_range}</span>
+                                            <span class="font-weight-bold dark-grey-text">Cast Area:</span>
+                                            <span >${camelPad(cardsYay[i].CastArea)}</span>
                                         </li>
                                         <li>
-                                            <span class="font-weight-bold dark-grey-text">Attack Speed:</span>
-                                            <span id="modal-attack-speed">${cardsYay[i].attack_info.attack_speed}</span>
+                                            <span class="font-weight-bold dark-grey-text">Max Velocity:</span>
+                                            <span >${cardsYay[i].MaxVelocity}</span>
                                         </li>
                                         <li>
-                                            <span class="font-weight-bold dark-grey-text">Pre Attack Delay:</span>
-                                            <span id="modal-pre-attack-delay">${cardsYay[i].attack_info.pre_attack_delay}</span>
+                                            <span class="font-weight-bold dark-grey-text">Time To Reach Max Velocity:</span>
+                                            <span>${cardsYay[i].TimeToReachMaxVelocity} seconds</span>
                                         </li>
                                         <li>
-                                            <span class="font-weight-bold dark-grey-text">Time Between Attacks:</span>
-                                            <span id="modal-time-between-attacks">${cardsYay[i].attack_info.time_between_delay}</span>
+                                            <span class="font-weight-bold dark-grey-text">Agro Range Multiplier:</span>
+                                            <span>${cardsYay[i].AgroRangeMultiplier}x</span>
                                         </li>
-                                        <li>
-                                            <span class="font-weight-bold dark-grey-text">AOE Attack:</span>
-                                            <span id="modal-aoe-attack">${cardsYay[i].attack_info.aoe_info.aoe}</span>
+                                    </ul>    
+                                <h5 id="attack" class="font-weight-bold ThemeText">Can Attack?</h5>
+                                    <ul id="attack-info" class="list-unstyled align">
+                                    </ul>
+                                    <h5 id="aoe" class="font-weight-bold ThemeText">AOE Attacks?</h5>
+                                    <ul id="aoe-info" class="list-unstyled">
+
+                                    </ul>
+                                    <h5 class="font-weight-bold ThemeText">Power Information</h5>
+                                    <ul class="list-unstyled">
+                                        <li class="power-stat">
+                                            <span class="font-weight-bold dark-grey-text">Attack Boost:</span>
+                                            <span class="power-stat-value">${cardsYay[i].PowerAttackBoost}</span>
+                                        </li>
+                                        <li class="power-stat">
+                                            <span class="font-weight-bold dark-grey-text">Attack Decrease:</span>
+                                            <span class="power-stat-value">${cardsYay[i].PowerAttackDecrease}</span>
+                                        </li>
+                                        <li class="power-stat">
+                                            <span class="font-weight-bold dark-grey-text">Damage:</span>
+                                            <span class="power-stat-value">${cardsYay[i].PowerDamage}</span>
+                                        </li>
+                                        <li class="power-stat">
+                                            <span class="font-weight-bold dark-grey-text">Duration:</span>
+                                            <span class="power-stat-value">${cardsYay[i].PowerDuration}</span>
+                                        </li>
+                                        <li class="power-stat">
+                                            <span class="font-weight-bold dark-grey-text">Heal:</span>
+                                            <span class="power-stat-value">${cardsYay[i].PowerHeal}</span>
+                                        </li>
+                                        <li class="power-stat">
+                                            <span class="font-weight-bold dark-grey-text">Hero Damage:</span>
+                                            <span class="power-stat-value">${cardsYay[i].PowerHeroDamage}</span>
+                                        </li>
+                                        <li class="power-stat">
+                                            <span class="font-weight-bold dark-grey-text">Hero Heal:</span>
+                                            <span class="power-stat-value">${cardsYay[i].PowerHeroHeal}</span>
+                                        </li>
+                                        <li class="power-stat">
+                                            <span class="font-weight-bold dark-grey-text">Poison:</span>
+                                            <span class="power-stat-value">${cardsYay[i].PowerHeroPoison}</span>
+                                        </li>
+                                        <li class="power-stat">
+                                            <span class="font-weight-bold dark-grey-text">Max HP Gain:</span>
+                                            <span class="power-stat-value">${cardsYay[i].PowerMaxHPGain}</span>
+                                        </li>
+                                        <li class="power-stat">
+                                            <span class="font-weight-bold dark-grey-text">Max HP Loss:</span>
+                                            <span class="power-stat-value">${cardsYay[i].PowerMaxHPLoss}</span>
+                                        </li>
+                                        <li class="power-stat">
+                                            <span class="font-weight-bold dark-grey-text">Poision Amount:</span>
+                                            <span class="power-stat-value">${cardsYay[i].PowerPoisonAmount}</span>
+                                        </li>
+                                        <li class="power-stat">
+                                            <span class="font-weight-bold dark-grey-text">Summon Level:</span>
+                                            <span class="power-stat-value">${cardsYay[i].PowerSummonLevel}</span>
+                                        </li>
+                                        <li class="power-stat">
+                                            <span class="font-weight-bold dark-grey-text">Charged Power Radius:</span>
+                                            <span class="power-stat-value">${cardsYay[i].ChargedPowerRadius /2}</span>
+                                        </li>
+                                        <li class="power-stat">
+                                            <span class="font-weight-bold dark-grey-text">Charged Power Regen:</span>
+                                            <span class="power-stat-value">${Math.round(cardsYay[i].ChargedPowerRegen * 100) / 100}</span>
                                         </li>
                                     </ul>
-                                    <h5 class="font-weight-bold ThemeText">Speed Information</h5>
+                                    <h5 class="font-weight-bold ThemeText">Requirements</h5>
                                     <ul class="list-unstyled">
                                         <li>
-                                            <span class="font-weight-bold dark-grey-text">Max Speed:</span>
-                                            <span id="modal-max-speed">${cardsYay[i].speed_info.max_speed}</span>
+                                            <span class="font-weight-bold dark-grey-text">Minimum Episode Completed:</span>
+                                            <span id="modal-minimum-pvp-rank">${cardsYay[i].Requirements.MinEpisodeCompleted}</span>
                                         </li>
-                                        <li>
-                                            <span class="font-weight-bold dark-grey-text">Time To Max Speed:</span>
-                                            <span id="modal-time-to-max-speed">${cardsYay[i].speed_info.time_to_max_speed}</span>
-                                        </li>
-                                    </ul>
-                                    <h5 class="font-weight-bold ThemeText">Additional Information</h5>
-                                    <ul class="list-unstyled">
                                         <li>
                                             <span class="font-weight-bold dark-grey-text">Minimum PVP Rank Required:</span>
-                                            <span id="modal-minimum-pvp-rank">${cardsYay[i].min_pvp_rank}</span>
+                                            <span id="modal-minimum-pvp-rank">${cardsYay[i].Requirements.MinPVPRank}</span>
                                         </li>
                                         <li>
-                                            <span class="font-weight-bold dark-grey-text">Health Loss:</span>
-                                            <span id="modal-minimum-pvp-rank">${cardsYay[i].health_loss}</span>
-                                        </li>
-                                        <li>
-                                            <span class="font-weight-bold dark-grey-text">Power Charge Rate:</span>
-                                            <span id="modal-minimum-pvp-rank">${cardsYay[i].power_charge_rate}</span>
+                                            <span class="font-weight-bold dark-grey-text">Minimum Player Level:</span>
+                                            <span id="modal-minimum-pvp-rank">${cardsYay[i].Requirements.MinPlayerLevel}</span>
                                         </li>
                                     </ul>
-                                    <h5 class="font-weight-bold ThemeText">southparkphone.gg Tags</h5>
-                                    <div id="tags"></div>
+                                    </div>
+                                    <div id="table">
                                     </div>
                                 `
                                 );
-
+                                $('.mdb-select').material_select();
                                 const cardID = cardsYay[i]
 
-                                for (let h = 0; h < cardsYay[i].levels.length; h++) {
-                                    $("#accordionEx").append(
-                                        `
-                                    <!-- Accordion card -->
-                                    <div class="card" style="background: inherit">
+                                //replace redlynx's cunty shit
 
-                                        <!-- Card header -->
-                                        <div class="card-header" role="tab" id="heading${cardsYay[i].levels[h].level}" style="padding-left: 0">
-                                            <a data-toggle="collapse" data-parent="#accordionEx" href="#collapse${cardsYay[i].levels[h].level}" aria-expanded="false" aria-controls="collapse${cardsYay[i].levels[h].level}">
-                                                <h5 class="mb-0 ThemeText font-weight-bold">
-                                                    Level ${cardsYay[i].levels[h].level} Stats
-                                                    <i class="fa fa-angle-down rotate-icon"></i>
-                                                </h5>
-                                            </a>
-                                        </div>
+                                $("#desc").text(function () {
+                                    return $(this).text().replace(
+                                        "{PowerDurationMin}-{PowerDurationMax}", cardsYay[i].PowerDuration +
+                                        " seconds");
+                                });
+                                $("#desc").text(function () {
+                                    return $(this).text().replace("{PowerHeroPoison}", cardsYay[i].PowerPoisonAmount);
+                                });
+                                $("#desc").text(function () {
+                                    if (cardsYay[i].PowerHeroDamage === null) {
+                                        return $(this).text().replace("{PowerHeroDamage}", cardsYay[i].PowerDamage);
+                                    } else {
+                                        return $(this).text().replace("{PowerHeroDamage}", cardsYay[i].PowerHeroDamage);
+                                    }
+                                });
+                                $("#desc").text(function () {
+                                    return $(this).text().replace("{PowerDuration}", cardsYay[i].PowerDuration +
+                                        " seconds");
+                                });
+                                $("#desc").text(function () {
+                                    return $(this).text().replace("{PowerHeal}", cardsYay[i].PowerHeal);
+                                });
+                                $("#desc").text(function () {
+                                    return $(this).text().replace("{PowerAttackBoost}", cardsYay[i].PowerAttackBoost);
+                                });
+                                $("#desc").text(function () {
+                                    return $(this).text().replace("{PowerTargetAmount}", "1");
+                                });
 
-                                        <!-- Card body -->
-                                        <div id="collapse${cardsYay[i].levels[h].level}" class="collapse" role="tabpanel" aria-labelledby="heading${cardsYay[i].levels[h].level}" data-parent="#accordionEx">
-                                            <div class="pt-2">
-                                                <ul class="list-unstyled align">
-                                                    <li>
-                                                        <span class="font-weight-bold purple-text">
-                                                            <i class="fa fa-clone" aria-hidden="true"></i> Cards Needed to Upgrade:</span>
-                                                        <span id="modal-attack-range">${cardsYay[i].levels[h].cards_to_upgrade}</span>
-                                                    </li>
-                                                    <li>
-                                                        <span class="font-weight-bold red-text">
-                                                            <i class="fa fa-heart" aria-hidden="true"></i> Health:</span>
-                                                        <span id="modal-attack-range">${cardsYay[i].levels[h].upgrades[0].health}</span>
-                                                    </li>
-                                                    <li>
-                                                        <span class="font-weight-bold orange-text" style="margin-left: 2.5px">
-                                                            <i class="fa fa-shield" aria-hidden="true"></i> Attack:</span>
-                                                        <span id="modal-attack-range">${cardsYay[i].levels[h].upgrades[0].attack}</span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Accordion card -->
-                                    `
-                                    );
-                                    $.each($('span'), function (i, e) {
-                                        $(e).html($(e).html().replace(/null/g, 'N/A'));
-                                    });
+                                //Hide unnessasary power stats
+                                $(".power-stat-value:contains('null')").parent().hide()
+                                //$(".power-stat-value:contains('0')").parent().hide()
+                                $(".power-stat-value").filter(function () {
+                                    return $(this).text() === "0";
+                                }).parent().hide();
+                                //change null to n/a cause it looks better innit
+                                $.each($('span'), function (i, e) {
+                                    $(e).html($(e).html().replace(/null/g, 'N/A'));
+                                });
+
+                                const upgrades = [];
+
                                 
+                                for (let h = 0; h < cardsYay[i].TechTree2.Slots.length; h++) {
+                                    //console.log(cardsYay[i].TechTree2.Slots[h])
+                                    if (cardsYay[i].TechTree2.Slots[h].property == "MaxHealth") {
+                                        //console.log(cardsYay[i].TechTree2.Slots[h])
 
-                                    $("#tags").html("");
-
-                                    for (let t = 0; t < cardsYay[i].tags.length; t++) {
-                                        $("#tags").append(
-                                            ` <span class="badge badge-pill ThemeColour">${cardsYay[i].tags[t]}</span> `
-                                        );
-                                    };
-                                    $("#collapse1").collapse();
-                                    $(".ThemeText").addClass(cardsYay[i].theme + "Text");
-                                    $(".ThemeColour").addClass(cardsYay[i].theme);
+                                        console.log(h)
+                                        let urma = {
+                                            "upgrade": h,
+                                            "attr": "Health",
+                                            "value": parseFloat(cardsYay[i].Health) + (parseFloat(cardsYay[
+                                                i].TechTree2.Slots[h].value))
+                                        };
+                                        upgrades.push(urma)
+                                    }
                                 }
-                                if (cardsYay[i].name instanceof Array) {
-                                        for (let c = 0; c < cardsYay[i].name.length; c++) {
-                                            $("#awesomo-commands").append(
-                                                `<li class="mt-2">
+
+                                console.log(upgrades)
+                                $("#level-select").change(function () {
+                                    const selected = $("#level-select option:selected").index();
+
+                                });
+
+
+                                /* $("#tags").html("");
+
+                                for (let t = 0; t < cardsYay[i].tags.length; t++) {
+                                    $("#tags").append(
+                                        ` <span class="badge badge-pill ThemeColour">${cardsYay[i].tags[t]}</span> `
+                                    );
+                                };
+                                */
+                                $("#collapse1").collapse();
+                                $(".ThemeText").addClass(cardsYay[i].Theme + "Text");
+                                $(".ThemeColour").addClass(cardsYay[i].Theme);
+
+                                //Attack Information
+                                if (cardsYay[i].CanAttack === false) {
+                                    $("#attack").html(
+                                        `Can Attack? <span><i class="red-text fa fa-close "><i></span>`);
+                                } else {
+                                    $("#attack").html(
+                                        `Can Attack? <span class="green-text"><i class="fa fa-check "></span>`
+                                    );
+                                    $("#attack-info").html(
+                                        `
+                                        <li>
+                                            <span class="font-weight-bold dark-grey-text">Attack Range:</span>
+                                            <span>${cardsYay[i].AttackRange / 2}</span>
+                                        </li>
+                                        <li>
+                                            <span class="font-weight-bold dark-grey-text">Pre-Attack Delay:</span>
+                                            <span>${cardsYay[i].PreAttackDelay}</span>
+                                        </li>
+                                        <li>
+                                            <span class="font-weight-bold dark-grey-text">Knockback:</span>
+                                            <span>${Math.round(cardsYay[i].KnockbackImpulse)} at ${cardsYay[i].KnockbackAngleDeg}°</span>
+                                        </li>
+                                        <li>
+                                            <span class="font-weight-bold dark-grey-text">Time In Between Attacks:</span>
+                                            <span>${cardsYay[i].TimeInBetweenAttacks}</span>
+                                        </li>
+                                    `
+                                    )
+                                };
+
+                                //AOE Attack
+                                if (cardsYay[i].AOEAttackType === "No" || cardsYay[i].AOEAttackType ===
+                                    undefined) {
+                                    $("#aoe").html(
+                                        `AOE Attacks? <span><i class="red-text fa fa-close "><i></span>`);
+                                } else {
+                                    $("#aoe").html(
+                                        `AOE Attacks? <span class="green-text">${cardsYay[i].AOEAttackType}</span>`
+                                    );
+                                    $("#aoe-info").html(
+                                        `
+                                        <li>
+                                            <span class="font-weight-bold dark-grey-text">AOE Damage Percentage:</span>
+                                            <span>${cardsYay[i].AOEDamagePercentage}%</span>
+                                        </li>
+                                        <li>
+                                            <span class="font-weight-bold dark-grey-text">AOE Knockback Percentage:</span>
+                                            <span>${cardsYay[i].AOEKnockbackPercentage}%</span>
+                                        </li>
+                                        <li>
+                                            <span class="font-weight-bold dark-grey-text">AOE Radius:</span>
+                                            <span>${cardsYay[i].AOERadius / 2}</span>
+                                        </li>
+                                    `
+                                    )
+                                };
+                            }
+                            //END OF FOR LOOP
+
+
+                            if (cardsYay[i].name instanceof Array) {
+                                for (let c = 0; c < cardsYay[i].name.length; c++) {
+                                    $("#awesomo-commands").append(
+                                        `<li class="mt-2">
                                             <span class="font-weight-bold dark-grey-text"><code>-card ${cardsYay[i].name[c].toLowerCase()}</code></span>
                                         </li>`
-                                            );
-                                        }
-                                    }
-                            }
-                        }
-
-                        $("")
+                                    );
+                                }
+                            };
+                        };
 
                         $(function () {
                             $('[data-toggle="tooltip"]').tooltip()

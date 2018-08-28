@@ -20,16 +20,17 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+        crossorigin="anonymous">
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="/css/mdb.min.css" rel="stylesheet">
 
     <link href="/css/style.css" rel="stylesheet">
-</head>
 
-<body class="fixed-sn">
-    <!--
+    <body class="fixed-sn">
+        <!--
     <div id="mdb-preloader" class="flex-center">
         <div id="preloader-markup" class="text-center">
             <img src="/img/headerlogo.png">
@@ -50,441 +51,446 @@
         </div>
     </div>
 -->
-    <%- include ../partials/d-navbar.ejs %>
-        <!--Main Layout-->
+        <%- include ../partials/d-navbar.ejs %>
+            <!--Main Layout-->
 
 
-        <main>
+            <main>
 
-            <div class="container-fluid">
-                <div class="col-md-12 col-sm-12 pb-2">
-                    <div class="text-center" style="width: 100%">
-                        <h1 class="font-weight-bold mb-2 mt-2 mb-5">
-                            <%= trans.WELCOME %>
-                                <%= user_data.username %>
-                                    <br>
-                                    <%= trans.WELCOME_DASH_2 %>
-                        </h1>
-                    </div>
-                </div>
-                <!-- First row -->
-                <div class="row mt-2">
-                    <!-- First column -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <!--Card-->
-                        <div class="card card-cascade cascading-admin-card">
-
-                            <!--Card Data-->
-                            <div class="admin-up">
-                                <i class="fa fa-globe primary-color"></i>
-                                <div class="data">
-                                    <p>
-                                        <%= trans.TOTAL_ONLINE %>
-                                    </p>
-                                    <h3 class="font-weight-bold dark-grey-text">60</h3>
-                                </div>
-                            </div>
-                            <!--/.Card Data-->
-
-                            <!--Card content-->
-                            <div class="card-body">
-                                <div class="progress">
-                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 19%"></div>
-                                </div>
-                                <!--Text-->
-                                <p class="card-text">
-                                    <%= trans.OUT_OF %> 311
-                                        <%= trans.TOTAL_USERS %>
-                                </p>
-                            </div>
-                            <!--/.Card content-->
-
+                <div class="container-fluid">
+                    <div class="col-md-12 col-sm-12 pb-2">
+                        <div class="text-center" style="width: 100%">
+                            <h1 class="font-weight-bold mb-2 mt-2 mb-5">
+                                <%= trans.WELCOME %>
+                                    <%= user_data.username %>
+                                        <br>
+                                        <%= trans.WELCOME_DASH_2 %>
+                            </h1>
                         </div>
-                        <!--/.Card-->
                     </div>
+                    <!-- First row -->
+                    <div class="row mt-2">
+                        <!-- First column -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <!--Card-->
+                            <div class="card card-cascade cascading-admin-card">
 
-                    <!-- Second column -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <!--Card-->
-                        <div class="card card-cascade cascading-admin-card">
-
-                            <!--Card Data-->
-                            <div class="admin-up">
-                                <i class="fa fa-bar-chart warning-color"></i>
-                                <div class="data">
-                                    <p>
-                                        <%= trans.ACTIVITY_RANKING %>
-                                    </p>
-                                    <h3 class="font-weight-bold dark-grey-text">23
-                                        <%= trans.DATE_RD %>
-                                    </h3>
-                                </div>
-                            </div>
-                            <!--/.Card Data-->
-
-                            <!--Card content-->
-                            <div class="card-body">
-                                <div class="progress">
-                                    <div class="progress-bar warning-color" role="progressbar" style="width: 90%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <!--Text-->
-                                <p class="card-text">
-                                    <%= trans.OUT_OF %> 311
-                                        <%= trans.TOTAL_USERS %>
-                                </p>
-                            </div>
-                            <!--/.Card content-->
-
-                        </div>
-                        <!--/.Card-->
-                    </div>
-
-                    <!-- Third column -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <!--Card-->
-                        <div class="card card-cascade cascading-admin-card">
-
-                            <!--Card Data-->
-                            <div class="admin-up">
-                                <i class="fa fa-code light-blue lighten-1"></i>
-                                <div class="data">
-                                    <p>
-                                        <%= trans.TOTAL_COMMANDS_USED %>
-                                    </p>
-                                    <h3 class="font-weight-bold dark-grey-text">21,479</h3>
-                                </div>
-                            </div>
-                            <!--/.Card Data-->
-
-                            <!--Card content-->
-                            <div class="card-body">
-                                <div class="progress">
-                                    <div class="progress-bar light-blue lighten-1" role="progressbar" style="width: 75%"></div>
-                                </div>
-                                <!--Text-->
-                                <p class="card-text">
-                                    <%= trans.SO_FAR_THIS_MONTH %>
-                                </p>
-                            </div>
-                            <!--/.Card content-->
-
-                        </div>
-                        <!--/.Card-->
-                    </div>
-
-                    <!-- Fourth column -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <!--Card-->
-                        <div class="card card-cascade cascading-admin-card">
-
-                            <!--Card Data-->
-                            <div class="admin-up">
-                                <p class="fa fa-exclamation-circle brown accent-2"></p>
-                                <div class="data">
-                                    <p>
-                                        <%= trans.IT_HITS_THE_FAN %>
-                                    </p>
-                                    <h3 class="font-weight-bold dark-grey-text">4,567
-                                        <%= trans.SHITS %>
-                                    </h3>
-                                </div>
-                            </div>
-                            <!--/.Card Data-->
-
-                            <!--Card content-->
-                            <div class="card-body">
-                                <div class="progress">
-                                    <div class="progress-bar brown accent-2" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <!--Text-->
-                                <p class="card-text">
-                                    <%= trans.SHITS_DESC %>
-                                </p>
-                            </div>
-                            <!--/.Card content-->
-
-                        </div>
-                        <!--/.Card-->
-                    </div>
-                </div>
-                <!-- /.First row -->
-
-                <!-- Second row -->
-
-                <div class="row">
-
-                    <!-- First column -->
-
-                    <div class="col-lg-6 col-md-12">
-
-                        <div class="card mb-4 text-center py-3 blue-gradient white-text">
-                            <div id="world-map" class="mx-auto" style="width:96%;height:420px;"></div>
-                        </div>
-
-                        <!-- Panel -->
-
-                        <div class="card mb-4">
-                            <div class="card-header white-text primary-color">
-                                Issues
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-
-                                    <table class="table">
-
-                                        <thead>
-                                            <tr>
-                                                <th class="font-weight-bold dark-grey-text">Status</th>
-                                                <th class="font-weight-bold dark-grey-text">Title</th>
-                                                <th class="font-weight-bold dark-grey-text">User</th>
-                                                <th class="font-weight-bold dark-grey-text">Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <span class="badge green">Open</span>
-                                                </td>
-                                                <td>Lorem ipsum dolor</td>
-                                                <td>John Doe</td>
-                                                <td class="hour">
-                                                    <small>
-                                                        <span class="grey-text">
-                                                            <i class="fa fa-clock-o" aria-hidden="true"></i> 12 min</span>
-                                                    </small>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="badge green">Open</span>
-                                                </td>
-                                                <td>Lorem ipsum dolor</td>
-                                                <td>John Doe</td>
-                                                <td class="hour">
-                                                    <small>
-                                                        <span class="grey-text">
-                                                            <i class="fa fa-clock-o" aria-hidden="true"></i> 12 min</span>
-                                                    </small>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="badge warning-color">In progress</span>
-                                                </td>
-                                                <td>Lorem ipsum dolor</td>
-                                                <td>John Doe</td>
-                                                <td class="hour">
-                                                    <small>
-                                                        <span class="grey-text">
-                                                            <i class="fa fa-clock-o" aria-hidden="true"></i> 12 min</span>
-                                                    </small>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="badge red">Closed</span>
-                                                </td>
-                                                <td>Lorem ipsum dolor</td>
-                                                <td>John Doe</td>
-                                                <td class="hour">
-                                                    <small>
-                                                        <span class="grey-text">
-                                                            <i class="fa fa-clock-o" aria-hidden="true"></i> 12 min</span>
-                                                    </small>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <!-- /.Panel -->
-
-                    </div>
-
-                    <!-- /.First column -->
-
-                    <div class="col-lg-6 col-md-12">
-
-                        <!-- Card -->
-                        <div class="card card-image mb-4" style="background-image: url(https://cdn.discordapp.com/attachments/456771924639612940/466128291171008522/banner.png);">
-                            <a href="/dashboard/scripts/marketplace<%= trans.LANG %>">
-                                <!-- Content -->
-                                <div class="text-white text-center d-flex align-items-center rgba-red-strong waves-effect py-5 px-4">
-                                    <div class="mx-auto">
-                                        <h1 class="card-title pt-3 mt-5 mb-5 font-bold">
-                                            <strong>Visit the Marketplace!</strong>
-                                        </h1>
+                                <!--Card Data-->
+                                <div class="admin-up">
+                                    <i class="fa fa-globe primary-color"></i>
+                                    <div class="data">
+                                        <p>
+                                            <%= trans.TOTAL_ONLINE %>
+                                        </p>
+                                        <h3 class="font-weight-bold dark-grey-text">60</h3>
                                     </div>
                                 </div>
-                                <!-- Content -->
-                            </a>
-                        </div>
+                                <!--/.Card Data-->
 
-                        <!--Section: Intro-->
-                        <section class="mt-lg-5">
-
-                            <!--Grid row-->
-                            <div class="row">
-
-                                <!--Grid column-->
-                                <div class="col-md-6 mb-4">
-
-                                    <!--Panel-->
-                                    <div class="card">
-                                        <div class="card-header white-text grey darken-1">
-                                            Orders
-                                        </div>
-
-                                        <h6 class="ml-4 pt-4 mt-1 dark-grey-text font-weight-bold">
-                                            <i class="fa fa-long-arrow-up blue-text mr-3" aria-hidden="true"></i> 2000</h6>
-                                        <!--/.Card Data-->
-
-                                        <!--Card content-->
-                                        <div class="card-body">
-                                            <div class="progress">
-                                                <div class="progress-bar grey darken-2" role="progressbar" style="width: 45%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <!--Text-->
-                                            <p class="font-small grey-text">Better than last week (25%)</p>
-                                        </div>
-                                        <!--/.Card content-->
-
+                                <!--Card content-->
+                                <div class="card-body">
+                                    <div class="progress">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 19%"></div>
                                     </div>
-                                    <!--/.Panel-->
-
+                                    <!--Text-->
+                                    <p class="card-text">
+                                        <%= trans.OUT_OF %> 311
+                                            <%= trans.TOTAL_USERS %>
+                                    </p>
                                 </div>
-                                <!--Grid column-->
+                                <!--/.Card content-->
 
-                                <!--Grid column-->
-                                <div class=" col-md-6 mb-4">
-
-                                    <!--Panel-->
-                                    <div class="card">
-                                        <div class="card-header white-text warning-color">
-                                            Monthly sales
-                                        </div>
-
-                                        <h6 class="ml-4 pt-4 mt-1 dark-grey-text font-weight-bold">
-                                            <i class="fa fa-long-arrow-up blue-text mr-3" aria-hidden="true"></i> $ 2000</h6>
-                                        <!--/.Card Data-->
-
-                                        <!--Card content-->
-                                        <div class="card-body">
-                                            <div class="progress">
-                                                <div class="progress-bar grey darken-2" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <!--Text-->
-                                            <p class="font-small grey-text">Better than last week (25%)</p>
-                                        </div>
-                                        <!--/.Card content-->
-
-                                    </div>
-                                    <!--/.Panel-->
-
-                                </div>
-                                <!--Grid column-->
                             </div>
-                            <!--Grid row-->
-                        </section>
+                            <!--/.Card-->
+                        </div>
 
                         <!-- Second column -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <!--Card-->
+                            <div class="card card-cascade cascading-admin-card">
+
+                                <!--Card Data-->
+                                <div class="admin-up">
+                                    <i class="fa fa-bar-chart warning-color"></i>
+                                    <div class="data">
+                                        <p>
+                                            <%= trans.ACTIVITY_RANKING %>
+                                        </p>
+                                        <h3 class="font-weight-bold dark-grey-text">23
+                                            <%= trans.DATE_RD %>
+                                        </h3>
+                                    </div>
+                                </div>
+                                <!--/.Card Data-->
+
+                                <!--Card content-->
+                                <div class="card-body">
+                                    <div class="progress">
+                                        <div class="progress-bar warning-color" role="progressbar" style="width: 90%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <!--Text-->
+                                    <p class="card-text">
+                                        <%= trans.OUT_OF %> 311
+                                            <%= trans.TOTAL_USERS %>
+                                    </p>
+                                </div>
+                                <!--/.Card content-->
+
+                            </div>
+                            <!--/.Card-->
+                        </div>
+
+                        <!-- Third column -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <!--Card-->
+                            <div class="card card-cascade cascading-admin-card">
+
+                                <!--Card Data-->
+                                <div class="admin-up">
+                                    <i class="fa fa-code light-blue lighten-1"></i>
+                                    <div class="data">
+                                        <p>
+                                            <%= trans.TOTAL_COMMANDS_USED %>
+                                        </p>
+                                        <h3 class="font-weight-bold dark-grey-text">21,479</h3>
+                                    </div>
+                                </div>
+                                <!--/.Card Data-->
+
+                                <!--Card content-->
+                                <div class="card-body">
+                                    <div class="progress">
+                                        <div class="progress-bar light-blue lighten-1" role="progressbar" style="width: 75%"></div>
+                                    </div>
+                                    <!--Text-->
+                                    <p class="card-text">
+                                        <%= trans.SO_FAR_THIS_MONTH %>
+                                    </p>
+                                </div>
+                                <!--/.Card content-->
+
+                            </div>
+                            <!--/.Card-->
+                        </div>
+
+                        <!-- Fourth column -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <!--Card-->
+                            <div class="card card-cascade cascading-admin-card">
+
+                                <!--Card Data-->
+                                <div class="admin-up">
+                                    <p class="fa fa-exclamation-circle brown accent-2"></p>
+                                    <div class="data">
+                                        <p>
+                                            <%= trans.IT_HITS_THE_FAN %>
+                                        </p>
+                                        <h3 class="font-weight-bold dark-grey-text">4,567
+                                            <%= trans.SHITS %>
+                                        </h3>
+                                    </div>
+                                </div>
+                                <!--/.Card Data-->
+
+                                <!--Card content-->
+                                <div class="card-body">
+                                    <div class="progress">
+                                        <div class="progress-bar brown accent-2" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <!--Text-->
+                                    <p class="card-text">
+                                        <%= trans.SHITS_DESC %>
+                                    </p>
+                                </div>
+                                <!--/.Card content-->
+
+                            </div>
+                            <!--/.Card-->
+                        </div>
+                    </div>
+                    <!-- /.First row -->
+
+                    <!-- Second row -->
+
+                    <div class="row">
+
+                        <!-- First column -->
+
+                        <div class="col-lg-6 col-md-12">
+
+                            <!-- <div class="card mb-4 text-center py-3 blue-gradient white-text">
+                                <div id="world-map" class="mx-auto" style="width:96%;height:420px;"></div>
+                            </div>
+                        -->
+                            <!-- Panel -->
+
+                            <div class="card mb-4">
+                                <div class="card-header white-text primary-color">
+                                    AWESOM-O around the world!
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+
+                                        <table class="table">
+                                                
+                                            <thead>
+                                                <tr>
+                                                    <th class="font-weight-bold dark-grey-text">#</th>
+                                                    <th class="font-weight-bold dark-grey-text"></th>
+                                                    <th class="font-weight-bold dark-grey-text">Country</th>
+                                                    <th class="font-weight-bold dark-grey-text">Number of Users</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="awesomo-global">
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- /.Panel -->
+
+                        </div>
+
+                        <!-- /.First column -->
+
+                        <div class="col-lg-6 col-md-12">
+
+                            <!-- Card -->
+                            <div class="card card-image mb-4" style="background-image: url(https://cdn.discordapp.com/attachments/456771924639612940/466128291171008522/banner.png);">
+                                <a href="/dashboard/scripts/marketplace<%= trans.LANG %>">
+                                    <!-- Content -->
+                                    <div class="text-white text-center d-flex align-items-center rgba-red-strong waves-effect py-5 px-4">
+                                        <div class="mx-auto">
+                                            <h1 class="card-title pt-3 mt-5 mb-5 font-bold">
+                                                <strong>Visit the Marketplace!</strong>
+                                            </h1>
+                                        </div>
+                                    </div>
+                                    <!-- Content -->
+                                </a>
+                            </div>
+
+                            <!--Section: Intro-->
+                            <section class="mt-lg-5">
+
+                                <!--Grid row-->
+                                <div class="row">
+
+                                    <!--Grid column-->
+                                    <div class="col-md-6 mb-4">
+
+                                        <!--Panel-->
+                                        <div class="card">
+                                            <div class="card-header white-text grey darken-1">
+                                                Orders
+                                            </div>
+
+                                            <h6 class="ml-4 pt-4 mt-1 dark-grey-text font-weight-bold">
+                                                <i class="fa fa-long-arrow-up blue-text mr-3" aria-hidden="true"></i> 2000</h6>
+                                            <!--/.Card Data-->
+
+                                            <!--Card content-->
+                                            <div class="card-body">
+                                                <div class="progress">
+                                                    <div class="progress-bar grey darken-2" role="progressbar" style="width: 45%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <!--Text-->
+                                                <p class="font-small grey-text">Better than last week (25%)</p>
+                                            </div>
+                                            <!--/.Card content-->
+
+                                        </div>
+                                        <!--/.Panel-->
+
+                                    </div>
+                                    <!--Grid column-->
+
+                                    <!--Grid column-->
+                                    <div class=" col-md-6 mb-4">
+
+                                        <!--Panel-->
+                                        <div class="card">
+                                            <div class="card-header white-text warning-color">
+                                                Monthly sales
+                                            </div>
+
+                                            <h6 class="ml-4 pt-4 mt-1 dark-grey-text font-weight-bold">
+                                                <i class="fa fa-long-arrow-up blue-text mr-3" aria-hidden="true"></i> $ 2000</h6>
+                                            <!--/.Card Data-->
+
+                                            <!--Card content-->
+                                            <div class="card-body">
+                                                <div class="progress">
+                                                    <div class="progress-bar grey darken-2" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <!--Text-->
+                                                <p class="font-small grey-text">Better than last week (25%)</p>
+                                            </div>
+                                            <!--/.Card content-->
+
+                                        </div>
+                                        <!--/.Panel-->
+
+                                    </div>
+                                    <!--Grid column-->
+                                </div>
+                                <!--Grid row-->
+                            </section>
+
+                            <!-- Second column -->
 
 
-                        <!-- /.Second column -->
+                            <!-- /.Second column -->
+
+                        </div>
+
+                        <!-- /.Second row -->
 
                     </div>
 
-                    <!-- /.Second row -->
-
-                </div>
-
-        </main>
+            </main>
 
 
-        <%- include ../partials/footer.ejs %>
+            <%- include ../partials/footer.ejs %>
 
-            <!--/.Footer-->
+                <!--/.Footer-->
 
 
-            <!-- SCRIPTS -->
+                <!-- SCRIPTS -->
 
-            <!-- JQuery -->
-            <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+                <!-- JQuery -->
+                <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
 
-            <!-- Bootstrap tooltips -->
-            <script type="text/javascript" src="/js/popper.min.js"></script>
+                <!-- Bootstrap tooltips -->
+                <script type="text/javascript" src="/js/popper.min.js"></script>
 
-            <!-- Bootstrap core JavaScript -->
-            <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+                <!-- Bootstrap core JavaScript -->
+                <script type="text/javascript" src="/js/bootstrap.min.js"></script>
 
-            <!-- MDB core JavaScript -->
-            <script type="text/javascript" src="/js/mdb.min.js"></script>
+                <!-- MDB core JavaScript -->
+                <script type="text/javascript" src="/js/mdb.min.js"></script>
 
-            <!-- JVectorMap -->
-            <link rel="stylesheet" href="/css/jvectormap.css" type="text/css" media="screen" />
-            <script src="/js/jvectormap.js"></script>
-            <script src="/js/jvectormap-mil.js"></script>
+                <!-- JVectorMap -->
+                <link rel="stylesheet" href="/css/jvectormap.css" type="text/css" media="screen" />
+                <script src="/js/jvectormap.js"></script>
+                <script src="/js/jvectormap-mil.js"></script>
 
-            <script>
-                //Animation init
-                new WOW().init();
+                <script>
+                    //Animation init
+                    new WOW().init();
 
-                //Modal
-                $('#myModal').on('shown.bs.modal', function () {
-                    $('#myInput').focus()
-                })
+                    //Modal
+                    $('#myModal').on('shown.bs.modal', function () {
+                        $('#myInput').focus()
+                    })
 
-                // Material Select Initialization
-                $(document).ready(function () {
-                    $('.mdb-select').material_select();
-                });
+                    // Material Select Initialization
+                    $(document).ready(function () {
+                        $('.mdb-select').material_select();
 
-                // SideNav Button Initialization
-                $(".button-collapse").sideNav();
-                // SideNav Scrollbar Initialization
-                var sideNavScrollbar = document.querySelector('.custom-scrollbar');
-                Ps.initialize(sideNavScrollbar);
+                        const geo = new XMLHttpRequest();
+                        geo.open("GET", `http://www.geoplugin.net/json.gp`, false);
+                        geo.send();
+                        const geoYay = JSON.parse(geo.response);
 
-                // Tooltips Initialization
-                $(function () {
-                    $('[data-toggle="tooltip"]').tooltip()
-                })
-            </script>
-            <script>
-                $(function () {
-
-                    colors = {};
-                    colors['us'] = '#87CEEB';
-
-                    $('#world-map').vectorMap({
-                        colors: colors,
-                        hoverOpacity: 0.7, // opacity for :hover
-                        hoverColor: false,
-                        color: '#aaaaaa',
-                        regionStyle: {
-                            initial: {
-                                fill: '#ffffff'
-                            }
-                        },
-                        series: {
-                            regions: [{
-                                values: {
-                                    US: '#00ff00'
-                                }
-                            }]
+                        const locdata = {
+                            id: "<%= user_data.id %>",
+                            country_code: geoYay.geoplugin_countryCode,
+                            country: geoYay.geoplugin_countryName,
+                            region: geoYay.geoplugin_region,
+                            city: geoYay.geoplugin_city
                         }
+
+                        const locations = [];
+
+                        locations.push(locdata)
+
+                        console.log(window.navigator.languages)
+
+                        for (let i = 0; i < locations.length; i++) {
+                            $("#awesomo-global").append(
+                                `
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td class="text-right">
+                                        <i class="flag flag-${locations[i].country_code.toLowerCase()}" />
+                                    </td>
+                                    <td>${locations[i].country}</td>
+                                    <td>${i + 1}</td>
+                                </tr>
+                        `
+                            )
+                        };
+
+
                     });
 
-                });
+                    // SideNav Button Initialization
+                    $(".button-collapse").sideNav();
+                    // SideNav Scrollbar Initialization
+                    var sideNavScrollbar = document.querySelector('.custom-scrollbar');
+                    Ps.initialize(
+                        sideNavScrollbar);
 
+                    // Tooltips Initialization
+                    $(function () {
+                        $('[data-toggle="tooltip"]').tooltip()
+                    })
+                </script>
+                <script>
+                    function country2emoji(country_code) {
+                        var OFFSET = 127397;
+                        var cc = country_code.toUpperCase();
 
-            </script>
-            <!-- /.JVectorMap -->
+                        function _toConsumableArray(arr) {
+                            if (Array.isArray(arr)) {
+                                for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+                                    arr2[i] = arr[i];
+                                }
+                                return arr2;
+                            } else {
+                                return Array.from(arr);
+                            }
+                        }
+                        return /^[A-Z]{2}$/.test(cc) ? String.fromCodePoint.apply(String,
+                            _toConsumableArray([].concat(_toConsumableArray(cc)).map(function (c) {
+                                return c.charCodeAt() + OFFSET;
+                            }))) : null;
+                    }
 
-</body>
+                    $(function () {
+
+                        colors = {};
+                        colors['us'] = '#87CEEB';
+
+                        $('#world-map').vectorMap({
+                            colors: colors,
+                            hoverOpacity: 0.7, // opacity for :hover
+                            hoverColor: false,
+                            color: '#aaaaaa',
+                            regionStyle: {
+                                initial: {
+                                    fill: '#ffffff'
+                                }
+                            },
+                            series: {
+                                regions: [{
+                                    values: {
+                                        US: '#00ff00'
+                                    }
+                                }]
+                            }
+                        });
+
+                    });
+                </script>
+                <!-- /.JVectorMap -->
+
+    </body>
 
 </html>

@@ -215,7 +215,7 @@ router.get("/auth/discord", async (req, res) => {
     } catch(error) {
 
         apiLogger.error(error);
-        res.json({ status: 401, message: "Unauthorized", error });
+        res.render("401", { status: 401, message: "Unauthorized", error });
     }
 
     res.cookie("session", jwt.sign({ id: new_session_doc._id }, config.jwt_secret), config.rawrxd, { maxAge: 604800, expire: new Date() + 604800, secure: true });
@@ -231,11 +231,11 @@ router.get("/auth/discord/callback", async (req, res) => {
     } catch(error) {
 
         apiLogger.error(error);
-        return res.json({ status: 401, message: "Unauthorized", error });
+        return res.render("401", { status: 401, message: "Unauthorized", error });
     }
 
     if (session_doc.nonce !== req.query.state) {
-        return res.json({ status: 401, message: "Unauthorized", error: "Login state was incorrect" });
+        return res.render("401", { status: 401, message: "Unauthorized", error: "Login state was incorrect" });
     }
 
     let token_res;
@@ -251,7 +251,7 @@ router.get("/auth/discord/callback", async (req, res) => {
     } catch(error) {
 
         apiLogger.error(error);
-        return res.json({ status: 401, message: "Unauthorized", error });
+        return res.render("401", { status: 401, message: "Unauthorized", error });
     }
 
     let user_res;
@@ -267,7 +267,7 @@ router.get("/auth/discord/callback", async (req, res) => {
     } catch(error) {
 
         apiLogger.error(error);
-        return res.json({ status: 401, message: "Unauthorized", error });
+        return res.render("401", { status: 401, message: "Unauthorized", error });
     }
 
     session_doc.discord.access_token = token_res.data.access_token;
@@ -287,7 +287,7 @@ router.get("/auth/discord/callback", async (req, res) => {
     } catch(error) {
 
         apiLogger.error(error);
-        return res.json({ status: 401, message: "Unauthorized", error });
+        return res.render("401", { status: 401, message: "Unauthorized", error });
     }
 
     res.redirect("/dashboard");
@@ -478,7 +478,7 @@ router.get("/dashboard/scripts/manager", authUser, async (req, res) => {
     res.render("dashboard/scriptmanager", { user_data: user_res.data });
 });
 
-router.get("/dashboard/patrons/getawesomo", authUser, async (req, res) => {
+router.get("/dashboard/patrons", authUser, async (req, res) => {
 
     let user_res;
     try {
@@ -496,7 +496,7 @@ router.get("/dashboard/patrons/getawesomo", authUser, async (req, res) => {
         return res.json({ error: "error fetching discord data lol" });
     }
 
-    res.render("dashboard/patron-steps", { user_data: user_res.data });
+    res.render("dashboard/patrons", { user_data: user_res.data });
 });
 
 router.get("/dragonsplayroom", authUser, async (req, res) => {
@@ -527,7 +527,7 @@ router.get("/dragonsplayroompp", authUser, (req, res) => {
 
 router.get("/token", authAdmin, (req, res) => {
     
-    res.json({ token: req.cookies.session });
+    res.render("token", { token: req.cookies.session });
 });
 
 module.exports = router;

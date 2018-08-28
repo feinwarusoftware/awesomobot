@@ -1,6 +1,7 @@
 {
     "LANG": "?hl=en",
     "INITIALS": "EN",
+    "ERROR_401": "Error 401",
     "ERROR_404": "Error 404",
     "ERROR_404_BUTTON": "Fuck, go back!",
 
@@ -103,6 +104,8 @@
     "ARTISTS": "Artists",
     "AWESOMO_PORTRAIT": "AWESOM-O Portrait",
     "AWESOMO_404": "404 Page Art",
+    "MARKETPLACE_ART": "Marketplace Art",
+    "BOT_ART": "Bot Art and Credits Art",
     
     "TRANSLATORS": "Translators",
     "PORTUGESE_TRANSLATION": "Portugese Translation",
@@ -110,7 +113,8 @@
     "ROMANIAN_TRANSLATION": "Romanian Translation",
     "POLISH_TRANSLATION": "Polish Translation",
     "GERMAN_TRANSLATION": "German Translation",
-    "SPANISH_FRENCH_TRANSLATION" : "Spanish and French Translation",
+    "SPANISH_TRANSLATION" : "Spanish Translation",
+    "FRENCH_AND_IRISH_TRANSLATION": "French and Irish Translation",
 
 
     "_PRIVACY PAGE": "Below is all the shit for the privacy page",
@@ -251,6 +255,24 @@
     "FEATURED_SCRIPT": "Featured Script",
     "TRANSLATOR": "AWESOM-O Translator",
     "PARTNER": "Feinwaru Partner",
+    "UCCP": "Ultimate Crown Chinpokomaster™",
+    "RCCP": "Royal Crown Chinpokomaster™",
+
+    "DASH_HOME": "Dashboard Home",
+    "LEADERBOARDS": "Leaderboards",
+    "MAIN_LEADERBOARD": "Main Leaderboard",
+    "MODERATION": "Moderation",
+    "ISSUE_TRACKER": "Issue Tracker",
+    "WATCHLIST": "Watchlist",
+    "SCRIPTS": "Scripts",
+    "SCRIPT_CREATOR": "Script Creator",
+    "AWESOMO_LEGACY_FEATURES": "AWESOM-O Legacy Features",
+    "AWESOMO_1_STATS": "AWESOM-O 1.0 Stats",
+    "AWESOMO_2_STATS": "AWESOM-O 2.0 Stats",
+    "ACTIVITY_SCORES": "Activity Scores",
+    "IHTF": "It Hits The Fan",
+
+    "PATRON_MANAGEMENT": "Patron Management Panel",
 
     "CARD_NOT_FOUND": "Card Not Found :(",
     "CARD_ERROR_BUTTON": "View full list of cards",

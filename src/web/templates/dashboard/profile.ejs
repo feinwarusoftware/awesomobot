@@ -19,7 +19,7 @@
     <link rel="alternate" href="/?hl=pt" hreflang="pt" />
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
@@ -473,7 +473,7 @@
                         `
         <li class="list-inline-item pr-2">
             <a href="${profileyay.socials[i].link}" class="white-text">
-            <i class="fa fa-${profileyay.socials[i].icon} pr-1"></i>${profileyay.socials[i].name}</a>
+            <i class="fab fa-${profileyay.socials[i].icon} pr-1"></i>${profileyay.socials[i].name}</a>
         </li>
     `
                     );
@@ -574,6 +574,22 @@
                         `<div class="mx-auto chip white-text" style="background-color: #df3cb6;">
                             <img src="/img/trophy/trophy-art.png">
                             <%= trans.SERVER_ARTIST %>
+                        </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("uchinpokomon") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #d67f0e; box-shadow: 0px 0px 10px 2px #fd9a19; ">
+                            <img src="/img/trophy/trophy-chinpokomon.png">
+                            <%= trans.UCCP %>
+                        </div>`
+                    )
+                };
+                if (profileyay.trophies.indexOf("rchinpokomon") !== -1) {
+                    $("#trophycase").append(
+                        `<div class="mx-auto chip white-text" style="background-color: #fd9a19;">
+                            <img src="/img/trophy/trophy-chinpokomon.png">
+                            <%= trans.RCCP %>
                         </div>`
                     )
                 };
@@ -716,64 +732,64 @@
 
                     if (value.includes("twitch.tv") == true) {
                         $("#form-social-icon1").removeClass();
-                        $("#form-social-icon1").addClass("fa fa-twitch prefix");
+                        $("#form-social-icon1").addClass("fab fa-twitch prefix");
                         $("#form-social-icon1").attr("social", "twitch");
                     } else if (value.includes("instagram.com") == true) {
                         $("#form-social-icon1").removeClass();
-                        $("#form-social-icon1").addClass("fa fa-instagram prefix");
+                        $("#form-social-icon1").addClass("fab fa-instagram prefix");
                         $("#form-social-icon1").attr("social", "instagram");
                     } else if (value.includes("github.com") == true) {
                         $("#form-social-icon1").removeClass();
-                        $("#form-social-icon1").addClass("fa fa-github prefix");
+                        $("#form-social-icon1").addClass("fab fa-github prefix");
                         $("#form-social-icon1").attr("social", "github");
                     } else if (value.includes("facebook.com") == true) {
                         $("#form-social-icon1").removeClass();
-                        $("#form-social-icon1").addClass("fa fa-facebook prefix");
+                        $("#form-social-icon1").addClass("fab fa-facebook-f prefix");
                         $("#form-social-icon1").attr("social", "facebook");
                     } else if (value.includes("deviantart.com") == true) {
                         $("#form-social-icon1").removeClass();
-                        $("#form-social-icon1").addClass("fa fa-deviantart prefix");
+                        $("#form-social-icon1").addClass("fab fa-deviantart prefix");
                         $("#form-social-icon1").attr("social", "deviantart");
                     } else if (value.includes("last.fm") == true) {
                         $("#form-social-icon1").removeClass();
-                        $("#form-social-icon1").addClass("fa fa-lastfm prefix");
+                        $("#form-social-icon1").addClass("fab fa-lastfm prefix");
                         $("#form-social-icon1").attr("social", "lastfm");
                     } else if (value.includes("linkedin.com") == true) {
                         $("#form-social-icon1").removeClass();
-                        $("#form-social-icon1").addClass("fa fa-linkedin prefix");
+                        $("#form-social-icon1").addClass("fab fa-linkedin prefix");
                         $("#form-social-icon1").attr("social", "linkedin");
                     } else if (value.includes("pinterest.com") == true) {
                         $("#form-social-icon1").removeClass();
-                        $("#form-social-icon1").addClass("fa fa-pinterest prefix");
+                        $("#form-social-icon1").addClass("fab fa-pinterest prefix");
                         $("#form-social-icon1").attr("social", "pinterest");
                     } else if (value.includes("reddit.com") == true) {
                         $("#form-social-icon1").removeClass();
-                        $("#form-social-icon1").addClass("fa fa-reddit-alien prefix");
+                        $("#form-social-icon1").addClass("fab fa-reddit-alien prefix");
                         $("#form-social-icon1").attr("social", "reddit-alien");
                     } else if (value.includes("snapchat.com") == true) {
                         $("#form-social-icon1").removeClass();
-                        $("#form-social-icon1").addClass("fa fa-snapchat-ghost prefix");
+                        $("#form-social-icon1").addClass("fab fa-snapchat-ghost prefix");
                         $("#form-social-icon1").attr("social", "snapchat-ghost");
                     } else if (value.includes("soundcloud.com") == true) {
                         $("#form-social-icon1").removeClass();
-                        $("#form-social-icon1").addClass("fa fa-soundcloud prefix");
+                        $("#form-social-icon1").addClass("fab fa-soundcloud prefix");
                         $("#form-social-icon1").attr("social", "soundcloud");
                     } else if (value.includes("steamcommunity.com") == true) {
                         $("#form-social-icon1").removeClass();
-                        $("#form-social-icon1").addClass("fa fa-steam prefix");
+                        $("#form-social-icon1").addClass("fab fa-steam prefix");
                         $("#form-social-icon1").attr("social", "steam");
                     } else if (value.includes("tumblr.com") == true) {
                         $("#form-social-icon1").removeClass();
-                        $("#form-social-icon1").addClass("fa fa-tumblr prefix");
+                        $("#form-social-icon1").addClass("fab fa-tumblr prefix");
                         $("#form-social-icon1").attr("social", "tumblr");
                     } else if (value.includes("twitter.com") == true) {
                         $("#form-social-icon1").removeClass();
-                        $("#form-social-icon1").addClass("fa fa-twitter prefix");
+                        $("#form-social-icon1").addClass("fab fa-twitter prefix");
                         $("#form-social-icon1").attr("social", "twitter");
                     } else if (value.includes("youtube.com") == true) {
                         $("#form-social-icon1").removeClass();
-                        $("#form-social-icon1").addClass("fa fa-youtube-play prefix");
-                        $("#form-social-icon1").attr("social", "youtube-play");
+                        $("#form-social-icon1").addClass("fab fa-youtube prefix");
+                        $("#form-social-icon1").attr("social", "youtube");
                     } else {
                         $("#form-social-icon1").removeClass();
                         $("#form-social-icon1").addClass("fa fa-globe prefix");
@@ -786,64 +802,64 @@
 
                     if (value.includes("twitch.tv") == true) {
                         $("#form-social-icon2").removeClass();
-                        $("#form-social-icon2").addClass("fa fa-twitch prefix");
+                        $("#form-social-icon2").addClass("fab fa-twitch prefix");
                         $("#form-social-icon2").attr("social", "twitch");
                     } else if (value.includes("instagram.com") == true) {
                         $("#form-social-icon2").removeClass();
-                        $("#form-social-icon2").addClass("fa fa-instagram prefix");
+                        $("#form-social-icon2").addClass("fab fa-instagram prefix");
                         $("#form-social-icon2").attr("social", "instagram");
                     } else if (value.includes("github.com") == true) {
                         $("#form-social-icon2").removeClass();
-                        $("#form-social-icon2").addClass("fa fa-github prefix");
+                        $("#form-social-icon2").addClass("fab fa-github prefix");
                         $("#form-social-icon2").attr("social", "github");
                     } else if (value.includes("facebook.com") == true) {
                         $("#form-social-icon2").removeClass();
-                        $("#form-social-icon2").addClass("fa fa-facebook prefix");
+                        $("#form-social-icon2").addClass("fab fa-facebook-f prefix");
                         $("#form-social-icon2").attr("social", "facebook");
                     } else if (value.includes("deviantart.com") == true) {
                         $("#form-social-icon2").removeClass();
-                        $("#form-social-icon2").addClass("fa fa-deviantart prefix");
+                        $("#form-social-icon2").addClass("fab fa-deviantart prefix");
                         $("#form-social-icon2").attr("social", "deviantart");
                     } else if (value.includes("last.fm") == true) {
                         $("#form-social-icon2").removeClass();
-                        $("#form-social-icon2").addClass("fa fa-lastfm prefix");
+                        $("#form-social-icon2").addClass("fab fa-lastfm prefix");
                         $("#form-social-icon2").attr("social", "lastfm");
                     } else if (value.includes("linkedin.com") == true) {
                         $("#form-social-icon2").removeClass();
-                        $("#form-social-icon2").addClass("fa fa-linkedin prefix");
+                        $("#form-social-icon2").addClass("fab fa-linkedin prefix");
                         $("#form-social-icon2").attr("social", "linkedin");
                     } else if (value.includes("pinterest.com") == true) {
                         $("#form-social-icon2").removeClass();
-                        $("#form-social-icon2").addClass("fa fa-pinterest prefix");
+                        $("#form-social-icon2").addClass("fab fa-pinterest prefix");
                         $("#form-social-icon2").attr("social", "pinterest");
                     } else if (value.includes("reddit.com") == true) {
                         $("#form-social-icon2").removeClass();
-                        $("#form-social-icon2").addClass("fa fa-reddit-alien prefix");
+                        $("#form-social-icon2").addClass("fab fa-reddit-alien prefix");
                         $("#form-social-icon2").attr("social", "reddit-alien");
                     } else if (value.includes("snapchat.com") == true) {
                         $("#form-social-icon2").removeClass();
-                        $("#form-social-icon2").addClass("fa fa-snapchat-ghost prefix");
+                        $("#form-social-icon2").addClass("fab fa-snapchat-ghost prefix");
                         $("#form-social-icon2").attr("social", "snapchat-ghost");
                     } else if (value.includes("soundcloud.com") == true) {
                         $("#form-social-icon2").removeClass();
-                        $("#form-social-icon2").addClass("fa fa-soundcloud prefix");
+                        $("#form-social-icon2").addClass("fab fa-soundcloud prefix");
                         $("#form-social-icon2").attr("social", "soundcloud");
                     } else if (value.includes("steamcommunity.com") == true) {
                         $("#form-social-icon2").removeClass();
-                        $("#form-social-icon2").addClass("fa fa-steam prefix");
+                        $("#form-social-icon2").addClass("fab fa-steam prefix");
                         $("#form-social-icon2").attr("social", "steam");
                     } else if (value.includes("tumblr.com") == true) {
                         $("#form-social-icon2").removeClass();
-                        $("#form-social-icon2").addClass("fa fa-tumblr prefix");
+                        $("#form-social-icon2").addClass("fab fa-tumblr prefix");
                         $("#form-social-icon2").attr("social", "tumblr");
                     } else if (value.includes("twitter.com") == true) {
                         $("#form-social-icon2").removeClass();
-                        $("#form-social-icon2").addClass("fa fa-twitter prefix");
+                        $("#form-social-icon2").addClass("fab fa-twitter prefix");
                         $("#form-social-icon2").attr("social", "twitter");
                     } else if (value.includes("youtube.com") == true) {
                         $("#form-social-icon2").removeClass();
-                        $("#form-social-icon2").addClass("fa fa-youtube-play prefix");
-                        $("#form-social-icon2").attr("social", "youtube-play");
+                        $("#form-social-icon2").addClass("fab fa-youtube prefix");
+                        $("#form-social-icon2").attr("social", "youtube");
                     } else {
                         $("#form-social-icon2").removeClass();
                         $("#form-social-icon2").addClass("fa fa-globe prefix");
@@ -856,64 +872,64 @@
 
                     if (value.includes("twitch.tv") == true) {
                         $("#form-social-icon3").removeClass();
-                        $("#form-social-icon3").addClass("fa fa-twitch prefix");
+                        $("#form-social-icon3").addClass("fab fa-twitch prefix");
                         $("#form-social-icon3").attr("social", "twitch");
                     } else if (value.includes("instagram.com") == true) {
                         $("#form-social-icon3").removeClass();
-                        $("#form-social-icon3").addClass("fa fa-instagram prefix");
+                        $("#form-social-icon3").addClass("fab fa-instagram prefix");
                         $("#form-social-icon3").attr("social", "instagram");
                     } else if (value.includes("github.com") == true) {
                         $("#form-social-icon3").removeClass();
-                        $("#form-social-icon3").addClass("fa fa-github prefix");
+                        $("#form-social-icon3").addClass("fab fa-github prefix");
                         $("#form-social-icon3").attr("social", "github");
                     } else if (value.includes("facebook.com") == true) {
                         $("#form-social-icon3").removeClass();
-                        $("#form-social-icon3").addClass("fa fa-facebook prefix");
+                        $("#form-social-icon3").addClass("fab fa-facebook-f prefix");
                         $("#form-social-icon3").attr("social", "facebook");
                     } else if (value.includes("deviantart.com") == true) {
                         $("#form-social-icon3").removeClass();
-                        $("#form-social-icon3").addClass("fa fa-deviantart prefix");
+                        $("#form-social-icon3").addClass("fab fa-deviantart prefix");
                         $("#form-social-icon3").attr("social", "deviantart");
                     } else if (value.includes("last.fm") == true) {
                         $("#form-social-icon3").removeClass();
-                        $("#form-social-icon3").addClass("fa fa-lastfm prefix");
+                        $("#form-social-icon3").addClass("fab fa-lastfm prefix");
                         $("#form-social-icon3").attr("social", "lastfm");
                     } else if (value.includes("linkedin.com") == true) {
                         $("#form-social-icon3").removeClass();
-                        $("#form-social-icon3").addClass("fa fa-linkedin prefix");
+                        $("#form-social-icon3").addClass("fab fa-linkedin prefix");
                         $("#form-social-icon3").attr("social", "linkedin");
                     } else if (value.includes("pinterest.com") == true) {
                         $("#form-social-icon3").removeClass();
-                        $("#form-social-icon3").addClass("fa fa-pinterest prefix");
+                        $("#form-social-icon3").addClass("fab fa-pinterest prefix");
                         $("#form-social-icon3").attr("social", "pinterest");
                     } else if (value.includes("reddit.com") == true) {
                         $("#form-social-icon3").removeClass();
-                        $("#form-social-icon3").addClass("fa fa-reddit-alien prefix");
+                        $("#form-social-icon3").addClass("fab fa-reddit-alien prefix");
                         $("#form-social-icon3").attr("social", "reddit-alien");
                     } else if (value.includes("snapchat.com") == true) {
                         $("#form-social-icon3").removeClass();
-                        $("#form-social-icon3").addClass("fa fa-snapchat-ghost prefix");
+                        $("#form-social-icon3").addClass("fab fa-snapchat-ghost prefix");
                         $("#form-social-icon3").attr("social", "snapchat-ghost");
                     } else if (value.includes("soundcloud.com") == true) {
                         $("#form-social-icon3").removeClass();
-                        $("#form-social-icon3").addClass("fa fa-soundcloud prefix");
+                        $("#form-social-icon3").addClass("fab fa-soundcloud prefix");
                         $("#form-social-icon3").attr("social", "soundcloud");
                     } else if (value.includes("steamcommunity.com") == true) {
                         $("#form-social-icon3").removeClass();
-                        $("#form-social-icon3").addClass("fa fa-steam prefix");
+                        $("#form-social-icon3").addClass("fab fa-steam prefix");
                         $("#form-social-icon3").attr("social", "steam");
                     } else if (value.includes("tumblr.com") == true) {
                         $("#form-social-icon3").removeClass();
-                        $("#form-social-icon3").addClass("fa fa-tumblr prefix");
+                        $("#form-social-icon3").addClass("fab fa-tumblr prefix");
                         $("#form-social-icon3").attr("social", "tumblr");
                     } else if (value.includes("twitter.com") == true) {
                         $("#form-social-icon3").removeClass();
-                        $("#form-social-icon3").addClass("fa fa-twitter prefix");
+                        $("#form-social-icon3").addClass("fab fa-twitter prefix");
                         $("#form-social-icon3").attr("social", "twitter");
                     } else if (value.includes("youtube.com") == true) {
                         $("#form-social-icon3").removeClass();
-                        $("#form-social-icon3").addClass("fa fa-youtube-play prefix");
-                        $("#form-social-icon3").attr("social", "youtube-play");
+                        $("#form-social-icon3").addClass("fab fa-youtube prefix");
+                        $("#form-social-icon3").attr("social", "youtube");
                     } else {
                         $("#form-social-icon3").removeClass();
                         $("#form-social-icon3").addClass("fa fa-globe prefix");
