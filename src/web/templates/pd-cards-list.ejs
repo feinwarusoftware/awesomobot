@@ -279,21 +279,21 @@
 
                                         <!--Radio group-->
                                         <div class="form-group ">
-                                            <input class="theme-radio" name="group100" type="radio" id="theme-all">
-                                            <label class="theme-radio" for="theme-all" class="dark-grey-text">Common</label>
+                                            <input class="rarity-radio" name="group100" type="radio" id="rarity-common">
+                                            <label for="rarity-common" class="dark-grey-text">Common</label>
                                         </div>
 
                                         <div class="form-group">
-                                            <input class="theme-radio" name="group100" type="radio" id="theme-adventure">
-                                            <label for="theme-adventure" class="dark-grey-text">Rare</label>
+                                            <input class="rarity-radio" name="group100" type="radio" id="rarity-rare">
+                                            <label for="rarity-rare" class="dark-grey-text">Rare</label>
                                         </div>
                                         <div class="form-group">
-                                            <input class="theme-radio" name="group100" type="radio" id="theme-fantasy">
-                                            <label for="theme-fantasy" class="dark-grey-text">Epic</label>
+                                            <input class="rarity-radio" name="group100" type="radio" id="rarity-epic">
+                                            <label for="rarity-epic" class="dark-grey-text">Epic</label>
                                         </div>
                                         <div class="form-group">
-                                            <input class="theme-radio" name="group100" type="radio" id="theme-mystical">
-                                            <label for="theme-mystical" class="dark-grey-text">Legendary</label>
+                                            <input class="rarity-radio" name="group100" type="radio" id="rarity-legendary">
+                                            <label for="rarity-legendary" class="dark-grey-text">Legendary</label>
                                         </div>
                                         <!--Radio group-->
                                 </div>
@@ -348,72 +348,6 @@
                 </div>
             </div>
 
-            <!-- Central Modal Small -->
-            <div class="modal fade" id="modalCard" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
-                <!-- Change class .modal-sm to change the size of the modal -->
-                <div class="modal-dialog modal-lg" role="document" id="modalContent">
-                    <div class="modal-content">
-                        <div id="modal-header" class="modal-header">
-                            <h4 class="modal-title w-100 bold-text text-center" id="myModalLabel"></h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-
-                        <div class="row">
-                            <div class="col-lg-4 col-md-12 col-12 cardCol">
-                                <div id="" data-toggle="modal" data-target="#modalCard"  class="js-tilt cardContainer" data-tilt data-tilt-perspective="500">
-                                    <img class="img-fluid cardBg" src="/cards/backgrounds/TimmyMysCard.jpg">
-                                    <div class="cardFrame">
-                                        <img class="img-fluid" src="/cards/frames/frame_TimmyMysCard.png">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-8 col-md-12 col-12">
-                                <h5 class="font-weight-bold MysticalText">Attack Information</h5>
-                                <ul class="list-unstyled">
-                                    <li><span class="font-weight-bold dark-grey-text">Attack Range:</span> <span id="modal-attack-range">5.0</span></li>
-                                    <li><span class="font-weight-bold dark-grey-text">Attack Speed:</span> <span id="modal-attack-speed">0.5</span></li>
-                                    <li><span class="font-weight-bold dark-grey-text">Pre Attack Delay:</span> <span id="modal-pre-attack-delay">0.9</span></li>
-                                    <li><span class="font-weight-bold dark-grey-text">Time Between Attacks:</span> <span id="modal-time-between-attacks">0.5</span></li>
-                                    <li><span class="font-weight-bold dark-grey-text">AOE Attack:</span> <span id="modal-aoe-attack">No</span></li>
-                                </ul>
-                                <h5 class="font-weight-bold MysticalText">Speed Information</h5>
-                                <ul class="list-unstyled">
-                                    <li><span class="font-weight-bold dark-grey-text">Max Speed:</span> <span id="modal-max-speed">0.27</span></li>
-                                    <li><span class="font-weight-bold dark-grey-text">Time To Max Speed:</span> <span id="modal-time-to-max-speed">0.5</span></li>
-                                </ul>
-                                <h5 class="font-weight-bold MysticalText">Requirements</h5>
-                                <ul class="list-unstyled">
-                                    <li><span class="font-weight-bold dark-grey-text">Minimum Episode Completed:</span> <span id="modal-minimum-episode-completed">3</span></li>
-                                    <li><span class="font-weight-bold dark-grey-text">Minimum PVP Rank:</span> <span id="modal-minimum-pvp-rank">10</span></li>
-                                </ul>
-                                <div id="tags"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-12">
-                                <select class="mdb-select">
-                                    <option value="1" selected>Level 1</option>
-                                    <option value="2">Level 2</option>
-                                    <option value="3">Level 3</option>
-                                </select>
-                                <label>Change Level</label>
-                            </div>
-                        </div>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary btn-sm">Save changes</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Central Modal Small -->
             <div class="orange">
                 <div class="container">
                     <div class="row py-4 d-flex align-items-center">
@@ -586,6 +520,14 @@
                                 var theme = themeCookie;
                             } else {
                                 var theme = false;
+                            }
+
+                            
+                            const validRares = ["common", "rare", "epic", "legendary"];
+                            if (validRares.includes(rareCookie) === true) {
+                                var rare = rareCookie;
+                            } else {
+                                var rare = false;
                             }
                             cardsList.html("");
                             for (let i = 0; i < cardsYay.length; i++) {

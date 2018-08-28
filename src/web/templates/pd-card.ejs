@@ -34,7 +34,7 @@
         body,
         header,
         .jarallax {
-            height: 400px;
+            height: 100%;
         }
 
         .jarallax-card {
@@ -171,10 +171,53 @@
             border-radius: 5px
         }
 
+         li > span.badge {
+            transform: translateY(-2px);
+        }
+
+        .preload {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            z-index: 999;
+            background-color: #eee;
+            
+        }
+        @media (min-width: 473px) and (max-width: 992px){
+            .col-aids-8 {
+    -ms-flex: 0 0 66.666667%;
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%
+}
+}
+        #sticky-stopper {
+            margin-right: 0;
+        }        
         /* .cardCol {
             outline: red dashed 
         } */
     </style>
+
+    <div class="preload">
+        <div class="container h-100 d-flex justify-content-center align-items-center">
+            <div class="row pt-5 mt-3">
+                <div class="col-md-12 mb-3">
+                    <div class="text-center white-text">
+                        <ul class="list-unstyled ">
+                            <li>
+                                <h1 class="display-4 mt-md-5 mt-lg-0 mb-5 font-weight-bold white-text">
+                                    <strong>
+                                        
+                                    </strong>
+                                </h1>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
 </head>
 
@@ -182,183 +225,384 @@
 
     <%- include partials/navbar.ejs %>
 
+    <main>
 
-        <main>
+        <div class="container pb-5 pt-5">
 
-            <div class="container pb-5 pt-5">
-
-                <div class="row pt-5">
-                    <!-- Sidebar -->
-                    <div class="col-lg-4 pt-2">
-                        <div class="cardCol">
-                            <div id="" class="cardContainer sticky">
-                            </div>
+            <div class="row pt-5">
+                <!-- Sidebar -->
+                <div class="col-lg-4 col-12 col-aids-8 pt-2">
+                    <div id="rawrxd" class="cardCol" style="height: 0px;">
+                        <div id="cardContainerAhhh" class="cardContainer sticky">
                         </div>
                     </div>
+                </div>
 
-                    <!-- /.Sidebar -->
-                    <div class="col-lg-8">
-                        <div class="row">
-                            <div id="card-info" class="col-12 pb-2">
-                            </div>
+                <!-- /.Sidebar -->
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div id="card-info" class="col-12 pb-2">
                         </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <!--Accordion wrapper-->
-                                <div class="accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <!--Accordion wrapper-->
+                            <div class="accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
 
 
-                                </div>
-                                <!--/.Accordion wrapper-->
                             </div>
+                            <!--/.Accordion wrapper-->
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="sticky-stopper" class="row pb-5"></div>
-            <!-- Central Modal Small -->
-            <div class="ThemeColour">
-                <div class="container">
-                    <div class="row py-4 d-flex align-items-center">
+        </div>
+        <div id="sticky-stopper" class="row pb-5"></div>
+        <!-- Central Modal Small -->
+        <div class="ThemeColour">
+            <div class="container">
+                <div class="row py-4 d-flex align-items-center">
 
-                        <div class="col-12 text-center mb-4 mb-md-0">
-                            <h6 class="mb-0 white-text">
-                                <a style="color: inherit; text-decoration: inherit;" href="/terms#redlynx">
-                                    <%= trans.RED_LYNX_DISCLAIMER %>
-                                </a>
-                            </h6>
-                        </div>
-
+                    <div class="col-12 text-center mb-4 mb-md-0">
+                        <h6 class="mb-0 white-text">
+                            <a style="color: inherit; text-decoration: inherit;" href="/terms#redlynx">
+                                <%= trans.RED_LYNX_DISCLAIMER %>
+                            </a>
+                        </h6>
                     </div>
 
                 </div>
+
             </div>
-            <%- include partials/footer.ejs %>
+        </div>
+    </main>
+    <%- include partials/footer.ejs %>
 
-                <!--/.Footer-->
-
-
-                <!-- SCRIPTS -->
-
-                <!-- JQuery -->
-                <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
-
-                <!-- Bootstrap tooltips -->
-                <script type="text/javascript" src="/js/popper.min.js"></script>
-
-                <!-- Bootstrap core JavaScript -->
-                <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-
-                <!-- MDB core JavaScript -->
-                <script type="text/javascript" src="/js/mdb.min.js"></script>
-
-                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.2.1/tilt.jquery.min.js"></script>
-
-                <script type="text/javascript" src="/js/anime.min.js"></script>
-
-                <script>
-                    //Animation init
-                    new WOW().init();
+    <!--/.Footer-->
 
 
-                    //change size responsively
-                    const changeCardSize = function () {
-                        $(".cardCol").css("height", $(".cardFrame").height());
-                    };
+    <!-- SCRIPTS -->
 
-                    //shift card art upwards when on small screens
-                    const mobileArtCompensator = function () {
-                        if ($(window).width() <= 475) {
-                            const width = $(window).width();
+    <!-- JQuery -->
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
 
-                            const compensate = 22 + ((475 - width) / 20)
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="/js/popper.min.js"></script>
 
-                            $(".cardBg").css("transform", "translateY(" + compensate + "px)");
-                        };
-                    };
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
 
-                    // Material Select Initialization
-                    $(document).ready(function () {
-                        function camelPad(str) {
-                            return str
-                                // Look for long acronyms and filter out the last letter
-                                .replace(/([A-Z]+)([A-Z][a-z])/g, ' $1 $2')
-                                // Look for lower-case letters followed by upper-case letters
-                                .replace(/([a-z\d])([A-Z])/g, '$1 $2')
-                                // Look for lower-case letters followed by numbers
-                                .replace(/([a-zA-Z])(\d)/g, '$1 $2')
-                                .replace(/^./, function (str) {
-                                    return str.toUpperCase();
-                                })
-                                // Remove any white space left around the word
-                                .trim();
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="/js/mdb.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.2.1/tilt.jquery.min.js"></script>
+
+    <script type="text/javascript" src="/js/anime.min.js"></script>
+
+    <script>
+        //Animation init
+        new WOW().init();
+
+        //change size responsively
+        const changeCardSize = function () {
+            $(".cardCol").css("height", $(".cardFrame").height());
+        };
+
+        //shift card art upwards when on small screens
+        const mobileArtCompensator = function () {
+            if ($(window).width() <= 475) {
+                const width = $(window).width();
+
+                const compensate = 22 + ((475 - width) / 20)
+
+                $(".cardBg").css("transform", "translateY(" + compensate + "px)");
+            };
+        };
+
+        // Material Select Initialization
+        $(document).ready(function () {
+            function camelPad(str) {
+                return str
+                    // Look for long acronyms and filter out the last letter
+                    .replace(/([A-Z]+)([A-Z][a-z])/g, ' $1 $2')
+                    // Look for lower-case letters followed by upper-case letters
+                    .replace(/([a-z\d])([A-Z])/g, '$1 $2')
+                    // Look for lower-case letters followed by numbers
+                    .replace(/([a-zA-Z])(\d)/g, '$1 $2')
+                    .replace(/^./, function (str) {
+                        return str.toUpperCase();
+                    })
+                    // Remove any white space left around the word
+                    .trim();
+            }
+
+            //get them cards
+            const getCards = new XMLHttpRequest();
+            getCards.open("GET",
+                `https://gist.githubusercontent.com/MattheousDT/3f45f903f05c1f56cdf7bd528d77dcd1/raw/33ee4fbbd4011a42b411ed124badf8aace1102d2/cards_15aug.json`,
+                false);
+            getCards.send();
+            const cardsYay = JSON.parse(getCards.response);
+
+            // dragons nice code teehee
+
+            // 5, 10, 10, 15, 15, 15
+
+            const pathName = window.location.pathname;
+            const currentCardName = pathName.slice(pathName.lastIndexOf("/") + 1);
+
+            const currentCard = cardsYay.find(e => {
+                return e.Image === currentCardName;
+            });
+            if (currentCard === undefined) {
+                alert("card not found");
+            }
+
+            // note, the base stats are upgrade 1
+            const getUpgradeStats = upgrade => {
+
+                if (upgrade < 1 || upgrade > 70) {
+
+                    alert("oooof");
+                    return {};
+                }
+
+                const stats = {};
+                const base = {};
+
+                for (let k in currentCard) {
+
+                    if (k.startsWith("Power") === true && currentCard[k] !== null && currentCard[k] !==
+                        "") {
+
+                        stats[k] = currentCard[k];
+                        base[k] = currentCard[k];
+                    }
+                }
+
+                stats.Health = parseInt(currentCard.Health);
+                if (isNaN(stats.Health)) {
+
+                    alert("of");
+                    return {};
+                }
+
+                stats.Damage = parseInt(currentCard.Damage);
+                if (isNaN(stats.Damage)) {
+
+                    alert("oof");
+                    return {};
+                }
+
+                for (let i = 0; i < upgrade - 1; i++) {
+
+                    if (currentCard.TechTree2.Slots[i].property === "MaxHealth") {
+
+                        stats.Health += currentCard.TechTree2.Slots[i].value;
+                    }
+                    if (currentCard.TechTree2.Slots[i].property === "Damage") {
+
+                        stats.Damage += currentCard.TechTree2.Slots[i].value;
+                    }
+                    if (currentCard.TechTree2.Slots[i].property.indexOf("Abs") !== -1) {
+
+                        const propertyAbs = currentCard.TechTree2.Slots[i].property;
+                        const property = propertyAbs.slice(0, propertyAbs.length - 3);
+
+                        if (stats[property] === undefined) {
+
+                            alert("ooof");
+                            return {};
+
+                        } else {
+
+                            stats[property] += currentCard.TechTree2.Slots[i].value;
                         }
-                        //get them cards
-                        const getCards = new XMLHttpRequest();
-                        getCards.open("GET",
-                            `https://gist.githubusercontent.com/MattheousDT/3f45f903f05c1f56cdf7bd528d77dcd1/raw/4e4c6be506b01f93ab51b838adc46d39c85f4fc7/cards_15aug.json`,
-                            false);
-                        getCards.send();
-                        const cardsYay = JSON.parse(getCards.response);
-                        const cardsList = $("#cardsList");
+                    }
+                }
+
+                let levelModifier = 0;
+                if (upgrade > 5) {
+                    levelModifier++;
+                }
+                if (upgrade > 15) {
+                    levelModifier++;
+                }
+                if (upgrade > 25) {
+                    levelModifier++;
+                }
+                if (upgrade > 40) {
+                    levelModifier++;
+                }
+                if (upgrade > 55) {
+                    levelModifier++;
+                }
+
+                for (let i = 0; i < levelModifier; i++) {
+
+                    for (let j = 0; j < currentCard.TechTree2.Evolve[i].Slots.length; j++) {
+
+                        if (currentCard.TechTree2.Evolve[i].Slots[j].property === "MaxHealth") {
+
+                            stats.Health += currentCard.TechTree2.Evolve[i].Slots[j].value;
+                        }
+                        if (currentCard.TechTree2.Evolve[i].Slots[j].property === "Damage") {
+
+                            stats.Damage += currentCard.TechTree2.Evolve[i].Slots[j].value;
+                        }
+                        if (currentCard.TechTree2.Evolve[i].Slots[j].property.indexOf("Abs") !== -1) {
+
+                            const propertyAbs = currentCard.TechTree2.Evolve[i].Slots[j].property;
+                            const property = propertyAbs.slice(0, propertyAbs.length - 3);
+
+                            if (stats[property] === undefined) {
+
+                                alert("ooooof");
+                                return {};
+
+                            } else {
+
+                                stats[property] += currentCard.TechTree2.Evolve[i].Slots[j].value;
+                            }
+                        }
+                    }
+                }
+
+                /*
+                for (let k in base) {
+
+                    if (stats[k] === base[k]) {
+
+                        delete stats[k];
+                    }
+                }
+                */
+
+                return stats;
+            }
+
+            const getLevelStats = level => {
+
+                if (level < 1 || level > 7) {
+
+                    alert("oooooof");
+                    return {};
+                }
+
+                if (level === 1) {
+
+                    return getUpgradeStats(1);
+                }
+
+                let upgradeModifier = 0;
+                if (level === 2) {
+                    upgradeModifier += 5;
+                }
+                if (level === 3) {
+                    upgradeModifier += 15;
+                }
+                if (level === 4) {
+                    upgradeModifier += 25;
+                }
+                if (level === 5) {
+                    upgradeModifier += 40;
+                }
+                if (level === 6) {
+                    upgradeModifier += 55;
+                }
+                if (level === 7) {
+                    upgradeModifier += 70;
+                }
+
+                const stats = getUpgradeStats(upgradeModifier);
+
+                const currentLevel = currentCard.TechTree2.Evolve[level - 2]
+                for (let i = 0; i < currentLevel.Slots.length; i++) {
+
+                    if (currentLevel.Slots[i].property === "MaxHealth") {
+
+                        stats.Health += currentLevel.Slots[i].value;
+                    }
+                    if (currentLevel.Slots[i].property === "Damage") {
+
+                        stats.Damage += currentLevel.Slots[i].value;
+                    }
+                    if (currentLevel.Slots[i].property.indexOf("Abs") !== -1) {
+
+                        const propertyAbs = currentLevel.Slots[i].property;
+                        const property = propertyAbs.slice(0, propertyAbs.length - 3);
+
+                        if (stats[property] === undefined) {
+
+                            alert("ooooooof");
+                            return {};
+
+                        } else {
+
+                            stats[property] += currentLevel.Slots[i].value;
+                        }
+                    }
+                }
+
+                return stats;
+            }
+
+            //console.log(getLevelStats(2));
+
+            //
+
+            //const newStats = getLevelStats(7);
+            //const healthChange = newStats.Health === undefined ? 0 : newStats.Health - currentCard.Health;
 
 
 
+            //sorting
 
-                        //sorting
+            //var urlParams = window.location.href.substring(window.location.href.indexOf("?hl=") + 6);
 
-                        //var urlParams = window.location.href.substring(window.location.href.indexOf("?hl=") + 6);
+            //const validThemes = ["all", "neutral", "adventure", "sci-fi", "mystical",
+            //    "fantasy"
+            //];
+            //if (validThemes.includes(themeCookie) === true) {
+            //    var theme = themeCookie;
+            //} else {
+            //    var theme = false;
+            //}
 
-                        //const validThemes = ["all", "neutral", "adventure", "sci-fi", "mystical",
-                        //    "fantasy"
-                        //];
-                        //if (validThemes.includes(themeCookie) === true) {
-                        //    var theme = themeCookie;
-                        //} else {
-                        //    var theme = false;
-                        //}
+            //const url = window.location.pathname;
+            //const currentCard = url.substring(22);
 
-                        const url = window.location.pathname
-                        const currentCard = url.substring(22);
-                        $(function () {
-                            $(".sticky").sticky({
-                                topSpacing: 90,
-                                zIndex: 2,
-                                stopper: "#sticky-stopper"
-                            });
-                        });
+            for (let i = 0; i < cardsYay.length; i++) {
+                if (cardsYay[i].Image === currentCardName) {
+                    //console.log(cardsYay[i])
+                    if (cardsYay[i].Name instanceof Array) {
+                        var cardName = cardsYay[i].Name[0];
+                    } else {
+                        var cardName = cardsYay[i].Name;
+                    };
 
-                        for (let i = 0; i < cardsYay.length; i++) {
-                            if (cardsYay[i].Image === currentCard) {
-                                console.log(cardsYay[i])
-                                if (cardsYay[i].Name instanceof Array) {
-                                    var cardName = cardsYay[i].Name[0];
-                                } else {
-                                    var cardName = cardsYay[i].Name;
-                                };
-
-                                if (cardsYay[i].Rarity === 0) {
-                                    var rarity = "Common";
-                                } else if (cardsYay[i].Rarity === 1) {
-                                    var rarity = "Rare";
-                                } else if (cardsYay[i].Rarity === 2) {
-                                    var rarity = "Epic";
-                                } else if (cardsYay[i].Rarity === 3) {
-                                    var rarity = "Legendary";
-                                }
+                    if (cardsYay[i].Rarity === 0) {
+                        var rarity = "Common";
+                    } else if (cardsYay[i].Rarity === 1) {
+                        var rarity = "Rare";
+                    } else if (cardsYay[i].Rarity === 2) {
+                        var rarity = "Epic";
+                    } else if (cardsYay[i].Rarity === 3) {
+                        var rarity = "Legendary";
+                    }
 
 
-                                $(".cardContainer").html(
-                                    `
+                    $(".cardContainer").html(
+                        `
                                 <img class="img-fluid cardBg" src="/cards/backgrounds/${cardsYay[i].Image}.jpg">
                                 <div class="cardFrame">
-                                    <img class="img-fluid" src="/cards/frames/frame_${cardsYay[i].Image}.png">
+                                    <img id="rawrxd2" class="img-fluid" src="/cards/frames/frame_${cardsYay[i].Image}.png">
                                 </div>
                                 `
-                                )
+                    )
 
-                                $("#card-info").html(
-                                    `
+                    $("#card-info").html(
+                        `
                                     <div class="" style="width: 100%">
                                                 <h1 class="font-weight-bold mb-2 mt-2">
                                                     ${cardName}
@@ -375,9 +619,9 @@
                                                     <span class="light-blue-text">
                                                         <i class="fa fa-bolt" aria-hidden="true"></i> ${cardsYay[i].ManaCost}
                                                     </span> | <span class="red-text">
-                                                        <i class="fa fa-heart" aria-hidden="true"></i> <span id="health">${cardsYay[i].Health}</span>
+                                                        <i class="fa fa-heart" aria-hidden="true"></i> <span id="health">${cardsYay[i].Health}</span> <sup><span class="badge red" id="health-increase-amount"></span></sup>
                                                     </span> | <span class="orange-text">
-                                                        <i class="fa fa-shield-alt" aria-hidden="true"></i> <span id="damage">${cardsYay[i].Damage}</span>
+                                                        <i class="fa fa-shield-alt" aria-hidden="true"></i> <span id="damage">${cardsYay[i].Damage}</span> <sup><span class="badge orange" id="damage-increase-amount"></span></sup>
                                                     </span>
                                                 </h4>
                                                 <h5 id="desc" class="font-italic">${cardsYay[i].Description}</h5>
@@ -392,7 +636,7 @@
                                         <option>Upgrade 3 / 70</option>
                                         <option>Upgrade 4 / 70</option>
                                         <option>Upgrade 5 / 70</option>
-                                        <option>Level 1</option>
+                                        <option>Level 2</option>
                                         <option>Upgrade 6 / 70</option>
                                         <option>Upgrade 7 / 70</option>
                                         <option>Upgrade 8 / 70</option>
@@ -403,7 +647,7 @@
                                         <option>Upgrade 13 / 70</option>
                                         <option>Upgrade 14 / 70</option>
                                         <option>Upgrade 15 / 70</option>
-                                        <option>Level 2</option>
+                                        <option>Level 3</option>
                                         <option>Upgrade 16 / 70</option>
                                         <option>Upgrade 17 / 70</option>
                                         <option>Upgrade 18 / 70</option>
@@ -414,7 +658,7 @@
                                         <option>Upgrade 23 / 70</option>
                                         <option>Upgrade 24 / 70</option>
                                         <option>Upgrade 25 / 70</option>
-                                        <option>Level 3</option>
+                                        <option>Level 4</option>
                                         <option>Upgrade 26 / 70</option>
                                         <option>Upgrade 27 / 70</option>
                                         <option>Upgrade 28 / 70</option>
@@ -430,7 +674,7 @@
                                         <option>Upgrade 38 / 70</option>
                                         <option>Upgrade 39 / 70</option>
                                         <option>Upgrade 40 / 70</option>
-                                        <option>Level 4</option>
+                                        <option>Level 5</option>
                                         <option>Upgrade 41 / 70</option>
                                         <option>Upgrade 42 / 70</option>
                                         <option>Upgrade 43 / 70</option>
@@ -446,7 +690,7 @@
                                         <option>Upgrade 53 / 70</option>
                                         <option>Upgrade 54 / 70</option>
                                         <option>Upgrade 55 / 70</option>
-                                        <option>Level 5</option>
+                                        <option>Level 6</option>
                                         <option>Upgrade 56 / 70</option>
                                         <option>Upgrade 57 / 70</option>
                                         <option>Upgrade 58 / 70</option>
@@ -462,7 +706,7 @@
                                         <option>Upgrade 68 / 70</option>
                                         <option>Upgrade 69 / 70</option>
                                         <option>Upgrade 70 / 70</option>
-                                        <option>Level 6</option>
+                                        <option>Level 7</option>
                                     </select>
                                     </div>
                                     <h5 class="font-weight-bold ThemeText">AWESOM-O Commands</h5>
@@ -487,35 +731,28 @@
                                             <span class="font-weight-bold dark-grey-text">Agro Range Multiplier:</span>
                                             <span>${cardsYay[i].AgroRangeMultiplier}x</span>
                                         </li>
-                                    </ul>    
-                                <h5 id="attack" class="font-weight-bold ThemeText">Can Attack?</h5>
-                                    <ul id="attack-info" class="list-unstyled align">
-                                    </ul>
-                                    <h5 id="aoe" class="font-weight-bold ThemeText">AOE Attacks?</h5>
-                                    <ul id="aoe-info" class="list-unstyled">
-
                                     </ul>
                                     <h5 class="font-weight-bold ThemeText">Power Information</h5>
                                     <ul class="list-unstyled">
                                         <li class="power-stat">
                                             <span class="font-weight-bold dark-grey-text">Attack Boost:</span>
-                                            <span class="power-stat-value">${cardsYay[i].PowerAttackBoost}</span>
+                                            <span id="" class="power-stat-value">${cardsYay[i].PowerAttackBoost}</span>
                                         </li>
                                         <li class="power-stat">
                                             <span class="font-weight-bold dark-grey-text">Attack Decrease:</span>
                                             <span class="power-stat-value">${cardsYay[i].PowerAttackDecrease}</span>
                                         </li>
                                         <li class="power-stat">
-                                            <span class="font-weight-bold dark-grey-text">Damage:</span>
-                                            <span class="power-stat-value">${cardsYay[i].PowerDamage}</span>
+                                            <span class="font-weight-bold dark-grey-text">Power Damage:</span>
+                                            <span id="PowerDamage" class="power-stat-value">${cardsYay[i].PowerDamage}</span> <span class="badge ThemeColour" id="PowerDamage-increase-amount" style""></span>
                                         </li>
                                         <li class="power-stat">
                                             <span class="font-weight-bold dark-grey-text">Duration:</span>
-                                            <span class="power-stat-value">${cardsYay[i].PowerDuration}</span>
+                                            <span id="PowerDuration" class="power-stat-value">${cardsYay[i].PowerDuration}</span> <span class="badge ThemeColour" id="PowerDuration-increase-amount"></span>
                                         </li>
                                         <li class="power-stat">
                                             <span class="font-weight-bold dark-grey-text">Heal:</span>
-                                            <span class="power-stat-value">${cardsYay[i].PowerHeal}</span>
+                                            <span id="PowerHeal" class="power-stat-value">${cardsYay[i].PowerHeal}</span>
                                         </li>
                                         <li class="power-stat">
                                             <span class="font-weight-bold dark-grey-text">Hero Damage:</span>
@@ -531,7 +768,7 @@
                                         </li>
                                         <li class="power-stat">
                                             <span class="font-weight-bold dark-grey-text">Max HP Gain:</span>
-                                            <span class="power-stat-value">${cardsYay[i].PowerMaxHPGain}</span>
+                                            <span id="PowerMaxHPGain" class="power-stat-value">${cardsYay[i].PowerMaxHPGain}</span>
                                         </li>
                                         <li class="power-stat">
                                             <span class="font-weight-bold dark-grey-text">Max HP Loss:</span>
@@ -553,6 +790,13 @@
                                             <span class="font-weight-bold dark-grey-text">Charged Power Regen:</span>
                                             <span class="power-stat-value">${Math.round(cardsYay[i].ChargedPowerRegen * 100) / 100}</span>
                                         </li>
+                                    </ul>    
+                                <h5 id="attack" class="font-weight-bold ThemeText">Can Attack?</h5>
+                                    <ul id="attack-info" class="list-unstyled align">
+                                    </ul>
+                                    <h5 id="aoe" class="font-weight-bold ThemeText">AOE Attacks?</h5>
+                                    <ul id="aoe-info" class="list-unstyled">
+
                                     </ul>
                                     <h5 class="font-weight-bold ThemeText">Requirements</h5>
                                     <ul class="list-unstyled">
@@ -573,100 +817,215 @@
                                     <div id="table">
                                     </div>
                                 `
-                                );
-                                $('.mdb-select').material_select();
-                                const cardID = cardsYay[i]
+                    );
+                    $('.mdb-select').material_select();
 
-                                //replace redlynx's cunty shit
+                    //replace redlynx's cunty shit
 
-                                $("#desc").text(function () {
-                                    return $(this).text().replace(
-                                        "{PowerDurationMin}-{PowerDurationMax}", cardsYay[i].PowerDuration +
-                                        " seconds");
-                                });
-                                $("#desc").text(function () {
-                                    return $(this).text().replace("{PowerHeroPoison}", cardsYay[i].PowerPoisonAmount);
-                                });
-                                $("#desc").text(function () {
-                                    if (cardsYay[i].PowerHeroDamage === null) {
-                                        return $(this).text().replace("{PowerHeroDamage}", cardsYay[i].PowerDamage);
-                                    } else {
-                                        return $(this).text().replace("{PowerHeroDamage}", cardsYay[i].PowerHeroDamage);
-                                    }
-                                });
-                                $("#desc").text(function () {
-                                    return $(this).text().replace("{PowerDuration}", cardsYay[i].PowerDuration +
-                                        " seconds");
-                                });
-                                $("#desc").text(function () {
-                                    return $(this).text().replace("{PowerHeal}", cardsYay[i].PowerHeal);
-                                });
-                                $("#desc").text(function () {
-                                    return $(this).text().replace("{PowerAttackBoost}", cardsYay[i].PowerAttackBoost);
-                                });
-                                $("#desc").text(function () {
-                                    return $(this).text().replace("{PowerTargetAmount}", "1");
-                                });
+                    $("#desc").text(function () {
+                        return $(this).text().replace(
+                            "{PowerDurationMin}-{PowerDurationMax}", (cardsYay[i].PowerDuration -
+                                1) + "-" + (cardsYay[i].PowerDuration + 1) +
+                            " seconds");
+                    });
+                    $("#desc").text(function () {
+                        return $(this).text().replace("{PowerHeroPoison}", cardsYay[i].PowerPoisonAmount);
+                    });
+                    $("#desc").text(function () {
+                        if (cardsYay[i].PowerHeroDamage === null) {
+                            return $(this).text().replace("{PowerHeroDamage}", cardsYay[i].PowerDamage);
+                        } else {
+                            return $(this).text().replace("{PowerHeroDamage}", cardsYay[i].PowerHeroDamage);
+                        }
+                    });
+                    $("#desc").text(function () {
+                        return $(this).text().replace("{PowerDuration}", cardsYay[i].PowerDuration +
+                            " seconds");
+                    });
+                    $("#desc").text(function () {
+                        return $(this).text().replace("{PowerHeal}", cardsYay[i].PowerHeal);
+                    });
+                    $("#desc").text(function () {
+                        return $(this).text().replace("{PowerAttackBoost}", cardsYay[i].PowerAttackBoost);
+                    });
+                    $("#desc").text(function () {
+                        return $(this).text().replace("{PowerTargetAmount}", "1");
+                    });
 
-                                //Hide unnessasary power stats
-                                $(".power-stat-value:contains('null')").parent().hide()
-                                //$(".power-stat-value:contains('0')").parent().hide()
-                                $(".power-stat-value").filter(function () {
-                                    return $(this).text() === "0";
-                                }).parent().hide();
-                                //change null to n/a cause it looks better innit
-                                $.each($('span'), function (i, e) {
-                                    $(e).html($(e).html().replace(/null/g, 'N/A'));
-                                });
+                    //Hide unnessasary power stats
+                    $(".power-stat-value:contains('null')").parent().hide()
+                    //$(".power-stat-value:contains('0')").parent().hide()
+                    $(".power-stat-value").filter(function () {
+                        return $(this).text() === "0";
+                    }).parent().hide();
+                    //change null to n/a cause it looks better innit
+                    $.each($('span'), function (i, e) {
+                        $(e).html($(e).html().replace(/null/g, 'N/A'));
+                    });
 
-                                const upgrades = [];
+                    const upgrades = [];
 
-                                
-                                for (let h = 0; h < cardsYay[i].TechTree2.Slots.length; h++) {
-                                    //console.log(cardsYay[i].TechTree2.Slots[h])
-                                    if (cardsYay[i].TechTree2.Slots[h].property == "MaxHealth") {
-                                        //console.log(cardsYay[i].TechTree2.Slots[h])
 
-                                        console.log(h)
-                                        let urma = {
-                                            "upgrade": h,
-                                            "attr": "Health",
-                                            "value": parseFloat(cardsYay[i].Health) + (parseFloat(cardsYay[
-                                                i].TechTree2.Slots[h].value))
-                                        };
-                                        upgrades.push(urma)
+                    for (let h = 0; h < cardsYay[i].TechTree2.Slots.length; h++) {
+                        //console.log(cardsYay[i].TechTree2.Slots[h])
+                        if (cardsYay[i].TechTree2.Slots[h].property == "MaxHealth") {
+                            //console.log(cardsYay[i].TechTree2.Slots[h])
+
+                            //console.log(h)
+                            let urma = {
+                                "upgrade": h,
+                                "attr": "Health",
+                                "value": parseFloat(cardsYay[i].Health) + (parseFloat(cardsYay[
+                                    i].TechTree2.Slots[h].value))
+                            };
+                            upgrades.push(urma)
+                        }
+                    }
+
+                    //console.log(upgrades)
+                    $("#level-select").change(function () {
+                        const selected = $("#level-select option:selected").index();
+
+                        let stats;
+
+                        let level = 1;
+                        if (selected === 5) {
+                            level = 2;
+                        }
+                        if (selected === 16) {
+                            level = 3;
+                        }
+                        if (selected === 27) {
+                            level = 4;
+                        }
+                        if (selected === 43) {
+                            level = 5;
+                        }
+                        if (selected === 59) {
+                            level = 6;
+                        }
+                        if (selected === 75) {
+                            level = 7;
+                        }
+
+                        //lert(selected);
+
+                        if (level !== 1) {
+
+                            stats = getLevelStats(level);
+
+                        } else {
+
+                            let upgrade = selected + 1;
+                            if (selected > 5) {
+                                upgrade -= 1;
+                            }
+                            if (selected > 16) {
+                                upgrade -= 1;
+                            }
+                            if (selected > 27) {
+                                upgrade -= 1;
+                            }
+                            if (selected > 43) {
+                                upgrade -= 1;
+                            }
+                            if (selected > 59) {
+                                upgrade -= 1;
+                            }
+                            if (selected > 75) {
+                                upgrade -= 1;
+                            }
+
+                            //alert(upgrade);
+
+                            stats = getUpgradeStats(upgrade);
+                        }
+
+                        healthSpan.innerText = stats.Health;
+                        damageSpan.innerText = stats.Damage;
+
+
+                        const healthIncrease = stats.Health === undefined ? 0 : stats.Health -
+                            currentCard.Health;
+                        const damageIncrease = stats.Damage === undefined ? 0 : stats.Damage -
+                            currentCard.Damage;
+
+                        if (healthIncrease !== 0) {
+
+                            healthIncreaseSpan.innerText = "+" + healthIncrease;
+                        } else {
+
+                            healthIncreaseSpan.innerText = "";
+                        }
+
+                        if (damageIncrease !== 0) {
+
+                            damageIncreaseSpan.innerText = "+" + damageIncrease;
+                        } else {
+
+                            damageIncreaseSpan.innerText = "";
+                        }
+
+                        //
+
+                        for (let k in stats) {
+
+                            if (k === "Health" || k === "Damage") {
+
+                                continue;
+                            }
+
+                            const kSpan = document.getElementById(k);
+
+                            kSpan.innerText = stats[k];
+
+                            for (let k2 in currentCard) {
+
+                                if (k2.indexOf("Power") !== -1 && currentCard[k2] !== null &&
+                                    currentCard[k2] !== "") {
+
+                                    if (k === k2) {
+
+                                        const kIncreaseSpan = document.getElementById(
+                                            `${k}-increase-amount`);
+
+                                        const statIncrease = stats[k] - currentCard[k2];
+
+                                        if (statIncrease !== 0) {
+
+                                            kIncreaseSpan.innerText = "+" + statIncrease;
+                                        } else {
+
+                                            kIncreaseSpan.innerText = "";
+                                        }
                                     }
                                 }
+                            }
+                        }
+                    });
 
-                                console.log(upgrades)
-                                $("#level-select").change(function () {
-                                    const selected = $("#level-select option:selected").index();
+                    /* $("#tags").html("");
 
-                                });
+                    for (let t = 0; t < cardsYay[i].tags.length; t++) {
+                        $("#tags").append(
+                            ` <span class="badge badge-pill ThemeColour">${cardsYay[i].tags[t]}</span> `
+                        );
+                    };
+                    */
+                    $("#collapse1").collapse();
+                    $(".ThemeText").addClass(cardsYay[i].Theme + "Text");
+                    $(".ThemeColour").addClass(cardsYay[i].Theme);
 
-
-                                /* $("#tags").html("");
-
-                                for (let t = 0; t < cardsYay[i].tags.length; t++) {
-                                    $("#tags").append(
-                                        ` <span class="badge badge-pill ThemeColour">${cardsYay[i].tags[t]}</span> `
-                                    );
-                                };
-                                */
-                                $("#collapse1").collapse();
-                                $(".ThemeText").addClass(cardsYay[i].Theme + "Text");
-                                $(".ThemeColour").addClass(cardsYay[i].Theme);
-
-                                //Attack Information
-                                if (cardsYay[i].CanAttack === false) {
-                                    $("#attack").html(
-                                        `Can Attack? <span><i class="red-text fa fa-close "><i></span>`);
-                                } else {
-                                    $("#attack").html(
-                                        `Can Attack? <span class="green-text"><i class="fa fa-check "></span>`
-                                    );
-                                    $("#attack-info").html(
-                                        `
+                    //Attack Information
+                    if (cardsYay[i].CanAttack === false) {
+                        $("#attack").html(
+                            `Can Attack? <span><i class="red-text fa fa-close "><i></span>`);
+                    } else {
+                        $("#attack").html(
+                            `Can Attack? <span class="green-text"><i class="fa fa-check "></span>`
+                        );
+                        $("#attack-info").html(
+                            `
                                         <li>
                                             <span class="font-weight-bold dark-grey-text">Attack Range:</span>
                                             <span>${cardsYay[i].AttackRange / 2}</span>
@@ -684,20 +1043,20 @@
                                             <span>${cardsYay[i].TimeInBetweenAttacks}</span>
                                         </li>
                                     `
-                                    )
-                                };
+                        )
+                    };
 
-                                //AOE Attack
-                                if (cardsYay[i].AOEAttackType === "No" || cardsYay[i].AOEAttackType ===
-                                    undefined) {
-                                    $("#aoe").html(
-                                        `AOE Attacks? <span><i class="red-text fa fa-close "><i></span>`);
-                                } else {
-                                    $("#aoe").html(
-                                        `AOE Attacks? <span class="green-text">${cardsYay[i].AOEAttackType}</span>`
-                                    );
-                                    $("#aoe-info").html(
-                                        `
+                    //AOE Attack
+                    if (cardsYay[i].AOEAttackType === "No" || cardsYay[i].AOEAttackType ===
+                        undefined) {
+                        $("#aoe").html(
+                            `AOE Attacks? <span><i class="red-text fa fa-close "><i></span>`);
+                    } else {
+                        $("#aoe").html(
+                            `AOE Attacks? <span class="green-text">${camelPad(cardsYay[i].AOEAttackType)}</span>`
+                        );
+                        $("#aoe-info").html(
+                            `
                                         <li>
                                             <span class="font-weight-bold dark-grey-text">AOE Damage Percentage:</span>
                                             <span>${cardsYay[i].AOEDamagePercentage}%</span>
@@ -711,56 +1070,97 @@
                                             <span>${cardsYay[i].AOERadius / 2}</span>
                                         </li>
                                     `
-                                    )
-                                };
-                            }
-                            //END OF FOR LOOP
+                        )
+                    };
+                }
 
 
-                            if (cardsYay[i].name instanceof Array) {
-                                for (let c = 0; c < cardsYay[i].name.length; c++) {
-                                    $("#awesomo-commands").append(
-                                        `<li class="mt-2">
+
+                if (cardsYay[i].name instanceof Array) {
+                    for (let c = 0; c < cardsYay[i].name.length; c++) {
+                        $("#awesomo-commands").append(
+                            `<li class="mt-2">
                                             <span class="font-weight-bold dark-grey-text"><code>-card ${cardsYay[i].name[c].toLowerCase()}</code></span>
                                         </li>`
-                                    );
-                                }
-                            };
-                        };
+                        );
+                    }
+                };
+            }; //END OF FOR LOOP
 
-                        $(function () {
-                            $('[data-toggle="tooltip"]').tooltip()
-                        });
-                        $("#share-card").click(function () {
-                            var dummy = document.createElement('input'),
-                                text = window.location.href;
+            //
+            const cardFixInterval = setInterval(() => {
 
-                            document.body.appendChild(dummy);
-                            dummy.value = text;
-                            dummy.select();
-                            document.execCommand('copy');
-                            document.body.removeChild(dummy);
-                        });
+                changeCardSize();
+            }, 20);
 
-                        changeCardSize();
-                        //mobileArtCompensator();
+            setTimeout(() => {
 
-                        //update the card size quickly on page load
-                        setInterval(function () {
-                            changeCardSize();
+                clearInterval(cardFixInterval);
+            }, 200);
+            //
+            
+            $(function () {
+                $(".sticky").sticky({
+                    topSpacing: 90,
+                    zIndex: 2,
+                    stopper: "#sticky-stopper"
+                });
+            });
+            function stickyFuckOffLmao(x) {
+                if (x.matches) { // If media query matches
+                    $("#cardContainerAhhh").removeClass("sticky")
+                } else {
+                    $("#cardContainerAhhh").addClass("sticky")
+                }
+            }
 
-                        }, 500)
+            let x = window.matchMedia("(max-width: 991.98px)")
+            stickyFuckOffLmao(x) // Call listener function at run time
+            x.addListener(stickyFuckOffLmao) // Attach listener function on state changes
 
 
-                    })
+            const healthSpan = document.getElementById("health");
+            const damageSpan = document.getElementById("damage");
 
-                    //shit to do when people try to resize to see if i've forgot to do stuff but i havent because im a world class web dev
-                    $(window).resize(function () {
-                        changeCardSize();
-                        //mobileArtCompensator();
+            const healthIncreaseSpan = document.getElementById("health-increase-amount");
+            const damageIncreaseSpan = document.getElementById("damage-increase-amount");
 
-                    })
-                </script>
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            });
+            $("#share-card").click(function () {
+                var dummy = document.createElement('input'),
+                    text = window.location.href;
+
+                document.body.appendChild(dummy);
+                dummy.value = text;
+                dummy.select();
+                document.execCommand('copy');
+                document.body.removeChild(dummy);
+            });
+
+
+            //mobileArtCompensator();
+
+            
+            //update the card size quickly on page load
+            setInterval(function () {
+                //changeCardSize();
+
+            }, 100)
+            
+        });
+
+        window.onload = () => {
+            $(".preload").fadeOut(500);
+        }
+
+        //shit to do when people try to resize to see if i've forgot to do stuff but i havent because im a world class web dev
+        $(window).resize(function () {
+            changeCardSize();
+            //mobileArtCompensator();
+        })
+    </script>
 
 </body>
 

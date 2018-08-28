@@ -22,6 +22,7 @@ const getRandomThumbnail = () => {
 
 // Subschema for 'json' scripts.
 const argsSchema = new Schema({
+    // This will be 'text', 'url' or any embed property.
     field: { type: String, required: true },
     value: { type: String, required: true }
 }, {
@@ -30,7 +31,8 @@ const argsSchema = new Schema({
 
 // Subschema for 'json' type scripts.
 const dataSchema = new Schema({
-    action: { type: String, required: true }, // text, file/image, embed
+    // This will be either 'text', 'file' or 'embed'
+    action: { type: String, default: "" },
     args: [argsSchema]
 }, {
     _id: false
@@ -45,19 +47,16 @@ const ScriptSchema = new Schema({
     // The mongo id of the scripts owner.
     author_id: { type: Schema.Types.ObjectId, required: true },
 
-    // User set parameters. Note that 'thumbnail' should be set to
-    // a url of an image.
+    // User set parameters. Note that 'thumbnail' should be set to a url of an image.
     name: { type: String, requried: true },
     description: { type: String, default: "" },
     thumbnail: { type: String, default: getRandomThumbnail },
     marketplace_enabled: { type: Boolean, default: false },
 
-    // Either 'js' or 'json'. This will determine if the 'code' or
-    // 'data' field will be used when executing the script.
+    // Either 'js' or 'json'. This will determine if the 'code' or 'data' field will be used when executing the script.
     type: { type: String, default: "js" },
-    // Either 'command', 'startswith', 'contains' or 'exactmatch'.
-    // This will determine what the bot looks for in a message when
-    // deciding whether the message entered is a command.
+    // Either 'command', 'startswith', 'contains' or 'exactmatch'. This will determine what the bot looks for in a
+    // message when deciding whether the message entered is a command.
     // *command:*       Message starts with guild prefix followed by 'match'. Not case sensitive. 
     // *startswith:*    Message starts with 'match'. Not case sensitive. 
     // *contains:*      Message contains 'match' at any point. Not case sensitive.
