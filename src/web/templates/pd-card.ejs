@@ -70,7 +70,7 @@
             width: 30px
         }
 
-        .cardBg {
+.cardBg {
             -webkit-clip-path: polygon(15% 8%, 88% 8%, 93% 11%, 93% 88%, 88% 91%, 13% 91%, 9% 87%, 9% 11%);
             clip-path: polygon(15% 8%, 88% 8%, 93% 11%, 93% 88%, 88% 91%, 13% 91%, 9% 87%, 9% 11%);
             transform: translateY(30px);
@@ -92,6 +92,42 @@
             z-index: 20;
             transform: translateZ(15px) translateY(-100%);
             cursor: pointer;
+        }
+
+        .cardBgNew {
+            transform: translateY(13px);
+            outline: red dashed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            width: 305px;
+            height: 418px;
+            z-index: 5;
+            position: absolute;
+        }
+
+        .cardContainerNew {
+            width: 90%;
+            position: absolute;
+            z-index: 10;
+            transform-style: preserve-3d;
+            will-change: transform;
+            transform: perspective(500px) rotateX(0deg) rotateY(0deg);
+        }
+
+        .cardFrameNew {
+            width: 100%;
+            position: absolute;
+            z-index: 20;
+            transform: translateZ(15px);
+            cursor: pointer;
+
+            width: 305px;
+            height: 418px;
+            position: absolute;
         }
 
         .sortbutton {
@@ -205,9 +241,8 @@
                     <div class="text-center white-text">
                         <ul class="list-unstyled ">
                             <li>
-                                <h1 class="display-4 mt-md-5 mt-lg-0 mb-5 font-weight-bold white-text">
+                                <h1 class="display-4 mt-md-5 mt-lg-0 mb-5 font-weight-bold dark-grey-text">
                                     <strong>
-                                        
                                     </strong>
                                 </h1>
                             </li>
@@ -216,7 +251,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
 </head>
@@ -339,8 +373,9 @@
             //get them cards
             const getCards = new XMLHttpRequest();
             getCards.open("GET",
-                `https://gist.githubusercontent.com/MattheousDT/3f45f903f05c1f56cdf7bd528d77dcd1/raw/33ee4fbbd4011a42b411ed124badf8aace1102d2/cards_15aug.json`,
+                `https://gist.githubusercontent.com/MattheousDT/3f45f903f05c1f56cdf7bd528d77dcd1/raw/f4d0726270d7fd4ad32e376520a2544dfdf47c5c/cards_15aug.json`,
                 false);
+
             getCards.send();
             const cardsYay = JSON.parse(getCards.response);
 
@@ -358,6 +393,8 @@
                 alert("card not found");
             }
 
+            console.log(currentCard);
+
             // note, the base stats are upgrade 1
             const getUpgradeStats = upgrade => {
 
@@ -368,7 +405,7 @@
                 }
 
                 const stats = {};
-                const base = {};
+
 
                 for (let k in currentCard) {
 
@@ -376,7 +413,12 @@
                         "") {
 
                         stats[k] = currentCard[k];
-                        base[k] = currentCard[k];
+                    }
+
+                    // exceptions cos redlynx gay
+                    if (k === "ChargedPowerRadius") {
+
+                        stats["PowerRange"] = currentCard[k];
                     }
                 }
 
@@ -392,6 +434,16 @@
 
                     alert("oof");
                     return {};
+                }
+
+                if (currentCard.Type === "Spell") {
+
+                    if (currentCard.Image === "SpellCockMagicCard") {
+
+                        stats["PowerTarget"] = 1;
+                    }
+
+                    return stats;
                 }
 
                 for (let i = 0; i < upgrade - 1; i++) {
@@ -468,16 +520,6 @@
                     }
                 }
 
-                /*
-                for (let k in base) {
-
-                    if (stats[k] === base[k]) {
-
-                        delete stats[k];
-                    }
-                }
-                */
-
                 return stats;
             }
 
@@ -516,30 +558,69 @@
 
                 const stats = getUpgradeStats(upgradeModifier);
 
-                const currentLevel = currentCard.TechTree2.Evolve[level - 2]
-                for (let i = 0; i < currentLevel.Slots.length; i++) {
+                if (currentCard.Type === "Spell") {
 
-                    if (currentLevel.Slots[i].property === "MaxHealth") {
+                    for (let i = 0; i < level - 1; i++) {
 
-                        stats.Health += currentLevel.Slots[i].value;
+                        for (let j = 0; j < currentCard.TechTree2.Evolve[i].Slots.length; j++) {
+
+                            if (currentCard.TechTree2.Evolve[i].Slots[j].property === "MaxHealth") {
+
+                                stats.Health += currentCard.TechTree2.Evolve[i].Slots[j].value;
+                            }
+                            if (currentCard.TechTree2.Evolve[i].Slots[j].property === "Damage") {
+
+                                stats.Damage += currentCard.TechTree2.Evolve[i].Slots[j].value;
+                            }
+                            if (currentCard.TechTree2.Evolve[i].Slots[j].property.indexOf("Abs") !== -1) {
+
+                                const propertyAbs = currentCard.TechTree2.Evolve[i].Slots[j].property;
+                                const property = propertyAbs.slice(0, propertyAbs.length - 3);
+
+                                if (stats[property] === undefined) {
+
+                                    alert("ooooof");
+                                    return {};
+
+                                } else {
+
+                                    stats[property] += currentCard.TechTree2.Evolve[i].Slots[j].value;
+                                }
+                            }
+                        }
                     }
-                    if (currentLevel.Slots[i].property === "Damage") {
+                } else {
 
-                        stats.Damage += currentLevel.Slots[i].value;
-                    }
-                    if (currentLevel.Slots[i].property.indexOf("Abs") !== -1) {
+                    const currentLevel = currentCard.TechTree2.Evolve[level - 2]
+                    for (let i = 0; i < currentLevel.Slots.length; i++) {
 
-                        const propertyAbs = currentLevel.Slots[i].property;
-                        const property = propertyAbs.slice(0, propertyAbs.length - 3);
+                        if (currentLevel.Slots[i].property === "MaxHealth") {
 
-                        if (stats[property] === undefined) {
+                            stats.Health += currentLevel.Slots[i].value;
+                        }
+                        if (currentLevel.Slots[i].property === "Damage") {
 
-                            alert("ooooooof");
-                            return {};
+                            stats.Damage += currentLevel.Slots[i].value;
+                        }
+                        if (currentLevel.Slots[i].property.indexOf("Abs") !== -1) {
 
-                        } else {
+                            const propertyAbs = currentLevel.Slots[i].property;
+                            const property = propertyAbs.slice(0, propertyAbs.length - 3);
 
-                            stats[property] += currentLevel.Slots[i].value;
+                            if (stats[property] === undefined || property === "PowerTarget") {
+
+                                if (property === "PowerTarget") {
+
+                                    stats[property] = level;
+                                } else {
+
+                                    alert("ooooooof");
+                                    return {};
+                                }
+                            } else {
+
+                                stats[property] += currentLevel.Slots[i].value;
+                            }
                         }
                     }
                 }
@@ -547,6 +628,13 @@
                 return stats;
             }
 
+            function causeDiameterEqualsRadiusRight(yeet) {
+                return yeet / 2
+            }
+
+            function round2dp(lol) {
+                return Math.round(lol * 100) / 100
+            }
             //console.log(getLevelStats(2));
 
             //
@@ -593,12 +681,26 @@
 
 
                     $(".cardContainer").html(
+
+
                         `
                                 <img class="img-fluid cardBg" src="/cards/backgrounds/${cardsYay[i].Image}.jpg">
                                 <div class="cardFrame">
                                     <img id="rawrxd2" class="img-fluid" src="/cards/frames/frame_${cardsYay[i].Image}.png">
                                 </div>
                                 `
+
+
+                        /*
+                        `
+                            <div class="cardContainer style="position: relative;">
+                                <div class="cardFrame" style="background: url('/img/pd-assets/art/templates/frame-outline.png');">
+                                </div>
+                                <div class="cardBg" style="background-image: url('/cards/backgrounds/${cardsYay[i].Image}.jpg')">
+                                </div>
+                            </div>
+                       `
+                        */
                     )
 
                     $("#card-info").html(
@@ -612,17 +714,17 @@
                                                         </a>
                                                     </sup>
                                                 </h1>
-                                                <h4 class="font-weight-bold dark-grey-text">${rarity} | ${cardsYay[i].CharacterType}
+                                                <h4 class="font-weight-bold dark-grey-text">${rarity} | ${cardsYay[i].Type === "Spell" ? "Spell" : cardsYay[i].CharacterType}
                                                     
                                                 </h4>
                                                 <h4 class="font-weight-bold dark-grey-text">
                                                     <span class="light-blue-text">
                                                         <i class="fa fa-bolt" aria-hidden="true"></i> ${cardsYay[i].ManaCost}
-                                                    </span> | <span class="red-text">
+                                                    </span> <span id="health-damage-stats">| <span class="red-text">
                                                         <i class="fa fa-heart" aria-hidden="true"></i> <span id="health">${cardsYay[i].Health}</span> <sup><span class="badge red" id="health-increase-amount"></span></sup>
                                                     </span> | <span class="orange-text">
                                                         <i class="fa fa-shield-alt" aria-hidden="true"></i> <span id="damage">${cardsYay[i].Damage}</span> <sup><span class="badge orange" id="damage-increase-amount"></span></sup>
-                                                    </span>
+                                                    </span></span>
                                                 </h4>
                                                 <h5 id="desc" class="font-italic">${cardsYay[i].Description}</h5>
                                             </div>
@@ -736,11 +838,11 @@
                                     <ul class="list-unstyled">
                                         <li class="power-stat">
                                             <span class="font-weight-bold dark-grey-text">Attack Boost:</span>
-                                            <span id="" class="power-stat-value">${cardsYay[i].PowerAttackBoost}</span>
+                                            <span id="PowerAttackBoost" class="power-stat-value">${cardsYay[i].PowerAttackBoost}</span> <span class="badge ThemeColour" id="PowerAttackBoost-increase-amount" style""></span>
                                         </li>
                                         <li class="power-stat">
                                             <span class="font-weight-bold dark-grey-text">Attack Decrease:</span>
-                                            <span class="power-stat-value">${cardsYay[i].PowerAttackDecrease}</span>
+                                            <span id="PowerAttackDecrease" class="power-stat-value">${cardsYay[i].PowerAttackDecrease}</span> <span class="badge ThemeColour" id="PowerAttackDecrease-increase-amount" style""></span>
                                         </li>
                                         <li class="power-stat">
                                             <span class="font-weight-bold dark-grey-text">Power Damage:</span>
@@ -752,7 +854,7 @@
                                         </li>
                                         <li class="power-stat">
                                             <span class="font-weight-bold dark-grey-text">Heal:</span>
-                                            <span id="PowerHeal" class="power-stat-value">${cardsYay[i].PowerHeal}</span>
+                                            <span id="PowerHeal" class="power-stat-value">${cardsYay[i].PowerHeal}</span> <span class="badge ThemeColour" id="PowerHeal-increase-amount" style""></span>
                                         </li>
                                         <li class="power-stat">
                                             <span class="font-weight-bold dark-grey-text">Hero Damage:</span>
@@ -768,27 +870,31 @@
                                         </li>
                                         <li class="power-stat">
                                             <span class="font-weight-bold dark-grey-text">Max HP Gain:</span>
-                                            <span id="PowerMaxHPGain" class="power-stat-value">${cardsYay[i].PowerMaxHPGain}</span>
+                                            <span id="PowerMaxHPGain" class="power-stat-value">${cardsYay[i].PowerMaxHPGain}</span> <span class="badge ThemeColour" id="PowerMaxHPGain-increase-amount" style""></span>
                                         </li>
                                         <li class="power-stat">
                                             <span class="font-weight-bold dark-grey-text">Max HP Loss:</span>
-                                            <span class="power-stat-value">${cardsYay[i].PowerMaxHPLoss}</span>
+                                            <span id="PowerMaxHPLoss" class="power-stat-value">${cardsYay[i].PowerMaxHPLoss}</span> <span class="badge ThemeColour" id="PowerMaxHPLoss-increase-amount" style""></span>
                                         </li>
                                         <li class="power-stat">
                                             <span class="font-weight-bold dark-grey-text">Poision Amount:</span>
-                                            <span class="power-stat-value">${cardsYay[i].PowerPoisonAmount}</span>
+                                            <span id="PowerPoisonAmount" class="power-stat-value">${cardsYay[i].PowerPoisonAmount}</span> <span class="badge ThemeColour" id="PowerPoisonAmount-increase-amount" style""></span>
                                         </li>
                                         <li class="power-stat">
                                             <span class="font-weight-bold dark-grey-text">Summon Level:</span>
-                                            <span class="power-stat-value">${cardsYay[i].PowerSummonLevel}</span>
+                                            <span id="PowerSummonLevel" class="power-stat-value">${cardsYay[i].PowerSummonLevel}</span> <span class="badge ThemeColour" id="PowerSummonLevel-increase-amount" style""></span>
+                                        </li>
+                                        <li class="power-stat">
+                                            <span class="font-weight-bold dark-grey-text">Target Amount:</span>
+                                            <span id="PowerTarget" class="power-stat-value">${cardsYay[i].Image === "SpellCockMagicCard" ? 1 : 0}</span> <span class="badge ThemeColour" id="PowerTarget-increase-amount" style""></span>
                                         </li>
                                         <li class="power-stat">
                                             <span class="font-weight-bold dark-grey-text">Charged Power Radius:</span>
-                                            <span class="power-stat-value">${cardsYay[i].ChargedPowerRadius /2}</span>
+                                            <span id="PowerRange" class="power-stat-value">${cardsYay[i].ChargedPowerRadius / 2}</span> <span class="badge ThemeColour" id="PowerRange-increase-amount" style""></span>
                                         </li>
                                         <li class="power-stat">
                                             <span class="font-weight-bold dark-grey-text">Charged Power Regen:</span>
-                                            <span class="power-stat-value">${Math.round(cardsYay[i].ChargedPowerRegen * 100) / 100}</span>
+                                            <span class="power-stat-value">${Math.round(cardsYay[i].ChargedPowerRegen * 100) / 100}</span> 
                                         </li>
                                     </ul>    
                                 <h5 id="attack" class="font-weight-bold ThemeText">Can Attack?</h5>
@@ -818,6 +924,11 @@
                                     </div>
                                 `
                     );
+
+                    if (currentCard.Type === "Spell") {
+                        $("#health-damage-stats").hide();
+                        const upgradeselect = $("#level-select option:contains('Upgrade')").hide();
+                    }
                     $('.mdb-select').material_select();
 
                     //replace redlynx's cunty shit
@@ -851,7 +962,6 @@
                     $("#desc").text(function () {
                         return $(this).text().replace("{PowerTargetAmount}", "1");
                     });
-
                     //Hide unnessasary power stats
                     $(".power-stat-value:contains('null')").parent().hide()
                     //$(".power-stat-value:contains('0')").parent().hide()
@@ -941,9 +1051,10 @@
                             stats = getUpgradeStats(upgrade);
                         }
 
+                        console.log(stats);
+
                         healthSpan.innerText = stats.Health;
                         damageSpan.innerText = stats.Damage;
-
 
                         const healthIncrease = stats.Health === undefined ? 0 : stats.Health -
                             currentCard.Health;
@@ -977,7 +1088,15 @@
 
                             const kSpan = document.getElementById(k);
 
-                            kSpan.innerText = stats[k];
+                            // exceptions cos redlynx gay
+                            if (k === "PowerRange") {
+
+                                kSpan.innerText = Math.round((stats[k] - currentCard[
+                                    "ChargedPowerRadius"] / 2) * 100) / 100;
+                            } else {
+
+                                kSpan.innerText = stats[k];
+                            }
 
                             for (let k2 in currentCard) {
 
@@ -993,12 +1112,52 @@
 
                                         if (statIncrease !== 0) {
 
-                                            kIncreaseSpan.innerText = "+" + statIncrease;
+                                            kIncreaseSpan.innerText = "+" + Math.round(statIncrease *
+                                                100) / 100;
                                         } else {
 
                                             kIncreaseSpan.innerText = "";
                                         }
                                     }
+                                }
+
+                                // exceptions cos redlynx gay
+                                if (k2 === "ChargedPowerRadius") {
+
+                                    if (k === "PowerRange") {
+
+                                        const kIncreaseSpan = document.getElementById(
+                                            `${k}-increase-amount`);
+
+                                        const statIncrease = stats[k] - currentCard[
+                                            "ChargedPowerRadius"];
+
+                                        if (statIncrease !== 0) {
+
+                                            kIncreaseSpan.innerText = "+" + Math.round(statIncrease *
+                                                100) / 100;
+                                        } else {
+
+                                            kIncreaseSpan.innerText = "";
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (k === "PowerTarget") {
+
+                                const kIncreaseSpan = document.getElementById(
+                                    `${k}-increase-amount`);
+
+                                const statIncrease = stats[k] - 1;
+
+                                if (statIncrease !== 0) {
+
+                                    kIncreaseSpan.innerText = "+" + Math.round(statIncrease *
+                                        100) / 100;
+                                } else {
+
+                                    kIncreaseSpan.innerText = "";
                                 }
                             }
                         }
@@ -1074,8 +1233,6 @@
                     };
                 }
 
-
-
                 if (cardsYay[i].name instanceof Array) {
                     for (let c = 0; c < cardsYay[i].name.length; c++) {
                         $("#awesomo-commands").append(
@@ -1085,9 +1242,15 @@
                         );
                     }
                 };
-            }; //END OF FOR LOOP
 
-            //
+            }; //END OF FOR LOOP
+            if (currentCard.Type === "Spell") {
+                $(".filtrable:contains('Upgrade')").hide();
+                $(".select-dropdown").attr("value", "Level 1")
+                $(".filtrable:contains('Upgrade 1 / 70')").show();
+                $(".filtrable:contains('Upgrade 1 / 70')").text("Level 1")
+            }
+            //            
             const cardFixInterval = setInterval(() => {
 
                 changeCardSize();
@@ -1098,7 +1261,7 @@
                 clearInterval(cardFixInterval);
             }, 200);
             //
-            
+
             $(function () {
                 $(".sticky").sticky({
                     topSpacing: 90,
@@ -1106,6 +1269,7 @@
                     stopper: "#sticky-stopper"
                 });
             });
+
             function stickyFuckOffLmao(x) {
                 if (x.matches) { // If media query matches
                     $("#cardContainerAhhh").removeClass("sticky")
@@ -1142,13 +1306,14 @@
 
             //mobileArtCompensator();
 
-            
+
             //update the card size quickly on page load
             setInterval(function () {
                 //changeCardSize();
 
             }, 100)
-            
+
+
         });
 
         window.onload = () => {

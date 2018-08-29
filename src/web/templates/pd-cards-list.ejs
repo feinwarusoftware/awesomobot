@@ -156,12 +156,37 @@
                 max-width: 25%
             }
         }
-
+        .preload {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            z-index: 999;
+            background-color: #eee;
+            
+        }
         /* .cardCol {
             outline: red dashed 
         } */
     </style>
-
+    <div class="preload">
+        <div class="container h-100 d-flex justify-content-center align-items-center">
+            <div class="row pt-5 mt-3">
+                <div class="col-md-12 mb-3">
+                    <div class="text-center white-text">
+                        <ul class="list-unstyled ">
+                            <li>
+                                <h1 class="display-4 mt-md-5 mt-lg-0 mb-5 font-weight-bold dark-grey-text">
+                                    <strong>
+                                        Loading Cards...
+                                    </strong>
+                                </h1>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </head>
 
 <body class="">
@@ -529,6 +554,7 @@
                             } else {
                                 var rare = false;
                             }
+                            
                             cardsList.html("");
                             for (let i = 0; i < cardsYay.length; i++) {
                                 if (cardsYay[i].theme.toLowerCase() === theme) {
@@ -659,6 +685,13 @@
                             updateGrid();
                             //updateModal();
                             $("#filter-active-theme").html(getCookie("theme"));
+                        });
+
+                        $('.rarity-radio').click(function () {
+                            document.cookie = "theme=" + $(this).attr("id").substring(6);
+                            updateGrid();
+                            //updateModal();
+                            $("#filter-active-theme").html(getCookie("rare"));
                             console.log(cardsYay)
                         });
 
@@ -678,7 +711,7 @@
                         }, 500)
 
                         mobileArtCompensator();
-                    })
+                    });
 
                     /*$("#modalCard").on('shown.bs.modal', function(){
                         changeCardSize();
@@ -690,6 +723,9 @@
                         mobileArtCompensator();
 
                     })
+                    window.onload = () => {
+            $(".preload").fadeOut(500);
+        }
                 </script>
 
 </body>
