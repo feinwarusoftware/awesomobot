@@ -324,26 +324,6 @@ router.get("/commands", (req, res) => {
     res.render("commands", { md: text => { return converter.makeHtml(text); }, user: {}});
 });
 
-router.get("/phonedestroyer/cards", async (req, res) => {
-    let card;
-    try {
-    
-        card = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "static" , "img",  "pd-assets", "cards.json")));
-    } catch (err) {
-    
-        apiLogger.fatalError(`Could not read cards file: ${err}`);
-    }
-    res.render("pd-cards-list", { md: text => { return converter.makeHtml(text); }, user: {}, card:card});
-});
-
-router.get("/phonedestroyer/cards/404", async (req, res) => {
-    res.render("pd-404", { md: text => { return converter.makeHtml(text); }, user: {}});
-});
-
-router.get("/phonedestroyer/cards/:cardid", async (req, res) => {
-    res.render("pd-card", { md: text => { return converter.makeHtml(text); }, user: {}});
-});
-
 router.get("/surveys", (req, res) => {
     res.render("surveys", { md: text => { return converter.makeHtml(text); }, user: {}});
 });
@@ -407,7 +387,7 @@ router.get("/dashboard/scripts/marketplace", authUser, async (req, res) => {
     res.render("dashboard/marketplace", { user_data: user_res.data });
 });
 
-router.get("/dashboard/leaderboards/legacy", authUser, async (req, res) => {
+router.get("/dashboard/leaderboards/legacy/v1", authUser, async (req, res) => {
 
     let v1;
     try {
@@ -434,6 +414,35 @@ router.get("/dashboard/leaderboards/legacy", authUser, async (req, res) => {
     }
 
     res.render("dashboard/legacy-leaderboards", { user_data: { id: user.data.id, avatar: user.data.avatar, username: user.data.username }, v1:v1});
+});
+
+router.get("/dashboard/leaderboards/legacy/v2", authUser, async (req, res) => {
+
+    let v2;
+    try {
+    
+        v2 = JSON.parse(fs.readFileSync(path.join(__dirname, "json", "v2.json")));
+    } catch (err) {
+    
+        apiLogger.fatalError(`Could not read config file: ${err}`);
+    }
+    let user;
+    try {
+
+        user = await axios({
+            method: "get",
+            url: `https://discordapp.com/api/v6/users/@me`,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${req.session.discord.access_token}`
+            }
+        });
+    } catch(error) {
+
+        apiLogger.error(error);
+    }
+
+    res.render("dashboard/legacy-leaderboards-2", { user_data: { id: user.data.id, avatar: user.data.avatar, username: user.data.username }, v2:v2});
 });
 
 router.get("/dashboard/scripts/me", authUser, async (req, res) => {

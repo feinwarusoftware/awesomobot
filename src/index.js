@@ -401,7 +401,8 @@ const renderCard = async card => {
             levelIndex = i - 1;
             break;
         }
-        print.printCenterCenter(bg, jimpAssets.sp18Font, 20, 510, card.levels[levelIndex].upgrades[0].ability_info.description, 325);
+
+        print.printCenterCenter(bg, jimpAssets.sp18Font, 20, 510, card.levels[cardLevel - 1].upgrades[0].ability_info.description, 325);
 
         //bg.autocrop(0.0002, false);
         bg.crop(135, 165, 526, 769);
@@ -419,7 +420,11 @@ const renderCard = async card => {
 
 for (let card of cards) {
 
-    //promises.push(renderCard(card));
+    // only render shaman token + gunslinger kyle
+    if (card.art === "CraigMysCard.jpg" || card.art === "TweekMysCard.jpg") {
+
+        //promises.push(renderCard(card));
+    }
 }
 
 Promise.all(promises).then(() => {

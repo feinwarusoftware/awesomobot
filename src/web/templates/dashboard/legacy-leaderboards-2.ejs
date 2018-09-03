@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>AWESOM-O //
+        <%= trans.DASHBOARD %>
+    </title>
+
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png" />
+    <meta name="theme-color" content="#ff594f">
+
+    <link rel="alternate" href="/" hreflang="x-default" />
+    <link rel="alternate" href="/?hl=en" hreflang="en" />
+    <link rel="alternate" href="/?hl=ie" hreflang="ie" />
+    <link rel="alternate" href="/?hl=pt" hreflang="pt" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="/css/mdb.min.css" rel="stylesheet">
+
+    <link href="/css/style.css" rel="stylesheet">
+
+    <style>
+        .table-wrapper-2 {
+            display: block;
+            max-height: 300px;
+            overflow-y: auto;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+        }
+    </style>
+</head>
+
+<body class="fixed-sn">
+    <!--
+    <div id="mdb-preloader" class="flex-center">
+        <div id="preloader-markup" class="text-center">
+            <img src="/img/headerlogo.png">
+            <br>
+            <div class="preloader-wrapper active">
+                <div class="spinner-layer spinner-red-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+-->
+    <%- include ../partials/d-navbar.ejs %>
+        <!--Main Layout-->
+
+
+        <main>
+            <div class="container-fluid mb-5">
+
+                <!--Heading & Date-->
+                <div class="row mb-5">
+
+                    <!--First column-->
+                    <div class="col-md-12 col-sm-12 pb-2">
+                        <div class="text-center" style="width: 100%">
+                            <h1 class="font-weight-bold mb-2 mt-2 mb-5">
+                                <%= trans.LEGACY_LEADERBOARDS %>
+                            </h1>
+                        </div>
+                    </div>
+
+                </div>
+                <!--Heading & Date-->
+
+                <!--Section: Main chart-->
+                <section>
+
+                    <!--Card-->
+                    <div class="card card-cascade narrower">
+
+                        <!--Card image-->
+                        <div class="col-xl-5 col-md-12 mr-0">
+
+                            <!--Card image-->
+                            <div class="view gradient-card-header indigo">
+                                <h4 class="h4-responsive mb-0 font-weight-bold">
+                                    <%= trans.ACTIVITY_LEADERBOARD %>
+                                </h4>
+                            </div>
+                        </div>
+
+                        <div class="view gradient-card-header z-depth-0 mt-4" style="height:60vh">
+                            <canvas id="activitybar"></canvas>
+                        </div>
+                        <!--/Card image-->
+
+                        <!--Card content-->
+                        <div class="card-body blue-panel text-center">
+
+
+                            <!--Third row-->
+                            <div class="row mb-0 pt-5">
+
+                                <!--First column-->
+                                <div class="col-md-12">
+
+                                    <!--Panel content-->
+                                    <div class="card-body pt-0">
+                                        <div id="scroll-container" class="row table-wrapper-2">
+                                            <table class="table table-sm table-striped">
+                                                <col width="20%">
+                                                <col width="40%">
+                                                <col width="40%">
+                                                <thead class="indigo text-white">
+                                                    <tr>
+                                                        <th class="text-center">#</th>
+                                                        <th>
+                                                            <%= trans.USERNAME %>
+                                                        </th>
+                                                        <th>
+                                                            <%= trans.ACTIVITY_SCORE %>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% v2[0].sort((a, b) => { %>
+                                                        <% return b.activity - a.activity; %>
+                                                            <% }); %>
+                                                                <% for (let i = 0; i < v2[0].length; i++) { %>
+                                                                    <% if (v2[0].id == user_data.id) { %>
+                                                                        <tr class="table-warning" id="rawrxd">
+                                                                            <th scope="row" class="text-center">
+                                                                                <%= i + 1 %>
+                                                                            </th>
+                                                                            <td>
+                                                                                <a href="/dashboard/profiles/<%= v2[0].id %><%= trans.LANG %>">
+                                                                                    <%= v2[0].name %>
+                                                                                </a>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= Math.round(v2[0].activity) %>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <% } else { %>
+                                                                            <% if (v2[0].activity != 0) { %>
+                                                                                <tr>
+                                                                                    <th scope="row" class="text-center">
+                                                                                        <%= i + 1 %>
+                                                                                    </th>
+                                                                                    <td>
+                                                                                        <a href="/dashboard/profiles/<%= v2[0].id %><%= trans.LANG %>">
+                                                                                            <%= v2[0].name %>
+                                                                                        </a>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <%= Math.round(v2[0].activity) %>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <% } %>
+                                                                                    <% } %>
+                                                                                        <% } %>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 mt-3">
+                                                <span class="float-right">
+                                                    <a id="btn-yaboi">
+                                                        <button type="button" class="btn btn-indigo">
+                                                            <%= trans.JUMP_TO_YOU %>
+                                                        </button>
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                    <!--/.Panel content-->
+
+                                </div>
+                                <!--/First column-->
+                            </div>
+                            <!--/Third row-->
+
+                        </div>
+                        <!--/.Card content-->
+
+                    </div>
+                    <!--/.Card-->
+
+                </section>
+                <!--/Section: Main chart-->
+                <section id="shit" class="pt-5" id="">
+
+                    <!--Card-->
+                    <div class="card card-cascade narrower">
+
+                        <!--Card image-->
+                        <div class="col-xl-5 col-md-12 mr-0">
+
+                            <!--Card image-->
+                            <div class="view gradient-card-header brown">
+                                <h4 class="h4-responsive mb-0 font-weight-bold">
+                                    <%= trans.IHTF_LEADERBOARD %>
+                                </h4>
+                            </div>
+                        </div>
+
+                        <div class="view gradient-card-header mt-4 z-depth-0" style="height:60vh">
+                            <canvas id="shitbar"></canvas>
+                        </div>
+                        <!--/Card image-->
+
+                        <!--Card content-->
+                        <div class="card-body blue-panel text-center">
+
+
+                            <!--Third row-->
+                            <div class="row mb-0 pt-5">
+
+                                <!--First column-->
+                                <div class="col-md-12">
+
+                                    <!--Panel content-->
+                                    <div class="card-body pt-0">
+                                        <div id="shit-container" class="table-wrapper-2">
+                                            <table class="table table-sm table-striped">
+                                                <col width="20%">
+                                                <col width="40%">
+                                                <col width="40%">
+                                                <thead class="brown text-white">
+                                                    <tr>
+                                                        <th class="text-center">#</th>
+                                                        <th>
+                                                            <%= trans.USERNAME %>
+                                                        </th>
+                                                        <th>
+                                                            <%= trans.SHIT_SCORE %>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% v2[0].sort((a, b) => { %>
+                                                        <% return b.shits - a.shits; %>
+                                                            <% }); %>
+                                                                <% for (let i = 0; i < v2[0].length; i++) { %>
+                                                                    <% if (v2[0].id == user_data.id) { %>
+                                                                        <tr class="table-warning" id="wonk">
+                                                                            <th scope="row" class="text-center">
+                                                                                <%= i + 1 %>
+                                                                            </th>
+                                                                            <td>
+                                                                                <%= v2[0].name %>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= Math.round(v2[0].shits) %>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <% } else { %>
+                                                                            <% if (v2[0].shits != 0) { %>
+                                                                                <tr>
+                                                                                    <th scope="row" class="text-center">
+                                                                                        <%= i + 1 %>
+                                                                                    </th>
+                                                                                    <td>
+                                                                                        <%= v2[0].name %>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <%= Math.round(v2[0].shits) %>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <% } %>
+                                                                                    <% } %>
+                                                                                        <% } %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 mt-3">
+                                                <span class="float-right">
+                                                    <a id="btn-yashit">
+                                                        <button type="button" class="btn btn-brown">
+                                                            <%= trans.JUMP_TO_YOU %>
+                                                        </button>
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                    <!--/.Panel content-->
+
+                                </div>
+                                <!--/First column-->
+                            </div>
+                            <!--/Third row-->
+
+                        </div>
+                        <!--/.Card content-->
+
+                    </div>
+                    <!--/.Card-->
+
+                </section>
+            </div>
+        </main>
+
+
+        <%- include ../partials/footer.ejs %>
+
+            <!--/.Footer-->
+
+
+            <!-- SCRIPTS -->
+
+            <!-- JQuery -->
+            <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+
+            <!-- Bootstrap tooltips -->
+            <script type="text/javascript" src="/js/popper.min.js"></script>
+
+            <!-- Bootstrap core JavaScript -->
+            <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+            <!-- MDB core JavaScript -->
+            <script type="text/javascript" src="/js/mdb.min.js"></script>
+
+            <!-- JVectorMap -->
+            <link rel="stylesheet" href="/css/jvectormap.css" type="text/css" media="screen" />
+            <script src="/js/jvectormap.js"></script>
+            <script src="/js/jvectormap-mil.js"></script>
+
+            <script>
+                //Animation init
+                new WOW().init();
+
+                //Modal
+                $('#myModal').on('shown.bs.modal', function () {
+                    $('#myInput').focus()
+                })
+
+                // Material Select Initialization
+                $(document).ready(function () {
+                    $('.mdb-select').material_select();
+                });
+
+                // SideNav Button Initialization
+                $(".button-collapse").sideNav();
+                // SideNav Scrollbar Initialization
+                const sideNavScrollbar = document.querySelector('.custom-scrollbar');
+                Ps.initialize(sideNavScrollbar);
+
+                // Tooltips Initialization
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+                })
+            </script>
+            <script>
+                const ctx = document.getElementById("activitybar").getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: "bar",
+                    data: {
+                        labels: ["Kyrion", "Tweek Tweak", "Nitrosage", "kratosgow342", "TowelRoyale"],
+                        datasets: [{
+                            label: '<%= trans.ACTIVITY_SCORE %>',
+                            data: [56236, 42140, 39196, 36656, 29217],
+                            backgroundColor: [
+                                'rgb(255, 99, 132)',
+                                'rgb(54, 162, 235)',
+                                'rgb(255, 206, 86)',
+                                'rgb(75, 192, 192)',
+                                'rgb(153, 102, 255)',
+                            ],
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                })
+            </script>
+
+            <script>
+                const ctx2 = document.getElementById("shitbar").getContext('2d');
+                const chart2 = new Chart(ctx2, {
+                    type: "bar",
+                    data: {
+                        labels: ["Kyrion", "Tweek Tweak", "kratosgow342", "superfloree", "NitroSage"],
+                        datasets: [{
+                            label: '<%= trans.SHIT_SCORE %>',
+                            data: [611, 517, 475, 461, 422],
+                            backgroundColor: [
+                                'rgba(51, 17, 0, 1)',
+                                'rgba(71, 30, 9, 1)',
+                                'rgba(99, 50, 24, 1)',
+                                'rgba(112, 63, 37, 1)',
+                                'rgba(127, 78, 52, 1)',
+                            ],
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                })
+            </script>
+
+            <script>
+                const container = document.getElementById("scroll-container");
+                const row = document.getElementById("rawrxd");
+                const container2 = document.getElementById("shit-container");
+                const row2 = document.getElementById("wonk");
+                const btn = document.getElementById("btn-yaboi");
+                const btn2 = document.getElementById("btn-yashit");
+                btn.onclick = function () {
+                    container.scrollTop = row.offsetTop - 125;
+                    return false;
+                }
+                btn2.onclick = function () {
+                    container2.scrollTop = row2.offsetTop - 125;
+                    return false;
+                }
+            </script>
+            <!-- /.JVectorMap -->
+
+</body>
+
+</html>

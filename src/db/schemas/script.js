@@ -33,7 +33,7 @@ const argsSchema = new Schema({
 const dataSchema = new Schema({
     // This will be either 'text', 'file' or 'embed'
     action: { type: String, default: "" },
-    args: [argsSchema]
+    args: [ argsSchema ]
 }, {
     _id: false
 });

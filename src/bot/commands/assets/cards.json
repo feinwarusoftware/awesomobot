@@ -14521,4 +14521,298 @@
         }]
     }],
     "spawn_count": null
+},{
+    "type": "dev-test",
+    "name": "Imp Tweek",
+    "theme": "Mystical",
+    "rarity": "Epic",
+    "art": "TweekMysCard.jpg",
+    "class": "Fighter",
+    "energy": 5,
+    "attack_info": {
+        "attack_range": 4.0,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0.5,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 1.35,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": null,
+    "health_loss": null,
+    "tags": ["female", "human", "kids", "ranged", "fan"],
+    "min_pvp_rank": 5,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 5,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 144,
+            "attack": 32,
+            "ability_info": {
+                "ability": true,
+                "description": "Flying. Warcry: Swap places with one random enemy.",
+                "charge_time": null,
+                "ability_power": "35 Max HP increase/Heal",
+                "ability_duration": null,
+                "ability_range": null,
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 10,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 109,
+            "attack": 43,
+            "ability_info": {
+                "ability": true,
+                "description": "Whenever Blood Elf Bebe kills an enemy, her Max HP increases and she heals by 35.",
+                "charge_time": null,
+                "ability_power": "35 Max HP increase/Heal",
+                "ability_duration": null,
+                "ability_range": "To nearest ally.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 50,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 149,
+            "attack": 59,
+            "ability_info": {
+                "ability": true,
+                "description": "Whenever Blood Elf Bebe kills an enemy, her Max HP increases and she heals by 56.",
+                "charge_time": null,
+                "ability_power": "56 Max HP increase/Heal",
+                "ability_duration": null,
+                "ability_range": "To nearest ally.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 250,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 200,
+            "attack": 79,
+            "ability_info": {
+                "ability": true,
+                "description": "Whenever Blood Elf Bebe kills an enemy, her Max HP increases and she heals by 77.",
+                "charge_time": null,
+                "ability_power": "77 Max HP increase/Heal",
+                "ability_duration": null,
+                "ability_range": "To nearest ally.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 1000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 273,
+            "attack": 107,
+            "ability_info": {
+                "ability": true,
+                "description": "Whenever Blood Elf Bebe kills an enemy, her Max HP increases and she heals by 110.",
+                "charge_time": null,
+                "ability_power": "110 Max HP increase/Heal",
+                "ability_duration": null,
+                "ability_range": "To nearest ally.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 3000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 356,
+            "attack": 139,
+            "ability_info": {
+                "ability": true,
+                "description": "Whenever Blood Elf Bebe kills an enemy, her Max HP increases and she heals by 143.",
+                "charge_time": null,
+                "ability_power": "143 Max HP increase/Heal",
+                "ability_duration": null,
+                "ability_range": "To nearest ally.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 450,
+            "attack": 176,
+            "ability_info": {
+                "ability": true,
+                "description": "Whenever Blood Elf Bebe kills an enemy, her Max HP increases and she heals by 176.",
+                "charge_time": null,
+                "ability_power": "176 Max HP increase/Heal",
+                "ability_duration": null,
+                "ability_range": "To nearest ally.",
+                "spawn_level": null
+            }
+        }]
+    }],
+    "spawn_count": null
+},{
+    "type": "dev-test",
+    "name": "Youth Pastor Craig",
+    "theme": "Mystical",
+    "rarity": "Rare",
+    "art": "CraigMysCard.jpg",
+    "class": "Ranged",
+    "energy": 3,
+    "attack_info": {
+        "attack_range": 4.0,
+        "attack_speed": 0.5,
+        "pre_attack_delay": 0.5,
+        "time_between_delay": 0.5,
+        "aoe_info": {
+            "aoe": false,
+            "aoe_attack": null
+        }
+    },
+    "speed_info": {
+        "max_speed": 1.35,
+        "time_to_max_speed": 0.5
+    },
+    "power_charge_rate": null,
+    "health_loss": null,
+    "tags": ["female", "human", "kids", "ranged", "fan"],
+    "min_pvp_rank": 5,
+    "levels": [{
+        "level": 1,
+        "cards_to_upgrade": 5,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 126,
+            "attack": 25,
+            "ability_info": {
+                "ability": true,
+                "description": "Warcry: When the microphone hits, prevents enemy New Kid from casting spells for 30 seconds.",
+                "charge_time": null,
+                "ability_power": "35 Max HP increase/Heal",
+                "ability_duration": null,
+                "ability_range": null,
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 2,
+        "cards_to_upgrade": 10,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 109,
+            "attack": 43,
+            "ability_info": {
+                "ability": true,
+                "description": "Whenever Blood Elf Bebe kills an enemy, her Max HP increases and she heals by 35.",
+                "charge_time": null,
+                "ability_power": "35 Max HP increase/Heal",
+                "ability_duration": null,
+                "ability_range": "To nearest ally.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 3,
+        "cards_to_upgrade": 50,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 149,
+            "attack": 59,
+            "ability_info": {
+                "ability": true,
+                "description": "Whenever Blood Elf Bebe kills an enemy, her Max HP increases and she heals by 56.",
+                "charge_time": null,
+                "ability_power": "56 Max HP increase/Heal",
+                "ability_duration": null,
+                "ability_range": "To nearest ally.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 4,
+        "cards_to_upgrade": 250,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 200,
+            "attack": 79,
+            "ability_info": {
+                "ability": true,
+                "description": "Whenever Blood Elf Bebe kills an enemy, her Max HP increases and she heals by 77.",
+                "charge_time": null,
+                "ability_power": "77 Max HP increase/Heal",
+                "ability_duration": null,
+                "ability_range": "To nearest ally.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 5,
+        "cards_to_upgrade": 1000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 273,
+            "attack": 107,
+            "ability_info": {
+                "ability": true,
+                "description": "Whenever Blood Elf Bebe kills an enemy, her Max HP increases and she heals by 110.",
+                "charge_time": null,
+                "ability_power": "110 Max HP increase/Heal",
+                "ability_duration": null,
+                "ability_range": "To nearest ally.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 6,
+        "cards_to_upgrade": 3000,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 356,
+            "attack": 139,
+            "ability_info": {
+                "ability": true,
+                "description": "Whenever Blood Elf Bebe kills an enemy, her Max HP increases and she heals by 143.",
+                "charge_time": null,
+                "ability_power": "143 Max HP increase/Heal",
+                "ability_duration": null,
+                "ability_range": "To nearest ally.",
+                "spawn_level": null
+            }
+        }]
+    }, {
+        "level": 7,
+        "cards_to_upgrade": null,
+        "upgrades": [{
+            "upgrade": 0,
+            "health": 450,
+            "attack": 176,
+            "ability_info": {
+                "ability": true,
+                "description": "Whenever Blood Elf Bebe kills an enemy, her Max HP increases and she heals by 176.",
+                "charge_time": null,
+                "ability_power": "176 Max HP increase/Heal",
+                "ability_duration": null,
+                "ability_range": "To nearest ally.",
+                "spawn_level": null
+            }
+        }]
+    }],
+    "spawn_count": null
 }]
