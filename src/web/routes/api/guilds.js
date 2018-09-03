@@ -1,7 +1,7 @@
 "use strict";
 
 const express = require("express");
-const axios = require("axios");
+//const axios = require("axios");
 const mongoose = require("mongoose");
 
 const schemas = require("../../../db");
@@ -11,672 +11,80 @@ const { authUser, authAdmin } = require("../../middlewares");
 const router = express.Router();
 const apiLogger = new Logger();
 
-router.get("/temp/userguilds", authUser, async (req, res) => {
-  
-    let user_guilds;
-    try {
+const defaultSearchLimit = 5;
+const maxSearchLimit = 20;
+const defaultSearchPage = 0;
 
-        user_guilds = await axios({
-            method: "get",
-            url: "https://discordapp.com/api/v6/users/@me/guilds",
-            headers: {
-                "Authorization": `Bearer ${req.session.discord.access_token}`
-            }
-        });
-    } catch(error) {
+router.route("/").post(authAdmin, (req, res) => {
 
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
+    const params = {};
+    params.discord_id = req.body.discord_id;
+    params.prefix = req.body.prefix;
+    params.log_channel_id = req.body.log_channel_id;
+    params.log_events = req.body.log_events;
+    params.scripts = [];
 
-    let user_admin_guilds = [];
-    for (let user_guild of user_guilds.data) {
-        if ((user_guild.permissions & 8) === 8) {
-            user_admin_guilds.push(user_guild);
-        }
-    }
+    const guild = new schemas.GuildSchema(params);
 
-    res.json(user_admin_guilds);
-});
+    guild
+        .save()
+        .then(() => {
 
-router.post("/", authAdmin, async (req, res) => {
+            return res.json({ status: 200 });
+        })
+        .catch(error => {
 
-    // Get input.
-    const discord_id = req.body.discord_id === undefined ? null : req.body.discord_id;
-    const prefix = req.body.prefix === undefined ? "-" : req.body.prefix;
-    const log_channel_id = req.body.log_channel_id === undefined ? null : req.body.log_channel_id;
-    const log_events = req.body.log_events === undefined ? [] : req.body.log_events;
-    const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
-
-    // Check discord id.
-    if (discord_id === null || discord_id.length !== 18) {
-        return res.json({ status: 400, message: "Bad Request", error: "Discord id not specified or incorrect" });
-    }
-
-    let old_discord_id;
-    try {
-
-        old_discord_id = await schemas.GuildSchema
-            .findOne({
-                discord_id
-            });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
-
-    if (old_discord_id !== null) {
-        return res.json({ status: 400, message: "Bad Request", error: "Duplicate discord id" });
-    }
-
-    // Check prefix.
-    if (prefix !== null && (typeof prefix !== "string" || prefix.length === 0)) {
-        return res.json({ status: 400, message: "Bad Request", error: "Prefix needs to be a string and cannot be 0 length" });
-    }
-
-    // Check log events.
-    if (log_events instanceof Array === false) {
-        return res.json({ status: 400, message: "Bad Request", error: "Log events should be an array" });
-    }
-
-    // Check scripts.
-    if (scripts instanceof Array === false) {
-        return res.json({ status: 400, message: "Bad Request", error: "Scripts should be an array" });
-    }
-
-    if (scripts.length > 0) {
-
-        let script_ids = [];
-        for (let script of scripts) {
-            if (script.perms !== undefined) {
-                if (typeof script.perms.enabled !== "boolean") {
-                    return res.json({ status: 400, message: "Bad Request", error: "Enabled must be either true or false" });
-                }
-                if (script.perms.members !== undefined) {
-
-                    if (typeof script.perms.members.allow_list !== "boolean") {
-                        return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
-                    }
-                    if (script.perms.members.list instanceof Array === false) {
-                        return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
-                    }
-                    for (let ml of script.perms.members.list) {
-                        if (typeof ml !== "string") {
-                            return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
-                        }
-                    }
-                }
-                if (script.perms.channels !== undefined) {
-
-                    if (typeof script.perms.channels.allow_list !== "boolean") {
-                        return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
-                    }
-                    if (script.perms.channels.list instanceof Array === false) {
-                        return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
-                    }
-                    for (let cl of script.perms.channels.list) {
-                        if (typeof cl !== "string") {
-                            return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
-                        }
-                    }
-                }
-                if (script.perms.roles !== undefined) {
-                    
-                    if (typeof script.perms.roles.allow_list !== "boolean") {
-                        return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
-                    }
-                    if (script.perms.roles.list instanceof Array === false) {
-                        return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
-                    }
-                    for (let rl of script.perms.roles.list) {
-                        if (typeof rl !== "string") {
-                            return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
-                        }
-                    }
-                }   
-            }
-            if (script.object_id === undefined) {
-                return res.json({ status: 400, message: "Bad Request", error: "Script(s) specified could not be found" });
-            }
-            try {
-
-                script_ids.push(mongoose.Types.ObjectId(script.object_id));
-            } catch(error) {
-                
-                return res.json({ status: 400, message: "Bad Request", error: "Invalid script id provided" });
-            }
-        }
-
-        let script_docs;
-        try {
-    
-            script_docs = await schemas.ScriptSchema
-                .find({
-                    _id: { $in: script_ids }
-                });
-        } catch(error) {
-    
             apiLogger.error(error);
-            return res.json({ status: 500, message: "Internal Server Error", error });
-        }
-
-        if (script_docs.length !== scripts.length) {
-            return res.json({ status: 400, message: "Bad Request", error: "Script(s) specified could not be found" });
-        }
-    }
-
-    const guild = new schemas.GuildSchema({
-        discord_id,
-        prefix,
-        log_channel_id,
-        log_events,
-        scripts
-    });
-
-    try {
-
-        await guild.save();
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
-
-    res.json({ status: 200, message: "OK", error: null });
+            return res.json({ status: 500 });
+        });
 });
 
-router.get("/@me", authUser, async (req, res) => {
+router.route("/@me").get(authUser, (req, res) => {
+
+    // + cond discord data
     
-    let user_guilds;
-    try {
-
-        user_guilds = await axios({
-            method: "get",
-            url: "https://discordapp.com/api/v6/users/@me/guilds",
-            headers: {
-                "Authorization": `Bearer ${req.session.discord.access_token}`
-            }
-        });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
-
-    let user_guild_ids = [];
-    for (let user_guild of user_guilds.data) {
-        if ((user_guild.permissions & 8) === 8) {
-            user_guild_ids.push(user_guild.id);
-        }
-    }
-
-    let user_guild_docs;
-    try {
-
-        user_guild_docs = await schemas.GuildSchema
-            .find({
-                discord_id: { $in: user_guild_ids }
-            });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
-
-    if (user_guild_docs.length === 0) {
-        return res.json({ status: 404, message: "Not Found", error: "No guilds with sufficient permissions found" });
-    }
-
-    const guild_objs = user_guild_docs.map(e => {
-        
-        const obj = e.toObject();
-
-        delete obj._id;
-        delete obj.__v;
-
-        for (let i = 0; i < obj.scripts.length; i++) {
-
-            delete obj.scripts[i]._id;
-            delete obj.scripts[i].__v;
-        }
-
-        return obj;
-    })
-
-    res.json(guild_objs);
+    res.json({ status: 410 });
 });
 
-router.route("/@me/:discord_id").get(authUser, async (req, res) => {
-    
-    let user_guilds;
-    try {
+router.route("/:discord_id").get(authUser, (req, res) => {
 
-        user_guilds = await axios({
-            method: "get",
-            url: "https://discordapp.com/api/v6/users/@me/guilds",
-            headers: {
-                "Authorization": `Bearer ${req.session.discord.access_token}`
-            }
-        });
-    } catch(error) {
+    // + cond discord data
 
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
+    res.json({ status: 410 });
 
-    let found = false;
-    for (let user_guild of user_guilds.data) {
-        if (((user_guild.permissions & 8) === 8) && user_guild.id === req.params.discord_id) {
-            found = true;
-            break;
-        }
-    }
-    if (found === false) {
-        return res.json({ status: 404, message: "Not Found", error: "No guilds with sufficient permissions found" });
-    }
+}).patch(authUser, (req, res) => {
 
-    let user_guild_doc;
-    try {
+    res.json({ status: 410 });
 
-        user_guild_doc = await schemas.GuildSchema
-            .findOne({
-                discord_id: req.params.discord_id
-            });
-    } catch(error) {
+}).delete(authUser, (req, res) => {
 
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
-
-    if (user_guild_doc === null) {
-        return res.json({ status: 404, message: "Not Found", error: "No guilds with sufficient permissions found" });
-    }
-
-    const guild_obj = user_guild_doc.toObject();
-
-    delete guild_obj._id;
-    delete guild_obj.__v;
-
-    for (let i = 0; i < guild_obj.scripts.length; i++) {
-
-        delete guild_obj.scripts[i]._id;
-        delete guild_obj.scripts[i].__v;
-    }
-
-    res.json(guild_obj);
-
-}).patch(authUser, async (req, res) => {
-    
-    let user_guilds;
-    try {
-
-        user_guilds = await axios({
-            method: "get",
-            url: "https://discordapp.com/api/v6/users/@me/guilds",
-            headers: {
-                "Authorization": `Bearer ${req.session.discord.access_token}`
-            }
-        });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
-
-    let found = false;
-    for (let user_guild of user_guilds.data) {
-        if (((user_guild.permissions & 8) === 8) && user_guild.id === req.params.discord_id) {
-            found = true;
-            break;
-        }
-    }
-    if (found === false) {
-        return res.json({ status: 404, message: "Not Found", error: "No guilds with sufficient permissions found" });
-    }
-
-    const prefix = req.body.prefix === undefined ? null : req.body.prefix;
-    const log_channel_id = req.body.log_channel_id === undefined ? null : req.body.log_channel_id;
-    const log_events = req.body.log_events === undefined ? [] : req.body.log_events;
-    const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
-
-    // Check prefix.
-    if (prefix !== null && (typeof prefix !== "string" || prefix.length === 0)) {
-        return res.json({ status: 400, message: "Bad Request", error: "Prefix needs to be a string and cannot be 0 length" });
-    }
-
-    // Check log events.
-    if (log_events instanceof Array === false) {
-        return res.json({ status: 400, message: "Bad Request", error: "Log events should be an array" });
-    }
-
-    // Check scripts.
-    if (scripts instanceof Array === false) {
-        return res.json({ status: 400, message: "Bad Request", error: "Scripts should be an array" });
-    }
-
-    if (scripts.length > 0) {
-
-        let script_ids = [];
-        for (let script of scripts) {
-            if (script.perms !== undefined) {
-                if (typeof script.perms.enabled !== "boolean") {
-                    return res.json({ status: 400, message: "Bad Request", error: "Enabled must be either true or false" });
-                }
-                if (script.perms.members !== undefined) {
-
-                    if (typeof script.perms.members.allow_list !== "boolean") {
-                        return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
-                    }
-                    if (script.perms.members.list instanceof Array === false) {
-                        return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
-                    }
-                    for (let ml of script.perms.members.list) {
-                        if (typeof ml !== "string") {
-                            return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
-                        }
-                    }
-                }
-                if (script.perms.channels !== undefined) {
-
-                    if (typeof script.perms.channels.allow_list !== "boolean") {
-                        return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
-                    }
-                    if (script.perms.channels.list instanceof Array === false) {
-                        return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
-                    }
-                    for (let cl of script.perms.channels.list) {
-                        if (typeof cl !== "string") {
-                            return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
-                        }
-                    }
-                }
-                if (script.perms.roles !== undefined) {
-                    
-                    if (typeof script.perms.roles.allow_list !== "boolean") {
-                        return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
-                    }
-                    if (script.perms.roles.list instanceof Array === false) {
-                        return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
-                    }
-                    for (let rl of script.perms.roles.list) {
-                        if (typeof rl !== "string") {
-                            return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
-                        }
-                    }
-                }   
-            }
-            if (script.object_id === undefined) {
-                return res.json({ status: 400, message: "Bad Request", error: "Script(s) specified could not be found" });
-            }
-            try {
-
-                script_ids.push(mongoose.Types.ObjectId(script.object_id));
-            } catch(error) {
-                
-                return res.json({ status: 400, message: "Bad Request", error: "Invalid script id provided" });
-            }
-        }
-
-        let script_docs;
-        try {
-    
-            script_docs = await schemas.ScriptSchema
-                .find({
-                    _id: { $in: script_ids }
-                });
-        } catch(error) {
-    
-            apiLogger.error(error);
-            return res.json({ status: 500, message: "Internal Server Error", error });
-        }
-
-        if (script_docs.length !== scripts.length) {
-            return res.json({ status: 400, message: "Bad Request", error: "Script(s) specified could not be found" });
-        }
-    }
-
-    let upd_guild;
-    try {
-
-        upd_guild = await schemas.GuildSchema
-            .findOneAndUpdate({
-                discord_id: req.params.discord_id
-            }, {
-                ...(prefix === null ? {} : { prefix }),
-                ...(log_channel_id === null ? {} : { log_channel_id }),
-                ...(log_events === null ? {} : { log_events }),
-                ...(scripts.length === 0 ? {} : { scripts })
-            });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
-
-    if (upd_guild === null) {
-        return res.json({ status: 404, message: "Not Found", error: "The guild that you are trying to update could not be found" });
-    }
-
-    res.json({ status: 200, message: "OK", error: null });
-
-}).delete(authUser, async (req, res) => {
-    
-    let user_guilds;
-    try {
-
-        user_guilds = await axios({
-            method: "get",
-            url: "https://discordapp.com/api/v6/users/@me/guilds",
-            headers: {
-                "Authorization": `Bearer ${req.session.discord.access_token}`
-            }
-        });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
-
-    let found = false;
-    for (let user_guild of user_guilds.data) {
-        if (((user_guild.permissions & 8) === 8) && user_guild.id === req.params.discord_id) {
-            found = true;
-            break;
-        }
-    }
-    if (found === false) {
-        return res.json({ status: 404, message: "Not Found", error: "No guilds with sufficient permissions found" });
-    }
-
-    let del_guild;
-    try {
-
-        del_guild =  await schemas.GuildSchema
-            .findOneAndRemove({
-                discord_id: req.params.discord_id
-            });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
-
-    if (del_guild === null) {
-        return res.json({ status: 404, message: "Not Found", error: "The guild that you are trying to delete could not be found" });
-    }
-
-    res.json({ status: 200, message: "OK", error: null });
+    res.json({ status: 410 });
 });
 
-router.route("/:discord_id").get(authAdmin, async (req, res) => {
+router.route("/:discord_id/scripts").get(authUser, (req, res) => {
 
-    let user_guild_doc;
-    try {
+    // + cond script data
 
-        user_guild_doc = await schemas.GuildSchema
-            .findOne({
-                discord_id: req.params.discord_id
-            });
-    } catch(error) {
+    res.json({ status: 410 });
 
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
+}).post(authUser, (req, res) => {
 
-    if (user_guild_doc === null) {
-        return res.json({ status: 404, message: "Not Found", error: "No guilds found" });
-    }
+    res.json({ status: 410 });
+});
 
-    res.json(user_guild_doc);
+router.route("/:discord_id/scripts/:object_id").get(authUser, (req, res) => {
 
-}).patch(authAdmin, async (req, res) => {
+    // + cond script data
 
-    const prefix = req.body.prefix === undefined ? null : req.body.prefix;
-    const log_channel_id = req.body.log_channel_id === undefined ? null : req.body.log_channel_id;
-    const log_events = req.body.log_events === undefined ? [] : req.body.log_events;
-    const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
+    res.json({ status: 410 });
 
-    // Check prefix.
-    if (prefix !== null && (typeof prefix !== "string" || prefix.length === 0)) {
-        return res.json({ status: 400, message: "Bad Request", error: "Prefix needs to be a string and cannot be 0 length" });
-    }
+}).patch(authUser, (req, res) => {
 
-    // Check log events.
-    if (log_events instanceof Array === false) {
-        return res.json({ status: 400, message: "Bad Request", error: "Log events should be an array" });
-    }
+    res.json({ status: 410 });
 
-    // Check scripts.
-    if (scripts instanceof Array === false) {
-        return res.json({ status: 400, message: "Bad Request", error: "Scripts should be an array" });
-    }
+}).delete(authUser, (req, res) => {
 
-    if (scripts.length > 0) {
-
-        let script_ids = [];
-        for (let script of scripts) {
-            if (script.perms !== undefined) {
-                if (typeof script.perms.enabled !== "boolean") {
-                    return res.json({ status: 400, message: "Bad Request", error: "Enabled must be either true or false" });
-                }
-                if (script.perms.members !== undefined) {
-
-                    if (typeof script.perms.members.allow_list !== "boolean") {
-                        return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
-                    }
-                    if (script.perms.members.list instanceof Array === false) {
-                        return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
-                    }
-                    for (let ml of script.perms.members.list) {
-                        if (typeof ml !== "string") {
-                            return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
-                        }
-                    }
-                }
-                if (script.perms.channels !== undefined) {
-
-                    if (typeof script.perms.channels.allow_list !== "boolean") {
-                        return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
-                    }
-                    if (script.perms.channels.list instanceof Array === false) {
-                        return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
-                    }
-                    for (let cl of script.perms.channels.list) {
-                        if (typeof cl !== "string") {
-                            return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
-                        }
-                    }
-                }
-                if (script.perms.roles !== undefined) {
-                    
-                    if (typeof script.perms.roles.allow_list !== "boolean") {
-                        return res.json({ status: 400, message: "Bad Request", error: "Allow list must be either true or false" });
-                    }
-                    if (script.perms.roles.list instanceof Array === false) {
-                        return res.json({ status: 400, message: "Bad Request", error: "List must be an array" });
-                    }
-                    for (let rl of script.perms.roles.list) {
-                        if (typeof rl !== "string") {
-                            return res.json({ status: 400, message: "Bad Request", error: "List must be an array of id strings" });
-                        }
-                    }
-                }   
-            }
-            if (script.object_id === undefined) {
-                return res.json({ status: 400, message: "Bad Request", error: "Script(s) specified could not be found" });
-            }
-            try {
-
-                script_ids.push(mongoose.Types.ObjectId(script.object_id));
-            } catch(error) {
-                
-                return res.json({ status: 400, message: "Bad Request", error: "Invalid script id provided" });
-            }
-        }
-
-        let script_docs;
-        try {
-    
-            script_docs = await schemas.ScriptSchema
-                .find({
-                    _id: { $in: script_ids }
-                });
-        } catch(error) {
-    
-            apiLogger.error(error);
-            return res.json({ status: 500, message: "Internal Server Error", error });
-        }
-
-        if (script_docs.length !== scripts.length) {
-            return res.json({ status: 400, message: "Bad Request", error: "Script(s) specified could not be found" });
-        }
-    }
-
-    let upd_guild;
-    try {
-
-        upd_guild = await schemas.GuildSchema
-            .findOneAndUpdate({
-                discord_id: req.params.discord_id
-            }, {
-                ...(prefix === null ? {} : { prefix }),
-                ...(log_channel_id === null ? {} : { log_channel_id }),
-                ...(log_events === null ? {} : { log_events }),
-                ...(scripts.length === 0 ? {} : { scripts })
-            });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
-
-    if (upd_guild === null) {
-        return res.json({ status: 404, message: "Not Found", error: "The guild that you are trying to update could not be found" });
-    }
-
-    res.json({ status: 200, message: "OK", error: null });
-
-}).delete(authAdmin, async (req, res) => {
-
-    let del_guild;
-    try {
-
-        del_guild =  await schemas.GuildSchema
-            .findOneAndRemove({
-                discord_id: req.params.discord_id
-            });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
-
-    if (del_guild === null) {
-        return res.json({ status: 404, message: "Not Found", error: "The guild that you are trying to delete could not be found" });
-    }
-
-    res.json({ status: 200, message: "OK", error: null });
+    res.json({ status: 410 });
 });
 
 module.exports = router;

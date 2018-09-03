@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 
 const schemas = require("../../../db");
 const Logger = require("../../../logger");
-const { authUser, authAdmin } = require("../../middlewares");
+const { authUser } = require("../../middlewares");
 
 const router = express.Router();
 const apiLogger = new Logger();
@@ -332,6 +332,131 @@ router.route("/:object_id").get(authUser, (req, res) => {
                 .then(() => {
 
                     return res.json({ status: 200 });
+                })
+                .catch(error => {
+
+                    apiLogger.error(error);
+                    return res.json({ status: 500 });
+                });
+        })
+        .catch(error => {
+
+            apiLogger.error(error);
+            return res.json({ status: 500 });
+        });
+});
+
+router.route("/:object_id/likes").post(authUser, (req, res) => {
+
+    let object_id;
+    try {
+
+        object_id = mongoose.Types.ObjectId(req.params.object_id);
+    } catch(error) {
+
+        return res.json({ status: 400 });
+    }
+
+    schemas.ScriptSchema
+        .findById(object_id)
+        .then(doc => {
+            if (doc === null) {
+
+                return res.json({ status: 404 });
+            }
+
+            if (doc.marketplace_enabled === false && req.user.admin === false) {
+
+                return res.json({ status: 403 });
+            }
+
+            if (req.user.likes.includes(object_id) === true) {
+
+                return res.json({ status: 400 });
+            }
+
+            doc.likes++;
+            doc
+                .save()
+                .then(() => {
+
+                    req.user.likes.push(object_id);
+                    req.user
+                        .save()
+                        .then(() => {
+
+                            res.json({ status: 200 });
+                        })
+                        .catch(error => {
+
+                            apiLogger.error(error);
+                            return res.json({ status: 500 });
+                        });
+                })
+                .catch(error => {
+
+                    apiLogger.error(error);
+                    return res.json({ status: 500 });
+                });
+        })
+        .catch(error => {
+
+            apiLogger.error(error);
+            return res.json({ status: 500 });
+        });
+
+}).delete(authUser, (req, res) => {
+
+    let object_id;
+    try {
+
+        object_id = mongoose.Types.ObjectId(req.params.object_id);
+    } catch(error) {
+
+        return res.json({ status: 400 });
+    }
+
+    schemas.ScriptSchema
+        .findById(object_id)
+        .then(doc => {
+            if (doc === null) {
+
+                return res.json({ status: 404 });
+            }
+
+            if (doc.marketplace_enabled === false && req.user.admin === false) {
+
+                return res.json({ status: 403 });
+            }
+
+            if (req.user.likes.includes(object_id) === false) {
+
+                return res.json({ status: 404 });
+            }
+
+            doc.likes--;
+            doc
+                .save()
+                .then(() => {
+
+                    for (let i = 0; i < req.user.likes.length; i++) {
+                        if (req.user.likes[i].equals(object_id)) {
+
+                            req.user.likes.splice(i, 1);
+                            return;
+                        }
+                    }
+                    req.user
+                        .save()
+                        .then(() => {
+
+                            res.json({ status: 200 });
+                        })
+                        .catch(error => {
+
+                            apiLogger.error(error);
+                            return res.json({ status: 500 });
+                        });
                 })
                 .catch(error => {
 
