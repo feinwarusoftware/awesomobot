@@ -44,4 +44,5 @@ const GuildSchema = new Schema({
     scripts: [ guildScriptSchema ],
 });
 
-module.exports = mongoose.model("Guild", GuildSchema);
+module.exports.GuildSchema = mongoose.model("Guild", GuildSchema);
+module.exports.GuildScriptSchema = mongoose.model("GuildScript", guildScriptSchema);
