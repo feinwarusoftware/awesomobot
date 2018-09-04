@@ -29,19 +29,19 @@ router.route("/").get(authUser, (req, res) => {
     limit = Math.min(limit, maxSearchLimit);
 
     // Parse the current page of scripts that the api will return.
-    const page = defaultValue(req.params.page, defaultSearchPage);
+    const page = defaultValue(req.query.page, defaultSearchPage);
 
     // Parse the name seperately as it will be a 'contains' filter.
-    const name = req.params.name;
+    const name = req.query.name;
 
     // Parse other search parameters. Add only the allowed parameters into a new search object.
     const search = {};
-    search.local = req.params.local;
-    search.verified = req.params.verified;
-    search.featured = req.params.featured;
+    search.local = req.query.local;
+    search.verified = req.query.verified;
+    search.featured = req.query.featured;
 
     // Only return marketplace enabled scripts.
-    search.marketplace_enabled = req.user.admin === false ? true : req.params.marketplace_enabled;
+    search.marketplace_enabled = req.user.admin === false ? true : req.query.marketplace_enabled;
 
     schemas.ScriptSchema
         .count({
@@ -141,16 +141,16 @@ router.route("/@me").get(authUser, (req, res) => {
     limit = Math.min(limit, maxSearchLimit);
 
     // Parse the current page of scripts that the api will return.
-    const page = defaultValue(req.params.page, defaultSearchPage);
+    const page = defaultValue(req.query.page, defaultSearchPage);
 
     // Parse the name seperately as it will be a 'contains' filter.
-    const name = req.params.name;
+    const name = req.query.name;
 
     // Parse other search parameters. Add only the allowed parameters into a new search object.
     const search = {};
-    search.local = req.params.local;
-    search.verified = req.params.verified;
-    search.featured = req.params.featured;
+    search.local = req.query.local;
+    search.verified = req.query.verified;
+    search.featured = req.query.featured;
 
     schemas.ScriptSchema
         .count({
@@ -286,7 +286,7 @@ router.route("/:object_id").get(authUser, (req, res) => {
             }
 
             doc
-                .save()
+                .update(params)
                 .then(() => {
 
                     return res.json({ status: 200 });
