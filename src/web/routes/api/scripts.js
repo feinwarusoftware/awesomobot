@@ -31,27 +31,17 @@ router.route("/").get(authUser, (req, res) => {
     // Parse the current page of scripts that the api will return.
     const page = defaultValue(req.query.page, defaultSearchPage);
 
-    // Parse the name seperately as it will be a 'contains' filter.
-    const name = req.query.name;
-
     // Parse other search parameters. Add only the allowed parameters into a new search object.
-    const search = {};
-    search.local = req.query.local;
-    search.verified = req.query.verified;
-    search.featured = req.query.featured;
-
-    // Only return marketplace enabled scripts.
-    search.marketplace_enabled = req.user.admin === false ? true : req.query.marketplace_enabled;
+    const search = {
+        ...( req.query.local === undefined ? {} : { local: req.query.local } ),
+        ...( req.query.verified === undefined ? {} : { verified: req.query.verified } ),
+        ...( req.query.featured === undefined ? {} : { featured: req.query.featured } ),
+        ...( req.query.marketplace_enabled === undefined ? { marketplace_enabled: true } : { marketplace_enabled: req.user.admin === false ? true : req.query.marketplace_enabled === "true" ? true : false } ),
+        ...( req.query.name === undefined ? {} : { name: { $regex: `.*${req.query.name}.*` } } )
+    };
 
     schemas.ScriptSchema
-        .count({
-            ...search,
-            ...(name === undefined ? {} : {
-                name: {
-                    $regex: `.*${name}.*`
-                }
-            })
-        })
+        .count(search)
         .skip(page * limit)
         .limit(limit)
         .then(total => {
@@ -61,14 +51,7 @@ router.route("/").get(authUser, (req, res) => {
             }
 
             schemas.ScriptSchema
-                .find({
-                    ...search,
-                    ...(name === undefined ? {} : {
-                        name: {
-                            $regex: `.*${name}.*`
-                        }
-                    })
-                })
+                .find(search)
                 .skip(page * limit)
                 .limit(limit)
                 .select({ __v: 0 })
@@ -91,6 +74,7 @@ router.route("/").get(authUser, (req, res) => {
 }).post(authUser, (req, res) => {
 
     const params = {};
+    params.author_id = req.user._id;
     params.name = req.body.name;
     params.description = req.body.description;
     params.thumbnail = req.body.thumbnail;
@@ -143,24 +127,19 @@ router.route("/@me").get(authUser, (req, res) => {
     // Parse the current page of scripts that the api will return.
     const page = defaultValue(req.query.page, defaultSearchPage);
 
-    // Parse the name seperately as it will be a 'contains' filter.
-    const name = req.query.name;
-
     // Parse other search parameters. Add only the allowed parameters into a new search object.
-    const search = {};
-    search.local = req.query.local;
-    search.verified = req.query.verified;
-    search.featured = req.query.featured;
+    const search = {
+        ...( req.query.local === undefined ? {} : { local: req.query.local } ),
+        ...( req.query.verified === undefined ? {} : { verified: req.query.verified } ),
+        ...( req.query.featured === undefined ? {} : { featured: req.query.featured } ),
+        ...( req.query.marketplace_enabled === undefined ? {} : { marketplace_enabled: req.query.marketplace_enabled } ),
+        ...( req.query.name === undefined ? {} : { name: { $regex: `.*${req.query.name}.*` } } )
+    };
 
     schemas.ScriptSchema
         .count({
-            _id: req.user._id,
-            ...search,
-            ...(name === undefined ? {} : {
-                name: {
-                    $regex: `.*${name}.*`
-                }
-            })
+            author_id: req.user._id,
+            ...search
         })
         .skip(page * limit)
         .limit(limit)
@@ -172,13 +151,8 @@ router.route("/@me").get(authUser, (req, res) => {
 
             schemas.ScriptSchema
                 .find({
-                    _id: req.user._id,
-                    ...search,
-                    ...(name === undefined ? {} : {
-                        name: {
-                            $regex: `.*${name}.*`
-                        }
-                    })
+                    author_id: req.user._id,
+                    ...search
                 })
                 .skip(page * limit)
                 .limit(limit)
@@ -273,7 +247,7 @@ router.route("/:object_id").get(authUser, (req, res) => {
     params.updated_at = Date.now();
 
     schemas.ScriptSchema
-        .findOneById(object_id)
+        .findById(object_id)
         .then(doc => {
             if (doc === null) {
 
@@ -315,7 +289,7 @@ router.route("/:object_id").get(authUser, (req, res) => {
     }
 
     schemas.ScriptSchema
-        .findOneById(object_id)
+        .findById(object_id)
         .then(doc => {
             if (doc === null) {
 
@@ -328,7 +302,7 @@ router.route("/:object_id").get(authUser, (req, res) => {
             }
 
             doc
-                .delete()
+                .remove()
                 .then(() => {
 
                     return res.json({ status: 200 });
@@ -370,7 +344,17 @@ router.route("/:object_id/likes").post(authUser, (req, res) => {
                 return res.json({ status: 403 });
             }
 
-            if (req.user.likes.includes(object_id) === true) {
+            let found = false;
+            for (let id of req.user.likes) {
+
+                if (id.equals(object_id)) {
+
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found === true) {
 
                 return res.json({ status: 400 });
             }
@@ -429,7 +413,17 @@ router.route("/:object_id/likes").post(authUser, (req, res) => {
                 return res.json({ status: 403 });
             }
 
-            if (req.user.likes.includes(object_id) === false) {
+            let found = false;
+            for (let id of req.user.likes) {
+
+                if (id.equals(object_id)) {
+
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found === false) {
 
                 return res.json({ status: 404 });
             }
@@ -443,7 +437,7 @@ router.route("/:object_id/likes").post(authUser, (req, res) => {
                         if (req.user.likes[i].equals(object_id)) {
 
                             req.user.likes.splice(i, 1);
-                            return;
+                            break;
                         }
                     }
                     req.user
