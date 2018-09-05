@@ -1,6 +1,7 @@
 "use strict";
 
 const express = require("express");
+const axios = require("axios");
 const mongoose = require("mongoose");
 
 const schemas = require("../../../db");
@@ -10,328 +11,222 @@ const { authUser, authAdmin } = require("../../middlewares");
 const router = express.Router();
 const apiLogger = new Logger();
 
-router.post("/", authAdmin, async (req, res) => {
+/*
+{
+    expire,
+    data
+}
+*/
+const userCache = {};
 
-    // Get input.
-    const discord_id = req.body.discord_id === undefined ? null : req.body.discord_id;
-    const admin = req.body.admin === undefined ? false : req.body.admin;
-    const verified = req.body.verified === undefined ? false : req.body.verified;
-    const developer = req.body.developer === undefined ? false : req.body.developer;
-    const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
+const cacheTime = 30000;
 
-    // Check discord id.
-    if (discord_id === null || discord_id.length !== 18) {
-        return res.json({ status: 400, message: "Bad Request", error: "Discord id not specified or incorrect" });
-    }
+const getUserData = token => {
+    return new Promise((resolve, reject) => {
 
-    let old_discord_id;
-    try {
-
-        old_discord_id = await schemas.UserSchema
-            .findOne({
-                discord_id
-            });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
-
-    if (old_discord_id !== null) {
-        return res.json({ status: 400, message: "Bad Request", error: "Duplicate discord id" });
-    }
-
-    // Check admin.
-    if (admin !== null && typeof admin !== "boolean") {
-        return res.json({ status: 400, message: "Bad Request", error: "Admin needs to be either true or false" });
-    }
-
-    // Check verified.
-    if (verified !== null && typeof verified !== "boolean") {
-        return res.json({ status: 400, message: "Bad Request", error: "Verified needs to be either true or false" });
-    }
-
-    // Check developer.
-    if (developer !== null && typeof developer !== "boolean") {
-        return res.json({ status: 400, message: "Bad Request", error: "Developer needs to be either true or false" });
-    }
-
-    // Check scripts.
-    if (scripts instanceof Array === false) {
-        return res.json({ status: 400, message: "Bad Request", error: "Scripts should be an array" });
-    }
-
-    if (scripts.length > 0) {
-
-        let script_ids = [];
-        for (let script of scripts) {
-            try {
-
-                script_ids.push(mongoose.Types.ObjectId(script));
-            } catch(error) {
-                
-                return res.json({ status: 400, message: "Bad Request", error: "Invalid script id provided" });
+        let data = null;
+        for (let k in userCache) {
+    
+            if (userCache[k].expire < Date.now()) {
+    
+                delete userCache[k];
+                continue;
+            }
+    
+            if (k === token) {
+    
+                data = userCache[k].data;
             }
         }
-
-        let script_docs;
-        try {
     
-            script_docs = await schemas.ScriptSchema
-                .find({
-                    _id: { $in: script_ids }
+        if (data === null) {
+    
+            axios
+                .get("https://discordapp.com/api/v6/users/@me", {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                })
+                .then(res => {
+
+                    userCache[token] = {
+
+                        expire: new Date(Date.now() + cacheTime),
+                        data: res.data 
+                    };
+        
+                    resolve(res.data);
+                })
+                .catch(error => {
+        
+                    reject(error);
                 });
-        } catch(error) {
+        } else {
     
-            apiLogger.error(error);
-            return res.json({ status: 500, message: "Internal Server Error", error });
+            resolve(data);
         }
-
-        if (script_docs.length !== scripts.length) {
-            return res.json({ status: 400, message: "Bad Request", error: "Script(s) specified could not be found" });
-        }
-    }
-
-    // Create new user.
-    const user = new schemas.UserSchema({
-        discord_id,
-        admin,
-        verified,
-        developer,
-        scripts
     });
+}
 
-    try {
+router.route("/").post(authAdmin, (req, res) => {
 
-        await user.save();
-    } catch(error) {
+    const params = {};
+    params.discord_id = req.body.discord_id;
 
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
+    params.banner = req.body.banner;
+    params.bio = req.body.bio;
+    params.socials = req.body.socials;
+    params.modules = req.body.modules;
+
+    if (req.user.admin === true) {
+
+        params.admin = req.body.admin;
+        params.verified = req.body.verified;
+        params.developer = req.body.developer;
+        params.tier = req.body.tier;
+
+        params.xp = req.body.xp;
+        params.shits = req.body.shits;
+        params.trophies = req.body.trophies;
+
+        params.likes = req.body.likes; 
     }
+    
+    const user = new schemas.UserSchema(params);
 
-    res.json({ status: 200, message: "OK", error: null });
+    user
+        .save()
+        .then(() => {
+
+            return res.json({ status: 200 });
+        })
+        .catch(error => {
+
+            apiLogger.error(error);
+            return res.json({ status: 500 });
+        });
 });
 
 router.route("/@me").get(authUser, (req, res) => {
 
-    const user_obj = req.user.toObject();
+    // + cond discord data
+    const extended = req.query.extended === "true" ? true : req.query.extended === "false" ? false : undefined;
 
-    delete user_obj._id;
-    delete user_obj.__v;
+    getUserData(req.session.discord.access_token)
+        .then(user => {
 
-    res.json(user_obj);
+            const user_obj = req.user.toObject();
+
+            delete user_obj.__v;
+            delete user_obj._id;
+
+            if (extended === true) {
+
+                user_obj.username = user.username;
+                user_obj.locale = user.locale;
+                user_obj.mfa_enabled = user.mfa_enabled;
+                user_obj.avatar = user.avatar;
+                user_obj.discriminator = user.discriminator;
+            }
+
+            return res.json({ status: 200, user: user_obj });
+        })
+        .catch(error => {
+
+            apiLogger.error(error);
+            return res.json({ status: 500 });
+        })
+});
+
+router.route("/:discord_id").get(authUser, (req, res) => {
+
+    // + cond discord data
+    const extended = req.query.extended === "true" ? true : req.query.extended === "false" ? false : undefined;
+
+    schemas.UserSchema
+        .findOne({
+            discord_id: req.params.discord_id
+        })
+        .then(doc => {
+            if (doc === null) {
+
+                return res.json({ status: 404 });
+            }
+
+            const user_obj = req.user.toObject();
+
+            delete user_obj.__v;
+            delete user_obj._id;
+
+            if (extended === true) {
+
+                schemas.SessionSchema
+                    .find({
+                        "discord.id": req.params.discord_id
+                    })
+                    .then(async docs => {
+                        if (docs.length === 0) {
+
+                            return res.json({ status: 404 });
+                        }
+
+                        let user = null;
+                        let success = false;
+                        for (let doc of docs) {
+
+                            if (success === true) {
+
+                                break;
+                            }
+
+                            try {
+
+                                user = await getUserData(doc.discord.access_token);
+                                success = true;
+                            } catch(error) {
+
+                                user = null;
+                                success = false;
+                            }
+                        }
+
+                        if (success === false) {
+
+                            return res.json({ status: 400 });
+                        }
+
+                
+                        user_obj.username = user.username;
+                        //user_obj.locale = user.locale;
+                        //user_obj.mfa_enabled = user.mfa_enabled;
+                        user_obj.avatar = user.avatar;
+                        //user_obj.discriminator = user.discriminator;
+            
+                        return res.json({ status: 200, user: user_obj });
+                    })
+                    .catch(error => {
+
+                        apiLogger.error(error);
+                        return res.json({ status: 500 });
+                    })
+            } else {
+
+                return res.json({ status: 200, user: user_obj });
+            }
+        })
+        .catch(error => {
+
+            apiLogger.error(error);
+            return res.json({ status: 500 });
+        });
 
 }).patch(authUser, async (req, res) => {
+    
 
-    const bio = req.body.bio === undefined ? null : req.body.bio;
-    const about = req.body.about === undefined ? null : req.body.about;
-    const socials = req.body.socials === undefined ? null : req.body.socials;
-    const trophies = req.body.trophies === undefined ? null : req.body.trophies;
-    const banner = req.body.banner === undefined ? null : req.body.banner;
-    const artwork = req.body.artwork === undefined ? null : req.body.artwork;
-    const modules = req.body.modules === undefined ? null : req.body.modules;
-
-    if (bio !== null && typeof bio !== "string") {
-        return res.json({ status: 400, message: "Bad Request", error: "bio must be a string" });
-    }
-
-    if (about !== null && typeof about !== "string") {
-        return res.json({ status: 400, message: "Bad Request", error: "about must be a string" });
-    }
-
-    if (socials !== null && (socials instanceof Array === false || socials.length > 3)) {
-        return res.json({ status: 400, message: "Bad Request", error: "socials must be an array of length no greater than 3" });
-    }
-
-    if (trophies !== null && trophies instanceof Array === false) {
-        return res.json({ status: 400, message: "Bad Request", error: "trophies must be an array" });
-    }
-
-    if (banner !== null && typeof banner !== "string") {
-        return res.json({ status: 400, message: "Bad Request", error: "banner must be a string" });
-    }
-
-    if (artwork !== null && artwork instanceof Array === false) {
-        return res.json({ status: 400, message: "Bad Request", error: "artwork must be an array" });
-    }
-
-    if (modules !== null && modules instanceof Object === false) {
-        return res.json({ status: 400, message: "Bad Request", error: "modules must be an object" });
-    }
-
-    let upd_user;
-    try {
-
-        upd_user = await schemas.UserSchema
-            .findOneAndUpdate({
-                discord_id: req.user.discord_id
-            }, {
-                ...(bio === null ? {} : { bio }),
-                ...(about === null ? {} : { about }),
-                ...(socials === null ? {} : { socials }),
-                ...(trophies === null ? {} : { trophies }),
-                ...(banner === null ? {} : { banner }),
-                ...(artwork === null ? {} : { artwork }),
-                ...(modules === null ? {} : { modules })
-            });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
-
-    if (upd_user === null) {
-        return res.json({ status: 404, message: "Not Found", error: "The user that you are trying to update could not be found" });
-    }
-
-    res.json({ status: 200, message: "OK", error: null });
 
 }).delete(authUser, async (req, res) => {
     
-    let del_user;
-    try {
 
-        del_user = await schemas.UserSchema
-            .findOneAndRemove({
-                discord_id: req.user.discord_id
-            });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
-
-    if (del_user === null) {
-        return res.json({ status: 404, message: "Not Found", error: "The user that you are trying to delete could not be found" });
-    }
-
-    res.json({ status: 200, message: "OK", error: null });
-});
-
-router.route("/:discord_id").get(authAdmin, async (req, res) => {
-
-    let user_doc;
-    try {
-
-        user_doc = await schemas.UserSchema
-            .findOne({
-                discord_id: req.params.discord_id
-            });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
-
-    if (user_doc === null) {
-        return res.json({ status: 404, message: "Not Found", error: "The user could not be found" });
-    }
-
-    res.json(user_doc);
-
-}).patch(authAdmin, async (req, res) => {
-    
-    const admin = req.body.admin === undefined ? null : req.body.admin;
-    const verified = req.body.verified === undefined ? null : req.body.verified;
-    const developer = req.body.developer === undefined ? null : req.body.developer;
-    const scripts = req.body.scripts === undefined ? [] : req.body.scripts;
-
-    // Check admin.
-    if (admin !== null && typeof admin !== "boolean") {
-        return res.json({ status: 400, message: "Bad Request", error: "Admin needs to be either true or false" });
-    }
-
-    // Check verified.
-    if (verified !== null && typeof verified !== "boolean") {
-        return res.json({ status: 400, message: "Bad Request", error: "Verified needs to be either true or false" });
-    }
-
-    // Check developer.
-    if (developer !== null && typeof developer !== "boolean") {
-        return res.json({ status: 400, message: "Bad Request", error: "Developer needs to be either true or false" });
-    }
-
-    // Check scripts.
-    if (scripts instanceof Array === false) {
-        return res.json({ status: 400, message: "Bad Request", error: "Scripts should be an array" });
-    }
-
-    if (scripts.length > 0) {
-
-        let script_ids = [];
-        for (let script of scripts) {
-            try {
-
-                script_ids.push(mongoose.Types.ObjectId(script));
-            } catch(error) {
-                
-                return res.json({ status: 400, message: "Bad Request", error: "Invalid script id provided" });
-            }
-        }
-
-        let script_docs;
-        try {
-    
-            script_docs = await schemas.ScriptSchema
-                .find({
-                    _id: { $in: script_ids }
-                });
-        } catch(error) {
-    
-            apiLogger.error(error);
-            return res.json({ status: 500, message: "Internal Server Error", error });
-        }
-
-        if (script_docs.length !== scripts.length) {
-            return res.json({ status: 400, message: "Bad Request", error: "Script(s) specified could not be found" });
-        }
-    }
-
-    let upd_user;
-    try {
-
-        upd_user = await schemas.UserSchema
-            .findOneAndUpdate({
-                discord_id: req.params.discord_id
-            }, {
-                ...(admin === null ? {} : { admin }),
-                ...(verified === null ? {} : { verified }),
-                ...(developer === null ? {} : { developer }),
-                ...(scripts.length === 0 ? {} : { scripts })
-            });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
-
-    if (upd_user === null) {
-        return res.json({ status: 404, message: "Not Found", error: "The user that you are trying to update could not be found" });
-    }
-
-    res.json({ status: 200, message: "OK", error: null });
-
-}).delete(authAdmin, async (req, res) => {
-    
-    let del_user;
-    try {
-
-        del_user = await schemas.UserSchema
-            .findOneAndRemove({
-                discord_id: req.params.discord_id
-            });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
-    }
-
-    if (del_user === null) {
-        return res.json({ status: 404, message: "Not Found", error: "The user that you are trying to delete could not be found" });
-    }
-
-    res.json({ status: 200, message: "OK", error: null });
 });
 
 module.exports = router;
