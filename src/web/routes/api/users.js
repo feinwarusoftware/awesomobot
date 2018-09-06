@@ -153,7 +153,7 @@ router.route("/:discord_id").get(authUser, (req, res) => {
                 return res.json({ status: 404 });
             }
 
-            const user_obj = req.user.toObject();
+            const user_obj = doc.toObject();
 
             delete user_obj.__v;
             delete user_obj._id;
@@ -220,13 +220,62 @@ router.route("/:discord_id").get(authUser, (req, res) => {
             return res.json({ status: 500 });
         });
 
-}).patch(authUser, async (req, res) => {
+}).patch(authUser, (req, res) => {
+
+    if (req.params.discord_id !== req.user.discord_id) {
+
+        return res.json({ status: 403 });
+    }
     
+    req.user.banner = req.body.banner === undefined ? req.user.banner : req.body.banner;
+    req.user.bio = req.body.bio === undefined ? req.user.bio : req.body.bio;
+    req.user.socials = req.body.socials === undefined ? req.user.socials : req.body.socials;
+    req.user.modules = req.body.modules === undefined ? req.user.modules : req.body.modules;
 
+    if (req.user.admin === true) {
 
-}).delete(authUser, async (req, res) => {
+        req.user.admin = req.body.admin === undefined ? req.user.admin : req.body.admin;
+        req.user.verified = req.body.verified === undefined ? req.user.verified : req.body.verified;
+        req.user.developer = req.body.developer === undefined ? req.user.developer : req.body.developer;
+        req.user.tier = req.body.tier === undefined ? req.user.tier : req.body.tier;
+
+        req.user.xp = req.body.xp === undefined ? req.user.xp : req.body.xp;
+        req.user.shits = req.body.shits === undefined ? req.user.shits : req.body.shits;
+        req.user.trophies = req.body.trophies === undefined ? req.user.trophies : req.body.trophies;
+
+        req.user.likes = req.body.likes === undefined ? req.user.likes : req.body.likes;
+    }
+
+    req.user
+        .save()
+        .then(() => {
+
+            return res.json({ status: 200 });
+        })
+        .catch(error => {
+
+            apiLogger.error(error);
+            return res.json({ status: 500 });
+        });
+
+}).delete(authUser, (req, res) => {
     
+    if (req.params.discord_id !== req.user.discord_id) {
 
+        return res.json({ status: 403 });
+    }
+
+    req.user
+        .remove()
+        .then(() => {
+
+            return res.json({ status: 200 });
+        })
+        .catch(error => {
+
+            apiLogger.error(error);
+            return res.json({ status: 500 });
+        });
 });
 
 module.exports = router;
