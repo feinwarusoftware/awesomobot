@@ -45,7 +45,7 @@ const ScriptSchema = new Schema({
     // _id: ObjectId,
     
     // The mongo id of the scripts owner.
-    author_id: { type: Schema.Types.ObjectId, required: true },
+    author_id: { type: String, required: true },
 
     // User set parameters. Note that 'thumbnail' should be set to a url of an image.
     name: { type: String, required: true },

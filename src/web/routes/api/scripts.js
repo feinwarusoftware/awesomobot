@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const schemas = require("../../../db");
 const Logger = require("../../../logger");
 const { authUser } = require("../../middlewares");
+const { getUserData } = require("../../helpers");
 
 const router = express.Router();
 const apiLogger = new Logger();
@@ -20,6 +21,9 @@ const defaultValue = (param, def) => {
 }
 
 router.route("/").get(authUser, (req, res) => {
+
+    // + cond user data
+    const extended = req.query.extended === "true" ? true : req.query.extended === "false" ? false : undefined;
 
     // Parse the amount of scripts that the api will return.
     let limit = parseInt(req.query.limit);
@@ -42,13 +46,7 @@ router.route("/").get(authUser, (req, res) => {
 
     schemas.ScriptSchema
         .count(search)
-        .skip(page * limit)
-        .limit(limit)
         .then(total => {
-            if (total === 0) {
-
-                return res.json({ status: 404 });
-            }
 
             schemas.ScriptSchema
                 .find(search)
@@ -56,8 +54,93 @@ router.route("/").get(authUser, (req, res) => {
                 .limit(limit)
                 .select({ __v: 0 })
                 .then(docs => {
+
+                    if (extended === true) {
+
+                        const script_objs = docs.map(doc => doc.toObject());
+                        const search_ids = docs.map(doc => doc.author_id);
+
+                        schemas.SessionSchema
+                            .find({
+                                "discord.id": {
+                                    $in: search_ids
+                                }
+                            })
+                            .then(async docs => {
+
+                                for (let i = 0; i < script_objs.length; i++) {
+
+                                    let user = null;
+                                    let success = false;
+
+                                    for (let doc of docs) {
         
-                    return res.json({ status: 200, page, limit, total, scripts: docs });
+                                        if (success === true) {
+            
+                                            break;
+                                        }
+
+                                        if (doc.discord.id !== script_objs[i].author_id) {
+
+                                            continue;
+                                        }
+            
+                                        try {
+            
+                                            user = await getUserData(doc.discord.access_token);
+                                            success = true;
+                                        } catch(error) {
+            
+                                            user = null;
+                                            success = false;
+                                        }
+                                    }
+
+                                    if (success === true) {
+
+                                        script_objs[i].author_username = user.username;
+                                    } else {
+
+                                        return res.json({ status: 400 });
+                                    }
+                                }
+
+                                schemas.UserSchema
+                                .find({
+                                    discord_id: {
+                                        $in: search_ids
+                                    }
+                                })
+                                .then(users => {
+
+                                    for (let i = 0; i < script_objs.length; i++) {
+
+                                        for (let user of users) {
+
+                                            if (user.discord_id === script_objs[i].author_id) {
+
+                                                script_objs[i].author_verified = user.verified;
+                                            }
+                                        }
+                                    }
+
+                                    return res.json({ status: 200, page, limit, total, scripts: script_objs });
+                                })
+                                .catch(error => {
+
+                                    apiLogger.error(error);
+                                    return res.json({ status: 500 });
+                                });
+                            })
+                            .catch(error => {
+
+                                apiLogger.error(error);
+                                return res.json({ status: 500 });
+                            });
+                    } else {
+
+                        return res.json({ status: 200, page, limit, total, scripts: docs });
+                    }
                 })
                 .catch(error => {
         
@@ -73,31 +156,31 @@ router.route("/").get(authUser, (req, res) => {
 
 }).post(authUser, (req, res) => {
 
-    const params = {};
-    params.author_id = req.user._id;
-    params.name = req.body.name;
-    params.description = req.body.description;
-    params.thumbnail = req.body.thumbnail;
-    params.marketplace_enabled = req.body.marketplace_enabled;
+    let params = {};
+    params.author_id = req.user.discord_id;
+    params = { ...params, ...(req.body.name === undefined ? {} : { name: req.body.name } ) };
+    params = { ...params, ...(req.body.description === undefined ? {} : { description: req.body.description } ) };
+    params = { ...params, ...(req.body.thumbnail === undefined ? {} : { thumbnail: req.body.thumbnail } ) };
+    params = { ...params, ...(req.body.marketplace_enabled === undefined ? {} : { marketplace_enabled: req.body.marketplace_enabled } ) };
 
-    params.type = req.body.type;
-    params.match_type = req.body.match_type;
-    params.match = req.body.match;
+    params = { ...params, ...(req.body.type === undefined ? {} : { type: req.body.type } ) };
+    params = { ...params, ...(req.body.match_type === undefined ? {} : { match_type: req.body.match_type } ) };
+    params = { ...params, ...(req.body.match === undefined ? {} : { match: req.body.match } ) };
 
-    params.code = req.body.code;
-    params.data = req.body.data;
+    params = { ...params, ...(req.body.code === undefined ? {} : { code: req.body.code } ) };
+    params = { ...params, ...(req.body.data === undefined ? {} : { data: req.body.data } ) };
 
     if (req.user.admin === true) {
 
-        params.local = req.body.local;
-        params.featured = req.body.featured;
-        params.verified = req.body.verified;
-        params.likes = req.body.likes;
-        params.guild_count = req.body.guild_count;
-        params.use_count = req.body.use_count;
+        params = { ...params, ...(req.body.local === undefined ? {} : { local: req.body.local } ) };
+        params = { ...params, ...(req.body.featured === undefined ? {} : { featured: req.body.featured } ) };
+        params = { ...params, ...(req.body.verified === undefined ? {} : { verified: req.body.verified } ) };
+        params = { ...params, ...(req.body.likes === undefined ? {} : { likes: req.body.likes } ) };
+        params = { ...params, ...(req.body.guild_count === undefined ? {} : { guild_count: req.body.guild_count } ) };
+        params = { ...params, ...(req.body.use_count === undefined ? {} : { use_count: req.body.use_count } ) };
     }
 
-    params.created_with = req.body.created_with;
+    params = { ...params, ...(req.body.created_with === undefined ? {} : { created_with: req.body.created_with } ) };
     params.updated_at = Date.now();
     
     const script = new schemas.ScriptSchema(params);
@@ -138,11 +221,9 @@ router.route("/@me").get(authUser, (req, res) => {
 
     schemas.ScriptSchema
         .count({
-            author_id: req.user._id,
+            author_id: req.user.discord_id,
             ...search
         })
-        .skip(page * limit)
-        .limit(limit)
         .then(total => {
             if (total === 0) {
 
@@ -151,7 +232,7 @@ router.route("/@me").get(authUser, (req, res) => {
 
             schemas.ScriptSchema
                 .find({
-                    author_id: req.user._id,
+                    author_id: req.user.discord_id,
                     ...search
                 })
                 .skip(page * limit)
@@ -220,30 +301,30 @@ router.route("/:object_id").get(authUser, (req, res) => {
         return res.json({ status: 400 });
     }
 
-    const params = {};
-    params.name = req.body.name;
-    params.description = req.body.description;
-    params.thumbnail = req.body.thumbnail;
-    params.marketplace_enabled = req.body.marketplace_enabled;
+    let params = {};
+    params = { ...params, ...(req.body.name === undefined ? {} : { name: req.body.name } ) };
+    params = { ...params, ...(req.body.description === undefined ? {} : { description: req.body.description } ) };
+    params = { ...params, ...(req.body.thumbnail === undefined ? {} : { thumbnail: req.body.thumbnail } ) };
+    params = { ...params, ...(req.body.marketplace_enabled === undefined ? {} : { marketplace_enabled: req.body.marketplace_enabled } ) };
 
-    params.type = req.body.type;
-    params.match_type = req.body.match_type;
-    params.match = req.body.match;
+    params = { ...params, ...(req.body.type === undefined ? {} : { type: req.body.type } ) };
+    params = { ...params, ...(req.body.match_type === undefined ? {} : { match_type: req.body.match_type } ) };
+    params = { ...params, ...(req.body.match === undefined ? {} : { match: req.body.match } ) };
 
-    params.code = req.body.code;
-    params.data = req.body.data;
+    params = { ...params, ...(req.body.code === undefined ? {} : { code: req.body.code } ) };
+    params = { ...params, ...(req.body.data === undefined ? {} : { data: req.body.data } ) };
 
     if (req.user.admin === true) {
 
-        params.local = req.body.local;
-        params.featured = req.body.featured;
-        params.verified = req.body.verified;
-        params.likes = req.body.likes;
-        params.guild_count = req.body.guild_count;
-        params.use_count = req.body.use_count;
+        params = { ...params, ...(req.body.local === undefined ? {} : { local: req.body.local } ) };
+        params = { ...params, ...(req.body.featured === undefined ? {} : { featured: req.body.featured } ) };
+        params = { ...params, ...(req.body.verified === undefined ? {} : { verified: req.body.verified } ) };
+        params = { ...params, ...(req.body.likes === undefined ? {} : { likes: req.body.likes } ) };
+        params = { ...params, ...(req.body.guild_count === undefined ? {} : { guild_count: req.body.guild_count } ) };
+        params = { ...params, ...(req.body.use_count === undefined ? {} : { use_count: req.body.use_count } ) };
     }
 
-    params.created_with = req.body.created_with;
+    params = { ...params, ...(req.body.created_with === undefined ? {} : { created_with: req.body.created_with } ) };
     params.updated_at = Date.now();
 
     schemas.ScriptSchema
@@ -254,7 +335,7 @@ router.route("/:object_id").get(authUser, (req, res) => {
                 return res.json({ status: 404 });
             }
 
-            if (doc.author_id.equals(req.user._id) === false && req.user.admin === false) {
+            if (doc.author_id !== req.user.discord_id && req.user.admin === false) {
 
                 return res.json({ status: 403 });
             }
@@ -296,7 +377,7 @@ router.route("/:object_id").get(authUser, (req, res) => {
                 return res.json({ status: 404 });
             }
 
-            if (doc.author_id.equals(req.user._id) === false && req.user.admin === false) {
+            if (doc.author_id !== eq.user.discord_id && req.user.admin === false) {
 
                 return res.json({ status: 403 });
             }

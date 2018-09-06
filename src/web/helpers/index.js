@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 
 const jwt = require("jsonwebtoken");
+const axios = require("axios");
 
 const schemas = require("../../db");
 const Logger = require("../../logger");
@@ -113,9 +114,68 @@ const fetchUser = discord_id => {
     });
 }
 
+/*
+{
+    expire,
+    data
+}
+*/
+const userCache = {};
+
+const cacheTime = 30000;
+
+const getUserData = token => {
+    return new Promise((resolve, reject) => {
+
+        let data = null;
+        for (let k in userCache) {
+    
+            if (userCache[k].expire < Date.now()) {
+    
+                delete userCache[k];
+                continue;
+            }
+    
+            if (k === token) {
+    
+                data = userCache[k].data;
+            }
+        }
+    
+        if (data === null) {
+    
+            axios
+                .get("https://discordapp.com/api/v6/users/@me", {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                })
+                .then(res => {
+
+                    userCache[token] = {
+
+                        expire: new Date(Date.now() + cacheTime),
+                        data: res.data 
+                    };
+        
+                    resolve(res.data);
+                })
+                .catch(error => {
+        
+                    reject(error);
+                });
+        } else {
+    
+            resolve(data);
+        }
+    });
+}
+
 module.exports = {
 
     jwtVerify,
     fetchSession,
-    fetchUser
+    fetchUser,
+
+    getUserData
 };

@@ -1,72 +1,14 @@
 "use strict";
 
 const express = require("express");
-const axios = require("axios");
-const mongoose = require("mongoose");
 
 const schemas = require("../../../db");
 const Logger = require("../../../logger");
 const { authUser, authAdmin } = require("../../middlewares");
+const { getUserData } = require("../../helpers");
 
 const router = express.Router();
 const apiLogger = new Logger();
-
-/*
-{
-    expire,
-    data
-}
-*/
-const userCache = {};
-
-const cacheTime = 30000;
-
-const getUserData = token => {
-    return new Promise((resolve, reject) => {
-
-        let data = null;
-        for (let k in userCache) {
-    
-            if (userCache[k].expire < Date.now()) {
-    
-                delete userCache[k];
-                continue;
-            }
-    
-            if (k === token) {
-    
-                data = userCache[k].data;
-            }
-        }
-    
-        if (data === null) {
-    
-            axios
-                .get("https://discordapp.com/api/v6/users/@me", {
-                    headers: {
-                        "Authorization": `Bearer ${token}`
-                    }
-                })
-                .then(res => {
-
-                    userCache[token] = {
-
-                        expire: new Date(Date.now() + cacheTime),
-                        data: res.data 
-                    };
-        
-                    resolve(res.data);
-                })
-                .catch(error => {
-        
-                    reject(error);
-                });
-        } else {
-    
-            resolve(data);
-        }
-    });
-}
 
 router.route("/").post(authAdmin, (req, res) => {
 
@@ -194,7 +136,6 @@ router.route("/:discord_id").get(authUser, (req, res) => {
 
                             return res.json({ status: 400 });
                         }
-
                 
                         user_obj.username = user.username;
                         //user_obj.locale = user.locale;

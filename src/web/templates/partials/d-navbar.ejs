@@ -22,7 +22,7 @@
                 </li>
                 <li>
                     <a class="collapsible-header waves-effect">
-                        <i class="fa fa-bar-chart"></i>
+                        <i class="fa fa-chart-bar"></i>
                         <%= trans.LEADERBOARDS %>
                     </a>
                     <div class="ml-4 pl-3">
@@ -63,7 +63,7 @@
                         <ul>
                             <li>
                                 <a href="#" class="waves-effect pl-4">
-                                    <i class="fa fa-code-fork"></i>
+                                    <i class="fa fa-code-branch"></i>
                                     <%= trans.ISSUE_TRACKER %>
                                 </a>
                             </li>
@@ -123,10 +123,12 @@
                                 </p>
                             </li>
                             <li>
-                                <a href="/dashboard/leaderboards/legacy/v2<%= trans.LANG %>" class="waves-effect">Activity Scores</a>
+                                <a href="/dashboard/leaderboards/legacy/v2<%= trans.LANG %>" class="waves-effect">Activity
+                                    Scores</a>
                             </li>
                             <li>
-                                <a href="/dashboard/leaderboards/legacy/v2#shit<%= trans.LANG %>" class="waves-effect">It Hits The Fan</a>
+                                <a href="/dashboard/leaderboards/legacy/v2#shit<%= trans.LANG %>" class="waves-effect">It
+                                    Hits The Fan</a>
                             </li>
                             <li>
                                 <p class="ml-3 pl-1 mb-0 mt-2" style="font-size: 10pt;">
@@ -134,10 +136,12 @@
                                 </p>
                             </li>
                             <li>
-                                <a href="/dashboard/leaderboards/legacy/v1<%= trans.LANG %>" class="waves-effect">Activity Scores</a>
+                                <a href="/dashboard/leaderboards/legacy/v1<%= trans.LANG %>" class="waves-effect">Activity
+                                    Scores</a>
                             </li>
                             <li>
-                                <a href="/dashboard/leaderboards/legacy/v1#shit<%= trans.LANG %>" class="waves-effect">It Hits The Fan</a>
+                                <a href="/dashboard/leaderboards/legacy/v1#shit<%= trans.LANG %>" class="waves-effect">It
+                                    Hits The Fan</a>
                             </li>
                         </ul>
                     </div>
@@ -170,35 +174,28 @@
     </ul>
     <ul class="nav navbar-nav nav-flex-icons ml-auto">
         <li class="nav-item avatar dropdown pr-2 mr-2">
-            <a class="nav-link dropdown-toggle waves-effect waves-light rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                <img src="https://cdn.discordapp.com/icons/438701535208275978/c5bde67f9f079d283d39b3ae80f5292f.png" class="rounded-circle z-depth-0"
-                    alt="there is supposed to be an image but dragon 🅱roke it" style="background-color: #333333;">
+            <a class="nav-link dropdown-toggle waves-effect waves-light rounded-circle" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="true">
+                <img id="selected-server" src="https://cdn.discordapp.com/icons/438701535208275978/c5bde67f9f079d283d39b3ae80f5292f.png"
+                    class="rounded-circle z-depth-0" style="background-color: #333333;">
             </a>
-            <div class="dropdown-menu dropdown-menu-right dropdown-feinwaru">
+            <div id="server-list" class="dropdown-menu dropdown-menu-right dropdown-feinwaru">
                 <h6 class="font-weight-bold text-center" style="font-size: 0.9em">
                     <%= trans.SELECT_A_SERVER %>
                 </h6>
-                <a class="dropdown-item waves-effect waves-light" href="<%= trans.LANG %>&server=438701535208275978">
-                    <img src="https://cdn.discordapp.com/icons/438701535208275978/c5bde67f9f079d283d39b3ae80f5292f.png" class="rounded-circle z-depth-0 mr-2"
-                        alt="there is supposed to be an image but dragon 🅱roke it" style="background-color: #333333; height: 32px"> Feinwaru Server
-                </a>
-                <a class="dropdown-item waves-effect waves-light" href="/dashboard/profiles/<%= user_data.id %><%= trans.LANG %>">
-                    <img src="https://cdn.discordapp.com/icons/405129031445381120/cc25586f0ba64afbc7d3bcf09b78bbac.png" class="rounded-circle z-depth-0 mr-2"
-                        alt="there is supposed to be an image but dragon 🅱roke it" style="background-color: #333333; height: 32px"> !DragonRoyale
-                </a>
             </div>
         </li>
         <li class="nav-item avatar dropdown pr-3 mr-2">
-            <a class="nav-link dropdown-toggle waves-effect waves-light rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                <img src="https://cdn.discordapp.com/avatars/<%= user_data.id %>/<%= user_data.avatar %>.png?size=128" class="rounded-circle z-depth-0"
-                    alt="there is supposed to be an image but dragon 🅱roke it">
+            <a class="nav-link dropdown-toggle waves-effect waves-light rounded-circle" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="true">
+                <img id="profile-img" class="rounded-circle z-depth-0">
             </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-feinwaru">
                 <h6 class="font-weight-bold text-center" style="font-size: 0.9em">
                     <%= trans.LOGGED_IN_AS %>
-                        <%= user_data.username %>
+                    <span id="username"></span>
                 </h6>
-                <a class="dropdown-item waves-effect waves-light" href="/dashboard/profiles/<%= user_data.id %><%= trans.LANG %>">
+                <a id="profile-link" class="dropdown-item waves-effect waves-light" href="">
                     <i class="fa fa-user"></i>
                     <%= trans.VIEW_PROFILE %>
                 </a>
@@ -218,8 +215,141 @@
         </li>
     </ul>
 </nav>
+
 <!-- <img src="https://cdn.discordapp.com/icons/438701535208275978/c5bde67f9f079d283d39b3ae80f5292f.webp" class="rounded-circle z-depth-0"
                                         alt="there is supposed to be an image but dragon 🅱roke it" style="background-color: #333333;">-->
 <!-- /.Navbar -->
 <!--/.Double navigation-->
 <%- include ../partials/langpicker.ejs %>
+
+<script>
+    "use strict";
+
+function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    const guildsRequest = new XMLHttpRequest();
+    guildsRequest.open("GET", "/api/v3/guilds/@me?extended=true", false);
+    guildsRequest.send();
+
+    let guildsYay;
+    try {
+
+        guildsYay = JSON.parse(guildsRequest.response);
+    } catch (error) {
+
+        toastr["error"](`failed to parse guilds json with error: ${error}`);
+        throw `failed to parse guilds json with error: ${error}`;
+    }
+
+    switch (guildsYay.status) {
+        case 200:
+            console.log("loaded featured scripts");
+            break;
+        case 403:
+            toastr["error"](`failed to fetch guilds: 403 forbidden`);
+            throw "failed to fetch guilds: 403 forbidden";
+            break;
+        case 404:
+            toastr["error"](`failed to fetch guilds: 404 not found`);
+            throw "failed to fetch guilds: 404 not found";
+            break;
+        case 500:
+            toastr["error"](`failed to fetch guilds: 500 internal server error`);
+            throw "failed to fetch guilds: 500 internal server error";
+            break;
+        default:
+            toastr["error"](`failed to fetch guilds: ${guildsRequest.response.status}`);
+            throw `failed to fetch guilds: ${guildsRequest.response.status}`;
+    }
+
+    const userRequest = new XMLHttpRequest();
+    userRequest.open("GET", "/api/v3/users/@me?extended=true", false);
+    userRequest.send();
+
+    let userYay;
+    try {
+
+        userYay = JSON.parse(userRequest.response);
+    } catch (error) {
+
+        toastr["error"](`failed to parse user json with error: ${error}`);
+        throw `failed to parse user json with error: ${error}`;
+    }
+
+    switch (userYay.status) {
+        case 200:
+            console.log("loaded featured scripts");
+            break;
+        case 403:
+            toastr["error"](`failed to fetch user: 403 forbidden`);
+            throw "failed to fetch user: 403 forbidden";
+            break;
+        case 404:
+            toastr["error"](`failed to fetch user: 404 not found`);
+            throw "failed to fetch user: 404 not found";
+            break;
+        case 500:
+            toastr["error"](`failed to fetch user: 500 internal server error`);
+            throw "failed to fetch user: 500 internal server error";
+            break;
+        default:
+            toastr["error"](`failed to fetch user: ${userRequest.response.status}`);
+            throw `failed to fetch user: ${userRequest.response.status}`;
+    }
+
+    document.getElementById("username").innerText = userYay.user.username;
+    document.getElementById("profile-link").href = "/dashboard/profiles/" + userYay.user.discord_id +
+        "<%= trans.LANG %>";
+    document.getElementById("profile-img").src = "https://cdn.discordapp.com/avatars/" + userYay.user.discord_id + "/" +
+        userYay.user.avatar + ".png?size=128";
+
+    const currentServer = getCookie("currentServer");
+    const selectedServer = document.getElementById("selected-server");
+
+    for (let i = 0; i < guildsYay.guilds.length; i++) {
+
+        // in case the user is on no servers with awesomo
+        if (currentServer === undefined) {
+
+            selectedServer.src = "https://cdn.discordapp.com/icons/" + guildsYay.guilds[0].discord_id + "/" + guildsYay.guilds[0].icon + ".png";
+        }
+
+        if (guildsYay.guilds[i].discord_id === currentServer) {
+
+            selectedServer.src = "https://cdn.discordapp.com/icons/" + guildsYay.guilds[i].discord_id + "/" + guildsYay.guilds[i].icon + ".png";
+        }
+
+        document.getElementById("server-list").innerHTML +=
+            `
+                <a id="${guildsYay.guilds[i].discord_id}" class="dropdown-item waves-effect waves-light server" href="<%= trans.LANG %>">
+                    <img src="${"https://cdn.discordapp.com/icons/" + guildsYay.guilds[i].discord_id + "/" + guildsYay.guilds[i].icon + ".png"}" class="rounded-circle z-depth-0 mr-2"
+                        style="background-color: #333333; height: 32px"> ${guildsYay.guilds[i].name}
+                </a>
+            `
+    }
+                
+    const servers = document.getElementsByClassName("server");
+    for (let i = 0; i < servers.length; i++) {
+
+        servers[i].onclick = () => {
+
+            document.cookie = "currentServer=" + servers[i].id;
+            document.cookie = "currentServerName=" + servers[i].innerText.trim();
+            window.reload();
+        }
+    }
+</script>

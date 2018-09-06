@@ -59,6 +59,7 @@ router.get("/api/v3/uptime", (req, res) => {
         return res.json({ rip: "fucking rip" });
     });
 });
+
 router.get("/api/v3/patrons", (req, res) => {
 
     axios({
@@ -125,6 +126,7 @@ router.get("/api/v3/patrons", (req, res) => {
         return res.json({ rip: "fucking rip" });
     });
 });
+
 router.get("/api/v3/stats", (req, res) => {
 
     const guilds = client.guilds.array();
@@ -137,6 +139,7 @@ router.get("/api/v3/stats", (req, res) => {
 
     return res.json({ guilds: guilds.length, members: memberCount });
 });
+
 router.get("/api/v3/sloc", (req, res) => {
 
     return res.json({ code: 0 });
