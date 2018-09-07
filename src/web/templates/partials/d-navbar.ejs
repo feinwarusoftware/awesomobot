@@ -323,8 +323,10 @@ function getCookie(cname) {
     for (let i = 0; i < guildsYay.guilds.length; i++) {
 
         // in case the user is on no servers with awesomo
-        if (currentServer === undefined) {
+        if (currentServer === undefined || currentServer === null || currentServer === "") {
 
+            document.cookie = "currentServer=" + guildsYay.guilds[0].discord_id;
+            document.cookie = "currentServerName=" + guildsYay.guilds[0].name;
             selectedServer.src = "https://cdn.discordapp.com/icons/" + guildsYay.guilds[0].discord_id + "/" + guildsYay.guilds[0].icon + ".png";
         }
 

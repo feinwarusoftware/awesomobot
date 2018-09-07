@@ -23,4 +23,4 @@ const nathan = new Command("nathan", "possible downs kid", "js", 0, "nathan", "c
         message.channel.send(new discord.RichEmbed().setColor(0xff594f).setAuthor("AWESOM-O // Nathan Moments!, https://cdn.discordapp.com/attachments/437671103536824340/462653108636483585/a979694bf250f2293d929278328b707c.png").setDescription("Various moments from Nathan... *and Mimsy...*").setImage(quotes[random]));
 });
 
-module.exports = nathan;
+//module.exports = nathan;

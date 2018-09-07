@@ -67,4 +67,4 @@ const infoc = new Command("infoc", "a command for getting info on channels", "js
     }
 });
 
-module.exports = infoc;
+//module.exports = infoc;

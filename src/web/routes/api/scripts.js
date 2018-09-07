@@ -70,6 +70,13 @@ router.route("/").get(authUser, (req, res) => {
 
                                 for (let i = 0; i < script_objs.length; i++) {
 
+                                    if (script_objs[i].local === true) {
+
+                                        script_objs[i].author_username = "FeinwaruDevs";
+                                        search_ids.push("feinwaru-devs");
+                                        continue;
+                                    }
+
                                     let user = null;
                                     let success = false;
 
@@ -106,31 +113,31 @@ router.route("/").get(authUser, (req, res) => {
                                 }
 
                                 schemas.UserSchema
-                                .find({
-                                    discord_id: {
-                                        $in: search_ids
-                                    }
-                                })
-                                .then(users => {
+                                    .find({
+                                        discord_id: {
+                                            $in: search_ids
+                                        }
+                                    })
+                                    .then(users => {
 
-                                    for (let i = 0; i < script_objs.length; i++) {
+                                        for (let i = 0; i < script_objs.length; i++) {
 
-                                        for (let user of users) {
+                                            for (let user of users) {
 
-                                            if (user.discord_id === script_objs[i].author_id) {
+                                                if (user.discord_id === script_objs[i].author_id) {
 
-                                                script_objs[i].author_verified = user.verified;
+                                                    script_objs[i].author_verified = user.verified;
+                                                }
                                             }
                                         }
-                                    }
 
-                                    return res.json({ status: 200, page, limit, total, scripts: script_objs });
-                                })
-                                .catch(error => {
+                                        return res.json({ status: 200, page, limit, total, scripts: script_objs });
+                                    })
+                                    .catch(error => {
 
-                                    apiLogger.error(error);
-                                    return res.json({ status: 500 });
-                                });
+                                        apiLogger.error(error);
+                                        return res.json({ status: 500 });
+                                    });
                             })
                             .catch(error => {
 

@@ -231,5 +231,5 @@ const artcomp = new Command("artcomp", "permissions lol", "js", 0, "artcomp", "c
         message.channel.send(new discord.RichEmbed().setColor(0xff594f).setAuthor(randomobject.name).setDescription(randomobject.desc).setImage(randomobject.file));
 });
 
-module.exports = artcomp;
+//module.exports = artcomp;
 

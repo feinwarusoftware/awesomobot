@@ -57,4 +57,4 @@ const infor = new Command("infor", "a command for getting info on roles", "js", 
     }
 });
 
-module.exports = infor;
+//module.exports = infor;

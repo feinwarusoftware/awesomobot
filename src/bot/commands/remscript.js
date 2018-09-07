@@ -28,4 +28,4 @@ const remscript = new Command("remscript", "removes a new script", "js", 0, "rem
     })
 });
 
-module.exports = remscript;
+//module.exports = remscript;

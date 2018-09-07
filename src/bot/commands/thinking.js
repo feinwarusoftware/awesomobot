@@ -8,4 +8,4 @@ const thinking = new Command("thinking", "things that make you go hmmm...", "js"
 
 });
 
-module.exports = thinking;
+//module.exports = thinking;

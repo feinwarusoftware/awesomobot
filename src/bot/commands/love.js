@@ -37,4 +37,4 @@ const love = new Command("love", "quotes chef", "js", 0, "love", "command", 0, f
     message.channel.send(new discord.RichEmbed().setColor(0xff594f).setAuthor("AWESOM-O // Love!", "https://cdn.discordapp.com/attachments/437671103536824340/462653108636483585/a979694bf250f2293d929278328b707c.png").setThumbnail("https://vignette.wikia.nocookie.net/southpark/images/3/38/JeromeChef.png/revision/latest?cb=20160402120214").setDescription(chefquotes[Math.floor(Math.random() * chefquotes.length)]).setFooter("Hello there, children!"));        
 });
 
-module.exports = love;
+//module.exports = love;

@@ -29,4 +29,4 @@ let towelquote = new Command("towelquote", "Posts a quote from Towelie!", "js", 
         message.channel.send(quotes[random]);
 });
 
-module.exports = towelquote;
+//module.exports = towelquote;

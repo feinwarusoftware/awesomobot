@@ -8,4 +8,4 @@ const back = new Command("back", "Im baaaaack", "js", 0, "back", "command", 0, f
 
 });
 
-module.exports = back;
+//module.exports = back;

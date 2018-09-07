@@ -39,4 +39,4 @@ let shipyuri = new Command("shipyuri", "use this fucking command", "js", 0, "shi
         }
 });
 
-module.exports = shipyuri;
+//module.exports = shipyuri;

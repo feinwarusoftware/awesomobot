@@ -16,6 +16,6 @@ let spaces = new Command("spaces", "a e s t h e t i c", "js", 0, "spaces", "comm
         message.channel.send(modified)
 });
 
-module.exports = spaces;
+//module.exports = spaces;
 
 

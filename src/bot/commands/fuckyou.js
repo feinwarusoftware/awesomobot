@@ -10,4 +10,4 @@ const fuckyou = new Command("fuckyou", "Fuck you", "js", 0, "fuckyou", "command"
 
 });
 
-module.exports = fuckyou;
+//module.exports = fuckyou;

@@ -1,17 +1,20 @@
 "use strict";
 
 class Command {
-    constructor(name, description, type, permissions, match, match_type, order, passthrough, assets, cb) {
-        this.name = name;
-        this.description = description;
-        this.type = type;
-        this.permissions = permissions;
-        this.match = match;
-        this.match_type = match_type;
-        this.order = order;
-        this.passthrough = passthrough;
-        this.assets = assets;
-        this.cb = cb;
+    constructor(options) {
+
+        this.name = options.name;
+        this.description = options.description;
+        this.thumbnail = options.thumbnail;
+        this.marketplace_enabled = options.marketplace_enabled;
+
+        this.type = options.type;
+        this.match_type = options.match_type;
+        this.match = options.match;
+
+        this.featured = options.featured;
+
+        this.cb = options.cb;
     }
     run(client, message, guildDoc) {
         this.cb(client, message, guildDoc);

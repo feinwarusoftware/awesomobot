@@ -113,4 +113,4 @@ const fm = new Command("fm", "lastfm lol", "js", 0, "fm", "command", 0, false, n
     });
 });
 
-module.exports = fm;
+//module.exports = fm;

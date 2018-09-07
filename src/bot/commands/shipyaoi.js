@@ -48,4 +48,4 @@ let shipyaoi = new Command("shipyaoi", "gay", "js", 0, "shipyaoi", "command", 0,
     }
 });
 
-module.exports = shipyaoi;
+//module.exports = shipyaoi;

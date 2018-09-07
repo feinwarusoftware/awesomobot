@@ -9,4 +9,4 @@ const welcome = new Command("welcome", "welcome to the server message", "js", 0,
     });
 });
 
-module.exports = welcome;
+//module.exports = welcome;

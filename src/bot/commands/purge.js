@@ -23,4 +23,4 @@ const purge = new Command("purge", "for the next 50 messages, all deletes are le
     message.channel.bulkDelete(deleteCount, true);
 });
 
-module.exports = purge;
+//module.exports = purge;

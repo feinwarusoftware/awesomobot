@@ -32,6 +32,6 @@ let someone = new Command("someone", "Fuck you, Discord.", "js", 0, "@someone", 
         message.channel.send(quotes[random1] + " " + members[random2].user.username);
 });
 
-module.exports = someone;
+//module.exports = someone;
 
 

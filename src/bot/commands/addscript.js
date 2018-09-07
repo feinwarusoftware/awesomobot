@@ -61,4 +61,4 @@ const addscript = new Command("addscript", "adds a new script", "js", 0, "addscr
     });
 });
 
-module.exports = addscript;
+//module.exports = addscript;

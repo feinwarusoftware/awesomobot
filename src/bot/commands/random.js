@@ -49,4 +49,4 @@ const random = new Command("random", "random episodes", "js", 0, "random", "comm
     });
 });
 
-module.exports = random;
+//module.exports = random;

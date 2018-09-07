@@ -55,4 +55,4 @@ const infoe = new Command("infoe", "a command for getting info on emojis", "js",
     }
 });
 
-module.exports = infoe;
+//module.exports = infoe;

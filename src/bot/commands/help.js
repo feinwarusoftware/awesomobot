@@ -13,5 +13,5 @@ const help = new Command("help", "filthy frank", "js", 0, "help", "command", 0, 
                 .setFooter("These dev people are cool, I guess."));
 });
 
-module.exports = help;
+//module.exports = help;
 

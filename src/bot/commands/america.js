@@ -13,4 +13,4 @@ const america = new Command("america", "I thought this is America!", "js", 0, "a
         }
 });
 
-module.exports = america;
+//module.exports = america;

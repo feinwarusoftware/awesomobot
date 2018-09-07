@@ -17,4 +17,4 @@ const times = new Command("times", "mr worldwide", "js", 0, "times", "command", 
                 .setThumbnail("https://cdn.discordapp.com/attachments/379432139856412682/401485874040143872/hmmwhatsthetime.png"));
 });
 
-module.exports = times;
+//module.exports = times;

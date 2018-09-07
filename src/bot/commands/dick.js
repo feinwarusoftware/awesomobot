@@ -10,4 +10,4 @@ const dick = new Command("dick", "Stop being a dick Scott", "js", 0, "dick", "co
 
 });
 
-module.exports = dick;
+//module.exports = dick;

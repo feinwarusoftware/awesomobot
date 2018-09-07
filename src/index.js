@@ -436,5 +436,5 @@ Promise.all(promises).then(() => {
 //
 
 // do stuff
-//require("./bot");
+require("./bot");
 require("./web");

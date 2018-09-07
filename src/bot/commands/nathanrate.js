@@ -22,4 +22,4 @@ const nathanrate = new Command("nathanrate", "possible downs kid 2", "js", 0, "n
     message.channel.send(new discord.RichEmbed().setColor(0xff594f).setDescription(quotes[random]));
 });
 
-module.exports = nathanrate;
+//module.exports = nathanrate;

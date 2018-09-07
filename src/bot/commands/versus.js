@@ -107,5 +107,5 @@ const versus = new Command("versus", "fight", "js", 0, "versus", "command", 0, f
         });
 });
 
-module.exports = versus;
+//module.exports = versus;
 

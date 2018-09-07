@@ -14,4 +14,4 @@ let reminder = new Command("reminder", "Towelie's important message!", "js", 0, 
         }
 });
 
-module.exports = reminder;
+//module.exports = reminder;

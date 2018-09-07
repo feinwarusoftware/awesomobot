@@ -6,4 +6,4 @@ const f = new Command("f", "repects", "js", 0, "f", "command", 0, false, null, f
     message.reply("Repects have been paid.");
 });
 
-module.exports = f;
+//module.exports = f;

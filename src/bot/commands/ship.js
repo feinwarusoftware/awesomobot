@@ -65,4 +65,4 @@ let ship = new Command("ship", "conformist", "js", 0, "ship", "command", 0, fals
         message.channel.send("**:heart: Here's your ship:** " + males[randommale] + " **x** " + females[randomfemale] + " :heart:");
 });
 
-module.exports = ship;
+//module.exports = ship;

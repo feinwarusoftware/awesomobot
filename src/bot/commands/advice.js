@@ -18,4 +18,4 @@ const advice = new Command("advice", "Awesom-e advice!", "js", 0, "advice", "com
 
 });
 
-module.exports = advice;
+//module.exports = advice;

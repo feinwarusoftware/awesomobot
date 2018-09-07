@@ -9,4 +9,4 @@ const micro = new Command("micro", "Microaggression! Hit 'em", "js", 0, "micro",
     });
 });
 
-module.exports = micro;
+//module.exports = micro;

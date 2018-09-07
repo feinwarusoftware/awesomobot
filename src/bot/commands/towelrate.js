@@ -22,4 +22,4 @@ let towelrate = new Command("towelrate", "Towelie rates you!", "js", 0, "towelra
         message.channel.send(new discord.RichEmbed().setColor(0xff594f).setDescription(quotes[random]).setFooter("Don't forget to bring a towel!"));
 });
 
-module.exports = towelrate;
+//module.exports = towelrate;

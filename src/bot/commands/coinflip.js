@@ -8,4 +8,4 @@ const coinflip = new Command("coinflip", "wonks", "js", 0, "coinflip", "command"
 
 });
 
-module.exports = coinflip;
+//module.exports = coinflip;

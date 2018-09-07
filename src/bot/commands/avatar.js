@@ -38,4 +38,4 @@ const avatar = new Command("avatar", "get users avatars", "js", 0, "avatar", "co
         return;
     }
 });
-module.exports = avatar;
+//module.exports = avatar;

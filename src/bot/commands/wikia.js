@@ -39,4 +39,4 @@ const wikia = new Command("wikia", "search the south park wikia", "js", 0, "wiki
     });
 });
 
-module.exports = wikia;
+//module.exports = wikia;

@@ -589,4 +589,4 @@ const card = new Command("card", "phone destroyer", "js", 0, "card", "command", 
     });
 });
 
-module.exports = card;
+//module.exports = card;

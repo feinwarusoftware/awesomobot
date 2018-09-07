@@ -8,5 +8,5 @@ const colour = new Command("colour", "0xff594f", "js", 0, "colour", "command", 0
     message.channel.send(new discord.RichEmbed().setColor(0xff594f).setDescription("The Feinwaru colour is: **0xff594f**"));
 });
 
-module.exports = colour;
+//module.exports = colour;
 

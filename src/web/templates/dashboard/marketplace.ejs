@@ -418,6 +418,7 @@
 
             switch (yourScriptsYay.status) {
                 case 200:
+                    yourScripts.push(...yourScriptsYay.scripts);
                     console.log("loaded your scripts");
                     break;
                 case 403:
@@ -425,8 +426,8 @@
                     throw "failed to fetch your scripts: 403 forbidden";
                     break;
                 case 404:
-                    toastr["error"](`failed to fetch your scripts: 404 not found`);
-                    throw "failed to fetch your scripts: 404 not found";
+                    //toastr["error"](`failed to fetch your scripts: 404 not found`);
+                    //throw "failed to fetch your scripts: 404 not found";
                     break;
                 case 500:
                     toastr["error"](`failed to fetch your scripts: 500 internal server error`);
@@ -436,8 +437,6 @@
                     toastr["error"](`failed to fetch your scripts: ${yourScriptsRequest.response.status}`);
                     throw `failed to fetch your scripts: ${yourScriptsRequest.response.status}`;
             }
-
-            yourScripts.push(...yourScriptsYay.scripts);
 
             if (Math.ceil(yourScriptsYay.total / yourScriptsYay.limit) - 1 > currentPage) {
 
@@ -583,8 +582,8 @@
                     throw "failed to fetch scripts: 500 internal server error";
                     break;
                 default:
-                    toastr["error"](`failed to fetch scripts: ${scriptsRequest.response.status}`);
-                    throw `failed to fetch scripts: ${scriptsRequest.response.status}`;
+                    toastr["error"](`failed to fetch scripts: ${scriptsYay.status}`);
+                    throw `failed to fetch scripts: ${scriptsYay.status}`;
             }
 
             let pages = ``;

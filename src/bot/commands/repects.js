@@ -7,4 +7,4 @@ let repects = new Command ("repects", "press f to pay repects", "js", 0, "f", "c
     message.reply("Repects have been paid");
 });
 
-module.exports = repects;
+//module.exports = repects;

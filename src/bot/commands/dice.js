@@ -6,4 +6,4 @@ const dice = new Command("dice", "roll a digital dice", "js", 0, "dice", "comman
     message.reply(Math.floor(Math.random() * 6) + 1);
 });
 
-module.exports = dice;
+//module.exports = dice;

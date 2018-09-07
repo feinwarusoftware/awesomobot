@@ -9,4 +9,4 @@ const member = new Command("member", "summons the member berries", "js", 0, "mem
         
 });
 
-module.exports = member;
+//module.exports = member;

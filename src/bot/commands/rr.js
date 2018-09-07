@@ -14,4 +14,4 @@ const rr = new Command("rr", "the ultimate life and death test", "js", 0, "rr", 
     }
 });
 
-module.exports = rr;
+//module.exports = rr;

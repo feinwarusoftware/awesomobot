@@ -8,4 +8,4 @@ const rps = new Command("rps", "wonks", "js", 0, "rps", "command", 0, false, nul
             message.reply(rand === 0 ? "Rock" : rand === 1 ? "Paper" : "Scissors");
 });
 
-module.exports = rps;
+//module.exports = rps;

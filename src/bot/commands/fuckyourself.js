@@ -10,5 +10,5 @@ const fuckyourself = new Command("fuckyourself", "Go fuck yourself", "js", 0, "f
 
 });
 
-module.exports = fuckyourself;
+//module.exports = fuckyourself;
 

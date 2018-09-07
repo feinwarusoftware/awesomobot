@@ -6,4 +6,4 @@ const test = new Command("test", "testing...", "js", 0, "test", "command", 0, fa
     message.reply("testing...") 
 });
 
-module.exports = test;
+//module.exports = test;

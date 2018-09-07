@@ -9,5 +9,5 @@ const batman = new Command("batman", "summons a brave dark knight", "js", 0, "ba
     });
 });
 
-module.exports = batman;
+//module.exports = batman;
 

@@ -15,4 +15,4 @@ const harvest = new Command("harvest", "which celeb is up for it this year?", "j
         .setURL("https://youtu.be/6H3UiwU1N5I?t=3m2s"));
 });
 
-module.exports = harvest;
+//module.exports = harvest;

@@ -46,4 +46,4 @@ const movieidea = new Command("movieideas", "Gives out a movie idea", "js", 0, "
         
 });
 
-module.exports = movieidea;
+//module.exports = movieidea;

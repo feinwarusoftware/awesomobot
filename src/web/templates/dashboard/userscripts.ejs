@@ -57,6 +57,9 @@
                 margin-top: 80px;
             }
         }
+    .side-nav .collapsible li a:hover {
+        background-color: rgba(254, 85, 76, 0.705);
+    }
     </style>
 </head>
 
@@ -457,16 +460,62 @@
 
         const loadScripts = () => {
 
-            const req = new XMLHttpRequest();
-            req.open("GET", "/api/v3/scripts/@me", false);
-            req.send();
+            let yourScripts = [];
+            let currentPage = 0;
+            let yourScriptsLoaded = false;
+            while (yourScriptsLoaded === false) {
+
+                const yourScriptsRequest = new XMLHttpRequest();
+                yourScriptsRequest.open("GET", "/api/v3/scripts/@me?limit=20&page=" + currentPage, false);
+                yourScriptsRequest.send();
+
+                let yourScriptsYay;
+                try {
+
+                    yourScriptsYay = JSON.parse(yourScriptsRequest.response);
+                } catch (error) {
+
+                    toastr["error"](`failed to parse your scripts json with error: ${error}`);
+                    throw `failed to parse your scripts json with error: ${error}`;
+                }
+
+                switch (yourScriptsYay.status) {
+                    case 200:
+                        yourScripts.push(...yourScriptsYay.scripts);
+                        console.log("loaded your scripts");
+                        break;
+                    case 403:
+                        toastr["error"](`failed to fetch your scripts: 403 forbidden`);
+                        throw "failed to fetch your scripts: 403 forbidden";
+                        break;
+                    case 404:
+                        //toastr["error"](`failed to fetch your scripts: 404 not found`);
+                        //throw "failed to fetch your scripts: 404 not found";
+                        break;
+                    case 500:
+                        toastr["error"](`failed to fetch your scripts: 500 internal server error`);
+                        throw "failed to fetch your scripts: 500 internal server error";
+                        break;
+                    default:
+                        toastr["error"](`failed to fetch your scripts: ${yourScriptsRequest.response.status}`);
+                        throw `failed to fetch your scripts: ${yourScriptsRequest.response.status}`;
+                }
+
+                if (Math.ceil(yourScriptsYay.total / yourScriptsYay.limit) - 1 > currentPage) {
+
+                    currentPage++;
+                } else {
+
+                    yourScriptsLoaded = true;
+                }
+            }
 
             const scriptSelectors = document.getElementsByClassName("selection");
 
             const scripts = $("#scriptList");
             scripts.html("");
 
-            for (let script of JSON.parse(req.response)) {
+            for (let script of yourScripts) {
 
                 scripts.append(
                     `<li><a id="${script._id}-clicker" class="waves-effect selection"><i class="fa fa-code"></i> ${script.name}</a></li>`
@@ -492,6 +541,16 @@
 
                     editorCode.setValue(script.code);
                     let options = JSON.parse(JSON.stringify(script));
+                    delete options.type;
+                    delete options.local;
+                    delete options.featured;
+                    delete options.verified;
+                    delete options.likes;
+                    delete options.guild_count;
+                    delete options.use_count;
+                    delete options.updated_at;
+                    delete options.created_at;
+                    delete options.created_with;
                     delete options.code;
 
                     editorOptions.setValue(beautify(options, null, 2, 100));
@@ -514,7 +573,7 @@
         document.getElementById("updateCode").onclick = () => {
 
             const upd = new XMLHttpRequest();
-            upd.open("PATCH", `/api/v3/scripts/@me/${current_id}`, false);
+            upd.open("PATCH", `/api/v3/scripts/${current_id}`, false);
             upd.setRequestHeader("Content-Type", "application/json");
 
             const options = JSON.parse(editorOptions.getValue());
@@ -551,13 +610,13 @@
         document.getElementById("createCode").onclick = () => {
 
             const create = new XMLHttpRequest();
-            create.open("POST", `/api/v3/scripts/@me`, false);
+            create.open("POST", `/api/v3/scripts`, false);
             create.setRequestHeader("Content-Type", "application/json");
 
             const options = JSON.parse(editorOptions.getValue());
             options.code = editorCode.getValue();
 
-            create.send(JSON.stringify(options));
+            create.send(JSON.stringify({ ...options, created_with: "feinwaru_editor" }));
 
             const create_res = JSON.parse(create.response);
             if (create_res.status === 200) {
@@ -595,7 +654,7 @@
         document.getElementById("yaDelet").onclick = () => {
 
             const delet = new XMLHttpRequest();
-            delet.open("DELETE", `/api/v3/scripts/@me/${current_id}`, false);
+            delet.open("DELETE", `/api/v3/scripts/${current_id}`, false);
             delet.send();
 
             const delet_res = JSON.parse(delet.response);
@@ -654,13 +713,12 @@
             newScriptButton.classList.add("feinwaru");
 
             const base = {
-                local: false,
-                name: "",
                 description: "",
-                type: "js",
-                permissions: 0,
-                match: "",
-                match_type: "command"
+                marketplace_enabled: false,
+                match_type: "command",
+                name: "",
+                thumbnail: "",
+                match: ""
             }
 
             editorCode.setValue(`message.channel.send("example reply");`);

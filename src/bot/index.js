@@ -11,156 +11,128 @@ const Logger = require("../logger");
 const schemas = require("../db");
 const Sandbox = require("./sandbox");
 
+const config = require("../../config.json");
+
 const botLogger = new Logger();
 const botSandbox = new Sandbox({}, 2000);
 
-let config;
-try {
-
-    config = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "..", "config.json")));
-} catch(err) {
-
-    botLogger.fatalError(`error loading config: ${err}`);
-}
-
 const isFile = fp => fs.lstatSync(fp).isFile();
-const getFiles = fp => fs.readdirSync(fp).map(name => path.join(fp, name)).filter(isFile);
+const getFilePathsInDir = fp => fs.readdirSync(fp).map(name => path.join(fp, name)).filter(isFile);
 
-const loadCommands = async () => {
+const loadCommands = () => {
+    return new Promise(async (resolve, reject) => {
 
-    let commands = [];
+        const commands = [];
 
-    let files;
-    try {
-
-        files = getFiles(path.join(__dirname, "commands"))
-    } catch (err) {
-
-        botLogger.fatalError(`error loading commands: ${err}`);
-    }
-
-    //botLogger.log("stdout", `detected command files: ${JSON.stringify(files)}`);
-
-    for (let file of files) {
-
-        let extname = path.extname(file);
-        if (extname !== ".js") {
-
-            botLogger.fatalError(`error loading commands: found file with '${extname}', but only '.js' files are supported`);
-        }
-
-        let command;
+        // load
+        let filePaths;
         try {
 
-            delete require.cache[require.resolve(file)];
-            command = require(file);
-        } catch (err) {
+            filePaths = getFilePathsInDir(path.join(__dirname, "commands"));
+        } catch (error) {
 
-            botLogger.fatalError(`error loading command file: ${file}, with error: ${err}`);
+            // error
         }
 
-        commands.push(command);
-    }
+        for (let filePath of filePaths) {
 
-    //botLogger.log("stdout", `loaded command files: ${JSON.stringify(commands)}`);
+            let fileExtName = filePath.extname;
+            if (fileExtName !== ".js") {
 
-    await schemas.ScriptSchema.find({ local: true }).then(async docs => {
-
-        for (let doc of docs) {
-            let found = false
-
-            for (let command of commands) {
-                if (doc.name === command.name) {
-                    found = true;
-
-                    let change = false;
-
-                    if (doc.description !== command.description) {
-                        doc.description = command.description;
-                        change = true;
-                    }
-                    if (doc.type !== command.type) {
-                        doc.type = command.type;
-                        change = true;
-                    }
-                    if (doc.permissions !== command.permissions) {
-                        doc.permissions = command.permissions;
-                        change = true;
-                    }
-                    if (doc.match !== command.match) {
-                        doc.match = command.match;
-                        change = true;
-                    }
-                    if (doc.match_type !== command.match_type) {
-                        doc.match_type = command.match_type;
-                        change = true;
-                    }
-                    if (doc.code !== null) {
-                        doc.code = null;
-                        change = true;
-                    }
-            
-                    if (change === true) {
-            
-                        await doc.save().catch(err => {
-            
-                            botLogger.fatalError(`error updaing '${command.name}' command in db: ${err}`);
-                        });
-                    }
-
-                    break;
-                }
+                // error
             }
 
-            if (found === true) {
+            let command;
+            try {
+
+                command = require(filePath);
+            } catch (error) {
+
+                // error
+            }
+
+            commands.push(command);
+        }
+
+        // save to db if new
+        const scripts = await schemas.ScriptSchema
+            .find({
+                local: true
+            })
+            .then(scripts => {
+
+                return scripts;
+            })
+            .catch(error => {
+
+                // error
+            });
+
+        const promises = [];
+        const validCommands = [];
+
+        for (let i = 0; i < commands.length; i++) {
+
+            // dont save if the required info isnt there
+            if (commands[i].name === undefined || commands[i].match === undefined) {
+
                 continue;
             }
 
-            await doc.remove().catch(err => {
+            let script = scripts.find(e => e.name === commands[i].name);
+            if (script === undefined) {
 
-                botLogger.fatalError(`error removing '${doc.name}' command from db: ${err}`);
-            });
+                script = new schemas.ScriptSchema({
+
+                    author_id: "feinwaru-devs",
+
+                    name: commands[i].name,
+                    description: commands[i].description,
+                    thumbnail: commands[i].thumbnail,
+                    marketplace_enabled: commands[i].marketplace_enabled,
+
+                    type: commands[i].type,
+                    match_type: commands[i].match_type,
+                    match: commands[i].match,
+
+                    code: null,
+                    data: null,
+
+                    local: true,
+                    featured: commands[i].featured,
+                    verified: true,
+                    likes: 0,
+                    guild_count: 0,
+                    use_count: 0,
+
+                    created_with: "vscode"
+                });
+
+                promises.push(script.save().then(script => {
+                    commands[i]._id = script._id
+                    validCommands.push(commands[i]);
+                }));
+            } else {
+
+                commands[i]._id = script._id
+                validCommands.push(commands[i]);
+            }
         }
 
-        for (let command of commands) {
-            let found = false;
+        Promise
+            .all(promises)
+            .then(() => {
 
-            for (let doc of docs) {
-                if (command.name === doc.name) {
-                    found = true;
-                    break;
-                }
-            }
+                resolve(validCommands);
+            })
+            .catch(error => {
 
-            if (found === true) {
-                continue;
-            }
-
-            const script = new schemas.ScriptSchema({
-                local: true,
-                name: command.name === undefined ? "name" : command.name,
-                description: command.description === undefined ? "desc" : command.description,
-                type: command.type === undefined ? "js" : command.type,
-                permissions: command.permissions === undefined ? 0 : command.permissions,
-                match: command.match === undefined ? "_wip" : command.match,
-                match_type: command.match_type === undefined ? "command" : command.match_type,
-                code : null
+                // error
             });
-
-            await script.save().catch(err => {
-
-                botLogger.fatalError(`error saving '${command.name}' command to db: ${err}`);
-            });
-        }
-    }).catch(err => {
-
-        botLogger.fatalError(`error fetching current commands from db: ${err}`);
     });
-
-    return commands;
 }
 
-let loadedCommands = loadCommands();
+const commands = loadCommands().then(commands => commands).catch(error => botLogger.fatalError(`Error loading local scripts: ${error}`));
 
 const client = new discord.Client();
 client.on("channelCreate", channel => {
@@ -235,7 +207,233 @@ client.on("guildUnavailable", guild => {
 client.on("guildUpdate", (oldGuild, newGuild) => {
 
 });
-client.on("message", async message => {
+client.on("message", message => {
+
+    if (client.user.id === message.author.id) {
+
+        return;
+    }
+
+    schemas.GuildSchema
+        .findOne({
+            discord_id: message.guild.id
+        })
+        .then(guild => {
+            if (guild === null) {
+
+                // bot not enabled on server
+            }
+
+            const scriptIds = guild.scripts.map(script => script.object_id);
+            schemas.ScriptSchema
+                .find({
+                    _id: {
+                        $in: scriptIds
+                    }
+                })
+                .then(async scripts => {
+
+                    for (let script of scripts) {
+
+                        const guildScript = guild.scripts.find(e => e.object_id.equals(script._id));
+
+                        const match_type = guildScript.match_type_override === null ? script.match_type : guildScript.match_type_override;
+                        const match = guildScript.match_override === null ? script.match : guildScript.match_override;
+
+                        let matched = false;
+                        switch (match_type) {
+                            case "command":
+                                matched = message.content.split(" ")[0].toLowerCase() === (guild.prefix + match.toLowerCase());
+                                break;
+                            case "startswith":
+                                matched = message.content.toLowerCase().startsWith(match.toLowerCase());
+                                break;
+                            case "contains":
+                                matched = message.content.toLowerCase().indexOf(match.toLowerCase()) !== -1;
+                                break;
+                            case "exactmatch":
+                                matched = message.content === match;
+                                break;
+                            default:
+                                botLogger.error(`incorrect script match type: name - ${script.name}, match_type - ${match_type}`);
+                                break;
+                        }
+
+                        if (matched === false) {
+                            continue;
+                        }
+
+                        // perms
+                        let passed = true;
+
+                        if (guildScript.permissions === undefined) {
+
+                            guildScript.permissions = {
+                                members: {
+                                    allow_list: false,
+                                    list: []
+                                },
+                                channels: {
+                                    allow_list: false,
+                                    list: []
+                                },
+                                roles: {
+                                    allow_list: false,
+                                    list: []
+                                }
+                            };
+                        }
+
+                        // member perms
+                        if (guildScript.permissions.members.allow_list === false) {
+
+                            for (let memberId of guildScript.permissions.members.list) {
+
+                                if (message.author.id === memberId) {
+
+                                    passed = false;
+                                    message.reply("debug: you dont have perms to run this command - you can't run this command while blacklisted");
+                                    break;
+                                }
+                            }
+                        } else {
+
+                            let found = false;
+                            for (let memberId of guildScript.permissions.members.list) {
+
+                                if (message.author.id === memberId) {
+
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (found === false) {
+
+                                passed = false;
+                                message.reply("debug: you dont have perms to run this command - you can't run this command as you aren't whitelisted");
+                                //break;
+                            }
+                        }
+
+                        if (passed === false) {
+                            break;
+                        }
+
+                        // channel perms
+                        if (guildScript.permissions.channels.allow_list === false) {
+
+                            for (let channelId of guildScript.permissions.channels.list) {
+
+                                if (message.channel.id === channelId) {
+
+                                    passed = false;
+                                    message.reply("debug: you dont have perms to run this command - this command is not allowed in this channel");
+                                    break;
+                                }
+                            }
+                        } else {
+
+                            let found = false;
+                            for (let channelId of guildScript.permissions.channels.list) {
+
+                                if (message.channel.id === channelId) {
+
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (found === false) {
+
+                                passed = false;
+                                message.reply("debug: you dont have perms to run this command - youre not in a channel where this command is allowed");
+                                //break;
+                            }
+                        }
+
+                        if (passed === false) {
+                            break;
+                        }
+
+                        // rule perms
+                        if (guildScript.permissions.roles.allow_list === false) {
+
+                            for (let roleId of guildScript.permissions.roles.list) {
+
+                                for (let role of message.member.roles.array()) {
+
+                                    if (roleId === role.id) {
+
+                                        passed = false;
+                                        message.reply("debug: you dont have perms to run this command - one of your roles is blacklisted");
+                                        break;
+                                    }
+                                }
+                                if (passed === false) {
+                                    break;
+                                }
+                            }
+
+                        } else {
+
+                            let found = 0;
+
+                            for (let roleId of guildScript.permissions.roles.list) {
+
+                                for (let role of message.member.roles.array()) {
+
+                                    if (roleId === role.id) {
+
+                                        found++;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (found !== guildScript.permissions.roles.list.length) {
+
+                                passed = false;
+                                message.reply("debug: you dont have perms to run this command - you dont have all the required roles");
+                            }
+                        }
+
+                        if (passed === false) {
+                            break;
+                        }
+
+                        if (script.local === true) {
+
+                            const localCommand = (await commands).find(e => e.name === script.name);
+                            if (localCommand === undefined) {
+
+                                message.channel.send(`error executing local script '${script.name}', code not found`);
+                            } else {
+
+                                localCommand.run(client, message, guild);
+                            }
+                        } else {
+
+                            try {
+
+                                botSandbox.exec(script.code, {
+                                    message,
+                                    RichEmbed: discord.RichEmbed
+                                });
+                            } catch (error) {
+
+                                message.channel.send(`error executing '${script.name}' script: ${error}`);
+                            }
+                        }
+                    }
+                })
+                .catch(error => {
+
+                    // error
+                });
+        })
+        .catch(error => {
+
+            // error
+        });
+
     //special
 
     // load guild
@@ -245,6 +443,7 @@ client.on("message", async message => {
     // fetch code (local vs db)
     // run code appropriately
 
+    /*
     if (client.user.id === message.author.id) {
         return;
     }
@@ -370,27 +569,28 @@ client.on("message", async message => {
             *- if the match checks pass but not the perm checks, stop script iteration
         */
 
-        // match each of them
-        // run perm checks
-        // identify if local
+    // match each of them
+    // run perm checks
+    // identify if local
 
-        // if local - call normally
-        // if not, error for now
+    // if local - call normally
+    // if not, error for now
 
+    /*
         // matching - big boii issue
         let matched = false;
-        switch(guildOverrides.match_type_override === null ? script.match_type : guildOverrides.match_type_override) {
+        switch(guildOverrides.match_type_override == null ? script.match_type : guildOverrides.match_type_override) {
             case "command":
                 matched = message.content.split(" ")[0].toLowerCase() === guildDoc.prefix + (guildOverrides.match_override === null ? script.match.toLowerCase() : guildOverrides.match_override.toLowerCase());
                 break;
             case "startswith":
-                matched = message.content.toLowerCase().startsWith(guildOverrides.match_override === null ? script.match.toLowerCase() : guildOverrides.match_override.toLowerCase());
+                matched = message.content.toLowerCase().startsWith(guildOverrides.match_override == null ? script.match.toLowerCase() : guildOverrides.match_override.toLowerCase());
                 break;
             case "contains":
-                matched = message.content.toLowerCase().indexOf(guildOverrides.match_override === null ? script.match.toLowerCase() : guildOverrides.match_override.toLowerCase()) !== -1;
+                matched = message.content.toLowerCase().indexOf(guildOverrides.match_override == null ? script.match.toLowerCase() : guildOverrides.match_override.toLowerCase()) !== -1;
                 break;
             case "exactmatch":
-                matched = message.content === (guildOverrides.match_override === null ? script.match : guildOverrides.match_override);
+                matched = message.content === (guildOverrides.match_override == null ? script.match : guildOverrides.match_override);
                 break;
             default:
                 botLogger.error(`incorrect script match type: name - ${script.name}, match_type - ${script.match_type}`);
@@ -607,6 +807,7 @@ client.on("message", async message => {
 
         botLogger.error(error);
     });
+    */
 });
 client.on("messageDelete", message => {
 
@@ -667,6 +868,6 @@ client.on("warn", info => {
 });
 
 client.login(config.discord_token).then(() => {
-    
+
     botLogger.log("stdout", "logged into discord");
 });

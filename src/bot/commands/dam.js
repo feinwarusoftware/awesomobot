@@ -8,4 +8,4 @@ const dam = new Command("dam", "i broke the dam", "js", 0, "I broke the dam", "s
         
 });
 
-module.exports = dam;
+//module.exports = dam;

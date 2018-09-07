@@ -59,4 +59,4 @@ const butters = new Command("butters", "random photo of butters", "js", 0, "butt
         
 });
 
-module.exports = butters;
+//module.exports = butters;

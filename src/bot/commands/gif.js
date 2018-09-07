@@ -42,4 +42,4 @@ const gif = new Command("gif", "posts a random gif related to south park", "js",
 
 });
 
-module.exports = gif;
+//module.exports = gif;

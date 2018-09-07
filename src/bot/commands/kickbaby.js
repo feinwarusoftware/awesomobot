@@ -8,4 +8,4 @@ const kickbaby = new Command("kickbaby", "kicks the baby", "js", 0, "kick the ba
 
 });
 
-module.exports = kickbaby;
+//module.exports = kickbaby;

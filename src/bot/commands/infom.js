@@ -49,4 +49,4 @@ const infom = new Command("infom", "a command for getting info on members", "js"
     }
 });
 
-module.exports = infom;
+//module.exports = infom;
