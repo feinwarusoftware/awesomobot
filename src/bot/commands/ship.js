@@ -59,10 +59,25 @@ const females = [
     "Nancy",
 ];
 
-let ship = new Command("ship", "conformist", "js", 0, "ship", "command", 0, false, null, function(client, message, guildDoc){
-    const randommale = Math.floor(Math.random() * males.length);
+let ship = new Command({
+
+    name: "South Park Ship",
+    description: "Ships two random characters together",
+    thumbnail: "https://t1.rbxcdn.com/3cd782c385a9bafa604dd9c3369c1964",
+    marketplace_enabled: true,
+
+    type: "js",
+    match_type: "command",
+    match: "ship",
+
+    featured: false,
+
+    cb: function(client, message, guildDoc) {
+
+        const randommale = Math.floor(Math.random() * males.length);
         const randomfemale = Math.floor(Math.random() * females.length);
         message.channel.send("**:heart: Here's your ship:** " + males[randommale] + " **x** " + females[randomfemale] + " :heart:");
+    }
 });
 
-//module.exports = ship;
+module.exports = ship;

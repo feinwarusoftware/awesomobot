@@ -2,8 +2,23 @@
 
 const Command = require("../command");
 
-const test = new Command("test", "testing...", "js", 0, "test", "command", 0, false, null, function(client, message, guildDoc) {
-    message.reply("testing...") 
+const test = new Command({
+
+    name: "AWESOM-O Test",
+    description: "Test that AWESOM-O isn't 🅱roke",
+    thumbnail: "https://thumbs.gfycat.com/DependentSpiritedAmurminnow-poster.jpg",
+    marketplace_enabled: true,
+
+    type: "js",
+    match_type: "command",
+    match: "test",
+
+    featured: false,
+
+    cb: function(client, message, guildDoc) {
+
+        message.reply("testing...");
+    }
 });
 
-//module.exports = test;
+module.exports = test;

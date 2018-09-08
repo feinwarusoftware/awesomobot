@@ -4,8 +4,22 @@ const Command = require("../command");
 
 const discord = require("discord.js");
 
-const artcomp = new Command("artcomp", "permissions lol", "js", 0, "artcomp", "command", 0, false, null, function(client, message, guildDoc) {
-    const artall = [{
+const artcomp = new Command({
+
+    name: "Art Comp April '18 Entries",
+    description: "Entries of the Art Competition from April 2018",
+    thumbnail: "https://cdn.discordapp.com/attachments/394504208222650369/453235231214796800/cartman_and_his_mad_plans.png",
+    marketplace_enabled: true,
+
+    type: "js",
+    match_type: "command",
+    match: "artcomp",
+
+    featured: false,
+
+    cb: function (client, message, guildDoc) {
+
+        const artall = [{
                 name: "orang",
                 desc: "why the fuck are my arms triangular?",
                 file: "https://cdn.discordapp.com/attachments/394504208222650369/453235029795930126/towel.png"
@@ -229,7 +243,7 @@ const artcomp = new Command("artcomp", "permissions lol", "js", 0, "artcomp", "c
         let randall = Math.floor(Math.random() * artall.length);
         let randomobject = artall[randall];
         message.channel.send(new discord.RichEmbed().setColor(0xff594f).setAuthor(randomobject.name).setDescription(randomobject.desc).setImage(randomobject.file));
+    }
 });
 
-//module.exports = artcomp;
-
+module.exports = artcomp;

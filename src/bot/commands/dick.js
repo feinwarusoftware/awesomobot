@@ -4,10 +4,25 @@ const discord = require("discord.js");
 
 const Command = require("../command");
 
-const dick = new Command("dick", "Stop being a dick Scott", "js", 0, "dick", "command", 0, false, null, function(client, message, guildDoc) {
- 
-    message.channel.send(new discord.RichEmbed().setColor(0xff594f).setImage("https://actualconversationswithmyhusband.files.wordpress.com/2017/01/stop-being-a-dick-scott.gif"));
+const dick = new Command({
 
+    name: "Dick",
+    description: "Can we copystrike Feinwaru?",
+    thumbnail: "https://cdn.discordapp.com/attachments/379432139856412682/487740674133852162/unknown.png",
+    marketplace_enabled: true,
+
+    type: "js",
+    match_type: "command",
+    match: "dick",
+
+    featured: false,
+
+    cb: function(client, message, guildDoc) {
+
+        message.channel.send("", {
+            file: "https://cdn.discordapp.com/attachments/379432139856412682/487740674133852162/unknown.png"
+        });
+    }
 });
 
-//module.exports = dick;
+module.exports = dick;

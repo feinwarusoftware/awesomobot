@@ -2,8 +2,22 @@
 
 const Command = require("../command");
 
-let someone = new Command("someone", "Fuck you, Discord.", "js", 0, "@someone", "startswith", 0, false, null, function(client, message, guildDoc){
-    const quotes = [
+let someone = new Command({
+
+    name: "@someone",
+    description: "Can anybody find me!!!!??? Yeah this command basically copies that Discord April fools joke",
+    thumbnail: "https://i.redd.it/zsel39t946p01.png",
+    marketplace_enabled: true,
+
+    type: "js",
+    match_type: "startswith",
+    match: "@someone",
+
+    featured: false,
+
+    cb: function(client, message, guildDoc) {
+
+        const quotes = [
             "ʢ⸌人⸍ʡ",
             "\\(・╭╮・)/",
             "\\(❍ᨓ❍)/",
@@ -30,8 +44,7 @@ let someone = new Command("someone", "Fuck you, Discord.", "js", 0, "@someone", 
         let members = message.guild.members.array();
         let random2 = Math.floor(Math.random() * members.length);
         message.channel.send(quotes[random1] + " " + members[random2].user.username);
+    }
 });
 
-//module.exports = someone;
-
-
+module.exports = someone;

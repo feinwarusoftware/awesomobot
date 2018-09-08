@@ -4,8 +4,22 @@ const Command = require("../command");
 
 const discord = require("discord.js");
 
-const nathanrate = new Command("nathanrate", "possible downs kid 2", "js", 0, "nathanrate", "command", 0, false, null, function(client, message, guildDoc) {
-    const quotes = [
+const nathanrate = new Command({
+
+    name: "Nathan Rating™",
+    description: "Get your rating from Nathan",
+    thumbnail: "https://i.imgur.com/kGkfLiD.png",
+    marketplace_enabled: true,
+
+    type: "js",
+    match_type: "command",
+    match: "nathanrate",
+
+    featured: false,
+
+    cb: function(client, message, guildDoc) {
+
+        const quotes = [
             "**0/10.** You're more retared than Mimsy AND more annoying than Jimmy...",
             "**1/10.** I'd rather go back to Lake Tardicaca than hang out with you...",
             "**2/10.** How do you feel about being the comic relief?",
@@ -17,9 +31,10 @@ const nathanrate = new Command("nathanrate", "possible downs kid 2", "js", 0, "n
             "**8/10.** I'm glad you hate Jimmy as much as I do!",
             "**9/10.** You'll be drowing in muff soon!",
             "**10/10.** You're a Downs Syndrome destroyer!"
-    ];
-    const random = Math.floor(Math.random() * quotes.length);
-    message.channel.send(new discord.RichEmbed().setColor(0xff594f).setDescription(quotes[random]));
+        ];
+        const random = Math.floor(Math.random() * quotes.length);
+        message.channel.send(new discord.RichEmbed().setColor(0xff594f).setDescription(quotes[random]));
+    }
 });
 
-//module.exports = nathanrate;
+module.exports = nathanrate;

@@ -4,10 +4,25 @@ const discord = require("discord.js");
 
 const Command = require("../command");
 
-const fuckyou = new Command("fuckyou", "Fuck you", "js", 0, "fuckyou", "command", 0, false, null, function(client, message, guildDoc) {
- 
-    message.channel.send(new discord.RichEmbed().setColor(0xff594f).setImage("https://cdn.vox-cdn.com/thumbor/J0D6YqKKwCqNY2zaej_MEUlT-oo=/3x0:1265x710/1600x900/cdn.vox-cdn.com/uploads/chorus_image/image/39977666/fuckyou.0.0.jpg"));
+const fuckyou = new Command({
 
+    name: "Fuck You",
+    description: "Can we copystrike Feinwaru?",
+    thumbnail: "https://cdn.discordapp.com/attachments/379432139856412682/487740197497470976/unknown.png",
+    marketplace_enabled: true,
+
+    type: "js",
+    match_type: "command",
+    match: "fuckyou",
+
+    featured: false,
+
+    cb: function(client, message, guildDoc) {
+
+        message.channel.send("", {
+            file: "https://cdn.discordapp.com/attachments/379432139856412682/487740197497470976/unknown.png"
+        });
+    }
 });
 
-//module.exports = fuckyou;
+module.exports = fuckyou;

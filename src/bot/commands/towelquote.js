@@ -4,8 +4,22 @@ const Command = require("../command");
 
 const discord = require("discord.js");
 
-let towelquote = new Command("towelquote", "Posts a quote from Towelie!", "js", 0, "towelquote", "command", 0, false, null, function(client, message, guildDoc){
-    const quotes = [
+let towelquote = new Command({
+
+    name: "Towelie Quotes",
+    description: `"Don't forget to bring a towel!"`,
+    thumbnail: "http://3.images.southparkstudios.com/blogs/southparkstudios.com/files/2016/04/sp-FAQ-whats-the-deal-with-towelie-blog.jpg",
+    marketplace_enabled: true,
+
+    type: "js",
+    match_type: "command",
+    match: "towelq",
+
+    featured: false,
+
+    cb: function(client, message, guildDoc) {
+
+        const quotes = [
             "*Don't forget to bring a towel!*",
             "*You wanna get high?*",
             "*I have no idea what is going on.*",
@@ -27,6 +41,7 @@ let towelquote = new Command("towelquote", "Posts a quote from Towelie!", "js", 
         ];
         const random = Math.floor(Math.random() * quotes.length);
         message.channel.send(quotes[random]);
+    }
 });
 
-//module.exports = towelquote;
+module.exports = towelquote;

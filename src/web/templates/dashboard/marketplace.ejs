@@ -42,7 +42,19 @@
             overflow-x: auto;
             padding: 0.5em;
             color: #e2e2e2;
-            background: #282c34;
+            background: #555658;
+            border-radius: 4px
+        }
+
+        .smallboiicode {
+            display: inline;
+            transform: translateY(-0.1em);
+            padding: 0.2em;
+            padding-right: 0.4em;
+            padding-left: 0.4em;
+            overflow-x: 0;
+            color: #e2e2e2;
+            background: #555658;
             border-radius: 4px
         }
 
@@ -307,6 +319,17 @@
                 throw `failed to fetch featured scripts: ${featuredRequest.response.status}`;
         }
 
+        let prefix;
+
+        const currentGuild = guildsYay.guilds.find(e => e.discord_id === currentServer);
+        if (currentGuild === undefined) {
+
+            prefix = "-";
+        } else {
+
+            prefix = currentGuild.prefix.replace(/</g, "&lt").replace(/>/g, "&rt");
+        }
+
         for (let i = 0; i < featuredYay.scripts.length; i++) {
 
             const guildScriptRequest = new XMLHttpRequest();
@@ -361,7 +384,7 @@
                                 <p class="card-text">${featuredYay.scripts[i].description}
                                 </p>
                                 <p>
-                                    <code>-${featuredYay.scripts[i].match}</code>
+                                    <code>${prefix}${featuredYay.scripts[i].match}</code>
                                 </p>
                                 <p class="mb-0">
                                     <%= trans.BY %> <a href="/dashboard/profiles/${featuredYay.scripts[i].author_id}">${featuredYay.scripts[i].author_username}</a>
@@ -614,7 +637,7 @@
                                     <div class="img-fluid" style="background: url('${scriptsYay.scripts[i].thumbnail}') no-repeat center center; background-size: cover; padding-top: 100%;"></div>
                                 </th>
                                 <td>
-                                    <h3 class="my-auto font-weight-bold">${scriptsYay.scripts[i].name}
+                                    <h4 class="my-auto font-weight-bold">${scriptsYay.scripts[i].name}
                                         <sup>
                                             ${scriptsYay.scripts[i].verified === true ? 
                                                 `<span class="text-success font-weight-bold" data-toggle="tooltip"
@@ -622,8 +645,9 @@
                                                     <i class="fa fa-check pr-1"></i>
                                                 </span>` : ""}
                                         </sup>
-                                    </h3>
+                                    </h4>
                                     <p class="mb-0 grey-text">${scriptsYay.scripts[i].description}</p>
+                                    <code class="smallboiicode">${prefix}${scriptsYay.scripts[i].match}</code>
                                     <p class="mb-0">
                                         <%= trans.BY %> <a href="/dashboard/profiles/${scriptsYay.scripts[i].author_id}">${scriptsYay.scripts[i].author_username}</a>
                                         <sup>

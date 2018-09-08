@@ -72,7 +72,7 @@ router.route("/").get(authUser, (req, res) => {
 
                                     if (script_objs[i].local === true) {
 
-                                        script_objs[i].author_username = "FeinwaruDevs";
+                                        script_objs[i].author_username = "Feinwaru";
                                         search_ids.push("feinwaru-devs");
                                         continue;
                                     }

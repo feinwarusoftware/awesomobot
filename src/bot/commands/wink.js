@@ -6,8 +6,8 @@ const wink = new Command({
     
     name: "wink",
     description: "wonk",
-    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/487658989069402112/pjiicjez.png",
-    marketplace_enabled: false,
+    thumbnail: "https://thumbs.gfycat.com/DependentSpiritedAmurminnow-poster.jpg",
+    marketplace_enabled: true,
 
     type: "js",
     match_type: "command",

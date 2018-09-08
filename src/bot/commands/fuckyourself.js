@@ -4,11 +4,25 @@ const discord = require("discord.js");
 
 const Command = require("../command");
 
-const fuckyourself = new Command("fuckyourself", "Go fuck yourself", "js", 0, "fuckyourself", "command", 0, false, null, function(client, message, guildDoc) {
- 
-    message.channel.send(new discord.RichEmbed().setColor(0xff594f).setImage("http://1.images.southparkstudios.com/blogs/southparkstudios.com/files/2014/09/1801_5a.gif"));
+const fuckyourself = new Command({
 
+    name: "Fuck Yourself",
+    description: "Can we copystrike Feinwaru?",
+    thumbnail: "https://cdn.discordapp.com/attachments/379432139856412682/487740516755177472/unknown.png",
+    marketplace_enabled: true,
+
+    type: "js",
+    match_type: "command",
+    match: "fuckyourself",
+
+    featured: false,
+
+    cb: function(client, message, guildDoc) {
+
+        message.channel.send("", {
+            file: "https://cdn.discordapp.com/attachments/379432139856412682/487740516755177472/unknown.png"
+        });
+    }
 });
 
-//module.exports = fuckyourself;
-
+module.exports = fuckyourself;
