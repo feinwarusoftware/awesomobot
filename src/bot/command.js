@@ -3,6 +3,8 @@
 class Command {
     constructor(options) {
 
+        this.author_id = options.author_id;
+
         this.name = options.name;
         this.description = options.description;
         this.thumbnail = options.thumbnail;
@@ -16,8 +18,8 @@ class Command {
 
         this.cb = options.cb;
     }
-    run(client, message, guildDoc) {
-        this.cb(client, message, guildDoc);
+    run(client, message, guild, user, script, match) {
+        this.cb(client, message, guild, user, script, match);
     }
 }
 
