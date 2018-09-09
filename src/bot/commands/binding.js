@@ -37,7 +37,7 @@ const binding = new Command({
         const action = args.shift();
 
         // bind name action args
-        if (match === "bind") {
+        if (match === 0) {
 
             if (name === undefined) {
 
@@ -183,7 +183,7 @@ const binding = new Command({
         }
 
         // unbind name
-        if (match === "unbind") {
+        if (match === 1) {
 
             schemas.ScriptSchema
                 .find({

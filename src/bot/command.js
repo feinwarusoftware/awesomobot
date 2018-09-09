@@ -17,9 +17,16 @@ class Command {
         this.featured = options.featured;
 
         this.cb = options.cb;
+        this.load = options.load;
     }
     run(client, message, guild, user, script, match) {
         this.cb(client, message, guild, user, script, match);
+    }
+    startup() {
+        if (this.load !== undefined) {
+
+            this.load();
+        }
     }
 }
 

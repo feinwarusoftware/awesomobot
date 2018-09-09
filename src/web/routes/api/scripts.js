@@ -41,7 +41,7 @@ router.route("/").get(authUser, (req, res) => {
         ...( req.query.verified === undefined ? {} : { verified: req.query.verified } ),
         ...( req.query.featured === undefined ? {} : { featured: req.query.featured } ),
         ...( req.query.marketplace_enabled === undefined ? { marketplace_enabled: true } : { marketplace_enabled: req.user.admin === false ? true : req.query.marketplace_enabled === "true" ? true : false } ),
-        ...( req.query.name === undefined ? {} : { name: { $regex: `.*${req.query.name}.*` } } )
+        ...( req.query.name === undefined ? {} : { name: { $regex: `.*${req.query.name}.*`, $options: "i" } } )
     };
 
     schemas.ScriptSchema

@@ -75,6 +75,12 @@ const loadCommands = () => {
 
         for (let i = 0; i < commands.length; i++) {
 
+            // warn about broken commands
+            if (commands[i] === undefined) {
+
+                throw `command at ${filePaths[i]} is broken, read console output for more info`;
+            }
+
             // dont save if the required info isnt there
             if (commands[i].name === undefined || commands[i].match === undefined) {
 
@@ -119,6 +125,11 @@ const loadCommands = () => {
                 commands[i]._id = script._id
                 validCommands.push(commands[i]);
             }
+        }
+
+        for (let i = 0; i < validCommands.length; i++) {
+
+            validCommands[i].startup();
         }
 
         Promise
@@ -286,49 +297,49 @@ client.on("message", message => {
                                 let matched = false;
                                 switch (match_type) {
                                     case "command":
-                                        for (let m of match) {
+                                        for (let [i, m] of match.entries()) {
 
                                             matched = message.content.split(" ")[0].toLowerCase() === (guild.prefix + m.toLowerCase());
 
                                             if (matched === true) {
 
-                                                passedMatch = m;
+                                                passedMatch = i;
                                                 break;
                                             }
                                         }
                                         break;
                                     case "startswith":
-                                        for (let m of match) {
+                                        for (let [i, m] of match.entries()) {
 
                                             matched = message.content.toLowerCase().startsWith(m.toLowerCase());
 
                                             if (matched === true) {
 
-                                                passedMatch = m;
+                                                passedMatch = i;
                                                 break;
                                             }
                                         }
                                         break;
                                     case "contains":
-                                        for (let m of match) {
+                                        for (let [i, m] of match.entries()) {
 
                                             matched = message.content.toLowerCase().indexOf(m.toLowerCase()) !== -1;
 
                                             if (matched === true) {
 
-                                                passedMatch = m;
+                                                passedMatch = i;
                                                 break;
                                             }
                                         }
                                         break;
                                     case "exactmatch":
-                                        for (let m of match) {
+                                        for (let [i, m] of match.entries()) {
 
                                             matched = message.content === m;
 
                                             if (matched === true) {
 
-                                                passedMatch = m;
+                                                passedMatch = i;
                                                 break;
                                             }
                                         }
