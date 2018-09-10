@@ -47,6 +47,9 @@ const loadCommands = () => {
             let command;
             try {
 
+                if (config.env === "dev") {
+                    delete require.cache[require.resolve(filePath)];
+                }
                 command = require(filePath);
             } catch (error) {
 
@@ -119,6 +122,8 @@ const loadCommands = () => {
                 promises.push(script.save().then(script => {
                     commands[i]._id = script._id
                     validCommands.push(commands[i]);
+
+                    console.log(`successfully saved: '${script.name}', to the database`);
                 }));
             } else {
 
@@ -129,7 +134,7 @@ const loadCommands = () => {
 
         for (let i = 0; i < validCommands.length; i++) {
 
-            validCommands[i].startup();
+            promises.push(validCommands[i].startup());
         }
 
         Promise
@@ -148,6 +153,8 @@ const loadCommands = () => {
 const commands = loadCommands().then(commands => commands).catch(error => botLogger.fatalError(`Error loading local scripts: ${error}`));
 
 const client = new discord.Client();
+
+/*
 client.on("channelCreate", channel => {
 
 });
@@ -220,6 +227,8 @@ client.on("guildUnavailable", guild => {
 client.on("guildUpdate", (oldGuild, newGuild) => {
 
 });
+*/
+
 client.on("message", message => {
 
     if (client.user.id === message.author.id) {
@@ -496,7 +505,7 @@ client.on("message", message => {
                                         return message.reply("json type not allowed in local scripts");
                                     }
         
-                                    const localCommand = (await commands).find(e => e.name === script.name);
+                                    const localCommand = (config.env === "dev" ? await loadCommands().then(commands => commands).catch(error => botLogger.fatalError(`Error loading local scripts: ${error}`)) : await commands).find(e => e.name === script.name);
                                     if (localCommand === undefined) {
         
                                         message.channel.send(`error executing local script '${script.name}', code not found`);
@@ -614,6 +623,8 @@ client.on("message", message => {
             console.log(error);
         });
 });
+
+/*
 client.on("messageDelete", message => {
 
 });
@@ -671,6 +682,7 @@ client.on("voiceStateUpdate", (oldMember, newMember) => {
 client.on("warn", info => {
     //client
 });
+*/
 
 client.login(config.discord_token).then(() => {
 

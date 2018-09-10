@@ -73,7 +73,29 @@ const printCenterCenter = (src, font, x, y, str, wrap = src.bitmap.width) => {
     printCenter(src, font, x, (src.bitmap.height / 2 - ((numLines * font.chars["$"].height) + (numLines - 1) * 5)) / 2 + y + yoffset, str, wrap);
 };
 
+const getTextHeight = (font, str, wrap) => {
+
+    const words = str.split(" ");
+
+    let width = 0;
+    let numLines = 0;
+
+    for (let i = 0; i < words.length; i++) {
+        if (width + textWidth(font, words[i]) > wrap) {
+
+            numLines++;
+            width = 0;
+        }
+
+        width += textWidth(font, words[i]);
+    }
+
+    return (font.chars["$"].height * numLines + font.chars["$"].yoffset * (numLines - 1));
+}
+
 module.exports = {
+
+    getTextHeight,
 
     textWidth,
     

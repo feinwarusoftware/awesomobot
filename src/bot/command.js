@@ -23,10 +23,21 @@ class Command {
         this.cb(client, message, guild, user, script, match);
     }
     startup() {
-        if (this.load !== undefined) {
+        return new Promise((resolve, reject) => {
+            if (this.load !== undefined) {
 
-            this.load();
-        }
+                return this.load().then(() => {
+
+                    console.log(`successfully loaded: '${this.name}'`);
+                    resolve();
+                }).catch(error => {
+
+                    reject(error);
+                });
+            }
+
+            resolve();
+        });
     }
 }
 
