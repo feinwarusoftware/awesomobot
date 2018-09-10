@@ -221,7 +221,7 @@ router.get("/auth/discord", async (req, res) => {
         res.render("401", { status: 401, message: "Unauthorized", error });
     }
 
-    res.cookie("session", jwt.sign({ id: new_session_doc._id }, config.jwt_secret), config.rawrxd, { maxAge: 60000, httpOnly: true, secure: true, signed: true });
+    res.cookie("session", jwt.sign({ id: new_session_doc._id }, config.jwt_secret), { maxAge: 604800000, httpOnly: true });
     res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=${config.discord_id}&redirect_uri=${encodeURIComponent(config.discord_redirect)}&response_type=code&scope=guilds%20identify&state=${nonce}`);
 });
 
