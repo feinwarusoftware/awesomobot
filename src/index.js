@@ -7,7 +7,7 @@ const config = require("../config.json");
 
 const genLogger = new Logger();
 
-mongoose.connect(`mongodb://${config.mongo_user === null && config.mongo_pass === null ? "" : `${config.mongo_user}:${config.mongo_pass}@`}localhost/rawrxd`, { useNewUrlParser: true });
+mongoose.connect(`mongodb://${config.mongo_user === null && config.mongo_pass === null ? "" : `${config.mongo_user}:${config.mongo_pass}@`}localhost/rawrxd`, {useNewUrlParser: true, ...(config.mongo_user === null && config.mongo_pass === null ? {} : { auth: { authdb: "admin" } } ) });
 mongoose.Promise = global.Promise;
 
 const db = mongoose.connection;
