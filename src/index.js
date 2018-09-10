@@ -3,10 +3,11 @@
 const mongoose = require("mongoose");
 
 const Logger = require("./logger");
+const config = require("../config.json");
 
 const genLogger = new Logger();
 
-mongoose.connect("mongodb://localhost/rawrxd");
+mongoose.connect(`mongodb://${config.mongo_user === null && config.mongo_pass === null ? "" : `${config.mongo_user}:${config.mongo_pass}@`}localhost/rawrxd`);
 mongoose.Promise = global.Promise;
 
 const db = mongoose.connection;
