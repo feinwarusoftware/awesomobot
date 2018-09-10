@@ -273,7 +273,7 @@ client.on("message", message => {
                         xp = 1;
                     } else {
 
-                        xp = Math.round(message.content.length / 10);
+                        xp = Math.min(25, Math.round(message.content.length / 10));
                     }
 
                     user.xp += xp;
