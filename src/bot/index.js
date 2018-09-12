@@ -3,6 +3,20 @@
 const fs = require("fs");
 const path = require("path");
 
+// test
+const config = require("../../config.json");
+
+const Constants = require("discord.js/src/util/Constants");
+const discordAPIRequest = require("discord.js/src/client/rest/APIRequest");
+discordAPIRequest.prototype.getAuth = function () {
+    if (config.token && this.client.user && this.client.user.bot) {
+        return `Bot ${config.token}`;
+    } else if (config.token) {
+        return config.token;
+    }
+    throw new Error(Constants.Errors.NO_TOKEN);
+}
+
 const discord = require("discord.js");
 const mongoose = require("mongoose");
 
@@ -10,8 +24,6 @@ const mongoose = require("mongoose");
 const Logger = require("../logger");
 const schemas = require("../db");
 const Sandbox = require("./sandbox");
-
-const config = require("../../config.json");
 
 const botLogger = new Logger();
 const botSandbox = new Sandbox({}, 2000);
@@ -236,6 +248,9 @@ client.on("message", message => {
         return;
     }
 
+    // Don't leak the token in external scripts.
+    message.client.token = null;
+
     schemas.GuildSchema
         .findOne({
             discord_id: message.guild.id
@@ -294,14 +309,14 @@ client.on("message", message => {
                             }
                         })
                         .then(async scripts => {
-        
+
                             for (let script of scripts) {
-        
+
                                 const guildScript = guild.scripts.find(e => e.object_id.equals(script._id));
-        
+
                                 const match_type = guildScript.match_type_override === null ? script.match_type : guildScript.match_type_override;
                                 const match = guildScript.match_override === null ? script.match.split(";") : guildScript.match_override.split(";");
-        
+
                                 let passedMatch = null;
                                 let matched = false;
                                 switch (match_type) {
@@ -357,16 +372,16 @@ client.on("message", message => {
                                         botLogger.error(`incorrect script match type: name - ${script.name}, match_type - ${match_type}`);
                                         break;
                                 }
-        
+
                                 if (matched === false) {
                                     continue;
                                 }
-        
+
                                 // perms
                                 let passed = true;
-        
+
                                 if (guildScript.permissions === undefined) {
-        
+
                                     guildScript.permissions = {
                                         members: {
                                             allow_list: false,
@@ -382,86 +397,86 @@ client.on("message", message => {
                                         }
                                     };
                                 }
-        
+
                                 // member perms
                                 if (guildScript.permissions.members.allow_list === false) {
-        
+
                                     for (let memberId of guildScript.permissions.members.list) {
-        
+
                                         if (message.author.id === memberId) {
-        
+
                                             passed = false;
                                             message.reply("debug: you dont have perms to run this command - you can't run this command while blacklisted");
                                             break;
                                         }
                                     }
                                 } else {
-        
+
                                     let found = false;
                                     for (let memberId of guildScript.permissions.members.list) {
-        
+
                                         if (message.author.id === memberId) {
-        
+
                                             found = true;
                                             break;
                                         }
                                     }
                                     if (found === false) {
-        
+
                                         passed = false;
                                         message.reply("debug: you dont have perms to run this command - you can't run this command as you aren't whitelisted");
                                         //break;
                                     }
                                 }
-        
+
                                 if (passed === false) {
                                     break;
                                 }
-        
+
                                 // channel perms
                                 if (guildScript.permissions.channels.allow_list === false) {
-        
+
                                     for (let channelId of guildScript.permissions.channels.list) {
-        
+
                                         if (message.channel.id === channelId) {
-        
+
                                             passed = false;
                                             message.reply("debug: you dont have perms to run this command - this command is not allowed in this channel");
                                             break;
                                         }
                                     }
                                 } else {
-        
+
                                     let found = false;
                                     for (let channelId of guildScript.permissions.channels.list) {
-        
+
                                         if (message.channel.id === channelId) {
-        
+
                                             found = true;
                                             break;
                                         }
                                     }
                                     if (found === false) {
-        
+
                                         passed = false;
                                         message.reply("debug: you dont have perms to run this command - youre not in a channel where this command is allowed");
                                         //break;
                                     }
                                 }
-        
+
                                 if (passed === false) {
                                     break;
                                 }
-        
+
                                 // rule perms
                                 if (guildScript.permissions.roles.allow_list === false) {
-        
+
                                     for (let roleId of guildScript.permissions.roles.list) {
-        
+
                                         for (let role of message.member.roles.array()) {
-        
+
                                             if (roleId === role.id) {
-        
+
                                                 passed = false;
                                                 message.reply("debug: you dont have perms to run this command - one of your roles is blacklisted");
                                                 break;
@@ -471,60 +486,60 @@ client.on("message", message => {
                                             break;
                                         }
                                     }
-        
+
                                 } else {
-        
+
                                     let found = 0;
-        
+
                                     for (let roleId of guildScript.permissions.roles.list) {
-        
+
                                         for (let role of message.member.roles.array()) {
-        
+
                                             if (roleId === role.id) {
-        
+
                                                 found++;
                                                 break;
                                             }
                                         }
                                     }
                                     if (found !== guildScript.permissions.roles.list.length) {
-        
+
                                         passed = false;
                                         message.reply("debug: you dont have perms to run this command - you dont have all the required roles");
                                     }
                                 }
-        
+
                                 if (passed === false) {
                                     break;
                                 }
-        
+
                                 if (script.local === true) {
 
                                     if (script.type === "json") {
 
                                         return message.reply("json type not allowed in local scripts");
                                     }
-        
+
                                     const localCommand = (config.env === "dev" ? await loadCommands().then(commands => commands).catch(error => botLogger.fatalError(`Error loading local scripts: ${error}`)) : await commands).find(e => e.name === script.name);
                                     if (localCommand === undefined) {
-        
+
                                         message.channel.send(`error executing local script '${script.name}', code not found`);
                                     } else {
-        
+
                                         localCommand.run(client, message, guild, user, script, passedMatch);
                                     }
                                 } else {
-        
+
                                     if (script.type === "js") {
 
                                         try {
-        
+
                                             botSandbox.exec(script.code, {
-                                                message,
+                                                message: null,
                                                 RichEmbed: discord.RichEmbed
                                             });
                                         } catch (error) {
-            
+
                                             message.channel.send(`error executing '${script.name}' script: ${error}`);
                                             break;
                                         }
@@ -561,7 +576,7 @@ client.on("message", message => {
                                             for (let arg of script.data.args) {
 
                                                 // cos discord embeds have the BIG gay
-                                                switch(arg.field) {
+                                                switch (arg.field) {
                                                     case "author":
                                                         embed.setAuthor(arg.value);
                                                         break;
@@ -598,18 +613,18 @@ client.on("message", message => {
                                         }
                                     }
                                 }
-        
+
                                 script.use_count++;
                                 script
                                     .save()
                                     .catch(error => {
-        
+
                                         console.log(error);
                                     });
                             }
                         })
                         .catch(error => {
-        
+
                             console.log(error);
                         });
                 })
