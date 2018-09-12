@@ -3,7 +3,8 @@
 const fs = require("fs");
 const path = require("path");
 
-// test
+// Override discord.js getAuth so our token doesn't get leaked in external scripts.
+// Note: This must be patched before loading the rest of discord.js!
 const config = require("../../config.json");
 
 const Constants = require("discord.js/src/util/Constants");
