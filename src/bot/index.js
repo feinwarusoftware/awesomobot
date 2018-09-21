@@ -544,7 +544,7 @@ client.on("message", message => {
                                         try {
 
                                             botSandbox.exec(script.code, {
-                                                message: null,
+                                                message: message,
                                                 RichEmbed: discord.RichEmbed
                                             });
                                         } catch (error) {
