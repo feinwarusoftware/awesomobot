@@ -533,6 +533,14 @@ client.on("message", message => {
 
                                     if (script.type === "js") {
 
+                                        // temp security testing
+                                        const handler = {};
+
+                                        handler.sendMessage(content, options) = function(content, options) {
+
+                                            message.channel.send(content, options);
+                                        }
+
                                         try {
 
                                             botSandbox.exec(script.code, {

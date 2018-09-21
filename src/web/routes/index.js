@@ -14,7 +14,7 @@ const schemas = require("../../db");
 const Logger = require("../../logger");
 const api = require("./api");
 const { authSession, authUser, authAdmin } = require("../middlewares");
-const { fetchSession } = require("../helpers");
+const { fetchSession, getUserData } = require("../helpers");
 
 const apiLogger = new Logger();
 const router = express.Router();
@@ -281,6 +281,37 @@ router.get("/auth/discord/callback", async (req, res) => {
 
     session_doc.discord.id = user_res.data.id;
 
+    // remove all dead sessions with the same discord_id
+    let userData;
+    try {
+
+        userData = await getUserData(token_res.data.access_token);
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.render("401", { status: 401, message: "Unauthorized", error });
+    }
+
+    try {
+
+        await schemas.SessionSchema
+            .find({
+                "discord.id": userData.id
+            })
+            .then(async sessions => {
+
+                for (let i = 0; i < sessions.length; i++) {
+
+                    await sessions[i].remove();
+                }
+            });
+
+    } catch(error) {
+
+        apiLogger.error(error);
+        return res.render("401", { status: 401, message: "Unauthorized", error });
+    }
+
     session_doc.nonce = null;
     session_doc.complete = true;
 
@@ -365,9 +396,11 @@ router.get("/dashboard", authUser, async (req, res) => {
     res.render("dashboard/main", { user_data: user_res.data });
 });
 
+/*
 router.get("/dashboard/scripts/editor", authUser, (req, res) => {
     res.render("dashboard/editor");
 });
+*/
 
 router.get("/dashboard/scripts/marketplace", authUser, async (req, res) => {
 
@@ -448,93 +481,29 @@ router.get("/dashboard/leaderboards/legacy/v2", authUser, async (req, res) => {
     res.render("dashboard/legacy-leaderboards-2", { user_data: { id: user.data.id, avatar: user.data.avatar, username: user.data.username }, v2:v2});
 });
 
-router.get("/dashboard/scripts/me", authUser, async (req, res) => {
+router.get("/dashboard/scripts/editor/advanced", authUser, (req, res) => {
 
-    let user_res;
-    try {
-
-        user_res = await axios({
-            method: "get",
-            url: "https://discordapp.com/api/v6/users/@me",
-            headers: {
-                "Authorization": `Bearer ${req.session.discord.access_token}`
-            }
-        });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ error: "error fetching discord data lol" });
-    }
-
-    res.render("dashboard/userscripts", { user_data: user_res.data });
+    res.render("dashboard/userscripts");
 });
 
-router.get("/dashboard/scripts/manager", authUser, async (req, res) => {
+router.get("/dashboard/scripts/editor/basic", authUser, (req, res) => {
 
-    let user_res;
-    try {
-
-        user_res = await axios({
-            method: "get",
-            url: "https://discordapp.com/api/v6/users/@me",
-            headers: {
-                "Authorization": `Bearer ${req.session.discord.access_token}`
-            }
-        });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ error: "error fetching discord data lol" });
-    }
-
-    res.render("dashboard/scriptmanager", { user_data: user_res.data });
+    res.render("dashboard/userscripts-basic");
 });
 
-router.get("/dashboard/patrons", authUser, async (req, res) => {
+router.get("/dashboard/scripts/manager", authUser, (req, res) => {
 
-    let user_res;
-    try {
-
-        user_res = await axios({
-            method: "get",
-            url: "https://discordapp.com/api/v6/users/@me",
-            headers: {
-                "Authorization": `Bearer ${req.session.discord.access_token}`
-            }
-        });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ error: "error fetching discord data lol" });
-    }
-
-    res.render("dashboard/patrons", { user_data: user_res.data });
+    res.render("dashboard/scriptmanager");
 });
 
-router.get("/dragonsplayroom", authUser, async (req, res) => {
+router.get("/dashboard/patrons", authUser, (req, res) => {
 
-    let user_res;
-    try {
-
-        user_res = await axios({
-            method: "get",
-            url: "https://discordapp.com/api/v6/users/@me",
-            headers: {
-                "Authorization": `Bearer ${req.session.discord.access_token}`
-            }
-        });
-    } catch(error) {
-
-        apiLogger.error(error);
-        return res.json({ error: "error fetching discord data lol" });
-    }
-
-    res.render("dumbshit/dragonsplayroom", { user_data: user_res.data });
+    res.render("dashboard/patrons");
 });
 
-router.get("/dragonsplayroompp", authUser, (req, res) => {
+router.get("/dragonsplayroom", authUser, (req, res) => {
 
-    res.render("dumbshit/dragonsplayroompp");
+    res.render("dumbshit/dragonsplayroom");
 });
 
 router.get("/token", authAdmin, (req, res) => {

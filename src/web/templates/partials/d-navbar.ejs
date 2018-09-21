@@ -53,8 +53,9 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </li>-->
-                <li>
+                            </li>
+                
+                            <li>
                     <a class="collapsible-header waves-effect">
                         <i class="fa fa-gavel"></i>
                         <%= trans.MODERATION %>
@@ -76,6 +77,7 @@
                         </ul>
                     </div>
                 </li>
+                -->
                 <li>
                     <a class="collapsible-header waves-effect">
                         <i class="fa fa-code"></i>Scripts</a>
@@ -88,16 +90,22 @@
                                 </a>
 
                             </li>
+                            <!--
                             <li>
                                 <a href="/dashboard/scripts/manager<%= trans.LANG %>" class="waves-effect">
                                     <i class="fa fa-list"></i>
                                     <%= trans.SCRIPT_MANAGER %>
                                 </a>
+                            </li>-->
+                            <li>
+                                <a href="/dashboard/scripts/editor/basic<%= trans.LANG %>">
+                                    <i class="fa fa-pencil-alt"></i>
+                                    <%= trans.SCRIPT_CREATOR_BASIC %>
+                                </a>
                             </li>
                             <li>
-                                <a href="/dashboard/scripts/me<%= trans.LANG %>">
-                                    <i class="fa fa-pencil-alt"></i>
-                                    <%= trans.SCRIPT_CREATOR %>
+                                <a href="/dashboard/scripts/editor/advanced<%= trans.LANG %>">
+                                    <i style="margin-right:13px" class="fab fa-node-js"></i> <%= trans.SCRIPT_CREATOR %>
                                 </a>
                             </li>
                         </ul>

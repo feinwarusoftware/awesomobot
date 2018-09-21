@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>AWESOM-O //
+        <%= trans.PATRON_MANAGEMENT %>
+    </title>
+
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png" />
+    <meta name="theme-color" content="#ff594f">
+
+    <link rel="alternate" href="/" hreflang="x-default" />
+    <link rel="alternate" href="/?hl=en" hreflang="en" />
+    <link rel="alternate" href="/?hl=ie" hreflang="ie" />
+    <link rel="alternate" href="/?hl=pt" hreflang="pt" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+        crossorigin="anonymous">
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="/css/mdb.min.css" rel="stylesheet">
+
+    <link href="/css/style.css" rel="stylesheet">
+
+    <style>
+        .switch.round label .lever {
+            width: 54px;
+            height: 34px;
+            border-radius: 10em;
+        }
+
+        .switch.round label .lever:after {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            left: 4px;
+            top: 4px;
+        }
+
+        .switch.blue-white-switch label input[type=checkbox]:checked+.lever {
+            background-color: #2196f3;
+        }
+
+        .switch.blue-white-switch label input[type=checkbox]:checked+.lever:after {
+            background-color: #fff;
+        }
+
+        .switch.blue-white-switch label .lever {
+            background-color: #ccc;
+        }
+
+        .switch.blue-white-switch label .lever:after {
+            background-color: #fff;
+        }
+
+        .switch label input[type=checkbox]:checked+.lever:after {
+            background-color: #ff594f;
+            left: 24px;
+        }
+
+        .switch label input[type=checkbox]:checked+.lever {
+            background-color: #f8c9c9
+        }
+
+        .dropdown-content li>a,
+        .dropdown-content li>span {
+            color: #2c2c2c;
+        }
+
+        .stepper-horizontal li:hover {
+            background-color: rgba(0, 0, 0, 0)
+        }
+    </style>
+</head>
+
+<body class="fixed-sn">
+    <!--
+    <div id="mdb-preloader" class="flex-center">
+        <div id="preloader-markup" class="text-center">
+            <img src="/img/headerlogo.png">
+            <br>
+            <div class="preloader-wrapper active">
+                <div class="spinner-layer spinner-red-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+-->
+    <%- include ../partials/d-navbar.ejs %>
+    <!--Main Layout-->
+
+
+    <main>
+        <div class="mb-5">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="text-center" style="width: 100%">
+                            <h1 class="font-weight-bold mb-2 mt-2 pb-1">
+                                <%= trans.SCRIPT_CREATOR_BASIC %>
+                            </h1>
+                        </div>
+                    </div>
+
+                    <div class="row pt-5">
+                        <div class="col-12">
+
+                            <!-- Horizontal Steppers -->
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <!-- Stepers Wrapper -->
+                                    <ul class="stepper stepper-horizontal">
+
+                                        <!-- First Step -->
+                                        <li class="active">
+                                            <a href="#!">
+                                                <span class="circle">1</span>
+                                                <span class="label">Choose a preset</span>
+                                            </a>
+                                        </li>
+
+                                        <!-- Second Step -->
+                                        <li class="disabled">
+                                            <a href="#!">
+                                                <span class="circle">2</span>
+                                                <span class="label">Fill out the info</span>
+                                            </a>
+                                        </li>
+
+                                        <!-- Third Step -->
+                                        <li class="disabled">
+                                            <a href="#!">
+                                                <span class="circle">3</span>
+                                                <span class="label">???</span>
+                                            </a>
+                                        </li>
+
+                                        <!-- Third Step -->
+                                        <li class="disabled">
+                                            <a href="#!">
+                                                <span class="circle">4</span>
+                                                <span class="label">Profit</span>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                    <!-- /.Stepers Wrapper -->
+
+                                </div>
+                            </div>
+                            <!-- /.Horizontal Steppers -->
+                            <!-- Horizontal Steppers -->
+                            <div class="row">
+                                <div class="col-md-3">
+                                        <button type="button" class="btn btn-flat btn-lg btn-block"><i class="fa fa-font fa-5x"></i></button>
+                                </div>
+                                <div class="col-md-3">
+                                        <button type="button" class="btn btn-flat btn-lg btn-block"><i class="fa fa-font fa-5x"></i></button>
+                                </div>
+                                <div class="col-md-3">
+                                        <button type="button" class="btn btn-flat btn-lg btn-block"><i class="fa fa-font fa-5x"></i></button>
+                                </div>
+                                <div class="col-md-3">
+                                        <button type="button" class="btn btn-flat btn-lg btn-block"><i class="fa fa-font fa-5x"></i></button>
+                                </div>
+                                
+                            </div>
+                            <!-- /.Horizontal Steppers -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </main>
+    <!--/Section: Pricing v.5-->
+    <!-- Streak -->
+
+    <%- include ../partials/footer.ejs %>
+
+    <!--/.Footer-->
+
+
+    <!-- SCRIPTS -->
+
+    <!-- JQuery -->
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="/js/popper.min.js"></script>
+
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="/js/mdb.min.js"></script>
+
+    <script>
+        //Animation init
+        new WOW().init();
+
+        //Modal
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').focus()
+        })
+
+        // Material Select Initialization
+        $(document).ready(function () {
+            $('.mdb-select').material_select();
+        });
+
+        // SideNav Button Initialization
+        $(".button-collapse").sideNav();
+        // SideNav Scrollbar Initialization
+        var sideNavScrollbar = document.querySelector('.custom-scrollbar');
+        Ps.initialize(sideNavScrollbar);
+
+        // Tooltips Initialization
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+
+
+</body>
+
+</html>
