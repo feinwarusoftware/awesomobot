@@ -1,5 +1,709 @@
 "use strict"
 
+const path = require("path");
+const fs = require("fs");
+
+const jimp = require("jimp");
+
+const Command = require("../command");
+const utils = require("../../utils");
+const print = require("../../utils/print");
+
+const cards = require("./assets/cards.json");
+
+let sp16Font = null;
+let sp18Font = null;
+let sp25Font = null;
+let sp27Font = null;
+let sp60Font = null;
+
+let frameOverlays = null;
+let frameOutlines = null;
+let frameTops = null;
+let typeIcons = null;
+let miscIcons = null;
+
+// note, the base stats are upgrade 1
+const getUpgradeStats = (currentCard, upgrade) => {
+    if (upgrade < 1 || upgrade > 70) {
+        console.log("oooof");
+        return {};
+    }
+    const stats = {};
+    for (let k in currentCard) {
+        if (k.startsWith("Power") === true && currentCard[k] !== null && currentCard[k] !==
+            "") {
+            stats[k] = currentCard[k];
+        }
+        // exceptions cos redlynx gay
+        if (k === "ChargedPowerRadius") {
+            stats["PowerRange"] = currentCard[k];
+        }
+    }
+    stats.Health = parseInt(currentCard.Health);
+    if (isNaN(stats.Health)) {
+        console.log("of");
+        return {};
+    }
+    stats.Damage = parseInt(currentCard.Damage);
+    if (isNaN(stats.Damage)) {
+        console.log("oof");
+        return {};
+    }
+    if (currentCard.Type === "Spell") {
+        if (currentCard.Image === "SpellCockMagicCard") {
+            stats["PowerTarget"] = 1;
+        }
+        return stats;
+    }
+    for (let i = 0; i < upgrade - 1; i++) {
+        if (currentCard.TechTree2.Slots[i].id !== undefined) {
+            stats.ability = true;
+            continue;
+        }
+        if (currentCard.TechTree2.Slots[i].property === "MaxHealth") {
+            stats.Health += currentCard.TechTree2.Slots[i].value;
+        }
+        if (currentCard.TechTree2.Slots[i].property === "Damage") {
+            stats.Damage += currentCard.TechTree2.Slots[i].value;
+        }
+        if (currentCard.TechTree2.Slots[i].property.indexOf("Abs") !== -1) {
+            const propertyAbs = currentCard.TechTree2.Slots[i].property;
+            const property = propertyAbs.slice(0, propertyAbs.length - 3);
+            if (stats[property] === undefined) {
+                console.log("ooof");
+                return {};
+            } else {
+                stats[property] += currentCard.TechTree2.Slots[i].value;
+            }
+        }
+    }
+    let levelModifier = 0;
+    if (upgrade > 5) {
+        levelModifier++;
+    }
+    if (upgrade > 15) {
+        levelModifier++;
+    }
+    if (upgrade > 25) {
+        levelModifier++;
+    }
+    if (upgrade > 40) {
+        levelModifier++;
+    }
+    if (upgrade > 55) {
+        levelModifier++;
+    }
+    for (let i = 0; i < levelModifier; i++) {
+        for (let j = 0; j < currentCard.TechTree2.Evolve[i].Slots.length; j++) {
+            if (currentCard.TechTree2.Evolve[i].Slots[j].property === "MaxHealth") {
+                stats.Health += currentCard.TechTree2.Evolve[i].Slots[j].value;
+            }
+            if (currentCard.TechTree2.Evolve[i].Slots[j].property === "Damage") {
+                stats.Damage += currentCard.TechTree2.Evolve[i].Slots[j].value;
+            }
+            if (currentCard.TechTree2.Evolve[i].Slots[j].property.indexOf("Abs") !== -1) {
+                const propertyAbs = currentCard.TechTree2.Evolve[i].Slots[j].property;
+                const property = propertyAbs.slice(0, propertyAbs.length - 3);
+                if (stats[property] === undefined) {
+                    console.log("ooooof");
+                    return {};
+                } else {
+                    stats[property] += currentCard.TechTree2.Evolve[i].Slots[j].value;
+                }
+            }
+        }
+    }
+    return stats;
+}
+
+const getLevelStats = (currentCard, level) => {
+    if (level < 1 || level > 7) {
+        console.log("oooooof");
+        return {};
+    }
+    if (level === 1) {
+        return getUpgradeStats(currentCard, 1);
+    }
+    let upgradeModifier = 0;
+    if (level === 2) {
+        upgradeModifier += 5;
+    }
+    if (level === 3) {
+        upgradeModifier += 15;
+    }
+    if (level === 4) {
+        upgradeModifier += 25;
+    }
+    if (level === 5) {
+        upgradeModifier += 40;
+    }
+    if (level === 6) {
+        upgradeModifier += 55;
+    }
+    if (level === 7) {
+        upgradeModifier += 70;
+    }
+    const stats = getUpgradeStats(currentCard, upgradeModifier);
+    if (currentCard.Type === "Spell") {
+        for (let i = 0; i < level - 1; i++) {
+            for (let j = 0; j < currentCard.TechTree2.Evolve[i].Slots.length; j++) {
+                if (currentCard.TechTree2.Evolve[i].Slots[j].property === "MaxHealth") {
+                    stats.Health += currentCard.TechTree2.Evolve[i].Slots[j].value;
+                }
+                if (currentCard.TechTree2.Evolve[i].Slots[j].property === "Damage") {
+                    stats.Damage += currentCard.TechTree2.Evolve[i].Slots[j].value;
+                }
+                if (currentCard.TechTree2.Evolve[i].Slots[j].property.indexOf("Abs") !== -1) {
+                    const propertyAbs = currentCard.TechTree2.Evolve[i].Slots[j].property;
+                    const property = propertyAbs.slice(0, propertyAbs.length - 3);
+                    if (stats[property] === undefined) {
+                        console.log("ooooof");
+                        return {};
+                    } else {
+                        stats[property] += currentCard.TechTree2.Evolve[i].Slots[j].value;
+                    }
+                }
+            }
+        }
+    } else {
+        const currentLevel = currentCard.TechTree2.Evolve[level - 2]
+        for (let i = 0; i < currentLevel.Slots.length; i++) {
+            if (currentLevel.Slots[i].property === "MaxHealth") {
+                stats.Health += currentLevel.Slots[i].value;
+            }
+            if (currentLevel.Slots[i].property === "Damage") {
+                stats.Damage += currentLevel.Slots[i].value;
+            }
+            if (currentLevel.Slots[i].property.indexOf("Abs") !== -1) {
+                const propertyAbs = currentLevel.Slots[i].property;
+                const property = propertyAbs.slice(0, propertyAbs.length - 3);
+                if (stats[property] === undefined || property === "PowerTarget") {
+                    if (property === "PowerTarget") {
+                        stats[property] = level;
+                    } else {
+                        console.log("ooooooof");
+                        return {};
+                    }
+                } else {
+                    stats[property] += currentLevel.Slots[i].value;
+                }
+            }
+        }
+    }
+    return stats;
+}
+
+const card = new Command({
+
+    name: "card",
+    description: "*temp*",
+    thumbnail: "https://cdn.discordapp.com/avatars/168690518899949569/a4d22ea18644a67fb4ea1f5f39668cb9.png?size=512",
+    marketplace_enabled: true,
+
+    type: "js",
+    match_type: "command",
+    match: "card",
+
+    featured: true,
+
+    cb: async function (client, message, guild, user, script, match) {
+
+        // legacy command support
+
+        // card <name>
+        // card <name> <level>
+        // card <name> l<level>
+        // card <name> u<upgrade>
+
+        let name = null;
+
+        let level = null;
+        let upgrade = null;
+
+        // 5 = card(4) + space(1).
+        const args = message.content.slice(guild.prefix.length + 5);
+        if (args === "") {
+
+            return message.reply(`usage: ${guild.prefix}card <name> (l)[level=1]/u[upgrade]`);
+        }
+
+        const split = args.split(" ");
+        const last = split[split.length - 1];
+
+        // assume level/upgrade is set, and if not, reset this value later
+        name = split.slice(0, split.length - 2).join(" ");
+
+        if (last.startsWith("l")) {
+
+            level = parseInt(last.slice(1));
+
+            if (isNaN(level)) {
+
+                return message.reply("level not set correctly");
+            }
+
+            if (level < 1 || level > 7) {
+
+                return message.reply("level out of bounds");
+            }
+        }
+        if (last.startsWith("u")) {
+
+            upgrade = parseInt(last.slice(1));
+
+            if (isNaN(upgrade)) {
+
+                return message.reply("upgrade not set correctly");
+            }
+
+            if (upgrade < 1 || upgrade > 70) {
+
+                return message.reply("upgrade out of bounds");
+            }
+        }
+
+        // default to level checking for last param
+        if (level === null && upgrade === null) {
+
+            level = parseInt(last);
+
+            // default to 1
+            if (isNaN(level)) {
+
+                level = 1;
+                name = split.join(" ");
+            }
+
+            // make sure the last word isnt a number by coincidence
+            // this will not work if the last word is a number between 1 and 7
+            if (level < 1 || level > 7) {
+
+                level = 1;
+                name = split.join(" ");
+            }
+        }
+
+        // find the card by % match
+
+        const threshold = 0.0;
+
+        let index = null;
+        let current = threshold;
+
+        for (let [i, v] of cards.entries()) {
+
+            let similarity = null;
+
+            if (v.Name instanceof Array) {
+
+                for (let vname of v.Name) {
+
+                    similarity = utils.similarity(vname, name);
+
+                    if (similarity > current) {
+
+                        current = similarity;
+                        index = i;
+                    }
+                }
+            } else {
+
+                similarity = utils.similarity(v.Name, name);
+
+                if (similarity > current) {
+
+                    current = similarity;
+                    index = i;
+                }
+            }
+        }
+
+        if (index === null) {
+
+            return message.reply("card not found");
+        }
+
+        const card = cards[index];
+
+        let stats = null;
+        if (level === null) {
+
+            stats = getUpgradeStats(card, upgrade);
+        } else {
+
+            stats = getLevelStats(card, level);
+        }
+
+        /* --- pasted old code --- */
+
+        // Get the frame outline.
+        const frameWidth = 305;
+        const frameHeight = 418;
+
+        let x, y, z, w;
+
+        switch (card.Rarity) {
+            case 0: // common
+                y = 0;
+                switch (card.Theme) {
+                    case "Adv":
+                        x = frameWidth;
+                        break;
+                    case "Sci":
+                        x = frameWidth * 2;
+                        break;
+                    case "Mys":
+                        x = frameWidth * 3;
+                        break;
+                    case "Fan":
+                        x = frameWidth * 4;
+                        break;
+                    case "Gen":
+                        x = 0;
+                        break;
+                    default:
+                        message.reply("theme not found");
+                        return;
+                        break;
+                }
+                break;
+            default:
+                y = frameHeight;
+                switch (card.Theme) {
+                    case "Adv":
+                        x = frameWidth;
+                        break;
+                    case "Sci":
+                        x = frameWidth * 2;
+                        break;
+                    case "Mys":
+                        x = frameWidth * 3;
+                        break;
+                    case "Fan":
+                        x = frameWidth * 4;
+                        break;
+                    case "Gen":
+                        x = 0;
+                        break;
+                    default:
+                        message.reply("theme not found");
+                        return;
+                        break;
+                }
+                break;
+        }
+
+        z = frameWidth;
+        w = frameHeight;
+
+        // Get the frame top.
+        const topWidth = 338;
+        const topHeight = 107;
+
+        let fx, fy, fz, fw;
+
+        fx = 0;
+
+        switch (card.Rarity) {
+            case 0: // common
+                fy = undefined;
+                break;
+            case 1:
+                fy = 0;
+                break;
+            case 2:
+                fy = topHeight;
+                break;
+            case 3:
+                fy = topHeight * 2;
+                break;
+            default:
+                message.reply("rarity not found");
+                return;
+                break;
+        }
+
+        fz = topWidth;
+        fw = topHeight;
+
+        // Get the icon.
+        const iconWidth = 116;
+        const iconHeight = 106;
+
+        let ix, iy, iz, iw;
+
+        switch (card.CharacterType) {
+            case "Tank":
+                iy = 0;
+                break;
+            case undefined:
+                iy = iconHeight * 2;
+                break;
+            case "Assassin":
+                iy = iconHeight * 4;
+                break;
+            case "Ranged":
+                iy = iconHeight * 6;
+                break;
+            case "Fighter":
+                iy = iconHeight * 8;
+                break;
+            case "Totem":
+                iy = iconHeight * 10;
+                break;
+        }
+
+        switch (card.Rarity) {
+            case 0: // common
+                switch (card.Theme) {
+                    case "Gen":
+                        ix = 0;
+                        break;
+                    case "Adv":
+                        ix = iconWidth;
+                        break;
+                    case "Sci":
+                        ix = iconWidth * 2;
+                        break;
+                    case "Mys":
+                        ix = iconWidth * 3;
+                        break;
+                    case "Fan":
+                        ix = iconWidth * 4;
+                        break;
+                }
+                break;
+            case 1:
+                iy += iconHeight;
+                ix = 0;
+                break;
+            case 2:
+                iy += iconHeight;
+                ix = iconWidth;
+                break;
+            case 3:
+                iy += iconHeight;
+                ix = iconWidth * 2;
+                break;
+        }
+
+        iz = iconWidth;
+        iw = iconHeight;
+
+        // Get the overlay.
+        const overlayWidth = 305;
+        const overlayHeight = 418;
+
+        let ox, oy, oz, ow;
+
+        oy = 0;
+
+        switch (card.CharacterType) {
+            case undefined:
+                ox = overlayWidth;
+                break;
+            default:
+                ox = 0;
+                break;
+        }
+
+        oz = overlayWidth;
+        ow = overlayHeight;
+
+        // Card theme icons.
+        const themeIconWidth = 36;
+        const themeIconHeight = 24;
+
+        let tx, ty, tz, tw;
+
+        ty = 0;
+
+        switch (card.Theme) {
+            case "Gen":
+                tx = 0;
+                break;
+            case "Adv":
+                tx = themeIconWidth;
+                break;
+            case "Sci":
+                tx = themeIconWidth * 2;
+                break;
+            case "Mys":
+                tx = themeIconWidth * 3;
+                break;
+            case "Fan":
+                tx = themeIconWidth * 4;
+                break;
+            default:
+                message.reply("theme not found");
+                return;
+                break;
+        }
+
+        tz = themeIconWidth;
+        tw = themeIconHeight;
+
+        // Crystal things.
+        const crystalSheet = {
+            x: 0,
+            y: 24,
+            width: 180,
+            height: 76 // 36 + 4 + 36
+        };
+
+        const crystalWidth = 36;
+        const crystalHeight = 36;
+
+        let cx, cy, cz, cw;
+
+        cy = crystalSheet.y;
+
+        switch (card.Rarity) {
+            case 0: // common
+                switch (card.Theme) {
+                    case "Gen":
+                        cx = 0;
+                        break;
+                    case "Adv":
+                        cx = crystalWidth;
+                        break;
+                    case "Sci":
+                        cx = crystalWidth * 2;
+                        break;
+                    case "Mys":
+                        cx = crystalWidth * 3;
+                        break;
+                    case "Fan":
+                        cx = crystalWidth * 4;
+                        break;
+                    default:
+                        message.reply("theme not found");
+                        return;
+                        break;
+                }
+                break;
+            case 1:
+                cy += crystalHeight + 4;
+                cx = 17;
+                break;
+            case 2:
+                cy += crystalHeight + 4;
+                cx = 34 + crystalWidth;
+                break;
+            case 3:
+                cy += crystalHeight + 4;
+                cx = 34 + crystalWidth * 2;
+                break;
+            default:
+                message.reply("rarity not found");
+                return;
+                break;
+        }
+
+        cz = crystalWidth;
+        cw = crystalHeight;
+
+        if (card.Rarity === 3) {
+            cz += 17;
+        }
+        /* --- end of old code --- */
+
+        // Make the image.
+        const bgWidth = 455;
+        const bgHeight = 630;
+
+        // image overlaying stuff.
+        let bg = await new jimp(800, 1200);
+        let cardArt = await jimp.read(path.join(__dirname, "assets", "art", "cards", card.Image + ".jpg"));
+        let frameOverlay = frameOverlays.clone().crop(ox, oy, oz, ow).resize(bgWidth, bgHeight);
+        let frameOutline = frameOutlines.clone().crop(x, y, z, w).resize(bgWidth, bgHeight);
+        let typeIcon = typeIcons.clone().crop(ix, iy, iz, iw).scale(1.5);
+        let themeIcon = miscIcons.clone().crop(tx, ty, tz, tw).scale(1.5);
+        let crystal = miscIcons.clone().crop(cx, cy, cz, cw).scale(1.5);
+
+        let frameTop;
+        if (fy !== undefined) {
+            frameTop = frameTops.clone().crop(fx, fy, fz, fw).resize(bgWidth + 49, 200);
+        }
+
+        bg.composite(cardArt, bg.bitmap.width / 2 - cardArt.bitmap.width / 2, bg.bitmap.height / 2 - cardArt.bitmap.height / 2);
+        bg.composite(frameOverlay, bg.bitmap.width / 2 - frameOverlay.bitmap.width / 2, bg.bitmap.height / 2 - frameOverlay.bitmap.height / 2);
+        bg.composite(frameOutline, bg.bitmap.width / 2 - frameOutline.bitmap.width / 2, bg.bitmap.height / 2 - frameOutline.bitmap.height / 2);
+
+        if (fy !== undefined) {
+            bg.composite(frameTop, (bg.bitmap.width / 2 - frameTop.bitmap.width / 2) - 8, 240);
+        }
+
+        bg.composite(typeIcon, 130, 182);
+        bg.composite(themeIcon, (bg.bitmap.width / 2 - themeIcon.bitmap.width / 2) - 168, 843);
+
+        // 3 = legendary
+        let xoffset = 0;
+        if (card.Rarity === 3) {
+            xoffset = 25;
+        }
+
+        bg.composite(crystal, (bg.bitmap.width / 2 - themeIcon.bitmap.width / 2) - 168 - xoffset, 745);
+
+        if (card.Name instanceof Array) {
+            print.printCenter(bg, sp25Font, 20, 315, card.Name[0]);
+        } else {
+            print.printCenter(bg, sp25Font, 20, 315, card.Name);
+        }
+
+        print.printCenter(bg, sp60Font, -168, 350, card.ManaCost.toString());
+
+        if (ox === 0) {
+            print.printCenter(bg, sp27Font, -168, 515, stats.Health.toString());
+            print.printCenter(bg, sp27Font, -168, 640, stats.Damage.toString());
+        }
+
+        print.printCenter(bg, sp16Font, 17, 358, level === null ? `u ${upgrade}` : `lvl ${level}`);
+
+        print.printCenterCenter(bg, sp18Font, 20, 510, card.Description, 325);
+
+        bg.autocrop(0.0002, false);
+
+        // save + post
+        const saveDate = Date.now();
+
+        bg.write(path.join(__dirname, "temp", `pd-${saveDate}.png`), async () => {
+
+            await message.channel.send("", {
+                file: path.join(__dirname, "temp", `pd-${saveDate}.png`)
+            })
+
+            fs.unlink(path.join(__dirname, "temp", `pd-${saveDate}.png`), error => {
+                if (error !== null && error !== undefined) {
+
+                    throw `could not delete: pd-${saveDate}.png`;
+                }
+            });
+        });
+    },
+
+    load: function () {
+        return new Promise(async (resolve, reject) => {
+
+            sp16Font = await jimp.loadFont(path.join(__dirname, "assets", "art", "fonts", "SP-16.fnt"));
+            sp18Font = await jimp.loadFont(path.join(__dirname, "assets", "art", "fonts", "SP-18.fnt"));
+            sp25Font = await jimp.loadFont(path.join(__dirname, "assets", "art", "fonts", "SP-25.fnt"));
+            sp27Font = await jimp.loadFont(path.join(__dirname, "assets", "art", "fonts", "SP-27.fnt"));
+            sp60Font = await jimp.loadFont(path.join(__dirname, "assets", "art", "fonts", "SP-60.fnt"));
+
+            frameOverlays = await jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-overlay.png"));
+            frameOutlines = await jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-outline.png"));
+            frameTops = await jimp.read(path.join(__dirname, "assets", "art", "templates", "frame-top.png"));
+            typeIcons = await jimp.read(path.join(__dirname, "assets", "art", "templates", "card-character-type-icons.png"));
+            miscIcons = await jimp.read(path.join(__dirname, "assets", "art", "templates", "card-theme-icons.png"));
+
+            resolve();
+        });
+    }
+});
+
+/*
 const discord = require("discord.js");
 const jimp = require("jimp");
 const fs = require("fs");
@@ -468,18 +1172,18 @@ const card = new Command("card", "phone destroyer", "js", 0, "card", "command", 
             Max Speed:
         */
 
-        // Spells
-        // just ability power
+// Spells
+// just ability power
 
-        // Anything other than spells
-        // everything, but ability info only sometimes (only if ability === true)
+// Anything other than spells
+// everything, but ability info only sometimes (only if ability === true)
 
-        //embed.setDescription(`some text... ${"variable goes here without the quotations"}\n for new line`);
-        //embed.description += `may be useful if you need to add conditional sttuff, in an if statement`;
+//embed.setDescription(`some text... ${"variable goes here without the quotations"}\n for new line`);
+//embed.description += `may be useful if you need to add conditional sttuff, in an if statement`;
 
 
-        //card.attack_info.pre_attack_delay
-
+//card.attack_info.pre_attack_delay
+/*
         const removeNull = (str, check) => {
             if (check === undefined || check === null) {
                 return "";
@@ -588,5 +1292,6 @@ const card = new Command("card", "phone destroyer", "js", 0, "card", "command", 
         cardSending = false;
     });
 });
+*/
 
-//module.exports = card;
+module.exports = card;
