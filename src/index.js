@@ -421,8 +421,7 @@ const renderCard = async card => {
 
 for (let card of cards) {
 
-    // only render shaman token + gunslinger kyle
-    if (card.art === "CraigMysCard.jpg" || card.art === "TweekMysCard.jpg") {
+    if (card.art === "FathermaxiMysCard.jpg") {
 
         //promises.push(renderCard(card));
     }

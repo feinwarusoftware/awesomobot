@@ -62,69 +62,57 @@ router.get("/api/v3/uptime", (req, res) => {
 
 router.get("/api/v3/patrons", (req, res) => {
 
-    axios({
-        method: "get",
-        url: "https://www.patreon.com/api/oauth2/api/campaigns/1430518/pledges?include=patron.null",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${config.patreon_key}`
+    // username
+    // avatar
+    // date
+    // amount
+
+    const patrons = [
+        {
+            username: "Airborn56",
+            avatar: "https://cdn.discordapp.com/avatars/99626024181968896/a_d69fc64082896a7cb51c2aa20557b080.png?size=512",
+            date: "2018-04-27T21:32:11.928165+00:00",
+            amount: 10
+        },
+        {
+            username: "timmys9inchjimmy",
+            avatar: "https://cdn.discordapp.com/avatars/430503118262894614/c016210777c0eed529c6ae9b3a3c7a37.png?size=512",
+            date: "2018-06-07T20:54:53.048475+00:00",
+            amount: 5
+        },
+        {
+            username: "Kamui",
+            avatar: "https://cdn.discordapp.com/avatars/161573813379792899/a_e6cc2fa791bbefce65e928492eaebe91.png?size=512",
+            date: "2018-01-03T01:39:37.152671+00:00",
+            amount: 1
+        },
+        {
+            username: "KlausHeissler",
+            avatar: "https://cdn.discordapp.com/avatars/342086358010953728/1bd96364cbb3ad48df37374b73c6c72c.png?size=512",
+            date: "2018-03-03T02:20:43.132314+00:00",
+            amount: 1
+        },
+        {
+            username: "lonelychef",
+            avatar: "https://cdn.discordapp.com/avatars/328837258788601857/92706e9f3a5342dee38c5279863bf500.png?size=512",
+            date: "2018-05-27T10:59:42.665346+00:00",
+            amount: 10
+        },
+        {
+            username: "Savagekiller115",
+            avatar: "https://cdn.discordapp.com/avatars/393620893835984896/3b1333657ff839838d281bfb02abbec8.png?size=512",
+            date: "2018-05-24T00:56:22.462165+00:00",
+            amount: 10
+        },
+        {
+            username: "Tweeno",
+            avatar: "https://cdn.discordapp.com/avatars/215982178046181376/79209171354b0d6a28f2c5672b1d5bbd.png?size=512",
+            date: "2018-06-16T00:00:00.000000+00:00",
+            amount: 1
         }
-    }).then(api_res => {
+    ];
 
-        const promises = [];
-
-        for (let i = 0; i < api_res.data.included.length; i++) {
-
-            let promise;
-
-            if (api_res.data.included[i].attributes.social_connections.discord === null) {
-
-                promise = new Promise((resolve, reject) => resolve({ data: null }));
-
-            } else {
-   
-                promise = axios({
-                    method: "get",
-                    url: `https://discordapp.com/api/v6/users/${api_res.data.included[i].attributes.social_connections.discord.user_id}`,
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bot ${config.discord_token}`
-                    }
-                });
-            }
-
-            promises.push(promise);
-        }
-
-        Promise.all(promises).then(users => {
-
-            const info = [];
-
-            for (let i = 0; i < users.length; i++) {
-
-                let username = users[i].data === null ? "undefined" : users[i].data.username;
-                let avatar = users[i].data === null ? `https://cdn.discordapp.com/embed/avatars/${Math.floor(Math.random() * 5)}.png` : `https://cdn.discordapp.com/avatars/${users[i].data.id}/${users[i].data.avatar}.png?size=512`;
-
-                info.push({
-
-                    username,
-                    avatar,
-                    date: api_res.data.data[i].attributes.created_at,
-                    amount: api_res.data.data[i].attributes.amount_cents / 100
-                });
-            }
-
-            return res.json(info);
-
-        }).catch(error => {
-
-            return res.json({ oof: "mega oof" });
-        });
-
-    }).catch(error => {
-
-        return res.json({ rip: "fucking rip" });
-    });
+    return res.json(patrons);
 });
 
 router.get("/api/v3/stats", (req, res) => {

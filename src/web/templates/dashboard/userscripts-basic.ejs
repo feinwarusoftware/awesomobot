@@ -132,7 +132,8 @@
                                         <li class="active">
                                             <a href="#!">
                                                 <span class="circle">1</span>
-                                                <span class="label">Choose a preset</span>
+                                                <span class="label">
+                                                    <%= trans.STEPPER_1 %></span>
                                             </a>
                                         </li>
 
@@ -140,7 +141,8 @@
                                         <li class="disabled">
                                             <a href="#!">
                                                 <span class="circle">2</span>
-                                                <span class="label">Fill out the info</span>
+                                                <span class="label">
+                                                    <%= trans.STEPPER_2 %></span>
                                             </a>
                                         </li>
 
@@ -148,7 +150,8 @@
                                         <li class="disabled">
                                             <a href="#!">
                                                 <span class="circle">3</span>
-                                                <span class="label">???</span>
+                                                <span class="label">
+                                                    <%= trans.STEPPER_3 %></span>
                                             </a>
                                         </li>
 
@@ -156,7 +159,8 @@
                                         <li class="disabled">
                                             <a href="#!">
                                                 <span class="circle">4</span>
-                                                <span class="label">Profit</span>
+                                                <span class="label">
+                                                    <%= trans.STEPPER_4 %></span>
                                             </a>
                                         </li>
 
@@ -166,23 +170,79 @@
                                 </div>
                             </div>
                             <!-- /.Horizontal Steppers -->
-                            <!-- Horizontal Steppers -->
-                            <div class="row">
-                                <div class="col-md-3">
-                                        <button type="button" class="btn btn-flat btn-lg btn-block"><i class="fa fa-font fa-5x"></i></button>
+
+                            <div id="step1" style="display:none;">
+                                <div class="row">
+                                    <div class="col-12 mb-5">
+                                        <h2 class="font-weight-bold text-center">
+                                            <%= trans.STEP_1 %> <span class="dark-grey-text font-weight-normal">
+                                                <%= trans.STEP_1_DESC %></span></h2>
+                                    </div>
+
                                 </div>
-                                <div class="col-md-3">
-                                        <button type="button" class="btn btn-flat btn-lg btn-block"><i class="fa fa-font fa-5x"></i></button>
+                                <div class="row">
+                                    <div class="col-md-3 col-6">
+                                        <button type="button" class="btn btn-flat btn-lg btn-block px-0"><i class="fa fa-font fa-5x red-text"></i>
+                                            <h4 class="red-text font-weight-bold text-center pt-3">Text</h4>
+                                        </button>
+
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <button type="button" class="btn btn-flat btn-lg btn-block px-0"><i class="fa fa-list fa-5x orange-text"></i>
+                                            <h4 class="font-weight-bold text-center pt-3 orange-text">Random Text</h4>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <button type="button" class="btn btn-flat btn-lg btn-block px-0"><i class="fa fa-image fa-5x green-text"></i>
+                                            <h4 class="font-weight-bold text-center pt-3 green-text">Image</h4>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <button type="button" class="btn btn-flat btn-lg btn-block px-0"><i class="fas fa-film fa-5x blue-text"></i>
+                                            <h4 class="font-weight-bold text-center pt-3 blue-text">GIF</h4>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="col-md-3">
-                                        <button type="button" class="btn btn-flat btn-lg btn-block"><i class="fa fa-font fa-5x"></i></button>
-                                </div>
-                                <div class="col-md-3">
-                                        <button type="button" class="btn btn-flat btn-lg btn-block"><i class="fa fa-font fa-5x"></i></button>
-                                </div>
-                                
                             </div>
-                            <!-- /.Horizontal Steppers -->
+
+                            <div id="step2">
+                                <div class="row">
+                                    <div class="col-12 mb-5">
+                                        <h2 class="font-weight-bold text-center">
+                                            <%= trans.STEP_2 %> <span class="dark-grey-text font-weight-normal">
+                                                <%= trans.STEP_2_DESC %></span></h2>
+                                    </div>
+
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-10 col-md-6 mb-5">
+                                        <div class="md-form form-lg">
+                                            <input type="text" id="inputLGEx" class="form-control form-control-lg">
+                                            <label for="inputLGEx">Enter your text</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-10 col-md-6 mb-5">
+                                        <div class="md-form form-lg form-inline mx-auto">
+                                            <input type="text" id="die" class="form-control form-control-lg">
+                                            <label for="die">Item 1</label>
+                                            <a class="red-text pl-3 fa-2x"><i class="fas fa-close"></i></a>
+                                        </div>
+                                        <div class="md-form form-lg form-inline">
+                                            <input type="text" id="die2" class="form-control form-control-lg">
+                                            <label for="die2">Item 2</label>
+                                            <a class="red-text pl-3 fa-2x"><i class="fas fa-close"></i></a>
+                                        </div>
+                                        <div class="md-form form-lg form-inline">
+                                            <input type="text" id="die3" class="form-control form-control-lg">
+                                            <label for="die3">Item 3</label>
+                                            <a class="red-text pl-3 fa-2x"><i class="fas fa-close"></i></a>
+                                        </div>
+                                        <a class="btn btn-primary btn-rounded mx-auto">add another item</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

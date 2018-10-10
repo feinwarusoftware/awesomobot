@@ -274,6 +274,16 @@
     "ACTIVITY_SCORES": "Activity Scores",
     "IHTF": "It Hits The Fan",
 
+    "STEPPER_1": "Choose a preset",
+    "STEPPER_2": "Fill out the info",
+    "STEPPER_3": "???",
+    "STEPPER_4": "Profit",
+
+    "STEP_1": "Step 1:",
+    "STEP_1_DESC": "What do you want AWESOM-O to post?",
+    "STEP_2": "Step 2:",
+    "STEP_2_DESC": "What is the content of the post?",
+
     "PATRON_MANAGEMENT": "Patron Management Panel",
 
     "CARD_NOT_FOUND": "Card Not Found :(",

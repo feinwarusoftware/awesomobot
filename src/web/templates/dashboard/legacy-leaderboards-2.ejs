@@ -82,7 +82,7 @@
                 <!--Heading & Date-->
 
                 <!--Section: Main chart-->
-                <section>
+                <section id="activity" class="pt-5">
 
                     <!--Card-->
                     <div class="card card-cascade narrower">
@@ -132,37 +132,37 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <% v2[0].sort((a, b) => { %>
+                                                    <% v2.list.sort((a, b) => { %>
                                                         <% return b.activity - a.activity; %>
                                                             <% }); %>
-                                                                <% for (let i = 0; i < v2[0].length; i++) { %>
-                                                                    <% if (v2[0].id == user_data.id) { %>
+                                                                <% for (let i = 0; i < v2.list.length; i++) { %>
+                                                                    <% if (v2.list[i].id == user_data.id) { %>
                                                                         <tr class="table-warning" id="rawrxd">
                                                                             <th scope="row" class="text-center">
                                                                                 <%= i + 1 %>
                                                                             </th>
                                                                             <td>
-                                                                                <a href="/dashboard/profiles/<%= v2[0].id %><%= trans.LANG %>">
-                                                                                    <%= v2[0].name %>
+                                                                                <a href="/dashboard/profiles/<%= v2.list[i].id %><%= trans.LANG %>">
+                                                                                    <%= v2.list[i].name %>
                                                                                 </a>
                                                                             </td>
                                                                             <td>
-                                                                                <%= Math.round(v2[0].activity) %>
+                                                                                <%= Math.round(v2.list[i].activity) %>
                                                                             </td>
                                                                         </tr>
                                                                         <% } else { %>
-                                                                            <% if (v2[0].activity != 0) { %>
+                                                                            <% if (v2.list[i].activity != 0) { %>
                                                                                 <tr>
                                                                                     <th scope="row" class="text-center">
                                                                                         <%= i + 1 %>
                                                                                     </th>
                                                                                     <td>
-                                                                                        <a href="/dashboard/profiles/<%= v2[0].id %><%= trans.LANG %>">
-                                                                                            <%= v2[0].name %>
+                                                                                        <a href="/dashboard/profiles/<%= v2.list[i].id %><%= trans.LANG %>">
+                                                                                            <%= v2.list[i].name %>
                                                                                         </a>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <%= Math.round(v2[0].activity) %>
+                                                                                        <%= Math.round(v2.list[i].activity) %>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <% } %>
@@ -202,7 +202,7 @@
 
                 </section>
                 <!--/Section: Main chart-->
-                <section id="shit" class="pt-5" id="">
+                <section id="shit" class="pt-5">
 
                     <!--Card-->
                     <div class="card card-cascade narrower">
@@ -252,33 +252,33 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <% v2[0].sort((a, b) => { %>
+                                                    <% v2.list.sort((a, b) => { %>
                                                         <% return b.shits - a.shits; %>
                                                             <% }); %>
-                                                                <% for (let i = 0; i < v2[0].length; i++) { %>
-                                                                    <% if (v2[0].id == user_data.id) { %>
+                                                                <% for (let i = 0; i < v2.list.length; i++) { %>
+                                                                    <% if (v2.list[i].id == user_data.id) { %>
                                                                         <tr class="table-warning" id="wonk">
                                                                             <th scope="row" class="text-center">
                                                                                 <%= i + 1 %>
                                                                             </th>
                                                                             <td>
-                                                                                <%= v2[0].name %>
+                                                                                <%= v2.list[i].name %>
                                                                             </td>
                                                                             <td>
-                                                                                <%= Math.round(v2[0].shits) %>
+                                                                                <%= Math.round(v2.list[i].shits) %>
                                                                             </td>
                                                                         </tr>
                                                                         <% } else { %>
-                                                                            <% if (v2[0].shits != 0) { %>
+                                                                            <% if (v2.list[i].shits != 0) { %>
                                                                                 <tr>
                                                                                     <th scope="row" class="text-center">
                                                                                         <%= i + 1 %>
                                                                                     </th>
                                                                                     <td>
-                                                                                        <%= v2[0].name %>
+                                                                                        <%= v2.list[i].name %>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <%= Math.round(v2[0].shits) %>
+                                                                                        <%= Math.round(v2.list[i].shits) %>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <% } %>
