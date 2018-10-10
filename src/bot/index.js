@@ -3,6 +3,8 @@
 const fs = require("fs");
 const path = require("path");
 
+const axios = require("axios");
+
 // Override discord.js getAuth so our token doesn't get leaked in external scripts.
 // Note: This must be patched before loading the rest of discord.js!
 const config = require("../../config.json");
@@ -533,19 +535,22 @@ client.on("message", message => {
 
                                     if (script.type === "js") {
 
-                                        // temp security testing
-                                        const handler = {};
+                                        const utils = {
 
-                                        handler.sendMessage(content, options) = function(content, options) {
+                                            RichEmbed: discord.RichEmbed
+                                        };
 
-                                            message.channel.send(content, options);
+                                        // verified only
+                                        if (script.verified === true) {
+
+                                            utils.axios = axios;
                                         }
 
                                         try {
 
                                             botSandbox.exec(script.code, {
-                                                message: message,
-                                                RichEmbed: discord.RichEmbed
+                                                message,
+                                                utils
                                             });
                                         } catch (error) {
 
