@@ -82,8 +82,7 @@ router.route("/").post(authAdmin, (req, res) => {
     const params = {};
     params.discord_id = req.body.discord_id;
     params.prefix = req.body.prefix;
-    params.log_channel_id = req.body.log_channel_id;
-    params.log_events = req.body.log_events;
+    params.member_perms = req.body.member_perms;
     params.scripts = [];
 
     const guild = new schemas.GuildSchema(params);
@@ -237,8 +236,7 @@ router.route("/:discord_id").get(authUser, (req, res) => {
 
     const params = {};
     params.prefix = req.body.prefix;
-    params.log_channel_id = req.body.log_channel_id;
-    params.log_events = req.body.log_events;
+    params.member_perms = req.body.member_perms;
 
     schemas.GuildSchema
         .findOne({
@@ -258,7 +256,7 @@ router.route("/:discord_id").get(authUser, (req, res) => {
                         return e.id === req.params.discord_id;
                     });
 
-                    if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000))) {
+                    if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000) && current_guild.member_perms.includes("patch_guild") === false)) {
         
                         return res.json({ status: 403 });
                     }
@@ -307,7 +305,7 @@ router.route("/:discord_id").get(authUser, (req, res) => {
                         return e.id === req.params.discord_id;
                     });
 
-                    if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000))) {
+                    if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000) && current_guild.member_perms.includes("delete_guild") === false)) {
         
                         return res.json({ status: 403 });
                     }
@@ -510,7 +508,7 @@ router.route("/:discord_id/scripts").get(authUser, (req, res) => {
                                         return e.id === req.params.discord_id;
                                     });
                 
-                                    if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000))) {
+                                    if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000) && current_guild.member_perms.includes("post_script") === false)) {
                         
                                         return res.json({ status: 403 });
                                     }
@@ -634,7 +632,7 @@ router.route("/:discord_id/scripts/:object_id").get(authUser, (req, res) => {
                         return e.id === req.params.discord_id;
                     });
 
-                    if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000))) {
+                    if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000) && current_guild.member_perms.includes("patch_script") === false)) {
         
                         return res.json({ status: 403 });
                     }
@@ -726,7 +724,7 @@ router.route("/:discord_id/scripts/:object_id").get(authUser, (req, res) => {
                                         return e.id === req.params.discord_id;
                                     });
                 
-                                    if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000))) {
+                                    if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000) && current_guild.member_perms.includes("delete_script") === false)) {
                         
                                         return res.json({ status: 403 });
                                     }

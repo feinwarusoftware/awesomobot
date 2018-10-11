@@ -831,6 +831,14 @@
                 throw `failed to parse script add json with error: ${error}`;
             }
 
+            if (scriptAddYay.status !== 200) {
+
+                toastr["error"](`failed to add script: ${scriptAddYay.response.status}`);
+                throw `failed to add script: ${scriptAddYay.response.status}`;
+
+                return;
+            }
+
             btn.classList.remove("add-script");
             btn.classList.remove("blue");
             btn.classList.remove("lighten-2");
@@ -896,6 +904,14 @@
 
                 toastr["error"](`failed to parse script remove json with error: ${error}`);
                 throw `failed to parse script remove json with error: ${error}`;
+            }
+
+            if (scriptRemoveYay.status !== 200) {
+
+                toastr["error"](`failed to remove script: ${scriptRemoveYay.response.status}`);
+                throw `failed to remove script: ${scriptRemoveYay.response.status}`;
+
+                return;
             }
 
             btn.classList.remove("remove-script");
