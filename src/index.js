@@ -436,5 +436,11 @@ Promise.all(promises).then(() => {
 //
 
 // do stuff
-require("./bot");
-require("./web");
+try {
+
+    require("./bot");
+    require("./web");
+} catch(error) {
+
+    genLogger.fatalError(`${Date.now()} - fatal error: ${error}`);
+}
