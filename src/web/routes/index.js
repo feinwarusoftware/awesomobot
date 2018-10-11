@@ -174,6 +174,40 @@ router.get("/dashboard/profiles/:discord_id", authUser, async (req, res) => {
     }
 });
 
+router.get("/logout", async (req, res) => {
+   
+    let session_doc;
+
+    // if the cookie exists, attempt to fetch the users session
+    if (req.cookies !== undefined && req.cookies.session !== undefined) {
+
+        try {
+
+            session_doc = await fetchSession(req.cookies.session);
+        } catch(error) {
+
+            // fail silently
+            apiLogger.error(error);
+        }
+    }
+
+    // the user was logged in
+    if (session_doc !== undefined && session_doc.complete === true) {
+        
+        // log the user out
+        try {
+
+            await session_doc.remove();
+        } catch(error) {
+
+            return res.json({ message: "error loggin out", error });
+        }
+    }
+
+    // redirect to home page to show successful log out
+    return res.redirect("/");
+});
+
 router.get("/auth/discord", async (req, res) => {
 
     let session_doc;
