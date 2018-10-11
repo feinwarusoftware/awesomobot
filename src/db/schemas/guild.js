@@ -35,7 +35,6 @@ const guildScriptSchema = new Schema({
 const memberPermSchema = new Schema({
 
     member_id: { type: String, required: true },
-    allow_list: { type: Boolean, default: true },
     list: [ String ]
 }, {
     _id: false

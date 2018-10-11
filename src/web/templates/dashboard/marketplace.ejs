@@ -833,8 +833,8 @@
 
             if (scriptAddYay.status !== 200) {
 
-                toastr["error"](`failed to add script: ${scriptAddYay.response.status}`);
-                throw `failed to add script: ${scriptAddYay.response.status}`;
+                toastr["error"](`failed to add script: ${scriptAddYay.status}`);
+                throw `failed to add script: ${scriptAddYay.status}`;
 
                 return;
             }
@@ -896,6 +896,8 @@
             scriptRemoveRequest.open("DELETE", "/api/v3/guilds/" + currentServer + "/scripts/" + btn.id, false);
             scriptRemoveRequest.send();
 
+            console.log(scriptRemoveRequest.response);
+
             let scriptRemoveYay;
             try {
 
@@ -908,8 +910,8 @@
 
             if (scriptRemoveYay.status !== 200) {
 
-                toastr["error"](`failed to remove script: ${scriptRemoveYay.response.status}`);
-                throw `failed to remove script: ${scriptRemoveYay.response.status}`;
+                toastr["error"](`failed to remove script: ${scriptRemoveYay.status}`);
+                throw `failed to remove script: ${scriptRemoveYay.status}`;
 
                 return;
             }

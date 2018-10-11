@@ -256,7 +256,8 @@ router.route("/:discord_id").get(authUser, (req, res) => {
                         return e.id === req.params.discord_id;
                     });
 
-                    if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000) && doc.member_perms.includes("patch_guild") === false)) {
+                    const member_perms = doc.member_perms.find(e => e.member_id === req.user.discord_id);
+                    if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000) && (member_perms === undefined || member_perms.list.includes("patch_guild") === false))) {
         
                         return res.json({ status: 403 });
                     }
@@ -305,7 +306,8 @@ router.route("/:discord_id").get(authUser, (req, res) => {
                         return e.id === req.params.discord_id;
                     });
 
-                    if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000) && doc.member_perms.includes("delete_guild") === false)) {
+                    const member_perms = doc.member_perms.find(e => e.member_id === req.user.discord_id);
+                    if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000) && (member_perms === undefined || member_perms.list.includes("delete_guild") === false))) {
         
                         return res.json({ status: 403 });
                     }
@@ -494,33 +496,34 @@ router.route("/:discord_id/scripts").get(authUser, (req, res) => {
                         return res.json({ status: 403 });
                     }
 
-                    doc2.guild_count++;
+                    getUserGuilds(req.session.discord.access_token)
+                        .then(guilds => {
+                
+                            const current_guild = guilds.find(e => {
+                
+                                return e.id === req.params.discord_id;
+                            });
+        
+                            const member_perms = doc.member_perms.find(e => e.member_id === req.user.discord_id);
+                            if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000) && (member_perms === undefined || member_perms.list.includes("post_script") === false))) {
+                
+                                return res.json({ status: 403 });
+                            }
+        
+                            const script = new schemas.GuildScriptSchema({
+                                ...params,
+                                object_id
+                            });
+        
+                            doc.scripts.push(script);
+        
+                            doc
+                                .save()
+                                .then(() => {
 
-                    doc2
-                        .save()
-                        .then(() => {
+                                    doc2.guild_count++;
 
-                            getUserGuilds(req.session.discord.access_token)
-                                .then(guilds => {
-                        
-                                    const current_guild = guilds.find(e => {
-                        
-                                        return e.id === req.params.discord_id;
-                                    });
-                
-                                    if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000) && doc.member_perms.includes("post_script") === false)) {
-                        
-                                        return res.json({ status: 403 });
-                                    }
-                
-                                    const script = new schemas.GuildScriptSchema({
-                                        ...params,
-                                        object_id
-                                    });
-                
-                                    doc.scripts.push(script);
-                
-                                    doc
+                                    doc2
                                         .save()
                                         .then(() => {
                 
@@ -533,13 +536,15 @@ router.route("/:discord_id/scripts").get(authUser, (req, res) => {
                                         });
                                 })
                                 .catch(error => {
-                        
+        
                                     apiLogger.error(error);
                                     return res.json({ status: 500 });
                                 });
                         })
                         .catch(error => {
-
+                
+                            apiLogger.error(error);
+                            return res.json({ status: 500 });
                         });
                 })
                 .catch(error => {
@@ -632,7 +637,8 @@ router.route("/:discord_id/scripts/:object_id").get(authUser, (req, res) => {
                         return e.id === req.params.discord_id;
                     });
 
-                    if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000) && doc.member_perms.includes("patch_script") === false)) {
+                    const member_perms = doc.member_perms.find(e => e.member_id === req.user.discord_id);
+                    if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000)  && (member_perms === undefined || member_perms.list.includes("patch_script") === false))) {
         
                         return res.json({ status: 403 });
                     }
@@ -702,75 +708,78 @@ router.route("/:discord_id/scripts/:object_id").get(authUser, (req, res) => {
                 return res.json({ status: 404 });
             }
 
-            schemas.ScriptSchema
-                .findById(object_id)
-                .then(script => {
-                    if (script === null) {
-
+            getUserGuilds(req.session.discord.access_token)
+                .then(guilds => {
+        
+                    const current_guild = guilds.find(e => {
+        
+                        return e.id === req.params.discord_id;
+                    });
+        
+                const member_perms = doc.member_perms.find(e => e.member_id === req.user.discord_id);
+                    if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000)  && (member_perms === undefined || member_perms.list.includes("delete_script") === false))) {
+        
+                        return res.json({ status: 403 });
+                    }
+        
+                let found = false;
+                    for (let i = 0; i < doc.scripts.length; i++) {
+        
+                        if (doc.scripts[i].object_id.equals(object_id)) {
+        
+                            found = true;
+        
+                            doc.scripts.splice(i, 1);
+        
+                            break;
+                        }
+                    }
+        
+                    if (found === false) {
+        
                         return res.json({ status: 404 });
                     }
-
-                    script.guild_count--;
-
-                    script
+        
+                    doc
                         .save()
                         .then(() => {
-                            
-                            getUserGuilds(req.session.discord.access_token)
-                                .then(guilds => {
-                        
-                                    const current_guild = guilds.find(e => {
-                        
-                                        return e.id === req.params.discord_id;
-                                    });
+
+                            schemas.ScriptSchema
+                                .findById(object_id)
+                                .then(script => {
+                                    if (script === null) {
                 
-                                    if (current_guild === undefined || (current_guild.owner === false && ((current_guild.permissions & 0b1000) !== 0b1000) && doc.member_perms.includes("delete_script") === false)) {
-                        
-                                        return res.json({ status: 403 });
-                                    }
-                
-                                    let found = false;
-                                    for (let i = 0; i < doc.scripts.length; i++) {
-                        
-                                        if (doc.scripts[i].object_id.equals(object_id)) {
-                        
-                                            found = true;
-                        
-                                            doc.scripts.splice(i, 1);
-                        
-                                            break;
-                                        }
-                                    }
-                        
-                                    if (found === false) {
-                        
                                         return res.json({ status: 404 });
                                     }
-                        
-                                    doc
+                
+                                    script.guild_count--;
+                
+                                    script
                                         .save()
                                         .then(() => {
-                        
+                                            
                                             return res.json({ status: 200 });
                                         })
                                         .catch(error => {
-                        
+                
                                             apiLogger.error(error);
                                             return res.json({ status: 500 });
                                         });
                                 })
                                 .catch(error => {
-                        
+                
                                     apiLogger.error(error);
                                     return res.json({ status: 500 });
                                 });
                         })
                         .catch(error => {
-
+        
+                            apiLogger.error(error);
+                            return res.json({ status: 500 });
                         });
                 })
                 .catch(error => {
-
+        
                     apiLogger.error(error);
                     return res.json({ status: 500 });
                 });
