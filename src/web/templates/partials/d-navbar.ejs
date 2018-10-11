@@ -207,8 +207,8 @@
                     <i class="fa fa-user"></i>
                     <%= trans.VIEW_PROFILE %>
                 </a>
-                <a class="dropdown-item waves-effect waves-light" href="#">
-                    <i class="fa fa-sign-out"></i>
+                <a href="/logout" class="dropdown-item waves-effect waves-light" href="#">
+                    <i class="fa fa-sign-out-alt"></i>
                     <%= trans.LOGOUT %>
                 </a>
             </div>
@@ -259,11 +259,11 @@ function getCookie(cname) {
         guildsYay = JSON.parse(guildsRequest.response);
     } catch (error) {
 
-        toastr["error"](`failed to parse guilds json with error: ${error}`);
+        //toastr["error"](`failed to parse guilds json with error: ${error}`);
         throw `failed to parse guilds json with error: ${error}`;
     }
 
-    switch (guildsYay.status) {
+    /*switch (guildsYay.status) {
         case 200:
             console.log("loaded featured scripts");
             break;
@@ -282,7 +282,7 @@ function getCookie(cname) {
         default:
             toastr["error"](`failed to fetch guilds: ${guildsRequest.response.status}`);
             throw `failed to fetch guilds: ${guildsRequest.response.status}`;
-    }
+    }*/
 
     const userRequest = new XMLHttpRequest();
     userRequest.open("GET", "/api/v3/users/@me?extended=true", false);
@@ -298,7 +298,7 @@ function getCookie(cname) {
         throw `failed to parse user json with error: ${error}`;
     }
 
-    switch (userYay.status) {
+    /*switch (userYay.status) {
         case 200:
             console.log("loaded featured scripts");
             break;
@@ -317,7 +317,7 @@ function getCookie(cname) {
         default:
             toastr["error"](`failed to fetch user: ${userRequest.response.status}`);
             throw `failed to fetch user: ${userRequest.response.status}`;
-    }
+    }*/
 
     document.getElementById("username").innerText = userYay.user.username;
     document.getElementById("profile-link").href = "/dashboard/profiles/" + userYay.user.discord_id +
@@ -328,7 +328,12 @@ function getCookie(cname) {
     const currentServer = getCookie("currentServer");
     const selectedServer = document.getElementById("selected-server");
 
-    for (let i = 0; i < guildsYay.guilds.length; i++) {
+    if (guildsYay.status == 404){
+        selectedServer.src = "https://www.kuleuven.be/studentenvoorzieningen/kot-leuven/icoontjes/question-mark-on-a-circular-black-background.png/image";
+        alert(`AWESOM-O is not on any of your servers. Please add him or join a server with AWESOM-O to continue`);
+        window.location.replace("/")
+    } else {
+        for (let i = 0; i < guildsYay.guilds.length; i++) {
 
         // in case the user is on no servers with awesomo
         if (currentServer === undefined || currentServer === null || currentServer === "") {
@@ -351,6 +356,9 @@ function getCookie(cname) {
                 </a>
             `
     }
+    }
+
+    
                 
     const servers = document.getElementsByClassName("server");
     for (let i = 0; i < servers.length; i++) {

@@ -135,43 +135,7 @@ router.get("/api/v3/sloc", (req, res) => {
 
 router.get("/dashboard/profiles/:discord_id", authUser, async (req, res) => {
 
-    let profile;
-    try {
-
-        profile = await axios({
-            method: "get",
-            url: `https://discordapp.com/api/v6/users/${req.params.discord_id}`,
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bot ${config.discord_token}`
-            }
-        });
-    } catch(error) {
-
-        apiLogger.error(error);
-    }
-
-    let user;
-    try {
-
-        user = await axios({
-            method: "get",
-            url: `https://discordapp.com/api/v6/users/@me`,
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${req.session.discord.access_token}`
-            }
-        });
-    } catch(error) {
-
-        apiLogger.error(error);
-    }
-
-    if (profile.data.id === undefined){
-        res.render("index", { md: text => { return converter.makeHtml(text); }, user: {} });
-    } else {
-        res.render("dashboard/profile", { user_data: { id: user.data.id, avatar: user.data.avatar, username: user.data.username }, profile_data: { id: profile.data.id, avatar: profile.data.avatar, username: profile.data.username } })
-    }
+    res.render("dashboard/profile")
 });
 
 router.get("/logout", async (req, res) => {

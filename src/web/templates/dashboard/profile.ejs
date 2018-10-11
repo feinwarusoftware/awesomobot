@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>AWESOM-O //
-        <%= profile_data.username %>
     </title>
 
     <link rel="icon" type="image/png" href="/img/favicon.png" />
@@ -28,6 +27,18 @@
     <link href="/css/mdb.min.css" rel="stylesheet">
 
     <link href="/css/style.css" rel="stylesheet">
+
+    <style>
+            nav {
+            transform: translateZ(200px);
+        }
+
+        .gay {
+            position: relative;
+            z-index: 50;
+            transform: translateZ(198px);
+        }
+    </style>
 </head>
 
 <body class="fixed-sn">
@@ -64,7 +75,7 @@
                         <!--Card-->
                         <div class="card testimonial-card" style="width: 100%;">
                             <!--Background color-->
-                            <div class="card-up">
+                            <div class="card-up" style="height: initial;">
                                 <img id="banner" class="img-fluid" src="" style="width: 100%;">
                             </div>
                             <!--Avatar-->
@@ -73,7 +84,7 @@
                             </div>
                             <div class="card-body">
                                 <!--Name-->
-                                <h4  class="font-weight-bold mb-4">
+                                <h4 class="font-weight-bold mb-4">
                                     <span class="profile-username"></span>
                                     <sup id="verified"></sup>
                                 </h4>
@@ -91,7 +102,7 @@
                     <div class="row pt-4">
                         <!-- Card -->
                         <div class="card text-center" style="width: 100%">
-                            <div class="card-body">
+                            <div class="card-body px-1">
                                 <!-- Title -->
                                 <h4 class="font-weight-bold mb-4">
                                     <%= trans.TROPHY_CASE %>
@@ -105,6 +116,9 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-9">
+                    <div id="level-data" class="row pb-2 pl-md-4">
+
+                    </div>
                     <div id="about-card" class="row pl-md-4 pb-4">
                         <!-- Card -->
                         <div class="card text-center" style="width: 100%">
@@ -134,7 +148,6 @@
                                 <%- include ../partials/lightbox.ejs %>
 
                                 <div id="artwork" class="mdb-lightbox">
-
 
                                 </div>
                             </div>
@@ -453,7 +466,7 @@
 
 
         $("#avatar").attr("src", "https://cdn.discordapp.com/avatars/" + profileyay.discord_id + "/" +
-        profileyay.avatar + ".png?size=128")
+            profileyay.avatar + ".png?size=128")
         $(".profile-username").text(profileyay.username)
         $("#bio").text(profileyay.bio);
         $("#about").text(profileyay.about);
@@ -467,24 +480,76 @@
                 </span>`
             )
         };
-        if (artwork !== undefined) {
-            for (let i = 0; i < artwork.content.length; i++) {
 
-                $("#artwork").append(
-                    `
-                    <figure class="col-lg-4 col-md-6">
-                    <a id='${`art-${i}`}' href="${artwork.content[i]}">
-                    <img id="artworkimg" src="${artwork.content[i]}" alt="placeholder" class="img-fluid">
-                    </a>
-                    </figure>
-                    `
-                );
+        // Level Data
+
+        const getLevelData = xp => {
+
+            if (xp === 0){
+                return {
+                    level: 0,
+                    progress: 0,
+                }
             }
 
-            getImageSize(artwork.content[i]).then(size => {
-                document.getElementById(`art-${i}`).setAttribute("data-size", size);
-            });
-        };
+            const levels = [0, 1, 250, 400, 550, 700, 850, 1000, 1200, 1400, 1600, 1800, 2000, 2250, 2500, 2750,
+                3000, 3300, 3600, 4000, 4500
+            ];
+
+            let count = 0;
+            let level = 0;
+            let progress = 0;
+
+            for (let i = 0; i < levels.length; i++) {
+
+                count += levels[i];
+
+                if (xp < count) {
+
+                    level = i - 1;
+                    progress = 1 - (count - xp) / levels[i];
+                    break;
+                }
+            }
+
+            if (level === 0 && count !== 0) {
+
+                xp -= count;
+
+                level = Math.floor(xp / 5000) + levels.length - 1;
+                progress = (xp % 5000) / 5000;
+            }
+
+            if (level > 70) {
+
+                level = 70;
+                progress = 1;
+            }
+
+            return {
+
+                level,
+                progress
+            };
+        }
+
+        const levelInfo = getLevelData(profileyay.xp)
+
+        $("#level-data").html(
+            `
+        <div class="text-center" style="width: 100%">
+            <h1 class="font-weight-bold text-success mb-2 mt-2">
+                Level ${levelInfo.level}
+            </h1>
+            <h4 class="font-weight-bold">${Math.round(levelInfo.progress * 100)}%</h4>
+            <div class="progress md-progress mb-0" style="height: 20px; background-color: #fff">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: ${Math.round(levelInfo.progress * 100)}%; height: 20px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <p class="mt-2">${100 - Math.round(levelInfo.progress * 100)}% left until level ${levelInfo.level + 1}</p>
+        </div>
+        `
+        );
+
         for (let i = 0; i < profileyay.socials.length; i++) {
             $("#socials").append(
                 `
@@ -506,11 +571,57 @@
             );
         };
 
-        if (profileyay.modules.about === false) {
+        //Modules
+
+        let moduleAbout = profileyay.modules.find(e => e.name === "about");
+        if (moduleAbout === undefined) {
+
+            // about doesnt exist, set defaults
+            moduleAbout = {
+
+                name: "about",
+                content: ["This user has not added anything to this section. :("],
+                enabled: true
+            };
+        }
+
+        let moduleArtwork = profileyay.modules.find(e => e.name === "about");
+        if (moduleArtwork === undefined) {
+
+            // artwork doesnt exist, set defaults
+            moduleArtwork = {
+
+                name: "artwork",
+                content: ["https://cdn.discordapp.com/attachments/379432139856412682/500025347752853513/unknown.png"],
+                enabled: true
+            };
+        }
+
+        if (moduleAbout.enabled === false) {
             $("#about-card").hide();
+        } else if (moduleAbout.enabled === true) {
+            $("#about").html(`${moduleAbout.content[0]}`)
         };
 
-        if (profileyay.modules.artwork === false) {
+        if (moduleArtwork !== undefined) {
+            for (let i = 0; i < moduleArtwork.content.length; i++) {
+
+                $("#artwork").append(
+                    `
+                    <figure class="col-lg-4 col-md-6">
+                    <a id='${`art-${i}`}' href="${moduleArtwork.content[i]}">
+                    <img id="artworkimg" src="${moduleArtwork.content[i]}" alt="placeholder" class="img-fluid">
+                    </a>
+                    </figure>
+                    `
+                );
+                getImageSize(moduleArtwork.content[i]).then(size => {
+                    document.getElementById(`art-${i}`).setAttribute("data-size", size);
+                });
+            }
+        };
+
+        if (moduleArtwork.enabled === false) {
             $("#artwork-card").hide();
         };
 
@@ -524,7 +635,7 @@
         };
         if (profileyay.trophies.indexOf("feinwaru-dev") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text feinwaru" data-toggle="tooltip" data-placement="top" title="Pretends that he develops, but he does the html so no lol">
+                `<div class="mx-1 chip white-text feinwaru">
                             <img src="/img/trophy/trophy-fs.png">
                             <%= trans.FEINWARU_DEV %>
                         </div>`
@@ -532,7 +643,7 @@
         };
         if (profileyay.trophies.indexOf("mod") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #099b10;">
+                `<div class="mx-1 chip white-text" style="background-color: #099b10;">
                             <img src="/img/trophy/trophy-mod.png">
                             <%= trans.MODERATOR %>
                         </div>`
@@ -540,7 +651,7 @@
         };
         if (profileyay.trophies.indexOf("partner") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #1cb891;">
+                `<div class="mx-1 chip white-text" style="background-color: #1cb891;">
                             <img src="/img/trophy/trophy-group.png">
                             <%= trans.PARTNER %>
                         </div>`
@@ -548,7 +659,7 @@
         };
         if (profileyay.trophies.indexOf("bot") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text feinwaru">
+                `<div class="mx-1 chip white-text feinwaru">
                             <img src="/img/trophy/trophy-bot.png">
                             AWESOM-O
                         </div>`
@@ -556,7 +667,7 @@
         };
         if (profileyay.trophies.indexOf("patron-1") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #fb664e;">
+                `<div class="mx-1 chip white-text" style="background-color: #fb664e;">
                             <img src="/img/trophy/trophy-patreon.png">
                             <%= trans.FRIEND %>
                         </div>`
@@ -564,7 +675,7 @@
         };
         if (profileyay.trophies.indexOf("patron-5") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #fb664e;">
+                `<div class="mx-1 chip white-text" style="background-color: #fb664e;">
                             <img src="/img/trophy/trophy-patreon.png">
                             <%= trans.BEST_FRIEND %>
                         </div>`
@@ -572,7 +683,7 @@
         };
         if (profileyay.trophies.indexOf("patron-10") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #fb664e;">
+                `<div class="mx-1 chip white-text" style="background-color: #fb664e;">
                             <img src="/img/trophy/trophy-patreon.png">
                             <%= trans.SUPER_BEST_FRIEND %>
                         </div>`
@@ -580,7 +691,7 @@
         };
         if (profileyay.trophies.indexOf("translator") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #1c65b8;">
+                `<div class="mx-1 chip white-text" style="background-color: #1c65b8;">
                             <img src="/img/trophy/trophy-trans.png">
                             <%= trans.TRANSLATOR %>
                     </div>`
@@ -588,7 +699,7 @@
         };
         if (profileyay.trophies.indexOf("artist") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #df3cb6;">
+                `<div class="mx-1 chip white-text" style="background-color: #df3cb6;">
                             <img src="/img/trophy/trophy-art.png">
                             <%= trans.SERVER_ARTIST %>
                         </div>`
@@ -596,7 +707,7 @@
         };
         if (profileyay.trophies.indexOf("uchinpokomon") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #d67f0e; box-shadow: 0px 0px 10px 2px #fd9a19; ">
+                `<div class="mx-1 chip white-text" style="background-color: #d67f0e; box-shadow: 0px 0px 10px 2px #fd9a19; ">
                             <img src="/img/trophy/trophy-chinpokomon.png">
                             <%= trans.UCCP %>
                         </div>`
@@ -604,7 +715,7 @@
         };
         if (profileyay.trophies.indexOf("rchinpokomon") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #fd9a19;">
+                `<div class="mx-1 chip white-text" style="background-color: #fd9a19;">
                             <img src="/img/trophy/trophy-chinpokomon.png">
                             <%= trans.RCCP %>
                         </div>`
@@ -612,7 +723,7 @@
         };
         if (profileyay.trophies.indexOf("ac18_1") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #fd9a19;">
+                `<div class="mx-1 chip white-text" style="background-color: #fd9a19;">
                             <img src="/img/trophy/trophy-art.png">
                             <%= trans.AC18_1 %>
                         </div>`
@@ -620,7 +731,7 @@
         };
         if (profileyay.trophies.indexOf("ac18_2") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #838383;">
+                `<div class="mx-1 chip white-text" style="background-color: #838383;">
                             <img src="/img/trophy/trophy-art.png">
                             <%= trans.AC18_2 %>
                         </div>`
@@ -628,7 +739,7 @@
         };
         if (profileyay.trophies.indexOf("ac18_3") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #a55029;">
+                `<div class="mx-1 chip white-text" style="background-color: #a55029;">
                             <img src="/img/trophy/trophy-art.png">
                             <%= trans.AC18_3 %>
                         </div>`
@@ -636,7 +747,7 @@
         };
         if (profileyay.trophies.indexOf("ac18ww") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #7289DA;">
+                `<div class="mx-1 chip white-text" style="background-color: #7289DA;">
                             <img src="/img/trophy/trophy-art.png">
                             <%= trans.AC18WW %>
                         </div>`
@@ -644,7 +755,7 @@
         };
         if (profileyay.trophies.indexOf("cc18_1") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #fd9a19;">
+                `<div class="mx-1 chip white-text" style="background-color: #fd9a19;">
                             <img src="/img/trophy/trophy-crayon.png">
                             <%= trans.CC18_1 %>
                         </div>`
@@ -652,7 +763,7 @@
         };
         if (profileyay.trophies.indexOf("cc18_2") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #838383;">
+                `<div class="mx-1 chip white-text" style="background-color: #838383;">
                             <img src="/img/trophy/trophy-crayon.png">
                             <%= trans.CC18_2 %>
                         </div>`
@@ -660,7 +771,7 @@
         };
         if (profileyay.trophies.indexOf("cc18_3") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #a55029;">
+                `<div class="mx-1 chip white-text" style="background-color: #a55029;">
                             <img src="/img/trophy/trophy-crayon.png">
                             <%= trans.CC18_3 %>
                         </div>`
@@ -668,7 +779,7 @@
         };
         if (profileyay.trophies.indexOf("cc18ww") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #7289DA;">
+                `<div class="mx-1 chip white-text" style="background-color: #7289DA;">
                             <img src="/img/trophy/trophy-crayon.png">
                             <%= trans.CC18WW %>
                         </div>`
@@ -676,7 +787,7 @@
         };
         if (profileyay.trophies.indexOf("awesomo-1") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #4e9ffb;">
+                `<div class="mx-1 chip white-text" style="background-color: #4e9ffb;">
                             <img src="/img/trophy/trophy-1.0.png">
                             <%= trans.AWESOMO_1 %>
                         </div>`
@@ -684,7 +795,7 @@
         };
         if (profileyay.trophies.indexOf("awesomo-2") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #68358a;">
+                `<div class="mx-1 chip white-text" style="background-color: #68358a;">
                             <img src="/img/trophy/trophy-2.0.png">
                             <%= trans.AWESOMO_2 %>
                         </div>`
@@ -692,7 +803,7 @@
         };
         if (profileyay.trophies.indexOf("verified-script") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #222222;">
+                `<div class="mx-1 chip white-text" style="background-color: #222222;">
                             <img src="/img/trophy/trophy-code.png">
                             <%= trans.VERIFIED_SCRIPTER %>
                         </div>`
@@ -700,7 +811,7 @@
         };
         if (profileyay.trophies.indexOf("featured-script") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-auto chip white-text" style="background-color: #222222;">
+                `<div class="mx-1 chip white-text" style="background-color: #222222;">
                             <img src="/img/trophy/trophy-code.png">
                             <%= trans.FEATURED_SCRIPT %>
                         </div>`
@@ -720,28 +831,27 @@
             //fill out da form
             $('#form-imageurl').attr("value", meyay.banner);
             $('#form-bio').attr("value", meyay.bio);
-            $('#form-about').text(meyay.about);
+            $('#form-about').text(moduleAbout.content[0]);
 
-            if (meyay.socials !== undefined && meyay.socials.length !== 0) {
-
+            if (meyay.socials[0] !== undefined && meyay.socials.length !== 0) {
                 $('#form-social-name1').attr("value", meyay.socials[0].name);
                 $('#form-social-url1').attr("value", meyay.socials[0].url);
-
+            };
+            if (meyay.socials[1] !== undefined && meyay.socials.length !== 0) {
                 $('#form-social-name2').attr("value", meyay.socials[1].name);
                 $('#form-social-url2').attr("value", meyay.socials[1].url);
-
+            }
+            if (meyay.socials[2] !== undefined && meyay.socials.length !== 0) {
                 $('#form-social-name3').attr("value", meyay.socials[2].name);
                 $('#form-social-url3').attr("value", meyay.socials[2].url);
-            };
+            }
 
         };
 
-        let artworkcunt = meyay.artwork.length;
-
-        for (let i = 0; i < meyay.artwork.length; i++) {
+        for (let i = 0; i < moduleArtwork.content.length; i++) {
             $("#form-artwork-section").append(
                 `
-        <input placeholder="<%= trans.ENTER_IMAGE_URL %>" value="${meyay.artwork[i]}" type="text" id="form-artwork-${i}" class="form-control form-art-api">
+        <input placeholder="<%= trans.ENTER_IMAGE_URL %>" value="${moduleArtwork.content[i]}" type="text" id="form-artwork-${i}" class="form-control form-art-api">
         `
             );
         };
@@ -956,6 +1066,12 @@
             }
         };
 
+        $("#modalEdit").on('show.bs.modal', function () {
+            socialIconChanger1();
+            socialIconChanger2();
+            socialIconChanger3();
+        });
+
         window.onload = () => {
             socialIconChanger1();
             socialIconChanger2();
@@ -964,7 +1080,31 @@
             const aboutcheckbox = document.getElementById("form-about-checkbox");
             const artworkcheckbox = document.getElementById("form-artwork-checkbox");
 
-            if (meyay.modules.about === true) {
+        let moduleAbout = profileyay.modules.find(e => e.name === "about");
+        if (moduleAbout === undefined) {
+
+            // about doesnt exist, set defaults
+            moduleAbout = {
+
+                name: "about",
+                content: ["This user has not added anything to this section. :("],
+                enabled: true
+            };
+        }
+
+        let moduleArtwork = profileyay.modules.find(e => e.name === "about");
+        if (moduleArtwork === undefined) {
+
+            // artwork doesnt exist, set defaults
+            moduleArtwork = {
+
+                name: "artwork",
+                content: ["https://cdn.discordapp.com/attachments/379432139856412682/500025347752853513/unknown.png"],
+                enabled: true
+            };
+        }
+
+            if (moduleAbout.enabled === true) {
                 aboutcheckbox.checked = true;
                 $("#form-about-section").show();
                 $("#about-label").html("<strong><%= trans.ABOUT_SECTION %></strong>");
@@ -986,7 +1126,7 @@
                 }
             }
 
-            if (meyay.modules.artwork === true) {
+            if (moduleArtwork.enabled === true) {
                 artworkcheckbox.checked = true;
                 $("#form-artwork-section").show();
                 $("#artwork-label").html("<strong><%= trans.ARTWORK_SHOWCASE %></strong>");
@@ -1010,7 +1150,7 @@
             $("#form-artwork-add").click(function () {
                 $("#form-artwork-section").append(
                     `
-            <input placeholder="<%= trans.ENTER_IMAGE_URL %>" value="" type="text" id="form-artwork-${artworkcunt++}" class="form-control form-art-api">
+            <input placeholder="<%= trans.ENTER_IMAGE_URL %>" value="" type="text" id="form-artwork-${moduleArtwork.content.length++}" class="form-control form-art-api">
         `
                 );
             });
@@ -1046,42 +1186,63 @@
                     const artwork_checkbox = document.getElementById("form-artwork-checkbox");
                     const about = document.getElementById("form-about");
                     const artwork = document.getElementsByClassName("form-art-api");
+                    const socials_1 = {
+                        icon: social_icon_1,
+                        name: social_name_1.value,
+                        url: social_url_1.value
+                    }
+                    const socials_2 = {
+                        icon: social_icon_2,
+                        name: social_name_2.value,
+                        url: social_url_2.value
+                    }
+                    const socials_3 = {
+                        icon: social_icon_3,
+                        name: social_name_3.value,
+                        url: social_url_3.value
+                    }
                     const body = {
                         banner: banner.value,
                         bio: bio.value,
-                        socials: [{
-                                icon: social_icon_1,
-                                name: social_name_1.value,
-                                url: social_url_1.value
+                        socials: [],
+                        modules: [{
+                                name: "about",
+                                content: [about.value],
+                                enabled: about_checkbox.checked
                             },
                             {
-                                icon: social_icon_2,
-                                name: social_name_2.value,
-                                url: social_url_2.value
-                            },
-                            {
-                                icon: social_icon_3,
-                                name: social_name_3.value,
-                                url: social_url_3.value
+                                name: "artwork",
+                                content: [],
+                                enabled: artwork_checkbox.checked
                             }
-                        ],
-                        modules: {
-                            about: about_checkbox.checked,
-                            artwork: artwork_checkbox.checked
-                        },
-                        about: about.value,
-                        artwork: []
+                        ]
+                    };
+                    for (let i = 0; i < artwork.length; i++) {
+                        if (artwork[i].value === "Enter an Image URL" || artwork[i].value === ""){
+                            
+                        } else {body.modules[1].content.push(artwork[i].value);}
+                        
+                    }
+                    
+                    if (social_name_1.value == "" || social_url_1.value == ""){
+                    } else {
+                        body.socials.push(socials_1);
+                    }
+                    if (social_name_2.value === "" || social_url_2.value === ""){
+                    } else {
+                        body.socials.push(socials_2);
+                    }
+                    if (social_name_3.value == "" || social_url_3.value == ""){
+                    } else {
+                        body.socials.push(socials_3);
                     }
 
-                    for (let art of artwork) {
-
-                        body.artwork.push(art.value);
-                    }
-
+                    const id = window.location.pathname.substring(20);
                     const upd = new XMLHttpRequest();
-                    upd.open("PATCH", `/api/v3/users/@me`, false);
+                    upd.open("PATCH", `/api/v3/users/` + id, false);
                     upd.setRequestHeader("Content-Type", "application/json");
                     upd.send(JSON.stringify(body));
+                    
 
                     const upd_res = JSON.parse(upd.response);
                     if (upd_res.status === 200) {
@@ -1100,8 +1261,7 @@
                     }
                 }
             }
-
-        };
+        }
     </script>
 
 
