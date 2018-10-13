@@ -29,8 +29,14 @@
 
     <link href="/css/style.css" rel="stylesheet">
 
-    <body class="fixed-sn">
-        <!--
+    <style>
+        .top-shits{
+            height: 100%;
+        }
+    </style>
+
+<body class="fixed-sn">
+    <!--
     <div id="mdb-preloader" class="flex-center">
         <div id="preloader-markup" class="text-center">
             <img src="/img/headerlogo.png">
@@ -51,446 +57,341 @@
         </div>
     </div>
 -->
-        <%- include ../partials/d-navbar.ejs %>
-            <!--Main Layout-->
+    <%- include ../partials/d-navbar.ejs %>
+    <!--Main Layout-->
 
 
-            <main>
+    <main>
 
-                <div class="container-fluid">
-                    <div class="col-md-12 col-sm-12 pb-2">
-                        <div class="text-center" style="width: 100%">
-                            <h1 class="font-weight-bold mb-2 mt-2 mb-5">
-                                <%= trans.WELCOME %>
-                                    <%= user_data.username %>
-                                        <br>
-                                        <%= trans.WELCOME_DASH_2 %>
-                            </h1>
+        <div class="container-fluid">
+            <div class="col-md-12 col-sm-12 pb-2">
+                <div class="text-center" style="width: 100%">
+                    <h1 class="font-weight-bold mb-2 mt-2 mb-5">
+                        <%= trans.WELCOME %>
+                        <%= user_data.username %>
+                        <br>
+                        <%= trans.WELCOME_DASH_2 %>
+                    </h1>
+                </div>
+            </div>
+            <!-- First row -->
+            <!-- Card deck -->
+
+            <div class="row row-eq-height mt-2">
+                <!-- First column -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <!-- Card -->
+                    <div class="card card-image mb-4 top-shits" style="background-image: url(/img/servers_ico.jpg);">
+                        <!-- Content -->
+                        <div class="text-white text-center d-flex top-shits align-items-center rgba-red-strong waves-effect py-5 px-4">
+                            <div class="mx-auto">
+                                <h4 class="card-title font-weight-bold">
+                                    <strong>
+                                        <%= trans.TOTAL_SERVERS %></strong>
+                                </h4>
+                                <h2 id="servers-total" class="card-title">
+
+                                </h2>
+                                <p class="">
+                                    <%= trans.DISCORD_SERVERS %>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                    <!-- First row -->
-                    <div class="row mt-2">
-                        <!-- First column -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <!--Card-->
-                            <div class="card card-cascade cascading-admin-card">
+                </div>
 
-                                <!--Card Data-->
-                                <div class="admin-up">
-                                    <i class="fa fa-globe primary-color"></i>
-                                    <div class="data">
-                                        <p>
-                                            <%= trans.TOTAL_ONLINE %>
-                                        </p>
-                                        <h3 class="font-weight-bold dark-grey-text">60</h3>
-                                    </div>
-                                </div>
-                                <!--/.Card Data-->
+                <!-- Second column -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <!-- Card -->
+                    <div class="card card-image mb-4 top-shits" style="background-image: url(/img/online_ico.jpg);">
+                        <!-- Content -->
+                        <div class="text-white top-shits text-center d-flex top-shits align-items-center rgba-green-strong waves-effect py-5 px-4">
+                            <div class="mx-auto mt-1">
+                                <h4 class="card-title font-weight-bold">
+                                    <strong>
+                                        <%= trans.TOTAL_ONLINE%></strong>
+                                </h4>
+                                <h2 id="members-online" class="card-title">
 
-                                <!--Card content-->
-                                <div class="card-body">
-                                    <div class="progress">
-                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 19%"></div>
-                                    </div>
-                                    <!--Text-->
-                                    <p class="card-text">
-                                        <%= trans.OUT_OF %> 311
-                                            <%= trans.TOTAL_USERS %>
-                                    </p>
-                                </div>
-                                <!--/.Card content-->
-
+                                </h2>
+                                <p class="">
+                                    <%= trans.OUT_OF%> <span id="members-total"></span>
+                                    <%= trans.TOTAL_USERS%>
+                                </p>
                             </div>
-                            <!--/.Card-->
-                        </div>
-
-                        <!-- Second column -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <!--Card-->
-                            <div class="card card-cascade cascading-admin-card">
-
-                                <!--Card Data-->
-                                <div class="admin-up">
-                                    <i class="fa fa-bar-chart warning-color"></i>
-                                    <div class="data">
-                                        <p>
-                                            <%= trans.ACTIVITY_RANKING %>
-                                        </p>
-                                        <h3 class="font-weight-bold dark-grey-text">23
-                                            <%= trans.DATE_RD %>
-                                        </h3>
-                                    </div>
-                                </div>
-                                <!--/.Card Data-->
-
-                                <!--Card content-->
-                                <div class="card-body">
-                                    <div class="progress">
-                                        <div class="progress-bar warning-color" role="progressbar" style="width: 90%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <!--Text-->
-                                    <p class="card-text">
-                                        <%= trans.OUT_OF %> 311
-                                            <%= trans.TOTAL_USERS %>
-                                    </p>
-                                </div>
-                                <!--/.Card content-->
-
-                            </div>
-                            <!--/.Card-->
-                        </div>
-
-                        <!-- Third column -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <!--Card-->
-                            <div class="card card-cascade cascading-admin-card">
-
-                                <!--Card Data-->
-                                <div class="admin-up">
-                                    <i class="fa fa-code light-blue lighten-1"></i>
-                                    <div class="data">
-                                        <p>
-                                            <%= trans.TOTAL_COMMANDS_USED %>
-                                        </p>
-                                        <h3 class="font-weight-bold dark-grey-text">21,479</h3>
-                                    </div>
-                                </div>
-                                <!--/.Card Data-->
-
-                                <!--Card content-->
-                                <div class="card-body">
-                                    <div class="progress">
-                                        <div class="progress-bar light-blue lighten-1" role="progressbar" style="width: 75%"></div>
-                                    </div>
-                                    <!--Text-->
-                                    <p class="card-text">
-                                        <%= trans.SO_FAR_THIS_MONTH %>
-                                    </p>
-                                </div>
-                                <!--/.Card content-->
-
-                            </div>
-                            <!--/.Card-->
-                        </div>
-
-                        <!-- Fourth column -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <!--Card-->
-                            <div class="card card-cascade cascading-admin-card">
-
-                                <!--Card Data-->
-                                <div class="admin-up">
-                                    <p class="fa fa-exclamation-circle brown accent-2"></p>
-                                    <div class="data">
-                                        <p>
-                                            <%= trans.IT_HITS_THE_FAN %>
-                                        </p>
-                                        <h3 class="font-weight-bold dark-grey-text">4,567
-                                            <%= trans.SHITS %>
-                                        </h3>
-                                    </div>
-                                </div>
-                                <!--/.Card Data-->
-
-                                <!--Card content-->
-                                <div class="card-body">
-                                    <div class="progress">
-                                        <div class="progress-bar brown accent-2" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <!--Text-->
-                                    <p class="card-text">
-                                        <%= trans.SHITS_DESC %>
-                                    </p>
-                                </div>
-                                <!--/.Card content-->
-
-                            </div>
-                            <!--/.Card-->
                         </div>
                     </div>
-                    <!-- /.First row -->
+                </div>
 
-                    <!-- Second row -->
+                <!-- Third column -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <!-- Card -->
+                    <div class="card card-image mb-4 top-shits" style="background-image: url(/img/messages_ico.jpg);">
+                        <!-- Content -->
+                        <div class="text-white text-center top-shits d-flex align-items-center rgba-blue-strong waves-effect py-5 px-4">
+                            <div class="mx-auto mt-1">
+                                <h4 class="card-title font-weight-bold">
+                                    <strong>
+                                        <%= trans.TOTAL_COMMANDS_USED %></strong>
+                                </h4>
+                                <h2 id="commands-used" class="card-title">
 
-                    <div class="row">
-
-                        <!-- First column -->
-
-                        <div class="col-lg-6 col-md-12">
-
-                            <!-- <div class="card mb-4 text-center py-3 blue-gradient white-text">
-                                <div id="world-map" class="mx-auto" style="width:96%;height:420px;"></div>
+                                </h2>
+                                <p class="">
+                                    <%= trans.SO_FAR_THIS_UPDATE %>
+                                </p>
                             </div>
-                        -->
-                            <!-- Panel -->
-
-                            <div class="card mb-4">
-                                <div class="card-header white-text primary-color">
-                                    AWESOM-O around the world!
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-
-                                        <table class="table">
-                                                
-                                            <thead>
-                                                <tr>
-                                                    <th class="font-weight-bold dark-grey-text">#</th>
-                                                    <th class="font-weight-bold dark-grey-text"></th>
-                                                    <th class="font-weight-bold dark-grey-text">Country</th>
-                                                    <th class="font-weight-bold dark-grey-text">Number of Users</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="awesomo-global">
-
-                                            </tbody>
-                                        </table>
-
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <!-- /.Panel -->
-
                         </div>
-
-                        <!-- /.First column -->
-
-                        <div class="col-lg-6 col-md-12">
-
-                            <!-- Card -->
-                            <div class="card card-image mb-4" style="background-image: url(https://cdn.discordapp.com/attachments/456771924639612940/466128291171008522/banner.png);">
-                                <a href="/dashboard/scripts/marketplace<%= trans.LANG %>">
-                                    <!-- Content -->
-                                    <div class="text-white text-center d-flex align-items-center rgba-red-strong waves-effect py-5 px-4">
-                                        <div class="mx-auto">
-                                            <h1 class="card-title pt-3 mt-5 mb-5 font-bold">
-                                                <strong>Visit the Marketplace!</strong>
-                                            </h1>
-                                        </div>
-                                    </div>
-                                    <!-- Content -->
-                                </a>
-                            </div>
-
-                            <!--Section: Intro-->
-                            <section class="mt-lg-5">
-
-                                <!--Grid row-->
-                                <div class="row">
-
-                                    <!--Grid column-->
-                                    <div class="col-md-6 mb-4">
-
-                                        <!--Panel-->
-                                        <div class="card">
-                                            <div class="card-header white-text grey darken-1">
-                                                Orders
-                                            </div>
-
-                                            <h6 class="ml-4 pt-4 mt-1 dark-grey-text font-weight-bold">
-                                                <i class="fa fa-long-arrow-up blue-text mr-3" aria-hidden="true"></i> 2000</h6>
-                                            <!--/.Card Data-->
-
-                                            <!--Card content-->
-                                            <div class="card-body">
-                                                <div class="progress">
-                                                    <div class="progress-bar grey darken-2" role="progressbar" style="width: 45%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                                <!--Text-->
-                                                <p class="font-small grey-text">Better than last week (25%)</p>
-                                            </div>
-                                            <!--/.Card content-->
-
-                                        </div>
-                                        <!--/.Panel-->
-
-                                    </div>
-                                    <!--Grid column-->
-
-                                    <!--Grid column-->
-                                    <div class=" col-md-6 mb-4">
-
-                                        <!--Panel-->
-                                        <div class="card">
-                                            <div class="card-header white-text warning-color">
-                                                Monthly sales
-                                            </div>
-
-                                            <h6 class="ml-4 pt-4 mt-1 dark-grey-text font-weight-bold">
-                                                <i class="fa fa-long-arrow-up blue-text mr-3" aria-hidden="true"></i> $ 2000</h6>
-                                            <!--/.Card Data-->
-
-                                            <!--Card content-->
-                                            <div class="card-body">
-                                                <div class="progress">
-                                                    <div class="progress-bar grey darken-2" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                                <!--Text-->
-                                                <p class="font-small grey-text">Better than last week (25%)</p>
-                                            </div>
-                                            <!--/.Card content-->
-
-                                        </div>
-                                        <!--/.Panel-->
-
-                                    </div>
-                                    <!--Grid column-->
-                                </div>
-                                <!--Grid row-->
-                            </section>
-
-                            <!-- Second column -->
-
-
-                            <!-- /.Second column -->
-
-                        </div>
-
-                        <!-- /.Second row -->
-
                     </div>
+                </div>
 
-            </main>
+                <!-- Fourth column -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <!-- Card -->
+                    <div class="card card-image mb-4 top-shits" style="background-image: url(https://cdn.discordapp.com/attachments/456771924639612940/466128291171008522/banner.png);">
+                        <div class="text-white text-center top-shits d-flex align-items-center rgba-orange-strong waves-effect py-5 px-4">
+                            <div class="mx-auto mt-1">
+                                <h4 class="card-title font-weight-bold">
+                                    <strong>
+                                        <%= trans.TOTAL_COMMANDS %></strong>
+                                </h4>
+                                <h2 id="commands-total" class="card-title">
 
-
-            <%- include ../partials/footer.ejs %>
-
-                <!--/.Footer-->
-
-
-                <!-- SCRIPTS -->
-
-                <!-- JQuery -->
-                <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
-
-                <!-- Bootstrap tooltips -->
-                <script type="text/javascript" src="/js/popper.min.js"></script>
-
-                <!-- Bootstrap core JavaScript -->
-                <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-
-                <!-- MDB core JavaScript -->
-                <script type="text/javascript" src="/js/mdb.min.js"></script>
-
-                <!-- JVectorMap -->
-                <link rel="stylesheet" href="/css/jvectormap.css" type="text/css" media="screen" />
-                <script src="/js/jvectormap.js"></script>
-                <script src="/js/jvectormap-mil.js"></script>
-
-                <script>
-                    //Animation init
-                    new WOW().init();
-
-                    //Modal
-                    $('#myModal').on('shown.bs.modal', function () {
-                        $('#myInput').focus()
-                    })
-
-                    // Material Select Initialization
-                    $(document).ready(function () {
-                        $('.mdb-select').material_select();
-
-                        const geo = new XMLHttpRequest();
-                        geo.open("GET", `http://www.geoplugin.net/json.gp`, false);
-                        geo.send();
-                        const geoYay = JSON.parse(geo.response);
-
-                        const locdata = {
-                            id: "<%= user_data.id %>",
-                            country_code: geoYay.geoplugin_countryCode,
-                            country: geoYay.geoplugin_countryName,
-                            region: geoYay.geoplugin_region,
-                            city: geoYay.geoplugin_city
-                        }
-
-                        const locations = [];
-
-                        locations.push(locdata)
-
-                        console.log(window.navigator.languages)
-
-                        for (let i = 0; i < locations.length; i++) {
-                            $("#awesomo-global").append(
-                                `
-                                <tr>
-                                    <td>
-                                    </td>
-                                    <td class="text-right">
-                                        <i class="flag flag-${locations[i].country_code.toLowerCase()}" />
-                                    </td>
-                                    <td>${locations[i].country}</td>
-                                    <td>${i + 1}</td>
-                                </tr>
-                        `
-                            )
-                        };
+                                </h2>
+                                <p class="">
+                                    <%= trans.MARKETPLACE_DESC %>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
-                    });
+            <div class="row row-eq-height mt-2">
+                <!-- First column -->
+                <div class="col-xl-6 col-md-12 mb-4">
+                    <!-- Card -->
+                    <a href="https://twitter.com/feinwaru/">
+                    <div class="card card-image mb-4 top-shits" style="background-image: url(https://tyinternety.cz/wp-content/uploads/2017/09/twitter.png);">
+                        <!-- Content -->
+                        <div class="text-white text-center d-flex top-shits align-items-center rgba-light-blue-light waves-effect py-5 px-4">
+                            <div class="mx-auto">
 
-                    // SideNav Button Initialization
-                    $(".button-collapse").sideNav();
-                    // SideNav Scrollbar Initialization
-                    var sideNavScrollbar = document.querySelector('.custom-scrollbar');
-                    Ps.initialize(
-                        sideNavScrollbar);
+                                <h4 class="card-title font-weight-bold">
 
-                    // Tooltips Initialization
-                    $(function () {
-                        $('[data-toggle="tooltip"]').tooltip()
-                    })
-                </script>
-                <script>
-                    function country2emoji(country_code) {
-                        var OFFSET = 127397;
-                        var cc = country_code.toUpperCase();
+                                    <i class="fab fa-twitter mr-2"></i>
+                                    <%= trans.LATEST_TWEET%>
+                                </h4>
+                                <p class="">
+                                    Father Maxi now available on https://sppd.feinwaru.com/FathermaxiMysCard … !!
+                                </p>
+                                <p class="font-italic">12:34 PM - 9 Oct 2018</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                </div>
 
-                        function _toConsumableArray(arr) {
-                            if (Array.isArray(arr)) {
-                                for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-                                    arr2[i] = arr[i];
-                                }
-                                return arr2;
-                            } else {
-                                return Array.from(arr);
-                            }
-                        }
-                        return /^[A-Z]{2}$/.test(cc) ? String.fromCodePoint.apply(String,
-                            _toConsumableArray([].concat(_toConsumableArray(cc)).map(function (c) {
-                                return c.charCodeAt() + OFFSET;
-                            }))) : null;
-                    }
+                <!-- Fourth column -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                        <a href="https://status.feinwaru.com/">
+                    <!-- Card -->
+                    <div class="card card-image mb-4 top-shits" style="background-image: url(https://cdn.discordapp.com/attachments/379432139856412682/500660127624462357/unknown.png);">
+                        <div class="text-white text-center top-shits d-flex align-items-center rgba-yellow-strong waves-effect py-5 px-4">
+                            <div class="mx-auto mt-1">
+                                <h4 class="card-title font-weight-bold">
+                                    <strong>
+                                        <%= trans.STATUS %></strong>
+                                </h4>
+                                <p class="">
+                                    <span id="status-status"></span> // <span id="status-ping"></span>ms // <span id="status-uptime"></span>%
+                                    Uptime
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                </div>
 
-                    $(function () {
+                <!-- Third column -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <!-- Card -->
+                    <a href="https://discord.feinwaru.com/">
+                    <div class="card card-image mb-4 top-shits" style="background-image: url(/img/logo_red_grey.png);">
+                        <!-- Content -->
+                        <div class="text-white text-center top-shits d-flex align-items-center rgba-indigo-strong waves-effect py-5 px-4">
+                            <div class="mx-auto mt-1">
+                                <h4 class="card-title font-weight-bold">
+                                    <strong>
+                                        <%= trans.FEINWARU_DISCORD%></strong>
+                                </h4>
+                                <p class="">
+                                    <%= trans.JOIN_OUR_DISCORD %>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                </div>
 
-                        colors = {};
-                        colors['us'] = '#87CEEB';
+            </div>
 
-                        $('#world-map').vectorMap({
-                            colors: colors,
-                            hoverOpacity: 0.7, // opacity for :hover
-                            hoverColor: false,
-                            color: '#aaaaaa',
-                            regionStyle: {
-                                initial: {
-                                    fill: '#ffffff'
-                                }
-                            },
-                            series: {
-                                regions: [{
-                                    values: {
-                                        US: '#00ff00'
-                                    }
-                                }]
-                            }
-                        });
+            <!-- Second row -->
+            <div class="row row-eq-height mt-2">
+                <!-- First column -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <!-- Card -->
+                    <a href="/dashboard/scripts/marketplace">
+                    <div class="card card-image mb-4 top-shits" style="background-image: url(https://cdn.discordapp.com/attachments/456771924639612940/466128291171008522/banner.png);">
+                        <!-- Content -->
+                        <div class="text-white text-center top-shits d-flex align-items-center rgba-pink-strong waves-effect py-5 px-4">
+                            <div class="mx-auto mt-1">
+                                <h4 class="card-title font-weight-bold">
+                                    <strong>
+                                        <%= trans.AWESOMO_MARKETPLACE%></strong>
+                                </h4>
+                                <p class="">
+                                    <%= trans.MARKETPLACE_DASH_DESC %>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                </div>
 
-                    });
-                </script>
-                <!-- /.JVectorMap -->
+                <!-- Fourth column -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <!-- Card -->
+                    <a href="/help/dashboard/">
+                    <div class="card card-image mb-4 top-shits" style="background-image: url(/img/mackey.png);">
+                        <div class="text-white text-center top-shits d-flex align-items-center rgba-brown-strong waves-effect py-5 px-4">
+                            <div class="mx-auto mt-1">
+                                <h4 class="card-title font-weight-bold">
+                                    <strong>
+                                        <%= trans.HELP_AND_SUPPORT %></strong>
+                                </h4>
+                                <p class="">
+                                    <%= trans.HELP_DESC %>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                </div>
+                <div class="col-xl-6 col-md-12 mb-4">
+                    <!-- Card -->
+                    <a href="https://blog.feinwaru.com/">
+                        <div class="card card-image mb-4 top-shits" style="background-image: url(https://www.timeshighereducation.com/sites/default/files/styles/the_breaking_news_image_style/public/book-spines-viewed-from-above.jpg);">
+                            <div class="text-white text-center d-flex top-shits align-items-center rgba-teal-strong waves-effect py-5 px-4">
+                                <div class="mx-auto">
 
-    </body>
+                                    <h4 class="card-title font-weight-bold">
+
+                                        <i class="fab fa-tumblr mr-2"></i>
+                                        <%= trans.LATEST_BLOG_UPDATES %>
+                                    </h4>
+                                    <p class="">
+                                        ur mom gay lol
+                                    </p>
+                                    <p class="font-italic">
+                                        <%= trans.CLICK_TO_READ %>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+    </main>
+
+
+    <%- include ../partials/footer.ejs %>
+
+    <!--/.Footer-->
+
+
+    <!-- SCRIPTS -->
+
+    <!-- JQuery -->
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="/js/popper.min.js"></script>
+
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="/js/mdb.min.js"></script>
+
+    <!-- JVectorMap -->
+    <link rel="stylesheet" href="/css/jvectormap.css" type="text/css" media="screen" />
+    <script src="/js/jvectormap.js"></script>
+    <script src="/js/jvectormap-mil.js"></script>
+
+    <script>
+        //Animation init
+        new WOW().init();
+
+        //Modal
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').focus()
+        })
+
+        // Material Select Initialization
+        $(document).ready(function () {
+            $('.mdb-select').material_select();
+        });
+
+        // SideNav Button Initialization
+        $(".button-collapse").sideNav();
+        // SideNav Scrollbar Initialization
+        var sideNavScrollbar = document.querySelector('.custom-scrollbar');
+        Ps.initialize(
+            sideNavScrollbar);
+
+        // Tooltips Initialization
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+        window.onload = () => {
+
+            const totalServers = document.getElementById("servers-total");
+            const membersOnline = document.getElementById("members-online");
+            const membersTotal = document.getElementById("members-total");
+            const commandsUsed = document.getElementById("commands-used");
+            const commandsTotal = document.getElementById("commands-total");
+            //const latestTweetText = document.getElementById("tweet-text");
+            //const latestTweetDate = document.getElementById("tweet-date");
+            const statusStatus = document.getElementById("status-status");
+            const statusPing = document.getElementById("status-ping");
+            const statusUptime = document.getElementById("status-uptime");
+            //const latestUpdate = document.getElementById("update-text");
+
+            const stats = new XMLHttpRequest();
+            stats.open("GET", "/api/v3/stats", false);
+            stats.send();
+
+            const statsYay = JSON.parse(stats.response);
+
+            totalServers.innerText = statsYay.stats.servers;
+            membersOnline.innerText = statsYay.stats.members.online;
+            membersTotal.innerText = statsYay.stats.members.total;
+            commandsUsed.innerText = statsYay.stats.script_uses;
+            commandsTotal.innerText = statsYay.stats.total_scripts;
+            //latestTweetText.innerText = statsYay.stats.latest_tweet.text;
+            //latestTweetDate.innerText = statsYay.stats.latest_tweet.date;
+            statusStatus.innerText = statsYay.stats.status.status;
+            statusPing.innerText = statsYay.stats.status.ping;
+            statusUptime.innerText = Math.round(parseInt(statsYay.stats.status.uptime));
+            //latestUpdate.innerText = statsYay.stats.latest_update;
+        }
+    </script>
+
+
+</body>
 
 </html>

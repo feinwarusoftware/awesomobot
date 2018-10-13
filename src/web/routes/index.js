@@ -35,7 +35,7 @@ try {
 }
 
 const client = new discord.Client();
-client.login(config.discord_token);
+const hasLoggedIn = client.login(config.discord_token);
 
 router.use("/api/v3", api);
 router.get("/api/v3/uptime", (req, res) => {
@@ -58,6 +58,92 @@ router.get("/api/v3/uptime", (req, res) => {
 
         return res.json({ rip: "fucking rip" });
     });
+});
+
+const statsCacheTime = 30000;
+const cachedStats = {
+
+    expire: Date.now(),
+    stats: null
+};
+
+router.get("/api/v3/stats", async (req, res) => {
+
+    // total servers
+    // total members + online members
+    // commands used
+    // marketplace commands
+    // latest tweet
+    // status + ping
+    // latest update
+
+    await hasLoggedIn;
+
+    if (cachedStats.expire < Date.now()) {
+
+        cachedStats.stats = {};
+
+        const promises = [];
+
+        // total servers
+        cachedStats.stats.servers = client.guilds.size;
+
+        // online + total members
+        cachedStats.stats.members = {};
+        cachedStats.stats.members.online = client.guilds.map(g => g.members.array()).reduce((a, c) => a = a.concat(c)).filter(m => m.presence.status === "online").length;
+        cachedStats.stats.members.total = client.guilds.map(g => g.memberCount).reduce((a, c) => a + c);
+
+        // script uses
+        promises.push(schemas.ScriptSchema.aggregate([{
+            $group: {
+                _id: {},
+                total: {
+                    $sum: "$use_count"
+                }
+            }
+        }]).then(uses => {
+
+            cachedStats.stats.script_uses = uses[0].total;
+        }));
+
+        // total scripts
+        promises.push(schemas.ScriptSchema.count().then(count => cachedStats.stats.total_scripts = count));
+
+        // latest tweet
+        cachedStats.stats.latest_tweet = {};
+        cachedStats.stats.latest_tweet.text = "latest tweet text";
+        cachedStats.stats.latest_tweet.date = "latest tweet date";
+
+        // status + ping
+        promises.push(axios({
+            method: "post",
+            url: "https://api.uptimerobot.com/v2/getMonitors",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            data: {
+                "api_key": config.uptime_key,
+                "all_time_uptime_ratio": "1",
+                "response_times": "1",
+                "response_times_limit": "1"
+            }
+        }).then(api_res => {
+
+            cachedStats.stats.status = {};
+            cachedStats.stats.status.status = api_res.data.monitors[0].status === 2 ? "OK" : "ERROR";
+            cachedStats.stats.status.ping = api_res.data.monitors[0].response_times[0].value;
+            cachedStats.stats.status.uptime = api_res.data.monitors[0].all_time_uptime_ratio;
+        }));
+
+        // latest update
+        cachedStats.stats.latest_update = "latest update text";
+
+        await Promise.all(promises);
+
+        cachedStats.expire = Date.now() + statsCacheTime;
+    }
+
+    return res.json({ stats: cachedStats.stats });
 });
 
 router.get("/api/v3/patrons", (req, res) => {
@@ -136,7 +222,7 @@ router.get("/api/v3/sloc", (req, res) => {
 router.get("/dashboard/profiles/:discord_id", authUser, async (req, res) => {
 
     res.render("dashboard/profile")
-});
+});     
 
 router.get("/logout", async (req, res) => {
    

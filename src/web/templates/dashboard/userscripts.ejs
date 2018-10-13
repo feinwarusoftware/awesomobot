@@ -448,14 +448,20 @@
             ].join('\n'),
             language: 'javascript',
             theme: "MattIsTrueWaifu",
-            automaticLayout: true
+            automaticLayout: true,
+            minimap: {
+		enabled: false
+	}
         });
 
         const editorOptions = monaco.editor.create(document.getElementById('optionsEditor'), {
             value: [].join('\n'),
             language: 'json',
             theme: "MattIsTrueWaifu",
-            automaticLayout: true
+            automaticLayout: true,
+            minimap: {
+		enabled: false
+	}
         });
 
         const loadScripts = () => {

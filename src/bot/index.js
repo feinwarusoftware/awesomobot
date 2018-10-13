@@ -29,7 +29,7 @@ const schemas = require("../db");
 const Sandbox = require("./sandbox");
 
 const botLogger = new Logger();
-const botSandbox = new Sandbox({}, 2000);
+const botSandbox = new Sandbox({ Promise: null }, 2000);
 
 const isFile = fp => fs.lstatSync(fp).isFile();
 const getFilePathsInDir = fp => fs.readdirSync(fp).map(name => path.join(fp, name)).filter(isFile);

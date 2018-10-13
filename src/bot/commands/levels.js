@@ -28,6 +28,15 @@ const trophies = [];
 
 const getLevelData = xp => {
 
+    if (xp === 0) {
+
+        return {
+
+            level: 0,
+            progress: 0
+        };
+    }
+
     const levels = [0, 1, 250, 400, 550, 700, 850, 1000, 1200, 1400, 1600, 1800, 2000, 2250, 2500, 2750, 3000, 3300, 3600, 4000, 4500];
 
     let count = 0;
@@ -216,7 +225,7 @@ const levels = new Command({
                 let changed = false;
                 let modifiedAbout = users[0].bio;
 
-                const testHeight = getTextHeight(fontAbout, changed === true ? `${modifiedAbout}...` : modifiedAbout, 360);
+                //const testHeight = getTextHeight(fontAbout, changed === true ? `${modifiedAbout}...` : modifiedAbout, 360);
 
                 while (getTextHeight(fontAbout, changed === true ? `${modifiedAbout}...` : modifiedAbout, 360) > 150) {
 
@@ -280,7 +289,7 @@ const levels = new Command({
             })
             .catch(error => {
 
-                message.reply(`error fetching xp teehee: ${error}`);
+                message.reply(`error sending profile: ${error}`);
             });
         },
 

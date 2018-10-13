@@ -384,7 +384,7 @@ router.route("/:object_id").get(authUser, (req, res) => {
                 return res.json({ status: 404 });
             }
 
-            if (doc.author_id !== eq.user.discord_id && req.user.admin === false) {
+            if (doc.author_id !== req.user.discord_id && req.user.admin === false) {
 
                 return res.json({ status: 403 });
             }

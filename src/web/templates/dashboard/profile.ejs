@@ -551,7 +551,7 @@
                 `
         <li class="list-inline-item pr-2">
             <a href="${profileyay.socials[i].url}" class="white-text">
-            <i class="fab fa-${profileyay.socials[i].icon} pr-1"></i>${profileyay.socials[i].name}</a>
+            <i class="fa${profileyay.socials[i].icon === "globe" ? "" : "b"} fa-${profileyay.socials[i].icon} pr-1"></i>${profileyay.socials[i].name}</a>
         </li>
     `
             );
@@ -870,7 +870,7 @@
             } else if (value.includes("facebook.com") == true) {
                 $("#form-social-icon1").removeClass();
                 $("#form-social-icon1").addClass("fab fa-facebook-f prefix");
-                $("#form-social-icon1").attr("social", "facebook");
+                $("#form-social-icon1").attr("social", "facebook-f");
             } else if (value.includes("deviantart.com") == true) {
                 $("#form-social-icon1").removeClass();
                 $("#form-social-icon1").addClass("fab fa-deviantart prefix");
@@ -940,7 +940,7 @@
             } else if (value.includes("facebook.com") == true) {
                 $("#form-social-icon2").removeClass();
                 $("#form-social-icon2").addClass("fab fa-facebook-f prefix");
-                $("#form-social-icon2").attr("social", "facebook");
+                $("#form-social-icon2").attr("social", "facebook-f");
             } else if (value.includes("deviantart.com") == true) {
                 $("#form-social-icon2").removeClass();
                 $("#form-social-icon2").addClass("fab fa-deviantart prefix");
@@ -1010,7 +1010,7 @@
             } else if (value.includes("facebook.com") == true) {
                 $("#form-social-icon3").removeClass();
                 $("#form-social-icon3").addClass("fab fa-facebook-f prefix");
-                $("#form-social-icon3").attr("social", "facebook");
+                $("#form-social-icon3").attr("social", "facebook-f");
             } else if (value.includes("deviantart.com") == true) {
                 $("#form-social-icon3").removeClass();
                 $("#form-social-icon3").addClass("fab fa-deviantart prefix");

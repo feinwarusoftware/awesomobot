@@ -4,7 +4,7 @@
     <ul class="custom-scrollbar">
         <!-- Logo -->
         <div class="logo-wrapper waves-light" style="border-style: none; height: 80px">
-            <a href="#">
+            <a href="/dashboard">
                 <img src="/img/navbar_dash_logo.png" class="img-fluid flex-center px-4 py-4">
 
             </a>
@@ -13,6 +13,30 @@
         <!-- Side navigation links -->
         <li>
             <ul class="collapsible collapsible-accordion">
+                    <li>
+                            <a class="collapsible-header waves-effect" href="/<%= trans.LANG %>">
+                                <%= trans.HOME %>
+                                    <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="collapsible-header waves-effect" href="/commands<%= trans.LANG %>">
+                                <%= trans.COMMANDS %>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="collapsible-header waves-effect" href="https://sppd.feinwaru.com">
+                                Phone Destroyer
+                            </a>
+                        </li>
+                        <li>
+                            <a class="collapsible-header waves-effect yellow-text" href="https://patreon.com/awesomo">
+                                <b>
+                                    <%= trans.PREMIUM %>
+                                </b>
+                            </a>
+                        </li>
+                <hr style="border-width: 2px;">
                 <li>
                     <a href="/dashboard<%= trans.LANG %>" class="waves-effect">
                         <i class="fa fa-home"></i>
@@ -169,17 +193,7 @@
             <i class="fa fa-bars"></i>
         </a>
     </div>
-    <ul class="nav navbar-nav nav-flex-icons ml-3">
-        <li class="nav-item">
-            <a class="nav-link" href="/<%= trans.LANG %>">
-                <i class="fa fa-chevron-left"></i>
-                <b>
-                    <%= trans.RETURN_TO_HOME %>
-                </b>
-                <span class="sr-only">(current)</span>
-            </a>
-        </li>
-    </ul>
+
     <ul class="nav navbar-nav nav-flex-icons ml-auto">
         <li class="nav-item avatar dropdown pr-2 mr-2">
             <a class="nav-link dropdown-toggle waves-effect waves-light rounded-circle" data-toggle="dropdown"
