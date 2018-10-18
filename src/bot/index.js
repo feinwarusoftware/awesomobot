@@ -203,9 +203,16 @@ client.on("emojiDelete", emoji => {
 client.on("emojiUpdate", (oldEmoji, newEmoji) => {
 
 });
+*/
+
+// temp error handling
+let lastMessage = null;
+
 client.on("error", error => {
-    //client
+    
+    console.error(`${lastMessage.author.username} - ${lastMessage.content}`);
 });
+/*
 client.on("guildBanAdd", (guild, user) => {
 
 });
