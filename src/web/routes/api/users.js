@@ -10,7 +10,58 @@ const { getUserData } = require("../../helpers");
 const router = express.Router();
 const apiLogger = new Logger();
 
-router.route("/").post(authAdmin, (req, res) => {
+const defaultSearchLimit = 5;
+const maxSearchLimit = 20;
+const defaultSearchPage = 0;
+
+const defaultValue = (param, def) => {
+
+    return param === undefined ? def : param;
+}
+
+router.route("/").get(authUser, (req, res) => {
+
+    const current = req.query.extended === "true" ? true : req.query.extended === "false" ? false : false; 
+
+    const sort_dir = req.query.reversed === "true" ? 1 : req.query.reversed === "false" ? -1 : -1;
+    const sort = {
+        ...( req.query.order === undefined ? {} : { [req.query.order]: sort_dir } )
+    }
+
+    // Parse the amount of scripts that the api will return.
+    let limit = parseInt(req.query.limit);
+    if (isNaN(limit)) {
+        limit = defaultSearchLimit;
+    }
+    limit = Math.min(limit, maxSearchLimit);
+
+    // Parse the current page of scripts that the api will return.
+    const page = defaultValue(req.query.page, defaultSearchPage);
+
+    // Parse other search parameters. Add only the allowed parameters into a new search object.
+    const search = {
+        ...( req.query.admin === undefined ? {} : { admin: req.query.admin } ),
+        ...( req.query.verified === undefined ? {} : { verified: req.query.verified } ),
+        ...( req.query.developer === undefined ? {} : { developer: req.query.developer } ),
+        ...( req.query.tier === undefined ? {} : { tier: req.query.tier } )
+    };
+
+    const promises = [];
+    
+    promises.push(schemas.UserSchema.count(search));
+    promises.push(schemas.UserSchema.find(search).skip(page * limit).limit(limit).sort(sort).select({ __v: 0, _id: 0 }));
+    
+    Promise.all(promises).then(data => {
+
+        return res.json({ status: 200, page, limit, total: data[0], users: data[1], ...( current === false ? {} : { current: req.user } ) });
+
+    }).catch(error => {
+
+        apiLogger.error(error);
+        return res.json({ status: 500 });
+    });
+
+}).post(authAdmin, (req, res) => {
 
     const params = {};
     params.discord_id = req.body.discord_id;
