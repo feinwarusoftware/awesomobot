@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 
 const schemas = require("../../../db");
 const Logger = require("../../../logger");
-const { authUser, authAdmin } = require("../../middlewares");
+const { authUser, authPremium, authAdmin } = require("../../middlewares");
 
 const router = express.Router();
 const apiLogger = new Logger();
@@ -77,13 +77,133 @@ const getUserGuilds = token => {
     });
 }
 
-router.route("/").post(authAdmin, (req, res) => {
+router.route("/premium/:discord_id").post(authPremium, async (req, res) => {
+
+    let limit = 0;
+
+    switch(req.user.tier) {
+        case "partner":
+            limit = 1;
+            break;
+        case "f":
+            limit = 1;
+            break;
+        case "bf":
+            limit = 2;
+            break;
+        case "sbf":
+            limit = 3;
+            break;
+        default:
+            limit = parseInt(req.user.tier);
+
+            if (isNaN(limit)) {
+
+                return res.json({ status: 400, message: "invalid tier" });
+            }
+    }
+
+    const current = await schemas.GuildSchema.find({ discord_id: { $in: req.user.premium } }).map(e => e.discord_id);
+    req.user.premium.filter(e => current.includes(e));
+
+    if (limit <= req.user.premium.length) {
+
+        return res.json({ status: 403, tier: req.user.tier, limit, used: req.user.premium.length });
+    }
+
+    schemas.GuildSchema
+        .findOne({
+            discord_id: req.params.discord_id
+        })
+        .then(doc => {
+            if (doc === null) {
+
+                return res.json({ status: 404 });
+            }
+
+            if (doc.premium === true) {
+
+                return res.json({ status: 400, message: "already premium" });
+            }
+
+            const promises = [];
+            promises.push(doc.update({ premium: true }));
+            promises.push(req.user.update({ premium: [...req.user.premium, doc.discord_id] }));
+
+            Promise.all(promises).then(() => {
+
+                res.json({ status: 200 });
+            }).catch(error => {
+
+                apiLogger.error(error);
+                return res.json({ status: 500 });
+            });
+        })
+        .catch(error => {
+
+            apiLogger.error(error);
+            return res.json({ status: 500 });
+        });
+});
+
+router.route("/premium/:discord_id").delete(authPremium, (req, res) => {
+
+    schemas.GuildSchema
+        .findOne({
+            discord_id: req.params.discord_id
+        })
+        .then(doc => {
+            if (doc === null) {
+
+                return res.json({ status: 404 });
+            }
+
+            const index = req.user.premium.indexOf(req.params.discord_id);
+
+            if (index === -1) {
+
+                return res.json({ status: 403, message: "you didnt give this guild premium" });
+            }
+
+            if (doc.premium === false) {
+
+                return res.json({ status: 400, message: "already not premium" });
+            }
+
+            req.user.premium.splice(index, 1);
+
+            const promises = [];
+            promises.push(doc.update({ premium: false }));
+            promises.push(req.user.update({ premium: req.user.premium }));
+
+            Promise.all(promises).then(() => {
+
+                res.json({ status: 200 });
+            }).catch(error => {
+
+                apiLogger.error(error);
+                return res.json({ status: 500 });
+            });
+        })
+        .catch(error => {
+
+            apiLogger.error(error);
+            return res.json({ status: 500 });
+        });
+});
+
+router.route("/").post(authUser, (req, res) => {
 
     const params = {};
     params.discord_id = req.body.discord_id;
     params.prefix = req.body.prefix;
     params.member_perms = req.body.member_perms;
     params.scripts = [];
+
+    if (req.user.admin === true) {
+
+        params.premium = req.body.premium === undefined ? true : req.body.premium;
+    }
 
     const guild = new schemas.GuildSchema(params);
 
@@ -237,6 +357,11 @@ router.route("/:discord_id").get(authUser, (req, res) => {
     const params = {};
     params.prefix = req.body.prefix;
     params.member_perms = req.body.member_perms;
+
+    if (req.user.admin === true) {
+
+        params.premium = req.body.premium;
+    }
 
     schemas.GuildSchema
         .findOne({

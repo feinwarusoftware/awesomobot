@@ -271,6 +271,11 @@ client.on("message", message => {
                 // bot not enabled on server
                 return;
             }
+            if (guild.premium === false) {
+
+                // bot not enabled on the server
+                return;
+            }
 
             schemas.UserSchema
                 .findOne({

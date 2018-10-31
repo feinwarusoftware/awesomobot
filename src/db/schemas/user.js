@@ -38,6 +38,7 @@ const UserSchema = new Schema({
     verified: { type: Boolean, default: false },
     developer: { type: Boolean, default: false },
     tier: { type: String, default: "free" },
+    premium: [ String ],
 
     xp: { type: Number, default: 0 },
     shits: { type: Number, default: 0 },

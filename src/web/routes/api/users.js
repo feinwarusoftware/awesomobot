@@ -77,6 +77,7 @@ router.route("/").get(authUser, (req, res) => {
         params.verified = req.body.verified;
         params.developer = req.body.developer;
         params.tier = req.body.tier;
+        params.premium = req.body.premium;
 
         params.xp = req.body.xp;
         params.shits = req.body.shits;
@@ -230,6 +231,7 @@ router.route("/:discord_id").get(authUser, (req, res) => {
         req.user.verified = req.body.verified === undefined ? req.user.verified : req.body.verified;
         req.user.developer = req.body.developer === undefined ? req.user.developer : req.body.developer;
         req.user.tier = req.body.tier === undefined ? req.user.tier : req.body.tier;
+        req.user.premium = req.body.premium === undefined ? req.user.premium : req.body.premium;
 
         req.user.xp = req.body.xp === undefined ? req.user.xp : req.body.xp;
         req.user.shits = req.body.shits === undefined ? req.user.shits : req.body.shits;
