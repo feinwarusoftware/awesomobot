@@ -210,7 +210,7 @@ let lastMessage = null;
 
 client.on("error", error => {
     
-    console.error(`big boii error: ${error}`);
+    console.error(`big boii error: ${JSON.stringify(error)}`);
 });
 /*
 client.on("guildBanAdd", (guild, user) => {
