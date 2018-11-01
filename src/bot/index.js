@@ -167,7 +167,7 @@ const loadCommands = () => {
 
 const commands = loadCommands().then(commands => commands).catch(error => botLogger.fatalError(`Error loading local scripts: ${error}`));
 
-const client = new discord.Client();
+let client = new discord.Client();
 
 /*
 client.on("channelCreate", channel => {
@@ -208,9 +208,22 @@ client.on("emojiUpdate", (oldEmoji, newEmoji) => {
 // temp error handling
 let lastMessage = null;
 
-client.on("error", error => {
+client.on("error", async error => {
     
-    console.error(`big boii error: ${JSON.stringify(error)}`);
+    console.error(new Date() + ": Discord client encountered an error");
+    console.error(error);
+
+    console.log("the bot may have crashed, attempting to restart...");
+    
+    client = new discord.Client();
+    
+    client.login(config.discord_token).then(() => {
+
+        botLogger.log("stdout", "logged into discord");
+    }).catch(error => {
+    
+        console.error(error);
+    });
 });
 /*
 client.on("guildBanAdd", (guild, user) => {
