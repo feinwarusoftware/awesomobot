@@ -505,23 +505,8 @@ router.get("/dashboard/leaderboards/legacy/v1", authUser, async (req, res) => {
     
         apiLogger.fatalError(`Could not read config file: ${err}`);
     }
-    let user;
-    try {
 
-        user = await axios({
-            method: "get",
-            url: `https://discordapp.com/api/v6/users/@me`,
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${req.session.discord.access_token}`
-            }
-        });
-    } catch(error) {
-
-        apiLogger.error(error);
-    }
-
-    res.render("dashboard/legacy-leaderboards", { user_data: { id: user.data.id, avatar: user.data.avatar, username: user.data.username }, v1:v1});
+    res.render("dashboard/legacy-leaderboards", {v1:v1});
 });
 
 router.get("/dashboard/leaderboards/legacy/v2", authUser, async (req, res) => {
@@ -534,23 +519,12 @@ router.get("/dashboard/leaderboards/legacy/v2", authUser, async (req, res) => {
     
         apiLogger.fatalError(`Could not read config file: ${err}`);
     }
-    let user;
-    try {
+    res.render("dashboard/legacy-leaderboards-2", {v2:v2});
+});
 
-        user = await axios({
-            method: "get",
-            url: `https://discordapp.com/api/v6/users/@me`,
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${req.session.discord.access_token}`
-            }
-        });
-    } catch(error) {
+router.get("/dashboard/leaderboards", authUser, (req, res) => {
 
-        apiLogger.error(error);
-    }
-
-    res.render("dashboard/legacy-leaderboards-2", { user_data: { id: user.data.id, avatar: user.data.avatar, username: user.data.username }, v2:v2});
+    res.render("dashboard/leaderboards");
 });
 
 router.get("/dashboard/scripts/editor/advanced", authUser, (req, res) => {

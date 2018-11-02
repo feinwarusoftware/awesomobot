@@ -813,7 +813,12 @@
                         </div>`
             )
         };
-
+        $("#trophycase").append(
+                `<div class="mx-1 chip white-text" style="background-color: #7a513f;">
+                            <img src="/img/trophy/trophy-shit.png">
+                            ${profileyay.shits} <%= trans.SHITS_GIVEN %>
+                        </div>`
+            )
 
         const me = new XMLHttpRequest();
         me.open("GET", `/api/v3/users/@me?extended=true`, false);

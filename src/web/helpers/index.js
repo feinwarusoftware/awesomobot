@@ -171,11 +171,73 @@ const getUserData = token => {
     });
 }
 
+// temp
+
+/*
+{
+    expire,
+    data
+}
+*/
+const userCacheNS = {};
+
+const cacheTimeNS = 21600000; // 6 hours
+
+const getUserDataNoSession = id => {
+    return new Promise((resolve, reject) => {
+
+        let data = null;
+        for (let k in userCacheNS) {
+    
+            if (userCacheNS[k].expire < Date.now()) {
+    
+                delete userCacheNS[k];
+                continue;
+            }
+    
+            if (k === id) {
+    
+                data = userCacheNS[k].data;
+            }
+        }
+    
+        if (data === null) {
+    
+            axios
+                .get(`https://discordapp.com/api/v6/users/${id}`, {
+                    headers: {
+                        "Authorization": `Bot ${config.discord_token}`
+                    }
+                })
+                .then(res => {
+
+                    userCacheNS[id] = {
+
+                        expire: new Date(Date.now() + cacheTimeNS),
+                        data: res.data 
+                    };
+        
+                    resolve(res.data);
+                })
+                .catch(error => {
+        
+                    reject(error);
+                });
+        } else {
+    
+            resolve(data);
+        }
+    });
+}
+
+//
+
 module.exports = {
 
     jwtVerify,
     fetchSession,
     fetchUser,
 
-    getUserData
+    getUserData,
+    getUserDataNoSession
 };

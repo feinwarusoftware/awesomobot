@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>AWESOM-O //
-        <%= trans.LEGACY_LEADERBOARDS %>
+        <%= trans.DASHBOARD %>
     </title>
 
     <link rel="icon" type="image/png" href="/img/favicon.png" />
@@ -131,44 +131,6 @@
                                                         </th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    <% v2.list.sort((a, b) => { %>
-                                                        <% return b.activity - a.activity; %>
-                                                            <% }); %>
-                                                                <% for (let i = 0; i < v2.list.length; i++) { %>
-                                                                    <% if (v2.list[i].id == user_data.id) { %>
-                                                                        <tr class="table-warning" id="rawrxd">
-                                                                            <th scope="row" class="text-center">
-                                                                                <%= i + 1 %>
-                                                                            </th>
-                                                                            <td>
-                                                                                <a href="/dashboard/profiles/<%= v2.list[i].id %><%= trans.LANG %>">
-                                                                                    <%= v2.list[i].name %>
-                                                                                </a>
-                                                                            </td>
-                                                                            <td>
-                                                                                <%= Math.round(v2.list[i].activity) %>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <% } else { %>
-                                                                            <% if (v2.list[i].activity != 0) { %>
-                                                                                <tr>
-                                                                                    <th scope="row" class="text-center">
-                                                                                        <%= i + 1 %>
-                                                                                    </th>
-                                                                                    <td>
-                                                                                        <a href="/dashboard/profiles/<%= v2.list[i].id %><%= trans.LANG %>">
-                                                                                            <%= v2.list[i].name %>
-                                                                                        </a>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <%= Math.round(v2.list[i].activity) %>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <% } %>
-                                                                                    <% } %>
-                                                                                        <% } %>
-                                                </tbody>
                                             </table>
 
                                         </div>
@@ -251,40 +213,7 @@
                                                         </th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    <% v2.list.sort((a, b) => { %>
-                                                        <% return b.shits - a.shits; %>
-                                                            <% }); %>
-                                                                <% for (let i = 0; i < v2.list.length; i++) { %>
-                                                                    <% if (v2.list[i].id == user_data.id) { %>
-                                                                        <tr class="table-warning" id="wonk">
-                                                                            <th scope="row" class="text-center">
-                                                                                <%= i + 1 %>
-                                                                            </th>
-                                                                            <td>
-                                                                                <%= v2.list[i].name %>
-                                                                            </td>
-                                                                            <td>
-                                                                                <%= Math.round(v2.list[i].shits) %>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <% } else { %>
-                                                                            <% if (v2.list[i].shits != 0) { %>
-                                                                                <tr>
-                                                                                    <th scope="row" class="text-center">
-                                                                                        <%= i + 1 %>
-                                                                                    </th>
-                                                                                    <td>
-                                                                                        <%= v2.list[i].name %>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <%= Math.round(v2.list[i].shits) %>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <% } %>
-                                                                                    <% } %>
-                                                                                        <% } %>
-                                                </tbody>
+                                                
                                             </table>
                                         </div>
                                         <div class="row">
@@ -370,67 +299,7 @@
                 })
             </script>
             <script>
-                const ctx = document.getElementById("activitybar").getContext('2d');
-                const chart = new Chart(ctx, {
-                    type: "bar",
-                    data: {
-                        labels: ["Kyrion", "Tweek Tweak", "Nitrosage", "kratosgow342", "TowelRoyale"],
-                        datasets: [{
-                            label: '<%= trans.ACTIVITY_SCORE %>',
-                            data: [56236, 42140, 39196, 36656, 29217],
-                            backgroundColor: [
-                                'rgb(255, 99, 132)',
-                                'rgb(54, 162, 235)',
-                                'rgb(255, 206, 86)',
-                                'rgb(75, 192, 192)',
-                                'rgb(153, 102, 255)',
-                            ],
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        }
-                    }
-                })
-            </script>
-
-            <script>
-                const ctx2 = document.getElementById("shitbar").getContext('2d');
-                const chart2 = new Chart(ctx2, {
-                    type: "bar",
-                    data: {
-                        labels: ["Kyrion", "Tweek Tweak", "kratosgow342", "superfloree", "NitroSage"],
-                        datasets: [{
-                            label: '<%= trans.SHIT_SCORE %>',
-                            data: [611, 517, 475, 461, 422],
-                            backgroundColor: [
-                                'rgba(51, 17, 0, 1)',
-                                'rgba(71, 30, 9, 1)',
-                                'rgba(99, 50, 24, 1)',
-                                'rgba(112, 63, 37, 1)',
-                                'rgba(127, 78, 52, 1)',
-                            ],
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        }
-                    }
-                })
+                
             </script>
 
             <script>
@@ -449,7 +318,6 @@
                     return false;
                 }
             </script>
-            <!-- /.JVectorMap -->
 
 </body>
 

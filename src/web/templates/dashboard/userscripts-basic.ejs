@@ -171,6 +171,7 @@
                             </div>
                             <!-- /.Horizontal Steppers -->
 
+
                             <div id="step1" style="display:none;">
                                 <div class="row">
                                     <div class="col-12 mb-5">
@@ -178,8 +179,8 @@
                                             <%= trans.STEP_1 %> <span class="dark-grey-text font-weight-normal">
                                                 <%= trans.STEP_1_DESC %></span></h2>
                                     </div>
-
                                 </div>
+                                
                                 <div class="row">
                                     <div class="col-md-3 col-6">
                                         <button type="button" class="btn btn-flat btn-lg btn-block px-0"><i class="fa fa-font fa-5x red-text"></i>
@@ -205,6 +206,8 @@
                                 </div>
                             </div>
 
+
+
                             <div id="step2">
                                 <div class="row">
                                     <div class="col-12 mb-5">
@@ -212,32 +215,62 @@
                                             <%= trans.STEP_2 %> <span class="dark-grey-text font-weight-normal">
                                                 <%= trans.STEP_2_DESC %></span></h2>
                                     </div>
-
                                 </div>
-                                <div class="row justify-content-center">
+                                <div class="row">
+                                    <div class="col-12 mb-5">
+                                        <h2 class="font-weight-bold text-center">
+                                            Command Information</h2>
+                                    </div>
+                                </div>
+                                <div id="step2-info" class="row justify-content-center">
                                     <div class="col-10 col-md-6 mb-5">
                                         <div class="md-form form-lg">
-                                            <input type="text" id="inputLGEx" class="form-control form-control-lg">
-                                            <label for="inputLGEx">Enter your text</label>
+                                            <input type="text" id="step2-title" placeholder="eg. My Awesome Command"
+                                                class="form-control form-control-lg" required>
+                                            <label for="step2-title">Title of your command</label>
+                                        </div>
+                                        <div class="md-form form-lg">
+                                            <input type="text" id="step2-command" placeholder="eg. myfirstcommand"
+                                                class="form-control form-control-lg" required>
+                                            <label for="step2-command">Command Trigger</label>
+                                        </div>
+                                        <div class="md-form form-lg">
+                                            <input type="text" id="step2-thumb" placeholder="eg. https://awesomo.feinwaru.com/img/feinwaru_logo.png"
+                                                class="form-control form-control-lg">
+                                            <label for="step2-thumb">Command Thumbnail (optional)</label>
+                                        </div>
+                                        <div class="md-form form-lg">
+                                            <input type="checkbox" class="form-check-input" id="materialUnchecked">
+                                            <label class="form-check-label" for="materialUnchecked">Make your command
+                                                available on the Marketplace?</label>
                                         </div>
                                     </div>
                                 </div>
+                                
+                                <div class="row">
+                                    <div class="col-12 mb-5">
+                                        <h2 class="font-weight-bold text-center">
+                                            Command Contents</h2>
+                                    </div>
+                                </div>
+
+
                                 <div class="row justify-content-center">
                                     <div class="col-10 col-md-6 mb-5">
-                                        <div class="md-form form-lg form-inline mx-auto">
+                                        <div class="md-form form-lg form-inline text-center">
                                             <input type="text" id="die" class="form-control form-control-lg">
                                             <label for="die">Item 1</label>
-                                            <a class="red-text pl-3 fa-2x"><i class="fas fa-close"></i></a>
+                                            <a class="red-text pl-3 fa-lg"><i class="fas fa-close"></i></a>
                                         </div>
                                         <div class="md-form form-lg form-inline">
                                             <input type="text" id="die2" class="form-control form-control-lg">
                                             <label for="die2">Item 2</label>
-                                            <a class="red-text pl-3 fa-2x"><i class="fas fa-close"></i></a>
+                                            <a class="red-text pl-3 fa-lg"><i class="fas fa-close"></i></a>
                                         </div>
                                         <div class="md-form form-lg form-inline">
                                             <input type="text" id="die3" class="form-control form-control-lg">
                                             <label for="die3">Item 3</label>
-                                            <a class="red-text pl-3 fa-2x"><i class="fas fa-close"></i></a>
+                                            <a class="red-text pl-3 fa-lg"><i class="fas fa-close"></i></a>
                                         </div>
                                         <a class="btn btn-primary btn-rounded mx-auto">add another item</a>
                                     </div>

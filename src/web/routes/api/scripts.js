@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const schemas = require("../../../db");
 const Logger = require("../../../logger");
 const { authUser } = require("../../middlewares");
-const { getUserData } = require("../../helpers");
+const { getUserData, getUserDataNoSession } = require("../../helpers");
 
 const router = express.Router();
 const apiLogger = new Logger();
@@ -60,84 +60,38 @@ router.route("/").get(authUser, (req, res) => {
                         const script_objs = docs.map(doc => doc.toObject());
                         const search_ids = docs.map(doc => doc.author_id);
 
-                        schemas.SessionSchema
+                        for (let i = 0; i < script_objs.length; i++) {
+
+                            if (script_objs[i].author_id === "feinwaru-devs") {
+
+                                script_objs[i].author_username = "Feinwaru";
+                                continue;
+                            }
+
+                            // other users
+                            
+                        }
+
+                        schemas.UserSchema
                             .find({
-                                "discord.id": {
+                                discord_id: {
                                     $in: search_ids
                                 }
                             })
-                            .then(async docs => {
+                            .then(users => {
 
                                 for (let i = 0; i < script_objs.length; i++) {
 
-                                    if (script_objs[i].author_id === "feinwaru-devs") {
+                                    for (let user of users) {
 
-                                        script_objs[i].author_username = "Feinwaru";
-                                        search_ids.push("feinwaru-devs");
-                                        continue;
-                                    }
+                                        if (user.discord_id === script_objs[i].author_id) {
 
-                                    let user = null;
-                                    let success = false;
-
-                                    for (let doc of docs) {
-        
-                                        if (success === true) {
-            
-                                            break;
+                                            script_objs[i].author_verified = user.verified;
                                         }
-
-                                        if (doc.discord.id !== script_objs[i].author_id) {
-
-                                            continue;
-                                        }
-            
-                                        try {
-            
-                                            user = await getUserData(doc.discord.access_token);
-                                            success = true;
-                                        } catch(error) {
-            
-                                            user = null;
-                                            success = false;
-                                        }
-                                    }
-
-                                    if (success === true) {
-
-                                        script_objs[i].author_username = user.username;
-                                    } else {
-
-                                        return res.json({ status: 400 });
                                     }
                                 }
 
-                                schemas.UserSchema
-                                    .find({
-                                        discord_id: {
-                                            $in: search_ids
-                                        }
-                                    })
-                                    .then(users => {
-
-                                        for (let i = 0; i < script_objs.length; i++) {
-
-                                            for (let user of users) {
-
-                                                if (user.discord_id === script_objs[i].author_id) {
-
-                                                    script_objs[i].author_verified = user.verified;
-                                                }
-                                            }
-                                        }
-
-                                        return res.json({ status: 200, page, limit, total, scripts: script_objs });
-                                    })
-                                    .catch(error => {
-
-                                        apiLogger.error(error);
-                                        return res.json({ status: 500 });
-                                    });
+                                return res.json({ status: 200, page, limit, total, scripts: script_objs });
                             })
                             .catch(error => {
 

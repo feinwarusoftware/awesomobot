@@ -5,7 +5,7 @@ const express = require("express");
 const schemas = require("../../../db");
 const Logger = require("../../../logger");
 const { authUser, authAdmin } = require("../../middlewares");
-const { getUserData } = require("../../helpers");
+const { getUserData, getUserDataNoSession } = require("../../helpers");
 
 const router = express.Router();
 const apiLogger = new Logger();
@@ -83,7 +83,7 @@ router.route("/").get(authUser, (req, res) => {
         params.shits = req.body.shits;
         params.trophies = req.body.trophies;
 
-        params.likes = req.body.likes; 
+        params.likes = req.body.likes;
     }
     
     const user = new schemas.UserSchema(params);
@@ -154,40 +154,8 @@ router.route("/:discord_id").get(authUser, (req, res) => {
 
             if (extended === true) {
 
-                schemas.SessionSchema
-                    .find({
-                        "discord.id": req.params.discord_id
-                    })
-                    .then(async docs => {
-                        if (docs.length === 0) {
-
-                            return res.json({ status: 404 });
-                        }
-
-                        let user = null;
-                        let success = false;
-                        for (let doc of docs) {
-
-                            if (success === true) {
-
-                                break;
-                            }
-
-                            try {
-
-                                user = await getUserData(doc.discord.access_token);
-                                success = true;
-                            } catch(error) {
-
-                                user = null;
-                                success = false;
-                            }
-                        }
-
-                        if (success === false) {
-
-                            return res.json({ status: 400 });
-                        }
+                getUserDataNoSession(req.params.discord_id)
+                    .then(async user => {
                 
                         user_obj.username = user.username;
                         //user_obj.locale = user.locale;

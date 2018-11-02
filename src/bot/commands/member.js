@@ -10,7 +10,7 @@ const member = new Command({
     marketplace_enabled: true,
 
     type: "js",
-    match_type: "contains",
+    match_type: "startswith",
     match: "member",
 
     featured: false,
