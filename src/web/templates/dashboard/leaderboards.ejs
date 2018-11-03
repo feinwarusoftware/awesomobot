@@ -98,9 +98,6 @@
                             </div>
                         </div>
 
-                        <div class="view gradient-card-header z-depth-0 mt-4" style="height:60vh">
-                            <canvas id="activitybar"></canvas>
-                        </div>
                         <!--/Card image-->
 
                         <!--Card content-->
@@ -303,6 +300,15 @@
             </script>
 
             <script>
+
+                const leaderboard = new XMLHttpRequest();
+                leaderboard.open("GET", `/api/v3/users?limit=20&order=xp`, false);
+                leaderboard.send();
+                const leaderboardahhh = JSON.parse(leaderboard.response);
+                const leaderboardYay = leaderboardahhh.users;
+
+                console.log(leaderboardYay)
+
                 const container = document.getElementById("scroll-container");
                 const row = document.getElementById("rawrxd");
                 const container2 = document.getElementById("shit-container");

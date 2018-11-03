@@ -138,9 +138,16 @@ router.get("/api/v3/stats", async (req, res) => {
         // latest update
         cachedStats.stats.latest_update = "latest update text";
 
-        await Promise.all(promises);
+        await Promise.all(promises).then(() => {
 
-        cachedStats.expire = Date.now() + statsCacheTime;
+            cachedStats.expire = Date.now() + statsCacheTime;
+        }).catch(error => {
+
+            apiLogger.error(error);
+
+            cachedStats.stats = { error };
+            cachedStats.expire = Date.now();
+        });
     }
 
     return res.json({ stats: cachedStats.stats });

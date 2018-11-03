@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>AWESOM-O //
-        <%= trans.PATRON_MANAGEMENT %>
+        <%= trans.SCRIPT_CREATOR_BASIC %>
     </title>
 
     <link rel="icon" type="image/png" href="/img/favicon.png" />
@@ -172,7 +172,7 @@
                             <!-- /.Horizontal Steppers -->
 
 
-                            <div id="step1" style="display:none;">
+                            <div id="step1" style="display:block;">
                                 <div class="row">
                                     <div class="col-12 mb-5">
                                         <h2 class="font-weight-bold text-center">
@@ -180,27 +180,39 @@
                                                 <%= trans.STEP_1_DESC %></span></h2>
                                     </div>
                                 </div>
-                                
+
                                 <div class="row">
                                     <div class="col-md-3 col-6">
-                                        <button type="button" class="btn btn-flat btn-lg btn-block px-0"><i class="fa fa-font fa-5x red-text"></i>
-                                            <h4 class="red-text font-weight-bold text-center pt-3">Text</h4>
+                                        <button cmdtype="text" type="button" class="btn btn-flat btn-lg btn-block px-0"><i
+                                                class="fa fa-font fa-5x red-text"></i>
+                                            <h4 class="red-text font-weight-bold text-center pt-3">
+                                                <%= trans.TEXT %>
+                                            </h4>
                                         </button>
 
                                     </div>
                                     <div class="col-md-3 col-6">
-                                        <button type="button" class="btn btn-flat btn-lg btn-block px-0"><i class="fa fa-list fa-5x orange-text"></i>
-                                            <h4 class="font-weight-bold text-center pt-3 orange-text">Random Text</h4>
+                                        <button cmdtype="random" type="button" class="btn btn-flat btn-lg btn-block px-0"><i
+                                                class="fa fa-list fa-5x orange-text"></i>
+                                            <h4 class="font-weight-bold text-center pt-3 orange-text">
+                                                <%= trans.RANDOM_TEXT %>
+                                            </h4>
                                         </button>
                                     </div>
                                     <div class="col-md-3 col-6">
-                                        <button type="button" class="btn btn-flat btn-lg btn-block px-0"><i class="fa fa-image fa-5x green-text"></i>
-                                            <h4 class="font-weight-bold text-center pt-3 green-text">Image</h4>
+                                        <button cmdtype="image" type="button" class="btn btn-flat btn-lg btn-block px-0"><i
+                                                class="fa fa-image fa-5x green-text"></i>
+                                            <h4 class="font-weight-bold text-center pt-3 green-text">
+                                                <%= trans.IMAGE %>
+                                            </h4>
                                         </button>
                                     </div>
                                     <div class="col-md-3 col-6">
-                                        <button type="button" class="btn btn-flat btn-lg btn-block px-0"><i class="fas fa-film fa-5x blue-text"></i>
-                                            <h4 class="font-weight-bold text-center pt-3 blue-text">GIF</h4>
+                                        <button cmdtype="gif" type="button" class="btn btn-flat btn-lg btn-block px-0"><i
+                                                class="fas fa-film fa-5x blue-text"></i>
+                                            <h4 class="font-weight-bold text-center pt-3 blue-text">
+                                                <%= trans.GIF %>
+                                            </h4>
                                         </button>
                                     </div>
                                 </div>
@@ -208,7 +220,7 @@
 
 
 
-                            <div id="step2">
+                            <div id="step2" style="display:none;">
                                 <div class="row">
                                     <div class="col-12 mb-5">
                                         <h2 class="font-weight-bold text-center">
@@ -219,60 +231,155 @@
                                 <div class="row">
                                     <div class="col-12 mb-5">
                                         <h2 class="font-weight-bold text-center">
-                                            Command Information</h2>
+                                            <%= trans.COMMAND_INFORMATION %>
+                                        </h2>
                                     </div>
                                 </div>
                                 <div id="step2-info" class="row justify-content-center">
                                     <div class="col-10 col-md-6 mb-5">
                                         <div class="md-form form-lg">
-                                            <input type="text" id="step2-title" placeholder="eg. My Awesome Command"
+                                            <input type="text" id="step2-title" placeholder="<%= trans.COMMAND_TITLE_EG %>"
                                                 class="form-control form-control-lg" required>
-                                            <label for="step2-title">Title of your command</label>
+                                            <label for="step2-title">
+                                                <%= trans.COMMAND_TITLE %></label>
+                                            <div class="valid-feedback">
+                                                <%= trans.LOOKS_GOOD %>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                <%= trans.COMMAND_TITLE_ERROR %>
+                                            </div>
                                         </div>
                                         <div class="md-form form-lg">
-                                            <input type="text" id="step2-command" placeholder="eg. myfirstcommand"
+                                            <input type="text" id="step2-command" placeholder="<%= trans.COMMAND_TRIGGER_EG %>"
                                                 class="form-control form-control-lg" required>
-                                            <label for="step2-command">Command Trigger</label>
+                                            <label for="step2-command">
+                                                <%= trans.COMMAND_TRIGGER %></label>
+                                            <div class="valid-feedback">
+                                                <%= trans.LOOKS_GOOD %>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                <%= trans.COMMAND_TRIGGER_ERROR %>
+                                            </div>
                                         </div>
                                         <div class="md-form form-lg">
-                                            <input type="text" id="step2-thumb" placeholder="eg. https://awesomo.feinwaru.com/img/feinwaru_logo.png"
+                                            <input type="text" id="step2-thumb" placeholder="<%= trans.COMMAND_THUMBNAIL_EG %>"
                                                 class="form-control form-control-lg">
-                                            <label for="step2-thumb">Command Thumbnail (optional)</label>
+                                            <label for="step2-thumb">
+                                                <%= trans.COMMAND_THUMBNAIL %></label>
+                                            <div class="valid-feedback">
+                                                <%= trans.LOOKS_GOOD %>
+                                            </div>
                                         </div>
                                         <div class="md-form form-lg">
-                                            <input type="checkbox" class="form-check-input" id="materialUnchecked">
-                                            <label class="form-check-label" for="materialUnchecked">Make your command
-                                                available on the Marketplace?</label>
+                                            <input type="checkbox" class="form-check-input" id="materialUnchecked"
+                                                checked disabled>
+                                            <label class="form-check-label" for="materialUnchecked">
+                                                <%= trans.COMMAND_MARKETPLACE %></label>
+                                            <div class="valid-feedback">
+                                                <%= trans.LOOKS_GOOD %>
+                                            </div>
+                                            <p class="font-italic pt-3">
+                                                <%= trans.COMMAND_MARKETPLACE_DISCLAIMER %>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="row">
                                     <div class="col-12 mb-5">
                                         <h2 class="font-weight-bold text-center">
-                                            Command Contents</h2>
+                                            <%= trans.COMMAND_CONTENTS %>
+                                        </h2>
                                     </div>
                                 </div>
 
+                                <!-- TEXT -->
+                                <div id="text-content" class="row justify-content-center" style="display: none;">
+                                    <div class="col-10 col-md-6 mb-5">
+                                        <div class="md-form">
+                                            <textarea type="text" id="text" class="md-textarea form-control" rows="3"></textarea>
+                                            <label for="text">
+                                                <%= trans.ENTER_YOUR_TEXT %></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- RANDOM TEXT CONTENT-->
+                                <div id="random-content" class="row justify-content-center" style="display: none;">
+                                    <div class="col-10 col-md-6 mb-5">
+                                        <div class="md-form form-lg form-inline text-center">
+                                            <input type="text" id="random-1" class="form-control form-control-lg">
+                                            <label for="random-1">
+                                                <%= trans.ITEM %> 1</label>
+                                            <a class="red-text pl-3 fa-lg"><i class="fas fa-close"></i></a>
+                                        </div>
+                                        <div class="md-form form-lg form-inline">
+                                            <input type="text" id="random-2" class="form-control form-control-lg">
+                                            <label for="random-2">
+                                                <%= trans.ITEM %> 2</label>
+                                            <a class="red-text pl-3 fa-lg"><i class="fas fa-close"></i></a>
+                                        </div>
+                                        <div class="md-form form-lg form-inline">
+                                            <input type="text" id="random-3" class="form-control form-control-lg">
+                                            <label for="random-3">
+                                                <%= trans.ITEM %> 3</label>
+                                            <a class="red-text pl-3 fa-lg"><i class="fas fa-close"></i></a>
+                                        </div>
+                                        <a class="btn btn-primary btn-rounded mx-auto">
+                                            <%= trans.ADD_ANOTHER_ITEM %></a>
+                                    </div>
+                                </div>
+
+                                <!-- IMAGE -->
+                                <div id="image-content" class="row justify-content-center" style="display: none;">
+                                    <div class="col-10 col-md-6 mb-5">
+                                        <div class="md-form">
+                                            <input type="text" id="image" class="form-control form-control-lg">
+                                            <label for="image">
+                                                <%= trans.ENTER_IMAGE_URL %></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- GIF -->
+                                <div id="gif-content" class="row justify-content-center" style="display: none;">
+                                    <div class="col-10 col-md-6 mb-5">
+                                        <div class="md-form">
+                                            <input type="text" id="gif" class="form-control form-control-lg">
+                                            <label for="gif">
+                                                <%= trans.ENTER_GIF_URL %></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <button type="button" class="btn btn-primary">
+                                        <%= trans.NEXT %></button>
+                                </div>
+                            </div>
+
+
+                            <div id="step3" style="display:none;">
 
                                 <div class="row justify-content-center">
                                     <div class="col-10 col-md-6 mb-5">
-                                        <div class="md-form form-lg form-inline text-center">
-                                            <input type="text" id="die" class="form-control form-control-lg">
-                                            <label for="die">Item 1</label>
-                                            <a class="red-text pl-3 fa-lg"><i class="fas fa-close"></i></a>
-                                        </div>
-                                        <div class="md-form form-lg form-inline">
-                                            <input type="text" id="die2" class="form-control form-control-lg">
-                                            <label for="die2">Item 2</label>
-                                            <a class="red-text pl-3 fa-lg"><i class="fas fa-close"></i></a>
-                                        </div>
-                                        <div class="md-form form-lg form-inline">
-                                            <input type="text" id="die3" class="form-control form-control-lg">
-                                            <label for="die3">Item 3</label>
-                                            <a class="red-text pl-3 fa-lg"><i class="fas fa-close"></i></a>
-                                        </div>
-                                        <a class="btn btn-primary btn-rounded mx-auto">add another item</a>
+                                        <h1 class="text-center red-text font-weight-bold animated pulse infinite" style="font-size: 20rem">?</h1>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="step4" style="display:none;">
+
+                                <div class="row justify-content-center">
+                                    <div class="col-10 col-md-6 mb-5">
+                                        <h1 class="text-center font-weight-bold">
+                                            <%= trans.STEP_4 %>
+                                        </h1>
+                                        <h4 class="text-center">
+                                            <%= trans.STEP_4_DESC %>
+                                        </h4>
+                                        <p class="text-center pt-5">
+                                            <%= trans.STEP_4_DESC_2 %>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -327,6 +434,165 @@
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
+
+        // code teehee
+        const stepper = document.querySelectorAll(".stepper li");
+
+        const step1 = document.getElementById("step1");
+        const step2 = document.getElementById("step2");
+        const step3 = document.getElementById("step3");
+        const step4 = document.getElementById("step4");
+
+        const textContent = document.getElementById("text-content");
+        const randomContent = document.getElementById("random-content");
+        const imageContent = document.getElementById("image-content");
+        const gifContent = document.getElementById("gif-content");
+
+        window.onload = () => {
+
+            let type = null;
+            let data = [];
+
+            for (let div of step1.children[1].children) {
+
+                div.children[0].onclick = () => {
+
+                    type = div.children[0].getAttribute("cmdtype");
+
+                    // proceed
+                    step1.style.display = "none";
+                    step2.style.display = "block";
+
+                    stepper[0].classList.remove("active");
+                    stepper[0].classList.add("completed");
+                    stepper[1].classList.remove("disabled");
+                    stepper[1].classList.add("active");
+
+                    switch (type) {
+                        case "text":
+                            textContent.style.display = "flex";
+                            break;
+                        case "random":
+                            randomContent.style.display = "flex";
+                            break;
+                        case "image":
+                            imageContent.style.display = "flex";
+                            break;
+                        case "gif":
+                            gifContent.style.display = "flex";
+                            break;
+                        default:
+                            alert("debug: error");
+                    }
+                }
+            }
+
+            step2.children[8].children[0].onclick = () => {
+
+                let children = null;
+
+                switch (type) {
+                    case "text":
+                        children = textContent.children[0].children;
+                        break;
+                    case "random":
+                        children = randomContent.children[0].children;
+                        break;
+                    case "image":
+                        children = imageContent.children[0].children;
+                        break;
+                    case "gif":
+                        children = gifContent.children[0].children;
+                        break;
+                    default:
+                        alert("debug: error");
+                }
+
+                for (let div of step2.children[2].children[0].children) {
+
+                    // mdb validation
+                    div.classList.add("was-validated");
+                }
+
+                for (let div of children) {
+
+                    // more mdb validation
+                    div.classList.add("was-validated");
+                }
+
+                for (let div of step2.children[2].children[0].children) {
+
+                    // validation
+                    if (div.children[0].value.trim().length === 0 && div.children[0].id !== "step2-thumb") {
+
+                        div.children[1].focus();
+                        return;
+                    }
+
+                    data.push(div.children[0].value);
+                }
+
+                for (let div of children) {
+
+                    // more validation
+                    if (div.children[0].value.trim().length === 0) {
+
+                        div.children[1].focus();
+                        return;
+                    }
+
+                    data.push(div.children[0].value);
+                }
+
+                // proceed
+                step2.style.display = "none";
+                step3.style.display = "block";
+
+                stepper[1].classList.remove("active");
+                stepper[1].classList.add("completed");
+                stepper[2].classList.remove("disabled");
+                stepper[2].classList.add("active");
+
+                // api request
+                const create = new XMLHttpRequest();
+                create.open("POST", `/api/v3/scripts`, false);
+                create.setRequestHeader("Content-Type", "application/json");
+
+                const options = {};
+                options.author_id = userYay.discord_id;
+                options.name = data[0];
+                options.description = `auto generated by the basic feinwaru editor`;
+                options.thumbnail = data[2] === "" ? undefined : data[2];
+                // will change in a future update
+                options.marketplace_enabled = true;
+                options.type = "js";
+                options.match_type = "command";
+                options.match = data[1];
+                // auto generate code based on selected options
+                options.code = ``;
+                options.created_with = "feinwaru-editor-basic";
+
+                create.send(JSON.stringify(options));
+
+                const create_res = JSON.parse(create.response);
+                if (create_res.status === 200) {
+
+                    // success
+                    step3.style.display = "none";
+                    step4.style.display = "block";
+
+                    stepper[2].classList.remove("active");
+                    stepper[2].classList.add("completed");
+                    stepper[3].classList.remove("disabled");
+                    stepper[3].classList.add("active");
+
+                } else {
+
+                    // failure
+                    alert("debug: error");
+                }
+            }
+        }
     </script>
 
 

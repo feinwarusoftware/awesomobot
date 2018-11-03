@@ -21,11 +21,14 @@ const defaultValue = (param, def) => {
 
 router.route("/").get(authUser, (req, res) => {
 
+    // + cond discord data
+    const extended = req.query.extended === "true" ? true : req.query.extended === "false" ? false : undefined;
+
     const current = req.query.extended === "true" ? true : req.query.extended === "false" ? false : false; 
 
     const sort_dir = req.query.reversed === "true" ? 1 : req.query.reversed === "false" ? -1 : -1;
     const sort = {
-        ...( req.query.order === undefined ? {} : { [req.query.order]: sort_dir } )
+        ...( req.query.order === undefined ? { [req.query.order]: -1 } : { [req.query.order]: sort_dir } )
     }
 
     // Parse the amount of scripts that the api will return.
@@ -129,7 +132,7 @@ router.route("/@me").get(authUser, (req, res) => {
 
             apiLogger.error(error);
             return res.json({ status: 500 });
-        })
+        });
 });
 
 router.route("/:discord_id").get(authUser, (req, res) => {
