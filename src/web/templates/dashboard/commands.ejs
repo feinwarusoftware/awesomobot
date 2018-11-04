@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>AWESOM-O //
-        <%= trans.PATRON_MANAGEMENT %>
+        <%= trans.COMMANDS %>
     </title>
 
     <link rel="icon" type="image/png" href="/img/favicon.png" />
@@ -109,49 +109,38 @@
                     <div class="row">
                         <div class="text-center" style="width: 100%">
                             <h1 class="font-weight-bold mb-2 mt-2 pb-1">
-                                <%= trans.PATRON_MANAGEMENT %>
+                                <%= trans.COMMANDS %>
                             </h1>
-                            <h2 class="font-weight-bold dark-grey-text">You are currently using
-                                <span class="feinwaru-text">2</span> of
-                                <span class="feinwaru-text">3</span> total servers included in your plan</h2>
+                            <h2><%= trans.CURRENTLY_VIEWING_COMMANDS %> <b><span id="server-name"></span></b></h2>
                         </div>
                     </div>
 
                     <div class="row pt-5 justify-content-center">
-                        <div class="col-3">
+                        <table class="table table-striped">
+                                <col width="25%">
+                                <col width="25%">
+                                <col width="25%">
+                                <col width="25%">
+                            <thead class="feinwaru white-text">
+                                <tr>
+                                    <th scope="col">
+                                        <%= trans.NAME %>
+                                    </th>
+                                    <th scope="col">
+                                        <%= trans.DESCRIPTION %>
+                                    </th>
+                                    <th scope="col">
+                                        <%= trans.ORIGIN %>
+                                    </th>
+                                    <th scope="col">
+                                        <%= trans.USAGE %>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="commands-list">
 
-                            <!-- Card -->
-                            <div class="card">
-
-                                <!-- Card image -->
-                                <div class="view overlay">
-                                    <img id="yourma" class="card-img-top" src="https://cdn.discordapp.com/icons/405129031445381120/11209b0efa9e483f5f32da8d5fc6edbc.png"
-                                        alt="Card image cap">
-                                    <a>
-                                        <div class="mask rgba-white-slight"></div>
-                                    </a>
-                                </div>
-
-                                <!-- Button -->
-                                <a class="btn-floating btn-action ml-auto mr-4 feinwaru"><i class="fa fa-close"
-                                        data-toggle="tooltip" data-placement="top" title="Disable AWESOM-O on this server "></i></a>
-
-                                <!-- Card content -->
-                                <div class="card-body">
-
-                                    <!-- Title -->
-                                    <h4 class="card-title">Feinwaru Admin Server</h4>
-                                    <hr>
-                                    <!-- Text -->
-                                    <button type="button" class="btn btn-primary">Change Prefix</button>
-
-                                </div>
-
-
-                            </div>
-                            <!-- Card -->
-
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -187,21 +176,58 @@
             $('#myInput').focus()
         })
 
+        const serverName = document.getElementById("server-name");
 
         // Material Select Initialization
         $(document).ready(function () {
             $('.mdb-select').material_select();
 
-           /* const premium = new XMLHttpRequest();
-            premium.open("GET", `/api/v3/guilds/@me?extended=true&noawesomo=true`, false);
-            premium.send();
-            const premiumhmmm = JSON.parse(premium.response);
+            serverName.innerText = guildsYay.guilds.find(e => e.discord_id === currentServer).name;
 
-            const premiumYay = premiumhmmm.guilds
+            const limit = 20;
 
-            console.log(premiumYay);
+            const commands = new XMLHttpRequest();
+            commands.open("GET", `/api/v3/guilds/${currentServer}/scripts?extended=true&limit=${limit}`, false);
+            commands.send();
+            const commandsYay = JSON.parse(commands.response);
 
-            console.log((premiumYay.guilds[0].permissions & 8) === 8) */
+            for (let i = 0; i < commandsYay.scripts.length; i++) {
+                $("#commands-list").append(
+                    `
+                <tr>
+                  <td class="font-weight-bold">${commandsYay.scripts[i].name}</td>
+                  <td>${commandsYay.scripts[i].description}</td>
+                  <td>${commandsYay.scripts[i].local === true ? "<%= trans.VANILLA_AWESOMO %>" : "<%= trans.USER_MADE %>"}</td>
+                  <td><code>-${commandsYay.scripts[i].match}</code></td>
+                </tr>
+                `
+                )
+            }
+
+            for (let i = 1; i < Math.ceil(commandsYay.total / limit); i++) {
+                const commands = new XMLHttpRequest();
+                commands.open("GET",
+                    `/api/v3/guilds/${currentServer}/scripts?extended=true&limit=${limit}&page=${i}`,
+                    false);
+                commands.send();
+                const commandsYay = JSON.parse(commands.response);
+
+
+
+                for (let j = 0; j < commandsYay.scripts.length; j++) {
+                    $("#commands-list").append(
+                        `
+                <tr>
+                  <td class="font-weight-bold">${commandsYay.scripts[j].name}</td>
+                  <td>${commandsYay.scripts[j].description}</td>
+                  <td>${commandsYay.scripts[j].local === true ? "<%= trans.VANILLA_AWESOMO %>" : "<%= trans.USER_MADE %>"}</td>
+                  <td><code>-${commandsYay.scripts[j].match}</code></td>
+                </tr>
+                `
+                    )
+                }
+            }
+
 
         });
 

@@ -300,6 +300,12 @@
                                             <textarea type="text" id="text" class="md-textarea form-control" rows="3"></textarea>
                                             <label for="text">
                                                 <%= trans.ENTER_YOUR_TEXT %></label>
+                                            <div class="valid-feedback">
+                                                <%= trans.LOOKS_GOOD %>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                <%= trans.COMMAND_TRIGGER_ERROR %>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -307,24 +313,27 @@
                                 <!-- RANDOM TEXT CONTENT-->
                                 <div id="random-content" class="row justify-content-center" style="display: none;">
                                     <div class="col-10 col-md-6 mb-5">
-                                        <div class="md-form form-lg form-inline text-center">
-                                            <input type="text" id="random-1" class="form-control form-control-lg">
-                                            <label for="random-1">
-                                                <%= trans.ITEM %> 1</label>
-                                            <a class="red-text pl-3 fa-lg"><i class="fas fa-close"></i></a>
-                                        </div>
-                                        <div class="md-form form-lg form-inline">
-                                            <input type="text" id="random-2" class="form-control form-control-lg">
-                                            <label for="random-2">
-                                                <%= trans.ITEM %> 2</label>
-                                            <a class="red-text pl-3 fa-lg"><i class="fas fa-close"></i></a>
-                                        </div>
-                                        <div class="md-form form-lg form-inline">
-                                            <input type="text" id="random-3" class="form-control form-control-lg">
-                                            <label for="random-3">
-                                                <%= trans.ITEM %> 3</label>
-                                            <a class="red-text pl-3 fa-lg"><i class="fas fa-close"></i></a>
-                                        </div>
+                                        <table class="table table-borderless">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="py-0">
+                                                        <div class="md-form form-lg">
+                                                            <input type="text" id="random-1" class="form-control form-control-lg random-input"
+                                                                required>
+                                                            <label class="random-label" for="random-1">
+                                                                <%= trans.ITEM %> 1</label>
+                                                            <div class="valid-feedback">
+                                                                <%= trans.LOOKS_GOOD %>
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                <%= trans.COMMAND_ITEM_ERROR %>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="py-0"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                         <a class="btn btn-primary btn-rounded mx-auto">
                                             <%= trans.ADD_ANOTHER_ITEM %></a>
                                     </div>
@@ -337,6 +346,12 @@
                                             <input type="text" id="image" class="form-control form-control-lg">
                                             <label for="image">
                                                 <%= trans.ENTER_IMAGE_URL %></label>
+                                            <div class="valid-feedback">
+                                                <%= trans.LOOKS_GOOD %>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                <%= trans.COMMAND_TRIGGER_ERROR %>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -348,6 +363,12 @@
                                             <input type="text" id="gif" class="form-control form-control-lg">
                                             <label for="gif">
                                                 <%= trans.ENTER_GIF_URL %></label>
+                                            <div class="valid-feedback">
+                                                <%= trans.LOOKS_GOOD %>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                <%= trans.COMMAND_TRIGGER_ERROR %>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -487,16 +508,70 @@
                 }
             }
 
+            // random text command
+            const randomChild = document.createElement("tr");
+            randomChild.appendChild(document.createElement("td"));
+            randomChild.children[0].classList.add("py-0");
+            randomChild.children[0].appendChild(document.createElement("div"));
+            randomChild.children[0].children[0].classList.add("md-form", "form-lg");
+            randomChild.children[0].children[0].appendChild(document.createElement("input"));
+            randomChild.children[0].children[0].children[0].classList.add("form-control", "form-control-lg",
+                "random-input");
+            randomChild.children[0].children[0].children[0].setAttribute("required", "");
+            randomChild.children[0].children[0].children[0].setAttribute("type", "text");
+            randomChild.children[0].children[0].appendChild(document.createElement("label"));
+            randomChild.children[0].children[0].children[1].classList.add("random-label");
+            randomChild.children[0].children[0].appendChild(document.createElement("div"));
+            randomChild.children[0].children[0].children[2].classList.add("valid-feedback");
+            randomChild.children[0].children[0].children[2].innerText = "<%= trans.LOOKS_GOOD %>";
+            randomChild.children[0].children[0].appendChild(document.createElement("div"));
+            randomChild.children[0].children[0].children[3].classList.add("invalid-feedback");
+            randomChild.children[0].children[0].children[3].innerText = "<%= trans.COMMAND_ITEM_ERROR %>";
+            randomChild.appendChild(document.createElement("td"));
+            randomChild.children[1].classList.add("py-0", "mb-2");
+            randomChild.children[1].setAttribute("style", "vertical-align: inherit;");
+            randomChild.children[1].appendChild(document.createElement("a"));
+            randomChild.children[1].children[0].classList.add("red-text", "pl-3", "fa-lg");
+            randomChild.children[1].children[0].appendChild(document.createElement("i"));
+            randomChild.children[1].children[0].children[0].classList.add("fas", "fa-close");
+
+            // add more fields button
+            randomContent.children[0].children[1].onclick = () => {
+
+                const newChild = randomChild.cloneNode(true);
+
+                newChild.children[1].children[0].onclick = () => {
+
+                    newChild.remove();
+
+                    const labels = document.getElementsByClassName("random-label");
+
+                    for (let [i, label] of [...labels].entries()) {
+
+                        label.innerText = `<%= trans.ITEM %> ${i + 1}`;
+                    }
+                }
+
+                randomContent.children[0].children[0].children[0].appendChild(newChild);
+
+                const labels = document.getElementsByClassName("random-label");
+
+                for (let [i, label] of [...labels].entries()) {
+
+                    label.innerText = `<%= trans.ITEM %> ${i + 1}`;
+                }
+            }
+
             step2.children[8].children[0].onclick = () => {
 
-                let children = null;
+                let children = [];
 
                 switch (type) {
                     case "text":
                         children = textContent.children[0].children;
                         break;
                     case "random":
-                        children = randomContent.children[0].children;
+                        children = randomContent.children[0].children[0].children[0].children;
                         break;
                     case "image":
                         children = imageContent.children[0].children;
@@ -535,13 +610,25 @@
                 for (let div of children) {
 
                     // more validation
-                    if (div.children[0].value.trim().length === 0) {
+                    if (type === "random") {
 
-                        div.children[1].focus();
-                        return;
+                        if (div.children[0].children[0].children[0].value.trim().length === 0) {
+
+                            div.children[0].children[0].children[0].focus();
+                            return;
+                        }
+
+                        data.push(div.children[0].children[0].children[0].value);
+                    } else {
+
+                        if (div.children[0].value.trim().length === 0) {
+
+                            div.children[0].focus();
+                            return;
+                        }
+
+                        data.push(div.children[0].value);
                     }
-
-                    data.push(div.children[0].value);
                 }
 
                 // proceed
@@ -553,6 +640,9 @@
                 stepper[2].classList.remove("disabled");
                 stepper[2].classList.add("active");
 
+                // timer
+                const timer = Date.now() + 1500;
+
                 // api request
                 const create = new XMLHttpRequest();
                 create.open("POST", `/api/v3/scripts`, false);
@@ -561,7 +651,7 @@
                 const options = {};
                 options.author_id = userYay.discord_id;
                 options.name = data[0];
-                options.description = `auto generated by the basic feinwaru editor`;
+                options.description = `Auto-generated by the Feinwaru Editor™`;
                 options.thumbnail = data[2] === "" ? undefined : data[2];
                 // will change in a future update
                 options.marketplace_enabled = true;
@@ -569,7 +659,72 @@
                 options.match_type = "command";
                 options.match = data[1];
                 // auto generate code based on selected options
-                options.code = ``;
+                switch (type) {
+                    case "text":
+                        options.code = "";
+
+                        options.code += "\/\/ <%= trans.GENERATED_BY_FEINWARU_EDITOR %>\n";
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.JS_STRICT_MODE %>\n";
+                        options.code += `"use strict";\n`;
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.MESSAGE_CHANNEL_DESC %>\n";
+                        options.code += `message.channel.send("${data[4]}");\n`;
+                        break;
+                    case "random":
+                        options.code = ``;
+
+                        options.code += "\/\/ <%= trans.GENERATED_BY_FEINWARU_EDITOR %>\n";
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.JS_STRICT_MODE %>\n";
+                        options.code += `"use strict";\n`;
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.RANDOM_ARRAY_DESC %>\n";
+                        options.code += `const options = ${JSON.stringify(data.slice(4, data.length))};\n`;
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.RANDOM_NUMBER_DESC %>\n";
+                        options.code += "const randomNumber = Math.floor(Math.random() * options.length);\n";
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.RANDOM_ELEMENT_DESC %>\n";
+                        options.code += "const randomMessage = options[randomNumber];\n";
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.MESSAGE_CHANNEL_DESC %>\n";
+                        options.code += "message.channel.send(randomMessage);\n";
+                        break;
+                    case "image":
+                        options.code = "";
+
+                        options.code += "\/\/ <%= trans.GENERATED_BY_FEINWARU_EDITOR %>\n";
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.JS_STRICT_MODE %>\n";
+                        options.code += `"use strict";\n`;
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.MESSAGE_CHANNEL_DESC %>\n";
+                        options.code += `message.channel.send("", {\n`;
+                        options.code += `\tfile: "${data[4]}"\n`;
+                        options.code += `});\n`;
+                        break;
+                    case "gif":
+                        options.code = "";
+
+                        options.code += "\/\/ <%= trans.GENERATED_BY_FEINWARU_EDITOR %>\n";
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.JS_STRICT_MODE %>\n";
+                        options.code += `"use strict";\n`;
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.EMBED_GIF_DESC %>\n";
+                        options.code += "const embed = new utils.RichEmbed();\n";
+                        options.code += "\/\/ <%= trans.EMBED_GIF_URL_DESC %>\n";
+                        options.code += `embed.setImage("${data[4]}");\n`;
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.EMBED_SEND_DESC %>\n";
+                        options.code += "message.channel.send(embed);\n"
+                        break;
+                    default:
+                        alert("debug: error");
+                        return;
+                }
+
                 options.created_with = "feinwaru-editor-basic";
 
                 create.send(JSON.stringify(options));
@@ -578,13 +733,16 @@
                 if (create_res.status === 200) {
 
                     // success
-                    step3.style.display = "none";
-                    step4.style.display = "block";
+                    setTimeout(() => {
 
-                    stepper[2].classList.remove("active");
-                    stepper[2].classList.add("completed");
-                    stepper[3].classList.remove("disabled");
-                    stepper[3].classList.add("active");
+                        step3.style.display = "none";
+                        step4.style.display = "block";
+
+                        stepper[2].classList.remove("active");
+                        stepper[2].classList.add("completed");
+                        stepper[3].classList.remove("disabled");
+                        stepper[3].classList.add("active");
+                    }, Math.max(0, timer - Date.now()));
 
                 } else {
 

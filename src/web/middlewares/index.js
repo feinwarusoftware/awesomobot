@@ -47,7 +47,8 @@ const authUser = (req, res, next) => {
     }
 
     if (token === undefined) {
-        return res.json({ status: 401, message: "Unauthorized", error: "There was an issue fetching your session" });
+        //return res.json({ status: 401, message: "Unauthorized", error: "There was an issue fetching your session" });
+        return res.redirect("/auth/discord");
     }
 
     fetchSession(token)
@@ -67,12 +68,14 @@ const authUser = (req, res, next) => {
                 })
                 .catch(error => {
 
-                    return res.json({ status: 401, message: "Unauthorized", error });
+                    //return res.json({ status: 401, message: "Unauthorized", error });
+                    return res.redirect("/auth/discord");
                 });
         })
         .catch(error => {
 
-            res.json({ status: 401, message: "Unauthorized", error });
+            //res.json({ status: 401, message: "Unauthorized", error });
+            return res.redirect("/auth/discord");
         });
 }
 

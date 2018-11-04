@@ -163,45 +163,51 @@ router.get("/api/v3/patrons", (req, res) => {
     const patrons = [
         {
             username: "Airborn56",
-            avatar: "https://cdn.discordapp.com/avatars/99626024181968896/a_d69fc64082896a7cb51c2aa20557b080.png?size=512",
+            avatar: "https://cdn.discordapp.com/attachments/379432139856412682/508434629422874624/e0e22d84ce70e350376c8c78756d94a3.png",
             date: "2018-04-27T21:32:11.928165+00:00",
             amount: 10
         },
         {
             username: "timmys9inchjimmy",
-            avatar: "https://cdn.discordapp.com/avatars/430503118262894614/c016210777c0eed529c6ae9b3a3c7a37.png?size=512",
+            avatar: "https://cdn.discordapp.com/attachments/379432139856412682/508434624666664961/c016210777c0eed529c6ae9b3a3c7a37.png",
             date: "2018-06-07T20:54:53.048475+00:00",
             amount: 5
         },
         {
             username: "Kamui",
-            avatar: "https://cdn.discordapp.com/avatars/161573813379792899/a_e6cc2fa791bbefce65e928492eaebe91.png?size=512",
+            avatar: "https://cdn.discordapp.com/attachments/379432139856412682/508019481642270740/a_ecc5cdc51043b5b3810c923e8075411e.gif",
             date: "2018-01-03T01:39:37.152671+00:00",
             amount: 1
         },
         {
             username: "KlausHeissler",
-            avatar: "https://cdn.discordapp.com/avatars/342086358010953728/1bd96364cbb3ad48df37374b73c6c72c.png?size=512",
+            avatar: "https://cdn.discordapp.com/attachments/379432139856412682/508434630559662139/429937e230deb16a5bc87ca5b0fabb75.png",
             date: "2018-03-03T02:20:43.132314+00:00",
             amount: 1
         },
         {
             username: "lonelychef",
-            avatar: "https://cdn.discordapp.com/avatars/328837258788601857/92706e9f3a5342dee38c5279863bf500.png?size=512",
+            avatar: "https://cdn.discordapp.com/attachments/379432139856412682/508434619297824768/92706e9f3a5342dee38c5279863bf500.png",
             date: "2018-05-27T10:59:42.665346+00:00",
             amount: 10
         },
         {
             username: "Savagekiller115",
-            avatar: "https://cdn.discordapp.com/avatars/393620893835984896/3b1333657ff839838d281bfb02abbec8.png?size=512",
+            avatar: "https://cdn.discordapp.com/attachments/379432139856412682/508434615296327691/3b1333657ff839838d281bfb02abbec8.png",
             date: "2018-05-24T00:56:22.462165+00:00",
             amount: 10
         },
         {
             username: "Tweeno",
-            avatar: "https://cdn.discordapp.com/avatars/215982178046181376/79209171354b0d6a28f2c5672b1d5bbd.png?size=512",
+            avatar: "https://cdn.discordapp.com/attachments/379432139856412682/508434634200186880/555bd89923fd4c08b37c540ba1e75ba7.png",
             date: "2018-06-16T00:00:00.000000+00:00",
             amount: 1
+        },
+        {
+            username: "Dr. Normal",
+            avatar: "https://cdn.discordapp.com/attachments/379432139856412682/508435598223212575/a_58812516bac2ed8a503ef3ac02600f53.png",
+            date: "2018-11-02T00:00:00.000000+00:00",
+            amount: 10
         }
     ];
 
@@ -229,7 +235,27 @@ router.get("/api/v3/sloc", (req, res) => {
 router.get("/dashboard/profiles/:discord_id", authUser, async (req, res) => {
 
     res.render("dashboard/profile")
-});     
+});
+
+router.get("/terms", (req, res) => {
+
+    res.render("soontm")
+});
+
+router.get("/help", (req, res) => {
+
+    res.render("soontm")
+});
+
+router.get("/feedback", (req, res) => {
+
+    res.render("soontm")
+});
+
+router.get("/soontm", (req, res) => {
+
+    res.render("soontm");
+});
 
 router.get("/logout", async (req, res) => {
    
@@ -313,7 +339,8 @@ router.get("/auth/discord/callback", async (req, res) => {
     } catch(error) {
 
         apiLogger.error(error);
-        return res.render("401", { status: 401, message: "Unauthorized", error });
+        //return res.render("401", { status: 401, message: "Unauthorized", error });
+        return res.redirect("/auth/discord");
     }
 
     if (session_doc.nonce !== req.query.state) {
@@ -417,8 +444,11 @@ router.get("/api/docs", async (req, res) => {
 });
 
 router.get("/privacy", async (req, res) => {
-    const privacy = fs.readFileSync(path.join(__dirname, "..", "markdown", "terms", "privacy.md")).toString();
-    res.render("privacy", { md: text => { return converter.makeHtml(text); }, user: {}, privacy});
+
+    //const privacy = fs.readFileSync(path.join(__dirname, "..", "markdown", "terms", "privacy.md")).toString();
+    //res.render("privacy", { md: text => { return converter.makeHtml(text); }, user: {}, privacy});
+
+    res.render("soontm");
 });
 
 router.get("/credits", async (req, res) => {
@@ -431,10 +461,6 @@ router.get("/credits", async (req, res) => {
         apiLogger.fatalError(`Could not read config file: ${err}`);
     }
     res.render("credits", { md: text => { return converter.makeHtml(text); }, user: {}, credits:credits});
-});
-
-router.get("/commands", (req, res) => {
-    res.render("commands", { md: text => { return converter.makeHtml(text); }, user: {}});
 });
 
 router.get("/surveys", (req, res) => {
@@ -513,7 +539,7 @@ router.get("/dashboard/leaderboards/legacy/v1", authUser, async (req, res) => {
         apiLogger.fatalError(`Could not read config file: ${err}`);
     }
 
-    res.render("dashboard/legacy-leaderboards", {v1:v1});
+    res.render("dashboard/legacy-leaderboards", {v1:JSON.stringify(v1)});
 });
 
 router.get("/dashboard/leaderboards/legacy/v2", authUser, async (req, res) => {
@@ -526,7 +552,12 @@ router.get("/dashboard/leaderboards/legacy/v2", authUser, async (req, res) => {
     
         apiLogger.fatalError(`Could not read config file: ${err}`);
     }
-    res.render("dashboard/legacy-leaderboards-2", {v2:v2});
+    res.render("dashboard/legacy-leaderboards-2", {v2:JSON.stringify(v2)});
+});
+
+router.get("/dashboard/commands", authUser, (req, res) => {
+
+    res.render("dashboard/commands");
 });
 
 router.get("/dashboard/leaderboards", authUser, (req, res) => {

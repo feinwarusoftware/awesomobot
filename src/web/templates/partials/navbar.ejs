@@ -4,8 +4,8 @@
         <a class="navbar-brand" href="/">
             <img src="/img/navbarlogo.png" height="30" alt="">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7" aria-controls="navbarSupportedContent-7"
-            aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7"
+            aria-controls="navbarSupportedContent-7" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
@@ -13,7 +13,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/<%= trans.LANG %>">
                         <%= trans.HOME %>
-                            <span class="sr-only">(current)</span>
+                        <span class="sr-only">(current)</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -22,13 +22,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/commands<%= trans.LANG %>">
-                        <%= trans.COMMANDS %>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://blog.feinwaru.com">
-                        <%= trans.BLOG %>
+                    <a class="nav-link" href="https://github.com/feinwarusoftware/awesomobot/wiki/Roadmap">
+                        <%= trans.ROADMAP %>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -44,8 +39,9 @@
                     </a>
                 </li>
             </ul>
-            <ul class="navbar-nav ml-auto nav-flex-icons">
 
+            <ul class="navbar-nav ml-auto nav-flex-icons">
+                <!--
                 <% if (user === null) { %>
 
                     <li>
@@ -77,12 +73,14 @@
                             </div>
                         </li>
 
-                        <% } %>
-                        <li class="nav-item">
-                            <a class="nav-link waves-effect waves-light" data-toggle="modal" data-target="#LangModal">
-                                <i class="fa fa-globe"></i> <b><%= trans.INITIALS %></b>
-                            </a>
-                        </li>
+                        <% } %>-->
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" data-toggle="modal" data-target="#LangModal">
+                        <i class="fas fa-globe-africa"></i> <b>
+                            <%= trans.INITIALS %></b>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>

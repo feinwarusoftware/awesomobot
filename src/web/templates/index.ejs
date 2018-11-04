@@ -49,6 +49,17 @@
         .anchor {
             padding-top: 50px;
         }
+
+        .btn.feinwaru:hover {
+            color: white;
+        }
+
+        .pricing-card .price .number:after {
+  content: "/<%= trans.MONTH_SHORT %>"; 
+  position: absolute;
+  font-size: 1.88rem;
+  margin-top: 3rem
+}
     </style>
 
 </head>
@@ -76,7 +87,7 @@
                                 <%= trans.LEARN_MORE %>
                             </a>
                             <a class="btn btn-white btn-rounded btn_login_discord">
-                                <%= trans.LOGIN %>
+                                <%= trans.GOTO_DASHBOARD %>
                             </a>
                         </div>
                         <!--Grid column-->
@@ -134,14 +145,14 @@
                         <!-- Grid row -->
                         <div id="feature2" class="row mb-3">
                             <div class="col-2">
-                                <i class="fa fa-question feinwaru-text fa-2x"></i>
+                                <i class="fas fa-store feinwaru-text fa-2x"></i>
                             </div>
                             <div class="col-10 mb-2">
                                 <h5 class="font-weight-bold title">
-                                    <%= trans.SURVEYS %>
+                                    <%= trans.AWESOMO_MARKETPLACE %>
                                 </h5>
                                 <p class="grey-text">
-                                    <%- md(trans.SURVEYS_DESC); %>
+                                    <%- md(trans.HOME_MARKETPLACE_DESC); %>
                                 </p>
                             </div>
                         </div>
@@ -167,8 +178,7 @@
 
                     <!-- Grid column -->
                     <div class="col-lg-4 col-md-12 mb-1 text-center text-md-left">
-                        <img id="featureimg" src="https://cdn.discordapp.com/attachments/430447280932388865/474253854465196042/headerawesomo.png"
-                            alt="" class="z-depth-0 img-fluid">
+                        <img id="featureimg" src="img/feature0.png" alt="" class="z-depth-1 img-fluid mb-3">
                     </div>
                     <!-- Grid column -->
 
@@ -193,14 +203,14 @@
                         <!-- Grid row -->
                         <div id="feature5" class="row mb-3">
                             <div class="col-2">
-                                <i class="fa fa-music feinwaru-text fa-2x"></i>
+                                <i class="fas fa-tachometer-alt feinwaru-text fa-2x"></i>
                             </div>
                             <div class="col-10 mb-2">
                                 <h5 class="font-weight-bold title">
-                                    <%= trans.MUSIC %>
+                                    <%= trans.ONLINE_DASHBOARD %>
                                 </h5>
                                 <p class="grey-text">
-                                    <%- md(trans.MUSIC_DESC); %>
+                                    <%- md(trans.ONLINE_DASHBOARD_DESC); %>
                                 </p>
                             </div>
                         </div>
@@ -282,8 +292,8 @@
                                     0
                                 </span>
                             </h1>
-                            <p class="white-text">
-                                <%= trans.ACTIVE_USERS %>
+                            <p class="white-text" style="text-transform: capitalize;">
+                                <%= trans.TOTAL_USERS %>
                             </p>
                         </div>
                         <!--/Second column-->
@@ -305,7 +315,7 @@
                         <div class="col-md-3">
                             <h1 class="white-text mb-1 font-weight-bold">
                                 <span class="odometer" id="locplaceholder">
-                                    0
+                                    38,374
                                 </span>
                             </h1>
                             <p class="white-text">
@@ -403,7 +413,7 @@
                                                     <%- md(trans.EARLY_FEATURES); %>
                                                 </li>
                                             </ul>
-                                            <a class="btn feinwaru white-text btn-rounded">
+                                            <a href="https://www.patreon.com/join/awesomo/checkout?rid=2252783" class="btn feinwaru white-text btn-rounded">
                                                 <%= trans.GET_AWESOMO %>
                                                 <%= trans.PREMIUM %>
                                             </a>
@@ -446,7 +456,8 @@
                                                         <%- md(trans.API_ACCESS); %>
                                                     </li>
                                                 </ul>
-                                                <a class="btn btn-outline-white btn-rounded">
+                                                <a href="https://www.patreon.com/join/awesomo/checkout?rid=2252814"
+                                                    class="btn btn-outline-white btn-rounded">
                                                     <%= trans.GET_AWESOMO %>
                                                     <%= trans.PREMIUM %>
                                                 </a>
@@ -487,7 +498,7 @@
                                                     <%- md(trans.LOWER_TIERS); %>
                                                 </li>
                                             </ul>
-                                            <a class="btn feinwaru white-text btn-rounded">
+                                            <a href="https://www.patreon.com/join/awesomo/checkout?rid=2252799" class="btn feinwaru white-text btn-rounded">
                                                 <%= trans.GET_AWESOMO %>
                                                 <%= trans.PREMIUM %>
                                             </a>
@@ -599,7 +610,8 @@
                                                     <%- md(trans.EARLY_FEATURES); %>
                                                 </li>
                                             </ul>
-                                            <a class="btn feinwaru white-text btn-rounded">
+                                            <a class="btn feinwaru white-text btn-rounded" data-toggle="tooltip"
+                                                data-placement="top" title="Please contact us on Discord for more information">
                                                 <%= trans.GET_AWESOMO %>
                                                 <%= trans.PREMIUM %>
                                             </a>
@@ -702,7 +714,8 @@
                                                         <%- md(trans.API_ACCESS); %>
                                                     </li>
                                                 </ul>
-                                                <a class="btn btn-outline-white btn-rounded">
+                                                <a class="btn btn-outline-white btn-rounded" data-toggle="tooltip"
+                                                    data-placement="top" title="Please contact us on Discord for more information">
                                                     <%= trans.GET_AWESOMO %>
                                                     <%= trans.PREMIUM %>
                                                 </a>
@@ -803,7 +816,8 @@
                                                     <%- md(trans.LOWER_TIERS); %>
                                                 </li>
                                             </ul>
-                                            <a class="btn feinwaru white-text btn-rounded">
+                                            <a class="btn feinwaru white-text btn-rounded" data-toggle="tooltip"
+                                                data-placement="top" title="Please contact us on Discord for more information">
                                                 <%= trans.GET_AWESOMO %>
                                                 <%= trans.PREMIUM %>
                                             </a>
@@ -866,34 +880,34 @@
             // Material Select Initialization
             $(document).ready(function () {
                 $('.mdb-select').material_select();
+                $('[data-toggle="tooltip"]').tooltip()
             });
 
-            const uptime = new XMLHttpRequest();
-            uptime.open("GET", `/api/v3/uptime`, false);
-            uptime.send();
-            const uptimeyay = JSON.parse(uptime.response);
-            $("#uptimeplaceholder").html(Math.round(uptimeyay.uptime));
+
 
             const stats = new XMLHttpRequest();
             stats.open("GET", `/api/v3/stats`, false);
             stats.send();
-            const statsyay = JSON.parse(stats.response);
-            $("#usersplaceholder").html(statsyay.members);
-            $("#serversplaceholder").html(statsyay.guilds);
+            const statsyay = JSON.parse(stats.response).stats;
+            $("#usersplaceholder").html(statsyay.members.total);
+            $("#serversplaceholder").html(statsyay.servers);
+            $("#uptimeplaceholder").html(Math.round(statsyay.status.uptime));
+            console.log(statsyay)
 
             setInterval(function () {
                 const stats = new XMLHttpRequest();
                 stats.open("GET", `/api/v3/stats`, false);
                 stats.send();
                 const statsyay = JSON.parse(stats.response);
-                $("#usersplaceholder").html(statsyay.members);
-                $("#serversplaceholder").html(statsyay.guilds);
+                $("#usersplaceholder").html(statsyay.members.total);
+                $("#serversplaceholder").html(statsyay.servers);
+                $("#uptimeplaceholder").html(Math.round(statsyay.status.uptime));
             }, 15000);
 
             $("#featurehead").mouseenter(function () {
                 $("#featureimg").fadeOut(100, () => {
                     $("#featureimg").attr("src",
-                        "https://cdn.discordapp.com/attachments/430447280932388865/474253854465196042/headerawesomo.png"
+                        "img/feature0.png"
                     );
                     $("#featureimg").fadeIn(100)
                 })
@@ -944,7 +958,7 @@
 
             patronsyay = patronsyay.filter(e => e.amount >= 5);
             patronsyay.sort((a, b) => b.amount - a.amount);
-            
+
             for (let patron of patronsyay) {
                 patronlist.append(
                     `
@@ -986,8 +1000,6 @@
 
                 );
             };
-            
-            
         </script>
 
 </body>

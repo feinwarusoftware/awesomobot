@@ -488,7 +488,7 @@
                 switch (yourScriptsYay.status) {
                     case 200:
                         yourScripts.push(...yourScriptsYay.scripts);
-                        console.log("loaded your scripts");
+                        
                         break;
                     case 403:
                         toastr["error"](`failed to fetch your scripts: 403 forbidden`);

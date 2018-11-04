@@ -300,7 +300,7 @@
 
         switch (featuredYay.status) {
             case 200:
-                console.log("loaded featured scripts");
+                
                 break;
             case 403:
                 toastr["error"](`failed to fetch featured scripts: 403 forbidden`);
@@ -340,7 +340,7 @@
             let guildScriptYay;
             try {
 
-                console.log(guildScriptRequest.response);
+                
 
                 guildScriptYay = JSON.parse(guildScriptRequest.response);
             } catch (error) {
@@ -442,7 +442,7 @@
             switch (yourScriptsYay.status) {
                 case 200:
                     yourScripts.push(...yourScriptsYay.scripts);
-                    console.log("loaded your scripts");
+                    
                     break;
                 case 403:
                     toastr["error"](`failed to fetch your scripts: 403 forbidden`);
@@ -569,7 +569,7 @@
 
         function getScripts(page, search) {
 
-            console.log(`search: ${search}`);
+            
 
             const scriptsRequest = new XMLHttpRequest();
             const url = (search === null || search === undefined || search === "") ?
@@ -590,7 +590,7 @@
 
             switch (scriptsYay.status) {
                 case 200:
-                    console.log("loaded scripts");
+                    
                     break;
                 case 403:
                     toastr["error"](`failed to fetch scripts: 403 forbidden`);
@@ -703,14 +703,14 @@
                 `
                         <!--First-->
                         <li id="pagination-first" class="page-item ${page <= 0 ? 'disabled' : ''}">
-                            <a style="user-select: none; -moz-user-select: none;" class="page-link">First</a>
+                            <a style="user-select: none; -moz-user-select: none;" class="page-link"><%= trans.FIRST %></a>
                         </li>
 
                         <!--Arrow left-->
                         <li id="pagination-previous" class="page-item ${page <= 0 ? 'disabled' : ''}">
                             <a class="page-link" aria-label="Previous">
                                 <span style="user-select: none; -moz-user-select: none;" aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
+                                <span class="sr-only"><%= trans.PREVIOUS %></span>
                             </a>
                         </li>
 
@@ -721,13 +721,13 @@
                         <li id="pagination-next" class="page-item ${page >= Math.ceil(scriptsYay.total / scriptsYay.limit) - 1 ? 'disabled' : ''}">
                             <a class="page-link" aria-label="Next">
                                 <span style="user-select: none; -moz-user-select: none;" aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
+                                <span class="sr-only"><%= trans.NEXT %></span>
                             </a>
                         </li>
 
                         <!--Last-->
                         <li id="pagination-last" class="page-item ${page >= Math.ceil(scriptsYay.total / scriptsYay.limit) - 1 ? 'disabled' : ''}">
-                            <a style="user-select: none; -moz-user-select: none;" class="page-link">Last</a>
+                            <a style="user-select: none; -moz-user-select: none;" class="page-link"><%= trans.LAST %></a>
                         </li>
                 `;
 
@@ -896,7 +896,7 @@
             scriptRemoveRequest.open("DELETE", "/api/v3/guilds/" + currentServer + "/scripts/" + btn.id, false);
             scriptRemoveRequest.send();
 
-            console.log(scriptRemoveRequest.response);
+            
 
             let scriptRemoveYay;
             try {

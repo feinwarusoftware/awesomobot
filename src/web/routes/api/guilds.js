@@ -223,6 +223,9 @@ router.route("/").post(authUser, (req, res) => {
 router.route("/@me").get(authUser, (req, res) => {
 
     // + cond discord data
+    const noawesomo = req.query.noawesomo === "true" ? true : req.query.noawesomo === "false" ? false : undefined;
+
+    // + cond discord data
     const extended = req.query.extended === "true" ? true : req.query.extended === "false" ? false : undefined;
 
     // Parse the amount of scripts that the api will return.
@@ -245,10 +248,12 @@ router.route("/@me").get(authUser, (req, res) => {
         .then(guilds => {
 
             const search_ids = [];
+            const search_guilds = [];
             for (let guild of guilds) {
                 if ((guild.name.includes(name === undefined ? "" : name) === true) && (owner === undefined ? true : guild.owner === owner)) {
 
                     search_ids.push(guild.id);
+                    search_guilds.push(guild);
                 }
             }
 
@@ -303,6 +308,11 @@ router.route("/@me").get(authUser, (req, res) => {
 
                                     return doc_obj;
                                 });
+
+                                if (noawesomo === true) {
+
+                                    docs = [...docs, ...search_guilds.filter(e => !docs.map(e => e.discord_id).includes(e.id)).map(e => { e.discord_id = e.id; delete e.id; return e; })];
+                                }
                             }
                 
                             return res.json({ status: 200, page, limit, total, guilds: docs });
@@ -487,91 +497,89 @@ router.route("/:discord_id/scripts").get(authUser, (req, res) => {
     };
 
     schemas.GuildSchema
-    .findOne({
-        discord_id: req.params.discord_id
-    })
-    .then(doc => {
-        if (doc === null) {
+        .findOne({
+            discord_id: req.params.discord_id
+        })
+        .then(doc => {
+            if (doc === null) {
 
-            return res.json({ status: 404 });
-        }
+                return res.json({ status: 404 });
+            }
 
-        if (extended === true) {
+            if (extended === true) {
 
-            const search_ids = doc.scripts.map(script => script.object_id);
+                const search_ids = doc.scripts.map(script => script.object_id);
 
-            schemas.ScriptSchema
-                .count({
-                    ...search,
-                    _id: {
-                        $in: search_ids
-                    }
-                })
-                .skip(page * limit)
-                .limit(limit)
-                .then(total => {
-                    if (total === 0) {
-        
-                        return res.json({ status: 404 });
-                    }
-        
-                    schemas.ScriptSchema
-                        .find({
-                            ...search,
-                            _id: {
-                                $in: search_ids
-                            }
-                        })
-                        .skip(page * limit)
-                        .limit(limit)
-                        .select({ __v: 0 })
-                        .then(docs => {
-
-                            docs = docs.map(doc2 => {
-
-                                const doc2_obj = doc2.toObject();
-
-                                for (let script of doc.scripts) {
-
-                                    if (script.object_id.equals(doc2_obj._id)) {
-
-                                        delete doc2_obj._id;
-
-                                        doc2_obj.object_id = script.object_id;
-                                        doc2_obj.match_type_override = script.match_type_override;
-                                        doc2_obj.match_override = script.match_override;
-                                        doc2_obj.permissions = script.permissions;
-                                        
-                                        break;
-                                    }
+                schemas.ScriptSchema
+                    .count({
+                        ...search,
+                        _id: {
+                            $in: search_ids
+                        }
+                    })
+                    .then(total => {
+                        if (total === 0) {
+            
+                            return res.json({ status: 404 });
+                        }
+            
+                        schemas.ScriptSchema
+                            .find({
+                                ...search,
+                                _id: {
+                                    $in: search_ids
                                 }
+                            })
+                            .skip(page * limit)
+                            .limit(limit)
+                            .select({ __v: 0 })
+                            .then(docs => {
 
-                                return doc2_obj;
+                                docs = docs.map(doc2 => {
+
+                                    const doc2_obj = doc2.toObject();
+
+                                    for (let script of doc.scripts) {
+
+                                        if (script.object_id.equals(doc2_obj._id)) {
+
+                                            delete doc2_obj._id;
+
+                                            doc2_obj.object_id = script.object_id;
+                                            doc2_obj.match_type_override = script.match_type_override;
+                                            doc2_obj.match_override = script.match_override;
+                                            doc2_obj.permissions = script.permissions;
+                                            
+                                            break;
+                                        }
+                                    }
+
+                                    return doc2_obj;
+                                });
+                    
+                                return res.json({ status: 200, page, limit, total, scripts: docs });
+                            })
+                            .catch(error => {
+                    
+                                apiLogger.error(error);
+                                return res.json({ status: 500 });
                             });
-                
-                            return res.json({ status: 200, page, limit, total, scripts: docs });
-                        })
-                        .catch(error => {
-                
-                            apiLogger.error(error);
-                            return res.json({ status: 500 });
-                        });
-                })
-                .catch(error => {
-        
-                    apiLogger.error(error);
-                    return res.json({ status: 500 });
-                });
-        } else {
+                    })
+                    .catch(error => {
+            
+                        apiLogger.error(error);
+                        return res.json({ status: 500 });
+                    });
+            } else {
 
-            return res.json({ status: 200, page, limit, total: doc.scripts.length, scripts: doc.scripts.slice(page * limit, page * limit + limit) });
-        }
-    })
-    .catch(error => {
+                return res.json({ status: 200, page, limit, total: doc.scripts.length, scripts: doc.scripts.slice(page * limit, page * limit + limit) });
+            }
+        })
+        .catch(error => {
 
-        apiLogger.error(error);
-        return res.json({ status: 500 });
-    });
+            apiLogger.error(error);
+            return res.json({ status: 500 });
+        });
 
 }).post(authUser, (req, res) => {
 

@@ -14,23 +14,24 @@
         <li>
             <ul class="collapsible collapsible-accordion">
                     <li>
-                            <a class="collapsible-header waves-effect" href="/<%= trans.LANG %>">
+                            <a class="waves-effect" href="/<%= trans.LANG %>">
                                 <%= trans.HOME %>
                                     <span class="sr-only">(current)</span>
                             </a>
                         </li>
                         <li>
-                            <a class="collapsible-header waves-effect" href="/commands<%= trans.LANG %>">
-                                <%= trans.COMMANDS %>
+                            <a class="waves-effect" href="https://github.com/feinwarusoftware/awesomobot/wiki/Roadmap">
+                                <%= trans.ROADMAP %>
                             </a>
                         </li>
                         <li>
-                            <a class="collapsible-header waves-effect" href="https://sppd.feinwaru.com">
+                            <a class="waves-effect" href="https://sppd.feinwaru.com">
                                 Phone Destroyer
                             </a>
                         </li>
+
                         <li>
-                            <a class="collapsible-header waves-effect yellow-text" href="https://patreon.com/awesomo">
+                            <a class="waves-effect yellow-text" href="https://patreon.com/awesomo">
                                 <b>
                                     <%= trans.PREMIUM %>
                                 </b>
@@ -45,7 +46,13 @@
 
                 </li>
                 <li>
-                    <a class="collapsible-header waves-effect">
+                    <a id="profile-link-2" class=" waves-effect">
+                        <i class="fa fa-user" ></i>
+                        <%= trans.VIEW_PROFILE %>
+                    </a>
+                </li>
+                <!-- <li>
+                    <a class="waves-effect">
                         <i class="fa fa-chart-bar"></i>
                         <%= trans.LEADERBOARDS %>
                     </a>
@@ -65,10 +72,10 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li>-->
                 <!-- future update
                                 
-                                <li><a class="collapsible-header waves-effect"><i class="fa fa-share-alt"></i> Integrations</a>
+                                <li><a class=" waves-effect"><i class="fa fa-share-alt"></i> Integrations</a>
                                 <div class="ml-4 pl-3">
                                     <ul>
                                         <li><a href="#" class="waves-effect"><i class="fa fa-lastfm"></i> last.fm</a>
@@ -80,7 +87,7 @@
                             </li>
                 
                             <li>
-                    <a class="collapsible-header waves-effect">
+                    <a class=" waves-effect">
                         <i class="fa fa-gavel"></i>
                         <%= trans.MODERATION %>
                     </a>
@@ -103,10 +110,16 @@
                 </li>
                 -->
                 <li>
-                    <a class="collapsible-header waves-effect">
+                    <a class=" waves-effect">
                         <i class="fa fa-code"></i><%= trans.SCRIPTS %></a>
                     <div class="ml-4 pl-2">
                         <ul>
+                            <li>
+                                <a class="waves-effect" href="/dashboard/commands<%= trans.LANG %>">
+                                    <i class="fa fa-list" ></i>
+                                    <%= trans.COMMANDS %>
+                                </a>
+                            </li>
                             <li>
                                 <a href="/dashboard/scripts/marketplace<%= trans.LANG %>" class="waves-effect">
                                     <i class="fa fa-shopping-cart"></i>
@@ -136,13 +149,13 @@
                     </div>
                 </li>
                 <li>
-                    <a href="/dashboard/patrons<%= trans.LANG %>" class="collapsible-header waves-effect">
+                    <a href="/dashboard/patrons<%= trans.LANG %>" class=" waves-effect">
                         <i class="fab fa-patreon" style="margin-right: 13px"></i>
                         <%= trans.PATRON_MANAGEMENT %>
                     </a>
                 </li>
                 <li>
-                    <a class="collapsible-header waves-effect">
+                    <a class=" waves-effect">
                         <i class="fa fa-database"></i>
                         <%= trans.AWESOMO_LEGACY_FEATURES %>
                     </a>
@@ -205,7 +218,7 @@
         </li>
         <li class="nav-item avatar dropdown pr-3 mr-2">
             <a class="nav-link dropdown-toggle waves-effect waves-light rounded-circle" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="true">
+                aria-haspopup="true" aria-expanded="true" data-toggle="tooltip">
                 <img id="profile-img" class="rounded-circle z-depth-0">
             </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-feinwaru">
@@ -225,7 +238,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link waves-effect waves-light" data-toggle="modal" data-target="#LangModal">
-                <i class="fa fa-globe"></i>
+                <i class="fas fa-globe-africa"></i>
                 <b>
                     <%= trans.INITIALS %>
                 </b>
@@ -242,7 +255,6 @@
 
 <script>
     "use strict";
-
 function getCookie(cname) {
         var name = cname + "=";
         var decodedCookie = decodeURIComponent(document.cookie);
@@ -331,6 +343,8 @@ function getCookie(cname) {
 
     document.getElementById("username").innerText = userYay.user.username;
     document.getElementById("profile-link").href = "/dashboard/profiles/" + userYay.user.discord_id +
+        "<%= trans.LANG %>";
+        document.getElementById("profile-link-2").href = "/dashboard/profiles/" + userYay.user.discord_id +
         "<%= trans.LANG %>";
     document.getElementById("profile-img").src = "https://cdn.discordapp.com/avatars/" + userYay.user.discord_id + "/" +
         userYay.user.avatar + ".png?size=128";
