@@ -6,7 +6,7 @@ const micro = new Command({
 
     name: "Microagression",
     description: "DID I JUST HEAR SOMEONE USE A MICROAGRESSION? ARRRGHHH",
-    thumbnail: "https://2static.fjcdn.com/pictures/Pc+principal+brah+just+out+of+curiosity+what+are+your_c20788_5720727.jpg",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092428486279169/t5.png",
     marketplace_enabled: true,
 
     type: "js",

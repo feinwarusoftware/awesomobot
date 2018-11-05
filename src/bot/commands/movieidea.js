@@ -6,7 +6,7 @@ const movieidea = new Command({
 
     name: "Movie Ideas",
     description: "Movie Idea #2305: Adam Sandler is trapped on an island... and falls in love with a ehh coconut",
-    thumbnail: "http://1.images.southparkstudios.com/images/shows/south-park/clip-thumbnails/season-8/0802/south-park-s08e02c11-computerized-automatron-16x9.jpg?width=1024&height=576",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092328091287553/t15.png",
     marketplace_enabled: true,
 
     type: "js",

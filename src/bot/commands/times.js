@@ -9,7 +9,7 @@ const times = new Command({
 
     name: "Timezones",
     description: "Get the current time in different timezones",
-    thumbnail: "https://c.tadst.com/gfx/tzmap/map.1534046400.png?1159",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092414913511424/t2.png",
     marketplace_enabled: true,
 
     type: "js",

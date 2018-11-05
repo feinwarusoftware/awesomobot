@@ -8,7 +8,7 @@ const love = new Command({
 
     name: "Chef Quotes",
     description: "An anal probe is when they stick a big metal hoob-a-joo up your butt.",
-    thumbnail: "https://static.independent.co.uk/s3fs-public/thumbnails/image/2016/09/14/16/south-park-chef.jpg?w968",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092317655728128/t12.png",
     marketplace_enabled: true,
 
     type: "js",

@@ -63,7 +63,7 @@ let ship = new Command({
 
     name: "South Park Ship",
     description: "Ships two random characters together",
-    thumbnail: "https://t1.rbxcdn.com/3cd782c385a9bafa604dd9c3369c1964",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092370499895297/t23.png",
     marketplace_enabled: true,
 
     type: "js",

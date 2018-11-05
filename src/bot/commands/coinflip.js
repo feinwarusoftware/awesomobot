@@ -6,7 +6,7 @@ const coinflip = new Command({
 
     name: "Coin Flip",
     description: "Flip a coin",
-    thumbnail: "https://images-na.ssl-images-amazon.com/images/I/71zkn4UyOPL._SX466_.jpg",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092339680280626/t18.png",
     marketplace_enabled: true,
 
     type: "js",

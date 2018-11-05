@@ -198,7 +198,7 @@ const card = new Command({
 
     name: "card",
     description: "*temp*",
-    thumbnail: "https://cdn.discordapp.com/avatars/168690518899949569/a4d22ea18644a67fb4ea1f5f39668cb9.png?size=512",
+    thumbnail: "https://cdn.discordapp.com/attachments/394504208222650369/509099660711821312/card.png",
     marketplace_enabled: true,
 
     type: "js",
@@ -335,6 +335,43 @@ const card = new Command({
             stats = getLevelStats(card, level);
         }
 
+        for (let stat in stats) {
+
+            if (stat === "Damage" || stat == "Health") {
+
+                continue;
+            }
+
+            if (stat === "PowerMaxHPGain") {
+
+                card.Description = card.Description.replace(`{PowerMaxHealthBoost}`, stats[stat]);
+                continue;
+            }
+
+            card.Description = card.Description.replace(`{${stat}}`, stats[stat]);
+        }
+
+        if (card.Description.includes("{PowerDurationMin}-{PowerDurationMax}")) {
+
+            card.Description = card.Description.replace("{PowerDurationMin}-{PowerDurationMax}", `${card.PowerDuration - 1}-${card.PowerDuration + 1} seconds`);
+        }
+        if (card.Name === "Cock Magic") {
+
+            card.Description = card.Description.replace("{PowerTargetAmount}", level);
+        }
+        if (card.Name === "Marcus") {
+
+            card.Description = card.Description.replace("{PowerHeroDamage}", card.PowerDamage);
+        }
+        if (card.Name === "Marine Craig") {
+
+            card.Description = card.Description.replace("{PowerHeroPoison}", card.PowerPoisonAmount);
+        }
+        if (card.Name === "Chicken Coop") {
+
+            card.Description = card.Description.replace("{PowerInterval.1}", "3.5");
+        }
+
         /* --- pasted old code --- */
 
         // Get the frame outline.
@@ -446,7 +483,7 @@ const card = new Command({
             case "Ranged":
                 iy = iconHeight * 6;
                 break;
-            case "Fighter":
+            case "Melee":
                 iy = iconHeight * 8;
                 break;
             case "Totem":
@@ -663,7 +700,7 @@ const card = new Command({
 
         print.printCenterCenter(bg, sp18Font, 20, 510, card.Description, 325);
 
-        bg.autocrop(0.0002, false);
+        bg.autocrop(0.002, false);
 
         // save + post
         const saveDate = Date.now();

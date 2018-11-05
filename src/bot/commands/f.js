@@ -6,7 +6,7 @@ const f = new Command({
 
     name: "Press F To Pay Respects",
     description: "Do what the title says",
-    thumbnail: "https://i.kym-cdn.com/entries/icons/mobile/000/017/039/pressf.jpg",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092323355918336/t14.png",
     marketplace_enabled: true,
 
     type: "js",

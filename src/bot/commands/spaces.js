@@ -6,7 +6,7 @@ let spaces = new Command({
 
     name: "S P A C E S",
     description: "Add a little A E S T H E T I C to your text",
-    thumbnail: "https://lh3.googleusercontent.com/UweWOGsYPwbP2QcK_3btS5UgrvwlZMRFvNnNyGdN5A2kicf7kzed0fT7rqX_oG3wDouDFsTVi3NmDxJo_xRJ8oAr0Ja1bv4gqH3o7w=s850",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092409569837066/t1.png",
     marketplace_enabled: true,
 
     type: "js",

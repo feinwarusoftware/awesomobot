@@ -6,7 +6,7 @@ let someone = new Command({
 
     name: "@someone",
     description: "Can anybody find me!!!!??? Yeah this command basically copies that Discord April fools joke",
-    thumbnail: "https://i.redd.it/zsel39t946p01.png",
+    thumbnail: "https://cdn.discordapp.com/attachments/379432139856412682/509103961819709440/unknown.png",
     marketplace_enabled: true,
 
     type: "js",

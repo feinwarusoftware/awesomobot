@@ -6,7 +6,7 @@ const rps = new Command({
 
     name: "Rock, Paper, Scissors",
     description: "Mate, do I even have to explain...",
-    thumbnail: "http://d13z1xw8270sfc.cloudfront.net/origin/430481/1511471015563_cheater1.jpg",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092360345485323/t21.png",
     marketplace_enabled: true,
 
     type: "js",

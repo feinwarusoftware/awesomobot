@@ -8,7 +8,7 @@ let towelrate = new Command({
 
     name: "Towel Rating™",
     description: "Anyone want rated? Anyone want rated by a towel!?",
-    thumbnail: "http://3.images.southparkstudios.com/blogs/southparkstudios.com/files/2016/04/sp-FAQ-whats-the-deal-with-towelie-blog.jpg",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092516969316362/t19.png",
     marketplace_enabled: true,
 
     type: "js",

@@ -8,7 +8,7 @@ const harvest = new Command({
 
     name: "Harvest",
     description: "Ave, ave versus christus!",
-    thumbnail: "https://tonyhaletest.files.wordpress.com/2013/08/britney-1.jpg",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092437180809242/t7.png",
     marketplace_enabled: true,
 
     type: "js",

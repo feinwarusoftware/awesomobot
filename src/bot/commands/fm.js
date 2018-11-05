@@ -9,7 +9,7 @@ const fm = new Command({
 
     name: "last.fm",
     description: "Check your last.fm stats",
-    thumbnail: "https://video-images.vice.com/articles/5a2ae9e1427b5c56735f8a29/lede/1512999752062-lastfm_avatar_twitter.png",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092391467352065/t29.png",
     marketplace_enabled: true,
 
     type: "js",

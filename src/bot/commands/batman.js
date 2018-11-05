@@ -6,7 +6,7 @@ const batman = new Command({
 
     name: "Batman",
     description: "na na na na na na na na",
-    thumbnail: "https://78.media.tumblr.com/tumblr_m69aybXOg71r6bzymo1_400.png",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092330213605376/t16.png",
     marketplace_enabled: true,
 
     type: "js",

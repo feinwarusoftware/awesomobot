@@ -8,7 +8,7 @@ let reminder = new Command({
 
     name: "Towelie's Reminder",
     description: "You all know the words kids!",
-    thumbnail: "https://pbs.twimg.com/profile_images/480850680031105024/7ShAOhuC.jpeg",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092420240015381/t3.png",
     marketplace_enabled: true,
 
     type: "js",

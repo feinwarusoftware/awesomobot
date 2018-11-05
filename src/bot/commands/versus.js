@@ -101,7 +101,7 @@ const versus = new Command({
 
     name: "South Park Versus",
     description: "Picks two random characters and makes them fight to the death!",
-    thumbnail: "http://2.images.southparkstudios.com/images/shows/south-park/clip-thumbnails/season-12/1209/south-park-s12e09c12-wendy-vs-cartman-16x9.jpg?width=1024&height=576",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092516969316362/t19.png",
     marketplace_enabled: true,
 
     type: "js",

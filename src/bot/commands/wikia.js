@@ -10,7 +10,7 @@ const wikia = new Command({
 
     name: "South Park Archives",
     description: "Searches https://southpark.wikia.com/",
-    thumbnail: "https://media.glassdoor.com/sqll/428648/fandom-squarelogo-1533568635940.png",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092423087947817/t4.png",
     marketplace_enabled: true,
 
     type: "js",

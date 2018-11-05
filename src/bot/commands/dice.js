@@ -6,7 +6,7 @@ const dice = new Command({
 
     name: "Dice",
     description: "Not the vidya games company",
-    thumbnail: "https://wherethewindsblow.com/wp-content/uploads/2015/07/Solid-Red-Dice-set-of-2.jpg",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092305849024534/t9.png",
     marketplace_enabled: true,
 
     type: "js",

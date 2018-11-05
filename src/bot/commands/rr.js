@@ -8,7 +8,7 @@ const rr = new Command({
    
     name: "Russian Roulette",
     description: "1 out of 6 chance of going bye bye",
-    thumbnail: "https://cdn-images-1.medium.com/max/2000/1*cIQiMyyFIzsoZi5M4LbH-g.jpeg",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092376858591263/t25.png",
     marketplace_enabled: true,
 
     type: "js",

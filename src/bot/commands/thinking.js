@@ -6,7 +6,7 @@ const thinking = new Command({
 
     name: "🤔",
     description: "Things that make you go 🤔🤔🤔",
-    thumbnail: "https://i.kym-cdn.com/entries/icons/original/000/022/488/c6bf9b08586c241b021dd04c204b7a85.png",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092395829297182/t30.png",
     marketplace_enabled: true,
 
     type: "js",

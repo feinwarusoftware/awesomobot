@@ -8,7 +8,7 @@ const butters = new Command({
 
     name: "Butters",
     description: "Who's the kid with a heart full of magic? Everyone knows it's Butters!",
-    thumbnail: "https://pbs.twimg.com/profile_images/911247554133626881/3T_b4g1W_400x400.jpg",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092335200501809/t17.png",
     marketplace_enabled: true,
 
     type: "js",

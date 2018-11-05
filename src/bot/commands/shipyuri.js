@@ -34,7 +34,7 @@ let shipyuri = new Command({
 
     name: "South Park Ship Yuri",
     description: "Insert kinky description here",
-    thumbnail: "https://img00.deviantart.net/b384/i/2006/139/4/2/who__s_kyle__by_luffy_kun.jpg",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092373616263183/t24.png",
     marketplace_enabled: true,
 
     type: "js",

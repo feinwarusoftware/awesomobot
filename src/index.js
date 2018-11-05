@@ -451,7 +451,7 @@ process.on('unhandledRejection', (reason, p) => {
 // do stuff
 try {
 
-    require("./bot");
+    require("./bot").initClient();
     require("./web");
 } catch(error) {
 

@@ -6,7 +6,7 @@ const test = new Command({
 
     name: "AWESOM-O Test",
     description: "Test that AWESOM-O isn't 🅱roke",
-    thumbnail: "https://thumbs.gfycat.com/DependentSpiritedAmurminnow-poster.jpg",
+    thumbnail: undefined,
     marketplace_enabled: true,
 
     type: "js",

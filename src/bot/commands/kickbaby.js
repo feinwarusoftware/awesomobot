@@ -6,7 +6,7 @@ const kickbaby = new Command({
 
     name: "Kick The Baby",
     description: "Don't kick the goddamn baby!",
-    thumbnail: "http://mblogthumb2.phinf.naver.net/20150526_93/ahn3607_1432648019260WAaMx_JPEG/hqdefault.jpg?type=w2",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092319681576990/t13.png",
     marketplace_enabled: true,
 
     type: "js",

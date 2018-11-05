@@ -6,7 +6,7 @@ const back = new Command({
 
     name: "I'm Back!",
     description: "^^^",
-    thumbnail: "http://southparkstudios.mtvnimages.com/shared/characters/kids/kyle-schwartz.png",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092309527298068/t10.png",
     marketplace_enabled: true,
 
     type: "js",

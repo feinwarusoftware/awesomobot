@@ -6,7 +6,7 @@ const member = new Command({
 
     name: "Member?",
     description: "Oooh I member!",
-    thumbnail: "http://southparkstudios.mtvnimages.com/shared/characters/non-human/non-human-local-creatures-member-berries.png",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092384122863636/t27.png",
     marketplace_enabled: true,
 
     type: "js",

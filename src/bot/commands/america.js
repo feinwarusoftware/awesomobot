@@ -8,7 +8,7 @@ const america = new Command({
 
     name: "This is America",
     description: "I thought this was America!",
-    thumbnail: "https://i.kym-cdn.com/entries/icons/original/000/015/080/randyarrested_maxresdefault.jpg",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092380083879945/t26.png",
     marketplace_enabled: true,
 
     type: "js",

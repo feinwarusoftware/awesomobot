@@ -38,7 +38,7 @@ let shipyaoi = new Command({
 
     name: "South Park Ship Yaoi",
     description: "Insert kinky af description here",
-    thumbnail: "https://i.kym-cdn.com/entries/icons/original/000/019/185/12193298_10153252812762005_2540048115057789369_n.png",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092365575913482/t22.png",
     marketplace_enabled: true,
 
     type: "js",

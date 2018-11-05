@@ -6,7 +6,7 @@ const dam = new Command({
 
     name: "I broke that dam",
     description: "No, I broke the dam",
-    thumbnail: "https://media.giphy.com/media/l2SpRYFoEozfcFa24/giphy.gif",
+    thumbnail: "https://cdn.discordapp.com/attachments/379432139856412682/509104533906128909/giphy.gif",
     marketplace_enabled: true,
 
     type: "js",

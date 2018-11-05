@@ -80,7 +80,7 @@ const levels = new Command({
 
     name: "AWESOM-O Profiles",
     description: "*temp*",
-    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/487658989069402112/pjiicjez.png",
+    thumbnail: "https://cdn.discordapp.com/attachments/394504208222650369/509099658036117530/profile.png",
     marketplace_enabled: true,
 
     type: "js",

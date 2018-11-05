@@ -8,7 +8,7 @@ const colour = new Command({
 
     name: "Feinwaru Colour",
     description: "Learn your overlord's colour",
-    thumbnail: "https://pbs.twimg.com/profile_images/959181051112382464/M6OKsgM1.jpg",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092439210983455/t8.png",
     marketplace_enabled: true,
 
     type: "js",

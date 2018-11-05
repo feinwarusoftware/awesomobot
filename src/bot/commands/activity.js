@@ -6,16 +6,66 @@ const Command = require("../command");
 
 const schemas = require("../../db");
 
-const shits = new Command({
+const getLevelData = xp => {
+
+    if (xp === 0) {
+
+        return {
+
+            level: 0,
+            progress: 0
+        };
+    }
+
+    const levels = [0, 1, 250, 400, 550, 700, 850, 1000, 1200, 1400, 1600, 1800, 2000, 2250, 2500, 2750, 3000, 3300, 3600, 4000, 4500];
+
+    let count = 0;
+    let level = 0;
+    let progress = 0;
+
+    for (let i = 0; i < levels.length; i++) {
+
+        count += levels[i];
+
+        if (xp < count) {
+
+            level = i - 1;
+            progress = 1 - (count - xp) / levels[i];
+            break;
+        }
+    }
+
+    if (level === 0 && count !== 0) {
+
+        xp -= count;
+
+        level = Math.floor(xp / 5000) + levels.length - 1;
+        progress = (xp % 5000) / 5000;
+    }
+
+    if (level > 70) {
+
+        level = 70;
+        progress = 1;
+    }
+
+    return {
+
+        level,
+        progress
+    };
+}
+
+const xp = new Command({
     
-    name: "Shit Counter",
+    name: "Activity Counter",
     description: "*temp*",
-    thumbnail: "https://cdn.discordapp.com/attachments/394504208222650369/509099661869580298/shit.png",
+    thumbnail: "https://cdn.discordapp.com/attachments/394504208222650369/509099659738742787/activity.png",
     marketplace_enabled: true,
 
     type: "js",
     match_type: "command",
-    match: "shitme;shitguild;shitglobal",
+    match: "activeme;activeguild;activeglobal",
 
     featured: false,
 
@@ -29,7 +79,7 @@ const shits = new Command({
                 .aggregate([
                     {
                         $sort: {
-                            shits: -1
+                            xp: -1
                         }
                     },
                     {
@@ -38,7 +88,7 @@ const shits = new Command({
                             arr: {
                                 $push: {
                                     discord_id: "$discord_id",
-                                    shits: "$shits"
+                                    xp: "$xp"
                                 }
                             },
                             globalTotal: { $sum: 1 }
@@ -70,7 +120,7 @@ const shits = new Command({
                                     discord_id: "$arr.discord_id",
                                     globalRank: "$globalRank",
                                     globalTotal: "$globalTotal",
-                                    shits: "$arr.shits"
+                                    xp: "$arr.xp"
                                 }
                             },
                             guildTotal: { $sum: 1}
@@ -91,7 +141,7 @@ const shits = new Command({
                         $project: {
                             _id: 0,
                             discord_id: "$arr.discord_id",
-                            shits: "$arr.shits",
+                            xp: "$arr.xp",
                             globalRank: "$arr.globalRank",
                             globalTotal: "$arr.globalTotal",
                             guildRank: "$guildRank",
@@ -102,15 +152,15 @@ const shits = new Command({
                 .then(users => {
                     if (users.length === 0) {
 
-                        return message.reply("you have 0 shits");
+                        return message.reply("you have 0 xp (level 0)");
                     }
 
                     //console.log(users[0]);
-                    message.reply(`Global Rank: **#${users[0].globalRank + 1}**/${users[0].globalTotal}, Guild Rank: **#${users[0].guildRank + 1}**/${users[0].guildTotal}, Score: **${users[0].shits} shits**`);
+                    message.reply(`Global Rank: **#${users[0].globalRank + 1}**/${users[0].globalTotal}, Guild Rank: **#${users[0].guildRank + 1}**/${users[0].guildTotal}, Score: **${users[0].xp}xp (level ${getLevelData(users[0].xp).level})**`);
                 })
                 .catch(error => {
 
-                    message.reply(`error fetching shits teehee: ${error}`);
+                    message.reply(`error fetching xp teehee: ${error}`);
                 });
         }
         if (match === 1) {
@@ -121,7 +171,7 @@ const shits = new Command({
                 .aggregate([
                     {
                         $sort: {
-                            shits: -1
+                            xp: -1
                         }
                     },
                     {
@@ -130,7 +180,7 @@ const shits = new Command({
                             arr: {
                                 $push: {
                                     discord_id: "$discord_id",
-                                    shits: "$shits"
+                                    xp: "$xp"
                                 }
                             },
                             globalTotal: { $sum: 1 }
@@ -162,7 +212,7 @@ const shits = new Command({
                                     discord_id: "$arr.discord_id",
                                     globalRank: "$globalRank",
                                     globalTotal: "$globalTotal",
-                                    shits: "$arr.shits"
+                                    xp: "$arr.xp"
                                 }
                             },
                             guildTotal: { $sum: 1}
@@ -181,7 +231,7 @@ const shits = new Command({
                         $project: {
                             _id: 0,
                             discord_id: "$arr.discord_id",
-                            shits: "$arr.shits",
+                            xp: "$arr.xp",
                             globalRank: "$arr.globalRank",
                             globalTotal: "$arr.globalTotal",
                             guildRank: "$guildRank",
@@ -192,7 +242,7 @@ const shits = new Command({
                 .then(users => {
                     if (users.length === 0) {
 
-                        return message.reply("everyone has 0 shits");
+                        return message.reply("everyone has 0 xp");
                     }
 
                     const discordIds = users.map(u => u.discord_id);
@@ -211,24 +261,24 @@ const shits = new Command({
                     }
 
                     const embed = new discord.RichEmbed();
-                    embed.setAuthor("AWESOM-O // Shits - Guild Top 5", "https://cdn.discordapp.com/avatars/379370506933108746/a979694bf250f2293d929278328b707c.png");
+                    embed.setAuthor("AWESOM-O // Xp - Guild Top 5", "https://cdn.discordapp.com/avatars/379370506933108746/a979694bf250f2293d929278328b707c.png");
                     embed.setColor(0xff594f);
 
                     for (let [i, l] of leaderboard.entries()) {
 
-                        if (l.user.shits === 0) {
+                        if (l.user.xp === 0) {
 
                             continue;
                         }
 
-                        embed.addField(`**#${i + 1}**/${l.user.guildTotal}`, `${l.member.user.username} - ${l.user.shits} ${"`"}(#${l.user.globalRank + 1}/${l.user.globalTotal} global)${"`"}`);
+                        embed.addField(`**#${i + 1}**/${l.user.guildTotal}`, `${l.member.user.username} - ${l.user.xp}xp (level ${getLevelData(l.user.xp).level}) ${"`"}(#${l.user.globalRank + 1}/${l.user.globalTotal} global)${"`"}`);
                     }
 
                     message.channel.send(embed);
                 })
                 .catch(error => {
 
-                    message.reply(`error fetching shits teehee: ${error}`);
+                    message.reply(`error fetching xp teehee: ${error}`);
                 });
         }
         if (match === 2) {
@@ -238,7 +288,7 @@ const shits = new Command({
             schemas.UserSchema
                 .find()
                 .sort({
-                    shits: -1
+                    xp: -1
                 })
                 .limit(5)
                 .then(users => {
@@ -294,26 +344,26 @@ const shits = new Command({
                     }
 
                     leaderboard.sort((a, b) => {
-                        return b.user.shits - a.user.shits;
+                        return b.user.xp - a.user.xp;
                     });
 
                     const embed = new discord.RichEmbed();
-                    embed.setAuthor("AWESOM-O // Shits - Global Top 5", "https://cdn.discordapp.com/avatars/379370506933108746/a979694bf250f2293d929278328b707c.png");
+                    embed.setAuthor("AWESOM-O // Xp - Global Top 5", "https://cdn.discordapp.com/avatars/379370506933108746/a979694bf250f2293d929278328b707c.png");
                     embed.setColor(0xff594f);
 
                     for (let [i, l] of leaderboard.entries()) {
 
-                        embed.addField(`**#${i + 1}**`, `${l.member.user.username} - ${l.user.shits} ${l.guild.id === message.guild.id ? "" : `${"`"}(${l.guild.name})${"`"}`}`);
+                        embed.addField(`**#${i + 1}**`, `${l.member.user.username} - ${l.user.xp}xp (level ${getLevelData(l.user.xp).level}) ${l.guild.id === message.guild.id ? "" : `${"`"}(${l.guild.name})${"`"}`}`);
                     }
 
                     message.channel.send(embed);
                 })
                 .catch(error => {
 
-                    message.reply(`could not get top 5 shit list: ${error}`);
+                    message.reply(`could not get top 5 xp list: ${error}`);
                 });
         }
     }
 });
 
-module.exports = shits;
+module.exports = xp;

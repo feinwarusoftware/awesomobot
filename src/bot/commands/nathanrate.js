@@ -8,7 +8,7 @@ const nathanrate = new Command({
 
     name: "Nathan Rating™",
     description: "Get your rating from Nathan",
-    thumbnail: "https://i.imgur.com/kGkfLiD.png",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092388929667098/t28.png",
     marketplace_enabled: true,
 
     type: "js",
