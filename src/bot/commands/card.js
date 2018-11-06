@@ -211,6 +211,9 @@ const card = new Command({
 
     cb: async function (client, message, guild, user, script, match) {
 
+        // deep copy cards so we can replace shit without worrying about gay object shit
+        const cardsCopy = JSON.parse(JSON.stringify(cards));
+
         // legacy command support
 
         // card <name>
@@ -234,7 +237,7 @@ const card = new Command({
         const last = split[split.length - 1];
 
         // assume level/upgrade is set, and if not, reset this value later
-        name = split.slice(0, split.length - 2).join(" ");
+        name = split.slice(0, split.length - 1).join(" ");
 
         if (last.startsWith("l")) {
 
@@ -293,7 +296,7 @@ const card = new Command({
         let index = null;
         let current = threshold;
 
-        for (let [i, v] of cards.entries()) {
+        for (let [i, v] of cardsCopy.entries()) {
 
             let similarity = null;
 
@@ -326,7 +329,7 @@ const card = new Command({
             return message.reply("card not found");
         }
 
-        const card = cards[index];
+        const card = cardsCopy[index];
 
         let stats = null;
         if (level === null) {
@@ -372,6 +375,14 @@ const card = new Command({
         if (card.Name === "Chicken Coop") {
 
             card.Description = card.Description.replace("{PowerInterval.1}", "3.5");
+        }
+        if (card.Name === "Shieldmaiden Wendy") {
+
+            card.Description = card.Description.slice(0, card.Description.length - 1) + " seconds.";
+        }
+        if (card.Name === "Youth Pastor Craig") {
+
+            card.Description = card.Description.slice(0, card.Description.length - 1) + " seconds.";
         }
 
         /* --- pasted old code --- */

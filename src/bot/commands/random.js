@@ -1,12 +1,18 @@
 "use strict"
 
+const discord = require("discord.js");
+
+const spnav = require("../spnav");
+
 const Command = require("../command");
+
+let cachedeplist = [];
 
 const random = new Command({
 
     name: "Random South Park Episode",
     description: "Searches https://southpark.wikia.com/ for a random episode",
-    thumbnail: "",
+    thumbnail: "https://cdn.discordapp.com/attachments/209040403918356481/509092423087947817/t4.png",
     marketplace_enabled: true,
 
     type: "js",
@@ -18,19 +24,6 @@ const random = new Command({
     preload: false,
 
     cb: function(client, message, guildDoc) {
-
-        if (cachedeplist === undefined) {
-
-            spnav.getEpList().then(result => {
-                cachedeplist = result;
-                this.cb(client, message, guildDoc);
-    
-            }).catch(error => {
-                message.reply(`fucking rip... ${error}`);
-            });
-    
-            return;
-        }
     
         const query = cachedeplist[Math.floor(Math.random() * cachedeplist.length)];
     
@@ -57,6 +50,14 @@ const random = new Command({
     
         }).catch(error => {
             message.reply(`fucking rip... ${error}`);
+        });
+    },
+    load: function() {
+        return new Promise(async (resolve, reject) => {
+
+            cachedeplist = await spnav.getEpList();
+
+            resolve();
         });
     }
 });

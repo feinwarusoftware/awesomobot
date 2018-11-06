@@ -36,7 +36,7 @@ const getFilePathsInDir = fp => fs.readdirSync(fp).map(name => path.join(fp, nam
 
 const client = new discord.Client();
 
-const initClient = () => {
+const initClient = async () => {
 
     const loadCommands = () => {
         return new Promise(async (resolve, reject) => {
@@ -269,6 +269,14 @@ const initClient = () => {
                     });
 
                     for (let script of scripts) {
+
+                        script.guild_count++;
+                        script
+                            .save()
+                            .catch(error => {
+
+                                botLogger.error(`could increment preload script guild count: ${error}`);
+                            });
 
                         dbguild.scripts.push({
                             object_id: script._id
@@ -773,6 +781,8 @@ const initClient = () => {
 
     client.on("ready", async () => {
 
+        await commands;
+
         // go through each guild the bot is on and add it to the database if its not already there
         const promises = [];
         const savePromises = [];
@@ -806,6 +816,14 @@ const initClient = () => {
 
                         for (let script of scripts) {
 
+                            script.guild_count++;
+                            script
+                                .save()
+                                .catch(error => {
+    
+                                    botLogger.error(`could increment preload script guild count: ${error}`);
+                                });
+
                             dbguild.scripts.push({
                                 object_id: script._id
                             });
@@ -834,6 +852,8 @@ const initClient = () => {
             Promise.all(savePromises).then(() => {
 
                 botLogger.log("stdout", "bot ready");
+
+
 
             }).catch(error => {
 ``
@@ -885,11 +905,13 @@ const initClient = () => {
     
         botLogger.log("stdout", "logged into discord");
     }).catch(error => {
-    
+
         botLogger.error(error);
     });
 }
+
 module.exports = {
     
-    initClient
+    initClient,
+    client
 };

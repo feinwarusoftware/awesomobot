@@ -16,6 +16,8 @@ const api = require("./api");
 const { authSession, authUser, authAdmin } = require("../middlewares");
 const { fetchSession, getUserData } = require("../helpers");
 
+const client = require("../../bot/index").client;
+
 const apiLogger = new Logger();
 const router = express.Router();
 const converter = new showdown.Converter({
@@ -33,9 +35,6 @@ try {
 
     apiLogger.fatalError(`Could not read config file: ${err}`);
 }
-
-const client = new discord.Client();
-const hasLoggedIn = client.login(config.discord_token);
 
 router.use("/api/v3", api);
 router.get("/api/v3/uptime", (req, res) => {
@@ -77,8 +76,6 @@ router.get("/api/v3/stats", async (req, res) => {
     // status + ping
     // latest update
 
-    await hasLoggedIn;
-
     if (cachedStats.expire < Date.now()) {
 
         cachedStats.stats = {};
@@ -102,8 +99,17 @@ router.get("/api/v3/stats", async (req, res) => {
                 }
             }
         }]).then(uses => {
+            
+            if (uses.length === 0) {
+
+                cachedStats.stats.script_uses = 0;
+                return;
+            }
 
             cachedStats.stats.script_uses = uses[0].total;
+        }).catch(error => {
+
+            apiLogger.error(`could not get script use count /api/v3/stats: ${error}`);
         }));
 
         // total scripts

@@ -22,6 +22,7 @@ const wikia = new Command({
     preload: false,
 
     cb: function (client, message, guildDoc) {
+        
         if (message.content.split(" ")[1] === undefined) {
             message.reply(`you're missing a query to search for, if you want to search for a random episode, use: ${guild.settings.prefix}r`);
         }

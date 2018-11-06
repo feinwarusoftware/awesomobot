@@ -13,9 +13,9 @@ const wink = new Command({
     match_type: "command",
     match: "wink",
 
-    featured: true,
+    featured: false,
 
-    preload: true,
+    preload: false,
 
     cb: function(client, message, guildDoc) {
 

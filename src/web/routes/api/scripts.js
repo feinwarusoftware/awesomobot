@@ -8,6 +8,8 @@ const Logger = require("../../../logger");
 const { authUser } = require("../../middlewares");
 const { getUserData, getUserDataNoSession } = require("../../helpers");
 
+const client = require("../../../bot/index").client;
+
 const router = express.Router();
 const apiLogger = new Logger();
 
@@ -53,7 +55,7 @@ router.route("/").get(authUser, (req, res) => {
                 .skip(page * limit)
                 .limit(limit)
                 .select({ __v: 0 })
-                .then(docs => {
+                .then(async docs => {
 
                     if (extended === true) {
 
@@ -69,7 +71,13 @@ router.route("/").get(authUser, (req, res) => {
                             }
 
                             // other users
-                            
+                            const user = await client.fetchUser(script_objs[i].author_id, true).catch(error => {
+                                
+                                apiLogger.error(error);
+                                return res.json({ status: 500 });
+                            });
+
+                            script_objs[i].author_username = user.username;
                         }
 
                         schemas.UserSchema

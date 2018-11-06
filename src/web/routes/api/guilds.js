@@ -311,7 +311,18 @@ router.route("/@me").get(authUser, (req, res) => {
 
                                 if (noawesomo === true) {
 
-                                    docs = [...docs, ...search_guilds.filter(e => !docs.map(e => e.discord_id).includes(e.id)).map(e => { e.discord_id = e.id; delete e.id; return e; })];
+                                    docs = [...docs, ...search_guilds.filter(e => !docs.map(e => e.discord_id).includes(e.id)).map(e => {
+                                    
+                                        if (e.discord_id !== undefined) {
+
+                                            return e;
+                                        }
+
+                                        e.discord_id = e.id;
+                                        delete e.id;
+                                        
+                                        return e;
+                                    })];
                                 }
                             }
                 
