@@ -110,6 +110,8 @@ const versus = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function (client, message, guildDoc) {
 
         const random1 = Math.floor(Math.random() * characters.length);

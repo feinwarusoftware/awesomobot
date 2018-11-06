@@ -50,7 +50,7 @@ const initClient = () => {
                 filePaths = getFilePathsInDir(path.join(__dirname, "commands"));
             } catch (error) {
     
-                console.log(error);
+                botLogger.error(error);
             }
     
             for (let filePath of filePaths) {
@@ -59,7 +59,7 @@ const initClient = () => {
     
                 if (fileExtName !== ".js") {
     
-                    console.log("non script file found in local script dir");
+                    botLogger.error("non script file found in local script dir");
                     return reject("non script file found in local script dir");
                 }
     
@@ -72,10 +72,12 @@ const initClient = () => {
                     command = require(filePath);
                 } catch (error) {
     
-                    console.log(error);
+                    botLogger.error(error);
                 }
     
                 commands.push(command);
+
+                botLogger.log("stdout", `found local command: ${command.name}`);
             }
     
             // save to db if new
@@ -89,7 +91,7 @@ const initClient = () => {
                 })
                 .catch(error => {
     
-                    console.log(error);
+                    botLogger.error(error);
                 });
     
             const promises = [];
@@ -131,6 +133,7 @@ const initClient = () => {
                         local: true,
                         featured: commands[i].featured,
                         verified: true,
+                        preload: commands[i].preload,
                         likes: 0,
                         guild_count: 0,
                         use_count: 0,
@@ -142,12 +145,14 @@ const initClient = () => {
                         commands[i]._id = script._id
                         validCommands.push(commands[i]);
     
-                        console.log(`successfully saved: '${script.name}', to the database`);
+                        botLogger.log("stdout", `successfully saved: '${script.name}', to the database`);
                     }));
                 } else {
     
                     commands[i]._id = script._id
                     validCommands.push(commands[i]);
+
+                    botLogger.log("stadtup", `validated local command: ${commands[i].name}`);
                 }
             }
     
@@ -164,7 +169,7 @@ const initClient = () => {
                 })
                 .catch(error => {
     
-                    console.log(error);
+                    botLogger.error(error);
                 });
         });
     }
@@ -212,10 +217,10 @@ const initClient = () => {
     
     client.on("error", async error => {
         
-        console.error(new Date() + ": Discord client encountered an error");
-        console.error(error);
+        botLogger.error(new Date() + ": Discord client encountered an error");
+        botLogger.error(error);
     
-        console.log("the bot may have crashed, attempting to restart...");
+        botLogger.error("the bot may have crashed, attempting to restart...");
         
         //client = new discord.Client();
         
@@ -224,7 +229,7 @@ const initClient = () => {
             botLogger.log("stdout", "logged into discord");
         }).catch(error => {
         
-            console.error(error);
+            botLogger.error(error);
         });
     });
     /*
@@ -234,9 +239,65 @@ const initClient = () => {
     client.on("guildBanRemove", (guild, user) => {
     
     });
-    client.on("guildCreate", guild => {
+    */
+
+    client.on("guildCreate", async guild => {
     
+        // add guilds that are not already in the database
+        schemas.GuildSchema
+            .findOne({ discord_id: guild.id })
+            .then(async dbguild => {
+
+                // already in the database
+                if (dbguild !== null) {
+
+                    return;
+                }
+
+                // preload base commands
+                const local = await commands;
+                const preload = local.filter(e => e.preload === true).map(e => e.name);
+
+                schemas.ScriptSchema
+                    .find({ author_id: "feinwaru-devs", name: { $in: preload } })
+                    .then(scripts => {
+
+                    // add new guild to the database
+                    dbguild = new schemas.GuildSchema({
+                        discord_id: guild.id,
+                        scripts: []
+                    });
+
+                    for (let script of scripts) {
+
+                        dbguild.scripts.push({
+                            object_id: script._id
+                        });
+                    }
+
+                    dbguild
+                        .save()
+                        .then(() => {
+
+                            botLogger.log("stdout", `successully added new guild: ${guild.name}, ${guild.id}`);
+                        })
+                        .catch(error => {
+                            
+                            botLogger.error(`failed to save guild: ${guild.name}, ${guild.id}: ${error}`);
+                        });
+                    })
+                    .catch(error => {
+
+                        botLogger.error(`error adding guild, could not preload base commands: ${error}`);
+                    });
+            })
+            .catch(error => {
+
+                botLogger.error(`failed to add guild: ${guild.name}, ${guild.id}: ${error}`);
+            });
     });
+
+    /*
     client.on("guildDelete", guild => {
     
     });
@@ -327,7 +388,7 @@ const initClient = () => {
                             .save()
                             .catch(error => {
     
-                                console.log(error);
+                                botLogger.error(error);
                             });
     
                         // call scripts
@@ -666,23 +727,23 @@ const initClient = () => {
                                         .save()
                                         .catch(error => {
     
-                                            console.log(error);
+                                            botLogger.error(error);
                                         });
                                 }
                             })
                             .catch(error => {
     
-                                console.log(error);
+                                botLogger.error(error);
                             });
                     })
                     .catch(error => {
     
-                        console.log(error);
+                        botLogger.error(error);
                     });
             })
             .catch(error => {
     
-                console.log(error);
+                botLogger.error(error);
             });
     });
     
@@ -708,9 +769,83 @@ const initClient = () => {
     client.on("presenceUpdate", (oldMember, newMember) => {
     
     });
-    client.on("ready", () => {
-        //client
+    */
+
+    client.on("ready", async () => {
+
+        // go through each guild the bot is on and add it to the database if its not already there
+        const promises = [];
+        const savePromises = [];
+        
+        for (let guild of client.guilds.array()) {
+
+            promises.push(schemas.GuildSchema
+                .findOne({ discord_id: guild.id })
+                .then(async dbguild => {
+
+                    if (dbguild !== null) {
+
+                        // already in the database
+                        botLogger.log("stdout", `loaded guild: ${guild.name}, ${guild.id}`);
+                        return;
+                    }
+
+                    // preload base commands
+                    const local = await commands;
+                    const preload = local.filter(e => e.preload === true).map(e => e.name);
+
+                    schemas.ScriptSchema
+                        .find({ author_id: "feinwaru-devs", name: { $in: preload } })
+                        .then(scripts => {
+
+                        // add new guild to the database
+                        dbguild = new schemas.GuildSchema({
+                            discord_id: guild.id,
+                            scripts: []
+                        });
+
+                        for (let script of scripts) {
+
+                            dbguild.scripts.push({
+                                object_id: script._id
+                            });
+                        }
+
+                        dbguild
+                            .save()
+                            .then(() => {
+
+                                botLogger.log("stdout", `successully added new guild: ${guild.name}, ${guild.id}`);
+                            })
+                            .catch(error => {
+                                
+                                botLogger.error(`failed to save guild: ${guild.name}, ${guild.id}: ${error}`);
+                            });
+                        })
+                        .catch(error => {
+
+                            botLogger.error(`error adding guild, could not preload base commands: ${error}`);
+                        });
+                }));
+        }
+
+        Promise.all(promises).then(() => {
+
+            Promise.all(savePromises).then(() => {
+
+                botLogger.log("stdout", "bot ready");
+
+            }).catch(error => {
+``
+                botLogger.fatalError(`error saving new guilds: ${error}`);
+            });
+        }).catch(error => {
+
+            botLogger.fatalError(`error loading guilds: ${error}`);
+        });
     });
+
+    /*`
     client.on("reconnecting", () => {
         //client
     });
@@ -751,7 +886,7 @@ const initClient = () => {
         botLogger.log("stdout", "logged into discord");
     }).catch(error => {
     
-        console.error(error);
+        botLogger.error(error);
     });
 }
 module.exports = {

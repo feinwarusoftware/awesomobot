@@ -17,6 +17,8 @@ const america = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function (client, message, guildDoc) {
 
         let randomnumber = Math.random();

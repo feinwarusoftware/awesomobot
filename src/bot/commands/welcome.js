@@ -15,6 +15,8 @@ const welcome = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function (client, message, guildDoc) {
 
         message.channel.send("", {

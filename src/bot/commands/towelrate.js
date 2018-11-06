@@ -17,6 +17,8 @@ let towelrate = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function(client, message, guildDoc) {
 
         const quotes = [

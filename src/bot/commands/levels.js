@@ -89,6 +89,8 @@ const levels = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function (client, message, guild, user, script, match) {
 
         let searchUser = message.author;

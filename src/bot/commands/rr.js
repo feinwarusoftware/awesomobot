@@ -17,6 +17,8 @@ const rr = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function(client, message, guildDoc) {
 
         let random = Math.random();

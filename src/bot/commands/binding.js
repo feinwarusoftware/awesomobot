@@ -17,6 +17,8 @@ const binding = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function(client, message, guild, user, script, match) {
 
         // action: text, file, embed

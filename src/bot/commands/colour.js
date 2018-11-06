@@ -17,6 +17,8 @@ const colour = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function(client, message, guildDoc) {
 
         message.channel.send(new discord.RichEmbed().setColor(0xff594f).setDescription("The Feinwaru colour is: **0xff594f**"));

@@ -15,6 +15,8 @@ const rps = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function(client, message, guildDoc) {
 
         const rand = Math.floor(Math.random() * 3);

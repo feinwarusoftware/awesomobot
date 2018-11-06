@@ -47,6 +47,8 @@ let shipyaoi = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function(client, message, guildDoc) {
 
         let gayMods = Math.random()

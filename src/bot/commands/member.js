@@ -15,6 +15,8 @@ const member = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function (client, message, guildDoc) {
 
         const memberMessages = ["I member!", "Ohh yeah I member!", "Me member!", "Ohh boy I member that", "I member!, do you member?"];

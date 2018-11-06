@@ -16,6 +16,8 @@ class Command {
 
         this.featured = options.featured;
 
+        this.preload = options.preload;
+
         this.cb = options.cb;
         this.load = options.load;
     }

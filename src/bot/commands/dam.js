@@ -15,6 +15,8 @@ const dam = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function(client, message, guildDoc) {
 
         message.reply("No, I broke the dam");

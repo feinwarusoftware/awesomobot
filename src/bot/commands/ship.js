@@ -72,6 +72,8 @@ let ship = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function(client, message, guildDoc) {
 
         const randommale = Math.floor(Math.random() * males.length);

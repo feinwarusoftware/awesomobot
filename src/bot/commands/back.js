@@ -15,6 +15,8 @@ const back = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function(client, message, guildDoc) {
 
         message.channel.send("<:imback:452191400268922900> <@" + message.author.id + ">" + " is baaaaaaack!");

@@ -15,6 +15,8 @@ let spaces = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function (client, message, guildDoc) {
 
         let text = message.content.substring(this.match.length + guildDoc.prefix.length);

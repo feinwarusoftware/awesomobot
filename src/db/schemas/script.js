@@ -74,6 +74,8 @@ const ScriptSchema = new Schema({
     local: { type: Boolean, default: false },
     // Whether or not the script is displayed on the top of our marketplace page.
     featured: { type: Boolean, default: false },
+    // Local scripts only: whether or not the script gets added to a newly added guild.
+    preload: { type: Boolean, default: false },
     // Whether or not the script has been reviewed by and admin and is guaranteed to work.
     verified: { type: Boolean, default: false },
     // The number of user who have liked this script.

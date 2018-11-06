@@ -17,6 +17,8 @@ const harvest = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function (client, message, guildDoc) {
 
         message.channel.send(new discord.RichEmbed()

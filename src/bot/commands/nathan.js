@@ -17,6 +17,8 @@ const nathan = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function(client, message, guildDoc) {
 
         const nathan = [

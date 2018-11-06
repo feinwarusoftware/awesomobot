@@ -205,7 +205,9 @@ const card = new Command({
     match_type: "command",
     match: "card",
 
-    featured: true,
+    featured: false,
+
+    preload: false,
 
     cb: async function (client, message, guild, user, script, match) {
 

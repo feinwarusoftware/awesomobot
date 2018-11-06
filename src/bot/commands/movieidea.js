@@ -15,6 +15,8 @@ const movieidea = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function(client, message, guildDoc) {
 
         const movieIdeas = [

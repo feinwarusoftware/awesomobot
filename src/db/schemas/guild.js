@@ -47,7 +47,7 @@ const GuildSchema = new Schema({
 
     discord_id: { type: String, required: true, unique: true },
     prefix: { type: String, default: "-" },
-    premium: { type: Boolean, deafult: false },
+    premium: { type: Boolean, default: false },
     member_perms: [ memberPermSchema ],
     scripts: [ guildScriptSchema ],
 });

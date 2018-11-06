@@ -15,6 +15,8 @@ const random = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function(client, message, guildDoc) {
 
         if (cachedeplist === undefined) {

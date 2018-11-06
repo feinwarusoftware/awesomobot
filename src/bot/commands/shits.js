@@ -19,6 +19,8 @@ const shits = new Command({
 
     featured: false,
 
+    preload: false,
+
     cb: function(client, message, guild, user, script, match) {
 
         if (match === 0) {
