@@ -169,8 +169,8 @@ const levels = new Command({
 
                 const bg = new jimp(800, 750);
 
-                //const let = await jimp.read(users[0].banner);
-                let banner = await jimp.read("https://cdn.discordapp.com/attachments/449655476297138177/502508170019864586/tweekxcraig.png");
+                const banner = await jimp.read(users[0].banner);
+                //let banner = await jimp.read("https://cdn.discordapp.com/attachments/449655476297138177/502508170019864586/tweekxcraig.png");
                 if (banner === undefined) {
 
                     banner = defaultBanner;
