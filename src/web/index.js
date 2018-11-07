@@ -50,7 +50,7 @@ app.use(cookieParser(config.rawrxd));
 app.use(i18n({
     defaultLang: "en",
     translationsPath: path.join(__dirname, 'translations'),
-    siteLangs: ["en","ga","es","pt-pt","zh-tw","ro","ni", "pl"],
+    siteLangs: ["en","de"],
     paramLangName: "hl",
     textsVarName: 'trans'
 }));

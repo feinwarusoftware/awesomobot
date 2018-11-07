@@ -48,7 +48,7 @@
         {
             "id": "262345465306021888",
             "name": "TowelRoyale",
-            "role": "ASSISTANT_BACKEND_DEV",
+            "role": "COMMUNITY_MANAGER",
             "image": "https://cdn.discordapp.com/attachments/379432139856412682/462726052280533003/Gai1.png",
             "caption": "Don't forget to bring a towel!",
             "socials": [{
@@ -280,15 +280,15 @@
         ]
     },
     {
-        "id": "161573813379792899",
-        "name": "Kamui",
+        "id": "417297383500546059",
+        "name": "MrCartmanez90",
         "role": "GERMAN_TRANSLATION",
-        "image": "https://cdn.discordapp.com/attachments/379432139856412682/508019481642270740/a_ecc5cdc51043b5b3810c923e8075411e.gif",
-        "caption": "50% Homosexuell, 200% fabelhaft, stumm aber süß",
+        "image": "https://cdn.discordapp.com/attachments/379432139856412682/509500126209900556/ACSszfGH_5rFNe2NQT7JygT39BA5JvqBUZ5eZvpPCgs900-mo-c-c0xffffffff-rj-k-no.png",
+        "caption": "Riesen South Park Fan der ersten Stunde. Respektiert meine Autoritähh!",
         "socials": [{
-                "fa": "twitter",
-                "ic": "tw",
-                "link": "https://twitter.com/KamuiKam"
+                "fa": "reddit-alien",
+                "ic": "reddit",
+                "link": "https://www.reddit.com/user/MrCartmanez90"
             },
             {
                 "fa": "",
@@ -307,7 +307,7 @@
         "name": "Mattheous",
         "role": "SPANISH_TRANSLATION",
         "image": "https://cdn.discordapp.com/attachments/379432139856412682/508018322089181195/unknown.png",
-        "caption": "3 horas en alcohol y chill y te da este vista",
+        "caption": "tres horas en alcohol y chill y te da este vista",
         "socials": [{
                 "fa": "github",
                 "ic": "git",

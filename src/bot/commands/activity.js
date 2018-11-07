@@ -59,7 +59,7 @@ const getLevelData = xp => {
 const xp = new Command({
     
     name: "Activity Counter",
-    description: "*temp*",
+    description: "Get disappointed in life™",
     thumbnail: "https://cdn.discordapp.com/attachments/394504208222650369/509099659738742787/activity.png",
     marketplace_enabled: true,
 
@@ -69,7 +69,7 @@ const xp = new Command({
 
     featured: false,
 
-    preload: false,
+    preload: true,
 
     cb: function(client, message, guild, user, script, match) {
 

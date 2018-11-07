@@ -197,7 +197,7 @@ const getLevelStats = (currentCard, level) => {
 const card = new Command({
 
     name: "card",
-    description: "*temp*",
+    description: "View any card from phone destroyer, rendered in real time with full stats!",
     thumbnail: "https://cdn.discordapp.com/attachments/394504208222650369/509099660711821312/card.png",
     marketplace_enabled: true,
 
@@ -207,7 +207,7 @@ const card = new Command({
 
     featured: false,
 
-    preload: false,
+    preload: true,
 
     cb: async function (client, message, guild, user, script, match) {
 

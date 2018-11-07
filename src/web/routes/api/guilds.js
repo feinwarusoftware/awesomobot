@@ -77,7 +77,7 @@ const getUserGuilds = token => {
     });
 }
 
-router.route("/premium/:discord_id").post(authPremium, async (req, res) => {
+router.route("/premium/:discord_id").post(authUser, async (req, res) => {
 
     let limit = 0;
 
@@ -86,10 +86,10 @@ router.route("/premium/:discord_id").post(authPremium, async (req, res) => {
             limit = 1;
             break;
         case "f":
-            limit = 1;
+            limit = 0;
             break;
         case "bf":
-            limit = 2;
+            limit = 1;
             break;
         case "sbf":
             limit = 3;
@@ -103,7 +103,12 @@ router.route("/premium/:discord_id").post(authPremium, async (req, res) => {
             }
     }
 
-    const current = await schemas.GuildSchema.find({ discord_id: { $in: req.user.premium } }).map(e => e.discord_id);
+    let current = [];
+    const currentGuilds = await schemas.GuildSchema.find({ discord_id: { $in: req.user.premium } });
+    if (currentGuilds.length !== 0) {
+
+        current = currentGuilds.map(e => e.discord_id);
+    }
     req.user.premium.filter(e => current.includes(e));
 
     if (limit <= req.user.premium.length) {
@@ -146,7 +151,7 @@ router.route("/premium/:discord_id").post(authPremium, async (req, res) => {
         });
 });
 
-router.route("/premium/:discord_id").delete(authPremium, (req, res) => {
+router.route("/premium/:discord_id").delete(authUser, (req, res) => {
 
     schemas.GuildSchema
         .findOne({
@@ -378,6 +383,10 @@ router.route("/:discord_id").get(authUser, (req, res) => {
     const params = {};
     params.prefix = req.body.prefix;
     params.member_perms = req.body.member_perms;
+
+    if (params.member_perms === undefined || params.member_perms === null){
+        params.member_perms = [];
+    }
 
     if (req.user.admin === true) {
 

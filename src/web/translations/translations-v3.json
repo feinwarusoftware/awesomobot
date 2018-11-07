@@ -1,11 +1,10 @@
 {
-    "LANG": "?hl=en",
-    "INITIALS": "EN",
+    "_TRANSLATION_VERSION": "Version 3.0, 06/11/18",
+
     "ERROR_401": "Error 401",
     "ERROR_404": "Error 404",
     "ERROR_404_BUTTON": "Fuck, go back!",
 
-    "_NAVBAR": "Below is the shit for the NAVBAR",
     "HOME": "Home",
     "DASHBOARD": "Dashboard",
     "COMMANDS": "Commands",
@@ -43,12 +42,6 @@
     "SUBSCRIBER_AMOUNT": "$${patron.amount} Subscriber",
     "SUBSCRIBER_SINCE": "Subscriber since",
     "VIEW_PROFILE": "View profile",
-
-    "DATE_ST": "st",
-    "DATE_ND": "nd",
-    "DATE_RD": "rd",
-    "DATE_TH": "th",
-
 
     "JANUARY": "January",
     "FEBRUARY": "February",
@@ -90,10 +83,6 @@
 
     "BECOME_A_SUBSCRIBER": "Become a Subscriber",
 
-
-
-    "_COMMANDS_PAGE": "Below is the shit for the commands page",
-
     "CURRENTLY_VIEWING_COMMANDS": "Currently viewing commands enabled on",
     "NAME": "Name",
     "DESCRIPTION": "Description",
@@ -102,7 +91,6 @@
     "VANILLA_AWESOMO": "Vanilla AWESOM-O",
     "USER_MADE": "User-made",
 
-    "_CREDITS PAGE": "Below is all the shit for the credits page",
     "BACKEND_DEV": "Backend Developer",
     "FRONTEND_DEV": "Frontend Developer",
     "COMMUNITY_MANAGER": "Community Manager",
@@ -123,11 +111,7 @@
     "SPANISH_TRANSLATION" : "Spanish Translation",
     "FRENCH_AND_IRISH_TRANSLATION": "French and Irish Translation",
 
-
-    "_PRIVACY PAGE": "Below is all the shit for the privacy page",
     "PRIVACY_POLICY": "Privacy Policy",
-
-    "_DASHBOARD_PAGE": "Below is all the shit for the dashboard",
     
     "MY_SCRIPTS": "My Scripts",
     "FEINWARU_EDITOR": "Feinwaru Editor",
@@ -165,8 +149,6 @@
     "YOUR_SCRIPTS_DESC": "Allow your scripts to be used on the Marketplace",
     "NO_SCRIPTS": "You have no scripts :(",
     "NO_SCRIPTS_DESC": "Create a script for it to show up here",
-
-    "_FOOTER": "Below is the shit for the footer",
 
     "GET_CONNECTED": "Get connected with us on social networks!",
 

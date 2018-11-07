@@ -19,7 +19,7 @@ const wikia = new Command({
 
     featured: false,
 
-    preload: false,
+    preload: true,
 
     cb: function (client, message, guildDoc) {
         

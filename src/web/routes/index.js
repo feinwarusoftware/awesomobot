@@ -13,7 +13,7 @@ const discord = require("discord.js");
 const schemas = require("../../db");
 const Logger = require("../../logger");
 const api = require("./api");
-const { authSession, authUser, authAdmin } = require("../middlewares");
+const { authSession, authUser, authPremium, authAdmin } = require("../middlewares");
 const { fetchSession, getUserData } = require("../helpers");
 
 const client = require("../../bot/index").client;
@@ -586,9 +586,9 @@ router.get("/dashboard/scripts/manager", authUser, (req, res) => {
     res.render("dashboard/scriptmanager");
 });
 
-router.get("/dashboard/patrons", authUser, (req, res) => {
+router.get("/dashboard/patrons", authPremium, (req, res) => {
 
-    res.render("dashboard/patrons");
+    res.render("dashboard/patrons", { md: text => { return converter.makeHtml(text); }});
 });
 
 router.get("/dragonsplayroom", authUser, (req, res) => {

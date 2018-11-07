@@ -79,7 +79,7 @@ const getLevelData = xp => {
 const levels = new Command({
 
     name: "AWESOM-O Profiles",
-    description: "*temp*",
+    description: "Allows you show the world your AWESOM-O profile with one short and sweet command",
     thumbnail: "https://cdn.discordapp.com/attachments/394504208222650369/509099658036117530/profile.png",
     marketplace_enabled: true,
 
@@ -89,7 +89,7 @@ const levels = new Command({
 
     featured: false,
 
-    preload: false,
+    preload: true,
 
     cb: function (client, message, guild, user, script, match) {
 

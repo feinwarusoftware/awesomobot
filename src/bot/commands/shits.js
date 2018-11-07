@@ -9,7 +9,7 @@ const schemas = require("../../db");
 const shits = new Command({
     
     name: "Shit Counter",
-    description: "*temp*",
+    description: "Get shit on!",
     thumbnail: "https://cdn.discordapp.com/attachments/394504208222650369/509099661869580298/shit.png",
     marketplace_enabled: true,
 
@@ -19,7 +19,7 @@ const shits = new Command({
 
     featured: false,
 
-    preload: false,
+    preload: true,
 
     cb: function(client, message, guild, user, script, match) {
 
