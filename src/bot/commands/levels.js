@@ -14,6 +14,8 @@ const {
     printCenter
 } = require("./libs/jimp_print");
 
+let defaultBanner = null;
+
 let fontLevel = null;
 let fontPercent = null;
 let fontRank = null;
@@ -167,15 +169,21 @@ const levels = new Command({
 
                 const bg = new jimp(800, 750);
 
-                const banner = await jimp.read(users[0].banner);
+                //const let = await jimp.read(users[0].banner);
+                let banner = await jimp.read("https://cdn.discordapp.com/attachments/449655476297138177/502508170019864586/tweekxcraig.png");
+                if (banner === undefined) {
 
-                const prop = banner.bitmap.width / banner.bitmap.height;
+                    banner = defaultBanner;
+                }
+
+                const prop = (banner.bitmap.width / banner.bitmap.height) * (bg.bitmap.width / bg.bitmap.height);
                 if (prop >= 1) {
 
                     // change height
                     const heightDiff = bg.bitmap.height - banner.bitmap.height;
                     banner.resize((banner.bitmap.height + heightDiff) * prop, banner.bitmap.height + heightDiff);
 
+                    // 750x750 (375 - 400, 0, 800, 750)
                     banner.crop((banner.bitmap.width / 2) - bg.bitmap.width / 2, 0, bg.bitmap.width, bg.bitmap.height);
                     banner.blur(2);
 
@@ -297,6 +305,8 @@ const levels = new Command({
 
         load: function () {
             return new Promise(async (resolve, reject) => {
+
+                defaultBanner = await jimp.read(path.join(__dirname, "assets", "404.jpg"));
 
                 fontLevel = await jimp.loadFont(path.join(__dirname, "assets", "fonts", "fontLevel.fnt"));
                 fontPercent = await jimp.loadFont(path.join(__dirname, "assets", "fonts", "fontPercent.fnt"));

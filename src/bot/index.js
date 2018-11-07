@@ -152,7 +152,7 @@ const initClient = async () => {
                     commands[i]._id = script._id
                     validCommands.push(commands[i]);
 
-                    botLogger.log("stadtup", `validated local command: ${commands[i].name}`);
+                    botLogger.log("stdout", `validated local command: ${commands[i].name}`);
                 }
             }
     
@@ -243,66 +243,82 @@ const initClient = async () => {
 
     client.on("guildCreate", async guild => {
     
-        // add guilds that are not already in the database
-        schemas.GuildSchema
-            .findOne({ discord_id: guild.id })
-            .then(async dbguild => {
+        // make sure all the local commands are loaded before attempting to load/add guilds
+        const preloadLocal = await commands;
 
-                // already in the database
-                if (dbguild !== null) {
+        const clientGuilds = client.guilds.array();
+        for (let guild of clientGuilds) {
 
-                    return;
-                }
+            await schemas.GuildSchema
+                .findOne({
+                    discord_id: guild.id
+                })
+                .then(async dbguild => {
 
-                // preload base commands
-                const local = await commands;
-                const preload = local.filter(e => e.preload === true).map(e => e.name);
+                    if (dbguild !== null) {
 
-                schemas.ScriptSchema
-                    .find({ author_id: "feinwaru-devs", name: { $in: preload } })
-                    .then(scripts => {
-
-                    // add new guild to the database
-                    dbguild = new schemas.GuildSchema({
-                        discord_id: guild.id,
-                        scripts: []
-                    });
-
-                    for (let script of scripts) {
-
-                        script.guild_count++;
-                        script
-                            .save()
-                            .catch(error => {
-
-                                botLogger.error(`could increment preload script guild count: ${error}`);
-                            });
-
-                        dbguild.scripts.push({
-                            object_id: script._id
-                        });
+                        // already in the database
+                        botLogger.log("stdout", `successfully loaded guild: ${guild.name}, ${guild.id}`);
+                        return;
                     }
 
-                    dbguild
-                        .save()
-                        .then(() => {
+                    // add new guild to database and preload it with local commands
+                    const preloadLocalNames = preloadLocal.map(e => e.name);
+                    await schemas.ScriptSchema
+                        .find({
+                            author_id: "feinwaru-devs",
+                            name: {
+                                $in: preloadLocalNames
+                            }
+                        })
+                        .then(async dbscripts => {
 
-                            botLogger.log("stdout", `successully added new guild: ${guild.name}, ${guild.id}`);
+                            const newGuild = new schemas.GuildSchema({
+                                discord_id: guild.id,
+                                scripts: []
+                            });
+
+                            const promises = [];
+
+                            for (let dbscript of dbscripts) {
+
+                                dbscript.guild_count++;
+
+                                promises.push(dbscript.save());
+
+                                newGuild.scripts.push({
+                                    object_id: dbscript._id
+                                });
+                            }
+
+                            await Promise
+                                .all(promises)
+                                .catch(error => {
+
+                                    botLogger.error(`failed to update preload scripts for new guild: ${guild.name}, ${guild.id}: ${error}`);
+                            });
+
+                            await newGuild
+                                .save()
+                                .then(() => {
+
+                                    botLogger.log("stdout", `successfully added new guild: ${guild.name}, ${guild.id}`);
+                                })
+                                .catch(error => {
+
+                                    botLogger.error(`failed to save new guild: ${guild.name}, ${guild.id}: ${error}`);
+                                });
                         })
                         .catch(error => {
-                            
-                            botLogger.error(`failed to save guild: ${guild.name}, ${guild.id}: ${error}`);
+
+                            botLogger.error(`failed to find preload scripts for new guild: ${guild.name}, ${guild.id}: ${error}`);
                         });
-                    })
-                    .catch(error => {
+                })
+                .catch(error => {
 
-                        botLogger.error(`error adding guild, could not preload base commands: ${error}`);
-                    });
-            })
-            .catch(error => {
-
-                botLogger.error(`failed to add guild: ${guild.name}, ${guild.id}: ${error}`);
-            });
+                    botLogger.error(`failed to load guild from database: ${guild.name}, ${guild.id}: ${error}`);
+                });
+        }
     });
 
     /*
@@ -781,6 +797,100 @@ const initClient = async () => {
 
     client.on("ready", async () => {
 
+        // make sure all the local commands are loaded before attempting to load/add guilds
+        const preloadLocal = await commands;
+
+        const clientGuilds = client.guilds.array();
+        for (let guild of clientGuilds) {
+
+            await schemas.GuildSchema
+                .findOne({
+                    discord_id: guild.id
+                })
+                .then(async dbguild => {
+
+                    if (dbguild !== null) {
+
+                        // already in the database
+                        botLogger.log("stdout", `successfully loaded guild: ${guild.name}, ${guild.id}`);
+                        return;
+                    }
+
+                    // add new guild to database and preload it with local commands
+                    const preloadLocalNames = preloadLocal.map(e => e.name);
+                    await schemas.ScriptSchema
+                        .find({
+                            author_id: "feinwaru-devs",
+                            name: {
+                                $in: preloadLocalNames
+                            }
+                        })
+                        .then(async dbscripts => {
+
+                            const newGuild = new schemas.GuildSchema({
+                                discord_id: guild.id,
+                                scripts: []
+                            });
+
+                            const promises = [];
+
+                            for (let dbscript of dbscripts) {
+
+                                dbscript.guild_count++;
+
+                                promises.push(dbscript.save());
+
+                                newGuild.scripts.push({
+                                    object_id: dbscript._id
+                                });
+                            }
+
+                            await Promise
+                                .all(promises)
+                                .catch(error => {
+
+                                    botLogger.error(`failed to update preload scripts for new guild: ${guild.name}, ${guild.id}: ${error}`);
+                            });
+
+                            await newGuild
+                                .save()
+                                .then(() => {
+
+                                    botLogger.log("stdout", `successfully added new guild: ${guild.name}, ${guild.id}`);
+                                })
+                                .catch(error => {
+
+                                    botLogger.error(`failed to save new guild: ${guild.name}, ${guild.id}: ${error}`);
+                                });
+                        })
+                        .catch(error => {
+
+                            botLogger.error(`failed to find preload scripts for new guild: ${guild.name}, ${guild.id}: ${error}`);
+                        });
+                })
+                .catch(error => {
+
+                    botLogger.error(`failed to load guild from database: ${guild.name}, ${guild.id}: ${error}`);
+                });
+        }
+        
+        client.user
+            .setActivity(
+                `AWESOM-O ${config.version}`,
+                {
+                    type: "PLAYING"
+                }
+            )
+            .then(() => {
+
+                botLogger.log("stdout", "bot ready");
+            })
+            .catch(error => {
+
+                botLogger.error(`could not set bot activity: ${error}`);
+            });
+
+        /*
         await commands;
 
         // go through each guild the bot is on and add it to the database if its not already there
@@ -853,16 +963,15 @@ const initClient = async () => {
 
                 botLogger.log("stdout", "bot ready");
 
-
-
             }).catch(error => {
-``
+
                 botLogger.fatalError(`error saving new guilds: ${error}`);
             });
         }).catch(error => {
 
             botLogger.fatalError(`error loading guilds: ${error}`);
         });
+        */
     });
 
     /*`
