@@ -320,7 +320,7 @@ const card = new Command({
 
                 for (let vname of v.Name) {
 
-                    similarity = utils.similarity(vname, name);
+                    similarity = utils.similarity(vname.toLowerCase(), name.toLowerCase());
 
                     if (similarity > current) {
 
@@ -330,7 +330,7 @@ const card = new Command({
                 }
             } else {
 
-                similarity = utils.similarity(v.Name, name);
+                similarity = utils.similarity(v.Name.toLowerCase(), name.toLowerCase());
 
                 if (similarity > current) {
 
@@ -376,27 +376,27 @@ const card = new Command({
 
             card.Description = card.Description.replace("{PowerDurationMin}-{PowerDurationMax}", `${card.PowerDuration - 1}-${card.PowerDuration + 1} seconds`);
         }
-        if (card.Name === "Cock Magic") {
+        if (card.Name instanceof Array ? card.Name[0] === "Cock Magic" : card.Name === "Cock Magic") {
 
             card.Description = card.Description.replace("{PowerTargetAmount}", level);
         }
-        if (card.Name === "Marcus") {
+        if (card.Name instanceof Array ? card.Name[0] === "Marcus" : card.Name === "Marcus") {
 
             card.Description = card.Description.replace("{PowerHeroDamage}", card.PowerDamage);
         }
-        if (card.Name === "Marine Craig") {
+        if (card.Name instanceof Array ? card.Name[0] === "Marine Craig" : card.Name === "Marine Craig") {
 
             card.Description = card.Description.replace("{PowerHeroPoison}", card.PowerPoisonAmount);
         }
-        if (card.Name === "Chicken Coop") {
+        if (card.Name instanceof Array ? card.Name[0] === "Chicken Coop" : card.Name === "Chicken Coop") {
 
             card.Description = card.Description.replace("{PowerInterval.1}", "3.5");
         }
-        if (card.Name === "Shieldmaiden Wendy") {
+        if (card.Name instanceof Array ? card.Name[0] === "Shieldmaiden Wendy" : card.Name === "Shieldmaiden Wendy") {
 
             card.Description = card.Description.slice(0, card.Description.length - 1) + " seconds.";
         }
-        if (card.Name === "Youth Pastor Craig") {
+        if (card.Name instanceof Array ? card.Name[0] === "Youth Pastor Craig" : card.Name === "Youth Pastor Craig") {
 
             card.Description = card.Description.slice(0, card.Description.length - 1) + " seconds.";
         }
@@ -739,7 +739,13 @@ const card = new Command({
             const embed = new discord.RichEmbed();
 
             // card name
-            embed.setAuthor(card.Name);
+            if (card.Name instanceof Array) {
+
+                embed.setAuthor(card.Name[0]);
+            } else {
+
+                embed.setAuthor(card.Name);
+            }
 
             let embedColour = null;
             switch (card.Theme) {
@@ -768,9 +774,9 @@ const card = new Command({
             embed.description += `**General Information**\n`;
 
             embed.description += `Cast Area: ${card.CastArea}\n`;
-            embed.description += `Max Velocity: ${card.MaxVelocity}\n`;
-            embed.description += `Time To Reach Max Velocity: ${card.TimeToReachMaxVelocity}\n`;
-            embed.description += `Agro Range Multiplier: ${card.AgroRangeMultiplier}\n\n`;
+            embed.description += `Max Speed: ${Math.round((card.MaxVelocity) * 100) / 100}\n`;
+            embed.description += `Time To Reach Max Speed: ${Math.round((card.TimeToReachMaxVelocity) * 100) / 100}\n`;
+            embed.description += `Agro Range Multiplier: ${Math.round((card.AgroRangeMultiplier) * 100) / 100}\n\n`;
 
             let hasPower = false;
             for (let field in card) {
@@ -790,12 +796,12 @@ const card = new Command({
 
                     if (field.startsWith("Power")) {
 
-                        embed.description += `${camelPad(field.slice(5, field.length))}: ${stats[field]}\n`;
+                        embed.description += `${camelPad(field.slice(5, field.length))}: ${Math.round((stats[field]) * 100) / 100}\n`;
                     }
                 }
 
-                embed.description += `Charged Power Radius: ${card.ChargedPowerRadius}\n`;
-                embed.description += `Charged Power Regen: ${card.ChargedPowerRegen}\n\n`;
+                embed.description += `Charged Power Radius: ${Math.round((card.ChargedPowerRadius) * 100) / 100}\n`;
+                embed.description += `Charged Power Regen: ${Math.round((card.ChargedPowerRegen) * 100) / 100}\n\n`;
 
             } else {
 
@@ -807,10 +813,10 @@ const card = new Command({
 
                 embed.description += `**Can Attack? - Yes**\n`;
 
-                embed.description += `Attack Range: ${card.AttackRange}\n`;
-                embed.description += `Pre-Attack Delay: ${card.PreAttackDelay}\n`;
-                embed.description += `Time In Between Attacks: ${card.TimeInBetweenAttacks}\n`;
-                embed.description += `Knockback: ${card.KnockbackImpulse} at ${card.KnockbackAngleDeg}°\n\n`;
+                embed.description += `Attack Range: ${Math.round((card.AttackRange) * 100) / 100}\n`;
+                //embed.description += `Pre-Attack Delay: ${Math.round((card.PreAttackDelay) * 100) / 100}\n`;
+                //embed.description += `Time In Between Attacks: ${Math.round((card.TimeInBetweenAttacks) * 100) / 100}\n`;
+                embed.description += `Knockback: ${Math.round(parseInt(card.KnockbackImpulse) * 100) / 100} at ${Math.round((card.KnockbackAngleDeg) * 100) / 100}°\n\n`;
 
             } else {
                 // spell, totem or card that cant attack
@@ -823,9 +829,9 @@ const card = new Command({
 
                 embed.description += `**AOE Attacks? - Yes**\n`;
 
-                embed.description += `AOE Damage Percentage: ${card.AOEDamagePercentage}\n`;
-                embed.description += `AOE Knockback Percentage: ${card.AOEKnockbackPercentage}\n`
-                embed.description += `AOE Radius: ${card.AOERadius}\n\n`
+                embed.description += `AOE Damage Percentage: ${Math.round((card.AOEDamagePercentage) * 100) / 100}\n`;
+                embed.description += `AOE Knockback Percentage: ${Math.round((card.AOEKnockbackPercentage) * 100) / 100}\n`
+                embed.description += `AOE Radius: ${Math.round((card.AOERadius) * 100) / 100}\n\n`
 
             } else {
                 // no aoe
@@ -833,11 +839,13 @@ const card = new Command({
                 embed.description += `**AOE Attacks? - No**\n\n`;
             }
 
+            /*
             embed.description += `**Requirements**\n`;
 
             embed.description += `Minimum Episode Completed: ${card.Requirements.MinEpisodeCompleted}\n`;
             embed.description += `Minimum PVP Rank Required: ${card.Requirements.MinPVPRank}\n`;
             embed.description += `Minimum Player Level: ${card.Requirements.MinPlayerLevel}\n\n`;
+            */
 
             embed.description += `Full Stats: https://sppd.feinwaru.com/${card.Image}`;
 
