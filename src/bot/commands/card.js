@@ -3,6 +3,7 @@
 const path = require("path");
 const fs = require("fs");
 
+const discord = require("discord.js");
 const jimp = require("jimp");
 
 const Command = require("../command");
@@ -22,6 +23,21 @@ let frameOutlines = null;
 let frameTops = null;
 let typeIcons = null;
 let miscIcons = null;
+
+function camelPad(str) {
+    return str
+        // Look for long acronyms and filter out the last letter
+        .replace(/([A-Z]+)([A-Z][a-z])/g, ' $1 $2')
+        // Look for lower-case letters followed by upper-case letters
+        .replace(/([a-z\d])([A-Z])/g, '$1 $2')
+        // Look for lower-case letters followed by numbers
+        .replace(/([a-zA-Z])(\d)/g, '$1 $2')
+        .replace(/^./, function (str) {
+            return str.toUpperCase();
+        })
+        // Remove any white space left around the word
+        .trim();
+}
 
 // note, the base stats are upgrade 1
 const getUpgradeStats = (currentCard, upgrade) => {
@@ -720,9 +736,181 @@ const card = new Command({
 
         bg.write(path.join(__dirname, "temp", `pd-${saveDate}.png`), async () => {
 
+            const embed = new discord.RichEmbed();
+
+            // card name
+            embed.setAuthor(card.Name);
+
+            let embedColour = null;
+            switch (card.Theme) {
+                case "Adv":
+                    embedColour = "#4f80ba";
+                    break;
+                case "Fan":
+                    embedColour = "#d34f5f";
+                    break;
+                case "Sci":
+                    embedColour = "#db571d";
+                    break;
+                case "Mys":
+                    embedColour = "#4b9b38";
+                    break;
+                case "Gen":
+                    embedColour = "#857468";
+                    break;
+                default:
+                    embedColour = "#857468";
+            }
+            embed.setColor(embedColour);
+
+            embed.setDescription("");
+
+            embed.description += `**General Information**\n`;
+
+            embed.description += `Cast Area: ${card.CastArea}\n`;
+            embed.description += `Max Velocity: ${card.MaxVelocity}\n`;
+            embed.description += `Time To Reach Max Velocity: ${card.TimeToReachMaxVelocity}\n`;
+            embed.description += `Agro Range Multiplier: ${card.AgroRangeMultiplier}\n\n`;
+
+            let hasPower = false;
+            for (let field in card) {
+
+                if (field.startsWith("Power") && card[field] !== null) {
+
+                    hasPower = true;
+                    break;
+                }
+            }
+
+            if (hasPower) {
+
+                embed.description += `**Power Information? - Yes**\n`;
+
+                for (let field in stats) {
+
+                    if (field.startsWith("Power")) {
+
+                        embed.description += `${camelPad(field.slice(5, field.length))}: ${stats[field]}\n`;
+                    }
+                }
+
+                embed.description += `Charged Power Radius: ${card.ChargedPowerRadius}\n`;
+                embed.description += `Charged Power Regen: ${card.ChargedPowerRegen}\n\n`;
+
+            } else {
+
+                embed.description += `**Power Information? - No**\n\n`;
+            }
+
+            if (card.Type === "Character" && card.CanAttack && card.CharacterType !== "Totem") {
+                // card that can attack
+
+                embed.description += `**Can Attack? - Yes**\n`;
+
+                embed.description += `Attack Range: ${card.AttackRange}\n`;
+                embed.description += `Pre-Attack Delay: ${card.PreAttackDelay}\n`;
+                embed.description += `Time In Between Attacks: ${card.TimeInBetweenAttacks}\n`;
+                embed.description += `Knockback: ${card.KnockbackImpulse} at ${card.KnockbackAngleDeg}°\n\n`;
+
+            } else {
+                // spell, totem or card that cant attack
+
+                embed.description += `**Can Attack? - No**\n\n`;
+            }
+
+            if (card.AOEAttackType !== "No") {
+                // aoe attacks
+
+                embed.description += `**AOE Attacks? - Yes**\n`;
+
+                embed.description += `AOE Damage Percentage: ${card.AOEDamagePercentage}\n`;
+                embed.description += `AOE Knockback Percentage: ${card.AOEKnockbackPercentage}\n`
+                embed.description += `AOE Radius: ${card.AOERadius}\n\n`
+
+            } else {
+                // no aoe
+
+                embed.description += `**AOE Attacks? - No**\n\n`;
+            }
+
+            embed.description += `**Requirements**\n`;
+
+            embed.description += `Minimum Episode Completed: ${card.Requirements.MinEpisodeCompleted}\n`;
+            embed.description += `Minimum PVP Rank Required: ${card.Requirements.MinPVPRank}\n`;
+            embed.description += `Minimum Player Level: ${card.Requirements.MinPlayerLevel}\n\n`;
+
+            embed.description += `Full Stats: https://sppd.feinwaru.com/${card.Image}`;
+
+            embed.setFooter("© 2018 Copyright: Feinwaru Software ");
+
+            // ***ATTACK INFO***
+
+            // -can attack
+            // -attack range
+            // -time in between attacks
+            // -pre attack delay
+            // -knockback impulse
+            // -aoe attack type
+            // -aoe damage percentage
+            // -aoe radius
+            // -aoe knockback percentage
+
+            // ***POWER INFO***
+
+            // -targeting ...
+            // -power duration
+
+            // ***SPEED INFO***
+
+            // -time to max velocity
+            // -max velocity
+
+            // ***TOTEM ONLY***
+
+            // -health loss
+
+            // ***SPELL ONLY***
+
+
+
+            // *** ??? ***
+
+            // -requirements ...
+            // -child unit limit
+
+            // *Name
+            // CanAttack
+            // *Description
+            // *Image
+            // -ManaCost
+            // -Damage
+            // -Health
+            // HealthLoss - CharacterType: totem
+            // Type - if !Character, CharacterType === undefined
+            // Targeting ... - power radius
+            // CharacterType
+            // AttackRange
+            // TimeToMaxVelocity
+            // MaxVelocity
+            // TimeInBetweenAttacks
+            // PowerDuration
+            // -PowerPower
+            // -Rarity
+            // -Theme
+            // Requirements
+            // AOEAttackType
+            // AOEDamagePercentage
+            // AOERadius
+            // AOEKnockbackPercentage
+            // PreAttackDelay
+            // CastArea - ownside/anywhere
+            // ChildUnitLimit
+
             await message.channel.send("", {
                 file: path.join(__dirname, "temp", `pd-${saveDate}.png`)
             })
+
+            message.channel.send(embed);
 
             fs.unlink(path.join(__dirname, "temp", `pd-${saveDate}.png`), error => {
                 if (error !== null && error !== undefined) {
