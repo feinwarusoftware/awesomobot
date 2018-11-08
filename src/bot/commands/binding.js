@@ -189,12 +189,19 @@ const binding = new Command({
 
             schemas.ScriptSchema
                 .find({
-                    name, created_with: "script_bindings"
+                    name,
+                    created_with: "script_bindings"
                 })
                 .then(scripts => {
                     if (scripts.length === 0) {
 
                         return message.reply(`script '${name}' not found`);
+                    }
+
+                    scripts = scripts.filter(e => e.author_id === message.author.id);
+                    if (scripts.length === 0) {
+
+                        return message.reply(`script '${name}' does not belong to you`);
                     }
 
                     schemas.GuildSchema
@@ -218,7 +225,7 @@ const binding = new Command({
                                 }
                             }
 
-                            if (found = false) {
+                            if (found === false) {
 
                                 return message.reply(`script not found in current guild`);
                             }

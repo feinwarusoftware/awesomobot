@@ -5,7 +5,15 @@ const textWidth = (font, str) => {
     let width = 0;
 
     for (let i = 0; i < str.length; i++) {
-        width += font.chars[str[i]].xoffset + font.chars[str[i]].xadvance;                                                                          
+
+        if (font.chars[str[i]] === undefined) {
+
+            width += 0; 
+            
+        } else {
+
+            width += font.chars[str[i]].xoffset + font.chars[str[i]].xadvance;       
+        }                                                                   
     }
 
     return width;

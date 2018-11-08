@@ -78,6 +78,72 @@ const getLevelData = xp => {
     };
 }
 
+const colourPrint = (src, font, x, y, str, colour, mix = "100") => {
+
+    const text = new jimp(textWidth(font, str), font.common.lineHeight);
+
+    text.print(font, 0, 0, str);
+    text.color([
+        { apply: "mix", params: [colour, mix] }
+    ]);
+
+    src.composite(text, x, y);
+}
+
+const colourText = (font, str, colour, mix = "100") => {
+
+    const text = new jimp(textWidth(font, str), font.common.lineHeight);
+
+    text.print(font, 0, 0, str);
+    text.color([
+        { apply: "mix", params: [colour, mix] }
+    ]);
+
+    return text;
+}
+
+const plainText = (font, str) => {
+
+    const text = new jimp(textWidth(font, str), font.common.lineHeight);
+
+    text.print(font, 0, 0, str);
+
+    return text;
+}
+
+const colourDistance = (c1, c2) => Math.sqrt(Math.pow(c1.r - c2.r, 2) + Math.pow(c1.g - c2.g, 2) + Math.pow(c1.b - c2.b, 2) + Math.pow(c1.a - c2.a, 2));
+
+const magicRecolour = (src, targetColour, replaceColour, threshold) => {
+
+    src.scan(0, 0, src.bitmap.width, src.bitmap.height, (x, y, idx) => {
+
+        const thisColour = {
+
+            r: src.bitmap.data[idx + 0],
+            g: src.bitmap.data[idx + 1],
+            b: src.bitmap.data[idx + 2],
+            a: src.bitmap.data[idx + 3]
+        };
+
+        if (colourDistance(targetColour, thisColour) <= threshold) {
+
+            src.bitmap.data[idx + 0] = replaceColour.r;
+            src.bitmap.data[idx + 1] = replaceColour.g;
+            src.bitmap.data[idx + 2] = replaceColour.b;
+            src.bitmap.data[idx + 3] = replaceColour.a;
+        }
+    });
+}
+
+function hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+
 const levels = new Command({
 
     name: "AWESOM-O Profiles",
@@ -128,6 +194,7 @@ const levels = new Command({
                                 bio: "$bio",
                                 trophies: "$trophies",
                                 verified: "$verified",
+                                colours: "$colours",
                                 xp: "$xp"
                             }
                         },
@@ -155,6 +222,7 @@ const levels = new Command({
                         bio: "$arr.bio",
                         trophies: "$arr.trophies",
                         verified: "$arr.verified",
+                        colours: "$arr.colours",
                         xp: "$arr.xp",
                         globalRank: "$globalRank",
                         globalTotal: "$globalTotal"
@@ -167,30 +235,94 @@ const levels = new Command({
                     return message.reply("this user does not have a profile");
                 }
 
+                // colours
+                const defaultColour = "#14b252";
+                const defaultNameColour = "#ffffff";
+
+                if (users[0].colours === undefined || users[0].colours === null) {
+
+                    users[0].colours = {};
+                }
+
+                if (users[0].colours.progress === undefined || users[0].colours.progress === null) {
+
+                    users[0].colours.progress = defaultColour;
+                }
+
+                if (users[0].colours.level === undefined || users[0].colours.level === null) {
+
+                    users[0].colours.level = defaultColour;
+                }
+
+                if (users[0].colours.rank === undefined || users[0].colours.rank === null) {
+
+                    users[0].colours.rank = defaultColour;
+                }
+
+                if (users[0].colours.name === undefined || users[0].colours.name === null) {
+
+                    users[0].colours.name = defaultNameColour;
+                }
+
+                const colours = {};
+
+                for (let colour in users[0].colours) {
+
+                    const rgb = hexToRgb(users[0].colours[colour]);
+
+                    colours[colour] = {
+                        hex: users[0].colours[colour],
+                        rgb
+                    };
+                }
+                //
+
                 const bg = new jimp(800, 750);
 
-                const banner = await jimp.read(users[0].banner);
+                let banner = await jimp.read(users[0].banner);
                 //let banner = await jimp.read("https://cdn.discordapp.com/attachments/449655476297138177/502508170019864586/tweekxcraig.png");
                 if (banner === undefined) {
 
                     banner = defaultBanner;
                 }
 
-                const prop = (banner.bitmap.width / banner.bitmap.height) * (bg.bitmap.width / bg.bitmap.height);
-                if (prop >= 1) {
+                const prop = banner.bitmap.width / banner.bitmap.height;
+                if (prop >= (bg.bitmap.width) / bg.bitmap.height) {
 
                     // change height
                     const heightDiff = bg.bitmap.height - banner.bitmap.height;
+                    banner.resize(banner.bitmap.width + (heightDiff * prop), banner.bitmap.height + heightDiff);
+
+                    banner.crop((banner.bitmap.width / 2) - bg.bitmap.width / 2, 0, bg.bitmap.width, bg.bitmap.height);
+                    banner.blur(2);
+
+                    bg.composite(banner, 0, 0);
+
+                    /*
+                    const heightDiff = bg.bitmap.height - banner.bitmap.height;
                     banner.resize((banner.bitmap.height + heightDiff) * prop, banner.bitmap.height + heightDiff);
+                    
+
+                    banner.resize(banner.bitmap.height * prop, banner.bitmap.height + heightDiff);
 
                     // 750x750 (375 - 400, 0, 800, 750)
                     banner.crop((banner.bitmap.width / 2) - bg.bitmap.width / 2, 0, bg.bitmap.width, bg.bitmap.height);
                     banner.blur(2);
 
-                    bg.composite(banner, 0, 0);
+                    bg.composite(banner, 0, 0)
+                    */
                 } else {
 
                     // change width
+                    const widthDiff = bg.bitmap.width - banner.bitmap.width;
+                    banner.resize(banner.bitmap.width + widthDiff, banner.bitmap.height + (widthDiff * prop));
+
+                    banner.crop((banner.bitmap.width / 2) - bg.bitmap.width / 2, 0, bg.bitmap.width, bg.bitmap.height);
+                    banner.blur(2);
+
+                    bg.composite(banner, 0, 0);
+
+                    /*
                     const diffWidth = bg.bitmap.width - banner.bitmap.width;
                     banner.resize(banner.bitmap.width + diffWidth, (banner.bitmap.width + diffWidth) / prop);
 
@@ -198,6 +330,7 @@ const levels = new Command({
                     banner.blur(2);
 
                     bg.composite(banner, 0, 0);
+                    */
                 }
 
                 bg.composite(infoCardBase, 0, 0);
@@ -207,11 +340,14 @@ const levels = new Command({
                 // 398 148 723 187
                 const progress = new jimp(Math.floor(325 * levelData.progress), 39);
                 progress.opaque();
+                /*
                 progress.color([
                     { apply: "red", params: [20] },
                     { apply: "green", params: [178] },
                     { apply: "blue", params: [82] }
                 ]);
+                */
+                magicRecolour(progress, { r: 0, g: 0, b: 0, a: 255 }, { r: colours.progress.rgb.r, g: colours.progress.rgb.g, b: colours.progress.rgb.b, a: 255 }, 160);
 
                 bg.composite(progress, 398, 148);
 
@@ -222,9 +358,34 @@ const levels = new Command({
                 avatar.resize(296, 296);
                 bg.composite(avatar, 16, 19);
     
-                printCenter(bg, fontLevel, 163, 35, `Level ${levelData.level}`, 800);
-                printCenter(bg, fontRank, 165, 195, `#${users[0].globalRank + 1}/${users[0].globalTotal}`, 800);
-                bg.print(fontName, 12, 316, searchUser.username);
+                //printCenter(bg, fontLevel, 163, 35, `Level ${levelData.level}`, 800);
+                const levelText = plainText(fontLevel, `Level ${levelData.level}`); 
+                magicRecolour(levelText, { r: 20, g: 178, b: 82, a: 255 }, { r: colours.level.rgb.r, g: colours.level.rgb.g, b: colours.level.rgb.b, a: 255 }, 160);
+                bg.composite(levelText, (bg.bitmap.width / 2) - (levelText.bitmap.width / 2) + 173, 40);
+
+                //printCenter(bg, fontRank, 165, 195, `#${users[0].globalRank + 1}/${users[0].globalTotal}`, 800);
+                const rankText = plainText(fontRank, `#${users[0].globalRank + 1}/${users[0].globalTotal}`);
+                magicRecolour(rankText, { r: 20, g: 178, b: 82, a: 255 }, { r: colours.rank.rgb.r, g: colours.rank.rgb.g, b: colours.rank.rgb.b, a: 255 }, 160);
+                bg.composite(rankText, (bg.bitmap.width / 2) - (rankText.bitmap.width / 2) + 165, 200);
+
+                /* temp
+                const nameRecolour = new jimp(textWidth(fontName, searchUser.username), 84);
+                nameRecolour.print(fontName, 0, 0, searchUser.username);
+                nameRecolour.color([
+                    { apply: "mix", params: ["#ff594f", 100] }
+                ]);
+                bg.composite(nameRecolour, 12, 316);
+                */
+
+                //colourPrint(bg, fontName, 15, 321, searchUser.username, "#000000");
+
+                const shadowText = plainText(fontName, searchUser.username);
+                magicRecolour(shadowText, { r: 255, g: 255, b: 255, a: 255 }, { a: 0, g: 0, b: 0, a: 160 }, 256);
+                bg.composite(shadowText, 15, 321);
+                
+                colourPrint(bg, fontName, 12, 316, searchUser.username, colours.name.hex);
+
+                //bg.print(fontName, 12, 316, searchUser.username);
     
                 if (users[0].verified === true) {
 
@@ -246,7 +407,7 @@ const levels = new Command({
                     changed = true;
                 }
 
-                bg.print(fontAbout, 24, 472, changed === true ? `${modifiedAbout}...` : modifiedAbout, 360);
+                bg.print(fontAbout, 24, 472, changed === true ? `${modifiedAbout}...` : modifiedAbout, 290);
 
                 // trophies
                 const userTrophies = [];

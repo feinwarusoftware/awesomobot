@@ -212,6 +212,10 @@ const shits = new Command({
                         }
                     }
 
+                    leaderboard.sort((a, b) => {
+                        return b.user.shits - a.user.shits;
+                    });
+
                     const embed = new discord.RichEmbed();
                     embed.setAuthor("AWESOM-O // Shits - Guild Top 5", "https://cdn.discordapp.com/avatars/379370506933108746/a979694bf250f2293d929278328b707c.png");
                     embed.setColor(0xff594f);
