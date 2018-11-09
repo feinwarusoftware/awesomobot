@@ -11,7 +11,7 @@
     "HOME": "Home",
     "DASHBOARD": "Dashboard",
     "COMMANDS": "Befehle",
-    "ROADMAP": "Plan",
+    "ROADMAP": "Übersicht",
     "PREMIUM": "Premium",
     "SELECT_LANGUAGE": "Wähle eine Sprache",
 
@@ -94,8 +94,8 @@
     "VANILLA_AWESOMO": "Vanilla AWESOM-O",
     "USER_MADE": "Von Nutzern erstellt",
 
-    "BACKEND_DEV": "Backend Developer",
-    "FRONTEND_DEV": "Frontend Developer",
+    "BACKEND_DEV": "Backend Entwickler",
+    "FRONTEND_DEV": "Frontend Entwickler",
     "COMMUNITY_MANAGER": "Community Manager",
     "PD_COMMANDS": "Phone Destroyer Befehle",
 
@@ -112,7 +112,7 @@
     "POLISH_TRANSLATION": "Polnische Übersetzung",
     "GERMAN_TRANSLATION": "Deutsche Übersetzung",
     "SPANISH_TRANSLATION" : "Spanische Übersetzung",
-    "FRENCH_AND_IRISH_TRANSLATION": "Französische and irische Übersetzung",
+    "FRENCH_AND_IRISH_TRANSLATION": "Französische und irische Übersetzung",
 
     "PRIVACY_POLICY": "Datenschutz-Bestimmungen",
 
@@ -222,7 +222,7 @@
     "URL": "URL",
     "ENTER_IMAGE_URL": "Gib die URL eines Bildes ein",
     "MODULES": "Module",
-    "ABOUT_SECTION": "Über uns Sektion",
+    "ABOUT_SECTION": "Über dich Sektion",
     "ABOUT_SECTION_DESC": "Gib hier ein, was die Welt wissen soll",
     "MARKDOWN_DISCLAIMER": "DU kannst in diesem Feld Markdown nutzen. Klicke hier für ein helpsheet.",
     "ADD_ANOTHER_IMAGE": "Füge ein weiteres Bild hinzu",
@@ -235,12 +235,12 @@
     "USER_UPDATE_SUCCESS": "Profil wurde erfolgreich aktualisiert! Die Seite wird in 2 Sekunden neu geladen ...",
     "LEGACY_LEADERBOARDS": "Legacy Ranglisten",
     "ACTIVITY_LEADERBOARD": "Aktivitäts Ranglisten",
-    "IHTF_LEADERBOARD": "Es trifft die Fan-Rangliste",
+    "IHTF_LEADERBOARD": "Geh an die Decke-Rangliste",
     "ACTIVITY_SCORE": "Aktivitäts-Score",
     "SHIT_SCORE": "Scheiße-Score™",
     "JUMP_TO_YOU": "Springe zu dir",
 
-    "FEINWARU_DEV": "Feinwaru Developer",
+    "FEINWARU_DEV": "Feinwaru Entwickler",
     "AC18_1": "Kunst Wettbewerb erster Platz",
     "AC18_2": "Kunst Wettbewerb zweiter Platz",
     "AC18_3": "Kunst Wettbewerb dritter Platz",
@@ -276,15 +276,15 @@
     "AWESOMO_1_STATS": "AWESOM-O 1.0 Stats",
     "AWESOMO_2_STATS": "AWESOM-O 2.0 Stats",
     "ACTIVITY_SCORES": "Aktivitäts-Scores",
-    "IHTF": "geht an die Decke",
+    "IHTF": "geh' an die Decke",
 
     "STEPPER_1": "Wähle eine Voreinstellung",
-    "STEPPER_2": "Frage die Informationen ein",
+    "STEPPER_2": "Trage die Informationen ein",
     "STEPPER_3": "???",
     "STEPPER_4": "Profit",
 
     "STEP_1": "Schritt 1:",
-    "STEP_1_DESC": "What do you want AWESOM-O to post?",
+    "STEP_1_DESC": "Was soll AWESOM-O posten?",
     "TEXT": "Text",
     "RANDOM_TEXT": "Zufälliger Text",
     "IMAGE": "Bild",

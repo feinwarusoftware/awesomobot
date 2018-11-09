@@ -2,32 +2,12 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <%- include partials/headers.ejs %>
     <title>AWESOM-O //
         <%= trans.HOME %>
     </title>
 
-    <link rel="icon" type="image/png" href="/img/favicon.png" />
-    <link rel="shortcut icon" type="image/png" href="/img/favicon.png" />
-    <meta name="theme-color" content="#ff594f">
-
-    <link rel="alternate" href="/" hreflang="x-default" />
-    <link rel="alternate" href="/?hl=en" hreflang="en" />
-    <link rel="alternate" href="/?hl=ie" hreflang="ie" />
-    <link rel="alternate" href="/?hl=pt" hreflang="pt" />
     <link rel="stylesheet" href="/css/odometer-theme-default.css" />
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
-        crossorigin="anonymous">
-    <!-- Bootstrap core CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Material Design Bootstrap -->
-    <link href="/css/mdb.min.css" rel="stylesheet">
-
-    <link href="/css/style.css" rel="stylesheet">
 
     <style>
         .navbar:not(.top-nav-collapse) {
@@ -66,19 +46,14 @@
 
 <body class="">
 
-    <!-- Main navigation -->
     <header>
         <%- include partials/navbar.ejs %>
 
-        <!-- Full Page Intro -->
+
         <div class="view jarallax" data-jarallax='{"speed": 0.5}' style="background: url('https://media.discordapp.net/attachments/379432139856412682/462737165806338058/abstract2.png');">
-            <!-- Mask & flexbox options-->
             <div class="mask d-flex justify-content-center align-items-center">
-                <!-- Content -->
                 <div class="container">
-                    <!--Grid row-->
                     <div class="row">
-                        <!--Grid column-->
                         <div class="col-md-7 white-text text-center text-md-center mt-lg-5 mb-5 wow fadeInLeft pt-4 smooth-scroll"
                             data-wow-delay="0.3s">
                             <img class="img-fluid mt-lg-5 pt-5" src="/img/headerlogo.png">
@@ -90,43 +65,32 @@
                                 <%= trans.GOTO_DASHBOARD %>
                             </a>
                         </div>
-                        <!--Grid column-->
-                        <!--Grid column-->
                         <div class="col-md-5 col-xl-5 mt-xl-5 wow fadeInRight" data-wow-delay="0.3s">
                             <img src="/img/headerphone.png" alt="" class="img-fluid">
                         </div>
-                        <!--Grid column-->
                     </div>
-                    <!--Grid row-->
                 </div>
-                <!-- Content -->
             </div>
-            <!-- Mask & flexbox options-->
         </div>
-        <!-- Full Page Intro -->
     </header>
-    <!-- Main navigation -->
-    <!-- Main content -->
     <main>
 
         <div id="learnmore" class="container anchor">
 
-
-            <!-- Section: Features v.4 -->
             <section id="features" class="section feature-box mb-5 pb-4">
 
-                <!-- Section heading -->
+        
                 <h3 class="text-center title my-5 dark-grey-text font-weight-bold">
                     <strong id="featurehead">
                         <%= trans.FULLY_FEATURED %>
                     </strong>
                 </h3>
-                <!-- Grid row -->
+        
                 <div class="row features-small">
 
-                    <!-- Grid column -->
+            
                     <div class="col-lg-4 col-md-12">
-                        <!-- Grid row -->
+                
                         <div id="feature1" class="row mb-3">
                             <div class="col-2">
                                 <i class="fa fa-code feinwaru-text fa-2x"></i>
@@ -140,9 +104,9 @@
                                 </p>
                             </div>
                         </div>
-                        <!-- Grid row -->
+                
 
-                        <!-- Grid row -->
+                
                         <div id="feature2" class="row mb-3">
                             <div class="col-2">
                                 <i class="fas fa-store feinwaru-text fa-2x"></i>
@@ -156,9 +120,9 @@
                                 </p>
                             </div>
                         </div>
-                        <!-- Grid row -->
+                
 
-                        <!-- Grid row -->
+                
                         <div id="feature3" class="row">
                             <div class="col-2">
                                 <i class="fa fa-line-chart feinwaru-text fa-2x"></i>
@@ -172,19 +136,19 @@
                                 </p>
                             </div>
                         </div>
-                        <!-- Grid row -->
+                
                     </div>
-                    <!-- Grid column -->
+            
 
-                    <!-- Grid column -->
+            
                     <div class="col-lg-4 col-md-12 mb-1 text-center text-md-left">
                         <img id="featureimg" src="img/feature0.png" alt="" class="z-depth-1 img-fluid mb-3">
                     </div>
-                    <!-- Grid column -->
+            
 
-                    <!-- Third column -->
+            
                     <div class="col-lg-4 col-md-12">
-                        <!-- Grid row -->
+                
                         <div id="feature4" class="row mb-3">
                             <div class="col-2">
                                 <i class="fa fa-gamepad feinwaru-text fa-2x"></i>
@@ -198,9 +162,9 @@
                                 </p>
                             </div>
                         </div>
-                        <!-- Grid row -->
+                
 
-                        <!-- Grid row -->
+                
                         <div id="feature5" class="row mb-3">
                             <div class="col-2">
                                 <i class="fas fa-tachometer-alt feinwaru-text fa-2x"></i>
@@ -214,9 +178,9 @@
                                 </p>
                             </div>
                         </div>
-                        <!-- Grid row -->
+                
 
-                        <!-- Grid row -->
+                
                         <div id="feature6" class="row">
                             <div class="col-2">
                                 <i class="fa fa-users feinwaru-text fa-2x"></i>
@@ -230,35 +194,31 @@
                                 </p>
                             </div>
                         </div>
-                        <!-- Grid row -->
                     </div>
-                    <!-- Third column -->
                 </div>
-                <!-- Grid row -->
-                <!-- Section sescription -->
                 <p class="text-center w-responsive pt-3 mx-auto grey-text">
                     <%= trans.MANY_MORE %>
                 </p>
             </section>
-            <!-- Section: Features v.4 -->
+    
 
         </div>
-        <!-- Streak -->
+
         <div class="view jarallax" data-jarallax='{"speed": 0.5}' style="background: url('/img/awesomo-bg.jpg');height: 300px">
             <div class="flex-center rgba-gradient">
                 <div class="container">
 
-                    <!-- Section heading -->
+            
                     <h3 class="text-center mb-5 pb-4 white-text font-weight-bold">
                         <strong>
                             <%= trans.FACTS %>
                         </strong>
                     </h3>
 
-                    <!--First row-->
+            
                     <div class="row text-center">
 
-                        <!--First column-->
+                
 
                         <div class="col-md-3 mb-2">
                             <a href="https://status.feinwaru.com/780641651">
@@ -283,9 +243,9 @@
                                 </p>
                             </a>
                         </div>
-                        <!--/First column-->
+                
 
-                        <!--Second column-->
+                
                         <div class="col-md-3 mb-2">
                             <h1 class="white-text mb-1 font-weight-bold">
                                 <span class="odometer" id="usersplaceholder">
@@ -296,9 +256,9 @@
                                 <%= trans.TOTAL_USERS %>
                             </p>
                         </div>
-                        <!--/Second column-->
+                
 
-                        <!--Third column-->
+                
                         <div class="col-md-3 mb-2">
                             <h1 class="white-text mb-1 font-weight-bold">
                                 <span class="odometer" id="serversplaceholder">
@@ -309,9 +269,9 @@
                                 <%= trans.SERVERS %>
                             </p>
                         </div>
-                        <!--/Third column-->
+                
 
-                        <!--Fourth column-->
+                
                         <div class="col-md-3">
                             <h1 class="white-text mb-1 font-weight-bold">
                                 <span class="odometer" id="locplaceholder">
@@ -322,10 +282,10 @@
                                 <%= trans.LINES_OF_CODE %>
                             </p>
                         </div>
-                        <!--/Fourth column-->
+                
 
                     </div>
-                    <!--First row-->
+            
 
                 </div>
             </div>
@@ -333,28 +293,28 @@
 
         <div class="container-fluid background-grey">
             <div class="container">
-                <!-- Section: Testimonials v.1 -->
+        
                 <section id="testimonials" class="section mb-0">
 
-                    <!-- Section heading -->
+            
                     <h2 class="text-center mb-5 my-5 dark-grey-text font-weight-bold">
                         <%= trans.OUR_SUBSCRIBERS %>
                     </h2>
 
-                    <!--First slide-->
+            
                     <div class="carousel-item active">
-                        <!-- Grid row -->
+                
                         <div id="patrons" class="row mt-1-half mb-4 justify-content-center">
 
                         </div>
-                        <!-- Grid row -->
+                
                     </div>
                 </section>
-                <!-- Section: Testimonials v.1 -->
-                <!--Section: Pricing v.5-->
+        
+        
                 <section id="pricing" class="section pb-2">
 
-                    <!--Secion heading-->
+            
                     <h2 class="text-center mb-5 my-5 dark-grey-text font-weight-bold">
                         <%= trans.GET_AWESOMO %>
                         <span class="orange-text">
@@ -374,28 +334,28 @@
                         </li>
                     </ul>
 
-                    <!-- Tab panels -->
+            
                     <div class="tab-content">
 
-                        <!--Panel 1-->
+                
                         <div class="tab-pane fade in show active" id="panel1" role="tabpanel">
                             <br>
 
-                            <!--Grid row-->
+                    
                             <div class="row">
 
-                                <!--Grid column-->
+                        
                                 <div class="col-lg-4 col-md-12 mb-4">
-                                    <!--Card-->
+                            
                                     <div class="pricing-card naked-card">
 
-                                        <!--Content-->
+                                
                                         <div class="card-body dark-grey-text">
                                             <h5 class="font-weight-bold mt-3">
                                                 <%= trans.FRIENDS %>
                                             </h5>
 
-                                            <!-- Price -->
+                                    
                                             <div class="price pt-0">
                                                 <h2 class="number purple-text-2 mb-0">1</h2>
                                             </div>
@@ -419,26 +379,26 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <!--Card-->
+                            
                                 </div>
-                                <!--Grid column-->
+                        
 
-                                <!--Grid column-->
+                        
                                 <div class="col-lg-4 col-md-12 mb-4">
 
-                                    <!-- Card -->
+                            
                                     <div class="card card-image" style="background-image: url('/img/awesomo-card.jpg');">
 
-                                        <!-- Content -->
+                                
                                         <div class="text-white text-center pricing-card d-flex align-items-center rgba-gradient py-3 px-3">
 
-                                            <!--Content-->
+                                    
                                             <div class="card-body white-text">
                                                 <h5 class="font-weight-bold mt-3">
                                                     <%= trans.SUPER_BEST_FRIENDS %>
                                                 </h5>
 
-                                                <!-- Price -->
+                                        
                                                 <div class="price pt-0">
                                                     <h2 class="number purple-text-2 mb-0">10</h2>
                                                 </div>
@@ -464,26 +424,26 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!--Card-->
+                            
                                 </div>
-                                <!--Grid column-->
+                        
 
-                                <!--Grid column-->
+                        
                                 <div class="col-lg-4 col-md-12 mb-4">
-                                    <!--Card-->
+                            
                                     <div class="pricing-card naked-card">
 
-                                        <!--Content-->
+                                
                                         <div class="card-body dark-grey-text">
                                             <h5 class="font-weight-bold">
                                                 <%= trans.BEST_FRIENDS %>
                                             </h5>
 
-                                            <!-- Price -->
+                                    
                                             <div class="price pt-0">
                                                 <h2 class="number mb-0">5</h2>
                                             </div>
-                                            <!--/.Price-->
+                                    
                                             <ul class="striped">
                                                 <li>
                                                     <%- md(trans.BF_ROLE); %>
@@ -505,34 +465,34 @@
                                         </div>
 
                                     </div>
-                                    <!--Card-->
+                            
                                 </div>
-                                <!--Grid column-->
+                        
 
                             </div>
-                            <!--Grid row-->
+                    
 
                         </div>
-                        <!--/.Panel 1-->
+                
 
-                        <!--Panel 2-->
+                
                         <div class="tab-pane fade" id="panel2" role="tabpanel">
                             <br>
 
                             <div class="row">
 
-                                <!--Grid column-->
+                        
                                 <div class="col-lg-4 col-md-12 mb-4">
-                                    <!--Card-->
+                            
                                     <div class="pricing-card naked-card">
 
-                                        <!--Content-->
+                                
                                         <div class="card-body dark-grey-text">
                                             <h5 class="font-weight-bold mt-3">
                                                 <%= trans.FRIENDS %>
                                             </h5>
 
-                                            <!-- Price -->
+                                    
                                             <div class="pt-3">
                                                 <table width="100%">
                                                     <col width="40%">
@@ -617,26 +577,26 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <!--Card-->
+                            
                                 </div>
-                                <!--Grid column-->
+                        
 
-                                <!--Grid column-->
+                        
                                 <div class="col-lg-4 col-md-12 mb-4">
 
-                                    <!-- Card -->
+                            
                                     <div class="card card-image" style="background-image: url('/img/awesomo-card.jpg');">
 
-                                        <!-- Content -->
+                                
                                         <div class="text-white text-center pricing-card d-flex align-items-center rgba-gradient py-3 px-3">
 
-                                            <!--Content-->
+                                    
                                             <div class="card-body white-text">
                                                 <h5 class="font-weight-bold mt-3">
                                                     <%= trans.SUPER_BEST_FRIENDS %>
                                                 </h5>
 
-                                                <!-- Price -->
+                                        
                                                 <div class="pt-3">
                                                     <table width="100%">
                                                         <col width="35%">
@@ -722,22 +682,22 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!--Card-->
+                            
                                 </div>
-                                <!--Grid column-->
+                        
 
-                                <!--Grid column-->
+                        
                                 <div class="col-lg-4 col-md-12 mb-4">
-                                    <!--Card-->
+                            
                                     <div class="pricing-card naked-card">
 
-                                        <!--Content-->
+                                
                                         <div class="card-body dark-grey-text">
                                             <h5 class="font-weight-bold">
                                                 <%= trans.BEST_FRIENDS %>
                                             </h5>
 
-                                            <!-- Price -->
+                                    
                                             <div class="pt-3">
                                                 <table width="100%">
                                                     <col width="40%">
@@ -801,7 +761,7 @@
                                                 </table>
 
                                             </div>
-                                            <!--/.Price-->
+                                    
                                             <ul class="striped">
                                                 <li>
                                                     <%- md(trans.BF_ROLE); %>
@@ -824,44 +784,44 @@
                                         </div>
 
                                     </div>
-                                    <!--Card-->
+                            
                                 </div>
-                                <!--Grid column-->
+                        
 
                             </div>
-                            <!--Grid row-->
+                    
 
                         </div>
-                        <!--/.Panel 2-->
+                
 
                     </div>
 
 
                 </section>
-                <!--/Section: Pricing v.5-->
+        
 
             </div>
         </div>
-        <!--/Section: Pricing v.5-->
-        <!-- Streak -->
+
+
 
         <%- include partials/footer.ejs %>
 
-        <!--/.Footer-->
 
 
-        <!-- SCRIPTS -->
 
-        <!-- JQuery -->
+
+
+
         <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
 
-        <!-- Bootstrap tooltips -->
+
         <script type="text/javascript" src="/js/popper.min.js"></script>
 
-        <!-- Bootstrap core JavaScript -->
+
         <script type="text/javascript" src="/js/bootstrap.min.js"></script>
 
-        <!-- MDB core JavaScript -->
+
         <script type="text/javascript" src="/js/mdb.min.js"></script>
 
         <script type="text/javascript" src="/js/script.js"></script>
@@ -892,13 +852,12 @@
             $("#usersplaceholder").html(statsyay.members.total);
             $("#serversplaceholder").html(statsyay.servers);
             $("#uptimeplaceholder").html(Math.round(statsyay.status.uptime));
-            console.log(statsyay)
 
             setInterval(function () {
                 const stats = new XMLHttpRequest();
                 stats.open("GET", `/api/v3/stats`, false);
                 stats.send();
-                const statsyay = JSON.parse(stats.response);
+                const statsyay = JSON.parse(stats.response).stats;
                 $("#usersplaceholder").html(statsyay.members.total);
                 $("#serversplaceholder").html(statsyay.servers);
                 $("#uptimeplaceholder").html(Math.round(statsyay.status.uptime));
@@ -958,45 +917,45 @@
 
             patronsyay = patronsyay.filter(e => e.amount >= 5);
             patronsyay.sort((a, b) => b.amount - a.amount);
-
+            console.log(patronsyay)
             for (let patron of patronsyay) {
                 patronlist.append(
                     `
-                                        <!-- Grid column  -->
-                                            <div class="col-lg-4 col-md-12 mt-2">
+                                
+                    <div class="col-lg-4 col-md-12 mt-2">
 
 
-                                                <!-- Card -->
-                                                <div class="card card-image mb-3 mx-auto" style="background-image: url(${patron.avatar});">
+                
+                        <div class="card card-image mb-3 mx-auto" style="background-image: url(${patron.avatar});">
 
-                                                    <!-- Content -->
-                                                    <div class="text-white text-center d-flex align-items-center rgba-black-strong py-5 px-4">
-                                                        <div class="mx-auto">
-                                                            <h5 class="feinwaru-text">
-                                                                <b id="subamount">
-                                                                    <%- trans.SUBSCRIBER_AMOUNT %>
-                                                                </b>
-                                                            </h5>
-                                                            <h3 class="card-title">
-                                                                <strong>${patron.username}</strong>
-                                                            </h3>
-                                                            <p>
-                                                                <%= trans.SUBSCRIBER_SINCE %> ${new Date(patron.date).toDateString().substring(4)} </p>
-                                                            <br>
-                                                            <br>
-                                                            <br>
-                                                            <a href="/profiles/id<%= trans.LANG %>" class="btn feinwaru">
-                                                                <i class="fa fa-user left"></i>
-                                                                <%= trans.VIEW_PROFILE %>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Content -->
-                                                </div>
-                                                <!-- Card -->
+                    
+                            <div class="text-white text-center d-flex align-items-center rgba-black-strong py-5 px-4">
+                                <div class="mx-auto">
+                                    <h5 class="feinwaru-text">
+                                        <b id="subamount">
+                                            <%- trans.SUBSCRIBER_AMOUNT %>
+                                        </b>
+                                    </h5>
+                                    <h3 class="card-title">
+                                        <strong>${patron.username}</strong>
+                                    </h3>
+                                    <p>
+                                        <%= trans.SUBSCRIBER_SINCE %> ${new Date(patron.date).toDateString().substring(4)} </p>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <a href="/dashboard/profiles/${patron.discord_id}<%= trans.LANG %>" class="btn feinwaru">
+                                        <i class="fa fa-user left"></i>
+                                        <%= trans.VIEW_PROFILE %>
+                                    </a>
+                                </div>
+                            </div>
+                    
+                        </div>
+                
 
-                                            </div>
-                                            `
+                    </div>
+                    `
 
                 );
             };

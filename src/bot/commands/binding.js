@@ -7,7 +7,7 @@ const schemas = require("../../db");
 const binding = new Command({
     
     name: "Script Bindings",
-    description: "Legacy version of the new script system. It is advised to not use unless you know what you are doing",
+    description: "Quick and Dirty Commands\n-bind <name> <action> <args> // \nname: anything, action: text | file | embed, args: some text | file url | --embedProperty embedValue",
     thumbnail: "https://cdn.discordapp.com/attachments/394504208222650369/509099656270184459/bind.png",
     marketplace_enabled: true,
 

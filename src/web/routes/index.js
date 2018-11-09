@@ -168,48 +168,63 @@ router.get("/api/v3/patrons", (req, res) => {
 
     const patrons = [
         {
+            discord_id: "99626024181968896",
             username: "Airborn56",
             avatar: "https://cdn.discordapp.com/attachments/379432139856412682/508434629422874624/e0e22d84ce70e350376c8c78756d94a3.png",
             date: "2018-04-27T21:32:11.928165+00:00",
             amount: 10
         },
         {
+            discord_id: "430503118262894614",
             username: "timmys9inchjimmy",
             avatar: "https://cdn.discordapp.com/attachments/379432139856412682/508434624666664961/c016210777c0eed529c6ae9b3a3c7a37.png",
             date: "2018-06-07T20:54:53.048475+00:00",
             amount: 5
         },
         {
+            discord_id: "",
             username: "Kamui",
             avatar: "https://cdn.discordapp.com/attachments/379432139856412682/508019481642270740/a_ecc5cdc51043b5b3810c923e8075411e.gif",
             date: "2018-01-03T01:39:37.152671+00:00",
             amount: 1
         },
         {
+            discord_id: "",
             username: "KlausHeissler",
             avatar: "https://cdn.discordapp.com/attachments/379432139856412682/508434630559662139/429937e230deb16a5bc87ca5b0fabb75.png",
             date: "2018-03-03T02:20:43.132314+00:00",
             amount: 1
         },
         {
+            discord_id: "328837258788601857",
             username: "lonelychef",
             avatar: "https://cdn.discordapp.com/attachments/379432139856412682/508434619297824768/92706e9f3a5342dee38c5279863bf500.png",
             date: "2018-05-27T10:59:42.665346+00:00",
             amount: 10
         },
         {
+            discord_id: "393620893835984896",
             username: "Savagekiller115",
             avatar: "https://cdn.discordapp.com/attachments/379432139856412682/508434615296327691/3b1333657ff839838d281bfb02abbec8.png",
             date: "2018-05-24T00:56:22.462165+00:00",
             amount: 10
         },
         {
+            discord_id: "",
             username: "Tweeno",
             avatar: "https://cdn.discordapp.com/attachments/379432139856412682/508434634200186880/555bd89923fd4c08b37c540ba1e75ba7.png",
             date: "2018-06-16T00:00:00.000000+00:00",
             amount: 1
         },
         {
+            discord_id: "465037877269626880",
+            username: "☠smokeout☠",
+            avatar: "https://cdn.discordapp.com/attachments/379432139856412682/510200581093326869/e1af142f16a4d981f70def032c5fa851.png",
+            date: "2018-10-05T00:00:00.000000+00:00",
+            amount: 5
+        },
+        {
+            discord_id: "489164789516337154",
             username: "Dr. Normal",
             avatar: "https://cdn.discordapp.com/attachments/379432139856412682/508435598223212575/a_58812516bac2ed8a503ef3ac02600f53.png",
             date: "2018-11-02T00:00:00.000000+00:00",

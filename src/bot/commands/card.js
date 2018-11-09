@@ -212,7 +212,7 @@ const getLevelStats = (currentCard, level) => {
 
 const card = new Command({
 
-    name: "card",
+    name: "Phone Destroyer Cards",
     description: "View any card from phone destroyer, rendered in real time with full stats!",
     thumbnail: "https://cdn.discordapp.com/attachments/394504208222650369/509099660711821312/card.png",
     marketplace_enabled: true,
