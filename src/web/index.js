@@ -48,9 +48,9 @@ app.use(express.json());
 app.use(cookieParser(config.rawrxd));
 
 app.use(i18n({
-    defaultLang: "en",
+    defaultLang: "en-gb",
     translationsPath: path.join(__dirname, 'translations'),
-    siteLangs: ["en","de","pt"],
+    siteLangs: ["en-gb","de","pt", "pl", "en-ni", "en-us"],
     paramLangName: "hl",
     textsVarName: 'trans'
 }));

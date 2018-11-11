@@ -1,10 +1,11 @@
 {
-    "_TRANSLATION_VERSION": "Version 3.0, 06/11/18",
-
+    "LANG": "?hl=en",
+    "INITIALS": "EN",
     "ERROR_401": "Error 401",
     "ERROR_404": "Error 404",
     "ERROR_404_BUTTON": "Fuck, go back!",
 
+    "_NAVBAR": "Below is the shit for the NAVBAR",
     "HOME": "Home",
     "DASHBOARD": "Dashboard",
     "COMMANDS": "Commands",
@@ -42,6 +43,12 @@
     "SUBSCRIBER_AMOUNT": "$${patron.amount} Subscriber",
     "SUBSCRIBER_SINCE": "Subscriber since",
     "VIEW_PROFILE": "View profile",
+
+    "DATE_ST": "st",
+    "DATE_ND": "nd",
+    "DATE_RD": "rd",
+    "DATE_TH": "th",
+
 
     "JANUARY": "January",
     "FEBRUARY": "February",
@@ -83,6 +90,10 @@
 
     "BECOME_A_SUBSCRIBER": "Become a Subscriber",
 
+
+
+    "_COMMANDS_PAGE": "Below is the shit for the commands page",
+
     "CURRENTLY_VIEWING_COMMANDS": "Currently viewing commands enabled on",
     "NAME": "Name",
     "DESCRIPTION": "Description",
@@ -91,6 +102,7 @@
     "VANILLA_AWESOMO": "Vanilla AWESOM-O",
     "USER_MADE": "User-made",
 
+    "_CREDITS PAGE": "Below is all the shit for the credits page",
     "BACKEND_DEV": "Backend Developer",
     "FRONTEND_DEV": "Frontend Developer",
     "COMMUNITY_MANAGER": "Community Manager",
@@ -103,7 +115,7 @@
     "BOT_ART": "Bot Art and Credits Art",
     
     "TRANSLATORS": "Translators",
-    "PORTUGUESE_TRANSLATION": "Portugese Translation",
+    "PORTUGUESE_TRANSLATION": "Portuguese Translation",
     "CHINESE_TRANSLATION": "Chinese Translation",
     "ROMANIAN_TRANSLATION": "Romanian Translation",
     "POLISH_TRANSLATION": "Polish Translation",
@@ -111,7 +123,11 @@
     "SPANISH_TRANSLATION" : "Spanish Translation",
     "FRENCH_AND_IRISH_TRANSLATION": "French and Irish Translation",
 
+
+    "_PRIVACY PAGE": "Below is all the shit for the privacy page",
     "PRIVACY_POLICY": "Privacy Policy",
+
+    "_DASHBOARD_PAGE": "Below is all the shit for the dashboard",
     
     "MY_SCRIPTS": "My Scripts",
     "FEINWARU_EDITOR": "Feinwaru Editor",
@@ -149,6 +165,8 @@
     "YOUR_SCRIPTS_DESC": "Allow your scripts to be used on the Marketplace",
     "NO_SCRIPTS": "You have no scripts :(",
     "NO_SCRIPTS_DESC": "Create a script for it to show up here",
+
+    "_FOOTER": "Below is the shit for the footer",
 
     "GET_CONNECTED": "Get connected with us on social networks!",
 
@@ -242,10 +260,10 @@
     "AC18_2": "Art Contest 2nd Place",
     "AC18_3": "Art Contest 3rd Place",
     "AC18WW": "Art Contest Weekly Winner",
-    "CC18_1": "Colouring Contest 1st Place",
-    "CC18_2": "Colouring Contest 2nd Place",
-    "CC18_3": "Colouring Contest 3rd Place",
-    "CC18WW": "Colouring Contest Weekly Winner",
+    "CC18_1": "coloring Contest 1st Place",
+    "CC18_2": "coloring Contest 2nd Place",
+    "CC18_3": "coloring Contest 3rd Place",
+    "CC18WW": "coloring Contest Weekly Winner",
     "FRIEND": "Friend",
     "BEST_FRIEND": "Best Friend",
     "SUPER_BEST_FRIEND": "Super Best Friend",

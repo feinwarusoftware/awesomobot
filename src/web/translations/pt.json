@@ -37,7 +37,7 @@
     "MUSIC_DESC": "No Discord bot is complete without music, and this bot is no exception!",
     "ONLINE_DASHBOARD_DESC": "Nenhum bot bom está completo sem um Paniel de Controlo Online! Configura  AWESOM-O facilmente a partir do Painel de Controlo online!",
     "ANALYTICS_DESC": "Recebe informação detalhada sobre o nosso servidor para te ajudar a melhorar.Não te preocupes, deixa-nos pegar na informação e transformá-la em gráficos",
-    "PROFILES_DESC": "Recebe o teu próprio espaço onde podes partilhar aquela arte do Donald Trump e do Kim Jon Un que estás a morrer para que o mundo veja!",
+    "PROFILES_DESC": "Recebe o teu próprio espaço onde podes partilhar aquela arte do Paulo Portas e do Socrates que estás a morrer para que o mundo veja!",
     "MANY_MORE": "..e muito mais!",
 
     "OUR_SUBSCRIBERS": "Os nosso subscritores",
@@ -105,7 +105,7 @@
     "BOT_ART": "Arte do bot e dos créditos",
     
     "TRANSLATORS": "Tradutores",
-    "PORTUGESE_TRANSLATION": "Traduções portuguesas pelo gostoso",
+    "PORTUGUESE_TRANSLATION": "Traduções portuguesas",
     "CHINESE_TRANSLATION": "Traduções Chinesas",
     "ROMANIAN_TRANSLATION": "Traduções Romani",
     "POLISH_TRANSLATION": "Traduções Polacas",
@@ -126,7 +126,7 @@
     "CREATE": "Criar",
     "UPDATE": "Atualizar",
     "DELETE": "Eliminar",
-    "DELETE_MSG": "Isto vai eliminar as tuas permissões para mudar o script, não o removendo da nossa database. Se o quiseres eliminar de todos os lugares, por favor manda um email para <a href='mailto:deletescript@feinwaru.com'>deletescript@feinwaru.com</a> with your script ID in the body.",
+    "DELETE_MSG": "Isto vai eliminar as tuas permissões para mudar o script, não o removendo da nossa database. Se o quiseres eliminar de todos os lugares, por favor manda um email para <a href='mailto:deletescript@feinwaru.com'>deletescript@feinwaru.com</a>with your script ID in the body.",
     "WAIT_UP": "Ui Ui, espera aí!",
     "DONT_DELET": "pff não, adoro o meu codigo de merda",
 
@@ -326,7 +326,7 @@
     "PATRON_MANAGEMENT": "Painel de Patron",
     "PREFIX": "Prefixo",
     "ENTER_PREFIX": "Introduz um prefixo",
-    "PLAN_QUOTA": "De momento estás a utilizar <span class='feinwaru-text'>${quota.current}</span> of <span class='feinwaru-text'>${quota.total}</span> servidores totais do teu Plano",
+    "PLAN_QUOTA": "De momento estás a utilizar <span class='feinwaru-text'>${quota.current}</span> de <span class='feinwaru-text'>${quota.total}</span>servidores totais do teu Plano",
     "OTHER_SERVERS": "Outros Servidores",
     "OTHER_SERVERS_DESC": "Precisas de ser **Dono** ou **Admin** para poderes utlizar esta função",
     "AWESOMO_ADDED":"O AWESOM-O foi Adicionado",
