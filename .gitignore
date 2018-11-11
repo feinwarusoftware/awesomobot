@@ -69,5 +69,5 @@ config.json
 # Serverless directories
 .serverless
 
-src/web/config.jsonc
-config.json
+bot/config.json
+web/config.json
