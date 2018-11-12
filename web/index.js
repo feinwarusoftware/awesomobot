@@ -11,6 +11,10 @@ const cookieParser = require("cookie-parser");
 const i18n = require("i18n-express");
 const ejs = require("ejs");
 
+const mongoose = require("mongoose");
+const { initSchemas } = require("../db");
+initSchemas(mongoose);
+
 const { log: { info, warn, error } } = require("../utils");
 const routes = require("./routes");
 

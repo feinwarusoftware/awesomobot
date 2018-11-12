@@ -73,7 +73,7 @@ const xp = new Command({
 
     cb: function(client, message, guild, user, script, match) {
 
-        if (match === 0) {
+        if (match === "activeme") {
 
             const memberIds = message.guild.members.array().map(m => m.user.id);
 
@@ -165,7 +165,7 @@ const xp = new Command({
                     message.reply(`error fetching xp teehee: ${error}`);
                 });
         }
-        if (match === 1) {
+        if (match === "activeguild") {
 
             const memberIds = message.guild.members.array().map(m => m.user.id);
 
@@ -287,7 +287,7 @@ const xp = new Command({
                     message.reply(`error fetching xp teehee: ${error}`);
                 });
         }
-        if (match === 2) {
+        if (match === "activeglobal") {
 
             const memberIds = message.guild.members.array().map(m => m.user.id);
 

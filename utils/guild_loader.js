@@ -20,7 +20,7 @@ const loadGuilds = ids => {
 
         for (let id of ids) {
 
-            const dbGuild = dbGuilds.find(e => e.discord_id === id);
+            const dbGuild = dbGuilds.length === 0 ? null : dbGuilds.find(e => e.discord_id === id);
             if (dbGuild == null) {
 
                 if (dbScripts == null) {
@@ -37,22 +37,23 @@ const loadGuilds = ids => {
                 const newGuild = new GuildSchema({
                 
                     discord_id: id,
-                    scripts: {
-                        
-                        object_id: dbScripts.map(e => e._id)
-                    }
+                    scripts: []
                 });
 
-                dbGuilds.push(dbGuild);
-
-                promises.push(newGuild.save());
-
                 for (let dbScript of dbScripts) {
+
+                    newGuild.scripts.push({
+                        object_id: dbScript._id
+                    });
 
                     dbScript.guild_count++;
     
                     promises.push(dbScript.updateOne({ $inc: { guild_count: 1 } }));
                 }
+
+                dbGuilds.push(newGuild);
+
+                promises.push(newGuild.save());
             }
         }
 
@@ -97,22 +98,23 @@ const loadGuild = id => {
             const newGuild = new GuildSchema({
                 
                 discord_id: id,
-                scripts: {
-                    
-                    object_id: dbScripts.map(e => e._id)
-                }
+                scripts: []
             });
 
-            dbGuild = newGuild;
-
-            promises.push(newGuild.save());
-
             for (let dbScript of dbScripts) {
+
+                newGuild.scripts.push({
+                    object_id: dbScript._id
+                });
 
                 dbScript.guild_count++;
 
                 promises.push(dbScript.updateOne({ $inc: { guild_count: 1 } }));
             }
+
+            dbGuild = newGuild;
+
+            promises.push(newGuild.save());
         }
 
         try {

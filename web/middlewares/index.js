@@ -28,9 +28,9 @@ const authSession = (req, res, next) => {
             req.session = session_doc;
             next();
         })
-        .catch(error => {
+        .catch(err => {
 
-            res.json({ status: 401, message: "Unauthorized", error });
+            res.json({ status: 401, message: "Unauthorized", err });
         });
 }
 
@@ -66,15 +66,15 @@ const authUser = (req, res, next) => {
                     req.user = user_doc
                     next();
                 })
-                .catch(error => {
+                .catch(err => {
 
-                    //return res.json({ status: 401, message: "Unauthorized", error });
+                    //return res.json({ status: 401, message: "Unauthorized", err });
                     return res.redirect("/auth/discord");
                 });
         })
-        .catch(error => {
+        .catch(err => {
 
-            //res.json({ status: 401, message: "Unauthorized", error });
+            //res.json({ status: 401, message: "Unauthorized", err });
             return res.redirect("/auth/discord");
         });
 }
@@ -114,14 +114,14 @@ const authPremium = (req, res, next) => {
                     req.user = user_doc
                     next();
                 })
-                .catch(error => {
+                .catch(err => {
 
-                    return res.json({ status: 401, message: "Unauthorized", error });
+                    return res.json({ status: 401, message: "Unauthorized", err });
                 });
         })
-        .catch(error => {
+        .catch(err => {
 
-            res.json({ status: 401, message: "Unauthorized", error });
+            res.json({ status: 401, message: "Unauthorized", err });
         });
 }
 
@@ -160,14 +160,14 @@ const authAdmin = (req, res, next) => {
                     req.user = user_doc
                     next();
                 })
-                .catch(error => {
+                .catch(err => {
 
-                    return res.json({ status: 401, message: "Unauthorized", error });
+                    return res.json({ status: 401, message: "Unauthorized", err });
                 });
         })
-        .catch(error => {
+        .catch(err => {
 
-            res.json({ status: 401, message: "Unauthorized", error });
+            res.json({ status: 401, message: "Unauthorized", err });
         });
 }
 

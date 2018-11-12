@@ -262,7 +262,7 @@ const getLevelData = xp => {
 
 const matchScript = (prefix, type, match, content) => {
 
-    if (match instanceof String) {
+    if (!(match instanceof Array)) {
 
         match = match.split(";");
     }
@@ -273,25 +273,25 @@ const matchScript = (prefix, type, match, content) => {
             case "command":
                 if (content.split(" ")[0].toLowerCase() === prefix + str.toLowerCase()) {
     
-                    return str;
+                    return { matched: str, err: null };
                 }
                 break;
             case "startswith":
                 if (content.toLowerCase().startsWith(str.toLowerCase())) {
 
-                    return str;
+                    return { matched: str, err: null };
                 }
                 break;
             case "contains":
                 if (content.toLowerCase().includes(str.toLowerCase())) {
 
-                    return str;
+                    return { matched: str, err: null };
                 }
                 break;
             case "exactmatch":
                 if (content === str) {
 
-                    return str;
+                    return { matched: str, err: null };
                 }
                 break;
             case "regex":
@@ -308,28 +308,28 @@ const matchScript = (prefix, type, match, content) => {
 
                 } catch(err) {
 
-                    return [null, err];
+                    return { matched: null, err };
                 }
 
                 regex = new RegExp(regex, flags);
 
                 if (regex.test(content)) {
 
-                    return str;
+                    return { matched: str, err: null };
                 }
 
                 break;
         }
     }
 
-    return false;
+    return { matched: false, err: null };
 }
 
 const evalPerms = (script, member, channel) => {
     
     if (script.permissions == null) {
 
-        guildScript.permissions = {
+        script.permissions = {
             members: {
                 allow_list: false,
                 list: []

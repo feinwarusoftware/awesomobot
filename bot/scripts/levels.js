@@ -3,7 +3,10 @@
 const fs = require("fs");
 const path = require("path");
 
-const jimp = require("jimp");
+//const jimp = require("jimp");
+
+const sharp = require("sharp");
+const rp = require("request-promise-native");
 
 const Command = require("../script");
 
@@ -126,6 +129,112 @@ const levels = new Command({
                     return message.reply("this user does not have a profile");
                 }
 
+                /*
+                const fetchImages = [];
+                fetchImages.push(rp({ url: users[0].banner, encoding: null }));
+                fetchImages.push(rp({ url: message.author.avatarURL, encoding: null }));
+
+                let images;
+                try {
+                    images = await Promise.all(fetchImages);
+
+                } catch(err) {
+
+                    throw err;
+                }
+
+                let base;
+                try {
+                    // preload this!
+                    base = await sharp(path.join(__dirname, "..", "assets", "profiles", "info_card_base.png"))
+                        .toBuffer();
+
+                } catch(err) {
+
+                    throw err;
+                }
+                */
+
+                const svg = new Buffer(
+                    `<svg version="1.1" baseProfile="full" width="800" height="750" xmlns="http://www.w3.org/2000/svg"> 
+                        
+                        <filter id="dropshadow" height="130%">
+                            <feGaussianBlur in="SourceAlpha" stdDeviation="0"/> <!-- stdDeviation is how much to blur -->
+                            <feOffset dx="4" dy="4" result="offsetblur"/> <!-- how much to offset -->
+                            <feComponentTransfer>
+                                <feFuncA type="linear" slope="0.5"/> <!-- slope is the opacity of the shadow -->
+                            </feComponentTransfer>
+                            <feMerge> 
+                                <feMergeNode/> <!-- this contains the offset blurred image -->
+                                <feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
+                            </feMerge>
+                        </filter>
+                    
+                        <text style="filter:url(#dropshadow)" x="200" y="600" font-size="72" font-family="Roboto" font-weight="bold" fill="white">!Dragon1320</text>
+                        <text style="filter:url(#dropshadow)" x="100" y="400" font-size="72" font-family="Roboto" font-weight="bold" fill="white">🍋daddydragon🍋</text>
+                        <text style="filter:url(#dropshadow)" x="400" y="200" font-size="72" font-family="Yu Minicho" font-weight="bold" fill="white">どらごん</text>
+                    </svg> `
+                );
+
+                let font;
+                try {
+                    font = await sharp(svg)
+                        .toBuffer();
+
+                } catch(err) {
+
+                    throw err;
+                }
+
+                /*
+                let pf;
+                try {
+                    pf = await sharp(images[1])
+                        .resize(296, 296)
+                        .toBuffer();
+
+                } catch(err) {
+
+                    throw err;
+                }
+                */
+
+                let banner;
+                try {
+                    banner = await sharp({
+                            create: {
+                                    width: 300,
+                                    height: 200,
+                                    channels: 4,
+                                    background: {
+                                        r: 255, g: 0, b: 0, alpha: 0.5
+                                    }
+                                }
+                            }/*images[0]*/)
+                        .resize(800, 750)
+                        .blur(2)
+                        //.overlayWith(base, {
+                        //    gravity: sharp.gravity.centre
+                        //})
+                        //.overlayWith(pf, {
+                        //    left: 16, top: 19
+                        //})
+                        .overlayWith(font)
+                        .png()
+                        .toBuffer()
+                        //.toFile(path.join(__dirname, "temp", "temp.png"));
+
+                } catch(err) {
+
+                    // temp
+                    throw err;
+                }
+
+                message.channel.send("", {
+                    file: banner
+                });
+
+                /*
                 // colours
                 const defaultColour = "#14b252";
                 const defaultNameColour = "#ffffff";
@@ -166,8 +275,10 @@ const levels = new Command({
                         rgb
                     };
                 }
+                */
                 //
 
+                /*
                 const bg = new jimp(800, 750);
 
                 let banner = await jimp.read(users[0].banner);
@@ -189,19 +300,6 @@ const levels = new Command({
 
                     bg.composite(banner, 0, 0);
 
-                    /*
-                    const heightDiff = bg.bitmap.height - banner.bitmap.height;
-                    banner.resize((banner.bitmap.height + heightDiff) * prop, banner.bitmap.height + heightDiff);
-                    
-
-                    banner.resize(banner.bitmap.height * prop, banner.bitmap.height + heightDiff);
-
-                    // 750x750 (375 - 400, 0, 800, 750)
-                    banner.crop((banner.bitmap.width / 2) - bg.bitmap.width / 2, 0, bg.bitmap.width, bg.bitmap.height);
-                    banner.blur(2);
-
-                    bg.composite(banner, 0, 0)
-                    */
                 } else {
 
                     // change width
@@ -212,16 +310,6 @@ const levels = new Command({
                     banner.blur(2);
 
                     bg.composite(banner, 0, 0);
-
-                    /*
-                    const diffWidth = bg.bitmap.width - banner.bitmap.width;
-                    banner.resize(banner.bitmap.width + diffWidth, (banner.bitmap.width + diffWidth) / prop);
-
-                    banner.crop(0, (banner.bitmap.height / 2) - bg.bitmap.height / 2, bg.bitmap.width, bg.bitmap.height);
-                    banner.blur(2);
-
-                    bg.composite(banner, 0, 0);
-                    */
                 }
 
                 bg.composite(infoCardBase, 0, 0);
@@ -231,13 +319,6 @@ const levels = new Command({
                 // 398 148 723 187
                 const progress = new jimp(Math.floor(325 * levelData.progress), 39);
                 progress.opaque();
-                /*
-                progress.color([
-                    { apply: "red", params: [20] },
-                    { apply: "green", params: [178] },
-                    { apply: "blue", params: [82] }
-                ]);
-                */
                 magicRecolour(progress, { r: 0, g: 0, b: 0, a: 255 }, { r: colours.progress.rgb.r, g: colours.progress.rgb.g, b: colours.progress.rgb.b, a: 255 }, 160);
 
                 bg.composite(progress, 398, 148);
@@ -258,15 +339,6 @@ const levels = new Command({
                 const rankText = plainText(fontRank, `#${users[0].globalRank + 1}/${users[0].globalTotal}`);
                 magicRecolour(rankText, { r: 20, g: 178, b: 82, a: 255 }, { r: colours.rank.rgb.r, g: colours.rank.rgb.g, b: colours.rank.rgb.b, a: 255 }, 160);
                 bg.composite(rankText, (bg.bitmap.width / 2) - (rankText.bitmap.width / 2) + 165, 200);
-
-                /* temp
-                const nameRecolour = new jimp(textWidth(fontName, searchUser.username), 84);
-                nameRecolour.print(fontName, 0, 0, searchUser.username);
-                nameRecolour.color([
-                    { apply: "mix", params: ["#ff594f", 100] }
-                ]);
-                bg.composite(nameRecolour, 12, 316);
-                */
 
                 //colourPrint(bg, fontName, 15, 321, searchUser.username, "#000000");
 
@@ -348,6 +420,7 @@ const levels = new Command({
                         }
                     });
                 });
+                */
             })
             .catch(error => {
 
@@ -358,6 +431,7 @@ const levels = new Command({
         load: function () {
             return new Promise(async (resolve, reject) => {
 
+                /*
                 fontLevel = await jimp.loadFont(path.join(__dirname, "..", "assets", "profiles", "fonts", "fontLevel.fnt"));
                 fontPercent = await jimp.loadFont(path.join(__dirname, "..", "assets", "profiles", "fonts", "fontPercent.fnt"));
                 fontRank = await jimp.loadFont(path.join(__dirname, "..", "assets", "profiles", "fonts", "fontRank.fnt"));
@@ -543,6 +617,7 @@ const levels = new Command({
                     dbName: "featured-script",
                     importance: 22
                 });
+                */
 
                 resolve();
             });

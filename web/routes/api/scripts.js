@@ -7,7 +7,7 @@ const schemas = require("../../../db");
 const { authUser } = require("../../middlewares");
 const { getUserData, getUserDataNoSession } = require("../../helpers");
 
-const client = require("../../../bot/index").client;
+const client = require("../../helpers/client");
 
 const router = express.Router();
 const { log: { info, warn, error } } = require("../../../utils");
@@ -70,9 +70,9 @@ router.route("/").get(authUser, (req, res) => {
                             }
 
                             // other users
-                            const user = await client.fetchUser(script_objs[i].author_id, true).catch(error => {
+                            const user = await client.fetchUser(script_objs[i].author_id, true).catch(err => {
                                 
-                                error(error);
+                                error(err);
                                 return res.json({ status: 500 });
                             });
 
@@ -100,9 +100,9 @@ router.route("/").get(authUser, (req, res) => {
 
                                 return res.json({ status: 200, page, limit, total, scripts: script_objs });
                             })
-                            .catch(error => {
+                            .catch(err => {
 
-                                error(error);
+                                error(err);
                                 return res.json({ status: 500 });
                             });
                     } else {
@@ -110,15 +110,15 @@ router.route("/").get(authUser, (req, res) => {
                         return res.json({ status: 200, page, limit, total, scripts: docs });
                     }
                 })
-                .catch(error => {
+                .catch(err => {
         
-                    error(error);
+                    error(err);
                     return res.json({ status: 500 });
                 });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 
@@ -159,9 +159,9 @@ router.route("/").get(authUser, (req, res) => {
 
             return res.json({ status: 200 });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 });
@@ -210,15 +210,15 @@ router.route("/@me").get(authUser, (req, res) => {
         
                     return res.json({ status: 200, page, limit, total, scripts: docs });
                 })
-                .catch(error => {
+                .catch(err => {
         
-                    error(error);
+                    error(err);
                     return res.json({ status: 500 });
                 });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 });
@@ -229,7 +229,7 @@ router.route("/:object_id").get(authUser, (req, res) => {
     try {
 
         object_id = mongoose.Types.ObjectId(req.params.object_id);
-    } catch(error) {
+    } catch(err) {
 
         return res.json({ status: 400 });
     }
@@ -252,9 +252,9 @@ router.route("/:object_id").get(authUser, (req, res) => {
 
             return res.json({ status: 200, script: script_obj });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 
@@ -264,7 +264,7 @@ router.route("/:object_id").get(authUser, (req, res) => {
     try {
 
         object_id = mongoose.Types.ObjectId(req.params.object_id);
-    } catch(error) {
+    } catch(err) {
 
         return res.json({ status: 400 });
     }
@@ -314,15 +314,15 @@ router.route("/:object_id").get(authUser, (req, res) => {
 
                     return res.json({ status: 200 });
                 })
-                .catch(error => {
+                .catch(err => {
 
-                    error(error);
+                    error(err);
                     return res.json({ status: 500 });
                 });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 
@@ -332,7 +332,7 @@ router.route("/:object_id").get(authUser, (req, res) => {
     try {
 
         object_id = mongoose.Types.ObjectId(req.params.object_id);
-    } catch(error) {
+    } catch(err) {
 
         return res.json({ status: 400 });
     }
@@ -356,15 +356,15 @@ router.route("/:object_id").get(authUser, (req, res) => {
 
                     return res.json({ status: 200 });
                 })
-                .catch(error => {
+                .catch(err => {
 
-                    error(error);
+                    error(err);
                     return res.json({ status: 500 });
                 });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 });
@@ -375,7 +375,7 @@ router.route("/:object_id/likes").post(authUser, (req, res) => {
     try {
 
         object_id = mongoose.Types.ObjectId(req.params.object_id);
-    } catch(error) {
+    } catch(err) {
 
         return res.json({ status: 400 });
     }
@@ -420,21 +420,21 @@ router.route("/:object_id/likes").post(authUser, (req, res) => {
 
                             res.json({ status: 200 });
                         })
-                        .catch(error => {
+                        .catch(err => {
 
-                            error(error);
+                            error(err);
                             return res.json({ status: 500 });
                         });
                 })
-                .catch(error => {
+                .catch(err => {
 
-                    error(error);
+                    error(err);
                     return res.json({ status: 500 });
                 });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 
@@ -444,7 +444,7 @@ router.route("/:object_id/likes").post(authUser, (req, res) => {
     try {
 
         object_id = mongoose.Types.ObjectId(req.params.object_id);
-    } catch(error) {
+    } catch(err) {
 
         return res.json({ status: 400 });
     }
@@ -495,21 +495,21 @@ router.route("/:object_id/likes").post(authUser, (req, res) => {
 
                             res.json({ status: 200 });
                         })
-                        .catch(error => {
+                        .catch(err => {
 
-                            error(error);
+                            error(err);
                             return res.json({ status: 500 });
                         });
                 })
-                .catch(error => {
+                .catch(err => {
 
-                    error(error);
+                    error(err);
                     return res.json({ status: 500 });
                 });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 });

@@ -5,6 +5,9 @@ const path = require("path");
 const mongoose = require("mongoose");
 const discord = require("discord.js");
 
+const { initSchemas } = require("../db");
+initSchemas(mongoose);
+
 const config = require("./config.json");
 
 const {
@@ -22,6 +25,12 @@ const {
     matchScript,
     evalPerms,
 } = require("../utils");
+
+process.on('uncaughtException', function (exception) {
+    console.error(exception); // to see your exception details in the console
+    // if you are on production, maybe you can send the exception details to your
+    // email as well ?
+  });
 
 //
 mongoose.connect(`mongodb://${config.mongo_user === null && config.mongo_pass === null ? "" : `${config.mongo_user}:${config.mongo_pass}@`}localhost/rawrxd`, {
@@ -129,7 +138,7 @@ client.on("message", async message => {
 
     if (scripts == null) {
 
-        return error("received a message event before loading local scripts");
+        return warn("received a message event before loading local scripts, ignoring");
     }
 
     let dbGuild;
@@ -157,7 +166,7 @@ client.on("message", async message => {
 
     const userStatsInc = {};
 
-    if (message.includes("shit")) {
+    if (message.content.includes("shit")) {
 
         dbUser.shits += 1;
         userStatsInc.shits = 1;
@@ -169,7 +178,7 @@ client.on("message", async message => {
         xp = 1;
     } else {
 
-        xp + Math.min(25, Math.round(message.content.length / 10));
+        xp = Math.min(25, Math.round(message.content.length / 10));
     }
 
     dbUser.xp += xp;
@@ -196,7 +205,7 @@ client.on("message", async message => {
     let matchedTerm;
     for (let guildScript of guildScripts) {
 
-        const [matched, err] = matchScript(dbGuild.prefix,
+        const {matched, err} = matchScript(dbGuild.prefix,
             guildScript.match_type_override || guildScript.match_type,
             guildScript.match_override || guildScript.match,
             message.content);

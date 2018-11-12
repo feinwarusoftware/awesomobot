@@ -42,16 +42,16 @@ const fetchSession = token => {
 
                         resolve(session_doc);
                     })
-                    .catch(error => {
+                    .catch(err => {
 
-                        error(error);
-                        reject(error);
+                        error(err);
+                        reject(err);
                     });
             })
-            .catch(error => {
+            .catch(err => {
 
-                error(error);
-                reject(error);
+                error(err);
+                reject(err);
             });
     });
 }
@@ -88,20 +88,20 @@ const fetchUser = discord_id => {
 
                             resolve(new_user_doc);
                         })
-                        .catch(error => {
+                        .catch(err => {
                             
-                            error(error);
-                            reject(error);
+                            error(err);
+                            reject(err);
                         });
                 } else {
 
                     resolve(user_doc);
                 }
             })
-            .catch(error => {
+            .catch(err => {
 
-                error(error);
-                reject(error);
+                error(err);
+                reject(err);
             });
     });
 }
@@ -152,9 +152,9 @@ const getUserData = token => {
         
                     resolve(res.data);
                 })
-                .catch(error => {
+                .catch(err => {
         
-                    reject(error);
+                    reject(err);
                 });
         } else {
     
@@ -211,9 +211,9 @@ const getUserDataNoSession = id => {
         
                     resolve(res.data);
                 })
-                .catch(error => {
+                .catch(err => {
         
-                    reject(error);
+                    reject(err);
                 });
         } else {
     

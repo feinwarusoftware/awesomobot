@@ -57,9 +57,9 @@ router.route("/").get(authUser, (req, res) => {
 
         return res.json({ status: 200, page, limit, total: data[0], users: data[1], ...( current === false ? {} : { current: req.user } ) });
 
-    }).catch(error => {
+    }).catch(err => {
 
-        error(error);
+        error(err);
         return res.json({ status: 500 });
     });
 
@@ -96,9 +96,9 @@ router.route("/").get(authUser, (req, res) => {
 
             return res.json({ status: 200 });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 });
@@ -127,9 +127,9 @@ router.route("/@me").get(authUser, (req, res) => {
 
             return res.json({ status: 200, user: user_obj });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 });
@@ -167,9 +167,9 @@ router.route("/:discord_id").get(authUser, (req, res) => {
             
                         return res.json({ status: 200, user: user_obj });
                     })
-                    .catch(error => {
+                    .catch(err => {
 
-                        error(error);
+                        error(err);
                         return res.json({ status: 500 });
                     })
             } else {
@@ -177,9 +177,9 @@ router.route("/:discord_id").get(authUser, (req, res) => {
                 return res.json({ status: 200, user: user_obj });
             }
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 
@@ -216,9 +216,9 @@ router.route("/:discord_id").get(authUser, (req, res) => {
 
             return res.json({ status: 200 });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 
@@ -235,9 +235,9 @@ router.route("/:discord_id").get(authUser, (req, res) => {
 
             return res.json({ status: 200 });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 });

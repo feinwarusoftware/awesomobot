@@ -23,7 +23,7 @@ const shits = new Command({
 
     cb: function(client, message, guild, user, script, match) {
 
-        if (match === 0) {
+        if (match === "shitme") {
 
             const memberIds = message.guild.members.array().map(m => m.user.id);
 
@@ -115,7 +115,7 @@ const shits = new Command({
                     message.reply(`error fetching shits teehee: ${error}`);
                 });
         }
-        if (match === 1) {
+        if (match === "shitguild") {
 
             const memberIds = message.guild.members.array().map(m => m.user.id);
 
@@ -237,7 +237,7 @@ const shits = new Command({
                     message.reply(`error fetching shits teehee: ${error}`);
                 });
         }
-        if (match === 2) {
+        if (match === "shitglobal") {
 
             const memberIds = message.guild.members.array().map(m => m.user.id);
 

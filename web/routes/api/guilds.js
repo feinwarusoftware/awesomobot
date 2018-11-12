@@ -65,9 +65,9 @@ const getUserGuilds = token => {
         
                     resolve(res.data);
                 })
-                .catch(error => {
+                .catch(err => {
         
-                    reject(error);
+                    reject(err);
                 });
         } else {
     
@@ -137,15 +137,15 @@ router.route("/premium/:discord_id").post(authUser, async (req, res) => {
             Promise.all(promises).then(() => {
 
                 res.json({ status: 200 });
-            }).catch(error => {
+            }).catch(err => {
 
-                error(error);
+                error(err);
                 return res.json({ status: 500 });
             });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 });
@@ -183,15 +183,15 @@ router.route("/premium/:discord_id").delete(authUser, (req, res) => {
             Promise.all(promises).then(() => {
 
                 res.json({ status: 200 });
-            }).catch(error => {
+            }).catch(err => {
 
-                error(error);
+                error(err);
                 return res.json({ status: 500 });
             });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 });
@@ -217,9 +217,9 @@ router.route("/").post(authUser, (req, res) => {
 
             return res.json({ status: 200 });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 });
@@ -332,22 +332,22 @@ router.route("/@me").get(authUser, (req, res) => {
                 
                             return res.json({ status: 200, page, limit, total, guilds: docs });
                         })
-                        .catch(error => {
+                        .catch(err => {
                 
-                            error(error);
+                            error(err);
                             return res.json({ status: 500 });
                         });
                 })
-                .catch(error => {
+                .catch(err => {
 
-                    error(error);
+                    error(err);
                     return res.json({ status: 500 });
                 });
 
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 });
@@ -371,9 +371,9 @@ router.route("/:discord_id").get(authUser, (req, res) => {
 
             return res.json({ status: 200, guild: doc });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 
@@ -422,21 +422,21 @@ router.route("/:discord_id").get(authUser, (req, res) => {
 
                             return res.json({ status: 200 });
                         })
-                        .catch(error => {
+                        .catch(err => {
 
-                            error(error);
+                            error(err);
                             return res.json({ status: 500 });
                         });
                 })
-                .catch(error => {
+                .catch(err => {
         
-                    error(error);
+                    error(err);
                     return res.json({ status: 500 });
                 });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 
@@ -472,21 +472,21 @@ router.route("/:discord_id").get(authUser, (req, res) => {
 
                             return res.json({ status: 200 });
                         })
-                        .catch(error => {
+                        .catch(err => {
 
-                            error(error);
+                            error(err);
                             return res.json({ status: 500 });
                         });
                 })
-                .catch(error => {
+                .catch(err => {
         
-                    error(error);
+                    error(err);
                     return res.json({ status: 500 });
                 });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 });
@@ -578,15 +578,15 @@ router.route("/:discord_id/scripts").get(authUser, (req, res) => {
                     
                                 return res.json({ status: 200, page, limit, total, scripts: docs });
                             })
-                            .catch(error => {
+                            .catch(err => {
                     
-                                error(error);
+                                error(err);
                                 return res.json({ status: 500 });
                             });
                     })
-                    .catch(error => {
+                    .catch(err => {
             
-                        error(error);
+                        error(err);
                         return res.json({ status: 500 });
                     });
             } else {
@@ -594,9 +594,9 @@ router.route("/:discord_id/scripts").get(authUser, (req, res) => {
                 return res.json({ status: 200, page, limit, total: doc.scripts.length, scripts: doc.scripts.slice(page * limit, page * limit + limit) });
             }
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 
@@ -606,7 +606,7 @@ router.route("/:discord_id/scripts").get(authUser, (req, res) => {
     try {
 
         object_id = mongoose.Types.ObjectId(req.body.object_id);
-    } catch(error) {
+    } catch(err) {
 
         return res.json({ status: 400 });
     }
@@ -681,33 +681,33 @@ router.route("/:discord_id/scripts").get(authUser, (req, res) => {
                 
                                             return res.json({ status: 200 });
                                         })
-                                        .catch(error => {
+                                        .catch(err => {
                 
-                                            error(error);
+                                            error(err);
                                             return res.json({ status: 500 });
                                         });
                                 })
-                                .catch(error => {
+                                .catch(err => {
         
-                                    error(error);
+                                    error(err);
                                     return res.json({ status: 500 });
                                 });
                         })
-                        .catch(error => {
+                        .catch(err => {
                 
-                            error(error);
+                            error(err);
                             return res.json({ status: 500 });
                         });
                 })
-                .catch(error => {
+                .catch(err => {
 
-                    error(error);
+                    error(err);
                     return res.json({ status: 500 });
                 });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 });
@@ -718,7 +718,7 @@ router.route("/:discord_id/scripts/:object_id").get(authUser, (req, res) => {
     try {
 
         object_id = mongoose.Types.ObjectId(req.params.object_id);
-    } catch(error) {
+    } catch(err) {
 
         return res.json({ status: 400 });
     }
@@ -749,9 +749,9 @@ router.route("/:discord_id/scripts/:object_id").get(authUser, (req, res) => {
 
             return res.json({ status: 200, script });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 
@@ -761,7 +761,7 @@ router.route("/:discord_id/scripts/:object_id").get(authUser, (req, res) => {
     try {
 
         object_id = mongoose.Types.ObjectId(req.params.object_id);
-    } catch(error) {
+    } catch(err) {
 
         return res.json({ status: 400 });
     }
@@ -821,21 +821,21 @@ router.route("/:discord_id/scripts/:object_id").get(authUser, (req, res) => {
 
                             return res.json({ status: 200 });
                         })
-                        .catch(error => {
+                        .catch(err => {
 
-                            error(error);
+                            error(err);
                             return res.json({ status: 500 });
                         });
                 })
-                .catch(error => {
+                .catch(err => {
         
-                    error(error);
+                    error(err);
                     return res.json({ status: 500 });
                 });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 
@@ -845,7 +845,7 @@ router.route("/:discord_id/scripts/:object_id").get(authUser, (req, res) => {
     try {
 
         object_id = mongoose.Types.ObjectId(req.params.object_id);
-    } catch(error) {
+    } catch(err) {
 
         return res.json({ status: 400 });
     }
@@ -912,33 +912,33 @@ router.route("/:discord_id/scripts/:object_id").get(authUser, (req, res) => {
                                             
                                             return res.json({ status: 200 });
                                         })
-                                        .catch(error => {
+                                        .catch(err => {
                 
-                                            error(error);
+                                            error(err);
                                             return res.json({ status: 500 });
                                         });
                                 })
-                                .catch(error => {
+                                .catch(err => {
                 
-                                    error(error);
+                                    error(err);
                                     return res.json({ status: 500 });
                                 });
                         })
-                        .catch(error => {
+                        .catch(err => {
         
-                            error(error);
+                            error(err);
                             return res.json({ status: 500 });
                         });
                 })
-                .catch(error => {
+                .catch(err => {
         
-                    error(error);
+                    error(err);
                     return res.json({ status: 500 });
                 });
         })
-        .catch(error => {
+        .catch(err => {
 
-            error(error);
+            error(err);
             return res.json({ status: 500 });
         });
 });

@@ -8,8 +8,8 @@ const axios = require("axios");
 const express = require("express");
 const showdown = require("showdown");
 const jwt = require("jsonwebtoken"); 
-const discord = require("discord.js");
 
+const client = require("../helpers/client");
 const schemas = require("../../db");
 const { log: { info, warn, error } } = require("../../utils");
 const api = require("./api");
@@ -25,9 +25,6 @@ const converter = new showdown.Converter({
     customizedHeaderId: true,
     ghCodeBlocks: true
 });
-
-const client = new discord.Client();
-client.login(config.token);
 
 router.use("/api/v3", api);
 router.get("/api/v3/uptime", (req, res) => {
@@ -46,7 +43,7 @@ router.get("/api/v3/uptime", (req, res) => {
 
         return res.json({ uptime: api_res.data.monitors[0].all_time_uptime_ratio });
 
-    }).catch(error => {
+    }).catch(err => {
 
         return res.json({ rip: "fucking rip" });
     });
@@ -100,9 +97,9 @@ router.get("/api/v3/stats", async (req, res) => {
             }
 
             cachedStats.stats.script_uses = uses[0].total;
-        }).catch(error => {
+        }).catch(err => {
 
-            error(`could not get script use count /api/v3/stats: ${error}`);
+            error(`could not get script use count /api/v3/stats: ${err}`);
         }));
 
         // total scripts
@@ -140,11 +137,11 @@ router.get("/api/v3/stats", async (req, res) => {
         await Promise.all(promises).then(() => {
 
             cachedStats.expire = Date.now() + statsCacheTime;
-        }).catch(error => {
+        }).catch(err => {
 
-            error(error);
+            error(err);
 
-            cachedStats.stats = { error };
+            cachedStats.stats = { err };
             cachedStats.expire = Date.now();
         });
     }
@@ -281,10 +278,10 @@ router.get("/logout", async (req, res) => {
         try {
 
             session_doc = await fetchSession(req.cookies.session);
-        } catch(error) {
+        } catch(err) {
 
             // fail silently
-            warn(error);
+            warn(err);
         }
     }
 
@@ -295,9 +292,9 @@ router.get("/logout", async (req, res) => {
         try {
 
             await session_doc.remove();
-        } catch(error) {
+        } catch(err) {
 
-            return res.json({ message: "error loggin out", error });
+            return res.json({ message: "error loggin out", err });
         }
     }
 
@@ -313,10 +310,10 @@ router.get("/auth/discord", async (req, res) => {
         try {
 
             session_doc = await fetchSession(req.cookies.session);
-        } catch(error) {
+        } catch(err) {
 
             // fail silently
-            error(error);
+            error(err);
         }
     }
 
@@ -334,10 +331,10 @@ router.get("/auth/discord", async (req, res) => {
     try {
 
         new_session_doc = await session.save();
-    } catch(error) {
+    } catch(err) {
 
-        error(error);
-        res.render("401", { status: 401, message: "Unauthorized", error });
+        error(err);
+        res.render("401", { status: 401, message: "Unauthorized", err });
     }
 
     res.cookie("session", jwt.sign({ id: new_session_doc._id }, config.jwt_secret), { maxAge: 604800000, httpOnly: true });
@@ -350,10 +347,10 @@ router.get("/auth/discord/callback", async (req, res) => {
     try {
 
         session_doc = await fetchSession(req.cookies.session);
-    } catch(error) {
+    } catch(err) {
 
-        error(error);
-        //return res.render("401", { status: 401, message: "Unauthorized", error });
+        error(err);
+        //return res.render("401", { status: 401, message: "Unauthorized", err });
         return res.redirect("/auth/discord");
     }
 
@@ -371,10 +368,10 @@ router.get("/auth/discord/callback", async (req, res) => {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
         });
-    } catch(error) {
+    } catch(err) {
 
-        error(error);
-        return res.render("401", { status: 401, message: "Unauthorized", error });
+        error(err);
+        return res.render("401", { status: 401, message: "Unauthorized", err });
     }
 
     let user_res;
@@ -387,10 +384,10 @@ router.get("/auth/discord/callback", async (req, res) => {
                 "Authorization": `Bearer ${token_res.data.access_token}`
             }
         });
-    } catch(error) {
+    } catch(err) {
 
-        error(error);
-        return res.render("401", { status: 401, message: "Unauthorized", error });
+        error(err);
+        return res.render("401", { status: 401, message: "Unauthorized", err });
     }
 
     session_doc.discord.access_token = token_res.data.access_token;
@@ -406,10 +403,10 @@ router.get("/auth/discord/callback", async (req, res) => {
     try {
 
         userData = await getUserData(token_res.data.access_token);
-    } catch(error) {
+    } catch(err) {
 
-        error(error);
-        return res.render("401", { status: 401, message: "Unauthorized", error });
+        error(err);
+        return res.render("401", { status: 401, message: "Unauthorized", err });
     }
 
     try {
@@ -426,10 +423,10 @@ router.get("/auth/discord/callback", async (req, res) => {
                 }
             });
 
-    } catch(error) {
+    } catch(err) {
 
-        error(error);
-        return res.render("401", { status: 401, message: "Unauthorized", error });
+        error(err);
+        return res.render("401", { status: 401, message: "Unauthorized", err });
     }
 
     session_doc.nonce = null;
@@ -438,10 +435,10 @@ router.get("/auth/discord/callback", async (req, res) => {
     try {
 
         await session_doc.save();
-    } catch(error) {
+    } catch(err) {
 
-        error(error);
-        return res.render("401", { status: 401, message: "Unauthorized", error });
+        error(err);
+        return res.render("401", { status: 401, message: "Unauthorized", err });
     }
 
     res.redirect("/dashboard");
@@ -507,10 +504,10 @@ router.get("/dashboard", authUser, async (req, res) => {
                 "Authorization": `Bearer ${req.session.discord.access_token}`
             }
         });
-    } catch(error) {
+    } catch(err) {
 
-        error(error);
-        return res.json({ error: "error fetching discord data lol" });
+        error(err);
+        return res.json({ err: "error fetching discord data lol" });
     }
 
     res.render("dashboard/main", { user_data: user_res.data });
@@ -534,10 +531,10 @@ router.get("/dashboard/scripts/marketplace", authUser, async (req, res) => {
                 "Authorization": `Bearer ${req.session.discord.access_token}`
             }
         });
-    } catch(error) {
+    } catch(err) {
 
-        error(error);
-        return res.json({ error: "error fetching discord data lol" });
+        error(err);
+        return res.json({ err: "error fetching discord data lol" });
     }
 
     res.render("dashboard/marketplace", { user_data: user_res.data });

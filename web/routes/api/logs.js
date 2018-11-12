@@ -39,10 +39,10 @@ router.get("/", authAdmin, async (req, res) => {
                 _id: 0,
                 __v: 0
             });
-    } catch(error) {
+    } catch(err) {
 
-        error(error);
-        return res.json({ status: 500, message: "Internal Server Error", error });
+        error(err);
+        return res.json({ status: 500, message: "Internal Server Error", err });
     }
 
     if (log_schemas.length === 0) {

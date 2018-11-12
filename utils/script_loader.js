@@ -55,19 +55,30 @@ const loadLocalScripts = dir => {
 
         for (let script of scripts) {
 
-            const dbScript = dbScripts.find(e => e.name === script.name);
+            promises.push(script.startup());
+
+            const dbScript = dbScripts.length === 0 ? null : dbScripts.find(e => e.name === script.name);
             if (dbScript == null) {
 
                 const newScript = new ScriptSchema({
-
-                    ...script,
                     
                     author_id: "feinwaru-devs",
+
+                    name: script.name,
+                    description: script.description,
+                    thumbnail: script.thumbnail,
+                    marketplace_enabled: script.marketplace_enabled,
+
+                    type: script.type,
+                    match_type: script.match_type,
+                    match: script.match,
 
                     code: null,
                     data: null,
 
                     local: true,
+                    featured: script.featured,
+                    preload: script.preload,
                     verified: true,
                     likes: 0,
                     guild_count: 0,
@@ -78,24 +89,25 @@ const loadLocalScripts = dir => {
 
                 dbScripts.push(newScript);
 
-                return promises.push(newScript.save());
+                promises.push(newScript.save());
+                continue;
             }
 
             let options = {};
+            let change = false;
             for (let prop in script) {
 
-                if (dbScript[prop] !== script[prop]) {
+                if (dbScript[prop] !== script[prop] && prop !== "author_id" && prop !== "cb" && prop !== "load") {
 
                     options[prop] = script[prop];
+                    change = true;
                 }
             }
 
-            if (Object.keys(options).length !== 0) {
+            if (change) {
 
                 promises.push(dbScript.updateOne(options));
             }
-
-            promises.push(script.startup());
         }
 
         try {
