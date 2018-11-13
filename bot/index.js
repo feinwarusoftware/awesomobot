@@ -223,6 +223,11 @@ client.on("message", async message => {
         }
     }
 
+    if (matchedTerm == null) {
+
+        return;
+    }
+
     if (!evalPerms(matchedScript, message.member, message.channel)) {
 
         return;

@@ -129,7 +129,6 @@ const levels = new Command({
                     return message.reply("this user does not have a profile");
                 }
 
-                /*
                 const fetchImages = [];
                 fetchImages.push(rp({ url: users[0].banner, encoding: null }));
                 fetchImages.push(rp({ url: message.author.avatarURL, encoding: null }));
@@ -153,28 +152,46 @@ const levels = new Command({
 
                     throw err;
                 }
-                */
 
-                const svg = new Buffer(
+                const svg = Buffer.from(
                     `<svg version="1.1" baseProfile="full" width="800" height="750" xmlns="http://www.w3.org/2000/svg"> 
                         
-                        <filter id="dropshadow" height="130%">
+                        <filter id="dropshadow-small" height="130%">
                             <feGaussianBlur in="SourceAlpha" stdDeviation="0"/> <!-- stdDeviation is how much to blur -->
-                            <feOffset dx="4" dy="4" result="offsetblur"/> <!-- how much to offset -->
+                            <feOffset dx="1" dy="2" result="offsetblur"/> <!-- how much to offset -->
                             <feComponentTransfer>
-                                <feFuncA type="linear" slope="0.5"/> <!-- slope is the opacity of the shadow -->
+                                <feFuncA type="linear" slope="0.6"/> <!-- slope is the opacity of the shadow -->
                             </feComponentTransfer>
                             <feMerge> 
                                 <feMergeNode/> <!-- this contains the offset blurred image -->
                                 <feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
                             </feMerge>
                         </filter>
+
+                        <filter id="dropshadow-large" height="130%">
+                            <feGaussianBlur in="SourceAlpha" stdDeviation="0"/> <!-- stdDeviation is how much to blur -->
+                            <feOffset dx="3" dy="5" result="offsetblur"/> <!-- how much to offset -->
+                            <feComponentTransfer>
+                                <feFuncA type="linear" slope="0.6"/> <!-- slope is the opacity of the shadow -->
+                            </feComponentTransfer>
+                            <feMerge> 
+                                <feMergeNode/> <!-- this contains the offset blurred image -->
+                                <feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
+                            </feMerge>
+                        </filter>
+
+                        <rect x="398" y="148" width="325" height="39" fill="#ff594f"></rect>
                     
-                        <text style="filter:url(#dropshadow)" x="200" y="600" font-size="72" font-family="Roboto" font-weight="bold" fill="white">!Dragon1320</text>
-                        <text style="filter:url(#dropshadow)" x="100" y="400" font-size="72" font-family="Roboto" font-weight="bold" fill="white">🍋daddydragon🍋</text>
-                        <text style="filter:url(#dropshadow)" x="400" y="200" font-size="72" font-family="Yu Minicho" font-weight="bold" fill="white">どらごん</text>
+                        <text style="filter:url(#dropshadow-large)" x="12" y="383" font-size="70" font-family="Uni Sans Heavy CAPS" fill="white">ralsei</text>
+                        <text style="filter:url(#dropshadow-large)" text-anchor="middle" x="562" y="125" font-size="92" font-family="Uni Sans Heavy CAPS" fill="white">level 2</text>
+                        <text style="filter:url(#dropshadow-small)" text-anchor="middle" x="560" y="177" font-size="28" font-family="Uni Sans Heavy CAPS" fill="white">90%</text>
+                        <text style="filter:url(#dropshadow-large)" text-anchor="middle" x="560" y="253" font-size="57" font-family="Uni Sans Heavy CAPS" fill="white">#82/608</text>
+                        <text x="24" y="498" font-size="27" font-family="Roboto Medium" fill="black">Im a bad programmer and a libtard. Hi!</text>
+
                     </svg> `
                 );
+
+                //bg.composite(progress, 398, 148);
 
                 let font;
                 try {
@@ -186,7 +203,6 @@ const levels = new Command({
                     throw err;
                 }
 
-                /*
                 let pf;
                 try {
                     pf = await sharp(images[1])
@@ -197,32 +213,26 @@ const levels = new Command({
 
                     throw err;
                 }
-                */
 
                 let banner;
                 try {
-                    banner = await sharp({
-                            create: {
-                                    width: 300,
-                                    height: 200,
-                                    channels: 4,
-                                    background: {
-                                        r: 255, g: 0, b: 0, alpha: 0.5
-                                    }
-                                }
-                            }/*images[0]*/)
+                    banner = await sharp(images[0])
                         .resize(800, 750)
                         .blur(2)
-                        //.overlayWith(base, {
-                        //    gravity: sharp.gravity.centre
-                        //})
-                        //.overlayWith(pf, {
-                        //    left: 16, top: 19
-                        //})
+                        .overlayWith(pf, {
+                            left: 16, top: 19
+                        })
+                        .toBuffer();
+
+                    banner = await sharp(banner)
+                        .overlayWith(base, {
+                            gravity: sharp.gravity.centre
+                        })
+                        .toBuffer();
+
+                    banner = await sharp(banner)
                         .overlayWith(font)
-                        .png()
-                        .toBuffer()
-                        //.toFile(path.join(__dirname, "temp", "temp.png"));
+                        .toBuffer();
 
                 } catch(err) {
 
