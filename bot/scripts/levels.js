@@ -188,7 +188,8 @@ const levels = new Command({
                         <text style="filter:url(#dropshadow-large)" text-anchor="middle" x="560" y="253" font-size="57" font-family="Uni Sans Heavy CAPS" fill="white">#82/608</text>
                         <text x="24" y="498" font-size="27" font-family="Roboto Medium" fill="black">Im a bad programmer and a libtard. Hi!</text>
 
-                    </svg> `
+                    </svg> 
+                    `
                 );
 
                 //bg.composite(progress, 398, 148);
