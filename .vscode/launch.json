@@ -9,7 +9,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\bot\\index.js"
+            "program": "${workspaceFolder}\\web\\index.js"
         }
     ]
 }

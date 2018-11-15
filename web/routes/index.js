@@ -9,7 +9,7 @@ const express = require("express");
 const showdown = require("showdown");
 const jwt = require("jsonwebtoken"); 
 
-const client = require("../helpers/client");
+const { getClient } = require("../helpers/client");
 const schemas = require("../../db");
 const { log: { info, warn, error } } = require("../../utils");
 const api = require("./api");
@@ -65,6 +65,8 @@ router.get("/api/v3/stats", async (req, res) => {
     // latest tweet
     // status + ping
     // latest update
+
+    const client = await getClient();
 
     if (cachedStats.expire < Date.now()) {
 

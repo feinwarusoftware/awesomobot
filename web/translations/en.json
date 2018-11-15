@@ -347,5 +347,8 @@
     "OTHER_SERVERS_DESC": "You need to be the **Owner** or have **Admin** permissions on the server for it to show up",
     "AWESOMO_ADDED":"AWESOM-O is added",
     "AWESOMO_NOT_ADDED" : "AWESOM-O is not added on this server",
-    "ACTIVATE": "Activate"
+    "ACTIVATE": "Activate",
+
+
+    "COOKIE_MESSAGE": "AWESOM-O uses cookies to ensure you get the best experience on our website."
 }

@@ -331,5 +331,8 @@
     "OTHER_SERVERS_DESC": "Precisas de ser **Dono** ou **Admin** para poderes utlizar esta função",
     "AWESOMO_ADDED":"O AWESOM-O foi Adicionado",
     "AWESOMO_NOT_ADDED" : "O AWESOM-O não foi adicionado a este servidor",
-    "ACTIVATE": "Ativar"
+    "ACTIVATE": "Ativar",
+
+
+    "COOKIE_MESSAGE": "O AWESOM-O usa cookies para assegurar que terás a melhor experiência no nosso Website."
 }

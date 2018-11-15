@@ -272,15 +272,15 @@ const music = new Script({
     name: "AWESOM-O Music",
     description: "*wip*",
     thumbnail: "https://media.discordapp.net/attachments/379432139856412682/504362169165414417/unknown.png?width=545&height=497",
-    marketplace_enabled: true,
+    marketplace_enabled: false,
 
     type: "js",
     match_type: "command",
     match: "join;leave;play;skip;stop;np",
 
-    featured: true,
+    featured: false,
 
-    preload: true,
+    preload: false,
 
     cb: async function(client, message, guild, user, script, match) {
 

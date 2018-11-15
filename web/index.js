@@ -22,6 +22,28 @@ const app = express();
 
 const config = require("./config.json");
 
+//
+mongoose.connect(`mongodb://${config.mongo_user === null && config.mongo_pass === null ? "" : `${config.mongo_user}:${config.mongo_pass}@`}localhost/rawrxd`, {
+    useNewUrlParser: true,
+    ...(config.mongo_user === null && config.mongo_pass === null ? {} : {
+        auth: {
+            authdb: "admin"
+        }
+    })
+});
+mongoose.Promise = global.Promise;
+
+const db = mongoose.connection;
+db.on("error", err => {
+    
+    error(`error connecting to mongo: ${err}`);
+});
+db.on("open", () => {
+    
+    info("connected to mongo");
+});
+//
+
 app.enable("trust proxy");
 
 app.use(morgan(config.env === "dev" ? "combined" : "combined", { stream: new stream.Writable({
@@ -43,9 +65,9 @@ app.use(express.json());
 app.use(cookieParser(config.rawrxd));
 
 app.use(i18n({
-    defaultLang: "en-gb",
+    defaultLang: "en",
     translationsPath: path.join(__dirname, 'translations'),
-    siteLangs: ["en-gb","de","pt", "pl", "en-ni", "en-us"],
+    siteLangs: ["en","de","pt", "pl", "en-ni"],
     paramLangName: "hl",
     textsVarName: 'trans'
 }));

@@ -1,3 +1,24 @@
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+        <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+        <script>
+        window.addEventListener("load", function(){
+        window.cookieconsent.initialise({
+          "palette": {
+            "popup": {
+              "background": "#454545"
+            },
+            "button": {
+              "background": "#ff5b4f",
+              "text": "#ffffff"
+            }
+          },
+          "content": {
+    "message": "<%= trans.COOKIE_MESSAGE %>",
+    "dismiss": "<%= trans.DISMISS %>",
+    "link": "<%= trans.LEARN_MORE %>"
+  }
+        })});
+        </script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124885614-4"></script>
 <script>

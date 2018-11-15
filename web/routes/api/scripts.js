@@ -7,7 +7,7 @@ const schemas = require("../../../db");
 const { authUser } = require("../../middlewares");
 const { getUserData, getUserDataNoSession } = require("../../helpers");
 
-const client = require("../../helpers/client");
+const { getClient } = require("../../helpers/client");
 
 const router = express.Router();
 const { log: { info, warn, error } } = require("../../../utils");
@@ -21,7 +21,9 @@ const defaultValue = (param, def) => {
     return param === undefined ? def : param;
 }
 
-router.route("/").get(authUser, (req, res) => {
+router.route("/").get(authUser, async (req, res) => {
+
+    const client = await getClient();
 
     // + cond user data
     const extended = req.query.extended === "true" ? true : req.query.extended === "false" ? false : undefined;

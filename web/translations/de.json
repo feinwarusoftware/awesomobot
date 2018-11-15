@@ -332,5 +332,8 @@
     "OTHER_SERVERS_DESC": "Du musst der **Besitzer** sein oder zumindest **Admin** Berechtigungen auf dem Server haben damit es angezeigt wird",
     "AWESOMO_ADDED":"AWESOM-O wurde hinzugefügt",
     "AWESOMO_NOT_ADDED" : "AWESOM-O wurde nicht zum Server hinzugefügt",
-    "ACTIVATE": "Aktivieren"
+    "ACTIVATE": "Aktivieren",
+
+
+    "COOKIE_MESSAGE": "AWESOM-O nutzt Cookies um euch die bestmöglichste Erfahrung auf unserer Website zu ermöglichen."
 }
