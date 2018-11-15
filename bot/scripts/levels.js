@@ -3,6 +3,8 @@
 const fs = require("fs");
 const path = require("path");
 
+//const { performance } = require("perf_hooks");
+
 //const jimp = require("jimp");
 
 const sharp = require("sharp");
@@ -23,9 +25,6 @@ const {
     getLevelData,
     hexToRgb
 } = require("../../utils");
-
-let defaultBanner = null;
-let verifiedIcon = null;
 
 let infoCardBase = null;
 
@@ -250,6 +249,8 @@ const levels = new Command({
 
     cb: function (client, message, guild, user, script, match) {
 
+        //const ts0 = performance.now();
+
         let searchUser = message.author;
 
         const args = message.content.split(" ");
@@ -266,6 +267,10 @@ const levels = new Command({
 
             searchUser = member.user;
         }
+
+        //const ts1 = performance.now();
+
+        //const td0 = performance.now();
 
         schemas.UserSchema
             .aggregate([{
@@ -324,6 +329,13 @@ const levels = new Command({
                     return message.reply("this user does not have a profile");
                 }
 
+                //let net0;
+                //let net1;
+
+                //const td1 = performance.now();
+
+                //const tr0 = performance.now();
+
                 const levelData = getLevelData(users[0].xp);
 
                 const svg = getsvgTextOverlay({
@@ -334,7 +346,7 @@ const levels = new Command({
                     level: `level ${levelData.level}`,
                     levelColour: "#14b252",
                     progress: `${Math.floor(levelData.progress * 100)}%`,
-                    progressColour: "#14b252",
+                    progressColour: "#ffffff",
                     rank: `#${users[0].globalRank + 1}/${users[0].globalTotal}`,
                     rankColour: "#14b252",
                     about: users[0].bio,
@@ -364,31 +376,70 @@ const levels = new Command({
                     cachedBase.trophies = users[0].trophies;
 
                     try {
+
+                        //net0 = performance.now();
                         const banner = rp({ url: users[0].banner, encoding: null }).then(async buffer => {
+
+                            //net1 = performance.now();
 
                             return await sharp(buffer)
                                 .resize(800, 750)
                                 .blur(2)
+                                .raw()
                                 .toBuffer();
                         });
 
                         const pf = rp({ url: searchUser.avatarURL, encoding: null }).then(async buffer => {
     
+                            //net1 = performance.now();
+
                             return await sharp(buffer)
                                 .resize(296, 296)
+                                .jpeg()
                                 .toBuffer();
                         });
 
-                        cachedBase.buffer = await sharp(await banner)
+                        // sort this shit while the banner/pf async code runs
+                        const userTrophies = trophies
+                            .filter(e => users[0].trophies.includes(e.dbName))
+                            .sort((a, b) => a.importance - b.importance)
+                            .slice(0, 8)
+                            .map(e => e.buffer);
+
+                        // banner
+                        cachedBase.buffer = sharp(await banner, { raw: { width: 800, height: 750, channels: 4 } })
                             .overlayWith(infoCardBase, {
                                 gravity: sharp.gravity.centre
                             })
+                            .raw()
                             .toBuffer();
 
-                        cachedBase.buffer = await sharp(cachedBase.buffer)
+                        // trophies
+                        let current = 0;
+
+                        cachedBase.buffer = userTrophies
+                            .reduce((input, overlay) => {
+                                return input.then(data => {
+                                    const next = sharp(data, { raw: { width: 800, height: 750, channels: 4 } })
+                                        .overlayWith(overlay, {
+                                            left: 416 + (current % 4) * 90,
+                                            top: 472 + (current > 3 ? 1 : 0) * 90
+                                        })
+                                        .raw()
+                                        .toBuffer();
+
+                                    current++;
+
+                                    return next;
+                                });
+                            }, cachedBase.buffer);
+
+                        // pfp
+                        cachedBase.buffer = sharp(await cachedBase.buffer, { raw: { width: 800, height: 750, channels: 4 } })
                             .overlayWith(await pf, {
                                 left: 16, top: 19
                             })
+                            .raw()
                             .toBuffer()
 
                         cache.push(cachedBase);
@@ -400,19 +451,89 @@ const levels = new Command({
                 }
 
                 try {
-                    message.channel.send("", {
+                    // changed to measure performance of individual parts of code
+                    /*
+                    let finished = await sharp(cachedBase.buffer)
+                        .overlayWith(svg)
+                        .raw()
+                        .toBuffer();
+                    */
+
+                    /*
+                    for (let [i, trophy] of userTrophies.entries()) {
+
+                        // 90 -> trophy size
+                        let xoffset = (i % 4) * 90;
+                        let yoffset = (i > 3 ? 1 : 0) * 90;
+
+                        finished = await sharp(finished)
+                            .overlayWith(trophy.buffer, {
+                                left: 416 + xoffset,
+                                top: 472 + yoffset
+                            })
+                            .toBuffer();
+                    }
+                    */
+
+                    /*
+                    let i = -1;
+
+                    const composite =  userTrophies
+                        .map(e => e.buffer)
+                        .reduce((input, overlay) => {
+                            return input.then(data => {
+
+                                i++;
+
+                                return sharp(data, { raw: { width: 800, height: 700, channels: 4 } })
+                                    .overlayWith(overlay, {
+                                        left: 416 + (i % 4) * 90,
+                                        top: 472 + (i > 3 ? 1 : 0) * 90
+                                    })
+                                    .raw()
+                                    .toBuffer();
+                            });
+                        }, sharp(cachedBase.buffer)
+                            .overlayWith(svg)
+                            .raw()
+                            .toBuffer());
+
+                    let finished = await composite;
+                    */
+
+                    const finished = sharp(await cachedBase.buffer, { raw: { width: 800, height: 750, channels: 4 } })
+                        .overlayWith(svg)
+                        .webp()
+                        .toBuffer();
+
+                    //const tr1 = performance.now();
+
+                    //const tm0 = performance.now();
+
+                    // await here so start/stop typing works properly
+                    await message.channel.send("", {
+                        file: await finished
+                    });
+
+                    //const tm1 = performance.now();
+
+                    //message.channel.send(`script took ${Math.round((tm1 - ts0) * 100) / 100}ms\n\*search > ${Math.round((ts1 - ts0) * 100) / 100}ms\n\*db > ${Math.round((td1 - td0) * 100) / 100}ms\n\*render > ${Math.round((tr1 - tr0) * 100) / 100}ms, incl. ${Math.round((net1 - net0) * 100) / 100}ms net delay\n\*message > ${Math.round((tm1 - tm0) * 100) / 100}ms`);
+
+                    /*
+                    await message.channel.send("", {
                         file: await sharp(cachedBase.buffer)
                             .overlayWith(svg)
                             .webp()
                             .toBuffer()
                     });
+                    */
 
                 } catch(err) {
 
                     throw err;
                 }
 
-                if (cache.length > 0) {
+                if (cache.length > 100) {
 
                     cache.shift();
                 }
@@ -682,19 +803,7 @@ const levels = new Command({
             return new Promise(async (resolve, reject) => {
 
                 infoCardBase = await sharp(path.join(__dirname, "..", "assets", "profiles", "info_card_base.png"))
-                    .png()
-                    .toBuffer();
-
-                defaultBanner = await sharp({
-                    create: {
-                        width: 800,
-                        height: 750,
-                        channels: 4,
-                        background: {
-                            r: 0, g: 0, b: 0, alpha: 1
-                        }
-                    }})
-                    .png()
+                    .jpeg()
                     .toBuffer();
                 
                 const trophy1 = await sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-1.0.png"))

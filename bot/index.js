@@ -235,6 +235,8 @@ client.on("message", async message => {
 
     if (matchedScript.local) {
 
+        message.channel.startTyping();
+
         const localScript = scripts.find(e => e.name === matchedScript.name);
         if (localScript == null) {
 
@@ -248,6 +250,9 @@ client.on("message", async message => {
 
             error(`error running local script: ${localScript.name}: ${err}`);
         }
+
+        message.channel.stopTyping();
+
     } else {
         if (matchedScript.type === "js") {
 
