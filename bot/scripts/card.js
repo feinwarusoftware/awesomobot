@@ -44,7 +44,9 @@ const getUpgradeStats = (currentCard, upgrade) => {
         console.log("oooof");
         return {};
     }
-    const stats = {};
+    const stats = {
+        upgrade
+    };
     for (let k in currentCard) {
         if (k.startsWith("Power") === true && currentCard[k] !== null && currentCard[k] !==
             "") {
@@ -160,6 +162,7 @@ const getLevelStats = (currentCard, level) => {
         upgradeModifier += 70;
     }
     const stats = getUpgradeStats(currentCard, upgradeModifier);
+    stats.level = level;
     if (currentCard.Type === "Spell") {
         for (let i = 0; i < level - 1; i++) {
             for (let j = 0; j < currentCard.TechTree2.Evolve[i].Slots.length; j++) {
@@ -209,6 +212,40 @@ const getLevelStats = (currentCard, level) => {
     return stats;
 }
 
+const getMaxUpgradeStats = (currentCard, level) => {
+    if (level < 1 || level > 7) {
+        console.log("oooooof");
+        return {};
+    }
+
+    if (currentCard.Type === "Spell" || level === 7) {
+
+        return getLevelStats(currentCard, level);
+    }
+
+    let upgradeModifier = 0;
+    if (level === 1) {
+        upgradeModifier += 5;
+    }
+    if (level === 2) {
+        upgradeModifier += 15;
+    }
+    if (level === 3) {
+        upgradeModifier += 25;
+    }
+    if (level === 4) {
+        upgradeModifier += 40;
+    }
+    if (level === 5) {
+        upgradeModifier += 55;
+    }
+    if (level === 6) {
+        upgradeModifier += 70;
+    }
+
+    return getUpgradeStats(currentCard, upgradeModifier);
+}
+
 const card = new Command({
 
     name: "Phone Destroyer Cards",
@@ -249,37 +286,64 @@ const card = new Command({
         }
 
         const split = args.split(" ");
-        const last = split[split.length - 1];
+
+        // ***WARNING*** - this does change later in the code as a workaround,
+        // good luck to all the poor souls trying to debug this cancer
+        let last = split[split.length - 1];
 
         // assume level/upgrade is set, and if not, reset this value later
         name = split.slice(0, split.length - 1).join(" ");
 
-        if (last.startsWith("l")) {
+        // determine the upgrade and level to display
+        
+        //level
+        if (last.startsWith("l") && name !== "") {
 
             level = parseInt(last.slice(1));
 
             if (isNaN(level)) {
 
-                return message.reply("level not set correctly");
-            }
+                level = null;
+            } else {
 
-            if (level < 1 || level > 7) {
+                if (level < 1 || level > 7) {
 
-                return message.reply("level out of bounds");
+                    return message.reply("level out of bounds");
+                }
             }
         }
-        if (last.startsWith("u")) {
+        
+        // upgrade
+        if (last.startsWith("u") && name !== "") {
 
             upgrade = parseInt(last.slice(1));
 
             if (isNaN(upgrade)) {
 
-                return message.reply("upgrade not set correctly");
+                upgrade = null;
+            } else {
+
+                if (upgrade < 1 || upgrade > 70) {
+
+                    return message.reply("upgrade out of bounds");
+                }
             }
+        }
 
-            if (upgrade < 1 || upgrade > 70) {
+        // max upgrade
+        if (last.startsWith("m") && name !== "") {
 
-                return message.reply("upgrade out of bounds");
+            level = parseInt(last.slice(1));
+
+            if (isNaN(level)) {
+
+                level = null;
+            } else {
+
+                if (level < 1 || level > 7) {
+
+                    return message.reply("level out of bounds");
+                }
             }
         }
 
@@ -291,13 +355,16 @@ const card = new Command({
             // default to 1
             if (isNaN(level)) {
 
+                // for some later checks teehee, i know this is cancer, ill refactor it at some point
+                last = last === "ff" ? "ff" : last === "art" ? "art" : "gay";
+
                 level = 1;
                 name = split.join(" ");
             }
 
             // make sure the last word isnt a number by coincidence
             // this will not work if the last word is a number between 1 and 7
-            if (level < 1 || level > 7) {
+            if (level < 1 || level > 7 || last === name) {
 
                 level = 1;
                 name = split.join(" ");
@@ -346,13 +413,40 @@ const card = new Command({
 
         const card = cardsCopy[index];
 
+        if (last === "art" && name !== "") {
+
+            return message.channel.send("", {
+                file: path.join(__dirname, "..", "assets", "cards", "art", `${card.Image}.jpg`)
+            }).catch(err => {
+
+                message.channel.send(`error sending card art: ${err}`);
+            });
+        }
+
+        // friendly-fight/challenge stats
+        // ignore this if the command is -card ff, and assume 'ff' is a card name instead
+        // this needs to be called after card search as we need the rarity of the card
+        if (last === "ff" && name !== "") {
+
+            level = Math.abs(card.Rarity - 4);
+        }
+
         let stats = null;
         if (level === null) {
-
+            
             stats = getUpgradeStats(card, upgrade);
         } else {
 
-            stats = getLevelStats(card, level);
+            if (last.startsWith("m") && name !== "") {
+
+                stats = getMaxUpgradeStats(card, level);
+
+                level = null;
+                upgrade = stats.upgrade;
+            } else {
+
+                stats = getLevelStats(card, level);
+            }
         }
 
         for (let stat in stats) {
@@ -362,18 +456,24 @@ const card = new Command({
                 continue;
             }
 
+            if (stat === "PowerHeroDamage") {
+
+                // scale based on base stats
+                stats[stat] = stats["PowerDamage"] * (card.PowerHeroDamage / card.PowerDamage);
+            }
+
             if (stat === "PowerMaxHPGain") {
 
-                card.Description = card.Description.replace(`{PowerMaxHealthBoost}`, stats[stat]);
+                card.Description = card.Description.replace(`{PowerMaxHealthBoost}`, typeof stats[stat] === "number" ? Math.round(stats[stat] * 100) / 100 : stats[stat]);
                 continue;
             }
 
-            card.Description = card.Description.replace(`{${stat}}`, stats[stat]);
+            card.Description = card.Description.replace(`{${stat}}`, typeof stats[stat] === "number" ? Math.round(stats[stat] * 100) / 100 : stats[stat]);
         }
 
         if (card.Description.includes("{PowerDurationMin}-{PowerDurationMax}")) {
 
-            card.Description = card.Description.replace("{PowerDurationMin}-{PowerDurationMax}", `${card.PowerDuration - 1}-${card.PowerDuration + 1} seconds`);
+            card.Description = card.Description.replace("{PowerDurationMin}-{PowerDurationMax}", `${(Math.round(stats["PowerDuration"] * 100) / 100) - 1}-${(Math.round(stats["PowerDuration"] * 100) / 100) + 1} seconds`);
         }
         if (card.Name instanceof Array ? card.Name[0] === "Cock Magic" : card.Name === "Cock Magic") {
 
@@ -680,7 +780,7 @@ const card = new Command({
 
         // image overlaying stuff.
         let bg = await new jimp(800, 1200);
-        let cardArt = await jimp.read(path.join(__dirname, "assets", "art", "cards", card.Image + ".jpg"));
+        let cardArt = await jimp.read(path.join(__dirname, "..", "assets", "cards", "art", card.Image + ".jpg"));
         let frameOverlay = frameOverlays.clone().crop(ox, oy, oz, ow).resize(bgWidth, bgHeight);
         let frameOutline = frameOutlines.clone().crop(x, y, z, w).resize(bgWidth, bgHeight);
         let typeIcon = typeIcons.clone().crop(ix, iy, iz, iw).scale(1.5);
@@ -774,9 +874,16 @@ const card = new Command({
             embed.description += `**General Information**\n`;
 
             embed.description += `Cast Area: ${card.CastArea}\n`;
-            embed.description += `Max Speed: ${Math.round((card.MaxVelocity) * 100) / 100}\n`;
-            embed.description += `Time To Reach Max Speed: ${Math.round((card.TimeToReachMaxVelocity) * 100) / 100}\n`;
-            embed.description += `Agro Range Multiplier: ${Math.round((card.AgroRangeMultiplier) * 100) / 100}\n\n`;
+
+            if (card.CharacterType !== "Totem") {
+              
+                embed.description += `Max Speed: ${Math.round((card.MaxVelocity) * 100) / 100}\n`;
+                embed.description += `Time To Reach Max Speed: ${Math.round((card.TimeToReachMaxVelocity) * 100) / 100}\n`;
+                embed.description += `Agro Range Multiplier: ${Math.round((card.AgroRangeMultiplier) * 100) / 100}\n\n`;
+            } else {
+
+                embed.description += "\n";
+            }
 
             let hasPower = false;
             for (let field in card) {
@@ -788,20 +895,32 @@ const card = new Command({
                 }
             }
 
-            if (hasPower) {
+            // enforcer jimmy aura range
+            if (hasPower || card.Name[0] === "Enforcer Jimmy") {
 
                 embed.description += `**Power Information? - Yes**\n`;
 
                 for (let field in stats) {
 
+                    if (field === "PowerRange" && stats[field] === 0) {
+
+                        continue;
+                    }
+
                     if (field.startsWith("Power")) {
 
-                        embed.description += `${camelPad(field.slice(5, field.length))}: ${Math.round((stats[field]) * 100) / 100}\n`;
+                        embed.description += `${field === "PowerRange" ? field : camelPad(field.slice(5, field.length))}: ${typeof stats[field] === "number" ? Math.round((stats[field]) * 100) / 100 : stats[field]}\n`;
                     }
                 }
 
-                embed.description += `Charged Power Radius: ${Math.round((card.ChargedPowerRadius) * 100) / 100}\n`;
-                embed.description += `Charged Power Regen: ${Math.round((card.ChargedPowerRegen) * 100) / 100}\n\n`;
+                if (/*card.ChargedPowerRadius !== 0 && */card.ChargedPowerRegen !== 0) {
+
+                    //embed.description += `Charged Power Radius: ${Math.round((card.ChargedPowerRadius) * 100) / 100}\n`;
+                    embed.description += `Charged Power Regen: ${Math.round((card.ChargedPowerRegen) * 100) / 100}\n\n`;
+                } else {
+
+                    embed.description += "\n";
+                }
 
             } else {
 
@@ -824,7 +943,7 @@ const card = new Command({
                 embed.description += `**Can Attack? - No**\n\n`;
             }
 
-            if (card.AOEAttackType !== "No") {
+            if (card.AOEAttackType !== "No" && card.Type !== "Spell") {
                 // aoe attacks
 
                 embed.description += `**AOE Attacks? - Yes**\n`;

@@ -412,7 +412,7 @@ const levels = new Command({
                     throw err;
                 }
 
-                if (cache.length > 100) {
+                if (cache.length > 0) {
 
                     cache.shift();
                 }

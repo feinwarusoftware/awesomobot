@@ -1,0 +1,191 @@
+session:
+- id
+- token
+- refresh
+- nonce
+
+guild:
+- id
+- prefix
+
+user:
+- id
+
+script:
+- id (maybe make this a snowflake as well?)
+
+* an error reporting crate
+
+event system:
+- core scripts called before user scripts
+- keeps track of events its been through > cannot emit that event again
+- differentiate between discord, core, and user events
+- your event needs to extend event class
+- you can only emit events that either a) youve created, or b) declared in imported libs
+- only libs can emit events
+- events prefaced with crate name, e.g. 'discord::message', 'core::command', etc.
+- libs are like crates, but user made
+- libs can contain multiple files, and export stuff
+- executable scripts must contain one file, exports will be ignored
+- workspaces can be used to have easy access to scripts and libs
+- libs are like branches, and scripts are like leaves - execution always ends with a script
+
+* the node, branch, leaf arch can be used to render a map of all bot functionality!
+
+crates vs nodes vs leaves
+> tree
+- instanceof Tree
+- contains all of the things below and a sandbox (ground/dirt?)
+> crates ('drops' - like rain-drops, or 'elements' - like mg, cos plants require them)
+- instanceof Drop
+- cannot subscribe or emit events
+- can import other crates
+- can be standalone
+- cannot read/write data
+- cannot cause changes in discord
+> nodes
+- instanceof Node extends 'event consumer'
+- can subscribe one and emit many events
+- can import crates
+- cannot be imported
+- must import branch(es) that its using
+- read only access to data
+- cannot cause changes in discord
+> leaves
+- instanceof Leaf extends 'event consumer', 'event emitter'
+- can subscribe one but not emit any events
+- can import crates
+- cannot be imported
+- must import branch that its using
+- read/write access to data
+- can cause changes in discord
+> branch
+- instanceof Branch extends Drop, 'event'
+- just an event definition
+- cannot import anything
+> root
+- instanceof Root
+- collection of all the traversed nodes
+- handled by the backend
+
+* all imports should be displayed (and required), unlike now where you can just use message without having to import anything 
+
+* everything is stateless => the only connection is via branches (events)
+node -> leaf/node imports preceeding node and can subscribe one of its events
+- node must contain its branch def -> fixes people using branches out of place issue
+- node imports not coupled as nodes can only export branches
+- node::event
+node -> ([branch -> (event, params)])
+root -> [node] - a list of traversed nodes 
+- cannot go back into an already traversed node
+
+* when adding a script, display stats like no. of leaves, nodes, etc.
+
+```js
+
+"use strict"; // never forget
+
+const tree = require("tree"); // required for a node/leaf, contains all the nodes
+
+const someDrop = require("someDrop"); // drops handled like normal node crates
+
+const client = tree.findNode("client"); // find a node like so
+
+// leaf 1
+client.on("message", message => {
+
+    // do stuff
+});
+
+// leaf 2 on the same node
+client.on("error", err => {
+
+    // do stuff
+});
+
+const core = tree.findNode("core");
+
+// leaf 3 on a different node
+core.on("command", command => {
+
+    // do stuff
+});
+
+```
+
+```js
+
+"use strict";
+
+const tree = require("tree");
+
+const client = tree.findNode("client");
+
+const message = client.findEvent("message");
+
+const node = {
+
+    subscribe: message,
+    emit: [
+        "command"
+    ]
+};
+
+return node;
+
+```
+
+* guilds can only add leaves for functionality, nodes/drops exist only within the api
+
+- do we want people to have access to the final state of all the past nodes? - no we dont
+- a node/leaf should only have info from the preceeding node
+- will need a 'make stuff happen in discord drop' and 'get info from discord drop', same for db
+- when the tree is being traversed, need to make a clone of discord data to keep it constant for all nodes
+- ^ this *should* avoid undefined behaviour
+
+making a drop
+> return anything that extends 'Drop' class
+
+making a node
+> find the node you want to subscribe to
+> find the event that you want to subscribe to
+> define your events
+> define your processing
+> return instance of 'Node'
+
+making a leaf
+> find the node you want to subscribe to
+> find the event that you want to subscribe to
+> define your processing
+
+* a backend 'root' component of the tree will keep track of all the traversed nodes
+
+/*
+script schema:
+- type: (js|json)
+- lib: (drop|node|leaf)
+- local: (true|false)
+- code: (str|null)
+- data: (jsonscp|null)
+- ...
+*/
+
+* seperate schemas for each script type?
+
+* drops need to define which components can be used in drops, nodes, and leaves
+* OR
+* some drops will be drop, node, or leaf only
+
+* some drops should be included in the script sandbox by default (prelude option in schema?)
+* prelude drops can only be made locally, must define where they can be used and cant be included by anything else
+
+* OR
+
+* tree contains libs that can only be used locally and refuse to work if called at the wrong time in tree traversal
+* ^YES
+
+IMPORTANT: nodes can only be deleted if no one is using them
+> modification is handled via version control > a script can use a certain version of a node
+> abandoned nodes auto deleted if theres a point when no ones using them anymore
+> ^ how do we handle both of those?
+> people can claim abandoned nodes?
