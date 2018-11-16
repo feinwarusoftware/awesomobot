@@ -395,7 +395,7 @@ const levels = new Command({
 
                             return await sharp(buffer)
                                 .resize(296, 296)
-                                .jpeg()
+                                .png()
                                 .toBuffer();
                         });
 
@@ -803,7 +803,7 @@ const levels = new Command({
             return new Promise(async (resolve, reject) => {
 
                 infoCardBase = await sharp(path.join(__dirname, "..", "assets", "profiles", "info_card_base.png"))
-                    .jpeg()
+                    .png()
                     .toBuffer();
                 
                 const trophy1 = await sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-1.0.png"))
