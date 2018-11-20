@@ -381,12 +381,20 @@ const levels = new Command({
                         const banner = rp({ url: users[0].banner, encoding: null }).then(async buffer => {
 
                             //net1 = performance.now();
-
-                            return await sharp(buffer)
-                                .resize(800, 750)
-                                .blur(2)
+                            const banner = sharp({
+                                create: {
+                                    width: 800,
+                                    height: 750,
+                                    channels: 4,
+                                    background: { r: 0, g: 0, b: 0, alpha: 0 }
+                                }}).overlayWith(await sharp(buffer)
+                                    .resize(800, 750)
+                                    .blur(2)
+                                    .toBuffer())
                                 .raw()
                                 .toBuffer();
+
+                            return await banner;
                         });
 
                         const pf = rp({ url: searchUser.avatarURL, encoding: null }).then(async buffer => {
@@ -395,7 +403,7 @@ const levels = new Command({
 
                             return await sharp(buffer)
                                 .resize(296, 296)
-                                .png()
+                                .jpeg()
                                 .toBuffer();
                         });
 
@@ -503,7 +511,7 @@ const levels = new Command({
 
                     const finished = sharp(await cachedBase.buffer, { raw: { width: 800, height: 750, channels: 4 } })
                         .overlayWith(svg)
-                        .webp()
+                        .jpeg()
                         .toBuffer();
 
                     //const tr1 = performance.now();
@@ -846,142 +854,441 @@ const levels = new Command({
                     .png()
                     .toBuffer();
 
+                // await sharp(trophyFs).tint("#ff594f").toBuffer()
                 trophies.push({
                     dbName: "feinwaru-dev",
                     importance: 0,
-                    buffer: await sharp(trophyFs).tint("#ff594f").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 255, g: 89, b: 79, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyFs, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyMod).tint("#099b10").toBuffer()
                 trophies.push({
                     dbName: "mod",
                     importance: 1,
-                    buffer: await sharp(trophyMod).tint("#099b10").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 9, g: 155, b: 16, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyMod, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyGroup).tint("#1cb891").toBuffer()
                 trophies.push({
                     dbName: "partner",
                     importance: 2,
-                    buffer: await sharp(trophyGroup).tint("#1cb891").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 28, g: 184, b: 145, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyGroup, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyBot).tint("#ff594f").toBuffer()
                 trophies.push({
                     dbName: "bot",
                     importance: 3,
-                    buffer: await sharp(trophyBot).tint("#ff594f").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 255, g: 89, b: 79, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyBot, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyPatreon).tint("#fb664e").toBuffer()
                 trophies.push({
                     dbName: "patron-1",
                     importance: 4,
-                    buffer: await sharp(trophyPatreon).tint("#fb664e").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 251, g: 102, b: 78, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyPatreon, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyPatreon).tint("#fb664e").toBuffer()
                 trophies.push({
                     dbName: "patron-5",
                     importance: 5,
-                    buffer: await sharp(trophyPatreon).tint("#fb664e").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 251, g: 102, b: 78, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyPatreon, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyPatreon).tint("#fb664e").toBuffer()
                 trophies.push({
                     dbName: "patron-10",
                     importance: 6,
-                    buffer: await sharp(trophyPatreon).tint("#fb664e").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 251, g: 102, b: 78, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyPatreon, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyTrans).tint("#1c65b8").toBuffer()
                 trophies.push({
                     dbName: "translator",
                     importance: 7,
-                    buffer: await sharp(trophyTrans).tint("#1c65b8").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 28, g: 101, b: 184, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyTrans, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyArt).tint("#df3cb6").toBuffer()
                 trophies.push({
                     dbName: "artist",
                     importance: 8,
-                    buffer: await sharp(trophyArt).tint("#df3cb6").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 223, g: 60, b: 182, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyArt, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyChinpokomon).tint("#d67f0e").toBuffer()
                 trophies.push({
                     dbName: "uchinpokomon",
                     importance: 9,
-                    buffer: await sharp(trophyChinpokomon).tint("#d67f0e").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 214, g: 127, b: 14, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyChinpokomon, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyChinpokomon).tint("#fd9a19").toBuffer()
                 trophies.push({
                     dbName: "rchinpokomon",
                     importance: 10,
-                    buffer: await sharp(trophyChinpokomon).tint("#fd9a19").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 253, g: 154, b: 25, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyChinpokomon, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyArt).tint("#fd9a19").toBuffer()
                 trophies.push({
                     dbName: "ac18_1",
                     importance: 11,
-                    buffer: await sharp(trophyArt).tint("#fd9a19").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 253, g: 154, b: 25, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyArt, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyArt).tint("#838383").toBuffer()
                 trophies.push({
                     dbName: "ac18_2",
                     importance: 12,
-                    buffer: await sharp(trophyArt).tint("#838383").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 131, g: 131, b: 131, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyArt, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyArt).tint("#a55029").toBuffer()
                 trophies.push({
                     dbName: "ac18_3",
                     importance: 13,
-                    buffer: await sharp(trophyArt).tint("#a55029").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 164, g: 80, b: 41, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyArt, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyArt).tint("#7289DA").toBuffer()
                 trophies.push({
                     dbName: "ac18_ww",
                     importance: 14,
-                    buffer: await sharp(trophyArt).tint("#7289DA").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 114, g: 137, b: 218, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyArt, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyCrayon).tint("#fd9a19").toBuffer()
                 trophies.push({
                     dbName: "cc18_1",
                     importance: 15,
-                    buffer: await sharp(trophyCrayon).tint("#fd9a19").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 253, g: 154, b: 25, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyCrayon, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyCrayon).tint("#838383").toBuffer()
                 trophies.push({
                     dbName: "cc18_2",
                     importance: 16,
-                    buffer: await sharp(trophyCrayon).tint("#838383").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 131, g: 131, b: 131, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyCrayon, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyCrayon).tint("#a55029").toBuffer()
                 trophies.push({
                     dbName: "cc18_3",
                     importance: 17,
-                    buffer: await sharp(trophyCrayon).tint("#a55029").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 165, g: 80, b: 41, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyCrayon, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyCrayon).tint("#7289DA").toBuffer()
                 trophies.push({
                     dbName: "cc18ww",
                     importance: 18,
-                    buffer: await sharp(trophyCrayon).tint("#7289DA").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 114, g: 137, b: 218, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyCrayon, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophy1).tint("#4e9ffb").toBuffer()
                 trophies.push({
                     dbName: "awesomo-1",
                     importance: 19,
-                    buffer: await sharp(trophy1).tint("#4e9ffb").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 78, g: 159, b: 251, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophy1, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophy2).tint("#68358a").toBuffer()
                 trophies.push({
                     dbName: "awesomo-2",
                     importance: 20,
-                    buffer: await sharp(trophy2).tint("#68358a").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 104, g: 53, b: 138, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophy2, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyCode).tint("#222222").toBuffer()
                 trophies.push({
                     dbName: "verified-script",
                     importance: 21,
-                    buffer: await sharp(trophyCode).tint("#222222").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 34, g: 34, b: 34, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyCode, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
+                // await sharp(trophyCode).tint("#222222").toBuffer()
                 trophies.push({
                     dbName: "featured-script",
                     importance: 22,
-                    buffer: await sharp(trophyCode).tint("#222222").toBuffer()
+                    buffer: await sharp({
+                        create: {
+                            width: 90,
+                            height: 90,
+                            channels: 4,
+                            background: { r: 34, g: 34, b: 34, alpha: 1.0 }
+                        }
+                    })
+                    .overlayWith(trophyCode, {
+                        cutout: true
+                    })
+                    .png()
+                    .toBuffer()
                 });
 
                 /*

@@ -235,7 +235,7 @@ client.on("message", async message => {
 
     if (matchedScript.local) {
 
-        message.channel.startTyping();
+        //message.channel.startTyping();
 
         const localScript = scripts.find(e => e.name === matchedScript.name);
         if (localScript == null) {
@@ -251,7 +251,7 @@ client.on("message", async message => {
             error(`error running local script: ${localScript.name}: ${err}`);
         }
 
-        message.channel.stopTyping();
+        //message.channel.stopTyping();
 
     } else {
         if (matchedScript.type === "js") {
@@ -274,13 +274,13 @@ client.on("message", async message => {
 
             if (matchedScript.data.action === "text") {
 
-                return message.channel.send(script.data.args[0].value);
+                return message.channel.send(matchedScript.data.args[0].value);
             }
 
             if (matchedScript.data.action === "file") {
 
                 return message.channel.send("", {
-                    file: script.data.args[0].value
+                    file: matchedScript.data.args[0].value
                 });
             }
 
