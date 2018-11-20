@@ -59,7 +59,10 @@ const sandbox = new Sandbox();
 
 const baseScriptSandbox = {
 
-    RichEmbed: discord.RichEmbed
+    RichEmbed: discord.RichEmbed,
+    utils: {
+        RichEmbed: discord.RichEmbed
+    }
 };
 //
 
