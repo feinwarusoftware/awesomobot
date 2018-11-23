@@ -5144,7 +5144,7 @@
     "Id": 35,
     "Visible": true,
     "CanAttack": true,
-    "Name": ["Gunslinger Kyle", "Gunslinger", "GK"],
+    "Name": ["Gunslinger Kyle", "Gunslinger", "GSK"],
     "Description": "Charged:  +{PowerAttackBoost} attack to allies and leader for {PowerDuration}.",
     "Image": "KyleAdvCard",
     "ManaCost": 3,
@@ -10759,7 +10759,7 @@
     "Visible": true,
     "CanAttack": true,
     "Name": ["Hercules Clyde", "HC", "Hercules"],
-    "Description": "Warcry: Runs and hits nearest enemy with a magical force that stops their charge.",
+    "Description": "Warcry: Runs and hits nearest enemy with a magical force that stops their charge and deals an extra {PowerDamage} damage.",
     "Image": "ClydeMysCard",
     "ManaCost": 3,
     "Damage": "34",
@@ -21989,7 +21989,7 @@
     "Id": 146,
     "Visible": true,
     "CanAttack": true,
-    "Name": ["Cyborg Kenny", "CK", "Cyborg"],
+    "Name": ["Cyborg Kenny", "CK", "Cyborg", "BadFishmi"],
     "Description": "Deathwish: Heals {PowerHeal} to his killer and then controls them for {PowerDuration} seconds.",
     "Image": "KennySciCard",
     "ManaCost": 4,
@@ -50078,7 +50078,7 @@
     "Id": 2035,
     "Visible": true,
     "CanAttack": true,
-    "Name": ["Mr. Slave Executioner", "MSE", "Donger"],
+    "Name": ["Mr. Slave Executioner", "MSE", "Donger", "Slave"],
     "Description": "Enraged: Heals {PowerHeal} every time HP goes below half. Deathwish: Spawn {PowerSummonAmount} cocks.",
     "Image": "MrslaveFanCard",
     "ManaCost": 5,
@@ -50101,7 +50101,7 @@
     "PowerHeroHeal": null,
     "PowerMaxHPGain": null,
     "PowerMaxHPLoss": null,
-    "PowerSummonLevel": null,
+    "PowerSummonLevel": 1,
     "PowerDamage": null,
     "PowerHeroDamage": null,
     "PowerPoisonAmount": null,
@@ -50599,6 +50599,6 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.2,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 2
   }
 ]
