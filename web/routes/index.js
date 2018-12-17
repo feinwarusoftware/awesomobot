@@ -542,7 +542,7 @@ router.get("/dashboard/scripts/marketplace", authUser, async (req, res) => {
     res.render("dashboard/marketplace", { user_data: user_res.data });
 });
 
-router.get("/dashboard/leaderboards/legacy/v1", authUser, async (req, res) => {
+router.get("/dashboard/legacy/leaderboards/v1", authUser, async (req, res) => {
 
     let v1;
     try {
@@ -557,7 +557,7 @@ router.get("/dashboard/leaderboards/legacy/v1", authUser, async (req, res) => {
     res.render("dashboard/legacy-leaderboards", {v1:JSON.stringify(v1)});
 });
 
-router.get("/dashboard/leaderboards/legacy/v2", authUser, async (req, res) => {
+router.get("/dashboard/legacy/leaderboards/v2", authUser, async (req, res) => {
 
     let v2;
     try {
@@ -574,6 +574,11 @@ router.get("/dashboard/leaderboards/legacy/v2", authUser, async (req, res) => {
 router.get("/dashboard/commands", authUser, (req, res) => {
 
     res.render("dashboard/commands");
+});
+
+router.get("/dashboard/legacy/bindings", authUser, (req, res) => {
+
+    res.render("dashboard/legacy-bindings");
 });
 
 router.get("/dashboard/leaderboards", authUser, (req, res) => {

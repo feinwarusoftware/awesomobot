@@ -5,7 +5,7 @@
         <!-- Logo -->
         <div class="logo-wrapper waves-light" style="border-style: none; height: 80px">
             <a href="/dashboard">
-                <img src="/img/navbar_dash_logo.png" class="img-fluid flex-center px-4 py-4">
+                <img src="/img/navbar_dash_logo.svg" class="img-fluid flex-center px-4 py-4">
 
             </a>
         </div>
@@ -13,30 +13,30 @@
         <!-- Side navigation links -->
         <li>
             <ul class="collapsible collapsible-accordion">
-                    <li>
-                            <a class="waves-effect" href="/<%= trans.LANG %>">
-                                <%= trans.HOME %>
-                                    <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect" href="https://github.com/feinwarusoftware/awesomobot/wiki/Roadmap">
-                                <%= trans.ROADMAP %>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect" href="https://sppd.feinwaru.com">
-                                Phone Destroyer
-                            </a>
-                        </li>
+                <li>
+                    <a class="waves-effect" href="/<%= trans.LANG %>">
+                        <%= trans.HOME %>
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="waves-effect" href="https://github.com/feinwarusoftware/awesomobot/wiki/Roadmap">
+                        <%= trans.ROADMAP %>
+                    </a>
+                </li>
+                <li>
+                    <a class="waves-effect" href="https://sppd.feinwaru.com">
+                        Phone Destroyer
+                    </a>
+                </li>
 
-                        <li>
-                            <a class="waves-effect yellow-text" href="https://patreon.com/awesomo">
-                                <b>
-                                    <%= trans.PREMIUM %>
-                                </b>
-                            </a>
-                        </li>
+                <li>
+                    <a class="waves-effect yellow-text" href="https://patreon.com/awesomo">
+                        <b>
+                            <%= trans.PREMIUM %>
+                        </b>
+                    </a>
+                </li>
                 <hr style="border-width: 2px;">
                 <li>
                     <a href="/dashboard<%= trans.LANG %>" class="waves-effect">
@@ -47,7 +47,7 @@
                 </li>
                 <li>
                     <a id="profile-link-2" class=" waves-effect">
-                        <i class="fa fa-user" ></i>
+                        <i class="fa fa-user"></i>
                         <%= trans.VIEW_PROFILE %>
                     </a>
                 </li>
@@ -111,12 +111,13 @@
                 -->
                 <li>
                     <a class=" waves-effect">
-                        <i class="fa fa-code"></i><%= trans.SCRIPTS %></a>
+                        <i class="fa fa-code"></i>
+                        <%= trans.SCRIPTS %></a>
                     <div class="ml-3">
                         <ul>
                             <li>
                                 <a class="waves-effect" href="/dashboard/commands<%= trans.LANG %>">
-                                    <i class="fa fa-list" ></i>
+                                    <i class="fa fa-list"></i>
                                     <%= trans.COMMANDS %>
                                 </a>
                             </li>
@@ -142,7 +143,8 @@
                             </li>
                             <li>
                                 <a href="/dashboard/scripts/editor/advanced<%= trans.LANG %>">
-                                    <i style="margin-right:13px" class="fab fa-node-js"></i> <%= trans.SCRIPT_CREATOR %>
+                                    <i style="margin-right:13px" class="fab fa-node-js"></i>
+                                    <%= trans.SCRIPT_CREATOR %>
                                 </a>
                             </li>
                         </ul>
@@ -161,28 +163,37 @@
                     </a>
                     <div class="ml-3 pl-4">
                         <ul>
-
                             <li>
-                                <p class="ml-3 pl-1 mb-0 mt-2" style="font-size: 10pt;">
-                                    <b><%= trans.AWESOMO_2_STATS %></b>
-                                </p>
-                            </li>
-                            <li>
-                                <a href="/dashboard/leaderboards/legacy/v2<%= trans.LANG %>#activity" class="waves-effect"><%= trans.ACTIVITY_SCORES %></a>
-                            </li>
-                            <li>
-                                <a href="/dashboard/leaderboards/legacy/v2<%= trans.LANG %>#shit" class="waves-effect"><%= trans.IHTF %></a>
+                                <a href="/dashboard/legacy/bindings<%= trans.LANG %>" class="waves-effect">
+                                    <%= trans.LEGACY_BINDINGS %> <span class="badge blue">NEW</span></a>
                             </li>
                             <li>
                                 <p class="ml-3 pl-1 mb-0 mt-2" style="font-size: 10pt;">
-                                    <b><%= trans.AWESOMO_1_STATS %></b>
+                                    <b>
+                                        <%= trans.AWESOMO_2_STATS %></b>
                                 </p>
                             </li>
                             <li>
-                                <a href="/dashboard/leaderboards/legacy/v1<%= trans.LANG %>#activity" class="waves-effect"><%= trans.ACTIVITY_SCORES %></a>
+                                <a href="/dashboard/legacy/leaderboards/v2<%= trans.LANG %>#activity" class="waves-effect">
+                                    <%= trans.ACTIVITY_SCORES %></a>
                             </li>
                             <li>
-                                <a href="/dashboard/leaderboards/legacy/v1<%= trans.LANG %>#shit" class="waves-effect"><%= trans.IHTF %></a>
+                                <a href="/dashboard/legacy/leaderboards/v2<%= trans.LANG %>#shit" class="waves-effect">
+                                    <%= trans.IHTF %></a>
+                            </li>
+                            <li>
+                                <p class="ml-3 pl-1 mb-0 mt-2" style="font-size: 10pt;">
+                                    <b>
+                                        <%= trans.AWESOMO_1_STATS %></b>
+                                </p>
+                            </li>
+                            <li>
+                                <a href="/dashboard/legacy/leaderboards/v1<%= trans.LANG %>#activity" class="waves-effect">
+                                    <%= trans.ACTIVITY_SCORES %></a>
+                            </li>
+                            <li>
+                                <a href="/dashboard/legacy/leaderboards/v1<%= trans.LANG %>#shit" class="waves-effect">
+                                    <%= trans.IHTF %></a>
                             </li>
                         </ul>
                     </div>
@@ -255,7 +266,8 @@
 
 <script>
     "use strict";
-function getCookie(cname) {
+
+    function getCookie(cname) {
         var name = cname + "=";
         var decodedCookie = decodeURIComponent(document.cookie);
         var ca = decodedCookie.split(';');
@@ -344,7 +356,7 @@ function getCookie(cname) {
     document.getElementById("username").innerText = userYay.user.username;
     document.getElementById("profile-link").href = "/dashboard/profiles/" + userYay.user.discord_id +
         "<%= trans.LANG %>";
-        document.getElementById("profile-link-2").href = "/dashboard/profiles/" + userYay.user.discord_id +
+    document.getElementById("profile-link-2").href = "/dashboard/profiles/" + userYay.user.discord_id +
         "<%= trans.LANG %>";
     document.getElementById("profile-img").src = "https://cdn.discordapp.com/avatars/" + userYay.user.discord_id + "/" +
         userYay.user.avatar + ".png?size=128";
@@ -352,38 +364,40 @@ function getCookie(cname) {
     const currentServer = getCookie("currentServer");
     const selectedServer = document.getElementById("selected-server");
 
-    if (guildsYay.status == 404){
+    if (guildsYay.status == 404) {
         selectedServer.src = "https://cdn.discordapp.com/attachments/379432139856412682/509421343620595734/image.png";
         alert(`AWESOM-O is not on any of your servers. Please add him or join a server with AWESOM-O to continue`);
         window.location.replace("/")
     } else {
         for (let i = 0; i < guildsYay.guilds.length; i++) {
 
-        // in case the user is on no servers with awesomo
-        if (currentServer === undefined || currentServer === null || currentServer === "") {
+            // in case the user is on no servers with awesomo
+            if (currentServer === undefined || currentServer === null || currentServer === "") {
 
-            document.cookie = "currentServer=" + guildsYay.guilds[0].discord_id;
-            document.cookie = "currentServerName=" + guildsYay.guilds[0].name;
-            selectedServer.src = "https://cdn.discordapp.com/icons/" + guildsYay.guilds[0].discord_id + "/" + guildsYay.guilds[0].icon + ".png";
-        }
+                document.cookie = "currentServer=" + guildsYay.guilds[0].discord_id;
+                document.cookie = "currentServerName=" + guildsYay.guilds[0].name;
+                selectedServer.src = "https://cdn.discordapp.com/icons/" + guildsYay.guilds[0].discord_id + "/" +
+                    guildsYay.guilds[0].icon + ".png";
+            }
 
-        if (guildsYay.guilds[i].discord_id === currentServer) {
+            if (guildsYay.guilds[i].discord_id === currentServer) {
 
-            selectedServer.src = "https://cdn.discordapp.com/icons/" + guildsYay.guilds[i].discord_id + "/" + guildsYay.guilds[i].icon + ".png";
-        }
+                selectedServer.src = "https://cdn.discordapp.com/icons/" + guildsYay.guilds[i].discord_id + "/" +
+                    guildsYay.guilds[i].icon + ".png";
+            }
 
-        document.getElementById("server-list").innerHTML +=
-            `
+            document.getElementById("server-list").innerHTML +=
+                `
                 <a id="${guildsYay.guilds[i].discord_id}" class="dropdown-item waves-effect waves-light server" href="<%= trans.LANG %>">
                     <img src="${"https://cdn.discordapp.com/icons/" + guildsYay.guilds[i].discord_id + "/" + guildsYay.guilds[i].icon + ".png"}" class="rounded-circle z-depth-0 mr-2"
                         style="background-color: #333333; height: 32px"> ${guildsYay.guilds[i].name}
                 </a>
             `
-    }
+        }
     }
 
-    
-                
+
+
     const servers = document.getElementsByClassName("server");
     for (let i = 0; i < servers.length; i++) {
 
