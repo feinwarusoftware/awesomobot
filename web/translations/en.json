@@ -353,5 +353,7 @@
     "COOKIE_MESSAGE": "AWESOM-O uses cookies to ensure you get the best experience on our website.",
 
 
-    "CHRISTMAS_COMP": "Christmas competition winner"
+    "CHRISTMAS_COMP": "Christmas competition winner",
+    "LEGACY_BINDINGS":"Legacy Bindings",
+    "LEGACY_BINDINGS_DESC":"Viewing all of your bindings made in version 2.0"
 }
