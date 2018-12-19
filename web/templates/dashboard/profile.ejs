@@ -695,6 +695,14 @@
                         </div>`
             )
         };
+        if (profileyay.trophies.indexOf("christmas-comp") !== -1) {
+            $("#trophycase").append(
+                `<div class="mx-1 chip white-text style="background-color: #ad1123;">
+                            <img src="/img/trophy/trophy-christmas.png">
+                            <%= trans.CHRISTMAS_COMP %>
+                        </div>`
+            )
+        };
         if (profileyay.trophies.indexOf("ac18_1") !== -1) {
             $("#trophycase").append(
                 `<div class="mx-1 chip white-text" style="background-color: #fd9a19;">
