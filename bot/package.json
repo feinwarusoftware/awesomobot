@@ -11,17 +11,16 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^11.4.2",
-    "erlpack": "github:hammerandchisel/erlpack",
     "jimp": "^0.5.6",
     "moment-timezone": "^0.5.23",
     "mongoose": "^5.3.11",
-    "node-opus": "^0.3.1",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
-    "sharp": "^0.21.0",
-    "sodium": "github:general-programming/node-sodium",
-    "uws": "^99.0.0",
-    "youtube-search": "^1.1.3",
-    "ytdl-core": "^0.28.0"
+    "sharp": "^0.21.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.11.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0"
   }
 }

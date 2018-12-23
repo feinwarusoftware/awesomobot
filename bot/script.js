@@ -1,45 +1,41 @@
-"use strict";
-
 class Script {
-    constructor(options) {
+  constructor(options) {
+    this.author_id = options.author_id;
 
-        this.author_id = options.author_id;
+    this.name = options.name;
+    this.description = options.description;
+    this.thumbnail = options.thumbnail;
+    this.marketplace_enabled = options.marketplace_enabled;
 
-        this.name = options.name;
-        this.description = options.description;
-        this.thumbnail = options.thumbnail;
-        this.marketplace_enabled = options.marketplace_enabled;
+    this.type = options.type;
+    this.match_type = options.match_type;
+    this.match = options.match;
 
-        this.type = options.type;
-        this.match_type = options.match_type;
-        this.match = options.match;
+    this.featured = options.featured;
 
-        this.featured = options.featured;
+    this.preload = options.preload;
 
-        this.preload = options.preload;
+    this.cb = options.cb;
+    this.load = options.load;
+  }
 
-        this.cb = options.cb;
-        this.load = options.load;
-    }
-    run(client, message, guild, user, script, match) {
-        this.cb(client, message, guild, user, script, match);
-    }
-    startup() {
-        return new Promise(async (resolve, reject) => {
-            if (this.load != null) {
+  run(client, message, guild, user, script, match) {
+    this.cb(client, message, guild, user, script, match);
+  }
 
-                try {
-                    await this.load();
+  startup() {
+    return new Promise(async (resolve, reject) => {
+      if (this.load != null) {
+        try {
+          await this.load();
+        } catch (err) {
+          return reject(err);
+        }
+      }
 
-                } catch(err) {
-
-                    return reject(err);
-                }
-            }
-
-            resolve();
-        });
-    }
+      return resolve();
+    });
+  }
 }
 
 module.exports = Script;

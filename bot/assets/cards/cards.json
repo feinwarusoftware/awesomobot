@@ -47636,127 +47636,127 @@
         {
           "x": 0,
           "property": "MaxHealth",
-          "value": 31.0
+          "value": 5.0
         },
         {
           "x": 1,
           "property": "Damage",
-          "value": 2.0
+          "value": 1.0
         },
         {
           "x": 2,
-          "property": "PowerDamageAbs",
-          "value": 11.0
+          "property": "MaxHealth",
+          "value": 6.0
         },
         {
           "x": 3,
-          "property": "MaxHealth",
-          "value": 43.0
-        },
-        {
-          "x": 4,
           "property": "Damage",
           "value": 1.0
         },
         {
+          "x": 4,
+          "property": "MaxHealth",
+          "value": 5.0
+        },
+        {
           "x": 5,
-          "property": "PowerDamageAbs",
-          "value": 9.0
+          "property": "Damage",
+          "value": 1.0
         },
         {
           "x": 6,
           "property": "MaxHealth",
-          "value": 60.0
+          "value": 6.0
         },
         {
           "x": 7,
           "property": "Damage",
-          "value": 2.0
+          "value": 1.0
         },
         {
           "x": 8,
-          "property": "PowerDamageAbs",
-          "value": 12.0
+          "property": "MaxHealth",
+          "value": 7.0
         },
         {
           "x": 9,
-          "property": "MaxHealth",
-          "value": 81.0
-        },
-        {
-          "x": 10,
           "property": "Damage",
           "value": 2.0
         },
         {
+          "x": 10,
+          "property": "MaxHealth",
+          "value": 8.0
+        },
+        {
           "x": 11,
-          "property": "PowerDamageAbs",
-          "value": 15.0
+          "property": "Damage",
+          "value": 2.0
         },
         {
           "x": 12,
           "property": "MaxHealth",
-          "value": 106.0
+          "value": 10.0
         },
         {
           "x": 13,
           "property": "Damage",
-          "value": 3.0
+          "value": 2.0
         },
         {
           "x": 14,
-          "property": "PowerDamageAbs",
-          "value": 8.0
+          "property": "MaxHealth",
+          "value": 5.0
         },
         {
           "x": 15,
-          "property": "MaxHealth",
-          "value": 91.0
+          "property": "Damage",
+          "value": 1.0
         },
         {
           "x": 16,
-          "property": "Damage",
-          "value": 3.0
+          "property": "MaxHealth",
+          "value": 6.0
         },
         {
           "x": 17,
-          "property": "PowerDamageAbs",
-          "value": 11.0
+          "property": "Damage",
+          "value": 1.0
         },
         {
           "x": 18,
           "property": "MaxHealth",
-          "value": 120.0
+          "value": 7.0
         },
         {
           "x": 19,
           "property": "Damage",
-          "value": 4.0
+          "value": 2.0
         },
         {
           "x": 20,
-          "property": "PowerDamageAbs",
-          "value": 15.0
+          "property": "MaxHealth",
+          "value": 8.0
         },
         {
           "x": 21,
-          "property": "MaxHealth",
-          "value": 159.0
+          "property": "Damage",
+          "value": 2.0
         },
         {
           "x": 22,
-          "property": "Damage",
-          "value": 5.0
+          "property": "MaxHealth",
+          "value": 10.0
         },
         {
           "x": 23,
-          "property": "PowerDamageAbs",
-          "value": 19.0
+          "property": "Damage",
+          "value": 2.0
         },
         {
           "x": 24,
           "property": "MaxHealth",
-          "value": 38.0
+          "value": 3.0
         },
         {
           "x": 25,
@@ -47765,28 +47765,28 @@
         },
         {
           "x": 26,
-          "property": "PowerDamageAbs",
-          "value": 6.0
+          "property": "MaxHealth",
+          "value": 4.0
         },
         {
           "x": 27,
-          "property": "MaxHealth",
-          "value": 52.0
+          "property": "Damage",
+          "value": 1.0
         },
         {
           "x": 28,
-          "property": "Damage",
-          "value": 2.0
+          "property": "MaxHealth",
+          "value": 4.0
         },
         {
           "x": 29,
-          "property": "PowerDamageAbs",
-          "value": 8.0
+          "property": "Damage",
+          "value": 1.0
         },
         {
           "x": 30,
           "property": "MaxHealth",
-          "value": 69.0
+          "value": 5.0
         },
         {
           "x": 31,
@@ -47795,58 +47795,58 @@
         },
         {
           "x": 32,
-          "property": "PowerDamageAbs",
-          "value": 10.0
+          "property": "MaxHealth",
+          "value": 7.0
         },
         {
           "x": 33,
-          "property": "MaxHealth",
-          "value": 87.0
+          "property": "Damage",
+          "value": 2.0
         },
         {
           "x": 34,
-          "property": "Damage",
-          "value": 3.0
+          "property": "MaxHealth",
+          "value": 8.0
         },
         {
           "x": 35,
-          "property": "PowerDamageAbs",
-          "value": 13.0
+          "property": "Damage",
+          "value": 2.0
         },
         {
           "x": 36,
           "property": "MaxHealth",
-          "value": 123.0
+          "value": 10.0
         },
         {
           "x": 37,
           "property": "Damage",
-          "value": 4.0
+          "value": 3.0
         },
         {
           "x": 38,
-          "property": "PowerDamageAbs",
-          "value": 18.0
+          "property": "MaxHealth",
+          "value": 12.0
         },
         {
           "x": 39,
-          "property": "MaxHealth",
-          "value": 13.0
-        },
-        {
-          "x": 40,
           "property": "Damage",
           "value": 1.0
         },
         {
-          "x": 41,
-          "property": "PowerDamageAbs",
+          "x": 40,
+          "property": "MaxHealth",
           "value": 2.0
+        },
+        {
+          "x": 41,
+          "property": "Damage",
+          "value": 1.0
         },
         {
           "x": 42,
           "property": "MaxHealth",
-          "value": 17.0
+          "value": 2.0
         },
         {
           "x": 43,
@@ -47855,28 +47855,28 @@
         },
         {
           "x": 44,
-          "property": "PowerDamageAbs",
+          "property": "MaxHealth",
           "value": 3.0
         },
         {
           "x": 45,
-          "property": "MaxHealth",
-          "value": 23.0
-        },
-        {
-          "x": 46,
           "property": "Damage",
           "value": 1.0
         },
         {
-          "x": 47,
-          "property": "PowerDamageAbs",
+          "x": 46,
+          "property": "MaxHealth",
           "value": 3.0
+        },
+        {
+          "x": 47,
+          "property": "Damage",
+          "value": 1.0
         },
         {
           "x": 48,
           "property": "MaxHealth",
-          "value": 29.0
+          "value": 4.0
         },
         {
           "x": 49,
@@ -47885,28 +47885,28 @@
         },
         {
           "x": 50,
-          "property": "PowerDamageAbs",
-          "value": 4.0
+          "property": "MaxHealth",
+          "value": 5.0
         },
         {
           "x": 51,
-          "property": "MaxHealth",
-          "value": 41.0
-        },
-        {
-          "x": 52,
           "property": "Damage",
           "value": 1.0
         },
         {
-          "x": 53,
-          "property": "PowerDamageAbs",
+          "x": 52,
+          "property": "MaxHealth",
           "value": 6.0
+        },
+        {
+          "x": 53,
+          "property": "Damage",
+          "value": 1.0
         },
         {
           "x": 54,
           "property": "MaxHealth",
-          "value": 5.0
+          "value": 1.0
         },
         {
           "x": 55,
@@ -47915,28 +47915,28 @@
         },
         {
           "x": 56,
-          "property": "PowerDamageAbs",
+          "property": "MaxHealth",
           "value": 1.0
         },
         {
           "x": 57,
-          "property": "MaxHealth",
-          "value": 7.0
-        },
-        {
-          "x": 58,
           "property": "Damage",
           "value": 1.0
         },
         {
+          "x": 58,
+          "property": "MaxHealth",
+          "value": 1.0
+        },
+        {
           "x": 59,
-          "property": "PowerDamageAbs",
+          "property": "Damage",
           "value": 1.0
         },
         {
           "x": 60,
           "property": "MaxHealth",
-          "value": 9.0
+          "value": 2.0
         },
         {
           "x": 61,
@@ -47945,28 +47945,28 @@
         },
         {
           "x": 62,
-          "property": "PowerDamageAbs",
-          "value": 1.0
+          "property": "MaxHealth",
+          "value": 2.0
         },
         {
           "x": 63,
-          "property": "MaxHealth",
-          "value": 12.0
-        },
-        {
-          "x": 64,
           "property": "Damage",
           "value": 1.0
         },
         {
+          "x": 64,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
           "x": 65,
-          "property": "PowerDamageAbs",
-          "value": 2.0
+          "property": "Damage",
+          "value": 1.0
         },
         {
           "x": 66,
           "property": "MaxHealth",
-          "value": 16.0
+          "value": 3.0
         },
         {
           "x": 67,
@@ -47975,8 +47975,8 @@
         },
         {
           "x": 68,
-          "property": "PowerDamageAbs",
-          "value": 2.0
+          "property": "MaxHealth",
+          "value": 4.0
         }
       ],
       "Evolve": [
@@ -47986,7 +47986,7 @@
             {
               "x": 0,
               "property": "MaxHealth",
-              "value": 205.0
+              "value": 29.0
             },
             {
               "x": 0,
@@ -48001,7 +48001,7 @@
             {
               "x": 0,
               "property": "MaxHealth",
-              "value": 616.0
+              "value": 87.0
             },
             {
               "x": 0,
@@ -48016,7 +48016,7 @@
             {
               "x": 0,
               "property": "MaxHealth",
-              "value": 410.0
+              "value": 58.0
             },
             {
               "x": 0,
@@ -48031,7 +48031,7 @@
             {
               "x": 0,
               "property": "MaxHealth",
-              "value": 205.0
+              "value": 29.0
             },
             {
               "x": 0,
@@ -48046,7 +48046,7 @@
             {
               "x": 0,
               "property": "MaxHealth",
-              "value": 205.0
+              "value": 29.0
             },
             {
               "x": 0,
@@ -48061,7 +48061,7 @@
             {
               "x": 0,
               "property": "MaxHealth",
-              "value": 205.0
+              "value": 29.0
             },
             {
               "x": 0,
