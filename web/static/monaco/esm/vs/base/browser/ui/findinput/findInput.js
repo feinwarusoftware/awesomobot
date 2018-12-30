@@ -2,11 +2,13 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -16,15 +18,17 @@ var __extends = (this && this.__extends) || (function () {
 import './findInput.css';
 import * as nls from '../../../../nls.js';
 import * as dom from '../../dom.js';
-import { InputBox } from '../inputbox/inputBox.js';
+import { HistoryInputBox } from '../inputbox/inputBox.js';
 import { Widget } from '../widget.js';
 import { Emitter } from '../../../common/event.js';
 import { CaseSensitiveCheckbox, WholeWordsCheckbox, RegexCheckbox } from './findInputCheckboxes.js';
 var NLS_DEFAULT_LABEL = nls.localize('defaultLabel', "input");
 var FindInput = /** @class */ (function (_super) {
     __extends(FindInput, _super);
-    function FindInput(parent, contextViewProvider, options) {
+    function FindInput(parent, contextViewProvider, _showOptionButtons, options) {
         var _this = _super.call(this) || this;
+        _this._showOptionButtons = _showOptionButtons;
+        _this.fixFocusOnOptionClickEnabled = true;
         _this._onDidOptionChange = _this._register(new Emitter());
         _this.onDidOptionChange = _this._onDidOptionChange.event;
         _this._onKeyDown = _this._register(new Emitter());
@@ -32,11 +36,10 @@ var FindInput = /** @class */ (function (_super) {
         _this._onMouseDown = _this._register(new Emitter());
         _this.onMouseDown = _this._onMouseDown.event;
         _this._onInput = _this._register(new Emitter());
-        _this.onInput = _this._onInput.event;
         _this._onKeyUp = _this._register(new Emitter());
-        _this.onKeyUp = _this._onKeyUp.event;
         _this._onCaseSensitiveKeyDown = _this._register(new Emitter());
         _this.onCaseSensitiveKeyDown = _this._onCaseSensitiveKeyDown.event;
+        _this._onRegexKeyDown = _this._register(new Emitter());
         _this._lastHighlightFindOptions = 0;
         _this.contextViewProvider = contextViewProvider;
         _this.width = options.width || 100;
@@ -49,16 +52,19 @@ var FindInput = /** @class */ (function (_super) {
         _this.inputBorder = options.inputBorder;
         _this.inputValidationInfoBorder = options.inputValidationInfoBorder;
         _this.inputValidationInfoBackground = options.inputValidationInfoBackground;
+        _this.inputValidationInfoForeground = options.inputValidationInfoForeground;
         _this.inputValidationWarningBorder = options.inputValidationWarningBorder;
         _this.inputValidationWarningBackground = options.inputValidationWarningBackground;
+        _this.inputValidationWarningForeground = options.inputValidationWarningForeground;
         _this.inputValidationErrorBorder = options.inputValidationErrorBorder;
         _this.inputValidationErrorBackground = options.inputValidationErrorBackground;
+        _this.inputValidationErrorForeground = options.inputValidationErrorForeground;
         _this.regex = null;
         _this.wholeWords = null;
         _this.caseSensitive = null;
         _this.domNode = null;
         _this.inputBox = null;
-        _this.buildDomNode(options.appendCaseSensitiveLabel || '', options.appendWholeWordsLabel || '', options.appendRegexLabel || '');
+        _this.buildDomNode(options.appendCaseSensitiveLabel || '', options.appendWholeWordsLabel || '', options.appendRegexLabel || '', options.history);
         if (Boolean(parent)) {
             parent.appendChild(_this.domNode);
         }
@@ -82,6 +88,9 @@ var FindInput = /** @class */ (function (_super) {
         this.wholeWords.disable();
         this.caseSensitive.disable();
     };
+    FindInput.prototype.setFocusInputOnOptionClick = function (value) {
+        this.fixFocusOnOptionClickEnabled = value;
+    };
     FindInput.prototype.setEnabled = function (enabled) {
         if (enabled) {
             this.enable();
@@ -89,17 +98,6 @@ var FindInput = /** @class */ (function (_super) {
         else {
             this.disable();
         }
-    };
-    FindInput.prototype.clear = function () {
-        this.clearValidation();
-        this.setValue('');
-        this.focus();
-    };
-    FindInput.prototype.setWidth = function (newWidth) {
-        this.width = newWidth;
-        this.domNode.style.width = this.width + 'px';
-        this.contextViewProvider.layout();
-        this.setInputWidth();
     };
     FindInput.prototype.getValue = function () {
         return this.inputBox.value;
@@ -115,10 +113,13 @@ var FindInput = /** @class */ (function (_super) {
         this.inputForeground = styles.inputForeground;
         this.inputBorder = styles.inputBorder;
         this.inputValidationInfoBackground = styles.inputValidationInfoBackground;
+        this.inputValidationInfoForeground = styles.inputValidationInfoForeground;
         this.inputValidationInfoBorder = styles.inputValidationInfoBorder;
         this.inputValidationWarningBackground = styles.inputValidationWarningBackground;
+        this.inputValidationWarningForeground = styles.inputValidationWarningForeground;
         this.inputValidationWarningBorder = styles.inputValidationWarningBorder;
         this.inputValidationErrorBackground = styles.inputValidationErrorBackground;
+        this.inputValidationErrorForeground = styles.inputValidationErrorForeground;
         this.inputValidationErrorBorder = styles.inputValidationErrorBorder;
         this.applyStyles();
     };
@@ -135,10 +136,13 @@ var FindInput = /** @class */ (function (_super) {
                 inputForeground: this.inputForeground,
                 inputBorder: this.inputBorder,
                 inputValidationInfoBackground: this.inputValidationInfoBackground,
+                inputValidationInfoForeground: this.inputValidationInfoForeground,
                 inputValidationInfoBorder: this.inputValidationInfoBorder,
                 inputValidationWarningBackground: this.inputValidationWarningBackground,
+                inputValidationWarningForeground: this.inputValidationWarningForeground,
                 inputValidationWarningBorder: this.inputValidationWarningBorder,
                 inputValidationErrorBackground: this.inputValidationErrorBackground,
+                inputValidationErrorForeground: this.inputValidationErrorForeground,
                 inputValidationErrorBorder: this.inputValidationErrorBorder
             };
             this.inputBox.style(inputBoxStyles);
@@ -184,12 +188,12 @@ var FindInput = /** @class */ (function (_super) {
         var w = this.width - this.caseSensitive.width() - this.wholeWords.width() - this.regex.width();
         this.inputBox.width = w;
     };
-    FindInput.prototype.buildDomNode = function (appendCaseSensitiveLabel, appendWholeWordsLabel, appendRegexLabel) {
+    FindInput.prototype.buildDomNode = function (appendCaseSensitiveLabel, appendWholeWordsLabel, appendRegexLabel, history) {
         var _this = this;
         this.domNode = document.createElement('div');
         this.domNode.style.width = this.width + 'px';
         dom.addClass(this.domNode, 'monaco-findInput');
-        this.inputBox = this._register(new InputBox(this.domNode, this.contextViewProvider, {
+        this.inputBox = this._register(new HistoryInputBox(this.domNode, this.contextViewProvider, {
             placeholder: this.placeholder || '',
             ariaLabel: this.label || '',
             validationOptions: {
@@ -199,53 +203,60 @@ var FindInput = /** @class */ (function (_super) {
             inputForeground: this.inputForeground,
             inputBorder: this.inputBorder,
             inputValidationInfoBackground: this.inputValidationInfoBackground,
+            inputValidationInfoForeground: this.inputValidationInfoForeground,
             inputValidationInfoBorder: this.inputValidationInfoBorder,
             inputValidationWarningBackground: this.inputValidationWarningBackground,
+            inputValidationWarningForeground: this.inputValidationWarningForeground,
             inputValidationWarningBorder: this.inputValidationWarningBorder,
             inputValidationErrorBackground: this.inputValidationErrorBackground,
-            inputValidationErrorBorder: this.inputValidationErrorBorder
+            inputValidationErrorForeground: this.inputValidationErrorForeground,
+            inputValidationErrorBorder: this.inputValidationErrorBorder,
+            history: history
         }));
         this.regex = this._register(new RegexCheckbox({
             appendTitle: appendRegexLabel,
             isChecked: false,
-            onChange: function (viaKeyboard) {
-                _this._onDidOptionChange.fire(viaKeyboard);
-                if (!viaKeyboard) {
-                    _this.inputBox.focus();
-                }
-                _this.setInputWidth();
-                _this.validate();
-            },
             inputActiveOptionBorder: this.inputActiveOptionBorder
+        }));
+        this._register(this.regex.onChange(function (viaKeyboard) {
+            _this._onDidOptionChange.fire(viaKeyboard);
+            if (!viaKeyboard && _this.fixFocusOnOptionClickEnabled) {
+                _this.inputBox.focus();
+            }
+            _this.setInputWidth();
+            _this.validate();
+        }));
+        this._register(this.regex.onKeyDown(function (e) {
+            _this._onRegexKeyDown.fire(e);
         }));
         this.wholeWords = this._register(new WholeWordsCheckbox({
             appendTitle: appendWholeWordsLabel,
             isChecked: false,
-            onChange: function (viaKeyboard) {
-                _this._onDidOptionChange.fire(viaKeyboard);
-                if (!viaKeyboard) {
-                    _this.inputBox.focus();
-                }
-                _this.setInputWidth();
-                _this.validate();
-            },
             inputActiveOptionBorder: this.inputActiveOptionBorder
+        }));
+        this._register(this.wholeWords.onChange(function (viaKeyboard) {
+            _this._onDidOptionChange.fire(viaKeyboard);
+            if (!viaKeyboard && _this.fixFocusOnOptionClickEnabled) {
+                _this.inputBox.focus();
+            }
+            _this.setInputWidth();
+            _this.validate();
         }));
         this.caseSensitive = this._register(new CaseSensitiveCheckbox({
             appendTitle: appendCaseSensitiveLabel,
             isChecked: false,
-            onChange: function (viaKeyboard) {
-                _this._onDidOptionChange.fire(viaKeyboard);
-                if (!viaKeyboard) {
-                    _this.inputBox.focus();
-                }
-                _this.setInputWidth();
-                _this.validate();
-            },
-            onKeyDown: function (e) {
-                _this._onCaseSensitiveKeyDown.fire(e);
-            },
             inputActiveOptionBorder: this.inputActiveOptionBorder
+        }));
+        this._register(this.caseSensitive.onChange(function (viaKeyboard) {
+            _this._onDidOptionChange.fire(viaKeyboard);
+            if (!viaKeyboard && _this.fixFocusOnOptionClickEnabled) {
+                _this.inputBox.focus();
+            }
+            _this.setInputWidth();
+            _this.validate();
+        }));
+        this._register(this.caseSensitive.onKeyDown(function (e) {
+            _this._onCaseSensitiveKeyDown.fire(e);
         }));
         // Arrow-Key support to navigate between options
         var indexes = [this.caseSensitive.domNode, this.wholeWords.domNode, this.regex.domNode];
@@ -278,6 +289,7 @@ var FindInput = /** @class */ (function (_super) {
         this.setInputWidth();
         var controls = document.createElement('div');
         controls.className = 'controls';
+        controls.style.display = this._showOptionButtons ? 'block' : 'none';
         controls.appendChild(this.caseSensitive.domNode);
         controls.appendChild(this.wholeWords.domNode);
         controls.appendChild(this.regex.domNode);
@@ -286,19 +298,12 @@ var FindInput = /** @class */ (function (_super) {
     FindInput.prototype.validate = function () {
         this.inputBox.validate();
     };
-    FindInput.prototype.showMessage = function (message) {
-        this.inputBox.showMessage(message);
-    };
     FindInput.prototype.clearMessage = function () {
-        this.inputBox.hideMessage();
-    };
-    FindInput.prototype.clearValidation = function () {
         this.inputBox.hideMessage();
     };
     FindInput.prototype.dispose = function () {
         _super.prototype.dispose.call(this);
     };
-    FindInput.OPTION_CHANGE = 'optionChange';
     return FindInput;
 }(Widget));
 export { FindInput };

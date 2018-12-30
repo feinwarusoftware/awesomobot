@@ -2,80 +2,98 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
 };
+import { always } from '../../base/common/async.js';
 import { illegalArgument } from '../../base/common/errors.js';
-import URI from '../../base/common/uri.js';
+import { URI } from '../../base/common/uri.js';
+import { ICodeEditorService } from './services/codeEditorService.js';
+import { Position } from '../common/core/position.js';
+import { IModelService } from '../common/services/modelService.js';
+import { ITextModelService } from '../common/services/resolverService.js';
+import { MenuId, MenuRegistry } from '../../platform/actions/common/actions.js';
 import { CommandsRegistry } from '../../platform/commands/common/commands.js';
+import { ContextKeyExpr, IContextKeyService } from '../../platform/contextkey/common/contextkey.js';
 import { KeybindingsRegistry } from '../../platform/keybinding/common/keybindingsRegistry.js';
 import { Registry } from '../../platform/registry/common/platform.js';
 import { ITelemetryService } from '../../platform/telemetry/common/telemetry.js';
-import { Position } from '../common/core/position.js';
-import { IModelService } from '../common/services/modelService.js';
-import { MenuId, MenuRegistry } from '../../platform/actions/common/actions.js';
-import { IEditorService } from '../../platform/editor/common/editor.js';
-import { IContextKeyService, ContextKeyExpr } from '../../platform/contextkey/common/contextkey.js';
-import { ICodeEditorService, getCodeEditor } from './services/codeEditorService.js';
 var Command = /** @class */ (function () {
     function Command(opts) {
         this.id = opts.id;
         this.precondition = opts.precondition;
         this._kbOpts = opts.kbOpts;
+        this._menubarOpts = opts.menubarOpts;
         this._description = opts.description;
     }
-    Command.prototype.toCommandAndKeybindingRule = function (defaultWeight) {
+    Command.prototype.register = function () {
         var _this = this;
-        var kbOpts = this._kbOpts || { primary: 0 };
-        var kbWhen = kbOpts.kbExpr;
-        if (this.precondition) {
-            if (kbWhen) {
-                kbWhen = ContextKeyExpr.and(kbWhen, this.precondition);
-            }
-            else {
-                kbWhen = this.precondition;
-            }
+        if (this._menubarOpts) {
+            MenuRegistry.appendMenuItem(this._menubarOpts.menuId, {
+                group: this._menubarOpts.group,
+                command: {
+                    id: this.id,
+                    title: this._menubarOpts.title,
+                },
+                when: this._menubarOpts.when,
+                order: this._menubarOpts.order
+            });
         }
-        var weight = (typeof kbOpts.weight === 'number' ? kbOpts.weight : defaultWeight);
-        return {
-            id: this.id,
-            handler: function (accessor, args) { return _this.runCommand(accessor, args); },
-            weight: weight,
-            when: kbWhen,
-            primary: kbOpts.primary,
-            secondary: kbOpts.secondary,
-            win: kbOpts.win,
-            linux: kbOpts.linux,
-            mac: kbOpts.mac,
-            description: this._description
-        };
+        if (this._kbOpts) {
+            var kbWhen = this._kbOpts.kbExpr;
+            if (this.precondition) {
+                if (kbWhen) {
+                    kbWhen = ContextKeyExpr.and(kbWhen, this.precondition);
+                }
+                else {
+                    kbWhen = this.precondition;
+                }
+            }
+            KeybindingsRegistry.registerCommandAndKeybindingRule({
+                id: this.id,
+                handler: function (accessor, args) { return _this.runCommand(accessor, args); },
+                weight: this._kbOpts.weight,
+                when: kbWhen || null,
+                primary: this._kbOpts.primary,
+                secondary: this._kbOpts.secondary,
+                win: this._kbOpts.win,
+                linux: this._kbOpts.linux,
+                mac: this._kbOpts.mac,
+                description: this._description
+            });
+        }
+        else {
+            CommandsRegistry.registerCommand({
+                id: this.id,
+                handler: function (accessor, args) { return _this.runCommand(accessor, args); },
+                description: this._description
+            });
+        }
     };
     return Command;
 }());
 export { Command };
-//#endregion Command
-//#region EditorCommand
-function getWorkbenchActiveEditor(accessor) {
-    var editorService = accessor.get(IEditorService);
-    var activeEditor = editorService.getActiveEditor && editorService.getActiveEditor();
-    return getCodeEditor(activeEditor);
-}
 var EditorCommand = /** @class */ (function (_super) {
     __extends(EditorCommand, _super);
     function EditorCommand() {
@@ -104,12 +122,8 @@ var EditorCommand = /** @class */ (function (_super) {
     EditorCommand.prototype.runCommand = function (accessor, args) {
         var _this = this;
         var codeEditorService = accessor.get(ICodeEditorService);
-        // Find the editor with text focus
-        var editor = codeEditorService.getFocusedCodeEditor();
-        if (!editor) {
-            // Fallback to use what the workbench considers the active editor
-            editor = getWorkbenchActiveEditor(accessor);
-        }
+        // Find the editor with text focus or active
+        var editor = codeEditorService.getFocusedCodeEditor() || codeEditorService.getActiveCodeEditor();
         if (!editor) {
             // well, at least we tried...
             return;
@@ -135,19 +149,19 @@ var EditorAction = /** @class */ (function (_super) {
         _this.menuOpts = opts.menuOpts;
         return _this;
     }
-    EditorAction.prototype.toMenuItem = function () {
-        if (!this.menuOpts) {
-            return null;
+    EditorAction.prototype.register = function () {
+        if (this.menuOpts) {
+            MenuRegistry.appendMenuItem(MenuId.EditorContext, {
+                command: {
+                    id: this.id,
+                    title: this.label
+                },
+                when: ContextKeyExpr.and(this.precondition, this.menuOpts.when),
+                group: this.menuOpts.group,
+                order: this.menuOpts.order
+            });
         }
-        return {
-            command: {
-                id: this.id,
-                title: this.label
-            },
-            when: ContextKeyExpr.and(this.precondition, this.menuOpts.when),
-            group: this.menuOpts.group,
-            order: this.menuOpts.order
-        };
+        _super.prototype.register.call(this);
     };
     EditorAction.prototype.runEditorCommand = function (accessor, editor, args) {
         this.reportTelemetry(accessor, editor);
@@ -183,11 +197,23 @@ export function registerDefaultLanguageCommand(id, handler) {
             throw illegalArgument('position');
         }
         var model = accessor.get(IModelService).getModel(resource);
-        if (!model) {
-            throw illegalArgument('Can not find open model for ' + resource);
+        if (model) {
+            var editorPosition = Position.lift(position);
+            return handler(model, editorPosition, args);
         }
-        var editorPosition = Position.lift(position);
-        return handler(model, editorPosition, args);
+        return accessor.get(ITextModelService).createModelReference(resource).then(function (reference) {
+            return always(new Promise(function (resolve, reject) {
+                try {
+                    var result = handler(reference.object.textEditorModel, Position.lift(position), args);
+                    resolve(result);
+                }
+                catch (err) {
+                    reject(err);
+                }
+            }), function () {
+                reference.dispose();
+            });
+        });
     });
 }
 export function registerEditorCommand(editorCommand) {
@@ -232,11 +258,7 @@ var EditorContributionRegistry = /** @class */ (function () {
         this.editorContributions.push(ctor);
     };
     EditorContributionRegistry.prototype.registerEditorAction = function (action) {
-        var menuItem = action.toMenuItem();
-        if (menuItem) {
-            MenuRegistry.appendMenuItem(MenuId.EditorContext, menuItem);
-        }
-        KeybindingsRegistry.registerCommandAndKeybindingRule(action.toCommandAndKeybindingRule(KeybindingsRegistry.WEIGHT.editorContrib()));
+        action.register();
         this.editorActions.push(action);
     };
     EditorContributionRegistry.prototype.getEditorContributions = function () {
@@ -246,7 +268,7 @@ var EditorContributionRegistry = /** @class */ (function () {
         return this.editorActions.slice(0);
     };
     EditorContributionRegistry.prototype.registerEditorCommand = function (editorCommand) {
-        KeybindingsRegistry.registerCommandAndKeybindingRule(editorCommand.toCommandAndKeybindingRule(KeybindingsRegistry.WEIGHT.editorContrib()));
+        editorCommand.register();
         this.editorCommands[editorCommand.id] = editorCommand;
     };
     EditorContributionRegistry.prototype.getEditorCommand = function (commandId) {

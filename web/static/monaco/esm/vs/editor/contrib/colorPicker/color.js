@@ -2,18 +2,17 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import URI from '../../../base/common/uri.js';
-import { TPromise } from '../../../base/common/winjs.base.js';
-import { ColorProviderRegistry } from '../../common/modes.js';
-import { asWinJsPromise } from '../../../base/common/async.js';
+import { CancellationToken } from '../../../base/common/cancellation.js';
+import { illegalArgument } from '../../../base/common/errors.js';
+import { URI } from '../../../base/common/uri.js';
 import { registerLanguageCommand } from '../../browser/editorExtensions.js';
 import { Range } from '../../common/core/range.js';
-import { illegalArgument } from '../../../base/common/errors.js';
+import { ColorProviderRegistry } from '../../common/modes.js';
 import { IModelService } from '../../common/services/modelService.js';
-export function getColors(model) {
+export function getColors(model, token) {
     var colors = [];
     var providers = ColorProviderRegistry.ordered(model).reverse();
-    var promises = providers.map(function (provider) { return asWinJsPromise(function (token) { return provider.provideDocumentColors(model, token); }).then(function (result) {
+    var promises = providers.map(function (provider) { return Promise.resolve(provider.provideDocumentColors(model, token)).then(function (result) {
         if (Array.isArray(result)) {
             for (var _i = 0, result_1 = result; _i < result_1.length; _i++) {
                 var colorInfo = result_1[_i];
@@ -21,10 +20,10 @@ export function getColors(model) {
             }
         }
     }); });
-    return TPromise.join(promises).then(function () { return colors; });
+    return Promise.all(promises).then(function () { return colors; });
 }
-export function getColorPresentations(model, colorInfo, provider) {
-    return asWinJsPromise(function (token) { return provider.provideColorPresentations(model, colorInfo, token); });
+export function getColorPresentations(model, colorInfo, provider, token) {
+    return Promise.resolve(provider.provideColorPresentations(model, colorInfo, token));
 }
 registerLanguageCommand('_executeDocumentColorProvider', function (accessor, args) {
     var resource = args.resource;
@@ -37,7 +36,7 @@ registerLanguageCommand('_executeDocumentColorProvider', function (accessor, arg
     }
     var rawCIs = [];
     var providers = ColorProviderRegistry.ordered(model).reverse();
-    var promises = providers.map(function (provider) { return asWinJsPromise(function (token) { return provider.provideDocumentColors(model, token); }).then(function (result) {
+    var promises = providers.map(function (provider) { return Promise.resolve(provider.provideDocumentColors(model, CancellationToken.None)).then(function (result) {
         if (Array.isArray(result)) {
             for (var _i = 0, result_2 = result; _i < result_2.length; _i++) {
                 var ci = result_2[_i];
@@ -45,7 +44,7 @@ registerLanguageCommand('_executeDocumentColorProvider', function (accessor, arg
             }
         }
     }); });
-    return TPromise.join(promises).then(function () { return rawCIs; });
+    return Promise.all(promises).then(function () { return rawCIs; });
 });
 registerLanguageCommand('_executeColorPresentationProvider', function (accessor, args) {
     var resource = args.resource, color = args.color, range = args.range;
@@ -63,10 +62,10 @@ registerLanguageCommand('_executeColorPresentationProvider', function (accessor,
     };
     var presentations = [];
     var providers = ColorProviderRegistry.ordered(model).reverse();
-    var promises = providers.map(function (provider) { return asWinJsPromise(function (token) { return provider.provideColorPresentations(model, colorInfo, token); }).then(function (result) {
+    var promises = providers.map(function (provider) { return Promise.resolve(provider.provideColorPresentations(model, colorInfo, CancellationToken.None)).then(function (result) {
         if (Array.isArray(result)) {
             presentations.push.apply(presentations, result);
         }
     }); });
-    return TPromise.join(promises).then(function () { return presentations; });
+    return Promise.all(promises).then(function () { return presentations; });
 });

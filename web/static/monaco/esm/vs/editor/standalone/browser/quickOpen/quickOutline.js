@@ -2,11 +2,13 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -15,16 +17,16 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import './quickOutline.css';
 import * as nls from '../../../../nls.js';
+import { CancellationToken } from '../../../../base/common/cancellation.js';
 import { matchesFuzzy } from '../../../../base/common/filters.js';
 import * as strings from '../../../../base/common/strings.js';
 import { QuickOpenEntryGroup, QuickOpenModel } from '../../../../base/parts/quickopen/browser/quickOpenModel.js';
-import { Mode } from '../../../../base/parts/quickopen/common/quickOpen.js';
-import { EditorContextKeys } from '../../../common/editorContextKeys.js';
-import { DocumentSymbolProviderRegistry, symbolKindToCssClass } from '../../../common/modes.js';
-import { BaseEditorQuickOpenAction } from './editorQuickOpen.js';
-import { getDocumentSymbols } from '../../../contrib/quickOpen/quickOpen.js';
 import { registerEditorAction } from '../../../browser/editorExtensions.js';
 import { Range } from '../../../common/core/range.js';
+import { EditorContextKeys } from '../../../common/editorContextKeys.js';
+import { DocumentSymbolProviderRegistry, symbolKindToCssClass } from '../../../common/modes.js';
+import { getDocumentSymbols } from '../../../contrib/quickOpen/quickOpen.js';
+import { BaseEditorQuickOpenAction } from './editorQuickOpen.js';
 var SCOPE_PREFIX = ':';
 var SymbolEntry = /** @class */ (function (_super) {
     __extends(SymbolEntry, _super);
@@ -58,7 +60,7 @@ var SymbolEntry = /** @class */ (function (_super) {
         return this.range;
     };
     SymbolEntry.prototype.run = function (mode, context) {
-        if (mode === Mode.OPEN) {
+        if (mode === 1 /* OPEN */) {
             return this.runOpen(context);
         }
         return this.runPreview();
@@ -95,7 +97,8 @@ var QuickOutlineAction = /** @class */ (function (_super) {
             precondition: EditorContextKeys.hasDocumentSymbolProvider,
             kbOpts: {
                 kbExpr: EditorContextKeys.focus,
-                primary: 2048 /* CtrlCmd */ | 1024 /* Shift */ | 45 /* KEY_O */
+                primary: 2048 /* CtrlCmd */ | 1024 /* Shift */ | 45 /* KEY_O */,
+                weight: 100 /* EditorContrib */
             },
             menuOpts: {
                 group: 'navigation',
@@ -110,11 +113,11 @@ var QuickOutlineAction = /** @class */ (function (_super) {
             return null;
         }
         // Resolve outline
-        return getDocumentSymbols(model).then(function (result) {
-            if (result.entries.length === 0) {
+        return getDocumentSymbols(model, true, CancellationToken.None).then(function (result) {
+            if (result.length === 0) {
                 return;
             }
-            _this._run(editor, result.entries);
+            _this._run(editor, result);
         });
     };
     QuickOutlineAction.prototype._run = function (editor, result) {
@@ -135,8 +138,8 @@ var QuickOutlineAction = /** @class */ (function (_super) {
             }
         });
     };
-    QuickOutlineAction.prototype.symbolEntry = function (name, type, description, location, highlights, editor, decorator) {
-        return new SymbolEntry(name, type, description, Range.lift(location.range), highlights, editor, decorator);
+    QuickOutlineAction.prototype.symbolEntry = function (name, type, description, range, highlights, editor, decorator) {
+        return new SymbolEntry(name, type, description, Range.lift(range), highlights, editor, decorator);
     };
     QuickOutlineAction.prototype.toQuickOpenEntries = function (editor, flattened, searchValue) {
         var controller = this.getController(editor);
@@ -158,7 +161,7 @@ var QuickOutlineAction = /** @class */ (function (_super) {
                     description = element.containerName;
                 }
                 // Add
-                results.push(this.symbolEntry(label, symbolKindToCssClass(element.kind), description, element.location, highlights, editor, controller));
+                results.push(this.symbolEntry(label, symbolKindToCssClass(element.kind), description, element.range, highlights, editor, controller));
             }
         }
         // Sort properly if actually searching

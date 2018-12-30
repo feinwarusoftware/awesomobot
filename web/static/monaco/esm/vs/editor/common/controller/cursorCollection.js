@@ -2,10 +2,9 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
+import { CursorState } from './cursorCommon.js';
 import { OneCursor } from './oneCursor.js';
 import { Selection } from '../core/selection.js';
-import { CursorState } from './cursorCommon.js';
 var CursorCollection = /** @class */ (function () {
     function CursorCollection(context) {
         this.context = context;
@@ -151,31 +150,30 @@ var CursorCollection = /** @class */ (function () {
             sortedCursors.push({
                 index: i,
                 selection: cursors[i].modelState.selection,
-                viewSelection: cursors[i].viewState.selection
             });
         }
         sortedCursors.sort(function (a, b) {
-            if (a.viewSelection.startLineNumber === b.viewSelection.startLineNumber) {
-                return a.viewSelection.startColumn - b.viewSelection.startColumn;
+            if (a.selection.startLineNumber === b.selection.startLineNumber) {
+                return a.selection.startColumn - b.selection.startColumn;
             }
-            return a.viewSelection.startLineNumber - b.viewSelection.startLineNumber;
+            return a.selection.startLineNumber - b.selection.startLineNumber;
         });
         for (var sortedCursorIndex = 0; sortedCursorIndex < sortedCursors.length - 1; sortedCursorIndex++) {
             var current = sortedCursors[sortedCursorIndex];
             var next = sortedCursors[sortedCursorIndex + 1];
-            var currentViewSelection = current.viewSelection;
-            var nextViewSelection = next.viewSelection;
+            var currentSelection = current.selection;
+            var nextSelection = next.selection;
             if (!this.context.config.multiCursorMergeOverlapping) {
                 continue;
             }
             var shouldMergeCursors = void 0;
-            if (nextViewSelection.isEmpty() || currentViewSelection.isEmpty()) {
+            if (nextSelection.isEmpty() || currentSelection.isEmpty()) {
                 // Merge touching cursors if one of them is collapsed
-                shouldMergeCursors = nextViewSelection.getStartPosition().isBeforeOrEqual(currentViewSelection.getEndPosition());
+                shouldMergeCursors = nextSelection.getStartPosition().isBeforeOrEqual(currentSelection.getEndPosition());
             }
             else {
                 // Merge only overlapping cursors (i.e. allow touching ranges)
-                shouldMergeCursors = nextViewSelection.getStartPosition().isBefore(currentViewSelection.getEndPosition());
+                shouldMergeCursors = nextSelection.getStartPosition().isBefore(currentSelection.getEndPosition());
             }
             if (shouldMergeCursors) {
                 var winnerSortedCursorIndex = current.index < next.index ? sortedCursorIndex : sortedCursorIndex + 1;

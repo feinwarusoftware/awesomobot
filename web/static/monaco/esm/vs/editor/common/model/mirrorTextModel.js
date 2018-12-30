@@ -2,26 +2,19 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
-import { PrefixSumComputer } from '../viewModel/prefixSumComputer.js';
 import { Position } from '../core/position.js';
+import { PrefixSumComputer } from '../viewModel/prefixSumComputer.js';
 var MirrorTextModel = /** @class */ (function () {
     function MirrorTextModel(uri, lines, eol, versionId) {
         this._uri = uri;
         this._lines = lines;
         this._eol = eol;
         this._versionId = versionId;
+        this._lineStarts = null;
     }
     MirrorTextModel.prototype.dispose = function () {
         this._lines.length = 0;
     };
-    Object.defineProperty(MirrorTextModel.prototype, "version", {
-        get: function () {
-            return this._versionId;
-        },
-        enumerable: true,
-        configurable: true
-    });
     MirrorTextModel.prototype.getText = function () {
         return this._lines.join(this._eol);
     };

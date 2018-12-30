@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 import * as ls from './_deps/vscode-languageserver-types/main.js';
-var Uri = monaco.Uri;
 var Range = monaco.Range;
 // --- diagnostics --- ---
 var DiagnosticsAdapter = /** @class */ (function () {
@@ -176,47 +175,6 @@ function toTextEdit(textEdit) {
         text: textEdit.newText
     };
 }
-function toCompletionItem(entry) {
-    return {
-        label: entry.label,
-        insertText: entry.insertText,
-        sortText: entry.sortText,
-        filterText: entry.filterText,
-        documentation: entry.documentation,
-        detail: entry.detail,
-        kind: toCompletionItemKind(entry.kind),
-        textEdit: toTextEdit(entry.textEdit),
-        data: entry.data
-    };
-}
-function fromMarkdownString(entry) {
-    return {
-        kind: (typeof entry === 'string' ? ls.MarkupKind.PlainText : ls.MarkupKind.Markdown),
-        value: (typeof entry === 'string' ? entry : entry.value)
-    };
-}
-function fromCompletionItem(entry) {
-    var item = {
-        label: entry.label,
-        sortText: entry.sortText,
-        filterText: entry.filterText,
-        documentation: fromMarkdownString(entry.documentation),
-        detail: entry.detail,
-        kind: fromCompletionItemKind(entry.kind),
-        data: entry.data
-    };
-    if (typeof entry.insertText === 'object' && typeof entry.insertText.value === 'string') {
-        item.insertText = entry.insertText.value;
-        item.insertTextFormat = ls.InsertTextFormat.Snippet;
-    }
-    else {
-        item.insertText = entry.insertText;
-    }
-    if (entry.range) {
-        item.textEdit = ls.TextEdit.replace(fromRange(entry.range), item.insertText);
-    }
-    return item;
-}
 var CompletionAdapter = /** @class */ (function () {
     function CompletionAdapter(_worker) {
         this._worker = _worker;
@@ -228,10 +186,10 @@ var CompletionAdapter = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    CompletionAdapter.prototype.provideCompletionItems = function (model, position, token) {
+    CompletionAdapter.prototype.provideCompletionItems = function (model, position, context, token) {
         var wordInfo = model.getWordUntilPosition(position);
         var resource = model.uri;
-        return wireCancellationToken(token, this._worker(resource).then(function (worker) {
+        return this._worker(resource).then(function (worker) {
             return worker.doComplete(resource.toString(), fromPosition(position));
         }).then(function (info) {
             if (!info) {
@@ -240,7 +198,7 @@ var CompletionAdapter = /** @class */ (function () {
             var items = info.items.map(function (entry) {
                 var item = {
                     label: entry.label,
-                    insertText: entry.insertText,
+                    insertText: entry.insertText || entry.label,
                     sortText: entry.sortText,
                     filterText: entry.filterText,
                     documentation: entry.documentation,
@@ -251,16 +209,19 @@ var CompletionAdapter = /** @class */ (function () {
                     item.range = toRange(entry.textEdit.range);
                     item.insertText = entry.textEdit.newText;
                 }
+                if (entry.additionalTextEdits) {
+                    item.additionalTextEdits = entry.additionalTextEdits.map(toTextEdit);
+                }
                 if (entry.insertTextFormat === ls.InsertTextFormat.Snippet) {
-                    item.insertText = { value: item.insertText };
+                    item.insertTextRules = monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet;
                 }
                 return item;
             });
             return {
                 isIncomplete: info.isIncomplete,
-                items: items
+                suggestions: items
             };
-        }));
+        });
     };
     return CompletionAdapter;
 }());
@@ -286,47 +247,6 @@ function toMarkdownString(entry) {
     }
     return { value: '```' + entry.language + '\n' + entry.value + '\n```\n' };
 }
-function toMarkedStringArray(contents) {
-    if (!contents) {
-        return void 0;
-    }
-    if (Array.isArray(contents)) {
-        return contents.map(toMarkdownString);
-    }
-    return [toMarkdownString(contents)];
-}
-// --- definition ------
-function toLocation(location) {
-    return {
-        uri: Uri.parse(location.uri),
-        range: toRange(location.range)
-    };
-}
-// --- document symbols ------
-function toSymbolKind(kind) {
-    var mKind = monaco.languages.SymbolKind;
-    switch (kind) {
-        case ls.SymbolKind.File: return mKind.Array;
-        case ls.SymbolKind.Module: return mKind.Module;
-        case ls.SymbolKind.Namespace: return mKind.Namespace;
-        case ls.SymbolKind.Package: return mKind.Package;
-        case ls.SymbolKind.Class: return mKind.Class;
-        case ls.SymbolKind.Method: return mKind.Method;
-        case ls.SymbolKind.Property: return mKind.Property;
-        case ls.SymbolKind.Field: return mKind.Field;
-        case ls.SymbolKind.Constructor: return mKind.Constructor;
-        case ls.SymbolKind.Enum: return mKind.Enum;
-        case ls.SymbolKind.Interface: return mKind.Interface;
-        case ls.SymbolKind.Function: return mKind.Function;
-        case ls.SymbolKind.Variable: return mKind.Variable;
-        case ls.SymbolKind.Constant: return mKind.Constant;
-        case ls.SymbolKind.String: return mKind.String;
-        case ls.SymbolKind.Number: return mKind.Number;
-        case ls.SymbolKind.Boolean: return mKind.Boolean;
-        case ls.SymbolKind.Array: return mKind.Array;
-    }
-    return mKind.Function;
-}
 function toHighlighKind(kind) {
     var mKind = monaco.languages.DocumentHighlightKind;
     switch (kind) {
@@ -342,7 +262,7 @@ var DocumentHighlightAdapter = /** @class */ (function () {
     }
     DocumentHighlightAdapter.prototype.provideDocumentHighlights = function (model, position, token) {
         var resource = model.uri;
-        return wireCancellationToken(token, this._worker(resource).then(function (worker) { return worker.findDocumentHighlights(resource.toString(), fromPosition(position)); }).then(function (items) {
+        return this._worker(resource).then(function (worker) { return worker.findDocumentHighlights(resource.toString(), fromPosition(position)); }).then(function (items) {
             if (!items) {
                 return;
             }
@@ -350,7 +270,7 @@ var DocumentHighlightAdapter = /** @class */ (function () {
                 range: toRange(item.range),
                 kind: toHighlighKind(item.kind)
             }); });
-        }));
+        });
     };
     return DocumentHighlightAdapter;
 }());
@@ -361,7 +281,7 @@ var DocumentLinkAdapter = /** @class */ (function () {
     }
     DocumentLinkAdapter.prototype.provideLinks = function (model, token) {
         var resource = model.uri;
-        return wireCancellationToken(token, this._worker(resource).then(function (worker) { return worker.findDocumentLinks(resource.toString()); }).then(function (items) {
+        return this._worker(resource).then(function (worker) { return worker.findDocumentLinks(resource.toString()); }).then(function (items) {
             if (!items) {
                 return;
             }
@@ -369,7 +289,7 @@ var DocumentLinkAdapter = /** @class */ (function () {
                 range: toRange(item.range),
                 url: item.target
             }); });
-        }));
+        });
     };
     return DocumentLinkAdapter;
 }());
@@ -386,14 +306,14 @@ var DocumentFormattingEditProvider = /** @class */ (function () {
     }
     DocumentFormattingEditProvider.prototype.provideDocumentFormattingEdits = function (model, options, token) {
         var resource = model.uri;
-        return wireCancellationToken(token, this._worker(resource).then(function (worker) {
+        return this._worker(resource).then(function (worker) {
             return worker.format(resource.toString(), null, fromFormattingOptions(options)).then(function (edits) {
                 if (!edits || edits.length === 0) {
                     return;
                 }
                 return edits.map(toTextEdit);
             });
-        }));
+        });
     };
     return DocumentFormattingEditProvider;
 }());
@@ -404,24 +324,48 @@ var DocumentRangeFormattingEditProvider = /** @class */ (function () {
     }
     DocumentRangeFormattingEditProvider.prototype.provideDocumentRangeFormattingEdits = function (model, range, options, token) {
         var resource = model.uri;
-        return wireCancellationToken(token, this._worker(resource).then(function (worker) {
+        return this._worker(resource).then(function (worker) {
             return worker.format(resource.toString(), fromRange(range), fromFormattingOptions(options)).then(function (edits) {
                 if (!edits || edits.length === 0) {
                     return;
                 }
                 return edits.map(toTextEdit);
             });
-        }));
+        });
     };
     return DocumentRangeFormattingEditProvider;
 }());
 export { DocumentRangeFormattingEditProvider };
-/**
- * Hook a cancellation token to a WinJS Promise
- */
-function wireCancellationToken(token, promise) {
-    if (promise.cancel) {
-        token.onCancellationRequested(function () { return promise.cancel(); });
+var FoldingRangeAdapter = /** @class */ (function () {
+    function FoldingRangeAdapter(_worker) {
+        this._worker = _worker;
     }
-    return promise;
+    FoldingRangeAdapter.prototype.provideFoldingRanges = function (model, context, token) {
+        var resource = model.uri;
+        return this._worker(resource).then(function (worker) { return worker.provideFoldingRanges(resource.toString(), context); }).then(function (ranges) {
+            if (!ranges) {
+                return;
+            }
+            return ranges.map(function (range) {
+                var result = {
+                    start: range.startLine + 1,
+                    end: range.endLine + 1
+                };
+                if (typeof range.kind !== 'undefined') {
+                    result.kind = toFoldingRangeKind(range.kind);
+                }
+                return result;
+            });
+        });
+    };
+    return FoldingRangeAdapter;
+}());
+export { FoldingRangeAdapter };
+function toFoldingRangeKind(kind) {
+    switch (kind) {
+        case ls.FoldingRangeKind.Comment: return monaco.languages.FoldingRangeKind.Comment;
+        case ls.FoldingRangeKind.Imports: return monaco.languages.FoldingRangeKind.Imports;
+        case ls.FoldingRangeKind.Region: return monaco.languages.FoldingRangeKind.Region;
+    }
+    return void 0;
 }

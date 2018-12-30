@@ -2,12 +2,10 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 import * as paths from './paths.js';
 import * as strings from './strings.js';
 import { match } from './glob.js';
 export var MIME_TEXT = 'text/plain';
-export var MIME_BINARY = 'application/octet-stream';
 export var MIME_UNKNOWN = 'application/unknown';
 var registeredAssociations = [];
 var nonUserRegisteredAssociations = [];
@@ -63,20 +61,6 @@ function toTextMimeAssociationItem(association) {
     };
 }
 /**
- * Clear text mimes from the registry.
- */
-export function clearTextMimes(onlyUserConfigured) {
-    if (!onlyUserConfigured) {
-        registeredAssociations = [];
-        nonUserRegisteredAssociations = [];
-        userRegisteredAssociations = [];
-    }
-    else {
-        registeredAssociations = registeredAssociations.filter(function (a) { return !a.userConfigured; });
-        userRegisteredAssociations = [];
-    }
-}
-/**
  * Given a file, return the best matching mime type for it
  */
 export function guessMimeTypes(path, firstLine) {
@@ -105,9 +89,9 @@ export function guessMimeTypes(path, firstLine) {
     return [MIME_UNKNOWN];
 }
 function guessMimeTypeByPath(path, filename, associations) {
-    var filenameMatch;
-    var patternMatch;
-    var extensionMatch;
+    var filenameMatch = null;
+    var patternMatch = null;
+    var extensionMatch = null;
     // We want to prioritize associations based on the order they are registered so that the last registered
     // association wins over all other. This is for https://github.com/Microsoft/vscode/issues/20074
     for (var i = associations.length - 1; i >= 0; i--) {
@@ -166,25 +150,4 @@ function guessMimeTypeByFirstline(firstLine) {
         }
     }
     return null;
-}
-export function isUnspecific(mime) {
-    if (!mime) {
-        return true;
-    }
-    if (typeof mime === 'string') {
-        return mime === MIME_BINARY || mime === MIME_TEXT || mime === MIME_UNKNOWN;
-    }
-    return mime.length === 1 && isUnspecific(mime[0]);
-}
-export function suggestFilename(langId, prefix) {
-    for (var i = 0; i < registeredAssociations.length; i++) {
-        var association = registeredAssociations[i];
-        if (association.userConfigured) {
-            continue; // only support registered ones
-        }
-        if (association.id === langId && association.extension) {
-            return prefix + association.extension;
-        }
-    }
-    return prefix; // without any known extension, just return the prefix
 }

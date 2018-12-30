@@ -2,11 +2,13 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -25,12 +27,10 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 import './parameterHints.css';
 import * as nls from '../../../nls.js';
 import { dispose, Disposable } from '../../../base/common/lifecycle.js';
-import { TPromise } from '../../../base/common/winjs.base.js';
 import * as dom from '../../../base/browser/dom.js';
 import * as aria from '../../../base/browser/ui/aria/aria.js';
-import { SignatureHelpProviderRegistry } from '../../common/modes.js';
-import { ContentWidgetPositionPreference } from '../../browser/editorBrowser.js';
-import { RunOnceScheduler } from '../../../base/common/async.js';
+import * as modes from '../../common/modes.js';
+import { RunOnceScheduler, createCancelablePromise } from '../../../base/common/async.js';
 import { onUnexpectedError } from '../../../base/common/errors.js';
 import { Emitter, chain } from '../../../base/common/event.js';
 import { domEvent, stop } from '../../../base/browser/event.js';
@@ -46,22 +46,28 @@ import { MarkdownRenderer } from '../markdown/markdownRenderer.js';
 var $ = dom.$;
 var ParameterHintsModel = /** @class */ (function (_super) {
     __extends(ParameterHintsModel, _super);
-    function ParameterHintsModel(editor) {
+    function ParameterHintsModel(editor, delay) {
+        if (delay === void 0) { delay = ParameterHintsModel.DEFAULT_DELAY; }
         var _this = _super.call(this) || this;
         _this._onHint = _this._register(new Emitter());
         _this.onHint = _this._onHint.event;
         _this._onCancel = _this._register(new Emitter());
         _this.onCancel = _this._onCancel.event;
+        _this.active = false;
+        _this.pending = false;
+        _this.triggerChars = new CharacterSet();
+        _this.retriggerChars = new CharacterSet();
         _this.editor = editor;
         _this.enabled = false;
         _this.triggerCharactersListeners = [];
-        _this.throttledDelayer = new RunOnceScheduler(function () { return _this.doTrigger(); }, ParameterHintsModel.DELAY);
-        _this.active = false;
+        _this.throttledDelayer = new RunOnceScheduler(function () { return _this.doTrigger(); }, delay);
         _this._register(_this.editor.onDidChangeConfiguration(function () { return _this.onEditorConfigurationChange(); }));
         _this._register(_this.editor.onDidChangeModel(function (e) { return _this.onModelChanged(); }));
         _this._register(_this.editor.onDidChangeModelLanguage(function (_) { return _this.onModelChanged(); }));
         _this._register(_this.editor.onDidChangeCursorSelection(function (e) { return _this.onCursorChange(e); }));
-        _this._register(SignatureHelpProviderRegistry.onDidChange(_this.onModelChanged, _this));
+        _this._register(_this.editor.onDidChangeModelContent(function (e) { return _this.onModelContentChange(); }));
+        _this._register(modes.SignatureHelpProviderRegistry.onDidChange(_this.onModelChanged, _this));
+        _this._register(_this.editor.onDidType(function (text) { return _this.onDidType(text); }));
         _this.onEditorConfigurationChange();
         _this.onModelChanged();
         return _this;
@@ -69,6 +75,8 @@ var ParameterHintsModel = /** @class */ (function (_super) {
     ParameterHintsModel.prototype.cancel = function (silent) {
         if (silent === void 0) { silent = false; }
         this.active = false;
+        this.pending = false;
+        this.triggerContext = undefined;
         this.throttledDelayer.cancel();
         if (!silent) {
             this._onCancel.fire(void 0);
@@ -78,12 +86,17 @@ var ParameterHintsModel = /** @class */ (function (_super) {
             this.provideSignatureHelpRequest = undefined;
         }
     };
-    ParameterHintsModel.prototype.trigger = function (delay) {
-        if (delay === void 0) { delay = ParameterHintsModel.DELAY; }
-        if (!SignatureHelpProviderRegistry.has(this.editor.getModel())) {
+    ParameterHintsModel.prototype.trigger = function (context, delay) {
+        if (!modes.SignatureHelpProviderRegistry.has(this.editor.getModel())) {
             return;
         }
+        var wasTriggered = this.isTriggered;
         this.cancel(true);
+        this.triggerContext = {
+            triggerReason: context.triggerReason,
+            triggerCharacter: context.triggerCharacter,
+            isRetrigger: wasTriggered
+        };
         return this.throttledDelayer.schedule(delay);
     };
     ParameterHintsModel.prototype.doTrigger = function () {
@@ -91,9 +104,14 @@ var ParameterHintsModel = /** @class */ (function (_super) {
         if (this.provideSignatureHelpRequest) {
             this.provideSignatureHelpRequest.cancel();
         }
-        this.provideSignatureHelpRequest = provideSignatureHelp(this.editor.getModel(), this.editor.getPosition())
-            .then(null, onUnexpectedError)
-            .then(function (result) {
+        this.pending = true;
+        var triggerContext = this.triggerContext || { triggerReason: modes.SignatureHelpTriggerReason.Invoke, isRetrigger: false };
+        this.triggerContext = undefined;
+        this.provideSignatureHelpRequest = createCancelablePromise(function (token) {
+            return provideSignatureHelp(_this.editor.getModel(), _this.editor.getPosition(), triggerContext, token);
+        });
+        this.provideSignatureHelpRequest.then(function (result) {
+            _this.pending = false;
             if (!result || !result.signatures || result.signatures.length === 0) {
                 _this.cancel();
                 _this._onCancel.fire(void 0);
@@ -103,50 +121,73 @@ var ParameterHintsModel = /** @class */ (function (_super) {
             var event = { hints: result };
             _this._onHint.fire(event);
             return true;
+        }).catch(function (error) {
+            _this.pending = false;
+            onUnexpectedError(error);
         });
     };
-    ParameterHintsModel.prototype.isTriggered = function () {
-        return this.active || this.throttledDelayer.isScheduled();
-    };
+    Object.defineProperty(ParameterHintsModel.prototype, "isTriggered", {
+        get: function () {
+            return this.active || this.pending || this.throttledDelayer.isScheduled();
+        },
+        enumerable: true,
+        configurable: true
+    });
     ParameterHintsModel.prototype.onModelChanged = function () {
-        var _this = this;
-        if (this.active) {
-            this.cancel();
-        }
-        this.triggerCharactersListeners = dispose(this.triggerCharactersListeners);
+        this.cancel();
+        // Update trigger characters
+        this.triggerChars = new CharacterSet();
+        this.retriggerChars = new CharacterSet();
         var model = this.editor.getModel();
         if (!model) {
             return;
         }
-        var triggerChars = new CharacterSet();
-        for (var _i = 0, _a = SignatureHelpProviderRegistry.ordered(model); _i < _a.length; _i++) {
+        for (var _i = 0, _a = modes.SignatureHelpProviderRegistry.ordered(model); _i < _a.length; _i++) {
             var support = _a[_i];
             if (Array.isArray(support.signatureHelpTriggerCharacters)) {
                 for (var _b = 0, _c = support.signatureHelpTriggerCharacters; _b < _c.length; _b++) {
                     var ch = _c[_b];
-                    triggerChars.add(ch.charCodeAt(0));
+                    this.triggerChars.add(ch.charCodeAt(0));
+                    // All trigger characters are also considered retrigger characters
+                    this.retriggerChars.add(ch.charCodeAt(0));
+                }
+            }
+            if (Array.isArray(support.signatureHelpRetriggerCharacters)) {
+                for (var _d = 0, _e = support.signatureHelpRetriggerCharacters; _d < _e.length; _d++) {
+                    var ch = _e[_d];
+                    this.retriggerChars.add(ch.charCodeAt(0));
                 }
             }
         }
-        this.triggerCharactersListeners.push(this.editor.onDidType(function (text) {
-            if (!_this.enabled) {
-                return;
-            }
-            if (triggerChars.has(text.charCodeAt(text.length - 1))) {
-                _this.trigger();
-            }
-        }));
+    };
+    ParameterHintsModel.prototype.onDidType = function (text) {
+        if (!this.enabled) {
+            return;
+        }
+        var lastCharIndex = text.length - 1;
+        var triggerCharCode = text.charCodeAt(lastCharIndex);
+        if (this.triggerChars.has(triggerCharCode) || this.isTriggered && this.retriggerChars.has(triggerCharCode)) {
+            this.trigger({
+                triggerReason: modes.SignatureHelpTriggerReason.TriggerCharacter,
+                triggerCharacter: text.charAt(lastCharIndex),
+            });
+        }
     };
     ParameterHintsModel.prototype.onCursorChange = function (e) {
         if (e.source === 'mouse') {
             this.cancel();
         }
-        else if (this.isTriggered()) {
-            this.trigger();
+        else if (this.isTriggered) {
+            this.trigger({ triggerReason: modes.SignatureHelpTriggerReason.ContentChange });
+        }
+    };
+    ParameterHintsModel.prototype.onModelContentChange = function () {
+        if (this.isTriggered) {
+            this.trigger({ triggerReason: modes.SignatureHelpTriggerReason.ContentChange });
         }
     };
     ParameterHintsModel.prototype.onEditorConfigurationChange = function () {
-        this.enabled = this.editor.getConfiguration().contribInfo.parameterHints;
+        this.enabled = this.editor.getConfiguration().contribInfo.parameterHints.enabled;
         if (!this.enabled) {
             this.cancel();
         }
@@ -156,7 +197,7 @@ var ParameterHintsModel = /** @class */ (function (_super) {
         this.triggerCharactersListeners = dispose(this.triggerCharactersListeners);
         _super.prototype.dispose.call(this);
     };
-    ParameterHintsModel.DELAY = 120; // ms
+    ParameterHintsModel.DEFAULT_DELAY = 120; // ms
     return ParameterHintsModel;
 }(Disposable));
 export { ParameterHintsModel };
@@ -203,6 +244,7 @@ var ParameterHintsWidget = /** @class */ (function () {
         this.currentSignature = 0;
         this.editor.addContentWidget(this);
         this.hide();
+        this.element.style.userSelect = 'text';
         this.disposables.push(this.editor.onDidChangeCursorSelection(function (e) {
             if (_this.visible) {
                 _this.editor.layoutContentWidget(_this);
@@ -229,7 +271,7 @@ var ParameterHintsWidget = /** @class */ (function () {
         }
         this.keyVisible.set(true);
         this.visible = true;
-        TPromise.timeout(100).done(function () { return dom.addClass(_this.element, 'visible'); });
+        setTimeout(function () { return dom.addClass(_this.element, 'visible'); }, 100);
         this.editor.layoutContentWidget(this);
     };
     ParameterHintsWidget.prototype.hide = function () {
@@ -250,7 +292,7 @@ var ParameterHintsWidget = /** @class */ (function () {
         if (this.visible) {
             return {
                 position: this.editor.getPosition(),
-                preference: [ContentWidgetPositionPreference.ABOVE, ContentWidgetPositionPreference.BELOW]
+                preference: [1 /* ABOVE */, 2 /* BELOW */]
             };
         }
         return null;
@@ -283,12 +325,11 @@ var ParameterHintsWidget = /** @class */ (function () {
         if (activeParameter && activeParameter.documentation) {
             var documentation = $('span.documentation');
             if (typeof activeParameter.documentation === 'string') {
-                dom.removeClass(this.docs, 'markdown-docs');
                 documentation.textContent = activeParameter.documentation;
             }
             else {
-                dom.addClass(this.docs, 'markdown-docs');
                 var renderedContents = this.markdownRenderer.render(activeParameter.documentation);
+                dom.addClass(renderedContents.element, 'markdown-docs');
                 this.renderDisposeables.push(renderedContents);
                 documentation.appendChild(renderedContents.element);
             }
@@ -300,6 +341,7 @@ var ParameterHintsWidget = /** @class */ (function () {
         }
         else {
             var renderedContents = this.markdownRenderer.render(signature.documentation);
+            dom.addClass(renderedContents.element, 'markdown-docs');
             this.renderDisposeables.push(renderedContents);
             dom.append(this.docs, renderedContents.element);
         }
@@ -309,7 +351,7 @@ var ParameterHintsWidget = /** @class */ (function () {
         }
         this.overloads.textContent = currentOverload;
         if (activeParameter) {
-            var labelToAnnounce = activeParameter.label;
+            var labelToAnnounce = this.getParameterLabel(signature, this.hints.activeParameter);
             // Select method gets called on every user type while parameter hints are visible.
             // We do not want to spam the user with same announcements, so we only announce if the current parameter changed.
             if (this.announcedLabel !== labelToAnnounce) {
@@ -321,33 +363,39 @@ var ParameterHintsWidget = /** @class */ (function () {
         this.scrollbar.scanDomNode();
     };
     ParameterHintsWidget.prototype.renderParameters = function (parent, signature, currentParameter) {
-        var end = signature.label.length;
-        var idx = 0;
-        var element;
-        for (var i = signature.parameters.length - 1; i >= 0; i--) {
-            var parameter = signature.parameters[i];
-            idx = signature.label.lastIndexOf(parameter.label, end - 1);
-            var signatureLabelOffset = 0;
-            var signatureLabelEnd = 0;
-            if (idx >= 0) {
-                signatureLabelOffset = idx;
-                signatureLabelEnd = idx + parameter.label.length;
-            }
-            // non parameter part
-            element = document.createElement('span');
-            element.textContent = signature.label.substring(signatureLabelEnd, end);
-            dom.prepend(parent, element);
-            // parameter part
-            element = document.createElement('span');
-            element.className = "parameter " + (i === currentParameter ? 'active' : '');
-            element.textContent = signature.label.substring(signatureLabelOffset, signatureLabelEnd);
-            dom.prepend(parent, element);
-            end = signatureLabelOffset;
+        var _a = this.getParameterLabelOffsets(signature, currentParameter), start = _a[0], end = _a[1];
+        var beforeSpan = document.createElement('span');
+        beforeSpan.textContent = signature.label.substring(0, start);
+        var paramSpan = document.createElement('span');
+        paramSpan.textContent = signature.label.substring(start, end);
+        paramSpan.className = 'parameter active';
+        var afterSpan = document.createElement('span');
+        afterSpan.textContent = signature.label.substring(end);
+        dom.append(parent, beforeSpan, paramSpan, afterSpan);
+    };
+    ParameterHintsWidget.prototype.getParameterLabel = function (signature, paramIdx) {
+        var param = signature.parameters[paramIdx];
+        if (typeof param.label === 'string') {
+            return param.label;
         }
-        // non parameter part
-        element = document.createElement('span');
-        element.textContent = signature.label.substring(0, end);
-        dom.prepend(parent, element);
+        else {
+            return signature.label.substring(param.label[0], param.label[1]);
+        }
+    };
+    ParameterHintsWidget.prototype.getParameterLabelOffsets = function (signature, paramIdx) {
+        var param = signature.parameters[paramIdx];
+        if (!param) {
+            return [0, 0];
+        }
+        else if (Array.isArray(param.label)) {
+            return param.label;
+        }
+        else {
+            var idx = signature.label.lastIndexOf(param.label);
+            return idx >= 0
+                ? [idx, idx + param.label.length]
+                : [0, 0];
+        }
     };
     // private select(position: number): void {
     // 	const signature = this.signatureViews[position];
@@ -374,21 +422,37 @@ var ParameterHintsWidget = /** @class */ (function () {
     // }
     ParameterHintsWidget.prototype.next = function () {
         var length = this.hints.signatures.length;
-        if (length < 2) {
+        var last = (this.currentSignature % length) === (length - 1);
+        var cycle = this.editor.getConfiguration().contribInfo.parameterHints.cycle;
+        // If there is only one signature, or we're on last signature of list
+        if ((length < 2 || last) && !cycle) {
             this.cancel();
             return false;
         }
-        this.currentSignature = (this.currentSignature + 1) % length;
+        if (last && cycle) {
+            this.currentSignature = 0;
+        }
+        else {
+            this.currentSignature++;
+        }
         this.render();
         return true;
     };
     ParameterHintsWidget.prototype.previous = function () {
         var length = this.hints.signatures.length;
-        if (length < 2) {
+        var first = this.currentSignature === 0;
+        var cycle = this.editor.getConfiguration().contribInfo.parameterHints.cycle;
+        // If there is only one signature, or we're on first signature of list
+        if ((length < 2 || first) && !cycle) {
             this.cancel();
             return false;
         }
-        this.currentSignature = (this.currentSignature - 1 + length) % length;
+        if (first && cycle) {
+            this.currentSignature = length - 1;
+        }
+        else {
+            this.currentSignature--;
+        }
         this.render();
         return true;
     };
@@ -401,8 +465,8 @@ var ParameterHintsWidget = /** @class */ (function () {
     ParameterHintsWidget.prototype.getId = function () {
         return ParameterHintsWidget.ID;
     };
-    ParameterHintsWidget.prototype.trigger = function () {
-        this.model.trigger(0);
+    ParameterHintsWidget.prototype.trigger = function (context) {
+        this.model.trigger(context, 0);
     };
     ParameterHintsWidget.prototype.updateMaxHeight = function () {
         var height = Math.max(this.editor.getLayoutInfo().height / 4, 250);

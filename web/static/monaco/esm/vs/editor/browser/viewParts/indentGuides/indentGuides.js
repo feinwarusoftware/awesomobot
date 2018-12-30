@@ -2,11 +2,13 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -15,9 +17,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import './indentGuides.css';
 import { DynamicViewOverlay } from '../../view/dynamicViewOverlay.js';
-import { registerThemingParticipant } from '../../../../platform/theme/common/themeService.js';
-import { editorIndentGuides, editorActiveIndentGuides } from '../../../common/view/editorColorRegistry.js';
 import { Position } from '../../../common/core/position.js';
+import { editorActiveIndentGuides, editorIndentGuides } from '../../../common/view/editorColorRegistry.js';
+import { registerThemingParticipant } from '../../../../platform/theme/common/themeService.js';
 var IndentGuidesOverlay = /** @class */ (function (_super) {
     __extends(IndentGuidesOverlay, _super);
     function IndentGuidesOverlay(context) {
@@ -27,13 +29,13 @@ var IndentGuidesOverlay = /** @class */ (function (_super) {
         _this._lineHeight = _this._context.configuration.editor.lineHeight;
         _this._spaceWidth = _this._context.configuration.editor.fontInfo.spaceWidth;
         _this._enabled = _this._context.configuration.editor.viewInfo.renderIndentGuides;
+        _this._activeIndentEnabled = _this._context.configuration.editor.viewInfo.highlightActiveIndentGuide;
         _this._renderResult = null;
         _this._context.addEventHandler(_this);
         return _this;
     }
     IndentGuidesOverlay.prototype.dispose = function () {
         this._context.removeEventHandler(this);
-        this._context = null;
         this._renderResult = null;
         _super.prototype.dispose.call(this);
     };
@@ -47,6 +49,7 @@ var IndentGuidesOverlay = /** @class */ (function (_super) {
         }
         if (e.viewInfo) {
             this._enabled = this._context.configuration.editor.viewInfo.renderIndentGuides;
+            this._activeIndentEnabled = this._context.configuration.editor.viewInfo.highlightActiveIndentGuide;
         }
         return true;
     };
@@ -94,13 +97,14 @@ var IndentGuidesOverlay = /** @class */ (function (_super) {
         var visibleEndLineNumber = ctx.visibleRange.endLineNumber;
         var tabSize = this._context.model.getTabSize();
         var tabWidth = tabSize * this._spaceWidth;
+        var scrollWidth = ctx.scrollWidth;
         var lineHeight = this._lineHeight;
         var indentGuideWidth = tabWidth;
         var indents = this._context.model.getLinesIndentGuides(visibleStartLineNumber, visibleEndLineNumber);
         var activeIndentStartLineNumber = 0;
         var activeIndentEndLineNumber = 0;
         var activeIndentLevel = 0;
-        if (this._primaryLineNumber) {
+        if (this._activeIndentEnabled && this._primaryLineNumber) {
             var activeIndentInfo = this._context.model.getActiveIndentGuide(this._primaryLineNumber, visibleStartLineNumber, visibleEndLineNumber);
             activeIndentStartLineNumber = activeIndentInfo.startLineNumber;
             activeIndentEndLineNumber = activeIndentInfo.endLineNumber;
@@ -118,6 +122,9 @@ var IndentGuidesOverlay = /** @class */ (function (_super) {
                 var className = (containsActiveIndentGuide && i === activeIndentLevel ? 'cigra' : 'cigr');
                 result += "<div class=\"" + className + "\" style=\"left:" + left + "px;height:" + lineHeight + "px;width:" + indentGuideWidth + "px\"></div>";
                 left += tabWidth;
+                if (left > scrollWidth) {
+                    break;
+                }
             }
             output[lineIndex] = result;
         }

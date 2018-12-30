@@ -2,7 +2,6 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 import { Position } from './position.js';
 /**
  * A range in the editor. (startLineNumber,startColumn) is <= (endLineNumber,endColumn)
@@ -226,9 +225,6 @@ var Range = /** @class */ (function () {
         if (end === void 0) { end = start; }
         return new Range(start.lineNumber, start.column, end.lineNumber, end.column);
     };
-    /**
-     * Create a `Range` from an `IRange`.
-     */
     Range.lift = function (range) {
         if (!range) {
             return null;
@@ -261,28 +257,48 @@ var Range = /** @class */ (function () {
         return true;
     };
     /**
+     * Test if the two ranges are intersecting. If the ranges are touching it returns true.
+     */
+    Range.areIntersecting = function (a, b) {
+        // Check if `a` is before `b`
+        if (a.endLineNumber < b.startLineNumber || (a.endLineNumber === b.startLineNumber && a.endColumn <= b.startColumn)) {
+            return false;
+        }
+        // Check if `b` is before `a`
+        if (b.endLineNumber < a.startLineNumber || (b.endLineNumber === a.startLineNumber && b.endColumn <= a.startColumn)) {
+            return false;
+        }
+        // These ranges must intersect
+        return true;
+    };
+    /**
      * A function that compares ranges, useful for sorting ranges
      * It will first compare ranges on the startPosition and then on the endPosition
      */
     Range.compareRangesUsingStarts = function (a, b) {
-        var aStartLineNumber = a.startLineNumber | 0;
-        var bStartLineNumber = b.startLineNumber | 0;
-        if (aStartLineNumber === bStartLineNumber) {
-            var aStartColumn = a.startColumn | 0;
-            var bStartColumn = b.startColumn | 0;
-            if (aStartColumn === bStartColumn) {
-                var aEndLineNumber = a.endLineNumber | 0;
-                var bEndLineNumber = b.endLineNumber | 0;
-                if (aEndLineNumber === bEndLineNumber) {
-                    var aEndColumn = a.endColumn | 0;
-                    var bEndColumn = b.endColumn | 0;
-                    return aEndColumn - bEndColumn;
+        if (a && b) {
+            var aStartLineNumber = a.startLineNumber | 0;
+            var bStartLineNumber = b.startLineNumber | 0;
+            if (aStartLineNumber === bStartLineNumber) {
+                var aStartColumn = a.startColumn | 0;
+                var bStartColumn = b.startColumn | 0;
+                if (aStartColumn === bStartColumn) {
+                    var aEndLineNumber = a.endLineNumber | 0;
+                    var bEndLineNumber = b.endLineNumber | 0;
+                    if (aEndLineNumber === bEndLineNumber) {
+                        var aEndColumn = a.endColumn | 0;
+                        var bEndColumn = b.endColumn | 0;
+                        return aEndColumn - bEndColumn;
+                    }
+                    return aEndLineNumber - bEndLineNumber;
                 }
-                return aEndLineNumber - bEndLineNumber;
+                return aStartColumn - bStartColumn;
             }
-            return aStartColumn - bStartColumn;
+            return aStartLineNumber - bStartLineNumber;
         }
-        return aStartLineNumber - bStartLineNumber;
+        var aExists = (a ? 1 : 0);
+        var bExists = (b ? 1 : 0);
+        return aExists - bExists;
     };
     /**
      * A function that compares ranges, useful for sorting ranges

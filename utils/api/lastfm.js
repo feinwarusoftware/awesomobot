@@ -2,7 +2,7 @@
 
 const rp = require("request-promise-native");
 
-const { Opt, encodeUriParams } = require("../request");
+const { Opt, encodeURIParams } = require("../request");
 
 const HOST = "ws.audioscrobbler.com";
 const VERSION = "/2.0";
@@ -31,7 +31,7 @@ class LastFM {
             });
 
             try {
-                const res = await rp(encodeUriParams(`https://${HOST}${VERSION}`), opt.options);
+                const res = await rp(encodeURIParams(`https://${HOST}${VERSION}`), opt.options);
                 resolve(res);
     
             } catch(err) {

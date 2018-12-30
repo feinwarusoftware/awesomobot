@@ -2,25 +2,21 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { Disposable } from './lifecycle.js';
 import { Emitter } from './event.js';
-export var ScrollbarVisibility;
-(function (ScrollbarVisibility) {
-    ScrollbarVisibility[ScrollbarVisibility["Auto"] = 1] = "Auto";
-    ScrollbarVisibility[ScrollbarVisibility["Hidden"] = 2] = "Hidden";
-    ScrollbarVisibility[ScrollbarVisibility["Visible"] = 3] = "Visible";
-})(ScrollbarVisibility || (ScrollbarVisibility = {}));
+import { Disposable } from './lifecycle.js';
 var ScrollState = /** @class */ (function () {
     function ScrollState(width, scrollWidth, scrollLeft, height, scrollHeight, scrollTop) {
         width = width | 0;
@@ -131,7 +127,7 @@ var Scrollable = /** @class */ (function (_super) {
     };
     /**
      * Returns the final scroll position that the instance will have once the smooth scroll animation concludes.
-     * If no scroll animation is occuring, it will return the current scroll position instead.
+     * If no scroll animation is occurring, it will return the current scroll position instead.
      */
     Scrollable.prototype.getFutureScrollPosition = function () {
         if (this._smoothScrolling) {
@@ -194,6 +190,9 @@ var Scrollable = /** @class */ (function (_super) {
     };
     Scrollable.prototype._performSmoothScrolling = function () {
         var _this = this;
+        if (!this._smoothScrolling) {
+            return;
+        }
         var update = this._smoothScrolling.tick();
         var newState = this._state.withScrollPosition(update);
         this._setState(newState);

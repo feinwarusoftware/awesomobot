@@ -2,11 +2,13 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -35,24 +37,6 @@ var NodeList = /** @class */ (function (_super) {
     function NodeList() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    Object.defineProperty(NodeList.prototype, "start", {
-        get: function () {
-            return this.hasChildren
-                ? this.children[0].start
-                : this.parent.start;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NodeList.prototype, "end", {
-        get: function () {
-            return this.hasChildren
-                ? this.children[this.children.length - 1].end
-                : this.parent.end;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(NodeList.prototype, "hasChildren", {
         get: function () {
             return this.children && this.children.length > 0;
@@ -96,20 +80,6 @@ var Block = /** @class */ (function (_super) {
         _this.elements.parent = _this;
         return _this;
     }
-    Object.defineProperty(Block.prototype, "start", {
-        get: function () {
-            return this.open.start;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Block.prototype, "end", {
-        get: function () {
-            return this.close.end;
-        },
-        enumerable: true,
-        configurable: true
-    });
     return Block;
 }(Node));
 export { Block };
@@ -160,7 +130,7 @@ var ModelRawTokenScanner = /** @class */ (function () {
             this._model.forceTokenization(this._lineNumber);
             this._lineTokens = this._model.getLineTokens(this._lineNumber);
             this._tokenIndex = 0;
-            if (this._lineTokens.getCount() === 0) {
+            if (this._lineTokens.getLineContent().length === 0) {
                 // Skip empty lines
                 this._lineTokens = null;
             }
@@ -229,7 +199,7 @@ var TokenScanner = /** @class */ (function () {
             // there is some remaining none-bracket text in this token
             this._nextBuff.push(new Token(new Range(lineNumber, startOffset + 1, lineNumber, endOffset + 1), 0 /* None */, null));
         }
-        return this._nextBuff.shift();
+        return this._nextBuff.shift() || null;
     };
     return TokenScanner;
 }());
@@ -253,7 +223,7 @@ var TokenTreeBuilder = /** @class */ (function () {
         var accepted = condt(token);
         if (!accepted) {
             this._stack.push(token);
-            this._currentToken = null;
+            // this._currentToken = null;
         }
         else {
             this._currentToken = token;
@@ -270,7 +240,8 @@ var TokenTreeBuilder = /** @class */ (function () {
         return ret;
     };
     TokenTreeBuilder.prototype._line = function () {
-        var node = new NodeList(), lineNumber;
+        var node = new NodeList();
+        var lineNumber;
         // capture current linenumber
         this._peek(function (info) {
             lineNumber = info.range.startLineNumber;
@@ -297,7 +268,8 @@ var TokenTreeBuilder = /** @class */ (function () {
         return newNode(this._currentToken);
     };
     TokenTreeBuilder.prototype._block = function () {
-        var bracketType, accepted;
+        var bracketType;
+        var accepted;
         accepted = this._accept(function (token) {
             bracketType = token.bracketType;
             return token.bracket === 1 /* Open */;
@@ -345,7 +317,7 @@ export function find(node, position) {
     if (!Range.containsPosition(node.range, position)) {
         return null;
     }
-    var result;
+    var result = null;
     if (node instanceof NodeList) {
         if (node.hasChildren) {
             for (var i = 0, len = node.children.length; i < len && !result; i++) {
@@ -354,7 +326,7 @@ export function find(node, position) {
         }
     }
     else if (node instanceof Block) {
-        result = find(node.open, position) || find(node.elements, position) || find(node.close, position);
+        result = find(node.elements, position) || find(node.open, position) || find(node.close, position);
     }
     return result || node;
 }

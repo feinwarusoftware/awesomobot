@@ -2,7 +2,6 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -15,7 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 import { Emitter } from '../../../base/common/event.js';
 import { dispose } from '../../../base/common/lifecycle.js';
 import { IContextKeyService } from '../../contextkey/common/contextkey.js';
-import { MenuRegistry, MenuItemAction } from './actions.js';
+import { MenuRegistry, MenuItemAction, SubmenuItemAction, isIMenuItem } from './actions.js';
 import { ICommandService } from '../../commands/common/commands.js';
 var Menu = /** @class */ (function () {
     function Menu(id, startupSignal, _commandService, _contextKeyService) {
@@ -35,12 +34,20 @@ var Menu = /** @class */ (function () {
                 // group by groupId
                 var groupName = item.group;
                 if (!group || group[0] !== groupName) {
-                    group = [groupName, []];
+                    group = [groupName || '', []];
                     _this._menuGroups.push(group);
                 }
                 group[1].push(item);
                 // keep keys for eventing
                 Menu._fillInKbExprKeys(item.when, keysFilter);
+                // keep precondition keys for event if applicable
+                if (isIMenuItem(item) && item.command.precondition) {
+                    Menu._fillInKbExprKeys(item.command.precondition, keysFilter);
+                }
+                // keep toggled keys for event if applicable
+                if (isIMenuItem(item) && item.command.toggled) {
+                    Menu._fillInKbExprKeys(item.command.toggled, keysFilter);
+                }
             }
             // subscribe to context changes
             _this._disposables.push(_this._contextKeyService.onDidChangeContext(function (event) {
@@ -55,13 +62,6 @@ var Menu = /** @class */ (function () {
         this._disposables = dispose(this._disposables);
         this._onDidChange.dispose();
     };
-    Object.defineProperty(Menu.prototype, "onDidChange", {
-        get: function () {
-            return this._onDidChange.event;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Menu.prototype.getActions = function (options) {
         var result = [];
         for (var _i = 0, _a = this._menuGroups; _i < _a.length; _i++) {
@@ -70,9 +70,8 @@ var Menu = /** @class */ (function () {
             var activeActions = [];
             for (var _b = 0, items_1 = items; _b < items_1.length; _b++) {
                 var item = items_1[_b];
-                if (this._contextKeyService.contextMatchesRules(item.when)) {
-                    var action = new MenuItemAction(item.command, item.alt, options, this._contextKeyService, this._commandService);
-                    action.order = item.order; //TODO@Ben order is menu item property, not an action property
+                if (this._contextKeyService.contextMatchesRules(item.when || null)) {
+                    var action = isIMenuItem(item) ? new MenuItemAction(item.command, item.alt, options, this._contextKeyService, this._commandService) : new SubmenuItemAction(item);
                     activeActions.push(action);
                 }
             }

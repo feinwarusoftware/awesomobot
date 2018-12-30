@@ -2,7 +2,6 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 var KeyCodeStrMap = /** @class */ (function () {
     function KeyCodeStrMap() {
         this._keyCodeToStr = [];
@@ -210,13 +209,6 @@ var SimpleKeybinding = /** @class */ (function () {
             && this.metaKey === other.metaKey
             && this.keyCode === other.keyCode);
     };
-    SimpleKeybinding.prototype.getHashCode = function () {
-        var ctrl = this.ctrlKey ? '1' : '0';
-        var shift = this.shiftKey ? '1' : '0';
-        var alt = this.altKey ? '1' : '0';
-        var meta = this.metaKey ? '1' : '0';
-        return "" + ctrl + shift + alt + meta + this.keyCode;
-    };
     SimpleKeybinding.prototype.isModifierKey = function () {
         return (this.keyCode === 0 /* Unknown */
             || this.keyCode === 5 /* Ctrl */
@@ -242,9 +234,6 @@ var ChordKeybinding = /** @class */ (function () {
         this.firstPart = firstPart;
         this.chordPart = chordPart;
     }
-    ChordKeybinding.prototype.getHashCode = function () {
-        return this.firstPart.getHashCode() + ";" + this.chordPart.getHashCode();
-    };
     return ChordKeybinding;
 }());
 export { ChordKeybinding };

@@ -2,7 +2,6 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 var _typeof = {
     number: 'number',
     string: 'string',
@@ -30,12 +29,6 @@ export function isString(str) {
         return true;
     }
     return false;
-}
-/**
- * @returns whether the provided parameter is a JavaScript Array and each element in the array is a string.
- */
-export function isStringArray(value) {
-    return isArray(value) && value.every(function (elem) { return isString(elem); });
 }
 /**
  *
@@ -100,16 +93,6 @@ export function isEmptyObject(obj) {
  */
 export function isFunction(obj) {
     return typeof obj === _typeof.function;
-}
-/**
- * @returns whether the provided parameters is are JavaScript Function or not.
- */
-export function areFunctions() {
-    var objects = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        objects[_i] = arguments[_i];
-    }
-    return objects && objects.length > 0 && objects.every(isFunction);
 }
 export function validateConstraints(args, constraints) {
     var len = Math.min(args.length, constraints.length);

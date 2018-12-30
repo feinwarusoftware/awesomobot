@@ -2,8 +2,7 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
-import { match as matchGlobPattern } from '../../../base/common/glob.js'; // TODO@Alex
+import { match as matchGlobPattern } from '../../../base/common/glob.js';
 export function score(selector, candidateUri, candidateLanguage, candidateIsSynchronized) {
     if (Array.isArray(selector)) {
         // array -> take max individual value
@@ -25,8 +24,8 @@ export function score(selector, candidateUri, candidateLanguage, candidateIsSync
             return 0;
         }
         // short-hand notion, desugars to
-        // 'fooLang' -> [{ language: 'fooLang', scheme: 'file' }, { language: 'fooLang', scheme: 'untitled' }]
-        // '*' -> { language: '*', scheme: '*' }
+        // 'fooLang' -> { language: 'fooLang'}
+        // '*' -> { language: '*' }
         if (selector === '*') {
             return 5;
         }

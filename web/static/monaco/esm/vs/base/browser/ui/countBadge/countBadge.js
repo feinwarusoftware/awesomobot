@@ -2,7 +2,6 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 import './countBadge.css';
 import { $, append } from '../../dom.js';
 import { format } from '../../../common/strings.js';
@@ -26,10 +25,6 @@ var CountBadge = /** @class */ (function () {
     }
     CountBadge.prototype.setCount = function (count) {
         this.count = count;
-        this.render();
-    };
-    CountBadge.prototype.setCountFormat = function (countFormat) {
-        this.countFormat = countFormat;
         this.render();
     };
     CountBadge.prototype.setTitleFormat = function (titleFormat) {

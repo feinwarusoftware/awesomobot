@@ -8,7 +8,8 @@ import { parseTree, findNodeAtLocation } from './parser.js';
 export function removeProperty(text, path, formattingOptions) {
     return setProperty(text, path, void 0, formattingOptions);
 }
-export function setProperty(text, path, value, formattingOptions, getInsertionIndex) {
+export function setProperty(text, originalPath, value, formattingOptions, getInsertionIndex) {
+    var path = originalPath.slice();
     var errors = [];
     var root = parseTree(text, errors);
     var parent = void 0;
@@ -30,7 +31,7 @@ export function setProperty(text, path, value, formattingOptions, getInsertionIn
     }
     if (!parent) {
         // empty document
-        if (value === void 0) {
+        if (value === void 0) { // delete
             throw new Error('Can not delete in empty document');
         }
         return withFormatting(text, { offset: root ? root.offset : 0, length: root ? root.length : 0, content: JSON.stringify(value) }, formattingOptions);
@@ -38,7 +39,7 @@ export function setProperty(text, path, value, formattingOptions, getInsertionIn
     else if (parent.type === 'object' && typeof lastSegment === 'string' && Array.isArray(parent.children)) {
         var existing = findNodeAtLocation(parent, [lastSegment]);
         if (existing !== void 0) {
-            if (value === void 0) {
+            if (value === void 0) { // delete
                 if (!existing.parent) {
                     throw new Error('Malformed AST');
                 }
@@ -66,7 +67,7 @@ export function setProperty(text, path, value, formattingOptions, getInsertionIn
             }
         }
         else {
-            if (value === void 0) {
+            if (value === void 0) { // delete
                 return []; // property does not exist, nothing to do
             }
             var newProperty = JSON.stringify(lastSegment) + ": " + JSON.stringify(value);
@@ -138,7 +139,7 @@ function withFormatting(text, edit, formattingOptions) {
     // format the new text
     var begin = edit.offset;
     var end = edit.offset + edit.content.length;
-    if (edit.length === 0 || edit.content.length === 0) {
+    if (edit.length === 0 || edit.content.length === 0) { // insert or remove
         while (begin > 0 && !isEOL(newText, begin - 1)) {
             begin--;
         }

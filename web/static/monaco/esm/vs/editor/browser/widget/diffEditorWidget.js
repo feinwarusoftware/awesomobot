@@ -2,11 +2,13 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -24,35 +26,34 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 import './media/diffEditor.css';
 import * as nls from '../../../nls.js';
-import { RunOnceScheduler } from '../../../base/common/async.js';
-import { Disposable } from '../../../base/common/lifecycle.js';
-import * as objects from '../../../base/common/objects.js';
 import * as dom from '../../../base/browser/dom.js';
 import { createFastDomNode } from '../../../base/browser/fastDomNode.js';
 import { Sash } from '../../../base/browser/ui/sash/sash.js';
-import { IInstantiationService } from '../../../platform/instantiation/common/instantiation.js';
-import { IContextKeyService } from '../../../platform/contextkey/common/contextkey.js';
-import { ICodeEditorService } from '../services/codeEditorService.js';
-import { Range } from '../../common/core/range.js';
-import * as editorCommon from '../../common/editorCommon.js';
-import { IEditorWorkerService } from '../../common/services/editorWorkerService.js';
-import { LineDecoration } from '../../common/viewLayout/lineDecorations.js';
-import { renderViewLine, RenderLineInput } from '../../common/viewLayout/viewLineRenderer.js';
-import { CodeEditor } from '../codeEditor.js';
-import { LineTokens } from '../../common/core/lineTokens.js';
-import { Configuration } from '../config/configuration.js';
-import { InlineDecoration, ViewLineRenderingData } from '../../common/viewModel/viewModel.js';
-import { ServiceCollection } from '../../../platform/instantiation/common/serviceCollection.js';
+import { RunOnceScheduler } from '../../../base/common/async.js';
 import { Emitter } from '../../../base/common/event.js';
-import * as editorOptions from '../../common/config/editorOptions.js';
-import { registerThemingParticipant, IThemeService, getThemeTypeSelector } from '../../../platform/theme/common/themeService.js';
-import { scrollbarShadow, diffInserted, diffRemoved, defaultInsertColor, defaultRemoveColor, diffInsertedOutline, diffRemovedOutline } from '../../../platform/theme/common/colorRegistry.js';
-import { OverviewRulerZone } from '../../common/view/overviewZoneManager.js';
-import { ModelDecorationOptions } from '../../common/model/textModel.js';
-import { DiffReview } from './diffReview.js';
-import { createStringBuilder } from '../../common/core/stringBuilder.js';
-import { INotificationService } from '../../../platform/notification/common/notification.js';
+import { Disposable } from '../../../base/common/lifecycle.js';
+import * as objects from '../../../base/common/objects.js';
+import { Configuration } from '../config/configuration.js';
 import { StableEditorScrollState } from '../core/editorState.js';
+import { ICodeEditorService } from '../services/codeEditorService.js';
+import { CodeEditorWidget } from './codeEditorWidget.js';
+import { DiffReview } from './diffReview.js';
+import * as editorOptions from '../../common/config/editorOptions.js';
+import { Range } from '../../common/core/range.js';
+import { createStringBuilder } from '../../common/core/stringBuilder.js';
+import * as editorCommon from '../../common/editorCommon.js';
+import { ModelDecorationOptions } from '../../common/model/textModel.js';
+import { IEditorWorkerService } from '../../common/services/editorWorkerService.js';
+import { OverviewRulerZone } from '../../common/view/overviewZoneManager.js';
+import { LineDecoration } from '../../common/viewLayout/lineDecorations.js';
+import { RenderLineInput, renderViewLine } from '../../common/viewLayout/viewLineRenderer.js';
+import { InlineDecoration, ViewLineRenderingData } from '../../common/viewModel/viewModel.js';
+import { IContextKeyService } from '../../../platform/contextkey/common/contextkey.js';
+import { IInstantiationService } from '../../../platform/instantiation/common/instantiation.js';
+import { ServiceCollection } from '../../../platform/instantiation/common/serviceCollection.js';
+import { INotificationService } from '../../../platform/notification/common/notification.js';
+import { defaultInsertColor, defaultRemoveColor, diffBorder, diffInserted, diffInsertedOutline, diffRemoved, diffRemovedOutline, scrollbarShadow } from '../../../platform/theme/common/colorRegistry.js';
+import { IThemeService, getThemeTypeSelector, registerThemingParticipant } from '../../../platform/theme/common/themeService.js';
 var VisualEditorState = /** @class */ (function () {
     function VisualEditorState() {
         this._zones = [];
@@ -175,7 +176,7 @@ var DiffEditorWidget = /** @class */ (function (_super) {
         _this._width = 0;
         _this._height = 0;
         _this._reviewHeight = 0;
-        _this._lineChanges = null;
+        _this._diffComputationResult = null;
         var leftContextKeyService = _this._contextKeyService.createScoped();
         leftContextKeyService.createKey('isInDiffLeftEditor', true);
         var leftServices = new ServiceCollection();
@@ -215,27 +216,6 @@ var DiffEditorWidget = /** @class */ (function (_super) {
         _this._codeEditorService.addDiffEditor(_this);
         return _this;
     }
-    Object.defineProperty(DiffEditorWidget.prototype, "ignoreTrimWhitespace", {
-        get: function () {
-            return this._ignoreTrimWhitespace;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(DiffEditorWidget.prototype, "renderSideBySide", {
-        get: function () {
-            return this._renderSideBySide;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(DiffEditorWidget.prototype, "renderIndicators", {
-        get: function () {
-            return this._renderIndicators;
-        },
-        enumerable: true,
-        configurable: true
-    });
     DiffEditorWidget.prototype.hasWidgetFocus = function () {
         return dom.isAncestor(document.activeElement, this._domElement);
     };
@@ -342,7 +322,7 @@ var DiffEditorWidget = /** @class */ (function (_super) {
         }));
     };
     DiffEditorWidget.prototype._createInnerEditor = function (instantiationService, container, options) {
-        return instantiationService.createInstance(CodeEditor, container, options);
+        return instantiationService.createInstance(CodeEditorWidget, container, options, {});
     };
     DiffEditorWidget.prototype.dispose = function () {
         this._codeEditorService.removeDiffEditor(this);
@@ -352,10 +332,14 @@ var DiffEditorWidget = /** @class */ (function (_super) {
         }
         window.clearInterval(this._measureDomElementToken);
         this._cleanViewZonesAndDecorations();
-        this._overviewDomElement.removeChild(this._originalOverviewRuler.getDomNode());
-        this._originalOverviewRuler.dispose();
-        this._overviewDomElement.removeChild(this._modifiedOverviewRuler.getDomNode());
-        this._modifiedOverviewRuler.dispose();
+        if (this._originalOverviewRuler) {
+            this._overviewDomElement.removeChild(this._originalOverviewRuler.getDomNode());
+            this._originalOverviewRuler.dispose();
+        }
+        if (this._modifiedOverviewRuler) {
+            this._overviewDomElement.removeChild(this._modifiedOverviewRuler.getDomNode());
+            this._modifiedOverviewRuler.dispose();
+        }
         this._overviewDomElement.removeChild(this._overviewViewportDomElement.domNode);
         this._containerDomElement.removeChild(this._overviewDomElement);
         this._containerDomElement.removeChild(this._originalDomNode);
@@ -379,7 +363,10 @@ var DiffEditorWidget = /** @class */ (function (_super) {
         return editorCommon.EditorType.IDiffEditor;
     };
     DiffEditorWidget.prototype.getLineChanges = function () {
-        return this._lineChanges;
+        if (!this._diffComputationResult) {
+            return null;
+        }
+        return this._diffComputationResult.changes;
     };
     DiffEditorWidget.prototype.getOriginalEditor = function () {
         return this.originalEditor;
@@ -457,7 +444,7 @@ var DiffEditorWidget = /** @class */ (function (_super) {
             this.modifiedEditor.setScrollTop(0);
         }
         // Disable any diff computations that will come in
-        this._lineChanges = null;
+        this._diffComputationResult = null;
         this._diffComputationToken++;
         if (model) {
             this._recreateOverviewRulers();
@@ -465,7 +452,7 @@ var DiffEditorWidget = /** @class */ (function (_super) {
             this._beginUpdateDecorations();
         }
         else {
-            this._lineChanges = null;
+            this._diffComputationResult = null;
         }
         this._layoutOverviewViewport();
     };
@@ -571,22 +558,8 @@ var DiffEditorWidget = /** @class */ (function (_super) {
     DiffEditorWidget.prototype.focus = function () {
         this.modifiedEditor.focus();
     };
-    DiffEditorWidget.prototype.isFocused = function () {
-        return this.originalEditor.isFocused() || this.modifiedEditor.isFocused();
-    };
-    DiffEditorWidget.prototype.onVisible = function () {
-        this._isVisible = true;
-        this.originalEditor.onVisible();
-        this.modifiedEditor.onVisible();
-        // Begin comparing
-        this._beginUpdateDecorations();
-    };
-    DiffEditorWidget.prototype.onHide = function () {
-        this._isVisible = false;
-        this.originalEditor.onHide();
-        this.modifiedEditor.onHide();
-        // Remove all view zones & decorations
-        this._cleanViewZonesAndDecorations();
+    DiffEditorWidget.prototype.hasTextFocus = function () {
+        return this.originalEditor.hasTextFocus() || this.modifiedEditor.hasTextFocus();
     };
     DiffEditorWidget.prototype.trigger = function (source, handlerId, payload) {
         this.modifiedEditor.trigger(source, handlerId, payload);
@@ -685,7 +658,7 @@ var DiffEditorWidget = /** @class */ (function (_super) {
             if (currentToken === _this._diffComputationToken
                 && currentOriginalModel === _this.originalEditor.getModel()
                 && currentModifiedModel === _this.modifiedEditor.getModel()) {
-                _this._lineChanges = result;
+                _this._diffComputationResult = result;
                 _this._updateDecorationsRunner.schedule();
                 _this._onDidUpdateDiff.fire();
             }
@@ -693,7 +666,7 @@ var DiffEditorWidget = /** @class */ (function (_super) {
             if (currentToken === _this._diffComputationToken
                 && currentOriginalModel === _this.originalEditor.getModel()
                 && currentModifiedModel === _this.modifiedEditor.getModel()) {
-                _this._lineChanges = null;
+                _this._diffComputationResult = null;
                 _this._updateDecorationsRunner.schedule();
             }
         });
@@ -706,7 +679,7 @@ var DiffEditorWidget = /** @class */ (function (_super) {
         if (!this.originalEditor.getModel() || !this.modifiedEditor.getModel()) {
             return;
         }
-        var lineChanges = this._lineChanges || [];
+        var lineChanges = (this._diffComputationResult ? this._diffComputationResult.changes : []);
         var foreignOriginal = this._originalEditorState.getForeignViewZones(this.originalEditor.getWhitespaces());
         var foreignModified = this._modifiedEditorState.getForeignViewZones(this.modifiedEditor.getWhitespaces());
         var diffDecorations = this._strategy.getEditorsDiffDecorations(lineChanges, this._ignoreTrimWhitespace, this._renderIndicators, foreignOriginal, foreignModified, this.originalEditor, this.modifiedEditor);
@@ -730,7 +703,7 @@ var DiffEditorWidget = /** @class */ (function (_super) {
         clonedOptions.folding = false;
         clonedOptions.codeLens = false;
         clonedOptions.fixedOverflowWidgets = true;
-        clonedOptions.lineDecorationsWidth = '2ch';
+        // clonedOptions.lineDecorationsWidth = '2ch';
         if (!clonedOptions.minimap) {
             clonedOptions.minimap = {};
         }
@@ -831,22 +804,23 @@ var DiffEditorWidget = /** @class */ (function (_super) {
         }
         this._strategy = newStrategy;
         newStrategy.applyColors(this._themeService.getTheme());
-        if (this._lineChanges) {
+        if (this._diffComputationResult) {
             this._updateDecorations();
         }
         // Just do a layout, the strategy might need it
         this._measureDomElement(true);
     };
     DiffEditorWidget.prototype._getLineChangeAtOrBeforeLineNumber = function (lineNumber, startLineNumberExtractor) {
-        if (this._lineChanges.length === 0 || lineNumber < startLineNumberExtractor(this._lineChanges[0])) {
+        var lineChanges = (this._diffComputationResult ? this._diffComputationResult.changes : []);
+        if (lineChanges.length === 0 || lineNumber < startLineNumberExtractor(lineChanges[0])) {
             // There are no changes or `lineNumber` is before the first change
             return null;
         }
-        var min = 0, max = this._lineChanges.length - 1;
+        var min = 0, max = lineChanges.length - 1;
         while (min < max) {
             var mid = Math.floor((min + max) / 2);
-            var midStart = startLineNumberExtractor(this._lineChanges[mid]);
-            var midEnd = (mid + 1 <= max ? startLineNumberExtractor(this._lineChanges[mid + 1]) : Number.MAX_VALUE);
+            var midStart = startLineNumberExtractor(lineChanges[mid]);
+            var midEnd = (mid + 1 <= max ? startLineNumberExtractor(lineChanges[mid + 1]) : Number.MAX_VALUE);
             if (lineNumber < midStart) {
                 max = mid - 1;
             }
@@ -859,7 +833,7 @@ var DiffEditorWidget = /** @class */ (function (_super) {
                 max = mid;
             }
         }
-        return this._lineChanges[min];
+        return lineChanges[min];
     };
     DiffEditorWidget.prototype._getEquivalentLineForOriginalLineNumber = function (lineNumber) {
         var lineChange = this._getLineChangeAtOrBeforeLineNumber(lineNumber, function (lineChange) { return lineChange.originalStartLineNumber; });
@@ -892,7 +866,7 @@ var DiffEditorWidget = /** @class */ (function (_super) {
         return originalEquivalentLineNumber + lineChangeOriginalLength - lineChangeModifiedLength + delta;
     };
     DiffEditorWidget.prototype.getDiffLineInformationForOriginal = function (lineNumber) {
-        if (!this._lineChanges) {
+        if (!this._diffComputationResult) {
             // Cannot answer that which I don't know
             return null;
         }
@@ -901,7 +875,7 @@ var DiffEditorWidget = /** @class */ (function (_super) {
         };
     };
     DiffEditorWidget.prototype.getDiffLineInformationForModified = function (lineNumber) {
-        if (!this._lineChanges) {
+        if (!this._diffComputationResult) {
             // Cannot answer that which I don't know
             return null;
         }
@@ -962,15 +936,6 @@ var DiffEditorWidgetStyle = /** @class */ (function (_super) {
                 zones: zones.modified
             }
         };
-    };
-    DiffEditorWidgetStyle.prototype._getViewZones = function (lineChanges, originalForeignVZ, modifiedForeignVZ, originalEditor, modifiedEditor, renderIndicators) {
-        return null;
-    };
-    DiffEditorWidgetStyle.prototype._getOriginalEditorDecorations = function (lineChanges, ignoreTrimWhitespace, renderIndicators, originalEditor, modifiedEditor) {
-        return null;
-    };
-    DiffEditorWidgetStyle.prototype._getModifiedEditorDecorations = function (lineChanges, ignoreTrimWhitespace, renderIndicators, originalEditor, modifiedEditor) {
-        return null;
     };
     return DiffEditorWidgetStyle;
 }(Disposable));
@@ -1054,10 +1019,15 @@ var ViewZonesComputer = /** @class */ (function () {
                 else {
                     viewZoneLineNumber = originalEndEquivalentLineNumber;
                 }
+                var marginDomNode = null;
+                if (lineChange && lineChange.modifiedStartLineNumber <= modifiedForeignVZ.current.afterLineNumber && modifiedForeignVZ.current.afterLineNumber <= lineChange.modifiedEndLineNumber) {
+                    marginDomNode = this._createOriginalMarginDomNodeForModifiedForeignViewZoneInAddedRegion();
+                }
                 stepOriginal.push({
                     afterLineNumber: viewZoneLineNumber,
                     heightInLines: modifiedForeignVZ.current.heightInLines,
-                    domNode: null
+                    domNode: null,
+                    marginDomNode: marginDomNode
                 });
                 modifiedForeignVZ.advance();
             }
@@ -1209,7 +1179,7 @@ var DiffEdtorWidgetSideBySide = /** @class */ (function (_super) {
         _this._sashPosition = null;
         _this._sash = _this._register(new Sash(_this._dataSource.getContainerDomNode(), _this));
         if (_this._disableSash) {
-            _this._sash.disable();
+            _this._sash.state = 0 /* Disabled */;
         }
         _this._sash.onDidStart(function () { return _this.onSashDragStart(); });
         _this._sash.onDidChange(function (e) { return _this.onSashDrag(e); });
@@ -1217,19 +1187,11 @@ var DiffEdtorWidgetSideBySide = /** @class */ (function (_super) {
         _this._sash.onDidReset(function () { return _this.onSashReset(); });
         return _this;
     }
-    DiffEdtorWidgetSideBySide.prototype.dispose = function () {
-        _super.prototype.dispose.call(this);
-    };
     DiffEdtorWidgetSideBySide.prototype.setEnableSplitViewResizing = function (enableSplitViewResizing) {
         var newDisableSash = (enableSplitViewResizing === false);
         if (this._disableSash !== newDisableSash) {
             this._disableSash = newDisableSash;
-            if (this._disableSash) {
-                this._sash.disable();
-            }
-            else {
-                this._sash.enable();
-            }
+            this._sash.state = this._disableSash ? 0 /* Disabled */ : 3 /* Enabled */;
         }
     };
     DiffEdtorWidgetSideBySide.prototype.layout = function (sashRatio) {
@@ -1397,6 +1359,9 @@ var SideBySideViewZonesComputer = /** @class */ (function (_super) {
     function SideBySideViewZonesComputer(lineChanges, originalForeignVZ, modifiedForeignVZ) {
         return _super.call(this, lineChanges, originalForeignVZ, modifiedForeignVZ) || this;
     }
+    SideBySideViewZonesComputer.prototype._createOriginalMarginDomNodeForModifiedForeignViewZoneInAddedRegion = function () {
+        return null;
+    };
     SideBySideViewZonesComputer.prototype._produceOriginalFromDiff = function (lineChange, lineChangeOriginalLength, lineChangeModifiedLength) {
         if (lineChangeModifiedLength > lineChangeOriginalLength) {
             return {
@@ -1432,9 +1397,6 @@ var DiffEdtorWidgetInline = /** @class */ (function (_super) {
         }));
         return _this;
     }
-    DiffEdtorWidgetInline.prototype.dispose = function () {
-        _super.prototype.dispose.call(this);
-    };
     DiffEdtorWidgetInline.prototype.setEnableSplitViewResizing = function (enableSplitViewResizing) {
         // Nothing to do..
     };
@@ -1529,10 +1491,14 @@ var InlineViewZonesComputer = /** @class */ (function (_super) {
         _this.renderIndicators = renderIndicators;
         return _this;
     }
+    InlineViewZonesComputer.prototype._createOriginalMarginDomNodeForModifiedForeignViewZoneInAddedRegion = function () {
+        var result = document.createElement('div');
+        result.className = 'inline-added-margin-view-zone';
+        return result;
+    };
     InlineViewZonesComputer.prototype._produceOriginalFromDiff = function (lineChange, lineChangeOriginalLength, lineChangeModifiedLength) {
         var marginDomNode = document.createElement('div');
         marginDomNode.className = 'inline-added-margin-view-zone';
-        Configuration.applyFontInfoSlow(marginDomNode, this.modifiedEditorConfiguration.fontInfo);
         return {
             afterLineNumber: Math.max(lineChange.originalStartLineNumber, lineChange.originalEndLineNumber),
             heightInLines: lineChangeModifiedLength,
@@ -1554,8 +1520,10 @@ var InlineViewZonesComputer = /** @class */ (function (_super) {
         var marginHTML = [];
         var lineDecorationsWidth = this.modifiedEditorConfiguration.layoutInfo.decorationsWidth;
         var lineHeight = this.modifiedEditorConfiguration.lineHeight;
+        var typicalHalfwidthCharacterWidth = this.modifiedEditorConfiguration.fontInfo.typicalHalfwidthCharacterWidth;
+        var maxCharsPerLine = 0;
         for (var lineNumber = lineChange.originalStartLineNumber; lineNumber <= lineChange.originalEndLineNumber; lineNumber++) {
-            this.renderOriginalLine(lineNumber - lineChange.originalStartLineNumber, this.originalModel, this.modifiedEditorConfiguration, this.modifiedEditorTabSize, lineNumber, decorations, sb);
+            maxCharsPerLine = Math.max(maxCharsPerLine, this._renderOriginalLine(lineNumber - lineChange.originalStartLineNumber, this.originalModel, this.modifiedEditorConfiguration, this.modifiedEditorTabSize, lineNumber, decorations, sb));
             if (this.renderIndicators) {
                 var index = lineNumber - lineChange.originalStartLineNumber;
                 marginHTML = marginHTML.concat([
@@ -1563,6 +1531,7 @@ var InlineViewZonesComputer = /** @class */ (function (_super) {
                 ]);
             }
         }
+        maxCharsPerLine += this.modifiedEditorConfiguration.viewInfo.scrollBeyondLastColumn;
         var domNode = document.createElement('div');
         domNode.className = 'view-lines line-delete';
         domNode.innerHTML = sb.build();
@@ -1575,20 +1544,15 @@ var InlineViewZonesComputer = /** @class */ (function (_super) {
             shouldNotShrink: true,
             afterLineNumber: (lineChange.modifiedEndLineNumber === 0 ? lineChange.modifiedStartLineNumber : lineChange.modifiedStartLineNumber - 1),
             heightInLines: lineChangeOriginalLength,
+            minWidthInPx: (maxCharsPerLine * typicalHalfwidthCharacterWidth),
             domNode: domNode,
             marginDomNode: marginDomNode
         };
     };
-    InlineViewZonesComputer.prototype.renderOriginalLine = function (count, originalModel, config, tabSize, lineNumber, decorations, sb) {
-        var lineContent = originalModel.getLineContent(lineNumber);
+    InlineViewZonesComputer.prototype._renderOriginalLine = function (count, originalModel, config, tabSize, lineNumber, decorations, sb) {
+        var lineTokens = originalModel.getLineTokens(lineNumber);
+        var lineContent = lineTokens.getLineContent();
         var actualDecorations = LineDecoration.filter(decorations, lineNumber, 1, lineContent.length + 1);
-        var defaultMetadata = ((0 /* None */ << 11 /* FONT_STYLE_OFFSET */)
-            | (1 /* DefaultForeground */ << 14 /* FOREGROUND_OFFSET */)
-            | (2 /* DefaultBackground */ << 23 /* BACKGROUND_OFFSET */)) >>> 0;
-        var tokens = new Uint32Array(2);
-        tokens[0] = lineContent.length;
-        tokens[1] = defaultMetadata;
-        var lineTokens = new LineTokens(tokens, lineContent);
         sb.appendASCIIString('<div class="view-line');
         if (decorations.length === 0) {
             // No char changes
@@ -1599,8 +1563,10 @@ var InlineViewZonesComputer = /** @class */ (function (_super) {
         sb.appendASCIIString('px;width:1000000px;">');
         var isBasicASCII = ViewLineRenderingData.isBasicASCII(lineContent, originalModel.mightContainNonBasicASCII());
         var containsRTL = ViewLineRenderingData.containsRTL(lineContent, isBasicASCII, originalModel.mightContainRTL());
-        renderViewLine(new RenderLineInput((config.fontInfo.isMonospace && !config.viewInfo.disableMonospaceOptimizations), lineContent, isBasicASCII, containsRTL, 0, lineTokens, actualDecorations, tabSize, config.fontInfo.spaceWidth, config.viewInfo.stopRenderingLineAfter, config.viewInfo.renderWhitespace, config.viewInfo.renderControlCharacters, config.viewInfo.fontLigatures), sb);
+        var output = renderViewLine(new RenderLineInput((config.fontInfo.isMonospace && !config.viewInfo.disableMonospaceOptimizations), config.fontInfo.canUseHalfwidthRightwardsArrow, lineContent, false, isBasicASCII, containsRTL, 0, lineTokens, actualDecorations, tabSize, config.fontInfo.spaceWidth, config.viewInfo.stopRenderingLineAfter, config.viewInfo.renderWhitespace, config.viewInfo.renderControlCharacters, config.viewInfo.fontLigatures), sb);
         sb.appendASCIIString('</div>');
+        var absoluteOffsets = output.characterMapping.getAbsoluteOffsets();
+        return absoluteOffsets.length > 0 ? absoluteOffsets[absoluteOffsets.length - 1] : 0;
     };
     return InlineViewZonesComputer;
 }(ViewZonesComputer));
@@ -1639,5 +1605,9 @@ registerThemingParticipant(function (theme, collector) {
     var shadow = theme.getColor(scrollbarShadow);
     if (shadow) {
         collector.addRule(".monaco-diff-editor.side-by-side .editor.modified { box-shadow: -6px 0 5px -5px " + shadow + "; }");
+    }
+    var border = theme.getColor(diffBorder);
+    if (border) {
+        collector.addRule(".monaco-diff-editor.side-by-side .editor.modified { border-left: 1px solid " + border + "; }");
     }
 });

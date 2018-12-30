@@ -2,49 +2,57 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 import { illegalArgument, onUnexpectedExternalError } from '../../../base/common/errors.js';
-import URI from '../../../base/common/uri.js';
-import { TPromise } from '../../../base/common/winjs.base.js';
+import { URI } from '../../../base/common/uri.js';
 import { Range } from '../../common/core/range.js';
 import { registerLanguageCommand } from '../../browser/editorExtensions.js';
 import { DocumentSymbolProviderRegistry } from '../../common/modes.js';
 import { IModelService } from '../../common/services/modelService.js';
-import { asWinJsPromise } from '../../../base/common/async.js';
-export function getDocumentSymbols(model) {
-    var entries = [];
+import { CancellationToken } from '../../../base/common/cancellation.js';
+export function getDocumentSymbols(model, flat, token) {
+    var roots = [];
     var promises = DocumentSymbolProviderRegistry.all(model).map(function (support) {
-        return asWinJsPromise(function (token) {
-            return support.provideDocumentSymbols(model, token);
-        }).then(function (result) {
+        return Promise.resolve(support.provideDocumentSymbols(model, token)).then(function (result) {
             if (Array.isArray(result)) {
-                entries.push.apply(entries, result);
+                roots.push.apply(roots, result);
             }
         }, function (err) {
             onUnexpectedExternalError(err);
         });
     });
-    return TPromise.join(promises).then(function () {
+    return Promise.all(promises).then(function () {
         var flatEntries = [];
-        flatten(flatEntries, entries, '');
+        if (token.isCancellationRequested) {
+            return flatEntries;
+        }
+        if (flat) {
+            flatten(flatEntries, roots, '');
+        }
+        else {
+            flatEntries = roots;
+        }
         flatEntries.sort(compareEntriesUsingStart);
-        return {
-            entries: flatEntries,
-        };
+        return flatEntries;
     });
 }
 function compareEntriesUsingStart(a, b) {
-    return Range.compareRangesUsingStarts(Range.lift(a.location.range), Range.lift(b.location.range));
+    return Range.compareRangesUsingStarts(a.range, b.range);
 }
 function flatten(bucket, entries, overrideContainerLabel) {
     for (var _i = 0, entries_1 = entries; _i < entries_1.length; _i++) {
         var entry = entries_1[_i];
         bucket.push({
             kind: entry.kind,
-            location: entry.location,
             name: entry.name,
-            containerName: entry.containerName || overrideContainerLabel
+            detail: entry.detail,
+            containerName: entry.containerName || overrideContainerLabel,
+            range: entry.range,
+            selectionRange: entry.selectionRange,
+            children: undefined,
         });
+        if (entry.children) {
+            flatten(bucket, entry.children, entry.name);
+        }
     }
 }
 registerLanguageCommand('_executeDocumentSymbolProvider', function (accessor, args) {
@@ -56,5 +64,5 @@ registerLanguageCommand('_executeDocumentSymbolProvider', function (accessor, ar
     if (!model) {
         throw illegalArgument('resource');
     }
-    return getDocumentSymbols(model);
+    return getDocumentSymbols(model, false, CancellationToken.None);
 });

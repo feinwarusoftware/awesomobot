@@ -4,10 +4,10 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 import * as nodes from '../parser/cssNodes.js';
-import { Range, Location, DocumentHighlightKind, SymbolKind, TextEdit } from '../../vscode-languageserver-types/main.js';
+import { Range, Location, DocumentHighlightKind, SymbolKind, TextEdit } from './../../vscode-languageserver-types/main.js';
 import { Symbols } from '../parser/cssSymbolScope.js';
 import { getColorValue, hslFromColor } from '../services/languageFacts.js';
-import * as nls from '../../../fillers/vscode-nls.js';
+import * as nls from './../../../fillers/vscode-nls.js';
 var localize = nls.loadMessageBundle();
 var CSSNavigation = /** @class */ (function () {
     function CSSNavigation() {
@@ -147,12 +147,12 @@ var CSSNavigation = /** @class */ (function () {
         return result;
     };
     CSSNavigation.prototype.doRename = function (document, position, newName, stylesheet) {
+        var _a;
         var highlights = this.findDocumentHighlights(document, position, stylesheet);
         var edits = highlights.map(function (h) { return TextEdit.replace(h.range, newName); });
         return {
             changes: (_a = {}, _a[document.uri] = edits, _a)
         };
-        var _a;
     };
     return CSSNavigation;
 }());

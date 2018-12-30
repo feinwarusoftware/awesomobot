@@ -2,40 +2,41 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 import { onUnexpectedExternalError } from '../../../base/common/errors.js';
-import { toPromiseLike } from '../../../base/common/async.js';
-import { TPromise } from '../../../base/common/winjs.base.js';
 import { MAX_LINE_NUMBER, FoldingRegions } from './foldingRanges.js';
-var MAX_FOLDING_REGIONS_FOR_INDENT_LIMIT = 5000;
-var foldingContext = {
-    maxRanges: MAX_FOLDING_REGIONS_FOR_INDENT_LIMIT
-};
+var MAX_FOLDING_REGIONS = 5000;
+var foldingContext = {};
+export var ID_SYNTAX_PROVIDER = 'syntax';
 var SyntaxRangeProvider = /** @class */ (function () {
-    function SyntaxRangeProvider(providers) {
+    function SyntaxRangeProvider(editorModel, providers, limit) {
+        if (limit === void 0) { limit = MAX_FOLDING_REGIONS; }
+        this.editorModel = editorModel;
         this.providers = providers;
+        this.limit = limit;
+        this.id = ID_SYNTAX_PROVIDER;
     }
-    SyntaxRangeProvider.prototype.compute = function (model, cancellationToken) {
-        return collectSyntaxRanges(this.providers, model, cancellationToken).then(function (ranges) {
+    SyntaxRangeProvider.prototype.compute = function (cancellationToken) {
+        var _this = this;
+        return collectSyntaxRanges(this.providers, this.editorModel, cancellationToken).then(function (ranges) {
             if (ranges) {
-                var res = sanitizeRanges(ranges);
+                var res = sanitizeRanges(ranges, _this.limit);
                 return res;
             }
             return null;
         });
     };
+    SyntaxRangeProvider.prototype.dispose = function () {
+    };
     return SyntaxRangeProvider;
 }());
 export { SyntaxRangeProvider };
 function collectSyntaxRanges(providers, model, cancellationToken) {
-    var promises = providers.map(function (provider) { return toPromiseLike(provider.provideFoldingRanges(model, foldingContext, cancellationToken)); });
-    return TPromise.join(promises).then(function (results) {
-        var rangeData = null;
-        if (cancellationToken.isCancellationRequested) {
-            return null;
-        }
-        for (var i = 0; i < results.length; i++) {
-            var ranges = results[i];
+    var rangeData = null;
+    var promises = providers.map(function (provider, i) {
+        return Promise.resolve(provider.provideFoldingRanges(model, foldingContext, cancellationToken)).then(function (ranges) {
+            if (cancellationToken.isCancellationRequested) {
+                return;
+            }
             if (Array.isArray(ranges)) {
                 if (!Array.isArray(rangeData)) {
                     rangeData = [];
@@ -48,9 +49,11 @@ function collectSyntaxRanges(providers, model, cancellationToken) {
                     }
                 }
             }
-        }
+        }, onUnexpectedExternalError);
+    });
+    return Promise.all(promises).then(function (_) {
         return rangeData;
-    }, onUnexpectedExternalError);
+    });
 }
 var RangesCollector = /** @class */ (function () {
     function RangesCollector(foldingRangesLimit) {
@@ -99,12 +102,12 @@ var RangesCollector = /** @class */ (function () {
                     entries += n;
                 }
             }
-            var startIndexes = new Uint32Array(entries);
-            var endIndexes = new Uint32Array(entries);
+            var startIndexes = new Uint32Array(this._foldingRangesLimit);
+            var endIndexes = new Uint32Array(this._foldingRangesLimit);
             var types = [];
             for (var i = 0, k = 0; i < this._length; i++) {
                 var level = this._nestingLevels[i];
-                if (level < maxLevel) {
+                if (level < maxLevel || (level === maxLevel && entries++ < this._foldingRangesLimit)) {
                     startIndexes[k] = this._startIndexes[i];
                     endIndexes[k] = this._endIndexes[i];
                     types[k] = this._types[i];
@@ -117,7 +120,7 @@ var RangesCollector = /** @class */ (function () {
     return RangesCollector;
 }());
 export { RangesCollector };
-export function sanitizeRanges(rangeData) {
+export function sanitizeRanges(rangeData, limit) {
     var sorted = rangeData.sort(function (d1, d2) {
         var diff = d1.start - d2.start;
         if (diff === 0) {
@@ -125,8 +128,8 @@ export function sanitizeRanges(rangeData) {
         }
         return diff;
     });
-    var collector = new RangesCollector(MAX_FOLDING_REGIONS_FOR_INDENT_LIMIT);
-    var top = null;
+    var collector = new RangesCollector(limit);
+    var top = void 0;
     var previous = [];
     for (var _i = 0, sorted_1 = sorted; _i < sorted_1.length; _i++) {
         var entry = sorted_1[_i];
@@ -141,12 +144,16 @@ export function sanitizeRanges(rangeData) {
                     top = entry;
                     collector.add(entry.start, entry.end, entry.kind && entry.kind.value, previous.length);
                 }
-                else if (entry.start > top.end) {
-                    do {
-                        top = previous.pop();
-                    } while (top && entry.start > top.end);
-                    previous.push(top);
-                    top = entry;
+                else {
+                    if (entry.start > top.end) {
+                        do {
+                            top = previous.pop();
+                        } while (top && entry.start > top.end);
+                        if (top) {
+                            previous.push(top);
+                        }
+                        top = entry;
+                    }
                     collector.add(entry.start, entry.end, entry.kind && entry.kind.value, previous.length);
                 }
             }

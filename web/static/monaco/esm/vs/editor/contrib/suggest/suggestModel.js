@@ -2,25 +2,27 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
-import { onUnexpectedError } from '../../../base/common/errors.js';
 import { isFalsyOrEmpty } from '../../../base/common/arrays.js';
 import { TimeoutTimer } from '../../../base/common/async.js';
+import { onUnexpectedError } from '../../../base/common/errors.js';
 import { Emitter } from '../../../base/common/event.js';
 import { dispose } from '../../../base/common/lifecycle.js';
-import { TPromise } from '../../../base/common/winjs.base.js';
-import { SuggestRegistry, SuggestTriggerKind } from '../../common/modes.js';
+import { values } from '../../../base/common/map.js';
 import { Selection } from '../../common/core/selection.js';
-import { provideSuggestionItems, getSuggestionComparator } from './suggest.js';
+import { CompletionProviderRegistry } from '../../common/modes.js';
 import { CompletionModel } from './completionModel.js';
-import { CursorChangeReason } from '../../common/controller/cursorEvents.js';
+import { getSuggestionComparator, provideSuggestionItems, getSnippetSuggestSupport } from './suggest.js';
+import { SnippetController2 } from '../snippet/snippetController2.js';
+import { CancellationTokenSource } from '../../../base/common/cancellation.js';
+import { WordDistance } from './wordDistance.js';
 var LineContext = /** @class */ (function () {
-    function LineContext(model, position, auto) {
+    function LineContext(model, position, auto, shy) {
         this.leadingLineContent = model.getLineContent(position.lineNumber).substr(0, position.column - 1);
         this.leadingWord = model.getWordUntilPosition(position);
         this.lineNumber = position.lineNumber;
         this.column = position.column;
         this.auto = auto;
+        this.shy = shy;
     }
     LineContext.shouldAutoTrigger = function (editor) {
         var model = editor.getModel();
@@ -45,20 +47,20 @@ var LineContext = /** @class */ (function () {
 }());
 export { LineContext };
 var SuggestModel = /** @class */ (function () {
-    function SuggestModel(editor) {
+    function SuggestModel(_editor, _editorWorker) {
         var _this = this;
+        this._editor = _editor;
+        this._editorWorker = _editorWorker;
         this._toDispose = [];
+        this._triggerQuickSuggest = new TimeoutTimer();
         this._triggerRefilter = new TimeoutTimer();
+        this._state = 0 /* Idle */;
         this._onDidCancel = new Emitter();
         this._onDidTrigger = new Emitter();
         this._onDidSuggest = new Emitter();
         this.onDidCancel = this._onDidCancel.event;
         this.onDidTrigger = this._onDidTrigger.event;
         this.onDidSuggest = this._onDidSuggest.event;
-        this._editor = editor;
-        this._state = 0 /* Idle */;
-        this._triggerAutoSuggestPromise = null;
-        this._requestPromise = null;
         this._completionModel = null;
         this._context = null;
         this._currentSelection = this._editor.getSelection() || new Selection(1, 1, 1, 1);
@@ -75,21 +77,35 @@ var SuggestModel = /** @class */ (function () {
             _this._updateTriggerCharacters();
             _this._updateQuickSuggest();
         }));
-        this._toDispose.push(SuggestRegistry.onDidChange(function () {
+        this._toDispose.push(CompletionProviderRegistry.onDidChange(function () {
             _this._updateTriggerCharacters();
             _this._updateActiveSuggestSession();
         }));
         this._toDispose.push(this._editor.onDidChangeCursorSelection(function (e) {
             _this._onCursorChange(e);
         }));
-        this._toDispose.push(this._editor.onDidChangeModelContent(function (e) {
+        var editorIsComposing = false;
+        this._toDispose.push(this._editor.onCompositionStart(function () {
+            editorIsComposing = true;
+        }));
+        this._toDispose.push(this._editor.onCompositionEnd(function () {
+            // refilter when composition ends
+            editorIsComposing = false;
             _this._refilterCompletionItems();
+        }));
+        this._toDispose.push(this._editor.onDidChangeModelContent(function () {
+            // only filter completions when the editor isn't
+            // composing a character, e.g. ¨ + u makes ü but just
+            // ¨ cannot be used for filtering
+            if (!editorIsComposing) {
+                _this._refilterCompletionItems();
+            }
         }));
         this._updateTriggerCharacters();
         this._updateQuickSuggest();
     }
     SuggestModel.prototype.dispose = function () {
-        dispose([this._onDidCancel, this._onDidSuggest, this._onDidTrigger, this._triggerCharacterListener, this._triggerRefilter]);
+        dispose([this._onDidCancel, this._onDidSuggest, this._onDidTrigger, this._triggerCharacterListener, this._triggerQuickSuggest, this._triggerRefilter]);
         this._toDispose = dispose(this._toDispose);
         dispose(this._completionModel);
         this.cancel();
@@ -110,20 +126,19 @@ var SuggestModel = /** @class */ (function () {
             return;
         }
         var supportsByTriggerCharacter = Object.create(null);
-        for (var _i = 0, _a = SuggestRegistry.all(this._editor.getModel()); _i < _a.length; _i++) {
+        for (var _i = 0, _a = CompletionProviderRegistry.all(this._editor.getModel()); _i < _a.length; _i++) {
             var support = _a[_i];
             if (isFalsyOrEmpty(support.triggerCharacters)) {
                 continue;
             }
             for (var _b = 0, _c = support.triggerCharacters; _b < _c.length; _b++) {
                 var ch = _c[_b];
-                var array = supportsByTriggerCharacter[ch];
-                if (!array) {
-                    supportsByTriggerCharacter[ch] = [support];
+                var set = supportsByTriggerCharacter[ch];
+                if (!set) {
+                    set = supportsByTriggerCharacter[ch] = new Set();
+                    set.add(getSnippetSuggestSupport());
                 }
-                else {
-                    array.push(support);
-                }
+                set.add(support);
             }
         }
         this._triggerCharacterListener = this._editor.onDidType(function (text) {
@@ -132,16 +147,8 @@ var SuggestModel = /** @class */ (function () {
             if (supports) {
                 // keep existing items that where not computed by the
                 // supports/providers that want to trigger now
-                var items = [];
-                if (_this._completionModel) {
-                    for (var _i = 0, _a = _this._completionModel.items; _i < _a.length; _i++) {
-                        var item = _a[_i];
-                        if (supports.indexOf(item.support) < 0) {
-                            items.push(item);
-                        }
-                    }
-                }
-                _this.trigger({ auto: true, triggerCharacter: lastChar }, Boolean(_this._completionModel), supports, items);
+                var items = _this._completionModel ? _this._completionModel.adopt(supports) : undefined;
+                _this.trigger({ auto: true, triggerCharacter: lastChar }, Boolean(_this._completionModel), values(supports), items);
             }
         });
     };
@@ -156,13 +163,11 @@ var SuggestModel = /** @class */ (function () {
     SuggestModel.prototype.cancel = function (retrigger) {
         if (retrigger === void 0) { retrigger = false; }
         this._triggerRefilter.cancel();
-        if (this._triggerAutoSuggestPromise) {
-            this._triggerAutoSuggestPromise.cancel();
-            this._triggerAutoSuggestPromise = null;
+        if (this._triggerQuickSuggest) {
+            this._triggerQuickSuggest.cancel();
         }
-        if (this._requestPromise) {
-            this._requestPromise.cancel();
-            this._requestPromise = null;
+        if (this._requestToken) {
+            this._requestToken.cancel();
         }
         this._state = 0 /* Idle */;
         dispose(this._completionModel);
@@ -172,7 +177,7 @@ var SuggestModel = /** @class */ (function () {
     };
     SuggestModel.prototype._updateActiveSuggestSession = function () {
         if (this._state !== 0 /* Idle */) {
-            if (!SuggestRegistry.has(this._editor.getModel())) {
+            if (!CompletionProviderRegistry.has(this._editor.getModel())) {
                 this.cancel();
             }
             else {
@@ -185,7 +190,7 @@ var SuggestModel = /** @class */ (function () {
         var prevSelection = this._currentSelection;
         this._currentSelection = this._editor.getSelection();
         if (!e.selection.isEmpty()
-            || e.reason !== CursorChangeReason.NotSet
+            || e.reason !== 0 /* NotSet */
             || (e.source !== 'keyboard' && e.source !== 'deleteLeft')) {
             // Early exit if nothing needs to be done!
             // Leave some form of early exit check here if you wish to continue being a cursor position change listener ;)
@@ -194,7 +199,7 @@ var SuggestModel = /** @class */ (function () {
             }
             return;
         }
-        if (!SuggestRegistry.has(this._editor.getModel())) {
+        if (!CompletionProviderRegistry.has(this._editor.getModel())) {
             return;
         }
         var model = this._editor.getModel();
@@ -202,45 +207,51 @@ var SuggestModel = /** @class */ (function () {
             return;
         }
         if (this._state === 0 /* Idle */) {
-            // trigger 24x7 IntelliSense when idle, enabled, when cursor
-            // moved RIGHT, and when at a good position
-            if (this._editor.getConfiguration().contribInfo.quickSuggestions !== false
-                && (prevSelection.containsRange(this._currentSelection)
-                    || prevSelection.getEndPosition().isBeforeOrEqual(this._currentSelection.getPosition()))) {
-                this.cancel();
-                this._triggerAutoSuggestPromise = TPromise.timeout(this._quickSuggestDelay);
-                this._triggerAutoSuggestPromise.then(function () {
-                    if (LineContext.shouldAutoTrigger(_this._editor)) {
-                        var model_1 = _this._editor.getModel();
-                        var pos = _this._editor.getPosition();
-                        if (!model_1) {
-                            return;
-                        }
-                        // validate enabled now
-                        var quickSuggestions = _this._editor.getConfiguration().contribInfo.quickSuggestions;
-                        if (quickSuggestions === false) {
-                            return;
-                        }
-                        else if (quickSuggestions === true) {
-                            // all good
-                        }
-                        else {
-                            // Check the type of the token that triggered this
-                            model_1.tokenizeIfCheap(pos.lineNumber);
-                            var lineTokens = model_1.getLineTokens(pos.lineNumber);
-                            var tokenType = lineTokens.getStandardTokenType(lineTokens.findTokenIndexAtOffset(Math.max(pos.column - 1 - 1, 0)));
-                            var inValidScope = quickSuggestions.other && tokenType === 0 /* Other */
-                                || quickSuggestions.comments && tokenType === 1 /* Comment */
-                                || quickSuggestions.strings && tokenType === 2 /* String */;
-                            if (!inValidScope) {
-                                return;
-                            }
-                        }
-                        _this.trigger({ auto: true });
-                    }
-                    _this._triggerAutoSuggestPromise = null;
-                });
+            if (this._editor.getConfiguration().contribInfo.quickSuggestions === false) {
+                // not enabled
+                return;
             }
+            if (!prevSelection.containsRange(this._currentSelection) && !prevSelection.getEndPosition().isBeforeOrEqual(this._currentSelection.getPosition())) {
+                // cursor didn't move RIGHT
+                return;
+            }
+            if (this._editor.getConfiguration().contribInfo.suggest.snippetsPreventQuickSuggestions && SnippetController2.get(this._editor).isInSnippet()) {
+                // no quick suggestion when in snippet mode
+                return;
+            }
+            this.cancel();
+            this._triggerQuickSuggest.cancelAndSet(function () {
+                if (!LineContext.shouldAutoTrigger(_this._editor)) {
+                    return;
+                }
+                var model = _this._editor.getModel();
+                var pos = _this._editor.getPosition();
+                if (!model) {
+                    return;
+                }
+                // validate enabled now
+                var quickSuggestions = _this._editor.getConfiguration().contribInfo.quickSuggestions;
+                if (quickSuggestions === false) {
+                    return;
+                }
+                else if (quickSuggestions === true) {
+                    // all good
+                }
+                else {
+                    // Check the type of the token that triggered this
+                    model.tokenizeIfCheap(pos.lineNumber);
+                    var lineTokens = model.getLineTokens(pos.lineNumber);
+                    var tokenType = lineTokens.getStandardTokenType(lineTokens.findTokenIndexAtOffset(Math.max(pos.column - 1 - 1, 0)));
+                    var inValidScope = quickSuggestions.other && tokenType === 0 /* Other */
+                        || quickSuggestions.comments && tokenType === 1 /* Comment */
+                        || quickSuggestions.strings && tokenType === 2 /* String */;
+                    if (!inValidScope) {
+                        return;
+                    }
+                }
+                // we made it till here -> trigger now
+                _this.trigger({ auto: true });
+            }, this._quickSuggestDelay);
         }
     };
     SuggestModel.prototype._refilterCompletionItems = function () {
@@ -253,7 +264,7 @@ var SuggestModel = /** @class */ (function () {
             // refine active suggestion
             this._triggerRefilter.cancelAndSet(function () {
                 var position = _this._editor.getPosition();
-                var ctx = new LineContext(model, position, _this._state === 2 /* Auto */);
+                var ctx = new LineContext(model, position, _this._state === 2 /* Auto */, false);
                 _this._onNewContext(ctx);
             }, 25);
         }
@@ -266,29 +277,35 @@ var SuggestModel = /** @class */ (function () {
             return;
         }
         var auto = context.auto;
-        var ctx = new LineContext(model, this._editor.getPosition(), auto);
+        var ctx = new LineContext(model, this._editor.getPosition(), auto, context.shy);
         // Cancel previous requests, change state & update UI
         this.cancel(retrigger);
         this._state = auto ? 2 /* Auto */ : 1 /* Manual */;
-        this._onDidTrigger.fire({ auto: auto });
+        this._onDidTrigger.fire({ auto: auto, shy: context.shy });
         // Capture context when request was sent
         this._context = ctx;
         // Build context for request
         var suggestCtx;
         if (context.triggerCharacter) {
             suggestCtx = {
-                triggerKind: SuggestTriggerKind.TriggerCharacter,
+                triggerKind: 1 /* TriggerCharacter */,
                 triggerCharacter: context.triggerCharacter
             };
         }
         else if (onlyFrom && onlyFrom.length) {
-            suggestCtx = { triggerKind: SuggestTriggerKind.TriggerForIncompleteCompletions };
+            suggestCtx = { triggerKind: 2 /* TriggerForIncompleteCompletions */ };
         }
         else {
-            suggestCtx = { triggerKind: SuggestTriggerKind.Invoke };
+            suggestCtx = { triggerKind: 0 /* Invoke */ };
         }
-        this._requestPromise = provideSuggestionItems(model, this._editor.getPosition(), this._editor.getConfiguration().contribInfo.snippetSuggestions, onlyFrom, suggestCtx).then(function (items) {
-            _this._requestPromise = null;
+        this._requestToken = new CancellationTokenSource();
+        // TODO: Remove this workaround - https://github.com/Microsoft/vscode/issues/61917
+        // let wordDistance = Promise.resolve().then(() => WordDistance.create(this._editorWorker, this._editor));
+        var wordDistance = WordDistance.create(this._editorWorker, this._editor);
+        var items = provideSuggestionItems(model, this._editor.getPosition(), this._editor.getConfiguration().contribInfo.suggest.snippets, onlyFrom, suggestCtx, this._requestToken.token);
+        Promise.all([items, wordDistance]).then(function (_a) {
+            var items = _a[0], wordDistance = _a[1];
+            _this._requestToken.dispose();
             if (_this._state === 0 /* Idle */) {
                 return;
             }
@@ -297,17 +314,17 @@ var SuggestModel = /** @class */ (function () {
                 return;
             }
             if (!isFalsyOrEmpty(existingItems)) {
-                var cmpFn = getSuggestionComparator(_this._editor.getConfiguration().contribInfo.snippetSuggestions);
+                var cmpFn = getSuggestionComparator(_this._editor.getConfiguration().contribInfo.suggest.snippets);
                 items = items.concat(existingItems).sort(cmpFn);
             }
-            var ctx = new LineContext(model, _this._editor.getPosition(), auto);
+            var ctx = new LineContext(model, _this._editor.getPosition(), auto, context.shy);
             dispose(_this._completionModel);
             _this._completionModel = new CompletionModel(items, _this._context.column, {
                 leadingLineContent: ctx.leadingLineContent,
                 characterCountDelta: _this._context ? ctx.column - _this._context.column : 0
-            }, _this._editor.getConfiguration().contribInfo.snippetSuggestions);
+            }, wordDistance, _this._editor.getConfiguration().contribInfo.suggest);
             _this._onNewContext(ctx);
-        }).then(null, onUnexpectedError);
+        }).catch(onUnexpectedError);
     };
     SuggestModel.prototype._onNewContext = function (ctx) {
         if (!this._context) {
@@ -338,10 +355,11 @@ var SuggestModel = /** @class */ (function () {
             // happens when IntelliSense is not yet computed
             return;
         }
-        if (ctx.column > this._context.column && this._completionModel.incomplete && ctx.leadingWord.word.length !== 0) {
+        if (ctx.column > this._context.column && this._completionModel.incomplete.size > 0 && ctx.leadingWord.word.length !== 0) {
             // typed -> moved cursor RIGHT & incomple model & still on a word -> retrigger
-            var _a = this._completionModel.resolveIncompleteInfo(), complete = _a.complete, incomplete = _a.incomplete;
-            this.trigger({ auto: this._state === 2 /* Auto */ }, true, incomplete, complete);
+            var incomplete = this._completionModel.incomplete;
+            var adopted = this._completionModel.adopt(incomplete);
+            this.trigger({ auto: this._state === 2 /* Auto */ }, true, values(incomplete), adopted);
         }
         else {
             // typed -> moved cursor RIGHT -> update UI
@@ -377,6 +395,7 @@ var SuggestModel = /** @class */ (function () {
             this._onDidSuggest.fire({
                 completionModel: this._completionModel,
                 auto: this._context.auto,
+                shy: this._context.shy,
                 isFrozen: isFrozen,
             });
         }

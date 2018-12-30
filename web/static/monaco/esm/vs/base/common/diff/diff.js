@@ -2,12 +2,11 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 import { DiffChange } from './diffChange.js';
 function createStringSequence(a) {
     return {
         getLength: function () { return a.length; },
-        getElementHash: function (pos) { return a[pos]; }
+        getElementAtIndex: function (pos) { return a.charCodeAt(pos); }
     };
 }
 export function stringDiff(original, modified, pretty) {
@@ -149,7 +148,6 @@ var DiffChangeHelper = /** @class */ (function () {
     };
     return DiffChangeHelper;
 }());
-var hasOwnProperty = Object.prototype.hasOwnProperty;
 /**
  * An implementation of the difference algorithm described in
  * "An O(ND) Difference Algorithm and its variations" by Eugene W. Myers
@@ -163,56 +161,17 @@ var LcsDiff = /** @class */ (function () {
         this.OriginalSequence = originalSequence;
         this.ModifiedSequence = newSequence;
         this.ContinueProcessingPredicate = continueProcessingPredicate;
-        this.m_originalIds = [];
-        this.m_modifiedIds = [];
         this.m_forwardHistory = [];
         this.m_reverseHistory = [];
-        this.ComputeUniqueIdentifiers();
     }
-    LcsDiff.prototype.ComputeUniqueIdentifiers = function () {
-        var originalSequenceLength = this.OriginalSequence.getLength();
-        var modifiedSequenceLength = this.ModifiedSequence.getLength();
-        this.m_originalIds = new Array(originalSequenceLength);
-        this.m_modifiedIds = new Array(modifiedSequenceLength);
-        // Create a new hash table for unique elements from the original
-        // sequence.
-        var hashTable = {};
-        var currentUniqueId = 1;
-        var i;
-        // Fill up the hash table for unique elements
-        for (i = 0; i < originalSequenceLength; i++) {
-            var originalElementHash = this.OriginalSequence.getElementHash(i);
-            if (!hasOwnProperty.call(hashTable, originalElementHash)) {
-                // No entry in the hashtable so this is a new unique element.
-                // Assign the element a new unique identifier and add it to the
-                // hash table
-                this.m_originalIds[i] = currentUniqueId++;
-                hashTable[originalElementHash] = this.m_originalIds[i];
-            }
-            else {
-                this.m_originalIds[i] = hashTable[originalElementHash];
-            }
-        }
-        // Now match up modified elements
-        for (i = 0; i < modifiedSequenceLength; i++) {
-            var modifiedElementHash = this.ModifiedSequence.getElementHash(i);
-            if (!hasOwnProperty.call(hashTable, modifiedElementHash)) {
-                this.m_modifiedIds[i] = currentUniqueId++;
-                hashTable[modifiedElementHash] = this.m_modifiedIds[i];
-            }
-            else {
-                this.m_modifiedIds[i] = hashTable[modifiedElementHash];
-            }
-        }
-    };
     LcsDiff.prototype.ElementsAreEqual = function (originalIndex, newIndex) {
-        return this.m_originalIds[originalIndex] === this.m_modifiedIds[newIndex];
+        return (this.OriginalSequence.getElementAtIndex(originalIndex) === this.ModifiedSequence.getElementAtIndex(newIndex));
     };
     LcsDiff.prototype.OriginalElementsAreEqual = function (index1, index2) {
-        return this.m_originalIds[index1] === this.m_originalIds[index2];
+        return (this.OriginalSequence.getElementAtIndex(index1) === this.OriginalSequence.getElementAtIndex(index2));
     };
     LcsDiff.prototype.ModifiedElementsAreEqual = function (index1, index2) {
-        return this.m_modifiedIds[index1] === this.m_modifiedIds[index2];
+        return (this.ModifiedSequence.getElementAtIndex(index1) === this.ModifiedSequence.getElementAtIndex(index2));
     };
     LcsDiff.prototype.ComputeDiff = function (pretty) {
         return this._ComputeDiff(0, this.OriginalSequence.getLength() - 1, 0, this.ModifiedSequence.getLength() - 1, pretty);
@@ -229,7 +188,7 @@ var LcsDiff = /** @class */ (function () {
             // We have to clean up the computed diff to be more intuitive
             // but it turns out this cannot be done correctly until the entire set
             // of diffs have been computed
-            return this.ShiftChanges(changes);
+            return this.PrettifyChanges(changes);
         }
         return changes;
     };
@@ -433,7 +392,7 @@ var LcsDiff = /** @class */ (function () {
      * @returns The diff changes, if available, otherwise null
      */
     LcsDiff.prototype.ComputeRecursionPoint = function (originalStart, originalEnd, modifiedStart, modifiedEnd, midOriginalArr, midModifiedArr, quitEarlyArr) {
-        var originalIndex, modifiedIndex;
+        var originalIndex = 0, modifiedIndex = 0;
         var diagonalForwardStart = 0, diagonalForwardEnd = 0;
         var diagonalReverseStart = 0, diagonalReverseEnd = 0;
         var numDifferences;
@@ -626,41 +585,29 @@ var LcsDiff = /** @class */ (function () {
      * @param changes The list of changes to shift
      * @returns The shifted changes
      */
-    LcsDiff.prototype.ShiftChanges = function (changes) {
-        var mergedDiffs;
-        do {
-            mergedDiffs = false;
-            // Shift all the changes down first
-            for (var i = 0; i < changes.length; i++) {
-                var change = changes[i];
-                var originalStop = (i < changes.length - 1) ? changes[i + 1].originalStart : this.OriginalSequence.getLength();
-                var modifiedStop = (i < changes.length - 1) ? changes[i + 1].modifiedStart : this.ModifiedSequence.getLength();
-                var checkOriginal = change.originalLength > 0;
-                var checkModified = change.modifiedLength > 0;
-                while (change.originalStart + change.originalLength < originalStop &&
-                    change.modifiedStart + change.modifiedLength < modifiedStop &&
-                    (!checkOriginal || this.OriginalElementsAreEqual(change.originalStart, change.originalStart + change.originalLength)) &&
-                    (!checkModified || this.ModifiedElementsAreEqual(change.modifiedStart, change.modifiedStart + change.modifiedLength))) {
-                    change.originalStart++;
-                    change.modifiedStart++;
-                }
+    LcsDiff.prototype.PrettifyChanges = function (changes) {
+        // Shift all the changes down first
+        for (var i = 0; i < changes.length; i++) {
+            var change = changes[i];
+            var originalStop = (i < changes.length - 1) ? changes[i + 1].originalStart : this.OriginalSequence.getLength();
+            var modifiedStop = (i < changes.length - 1) ? changes[i + 1].modifiedStart : this.ModifiedSequence.getLength();
+            var checkOriginal = change.originalLength > 0;
+            var checkModified = change.modifiedLength > 0;
+            while (change.originalStart + change.originalLength < originalStop &&
+                change.modifiedStart + change.modifiedLength < modifiedStop &&
+                (!checkOriginal || this.OriginalElementsAreEqual(change.originalStart, change.originalStart + change.originalLength)) &&
+                (!checkModified || this.ModifiedElementsAreEqual(change.modifiedStart, change.modifiedStart + change.modifiedLength))) {
+                change.originalStart++;
+                change.modifiedStart++;
             }
-            // Build up the new list (we have to build a new list because we
-            // might have changes we can merge together now)
-            var result = new Array();
             var mergedChangeArr = [null];
-            for (var i = 0; i < changes.length; i++) {
-                if (i < changes.length - 1 && this.ChangesOverlap(changes[i], changes[i + 1], mergedChangeArr)) {
-                    mergedDiffs = true;
-                    result.push(mergedChangeArr[0]);
-                    i++;
-                }
-                else {
-                    result.push(changes[i]);
-                }
+            if (i < changes.length - 1 && this.ChangesOverlap(changes[i], changes[i + 1], mergedChangeArr)) {
+                changes[i] = mergedChangeArr[0];
+                changes.splice(i + 1, 1);
+                i--;
+                continue;
             }
-            changes = result;
-        } while (mergedDiffs);
+        }
         // Shift changes back up until we hit empty or whitespace-only lines
         for (var i = changes.length - 1; i >= 0; i--) {
             var change = changes[i];
@@ -706,7 +653,8 @@ var LcsDiff = /** @class */ (function () {
         if (index <= 0 || index >= this.OriginalSequence.getLength() - 1) {
             return true;
         }
-        return /^\s*$/.test(this.OriginalSequence.getElementHash(index));
+        var element = this.OriginalSequence.getElementAtIndex(index);
+        return (typeof element === 'string' && /^\s*$/.test(element));
     };
     LcsDiff.prototype._OriginalRegionIsBoundary = function (originalStart, originalLength) {
         if (this._OriginalIsBoundary(originalStart) || this._OriginalIsBoundary(originalStart - 1)) {
@@ -724,7 +672,8 @@ var LcsDiff = /** @class */ (function () {
         if (index <= 0 || index >= this.ModifiedSequence.getLength() - 1) {
             return true;
         }
-        return /^\s*$/.test(this.ModifiedSequence.getElementHash(index));
+        var element = this.ModifiedSequence.getElementAtIndex(index);
+        return (typeof element === 'string' && /^\s*$/.test(element));
     };
     LcsDiff.prototype._ModifiedRegionIsBoundary = function (modifiedStart, modifiedLength) {
         if (this._ModifiedIsBoundary(modifiedStart) || this._ModifiedIsBoundary(modifiedStart - 1)) {
@@ -752,7 +701,6 @@ var LcsDiff = /** @class */ (function () {
      */
     LcsDiff.prototype.ConcatenateChanges = function (left, right) {
         var mergedChangeArr = [];
-        var result = null;
         if (left.length === 0 || right.length === 0) {
             return (right.length > 0) ? right : left;
         }
@@ -761,14 +709,14 @@ var LcsDiff = /** @class */ (function () {
             // might recurse in the middle of a change thereby splitting it into
             // two changes. Here in the combining stage, we detect and fuse those
             // changes back together
-            result = new Array(left.length + right.length - 1);
+            var result = new Array(left.length + right.length - 1);
             MyArray.Copy(left, 0, result, 0, left.length - 1);
             result[left.length - 1] = mergedChangeArr[0];
             MyArray.Copy(right, 1, result, left.length, right.length - 1);
             return result;
         }
         else {
-            result = new Array(left.length + right.length);
+            var result = new Array(left.length + right.length);
             MyArray.Copy(left, 0, result, 0, left.length);
             MyArray.Copy(right, 0, result, left.length, right.length);
             return result;

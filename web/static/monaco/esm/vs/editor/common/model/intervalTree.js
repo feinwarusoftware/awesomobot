@@ -2,16 +2,6 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
-//
-// The red-black tree is based on the "Introduction to Algorithms" by Cormen, Leiserson and Rivest.
-//
-export var ClassName = {
-    EditorHintDecoration: 'squiggly-hint',
-    EditorInfoDecoration: 'squiggly-info',
-    EditorWarningDecoration: 'squiggly-warning',
-    EditorErrorDecoration: 'squiggly-error'
-};
 export function getNodeColor(node) {
     return ((node.metadata & 1 /* ColorMask */) >>> 0 /* ColorOffset */);
 }
@@ -39,15 +29,21 @@ function setNodeIsInOverviewRuler(node, value) {
 function getNodeStickiness(node) {
     return ((node.metadata & 48 /* StickinessMask */) >>> 4 /* StickinessOffset */);
 }
-function setNodeStickiness(node, stickiness) {
+function _setNodeStickiness(node, stickiness) {
     node.metadata = ((node.metadata & 207 /* StickinessMaskInverse */) | (stickiness << 4 /* StickinessOffset */));
+}
+function getCollapseOnReplaceEdit(node) {
+    return ((node.metadata & 64 /* CollapseOnReplaceEditMask */) >>> 6 /* CollapseOnReplaceEditOffset */) === 1;
+}
+function setCollapseOnReplaceEdit(node, value) {
+    node.metadata = ((node.metadata & 191 /* CollapseOnReplaceEditMaskInverse */) | ((value ? 1 : 0) << 6 /* CollapseOnReplaceEditOffset */));
 }
 var IntervalNode = /** @class */ (function () {
     function IntervalNode(id, start, end) {
         this.metadata = 0;
-        this.parent = null;
-        this.left = null;
-        this.right = null;
+        this.parent = this;
+        this.left = this;
+        this.right = this;
         setNodeColor(this, 1 /* Red */);
         this.start = start;
         this.end = end;
@@ -58,8 +54,9 @@ var IntervalNode = /** @class */ (function () {
         this.ownerId = 0;
         this.options = null;
         setNodeIsForValidation(this, false);
-        setNodeStickiness(this, 1 /* NeverGrowsWhenTypingAtEdges */);
+        _setNodeStickiness(this, 1 /* NeverGrowsWhenTypingAtEdges */);
         setNodeIsInOverviewRuler(this, false);
+        setCollapseOnReplaceEdit(this, false);
         this.cachedVersionId = 0;
         this.cachedAbsoluteStart = start;
         this.cachedAbsoluteEnd = end;
@@ -78,11 +75,12 @@ var IntervalNode = /** @class */ (function () {
     IntervalNode.prototype.setOptions = function (options) {
         this.options = options;
         var className = this.options.className;
-        setNodeIsForValidation(this, (className === ClassName.EditorErrorDecoration
-            || className === ClassName.EditorWarningDecoration
-            || className === ClassName.EditorInfoDecoration));
-        setNodeStickiness(this, this.options.stickiness);
-        setNodeIsInOverviewRuler(this, this.options.overviewRuler.color ? true : false);
+        setNodeIsForValidation(this, (className === "squiggly-error" /* EditorErrorDecoration */
+            || className === "squiggly-warning" /* EditorWarningDecoration */
+            || className === "squiggly-info" /* EditorInfoDecoration */));
+        _setNodeStickiness(this, this.options.stickiness);
+        setNodeIsInOverviewRuler(this, (this.options.overviewRuler && this.options.overviewRuler.color) ? true : false);
+        setCollapseOnReplaceEdit(this, this.options.collapseOnReplaceEdit);
     };
     IntervalNode.prototype.setCachedOffsets = function (absoluteStart, absoluteEnd, cachedVersionId) {
         if (this.cachedVersionId !== cachedVersionId) {
@@ -179,9 +177,6 @@ var IntervalTree = /** @class */ (function () {
         }
         this._normalizeDeltaIfNecessary();
     };
-    IntervalTree.prototype.getAllInOrder = function () {
-        return search(this, 0, false, 0);
-    };
     IntervalTree.prototype._normalizeDeltaIfNecessary = function () {
         if (!this.requestNormalizeDelta) {
             return;
@@ -243,7 +238,7 @@ function adjustMarkerBeforeColumn(markerOffset, markerStickToPreviousCharacter, 
  * This is a lot more complicated than strictly necessary to maintain the same behaviour
  * as when decorations were implemented using two markers.
  */
-function nodeAcceptEdit(node, start, end, textLength, forceMoveMarkers) {
+export function nodeAcceptEdit(node, start, end, textLength, forceMoveMarkers) {
     var nodeStickiness = getNodeStickiness(node);
     var startStickToPreviousCharacter = (nodeStickiness === 0 /* AlwaysGrowsWhenTypingAtEdges */
         || nodeStickiness === 2 /* GrowsOnlyWhenTypingBefore */);
@@ -256,6 +251,14 @@ function nodeAcceptEdit(node, start, end, textLength, forceMoveMarkers) {
     var startDone = false;
     var nodeEnd = node.end;
     var endDone = false;
+    if (start <= nodeStart && nodeEnd <= end && getCollapseOnReplaceEdit(node)) {
+        // This edit encompasses the entire decoration range
+        // and the decoration has asked to become collapsed
+        node.start = start;
+        startDone = true;
+        node.end = start;
+        endDone = true;
+    }
     {
         var moveSemantics = forceMoveMarkers ? 1 /* ForceMove */ : (deletingCnt > 0 ? 2 /* ForceStay */ : 0 /* MarkerDefined */);
         if (!startDone && adjustMarkerBeforeColumn(nodeStart, startStickToPreviousCharacter, start, moveSemantics)) {
@@ -980,3 +983,4 @@ export function intervalCompare(aStart, aEnd, bStart, bEnd) {
     }
     return aStart - bStart;
 }
+//#endregion

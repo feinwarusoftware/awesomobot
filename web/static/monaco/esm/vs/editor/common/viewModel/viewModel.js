@@ -2,7 +2,6 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 import * as strings from '../../../base/common/strings.js';
 var Viewport = /** @class */ (function () {
     function Viewport(top, left, width, height) {
@@ -23,8 +22,9 @@ var MinimapLinesRenderingData = /** @class */ (function () {
 }());
 export { MinimapLinesRenderingData };
 var ViewLineData = /** @class */ (function () {
-    function ViewLineData(content, minColumn, maxColumn, tokens) {
+    function ViewLineData(content, continuesWithWrappedLine, minColumn, maxColumn, tokens) {
         this.content = content;
+        this.continuesWithWrappedLine = continuesWithWrappedLine;
         this.minColumn = minColumn;
         this.maxColumn = maxColumn;
         this.tokens = tokens;
@@ -33,10 +33,11 @@ var ViewLineData = /** @class */ (function () {
 }());
 export { ViewLineData };
 var ViewLineRenderingData = /** @class */ (function () {
-    function ViewLineRenderingData(minColumn, maxColumn, content, mightContainRTL, mightContainNonBasicASCII, tokens, inlineDecorations, tabSize) {
+    function ViewLineRenderingData(minColumn, maxColumn, content, continuesWithWrappedLine, mightContainRTL, mightContainNonBasicASCII, tokens, inlineDecorations, tabSize) {
         this.minColumn = minColumn;
         this.maxColumn = maxColumn;
         this.content = content;
+        this.continuesWithWrappedLine = continuesWithWrappedLine;
         this.isBasicASCII = ViewLineRenderingData.isBasicASCII(content, mightContainNonBasicASCII);
         this.containsRTL = ViewLineRenderingData.containsRTL(content, this.isBasicASCII, mightContainRTL);
         this.tokens = tokens;

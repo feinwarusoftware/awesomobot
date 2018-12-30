@@ -2,14 +2,13 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 import * as strings from '../../../base/common/strings.js';
+import { ShiftCommand } from '../../common/commands/shiftCommand.js';
 import { Range } from '../../common/core/range.js';
 import { Selection } from '../../common/core/selection.js';
-import { LanguageConfigurationRegistry } from '../../common/modes/languageConfigurationRegistry.js';
-import { ShiftCommand } from '../../common/commands/shiftCommand.js';
-import * as IndentUtil from '../indentation/indentUtils.js';
 import { IndentAction } from '../../common/modes/languageConfiguration.js';
+import { LanguageConfigurationRegistry } from '../../common/modes/languageConfigurationRegistry.js';
+import * as indentUtils from '../indentation/indentUtils.js';
 var MoveLinesCommand = /** @class */ (function () {
     function MoveLinesCommand(selection, isMovingDown, autoIndent) {
         this._selection = selection;
@@ -44,7 +43,7 @@ var MoveLinesCommand = /** @class */ (function () {
             getLanguageIdAtPosition: function (lineNumber, column) {
                 return model.getLanguageIdAtPosition(lineNumber, column);
             },
-            getLineContent: null
+            getLineContent: null,
         };
         if (s.startLineNumber === s.endLineNumber && model.getLineMaxColumn(s.startLineNumber) === 1) {
             // Current line is empty
@@ -65,39 +64,40 @@ var MoveLinesCommand = /** @class */ (function () {
             s = new Selection(otherLineNumber, 1, otherLineNumber, 1);
         }
         else {
-            var movingLineNumber, movingLineText;
+            var movingLineNumber_1;
+            var movingLineText = void 0;
             if (this._isMovingDown) {
-                movingLineNumber = s.endLineNumber + 1;
-                movingLineText = model.getLineContent(movingLineNumber);
+                movingLineNumber_1 = s.endLineNumber + 1;
+                movingLineText = model.getLineContent(movingLineNumber_1);
                 // Delete line that needs to be moved
-                builder.addEditOperation(new Range(movingLineNumber - 1, model.getLineMaxColumn(movingLineNumber - 1), movingLineNumber, model.getLineMaxColumn(movingLineNumber)), null);
+                builder.addEditOperation(new Range(movingLineNumber_1 - 1, model.getLineMaxColumn(movingLineNumber_1 - 1), movingLineNumber_1, model.getLineMaxColumn(movingLineNumber_1)), null);
                 var insertingText_1 = movingLineText;
                 if (this.shouldAutoIndent(model, s)) {
-                    var movingLineMatchResult = this.matchEnterRule(model, indentConverter, tabSize, movingLineNumber, s.startLineNumber - 1);
+                    var movingLineMatchResult = this.matchEnterRule(model, indentConverter, tabSize, movingLineNumber_1, s.startLineNumber - 1);
                     // if s.startLineNumber - 1 matches onEnter rule, we still honor that.
                     if (movingLineMatchResult !== null) {
-                        var oldIndentation = strings.getLeadingWhitespace(model.getLineContent(movingLineNumber));
-                        var newSpaceCnt = movingLineMatchResult + IndentUtil.getSpaceCnt(oldIndentation, tabSize);
-                        var newIndentation = IndentUtil.generateIndent(newSpaceCnt, tabSize, insertSpaces);
+                        var oldIndentation = strings.getLeadingWhitespace(model.getLineContent(movingLineNumber_1));
+                        var newSpaceCnt = movingLineMatchResult + indentUtils.getSpaceCnt(oldIndentation, tabSize);
+                        var newIndentation = indentUtils.generateIndent(newSpaceCnt, tabSize, insertSpaces);
                         insertingText_1 = newIndentation + this.trimLeft(movingLineText);
                     }
                     else {
                         // no enter rule matches, let's check indentatin rules then.
                         virtualModel.getLineContent = function (lineNumber) {
                             if (lineNumber === s.startLineNumber) {
-                                return model.getLineContent(movingLineNumber);
+                                return model.getLineContent(movingLineNumber_1);
                             }
                             else {
                                 return model.getLineContent(lineNumber);
                             }
                         };
-                        var indentOfMovingLine = LanguageConfigurationRegistry.getGoodIndentForLine(virtualModel, model.getLanguageIdAtPosition(movingLineNumber, 1), s.startLineNumber, indentConverter);
+                        var indentOfMovingLine = LanguageConfigurationRegistry.getGoodIndentForLine(virtualModel, model.getLanguageIdAtPosition(movingLineNumber_1, 1), s.startLineNumber, indentConverter);
                         if (indentOfMovingLine !== null) {
-                            var oldIndentation = strings.getLeadingWhitespace(model.getLineContent(movingLineNumber));
-                            var newSpaceCnt = IndentUtil.getSpaceCnt(indentOfMovingLine, tabSize);
-                            var oldSpaceCnt = IndentUtil.getSpaceCnt(oldIndentation, tabSize);
+                            var oldIndentation = strings.getLeadingWhitespace(model.getLineContent(movingLineNumber_1));
+                            var newSpaceCnt = indentUtils.getSpaceCnt(indentOfMovingLine, tabSize);
+                            var oldSpaceCnt = indentUtils.getSpaceCnt(oldIndentation, tabSize);
                             if (newSpaceCnt !== oldSpaceCnt) {
-                                var newIndentation = IndentUtil.generateIndent(newSpaceCnt, tabSize, insertSpaces);
+                                var newIndentation = indentUtils.generateIndent(newSpaceCnt, tabSize, insertSpaces);
                                 insertingText_1 = newIndentation + this.trimLeft(movingLineText);
                             }
                         }
@@ -125,11 +125,11 @@ var MoveLinesCommand = /** @class */ (function () {
                                 return model.getLineContent(lineNumber);
                             }
                         };
-                        var newIndentatOfMovingBlock = LanguageConfigurationRegistry.getGoodIndentForLine(virtualModel, model.getLanguageIdAtPosition(movingLineNumber, 1), s.startLineNumber + 1, indentConverter);
+                        var newIndentatOfMovingBlock = LanguageConfigurationRegistry.getGoodIndentForLine(virtualModel, model.getLanguageIdAtPosition(movingLineNumber_1, 1), s.startLineNumber + 1, indentConverter);
                         if (newIndentatOfMovingBlock !== null) {
                             var oldIndentation = strings.getLeadingWhitespace(model.getLineContent(s.startLineNumber));
-                            var newSpaceCnt = IndentUtil.getSpaceCnt(newIndentatOfMovingBlock, tabSize);
-                            var oldSpaceCnt = IndentUtil.getSpaceCnt(oldIndentation, tabSize);
+                            var newSpaceCnt = indentUtils.getSpaceCnt(newIndentatOfMovingBlock, tabSize);
+                            var oldSpaceCnt = indentUtils.getSpaceCnt(oldIndentation, tabSize);
                             if (newSpaceCnt !== oldSpaceCnt) {
                                 var spaceCntOffset = newSpaceCnt - oldSpaceCnt;
                                 this.getIndentEditsOfMovingBlock(model, builder, s, tabSize, insertSpaces, spaceCntOffset);
@@ -143,15 +143,15 @@ var MoveLinesCommand = /** @class */ (function () {
                 }
             }
             else {
-                movingLineNumber = s.startLineNumber - 1;
-                movingLineText = model.getLineContent(movingLineNumber);
+                movingLineNumber_1 = s.startLineNumber - 1;
+                movingLineText = model.getLineContent(movingLineNumber_1);
                 // Delete line that needs to be moved
-                builder.addEditOperation(new Range(movingLineNumber, 1, movingLineNumber + 1, 1), null);
+                builder.addEditOperation(new Range(movingLineNumber_1, 1, movingLineNumber_1 + 1, 1), null);
                 // Insert line that needs to be moved after
                 builder.addEditOperation(new Range(s.endLineNumber, model.getLineMaxColumn(s.endLineNumber), s.endLineNumber, model.getLineMaxColumn(s.endLineNumber)), '\n' + movingLineText);
                 if (this.shouldAutoIndent(model, s)) {
                     virtualModel.getLineContent = function (lineNumber) {
-                        if (lineNumber === movingLineNumber) {
+                        if (lineNumber === movingLineNumber_1) {
                             return model.getLineContent(s.startLineNumber);
                         }
                         else {
@@ -167,12 +167,12 @@ var MoveLinesCommand = /** @class */ (function () {
                     }
                     else {
                         // it doesn't match any onEnter rule, let's check indentation rules then.
-                        var indentOfFirstLine = LanguageConfigurationRegistry.getGoodIndentForLine(virtualModel, model.getLanguageIdAtPosition(s.startLineNumber, 1), movingLineNumber, indentConverter);
+                        var indentOfFirstLine = LanguageConfigurationRegistry.getGoodIndentForLine(virtualModel, model.getLanguageIdAtPosition(s.startLineNumber, 1), movingLineNumber_1, indentConverter);
                         if (indentOfFirstLine !== null) {
                             // adjust the indentation of the moving block
                             var oldIndent = strings.getLeadingWhitespace(model.getLineContent(s.startLineNumber));
-                            var newSpaceCnt = IndentUtil.getSpaceCnt(indentOfFirstLine, tabSize);
-                            var oldSpaceCnt = IndentUtil.getSpaceCnt(oldIndent, tabSize);
+                            var newSpaceCnt = indentUtils.getSpaceCnt(indentOfFirstLine, tabSize);
+                            var oldSpaceCnt = indentUtils.getSpaceCnt(oldIndent, tabSize);
                             if (newSpaceCnt !== oldSpaceCnt) {
                                 var spaceCntOffset = newSpaceCnt - oldSpaceCnt;
                                 this.getIndentEditsOfMovingBlock(model, builder, s, tabSize, insertSpaces, spaceCntOffset);
@@ -246,11 +246,11 @@ var MoveLinesCommand = /** @class */ (function () {
                 var oldIndentation = strings.getLeadingWhitespace(model.getLineContent(line));
                 var newIndentation = strings.getLeadingWhitespace(enterPrefix);
                 var indentMetadataOfMovelingLine = LanguageConfigurationRegistry.getIndentMetadata(model, line);
-                if (indentMetadataOfMovelingLine & 2 /* DECREASE_MASK */) {
+                if (indentMetadataOfMovelingLine !== null && indentMetadataOfMovelingLine & 2 /* DECREASE_MASK */) {
                     newIndentation = indentConverter.unshiftIndent(newIndentation);
                 }
-                var newSpaceCnt = IndentUtil.getSpaceCnt(newIndentation, tabSize);
-                var oldSpaceCnt = IndentUtil.getSpaceCnt(oldIndentation, tabSize);
+                var newSpaceCnt = indentUtils.getSpaceCnt(newIndentation, tabSize);
+                var oldSpaceCnt = indentUtils.getSpaceCnt(oldIndentation, tabSize);
                 return newSpaceCnt - oldSpaceCnt;
             }
         }
@@ -281,9 +281,9 @@ var MoveLinesCommand = /** @class */ (function () {
         for (var i = s.startLineNumber; i <= s.endLineNumber; i++) {
             var lineContent = model.getLineContent(i);
             var originalIndent = strings.getLeadingWhitespace(lineContent);
-            var originalSpacesCnt = IndentUtil.getSpaceCnt(originalIndent, tabSize);
+            var originalSpacesCnt = indentUtils.getSpaceCnt(originalIndent, tabSize);
             var newSpacesCnt = originalSpacesCnt + offset;
-            var newIndent = IndentUtil.generateIndent(newSpacesCnt, tabSize, insertSpaces);
+            var newIndent = indentUtils.generateIndent(newSpacesCnt, tabSize, insertSpaces);
             if (newIndent !== originalIndent) {
                 builder.addEditOperation(new Range(i, 1, i, originalIndent.length + 1), newIndent);
                 if (i === s.endLineNumber && s.endColumn <= originalIndent.length + 1 && newIndent === '') {

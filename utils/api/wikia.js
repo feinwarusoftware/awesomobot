@@ -2,7 +2,7 @@
 
 const rp = require("request-promise-native");
 
-const { Opt, encodeUriParams } = require("../request");
+const { Opt, encodeURIParams } = require("../request");
 
 const HOST = "southpark.wikia.com";
 const VERSION = "/api/v1";
@@ -28,8 +28,8 @@ const search = options => {
         });
     
         try {
-            const res = await rp(encodeUriParams(`https://${HOST}${VERSION}/Search/List`, opt.options));
-            resolve(res);
+            const res = await rp(encodeURIParams(`https://${HOST}${VERSION}/Search/List`, opt.options));
+            resolve(JSON.parse(res));
 
         } catch(err) {
 
@@ -50,8 +50,8 @@ const articleAsSimpleJson = options => {
         }
     
         try {
-            const res = await rp(encodeUriParams(`https://${HOST}${VERSION}/Articles/AsSimpleJson`, opt.options));
-            resolve(res);
+            const res = await rp(encodeURIParams(`https://${HOST}${VERSION}/Articles/AsSimpleJson`, opt.options));
+            resolve(JSON.parse(res));
 
         } catch(err) {
 
@@ -79,8 +79,8 @@ const articleDetails = options => {
         });
     
         try {
-            const res = await rp(encodeUriParams(`https://${HOST}${VERSION}/Articles/Details`, opt.options));
-            resolve(res);
+            const res = await rp(encodeURIParams(`https://${HOST}${VERSION}/Articles/Details`, opt.options));
+            resolve(JSON.parse(res));
 
         } catch(err) {
 

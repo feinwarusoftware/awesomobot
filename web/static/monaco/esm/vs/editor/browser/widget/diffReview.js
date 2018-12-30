@@ -2,11 +2,13 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -15,23 +17,23 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import './media/diffReview.css';
 import * as nls from '../../../nls.js';
-import { Disposable } from '../../../base/common/lifecycle.js';
 import * as dom from '../../../base/browser/dom.js';
 import { createFastDomNode } from '../../../base/browser/fastDomNode.js';
-import { renderViewLine2 as renderViewLine, RenderLineInput } from '../../common/viewLayout/viewLineRenderer.js';
-import { LineTokens } from '../../common/core/lineTokens.js';
-import { Configuration } from '../config/configuration.js';
-import { Position } from '../../common/core/position.js';
-import { registerThemingParticipant } from '../../../platform/theme/common/themeService.js';
-import { scrollbarShadow } from '../../../platform/theme/common/colorRegistry.js';
-import { DomScrollableElement } from '../../../base/browser/ui/scrollbar/scrollableElement.js';
-import { editorLineNumbers } from '../../common/view/editorColorRegistry.js';
 import { ActionBar } from '../../../base/browser/ui/actionbar/actionbar.js';
+import { DomScrollableElement } from '../../../base/browser/ui/scrollbar/scrollableElement.js';
 import { Action } from '../../../base/common/actions.js';
-import { registerEditorAction, EditorAction } from '../editorExtensions.js';
-import { ContextKeyExpr } from '../../../platform/contextkey/common/contextkey.js';
+import { Disposable } from '../../../base/common/lifecycle.js';
+import { Configuration } from '../config/configuration.js';
+import { EditorAction, registerEditorAction } from '../editorExtensions.js';
 import { ICodeEditorService } from '../services/codeEditorService.js';
+import { LineTokens } from '../../common/core/lineTokens.js';
+import { Position } from '../../common/core/position.js';
+import { editorLineNumbers } from '../../common/view/editorColorRegistry.js';
+import { RenderLineInput, renderViewLine2 as renderViewLine } from '../../common/viewLayout/viewLineRenderer.js';
 import { ViewLineRenderingData } from '../../common/viewModel/viewModel.js';
+import { ContextKeyExpr } from '../../../platform/contextkey/common/contextkey.js';
+import { scrollbarShadow } from '../../../platform/theme/common/colorRegistry.js';
+import { registerThemingParticipant } from '../../../platform/theme/common/themeService.js';
 var DIFF_LINES_PADDING = 3;
 var DiffEntry = /** @class */ (function () {
     function DiffEntry(originalLineStart, originalLineEnd, modifiedLineStart, modifiedLineEnd) {
@@ -92,12 +94,12 @@ var DiffReview = /** @class */ (function (_super) {
             }
             _this._render();
         }));
-        _this._register(diffEditor.getOriginalEditor().onDidFocusEditor(function () {
+        _this._register(diffEditor.getOriginalEditor().onDidFocusEditorWidget(function () {
             if (_this._isVisible) {
                 _this.hide();
             }
         }));
-        _this._register(diffEditor.getModifiedEditor().onDidFocusEditor(function () {
+        _this._register(diffEditor.getModifiedEditor().onDidFocusEditorWidget(function () {
             if (_this._isVisible) {
                 _this.hide();
             }
@@ -620,7 +622,7 @@ var DiffReview = /** @class */ (function (_super) {
         var lineTokens = new LineTokens(tokens, lineContent);
         var isBasicASCII = ViewLineRenderingData.isBasicASCII(lineContent, model.mightContainNonBasicASCII());
         var containsRTL = ViewLineRenderingData.containsRTL(lineContent, isBasicASCII, model.mightContainRTL());
-        var r = renderViewLine(new RenderLineInput((config.fontInfo.isMonospace && !config.viewInfo.disableMonospaceOptimizations), lineContent, isBasicASCII, containsRTL, 0, lineTokens, [], tabSize, config.fontInfo.spaceWidth, config.viewInfo.stopRenderingLineAfter, config.viewInfo.renderWhitespace, config.viewInfo.renderControlCharacters, config.viewInfo.fontLigatures));
+        var r = renderViewLine(new RenderLineInput((config.fontInfo.isMonospace && !config.viewInfo.disableMonospaceOptimizations), config.fontInfo.canUseHalfwidthRightwardsArrow, lineContent, false, isBasicASCII, containsRTL, 0, lineTokens, [], tabSize, config.fontInfo.spaceWidth, config.viewInfo.stopRenderingLineAfter, config.viewInfo.renderWhitespace, config.viewInfo.renderControlCharacters, config.viewInfo.fontLigatures));
         return r.html;
     };
     return DiffReview;
@@ -647,7 +649,8 @@ var DiffReviewNext = /** @class */ (function (_super) {
             precondition: ContextKeyExpr.has('isInDiffEditor'),
             kbOpts: {
                 kbExpr: null,
-                primary: 65 /* F7 */
+                primary: 65 /* F7 */,
+                weight: 100 /* EditorContrib */
             }
         }) || this;
     }
@@ -669,7 +672,8 @@ var DiffReviewPrev = /** @class */ (function (_super) {
             precondition: ContextKeyExpr.has('isInDiffEditor'),
             kbOpts: {
                 kbExpr: null,
-                primary: 1024 /* Shift */ | 65 /* F7 */
+                primary: 1024 /* Shift */ | 65 /* F7 */,
+                weight: 100 /* EditorContrib */
             }
         }) || this;
     }

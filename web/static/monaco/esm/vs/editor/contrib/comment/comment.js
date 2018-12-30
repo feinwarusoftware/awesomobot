@@ -2,11 +2,13 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -15,10 +17,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import * as nls from '../../../nls.js';
 import { KeyChord } from '../../../base/common/keyCodes.js';
+import { EditorAction, registerEditorAction } from '../../browser/editorExtensions.js';
 import { EditorContextKeys } from '../../common/editorContextKeys.js';
-import { registerEditorAction, EditorAction } from '../../browser/editorExtensions.js';
 import { BlockCommentCommand } from './blockCommentCommand.js';
 import { LineCommentCommand } from './lineCommentCommand.js';
+import { MenuId } from '../../../platform/actions/common/actions.js';
 var CommentLineAction = /** @class */ (function (_super) {
     __extends(CommentLineAction, _super);
     function CommentLineAction(type, opts) {
@@ -27,10 +30,10 @@ var CommentLineAction = /** @class */ (function (_super) {
         return _this;
     }
     CommentLineAction.prototype.run = function (accessor, editor) {
-        var model = editor.getModel();
-        if (!model) {
+        if (!editor.hasModel()) {
             return;
         }
+        var model = editor.getModel();
         var commands = [];
         var selections = editor.getSelections();
         var opts = model.getOptions();
@@ -53,7 +56,14 @@ var ToggleCommentLineAction = /** @class */ (function (_super) {
             precondition: EditorContextKeys.writable,
             kbOpts: {
                 kbExpr: EditorContextKeys.editorTextFocus,
-                primary: 2048 /* CtrlCmd */ | 85 /* US_SLASH */
+                primary: 2048 /* CtrlCmd */ | 85 /* US_SLASH */,
+                weight: 100 /* EditorContrib */
+            },
+            menubarOpts: {
+                menuId: MenuId.MenubarEditMenu,
+                group: '5_insert',
+                title: nls.localize({ key: 'miToggleLineComment', comment: ['&& denotes a mnemonic'] }, "&&Toggle Line Comment"),
+                order: 1
             }
         }) || this;
     }
@@ -69,7 +79,8 @@ var AddLineCommentAction = /** @class */ (function (_super) {
             precondition: EditorContextKeys.writable,
             kbOpts: {
                 kbExpr: EditorContextKeys.editorTextFocus,
-                primary: KeyChord(2048 /* CtrlCmd */ | 41 /* KEY_K */, 2048 /* CtrlCmd */ | 33 /* KEY_C */)
+                primary: KeyChord(2048 /* CtrlCmd */ | 41 /* KEY_K */, 2048 /* CtrlCmd */ | 33 /* KEY_C */),
+                weight: 100 /* EditorContrib */
             }
         }) || this;
     }
@@ -85,7 +96,8 @@ var RemoveLineCommentAction = /** @class */ (function (_super) {
             precondition: EditorContextKeys.writable,
             kbOpts: {
                 kbExpr: EditorContextKeys.editorTextFocus,
-                primary: KeyChord(2048 /* CtrlCmd */ | 41 /* KEY_K */, 2048 /* CtrlCmd */ | 51 /* KEY_U */)
+                primary: KeyChord(2048 /* CtrlCmd */ | 41 /* KEY_K */, 2048 /* CtrlCmd */ | 51 /* KEY_U */),
+                weight: 100 /* EditorContrib */
             }
         }) || this;
     }
@@ -102,11 +114,21 @@ var BlockCommentAction = /** @class */ (function (_super) {
             kbOpts: {
                 kbExpr: EditorContextKeys.editorTextFocus,
                 primary: 1024 /* Shift */ | 512 /* Alt */ | 31 /* KEY_A */,
-                linux: { primary: 2048 /* CtrlCmd */ | 1024 /* Shift */ | 31 /* KEY_A */ }
+                linux: { primary: 2048 /* CtrlCmd */ | 1024 /* Shift */ | 31 /* KEY_A */ },
+                weight: 100 /* EditorContrib */
+            },
+            menubarOpts: {
+                menuId: MenuId.MenubarEditMenu,
+                group: '5_insert',
+                title: nls.localize({ key: 'miToggleBlockComment', comment: ['&& denotes a mnemonic'] }, "Toggle &&Block Comment"),
+                order: 2
             }
         }) || this;
     }
     BlockCommentAction.prototype.run = function (accessor, editor) {
+        if (!editor.hasModel()) {
+            return;
+        }
         var commands = [];
         var selections = editor.getSelections();
         for (var i = 0; i < selections.length; i++) {

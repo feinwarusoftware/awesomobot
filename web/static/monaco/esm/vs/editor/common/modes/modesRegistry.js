@@ -2,12 +2,11 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 import * as nls from '../../../nls.js';
 import { Emitter } from '../../../base/common/event.js';
-import { Registry } from '../../../platform/registry/common/platform.js';
-import { LanguageConfigurationRegistry } from './languageConfigurationRegistry.js';
 import { LanguageIdentifier } from '../modes.js';
+import { LanguageConfigurationRegistry } from './languageConfigurationRegistry.js';
+import { Registry } from '../../../platform/registry/common/platform.js';
 // Define extension point ids
 export var Extensions = {
     ModesRegistry: 'editor.modesRegistry'
@@ -22,10 +21,6 @@ var EditorModesRegistry = /** @class */ (function () {
     EditorModesRegistry.prototype.registerLanguage = function (def) {
         this._languages.push(def);
         this._onDidAddLanguages.fire([def]);
-    };
-    EditorModesRegistry.prototype.registerLanguages = function (def) {
-        this._languages = this._languages.concat(def);
-        this._onDidAddLanguages.fire(def);
     };
     EditorModesRegistry.prototype.getLanguages = function () {
         return this._languages.slice(0);

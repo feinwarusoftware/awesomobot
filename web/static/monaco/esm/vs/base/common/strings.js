@@ -2,8 +2,6 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
-import { LRUCache } from './map.js';
 /**
  * The empty string.
  */
@@ -91,8 +89,8 @@ export function ltrim(haystack, needle) {
     if (needleLen === 0 || haystack.length === 0) {
         return haystack;
     }
-    var offset = 0, idx = -1;
-    while ((idx = haystack.indexOf(needle, offset)) === offset) {
+    var offset = 0;
+    while (haystack.indexOf(needle, offset) === offset) {
         offset = offset + needleLen;
     }
     return haystack.substring(offset);
@@ -125,9 +123,6 @@ export function rtrim(haystack, needle) {
 }
 export function convertSimple2RegExpPattern(pattern) {
     return pattern.replace(/[\-\\\{\}\+\?\|\^\$\.\,\[\]\(\)\#\s]/g, '\\$&').replace(/[\*]/g, '.*');
-}
-export function stripWildcards(pattern) {
-    return pattern.replace(/\*/g, '');
 }
 /**
  * Determines if haystack starts with needle.
@@ -198,45 +193,7 @@ export function regExpLeadsToEndlessLoop(regexp) {
     // We check against an empty string. If the regular expression doesn't advance
     // (e.g. ends in an endless loop) it will match an empty string.
     var match = regexp.exec('');
-    return (match && regexp.lastIndex === 0);
-}
-export function regExpContainsBackreference(regexpValue) {
-    return !!regexpValue.match(/([^\\]|^)(\\\\)*\\\d+/);
-}
-/**
- * The normalize() method returns the Unicode Normalization Form of a given string. The form will be
- * the Normalization Form Canonical Composition.
- *
- * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize}
- */
-export var canNormalize = typeof (''.normalize) === 'function';
-var nfcCache = new LRUCache(10000); // bounded to 10000 elements
-export function normalizeNFC(str) {
-    return normalize(str, 'NFC', nfcCache);
-}
-var nfdCache = new LRUCache(10000); // bounded to 10000 elements
-export function normalizeNFD(str) {
-    return normalize(str, 'NFD', nfdCache);
-}
-var nonAsciiCharactersPattern = /[^\u0000-\u0080]/;
-function normalize(str, form, normalizedCache) {
-    if (!canNormalize || !str) {
-        return str;
-    }
-    var cached = normalizedCache.get(str);
-    if (cached) {
-        return cached;
-    }
-    var res;
-    if (nonAsciiCharactersPattern.test(str)) {
-        res = str.normalize(form);
-    }
-    else {
-        res = str;
-    }
-    // Use the cache for fast lookup
-    normalizedCache.set(str, res);
-    return res;
+    return !!(match && regexp.lastIndex === 0);
 }
 /**
  * Returns first index of the string that is not whitespace.
@@ -291,48 +248,10 @@ export function compare(a, b) {
         return 0;
     }
 }
-export function compareIgnoreCase(a, b) {
-    var len = Math.min(a.length, b.length);
-    for (var i = 0; i < len; i++) {
-        var codeA = a.charCodeAt(i);
-        var codeB = b.charCodeAt(i);
-        if (codeA === codeB) {
-            // equal
-            continue;
-        }
-        if (isUpperAsciiLetter(codeA)) {
-            codeA += 32;
-        }
-        if (isUpperAsciiLetter(codeB)) {
-            codeB += 32;
-        }
-        var diff = codeA - codeB;
-        if (diff === 0) {
-            // equal -> ignoreCase
-            continue;
-        }
-        else if (isLowerAsciiLetter(codeA) && isLowerAsciiLetter(codeB)) {
-            //
-            return diff;
-        }
-        else {
-            return compare(a.toLowerCase(), b.toLowerCase());
-        }
-    }
-    if (a.length < b.length) {
-        return -1;
-    }
-    else if (a.length > b.length) {
-        return 1;
-    }
-    else {
-        return 0;
-    }
-}
-function isLowerAsciiLetter(code) {
+export function isLowerAsciiLetter(code) {
     return code >= 97 /* a */ && code <= 122 /* z */;
 }
-function isUpperAsciiLetter(code) {
+export function isUpperAsciiLetter(code) {
     return code >= 65 /* A */ && code <= 90 /* Z */;
 }
 function isAsciiLetter(code) {
@@ -405,40 +324,6 @@ export function commonSuffixLength(a, b) {
         }
     }
     return len;
-}
-function substrEquals(a, aStart, aEnd, b, bStart, bEnd) {
-    while (aStart < aEnd && bStart < bEnd) {
-        if (a[aStart] !== b[bStart]) {
-            return false;
-        }
-        aStart += 1;
-        bStart += 1;
-    }
-    return true;
-}
-/**
- * Return the overlap between the suffix of `a` and the prefix of `b`.
- * For instance `overlap("foobar", "arr, I'm a pirate") === 2`.
- */
-export function overlap(a, b) {
-    var aEnd = a.length;
-    var bEnd = b.length;
-    var aStart = aEnd - bEnd;
-    if (aStart === 0) {
-        return a === b ? aEnd : 0;
-    }
-    else if (aStart < 0) {
-        bEnd += aStart;
-        aStart = 0;
-    }
-    while (aStart < aEnd && bEnd > 0) {
-        if (substrEquals(a, aStart, aEnd, b, 0, bEnd)) {
-            return bEnd;
-        }
-        bEnd -= 1;
-        aStart += 1;
-    }
-    return 0;
 }
 // --- unicode
 // http://en.wikipedia.org/wiki/Surrogate_pair
@@ -537,45 +422,10 @@ export function isFullWidthCharacter(charCode) {
         || (charCode >= 0xF900 && charCode <= 0xFAFF)
         || (charCode >= 0xFF01 && charCode <= 0xFF5E));
 }
-/**
- * Given a string and a max length returns a shorted version. Shorting
- * happens at favorable positions - such as whitespace or punctuation characters.
- */
-export function lcut(text, n) {
-    if (text.length < n) {
-        return text;
-    }
-    var re = /\b/g;
-    var i = 0;
-    while (re.test(text)) {
-        if (text.length - re.lastIndex < n) {
-            break;
-        }
-        i = re.lastIndex;
-        re.lastIndex += 1;
-    }
-    return text.substring(i).replace(/^\s/, empty);
-}
-// Escape codes
-// http://en.wikipedia.org/wiki/ANSI_escape_code
-var EL = /\x1B\x5B[12]?K/g; // Erase in line
-var COLOR_START = /\x1b\[\d+m/g; // Color
-var COLOR_END = /\x1b\[0?m/g; // Color
-export function removeAnsiEscapeCodes(str) {
-    if (str) {
-        str = str.replace(EL, '');
-        str = str.replace(COLOR_START, '');
-        str = str.replace(COLOR_END, '');
-    }
-    return str;
-}
 // -- UTF-8 BOM
 export var UTF8_BOM_CHARACTER = String.fromCharCode(65279 /* UTF8_BOM */);
 export function startsWithUTF8BOM(str) {
-    return (str && str.length > 0 && str.charCodeAt(0) === 65279 /* UTF8_BOM */);
-}
-export function stripUTF8BOM(str) {
-    return startsWithUTF8BOM(str) ? str.substr(1) : str;
+    return !!(str && str.length > 0 && str.charCodeAt(0) === 65279 /* UTF8_BOM */);
 }
 export function safeBtoa(str) {
     return btoa(encodeURIComponent(str)); // we use encodeURIComponent because btoa fails for non Latin 1 values
@@ -586,39 +436,4 @@ export function repeat(s, count) {
         result += s;
     }
     return result;
-}
-/**
- * Checks if the characters of the provided query string are included in the
- * target string. The characters do not have to be contiguous within the string.
- */
-export function fuzzyContains(target, query) {
-    if (!target || !query) {
-        return false; // return early if target or query are undefined
-    }
-    if (target.length < query.length) {
-        return false; // impossible for query to be contained in target
-    }
-    var queryLen = query.length;
-    var targetLower = target.toLowerCase();
-    var index = 0;
-    var lastIndexOf = -1;
-    while (index < queryLen) {
-        var indexOf = targetLower.indexOf(query[index], lastIndexOf + 1);
-        if (indexOf < 0) {
-            return false;
-        }
-        lastIndexOf = indexOf;
-        index++;
-    }
-    return true;
-}
-export function containsUppercaseCharacter(target, ignoreEscapedChars) {
-    if (ignoreEscapedChars === void 0) { ignoreEscapedChars = false; }
-    if (!target) {
-        return false;
-    }
-    if (ignoreEscapedChars) {
-        target = target.replace(/\\./g, '');
-    }
-    return target.toLowerCase() !== target;
 }

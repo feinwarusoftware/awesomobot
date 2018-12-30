@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 'use strict';
-import { TextDocument, Position, CompletionItem, CompletionList, Range, SymbolInformation, Diagnostic, TextEdit, FormattingOptions, MarkedString } from '../vscode-languageserver-types/main.js';
+import { TextDocument, Position, CompletionItem, CompletionList, Hover, Range, SymbolInformation, Diagnostic, TextEdit, FormattingOptions, MarkedString } from './../vscode-languageserver-types/main.js';
 import { JSONCompletion } from './services/jsonCompletion.js';
 import { JSONHover } from './services/jsonHover.js';
 import { JSONValidation } from './services/jsonValidation.js';
@@ -11,8 +11,10 @@ import { JSONDocumentSymbols } from './services/jsonDocumentSymbols.js';
 import { parse as parseJSON, newJSONDocument } from './parser/jsonParser.js';
 import { schemaContributions } from './services/configuration.js';
 import { JSONSchemaService } from './services/jsonSchemaService.js';
-import { format as formatJSON } from '../jsonc-parser/main.js';
-export { TextDocument, Position, CompletionItem, CompletionList, Range, SymbolInformation, Diagnostic, TextEdit, FormattingOptions, MarkedString };
+import { getFoldingRanges } from './services/jsonFolding.js';
+import { format as formatJSON } from './../jsonc-parser/main.js';
+export * from './jsonLanguageTypes.js';
+export { TextDocument, Position, CompletionItem, CompletionList, Hover, Range, SymbolInformation, Diagnostic, TextEdit, FormattingOptions, MarkedString };
 export function getLanguageService(params) {
     var promise = params.promiseConstructor || Promise;
     var jsonSchemaService = new JSONSchemaService(params.schemaRequestService, params.workspaceContext, promise);
@@ -38,10 +40,12 @@ export function getLanguageService(params) {
         doResolve: jsonCompletion.doResolve.bind(jsonCompletion),
         doComplete: jsonCompletion.doComplete.bind(jsonCompletion),
         findDocumentSymbols: jsonDocumentSymbols.findDocumentSymbols.bind(jsonDocumentSymbols),
+        findDocumentSymbols2: jsonDocumentSymbols.findDocumentSymbols2.bind(jsonDocumentSymbols),
         findColorSymbols: function (d, s) { return jsonDocumentSymbols.findDocumentColors(d, s).then(function (s) { return s.map(function (s) { return s.range; }); }); },
         findDocumentColors: jsonDocumentSymbols.findDocumentColors.bind(jsonDocumentSymbols),
         getColorPresentations: jsonDocumentSymbols.getColorPresentations.bind(jsonDocumentSymbols),
         doHover: jsonHover.doHover.bind(jsonHover),
+        getFoldingRanges: getFoldingRanges,
         format: function (d, r, o) {
             var range = void 0;
             if (r) {

@@ -2,12 +2,11 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 import { Position } from '../../core/position.js';
 import { Range } from '../../core/range.js';
-import { leftest, righttest, updateTreeMetadata, rbDelete, fixInsert, SENTINEL, TreeNode } from './rbTreeBase.js';
-import { isValidMatch, Searcher, createFindMatch } from '../textModelSearch.js';
 import { FindMatch } from '../../model.js';
+import { SENTINEL, TreeNode, fixInsert, leftest, rbDelete, righttest, updateTreeMetadata } from './rbTreeBase.js';
+import { Searcher, createFindMatch, isValidMatch } from '../textModelSearch.js';
 // const lfRegex = new RegExp(/\r\n|\r|\n/g);
 export var AverageBufferSize = 65535;
 export function createUintArray(arr) {
@@ -115,48 +114,6 @@ var StringBuffer = /** @class */ (function () {
     return StringBuffer;
 }());
 export { StringBuffer };
-/**
- * Readonly snapshot for piece tree.
- * In a real multiple thread environment, to make snapshot reading always work correctly, we need to
- * 1. Make TreeNode.piece immutable, then reading and writing can run in parallel.
- * 2. TreeNode/Buffers normalization should not happen during snapshot reading.
- */
-var PieceTreeSnapshot = /** @class */ (function () {
-    function PieceTreeSnapshot(tree, BOM) {
-        var _this = this;
-        this._pieces = [];
-        this._tree = tree;
-        this._BOM = BOM;
-        this._index = 0;
-        if (tree.root !== SENTINEL) {
-            tree.iterate(tree.root, function (node) {
-                if (node !== SENTINEL) {
-                    _this._pieces.push(node.piece);
-                }
-                return true;
-            });
-        }
-    }
-    PieceTreeSnapshot.prototype.read = function () {
-        if (this._pieces.length === 0) {
-            if (this._index === 0) {
-                this._index++;
-                return this._BOM;
-            }
-            else {
-                return null;
-            }
-        }
-        if (this._index > this._pieces.length - 1) {
-            return null;
-        }
-        if (this._index === 0) {
-            return this._BOM + this._tree.getPieceContent(this._pieces[this._index++]);
-        }
-        return this._tree.getPieceContent(this._pieces[this._index++]);
-    };
-    return PieceTreeSnapshot;
-}());
 var PieceTreeSearchCache = /** @class */ (function () {
     function PieceTreeSearchCache(limit) {
         this._limit = limit;
@@ -188,19 +145,21 @@ var PieceTreeSearchCache = /** @class */ (function () {
     };
     PieceTreeSearchCache.prototype.valdiate = function (offset) {
         var hasInvalidVal = false;
-        for (var i = 0; i < this._cache.length; i++) {
-            var nodePos = this._cache[i];
+        var tmp = this._cache;
+        for (var i = 0; i < tmp.length; i++) {
+            var nodePos = tmp[i];
             if (nodePos.node.parent === null || nodePos.nodeStartOffset >= offset) {
-                this._cache[i] = null;
+                tmp[i] = null;
                 hasInvalidVal = true;
                 continue;
             }
         }
         if (hasInvalidVal) {
             var newArr = [];
-            for (var i = 0; i < this._cache.length; i++) {
-                if (this._cache[i] !== null) {
-                    newArr.push(this._cache[i]);
+            for (var i = 0; i < tmp.length; i++) {
+                var entry = tmp[i];
+                if (entry !== null) {
+                    newArr.push(entry);
                 }
             }
             this._cache = newArr;
@@ -235,7 +194,7 @@ var PieceTreeBase = /** @class */ (function () {
             }
         }
         this._searchCache = new PieceTreeSearchCache(1);
-        this._lastVisitedLine = { lineNumber: 0, value: null };
+        this._lastVisitedLine = { lineNumber: 0, value: '' };
         this.computeBufferMetadata();
     };
     PieceTreeBase.prototype.normalizeEOL = function (eol) {
@@ -275,31 +234,6 @@ var PieceTreeBase = /** @class */ (function () {
         this._EOL = newEOL;
         this._EOLLength = this._EOL.length;
         this.normalizeEOL(newEOL);
-    };
-    PieceTreeBase.prototype.createSnapshot = function (BOM) {
-        return new PieceTreeSnapshot(this, BOM);
-    };
-    PieceTreeBase.prototype.equal = function (other) {
-        var _this = this;
-        if (this.getLength() !== other.getLength()) {
-            return false;
-        }
-        if (this.getLineCount() !== other.getLineCount()) {
-            return false;
-        }
-        var offset = 0;
-        var ret = this.iterate(this.root, function (node) {
-            if (node === SENTINEL) {
-                return true;
-            }
-            var str = _this.getNodeContent(node);
-            var len = str.length;
-            var startPosition = other.nodeAt(offset);
-            var endPosition = other.nodeAt(offset + len);
-            var val = other.getValueInRange2(startPosition, endPosition);
-            return str === val;
-        });
-        return ret;
     };
     PieceTreeBase.prototype.getOffsetAt = function (lineNumber, column) {
         var leftLen = 0; // inorder
@@ -582,7 +516,7 @@ var PieceTreeBase = /** @class */ (function () {
         if (eolNormalized === void 0) { eolNormalized = false; }
         this._EOLNormalized = this._EOLNormalized && eolNormalized;
         this._lastVisitedLine.lineNumber = 0;
-        this._lastVisitedLine.value = null;
+        this._lastVisitedLine.value = '';
         if (this.root !== SENTINEL) {
             var _a = this.nodeAt(offset), node = _a.node, remainder = _a.remainder, nodeStartOffset = _a.nodeStartOffset;
             var piece = node.piece;
@@ -659,7 +593,7 @@ var PieceTreeBase = /** @class */ (function () {
     };
     PieceTreeBase.prototype.delete = function (offset, cnt) {
         this._lastVisitedLine.lineNumber = 0;
-        this._lastVisitedLine.value = null;
+        this._lastVisitedLine.value = '';
         if (cnt <= 0 || this.root === SENTINEL) {
             return;
         }
@@ -764,9 +698,9 @@ var PieceTreeBase = /** @class */ (function () {
         // binary search offset between startOffset and endOffset
         var low = piece.start.line;
         var high = piece.end.line;
-        var mid;
-        var midStop;
-        var midStart;
+        var mid = 0;
+        var midStop = 0;
+        var midStart = 0;
         while (low <= high) {
             mid = low + ((high - low) / 2) | 0;
             midStart = lineStarts[mid];
@@ -886,12 +820,9 @@ var PieceTreeBase = /** @class */ (function () {
         var endIndex = this._buffers[0].lineStarts.length - 1;
         var endColumn = endOffset - this._buffers[0].lineStarts[endIndex];
         var endPos = { line: endIndex, column: endColumn };
-        var newPiece = new Piece(0, /** todo */ start, endPos, this.getLineFeedCnt(0, start, endPos), endOffset - startOffset);
+        var newPiece = new Piece(0, /** todo@peng */ start, endPos, this.getLineFeedCnt(0, start, endPos), endOffset - startOffset);
         this._lastChangeBufferPos = endPos;
         return [newPiece];
-    };
-    PieceTreeBase.prototype.getLinesRawContent = function () {
-        return this.getContentOfSubTree(this.root);
     };
     PieceTreeBase.prototype.getLineRawContent = function (lineNumber, endOffset) {
         if (endOffset === void 0) { endOffset = 0; }
@@ -1332,13 +1263,6 @@ var PieceTreeBase = /** @class */ (function () {
         currentContent = buffer.buffer.substring(startOffset, endOffset);
         return currentContent;
     };
-    PieceTreeBase.prototype.getPieceContent = function (piece) {
-        var buffer = this._buffers[piece.bufferIndex];
-        var startOffset = this.offsetInBuffer(piece.bufferIndex, piece.start);
-        var endOffset = this.offsetInBuffer(piece.bufferIndex, piece.end);
-        var currentContent = buffer.buffer.substring(startOffset, endOffset);
-        return currentContent;
-    };
     /**
      *      node              node
      *     /  \              /  \
@@ -1384,8 +1308,7 @@ var PieceTreeBase = /** @class */ (function () {
         z.parent = SENTINEL;
         z.size_left = 0;
         z.lf_left = 0;
-        var x = this.root;
-        if (x === SENTINEL) {
+        if (this.root === SENTINEL) {
             this.root = z;
             z.color = 0 /* Black */;
         }

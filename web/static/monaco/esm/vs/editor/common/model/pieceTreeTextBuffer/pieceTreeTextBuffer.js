@@ -2,11 +2,10 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
-import { Range } from '../../core/range.js';
 import * as strings from '../../../../base/common/strings.js';
+import { Range } from '../../core/range.js';
+import { ApplyEditsResult } from '../../model.js';
 import { PieceTreeBase } from './pieceTreeBase.js';
-import { EndOfLinePreference, ApplyEditsResult } from '../../model.js';
 var PieceTreeTextBuffer = /** @class */ (function () {
     function PieceTreeTextBuffer(chunks, BOM, eol, containsRTL, isBasicASCII, eolNormalized) {
         this._BOM = BOM;
@@ -14,19 +13,6 @@ var PieceTreeTextBuffer = /** @class */ (function () {
         this._mightContainRTL = containsRTL;
         this._pieceTree = new PieceTreeBase(chunks, eol, eolNormalized);
     }
-    // #region TextBuffer
-    PieceTreeTextBuffer.prototype.equals = function (other) {
-        if (!(other instanceof PieceTreeTextBuffer)) {
-            return false;
-        }
-        if (this._BOM !== other._BOM) {
-            return false;
-        }
-        if (this.getEOL() !== other.getEOL()) {
-            return false;
-        }
-        return this._pieceTree.equal(other._pieceTree);
-    };
     PieceTreeTextBuffer.prototype.mightContainRTL = function () {
         return this._mightContainRTL;
     };
@@ -38,9 +24,6 @@ var PieceTreeTextBuffer = /** @class */ (function () {
     };
     PieceTreeTextBuffer.prototype.getEOL = function () {
         return this._pieceTree.getEOL();
-    };
-    PieceTreeTextBuffer.prototype.createSnapshot = function (preserveBOM) {
-        return this._pieceTree.createSnapshot(preserveBOM ? this._BOM : '');
     };
     PieceTreeTextBuffer.prototype.getOffsetAt = function (lineNumber, column) {
         return this._pieceTree.getOffsetAt(lineNumber, column);
@@ -55,7 +38,7 @@ var PieceTreeTextBuffer = /** @class */ (function () {
         return new Range(startPosition.lineNumber, startPosition.column, endPosition.lineNumber, endPosition.column);
     };
     PieceTreeTextBuffer.prototype.getValueInRange = function (range, eol) {
-        if (eol === void 0) { eol = EndOfLinePreference.TextDefined; }
+        if (eol === void 0) { eol = 0 /* TextDefined */; }
         if (range.isEmpty()) {
             return '';
         }
@@ -63,7 +46,7 @@ var PieceTreeTextBuffer = /** @class */ (function () {
         return this._pieceTree.getValueInRange(range, lineEnding);
     };
     PieceTreeTextBuffer.prototype.getValueLengthInRange = function (range, eol) {
-        if (eol === void 0) { eol = EndOfLinePreference.TextDefined; }
+        if (eol === void 0) { eol = 0 /* TextDefined */; }
         if (range.isEmpty()) {
             return 0;
         }
@@ -92,12 +75,6 @@ var PieceTreeTextBuffer = /** @class */ (function () {
     PieceTreeTextBuffer.prototype.getLineLength = function (lineNumber) {
         return this._pieceTree.getLineLength(lineNumber);
     };
-    PieceTreeTextBuffer.prototype.getLineMinColumn = function (lineNumber) {
-        return 1;
-    };
-    PieceTreeTextBuffer.prototype.getLineMaxColumn = function (lineNumber) {
-        return this.getLineLength(lineNumber) + 1;
-    };
     PieceTreeTextBuffer.prototype.getLineFirstNonWhitespaceColumn = function (lineNumber) {
         var result = strings.firstNonWhitespaceIndex(this.getLineContent(lineNumber));
         if (result === -1) {
@@ -114,11 +91,11 @@ var PieceTreeTextBuffer = /** @class */ (function () {
     };
     PieceTreeTextBuffer.prototype._getEndOfLine = function (eol) {
         switch (eol) {
-            case EndOfLinePreference.LF:
+            case 1 /* LF */:
                 return '\n';
-            case EndOfLinePreference.CRLF:
+            case 2 /* CRLF */:
                 return '\r\n';
-            case EndOfLinePreference.TextDefined:
+            case 0 /* TextDefined */:
                 return this.getEOL();
         }
         throw new Error('Unknown EOL preference');
@@ -146,12 +123,12 @@ var PieceTreeTextBuffer = /** @class */ (function () {
             }
             operations[i] = {
                 sortIndex: i,
-                identifier: op.identifier,
+                identifier: op.identifier || null,
                 range: validatedRange,
                 rangeOffset: this.getOffsetAt(validatedRange.startLineNumber, validatedRange.startColumn),
                 rangeLength: this.getValueLengthInRange(validatedRange),
                 lines: op.text ? op.text.split(/\r\n|\r|\n/) : null,
-                forceMoveMarkers: op.forceMoveMarkers,
+                forceMoveMarkers: Boolean(op.forceMoveMarkers),
                 isAutoWhitespaceEdit: op.isAutoWhitespaceEdit || false
             };
         }
@@ -242,7 +219,7 @@ var PieceTreeTextBuffer = /** @class */ (function () {
             return operations;
         }
         // At one point, due to how events are emitted and how each operation is handled,
-        // some operations can trigger a high ammount of temporary string allocations,
+        // some operations can trigger a high amount of temporary string allocations,
         // that will immediately get edited again.
         // e.g. a formatter inserting ridiculous ammounts of \n on a model with a single line
         // Therefore, the strategy is to collapse all the operations into a huge single edit operation
@@ -287,7 +264,7 @@ var PieceTreeTextBuffer = /** @class */ (function () {
             identifier: operations[0].identifier,
             range: entireEditRange,
             rangeOffset: this.getOffsetAt(entireEditRange.startLineNumber, entireEditRange.startColumn),
-            rangeLength: this.getValueLengthInRange(entireEditRange, EndOfLinePreference.TextDefined),
+            rangeLength: this.getValueLengthInRange(entireEditRange, 0 /* TextDefined */),
             lines: result.join('').split('\n'),
             forceMoveMarkers: forceMoveMarkers,
             isAutoWhitespaceEdit: false
@@ -341,19 +318,13 @@ var PieceTreeTextBuffer = /** @class */ (function () {
     PieceTreeTextBuffer.prototype.findMatchesLineByLine = function (searchRange, searchData, captureMatches, limitResultCount) {
         return this._pieceTree.findMatchesLineByLine(searchRange, searchData, captureMatches, limitResultCount);
     };
-    // #endregion
-    // #region helper
-    // testing purpose.
-    PieceTreeTextBuffer.prototype.getPieceTree = function () {
-        return this._pieceTree;
-    };
     /**
      * Assumes `operations` are validated and sorted ascending
      */
     PieceTreeTextBuffer._getInverseEditRanges = function (operations) {
         var result = [];
-        var prevOpEndLineNumber;
-        var prevOpEndColumn;
+        var prevOpEndLineNumber = 0;
+        var prevOpEndColumn = 0;
         var prevOp = null;
         for (var i = 0, len = operations.length; i < len; i++) {
             var op = operations[i];

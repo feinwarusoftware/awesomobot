@@ -2,7 +2,6 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 import { Emitter } from '../../../base/common/event.js';
 export var EditorZoom = new /** @class */ (function () {
     function class_1() {
@@ -14,7 +13,7 @@ export var EditorZoom = new /** @class */ (function () {
         return this._zoomLevel;
     };
     class_1.prototype.setZoomLevel = function (zoomLevel) {
-        zoomLevel = Math.min(Math.max(-9, zoomLevel), 9);
+        zoomLevel = Math.min(Math.max(-5, zoomLevel), 20);
         if (this._zoomLevel === zoomLevel) {
             return;
         }

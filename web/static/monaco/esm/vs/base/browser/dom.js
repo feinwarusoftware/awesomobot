@@ -2,30 +2,36 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import * as platform from '../common/platform.js';
-import { TPromise } from '../common/winjs.base.js';
-import { TimeoutTimer } from '../common/async.js';
-import { onUnexpectedError } from '../common/errors.js';
-import { Disposable, dispose } from '../common/lifecycle.js';
 import * as browser from './browser.js';
+import { domEvent } from './event.js';
 import { StandardKeyboardEvent } from './keyboardEvent.js';
 import { StandardMouseEvent } from './mouseEvent.js';
+import { TimeoutTimer } from '../common/async.js';
+import { onUnexpectedError } from '../common/errors.js';
 import { Emitter } from '../common/event.js';
-import { domEvent } from './event.js';
+import { Disposable, dispose } from '../common/lifecycle.js';
+import * as platform from '../common/platform.js';
 export function clearNode(node) {
     while (node.firstChild) {
         node.removeChild(node.firstChild);
+    }
+}
+export function removeNode(node) {
+    if (node.parentNode) {
+        node.parentNode.removeChild(node);
     }
 }
 export function isInDOM(node) {
@@ -140,7 +146,7 @@ var _nativeClassList = new /** @class */ (function () {
     function class_2() {
     }
     class_2.prototype.hasClass = function (node, className) {
-        return className && node.classList && node.classList.contains(className);
+        return Boolean(className) && node.classList && node.classList.contains(className);
     };
     class_2.prototype.addClasses = function (node) {
         var _this = this;
@@ -271,6 +277,7 @@ export var runAtThisOrScheduleAtNextAnimationFrame;
 export var scheduleAtNextAnimationFrame;
 var AnimationFrameQueueItem = /** @class */ (function () {
     function AnimationFrameQueueItem(runner, priority) {
+        if (priority === void 0) { priority = 0; }
         this._runner = runner;
         this.priority = priority;
         this._canceled = false;
@@ -414,8 +421,8 @@ export function getClientArea(element) {
     if (window.innerWidth && window.innerHeight) {
         return new Dimension(window.innerWidth, window.innerHeight);
     }
-    // Try with document.body.clientWidth / document.body.clientHeigh
-    if (document.body && document.body.clientWidth && document.body.clientWidth) {
+    // Try with document.body.clientWidth / document.body.clientHeight
+    if (document.body && document.body.clientWidth && document.body.clientHeight) {
         return new Dimension(document.body.clientWidth, document.body.clientHeight);
     }
     // Try with document.documentElement.clientWidth / document.documentElement.clientHeight
@@ -496,30 +503,6 @@ export function getTopLeftOffset(element) {
         top: top
     };
 }
-export function size(element, width, height) {
-    if (typeof width === 'number') {
-        element.style.width = width + "px";
-    }
-    if (typeof height === 'number') {
-        element.style.height = height + "px";
-    }
-}
-export function position(element, top, right, bottom, left, position) {
-    if (position === void 0) { position = 'absolute'; }
-    if (typeof top === 'number') {
-        element.style.top = top + "px";
-    }
-    if (typeof right === 'number') {
-        element.style.right = right + "px";
-    }
-    if (typeof bottom === 'number') {
-        element.style.bottom = bottom + "px";
-    }
-    if (typeof left === 'number') {
-        element.style.left = left + "px";
-    }
-    element.style.position = position;
-}
 /**
  * Returns the position of a dom node relative to the entire page.
  */
@@ -574,10 +557,6 @@ export function getContentWidth(element) {
     var padding = sizeUtils.getPaddingLeft(element) + sizeUtils.getPaddingRight(element);
     return element.offsetWidth - border - padding;
 }
-export function getTotalScrollWidth(element) {
-    var margin = sizeUtils.getMarginLeft(element) + sizeUtils.getMarginRight(element);
-    return element.scrollWidth + margin;
-}
 // Adapted from WinJS
 // Gets the height of the content of the specified element. The content height does not include borders or padding.
 export function getContentHeight(element) {
@@ -591,22 +570,6 @@ export function getTotalHeight(element) {
     var margin = sizeUtils.getMarginTop(element) + sizeUtils.getMarginBottom(element);
     return element.offsetHeight + margin;
 }
-// Gets the left coordinate of the specified element relative to the specified parent.
-function getRelativeLeft(element, parent) {
-    if (element === null) {
-        return 0;
-    }
-    var elementPosition = getTopLeftOffset(element);
-    var parentPosition = getTopLeftOffset(parent);
-    return elementPosition.left - parentPosition.left;
-}
-export function getLargestChildWidth(parent, children) {
-    var childWidths = children.map(function (child) {
-        return Math.max(getTotalScrollWidth(child), getTotalWidth(child)) + getRelativeLeft(child, parent) || 0;
-    });
-    var maxWidth = Math.max.apply(Math, childWidths);
-    return maxWidth;
-}
 // ----------------------------------------------------------------------------------------
 export function isAncestor(testChild, testAncestor) {
     while (testChild) {
@@ -617,13 +580,22 @@ export function isAncestor(testChild, testAncestor) {
     }
     return false;
 }
-export function findParentWithClass(node, clazz, stopAtClazz) {
+export function findParentWithClass(node, clazz, stopAtClazzOrNode) {
     while (node) {
         if (hasClass(node, clazz)) {
             return node;
         }
-        if (stopAtClazz && hasClass(node, stopAtClazz)) {
-            return null;
+        if (stopAtClazzOrNode) {
+            if (typeof stopAtClazzOrNode === 'string') {
+                if (hasClass(node, stopAtClazzOrNode)) {
+                    return null;
+                }
+            }
+            else {
+                if (node === stopAtClazzOrNode) {
+                    return null;
+                }
+            }
         }
         node = node.parentNode;
     }
@@ -688,13 +660,14 @@ export function isHTMLElement(o) {
 export var EventType = {
     // Mouse
     CLICK: 'click',
-    AUXCLICK: 'auxclick',
     DBLCLICK: 'dblclick',
     MOUSE_UP: 'mouseup',
     MOUSE_DOWN: 'mousedown',
     MOUSE_OVER: 'mouseover',
     MOUSE_MOVE: 'mousemove',
     MOUSE_OUT: 'mouseout',
+    MOUSE_ENTER: 'mouseenter',
+    MOUSE_LEAVE: 'mouseleave',
     CONTEXT_MENU: 'contextmenu',
     WHEEL: 'wheel',
     // Keyboard
@@ -714,6 +687,8 @@ export var EventType = {
     SUBMIT: 'submit',
     RESET: 'reset',
     FOCUS: 'focus',
+    FOCUS_IN: 'focusin',
+    FOCUS_OUT: 'focusout',
     BLUR: 'blur',
     INPUT: 'input',
     // Local Storage
@@ -775,7 +750,7 @@ var FocusTracker = /** @class */ (function () {
         this._onDidBlur = new Emitter();
         this.onDidBlur = this._onDidBlur.event;
         this.disposables = [];
-        var hasFocus = false;
+        var hasFocus = isAncestor(document.activeElement, element);
         var loosingFocus = false;
         var onFocus = function () {
             loosingFocus = false;
@@ -817,12 +792,7 @@ export function append(parent) {
     children.forEach(function (child) { return parent.appendChild(child); });
     return children[children.length - 1];
 }
-export function prepend(parent, child) {
-    parent.insertBefore(child, parent.firstChild);
-    return child;
-}
 var SELECTOR_REGEX = /([\w\-]+)?(#([\w\-]+))?((.([\w\-]+))*)/;
-// Similar to builder, but much more lightweight
 export function $(description, attrs) {
     var children = [];
     for (var _i = 2; _i < arguments.length; _i++) {
@@ -839,18 +809,19 @@ export function $(description, attrs) {
     if (match[4]) {
         result.className = match[4].replace(/\./g, ' ').trim();
     }
-    Object.keys(attrs || {}).forEach(function (name) {
+    attrs = attrs || {};
+    Object.keys(attrs).forEach(function (name) {
+        var value = attrs[name];
         if (/^on\w+$/.test(name)) {
-            result[name] = attrs[name];
+            result[name] = value;
         }
         else if (name === 'selected') {
-            var value = attrs[name];
             if (value) {
                 result.setAttribute(name, 'true');
             }
         }
         else {
-            result.setAttribute(name, attrs[name]);
+            result.setAttribute(name, value);
         }
     });
     children
@@ -862,21 +833,6 @@ export function $(description, attrs) {
         else {
             result.appendChild(document.createTextNode(child));
         }
-    });
-    return result;
-}
-export function join(nodes, separator) {
-    var result = [];
-    nodes.forEach(function (node, index) {
-        if (index > 0) {
-            if (separator instanceof Node) {
-                result.push(separator.cloneNode());
-            }
-            else {
-                result.push(document.createTextNode(separator));
-            }
-        }
-        result.push(node);
     });
     return result;
 }
@@ -929,24 +885,6 @@ export function removeTabIndexAndUpdateFocus(node) {
 }
 export function getElementsByTagName(tag) {
     return Array.prototype.slice.call(document.getElementsByTagName(tag), 0);
-}
-export function finalHandler(fn) {
-    return function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        fn(e);
-    };
-}
-export function domContentLoaded() {
-    return new TPromise(function (c, e) {
-        var readyState = document.readyState;
-        if (readyState === 'complete' || (document && document.body !== null)) {
-            platform.setImmediate(c);
-        }
-        else {
-            window.addEventListener('DOMContentLoaded', c, false);
-        }
-    });
 }
 /**
  * Find a value usable for a dom node size such that the likelihood that it would be

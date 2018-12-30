@@ -2,10 +2,9 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
-import { LineDecoration, LineDecorationsNormalizer } from './lineDecorations.js';
 import * as strings from '../../../base/common/strings.js';
 import { createStringBuilder } from '../core/stringBuilder.js';
+import { LineDecoration, LineDecorationsNormalizer } from './lineDecorations.js';
 var LinePart = /** @class */ (function () {
     function LinePart(endIndex, type) {
         this.endIndex = endIndex;
@@ -14,9 +13,11 @@ var LinePart = /** @class */ (function () {
     return LinePart;
 }());
 var RenderLineInput = /** @class */ (function () {
-    function RenderLineInput(useMonospaceOptimizations, lineContent, isBasicASCII, containsRTL, fauxIndentLength, lineTokens, lineDecorations, tabSize, spaceWidth, stopRenderingLineAfter, renderWhitespace, renderControlCharacters, fontLigatures) {
+    function RenderLineInput(useMonospaceOptimizations, canUseHalfwidthRightwardsArrow, lineContent, continuesWithWrappedLine, isBasicASCII, containsRTL, fauxIndentLength, lineTokens, lineDecorations, tabSize, spaceWidth, stopRenderingLineAfter, renderWhitespace, renderControlCharacters, fontLigatures) {
         this.useMonospaceOptimizations = useMonospaceOptimizations;
+        this.canUseHalfwidthRightwardsArrow = canUseHalfwidthRightwardsArrow;
         this.lineContent = lineContent;
+        this.continuesWithWrappedLine = continuesWithWrappedLine;
         this.isBasicASCII = isBasicASCII;
         this.containsRTL = containsRTL;
         this.fauxIndentLength = fauxIndentLength;
@@ -35,7 +36,9 @@ var RenderLineInput = /** @class */ (function () {
     }
     RenderLineInput.prototype.equals = function (other) {
         return (this.useMonospaceOptimizations === other.useMonospaceOptimizations
+            && this.canUseHalfwidthRightwardsArrow === other.canUseHalfwidthRightwardsArrow
             && this.lineContent === other.lineContent
+            && this.continuesWithWrappedLine === other.continuesWithWrappedLine
             && this.isBasicASCII === other.isBasicASCII
             && this.containsRTL === other.containsRTL
             && this.fauxIndentLength === other.fauxIndentLength
@@ -193,8 +196,9 @@ export function renderViewLine2(input) {
     return new RenderLineOutput2(out.characterMapping, sb.build(), out.containsRTL, out.containsForeignElements);
 }
 var ResolvedRenderLineInput = /** @class */ (function () {
-    function ResolvedRenderLineInput(fontIsMonospace, lineContent, len, isOverflowing, parts, containsForeignElements, tabSize, containsRTL, spaceWidth, renderWhitespace, renderControlCharacters) {
+    function ResolvedRenderLineInput(fontIsMonospace, canUseHalfwidthRightwardsArrow, lineContent, len, isOverflowing, parts, containsForeignElements, tabSize, containsRTL, spaceWidth, renderWhitespace, renderControlCharacters) {
         this.fontIsMonospace = fontIsMonospace;
+        this.canUseHalfwidthRightwardsArrow = canUseHalfwidthRightwardsArrow;
         this.lineContent = lineContent;
         this.len = len;
         this.isOverflowing = isOverflowing;
@@ -224,7 +228,7 @@ function resolveRenderLineInput(input) {
     }
     var tokens = transformAndRemoveOverflowing(input.lineTokens, input.fauxIndentLength, len);
     if (input.renderWhitespace === 2 /* All */ || input.renderWhitespace === 1 /* Boundary */) {
-        tokens = _applyRenderWhitespace(lineContent, len, tokens, input.fauxIndentLength, input.tabSize, useMonospaceOptimizations, input.renderWhitespace === 1 /* Boundary */);
+        tokens = _applyRenderWhitespace(lineContent, len, input.continuesWithWrappedLine, tokens, input.fauxIndentLength, input.tabSize, useMonospaceOptimizations, input.renderWhitespace === 1 /* Boundary */);
     }
     var containsForeignElements = 0 /* None */;
     if (input.lineDecorations.length > 0) {
@@ -243,10 +247,11 @@ function resolveRenderLineInput(input) {
         }
         tokens = _applyInlineDecorations(lineContent, len, tokens, input.lineDecorations);
     }
-    if (input.isBasicASCII && !input.fontLigatures) {
-        tokens = splitLargeTokens(lineContent, tokens);
+    if (!input.containsRTL) {
+        // We can never split RTL text, as it ruins the rendering
+        tokens = splitLargeTokens(lineContent, tokens, !input.isBasicASCII || input.fontLigatures);
     }
-    return new ResolvedRenderLineInput(useMonospaceOptimizations, lineContent, len, isOverflowing, tokens, containsForeignElements, input.tabSize, input.containsRTL, input.spaceWidth, input.renderWhitespace, input.renderControlCharacters);
+    return new ResolvedRenderLineInput(useMonospaceOptimizations, input.canUseHalfwidthRightwardsArrow, lineContent, len, isOverflowing, tokens, containsForeignElements, input.tabSize, input.containsRTL, input.spaceWidth, input.renderWhitespace, input.renderControlCharacters);
 }
 /**
  * In the rendering phase, characters are always looped until token.endIndex.
@@ -278,26 +283,59 @@ function transformAndRemoveOverflowing(tokens, fauxIndentLength, len) {
  * It appears that having very large spans causes very slow reading of character positions.
  * So here we try to avoid that.
  */
-function splitLargeTokens(lineContent, tokens) {
+function splitLargeTokens(lineContent, tokens, onlyAtSpaces) {
     var lastTokenEndIndex = 0;
     var result = [], resultLen = 0;
-    for (var i = 0, len = tokens.length; i < len; i++) {
-        var token = tokens[i];
-        var tokenEndIndex = token.endIndex;
-        var diff = (tokenEndIndex - lastTokenEndIndex);
-        if (diff > 50 /* LongToken */) {
-            var tokenType = token.type;
-            var piecesCount = Math.ceil(diff / 50 /* LongToken */);
-            for (var j = 1; j < piecesCount; j++) {
-                var pieceEndIndex = lastTokenEndIndex + (j * 50 /* LongToken */);
-                result[resultLen++] = new LinePart(pieceEndIndex, tokenType);
+    if (onlyAtSpaces) {
+        // Split only at spaces => we need to walk each character
+        for (var i = 0, len = tokens.length; i < len; i++) {
+            var token = tokens[i];
+            var tokenEndIndex = token.endIndex;
+            if (lastTokenEndIndex + 50 /* LongToken */ < tokenEndIndex) {
+                var tokenType = token.type;
+                var lastSpaceOffset = -1;
+                var currTokenStart = lastTokenEndIndex;
+                for (var j = lastTokenEndIndex; j < tokenEndIndex; j++) {
+                    if (lineContent.charCodeAt(j) === 32 /* Space */) {
+                        lastSpaceOffset = j;
+                    }
+                    if (lastSpaceOffset !== -1 && j - currTokenStart >= 50 /* LongToken */) {
+                        // Split at `lastSpaceOffset` + 1
+                        result[resultLen++] = new LinePart(lastSpaceOffset + 1, tokenType);
+                        currTokenStart = lastSpaceOffset + 1;
+                        lastSpaceOffset = -1;
+                    }
+                }
+                if (currTokenStart !== tokenEndIndex) {
+                    result[resultLen++] = new LinePart(tokenEndIndex, tokenType);
+                }
             }
-            result[resultLen++] = new LinePart(tokenEndIndex, tokenType);
+            else {
+                result[resultLen++] = token;
+            }
+            lastTokenEndIndex = tokenEndIndex;
         }
-        else {
-            result[resultLen++] = token;
+    }
+    else {
+        // Split anywhere => we don't need to walk each character
+        for (var i = 0, len = tokens.length; i < len; i++) {
+            var token = tokens[i];
+            var tokenEndIndex = token.endIndex;
+            var diff = (tokenEndIndex - lastTokenEndIndex);
+            if (diff > 50 /* LongToken */) {
+                var tokenType = token.type;
+                var piecesCount = Math.ceil(diff / 50 /* LongToken */);
+                for (var j = 1; j < piecesCount; j++) {
+                    var pieceEndIndex = lastTokenEndIndex + (j * 50 /* LongToken */);
+                    result[resultLen++] = new LinePart(pieceEndIndex, tokenType);
+                }
+                result[resultLen++] = new LinePart(tokenEndIndex, tokenType);
+            }
+            else {
+                result[resultLen++] = token;
+            }
+            lastTokenEndIndex = tokenEndIndex;
         }
-        lastTokenEndIndex = tokenEndIndex;
     }
     return result;
 }
@@ -306,11 +344,12 @@ function splitLargeTokens(lineContent, tokens) {
  * Moreover, a token is created for every visual indent because on some fonts the glyphs used for rendering whitespace (&rarr; or &middot;) do not have the same width as &nbsp;.
  * The rendering phase will generate `style="width:..."` for these tokens.
  */
-function _applyRenderWhitespace(lineContent, len, tokens, fauxIndentLength, tabSize, useMonospaceOptimizations, onlyBoundary) {
+function _applyRenderWhitespace(lineContent, len, continuesWithWrappedLine, tokens, fauxIndentLength, tabSize, useMonospaceOptimizations, onlyBoundary) {
     var result = [], resultLen = 0;
     var tokenIndex = 0;
     var tokenType = tokens[tokenIndex].type;
     var tokenEndIndex = tokens[tokenIndex].endIndex;
+    var tokensLength = tokens.length;
     var firstNonWhitespaceIndex = strings.firstNonWhitespaceIndex(lineContent);
     var lastNonWhitespaceIndex;
     if (firstNonWhitespaceIndex === -1) {
@@ -393,18 +432,28 @@ function _applyRenderWhitespace(lineContent, len, tokens, fauxIndentLength, tabS
         wasInWhitespace = isInWhitespace;
         if (charIndex === tokenEndIndex) {
             tokenIndex++;
-            tokenType = tokens[tokenIndex].type;
-            tokenEndIndex = tokens[tokenIndex].endIndex;
+            if (tokenIndex < tokensLength) {
+                tokenType = tokens[tokenIndex].type;
+                tokenEndIndex = tokens[tokenIndex].endIndex;
+            }
         }
     }
+    var generateWhitespace = false;
     if (wasInWhitespace) {
         // was in whitespace token
-        result[resultLen++] = new LinePart(len, 'vs-whitespace');
+        if (continuesWithWrappedLine && onlyBoundary) {
+            var lastCharCode = (len > 0 ? lineContent.charCodeAt(len - 1) : 0 /* Null */);
+            var prevCharCode = (len > 1 ? lineContent.charCodeAt(len - 2) : 0 /* Null */);
+            var isSingleTrailingSpace = (lastCharCode === 32 /* Space */ && (prevCharCode !== 32 /* Space */ && prevCharCode !== 9 /* Tab */));
+            if (!isSingleTrailingSpace) {
+                generateWhitespace = true;
+            }
+        }
+        else {
+            generateWhitespace = true;
+        }
     }
-    else {
-        // was in regular token
-        result[resultLen++] = new LinePart(len, tokenType);
-    }
+    result[resultLen++] = new LinePart(len, generateWhitespace ? 'vs-whitespace' : tokenType);
     return result;
 }
 /**
@@ -462,6 +511,7 @@ function _applyInlineDecorations(lineContent, len, tokens, _lineDecorations) {
  */
 function _renderLine(input, sb) {
     var fontIsMonospace = input.fontIsMonospace;
+    var canUseHalfwidthRightwardsArrow = input.canUseHalfwidthRightwardsArrow;
     var containsForeignElements = input.containsForeignElements;
     var lineContent = input.lineContent;
     var len = input.len;
@@ -524,7 +574,12 @@ function _renderLine(input, sb) {
                     tabsCharDelta += insertSpacesCount - 1;
                     charOffsetInPart += insertSpacesCount - 1;
                     if (insertSpacesCount > 0) {
-                        sb.write1(0x2192); // &rarr;
+                        if (!canUseHalfwidthRightwardsArrow || insertSpacesCount > 1) {
+                            sb.write1(0x2192); // RIGHTWARDS ARROW
+                        }
+                        else {
+                            sb.write1(0xffeb); // HALFWIDTH RIGHTWARDS ARROW
+                        }
                         insertSpacesCount--;
                     }
                     while (insertSpacesCount > 0) {

@@ -2,11 +2,13 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -24,15 +26,14 @@ import { registerColor, oneOf } from '../../../platform/theme/common/colorRegist
 import { Color } from '../../../base/common/color.js';
 import { editorErrorForeground, editorErrorBorder, editorWarningForeground, editorWarningBorder, editorInfoForeground, editorInfoBorder } from '../../common/view/editorColorRegistry.js';
 import { ScrollableElement } from '../../../base/browser/ui/scrollbar/scrollableElement.js';
-import { ScrollbarVisibility } from '../../../base/common/scrollable.js';
 import { getBaseLabel, getPathLabel } from '../../../base/common/labels.js';
 import { isFalsyOrEmpty } from '../../../base/common/arrays.js';
 import { Emitter } from '../../../base/common/event.js';
 var MessageWidget = /** @class */ (function () {
     function MessageWidget(parent, editor, onRelatedInformation) {
         var _this = this;
-        this.lines = 0;
-        this.longestLineLength = 0;
+        this._lines = 0;
+        this._longestLineLength = 0;
         this._relatedDiagnostics = new WeakMap();
         this._disposables = [];
         this._editor = editor;
@@ -40,7 +41,7 @@ var MessageWidget = /** @class */ (function () {
         domNode.className = 'descriptioncontainer';
         domNode.setAttribute('aria-live', 'assertive');
         domNode.setAttribute('role', 'alert');
-        this._messageBlock = document.createElement('span');
+        this._messageBlock = document.createElement('div');
         domNode.appendChild(this._messageBlock);
         this._relatedBlock = document.createElement('div');
         domNode.appendChild(this._relatedBlock);
@@ -52,30 +53,37 @@ var MessageWidget = /** @class */ (function () {
             }
         }));
         this._scrollable = new ScrollableElement(domNode, {
-            horizontal: ScrollbarVisibility.Auto,
-            vertical: ScrollbarVisibility.Hidden,
+            horizontal: 1 /* Auto */,
+            vertical: 1 /* Auto */,
             useShadows: false,
-            horizontalScrollbarSize: 3
+            horizontalScrollbarSize: 3,
+            verticalScrollbarSize: 3
         });
         dom.addClass(this._scrollable.getDomNode(), 'block');
         parent.appendChild(this._scrollable.getDomNode());
-        this._disposables.push(this._scrollable.onScroll(function (e) { return domNode.style.left = "-" + e.scrollLeft + "px"; }));
+        this._disposables.push(this._scrollable.onScroll(function (e) {
+            domNode.style.left = "-" + e.scrollLeft + "px";
+            domNode.style.top = "-" + e.scrollTop + "px";
+        }));
         this._disposables.push(this._scrollable);
     }
     MessageWidget.prototype.dispose = function () {
         dispose(this._disposables);
     };
     MessageWidget.prototype.update = function (_a) {
-        var source = _a.source, message = _a.message, relatedInformation = _a.relatedInformation;
+        var source = _a.source, message = _a.message, relatedInformation = _a.relatedInformation, code = _a.code;
         if (source) {
-            this.lines = 0;
-            this.longestLineLength = 0;
+            this._lines = 0;
+            this._longestLineLength = 0;
             var indent = new Array(source.length + 3 + 1).join(' ');
             var lines = message.split(/\r\n|\r|\n/g);
             for (var i = 0; i < lines.length; i++) {
                 var line = lines[i];
-                this.lines += 1;
-                this.longestLineLength = Math.max(line.length, this.longestLineLength);
+                this._lines += 1;
+                if (code && i === lines.length - 1) {
+                    line += " [" + code + "]";
+                }
+                this._longestLineLength = Math.max(line.length, this._longestLineLength);
                 if (i === 0) {
                     message = "[" + source + "] " + line;
                 }
@@ -85,37 +93,46 @@ var MessageWidget = /** @class */ (function () {
             }
         }
         else {
-            this.lines = 1;
-            this.longestLineLength = message.length;
+            this._lines = 1;
+            if (code) {
+                message += " [" + code + "]";
+            }
+            this._longestLineLength = message.length;
         }
         dom.clearNode(this._relatedBlock);
         if (!isFalsyOrEmpty(relatedInformation)) {
             this._relatedBlock.style.paddingTop = Math.floor(this._editor.getConfiguration().lineHeight * .66) + "px";
-            this.lines += 1;
-            for (var _i = 0, relatedInformation_1 = relatedInformation; _i < relatedInformation_1.length; _i++) {
-                var related = relatedInformation_1[_i];
+            this._lines += 1;
+            for (var _i = 0, _b = relatedInformation || []; _i < _b.length; _i++) {
+                var related = _b[_i];
                 var container = document.createElement('div');
                 var relatedResource = document.createElement('span');
                 dom.addClass(relatedResource, 'filename');
                 relatedResource.innerHTML = getBaseLabel(related.resource) + "(" + related.startLineNumber + ", " + related.startColumn + "): ";
-                relatedResource.title = getPathLabel(related.resource);
+                relatedResource.title = getPathLabel(related.resource, undefined);
                 this._relatedDiagnostics.set(relatedResource, related);
                 var relatedMessage = document.createElement('span');
                 relatedMessage.innerText = related.message;
                 this._editor.applyFontInfo(relatedMessage);
                 container.appendChild(relatedResource);
                 container.appendChild(relatedMessage);
-                this.lines += 1;
+                this._lines += 1;
                 this._relatedBlock.appendChild(container);
             }
         }
         this._messageBlock.innerText = message;
         this._editor.applyFontInfo(this._messageBlock);
-        var width = Math.floor(this._editor.getConfiguration().fontInfo.typicalFullwidthCharacterWidth * this.longestLineLength);
-        this._scrollable.setScrollDimensions({ scrollWidth: width });
+        var fontInfo = this._editor.getConfiguration().fontInfo;
+        var scrollWidth = Math.ceil(fontInfo.typicalFullwidthCharacterWidth * this._longestLineLength * 0.75);
+        var scrollHeight = fontInfo.lineHeight * this._lines;
+        this._scrollable.setScrollDimensions({ scrollWidth: scrollWidth, scrollHeight: scrollHeight });
     };
     MessageWidget.prototype.layout = function (height, width) {
-        this._scrollable.setScrollDimensions({ width: width });
+        this._scrollable.getDomNode().style.height = height + "px";
+        this._scrollable.setScrollDimensions({ width: width, height: height });
+    };
+    MessageWidget.prototype.getHeightInLines = function () {
+        return Math.min(17, this._lines);
     };
     return MessageWidget;
 }());
@@ -151,7 +168,7 @@ var MarkerNavigationWidget = /** @class */ (function (_super) {
     };
     MarkerNavigationWidget.prototype._applyStyles = function () {
         if (this._parentContainer) {
-            this._parentContainer.style.backgroundColor = this._backgroundColor.toString();
+            this._parentContainer.style.backgroundColor = this._backgroundColor ? this._backgroundColor.toString() : '';
         }
         _super.prototype._applyStyles.call(this);
     };
@@ -191,7 +208,8 @@ var MarkerNavigationWidget = /** @class */ (function (_super) {
         this._applyTheme(this._themeService.getTheme());
         // show
         var range = Range.lift(marker);
-        var position = range.containsPosition(this.editor.getPosition()) ? this.editor.getPosition() : range.getStartPosition();
+        var editorPosition = this.editor.getPosition();
+        var position = editorPosition && range.containsPosition(editorPosition) ? editorPosition : range.getStartPosition();
         _super.prototype.show.call(this, position, this.computeRequiredHeight());
         this.editor.revealPositionInCenter(position, 0 /* Smooth */);
         if (this.editor.getConfiguration().accessibilitySupport !== 1 /* Disabled */) {
@@ -214,7 +232,7 @@ var MarkerNavigationWidget = /** @class */ (function (_super) {
         _super.prototype._relayout.call(this, this.computeRequiredHeight());
     };
     MarkerNavigationWidget.prototype.computeRequiredHeight = function () {
-        return 1 + this._message.lines;
+        return 1 + this._message.getHeightInLines();
     };
     return MarkerNavigationWidget;
 }(ZoneWidget));

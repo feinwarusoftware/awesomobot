@@ -2,11 +2,13 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -15,9 +17,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import './checkbox.css';
 import * as DOM from '../../dom.js';
-import * as objects from '../../../common/objects.js';
 import { Widget } from '../widget.js';
 import { Color } from '../../../common/color.js';
+import { Emitter } from '../../../common/event.js';
+import * as objects from '../../../common/objects.js';
 var defaultOpts = {
     inputActiveOptionBorder: Color.fromHex('#007ACC')
 };
@@ -25,6 +28,8 @@ var Checkbox = /** @class */ (function (_super) {
     __extends(Checkbox, _super);
     function Checkbox(opts) {
         var _this = _super.call(this) || this;
+        _this._onChange = _this._register(new Emitter());
+        _this._onKeyDown = _this._register(new Emitter());
         _this._opts = objects.deepClone(opts);
         objects.mixin(_this._opts, defaultOpts, false);
         _this._checked = _this._opts.isChecked;
@@ -38,26 +43,27 @@ var Checkbox = /** @class */ (function (_super) {
         _this.applyStyles();
         _this.onclick(_this.domNode, function (ev) {
             _this.checked = !_this._checked;
-            _this._opts.onChange(false);
+            _this._onChange.fire(false);
             ev.preventDefault();
         });
         _this.onkeydown(_this.domNode, function (keyboardEvent) {
             if (keyboardEvent.keyCode === 10 /* Space */ || keyboardEvent.keyCode === 3 /* Enter */) {
                 _this.checked = !_this._checked;
-                _this._opts.onChange(true);
+                _this._onChange.fire(true);
                 keyboardEvent.preventDefault();
                 return;
             }
-            if (_this._opts.onKeyDown) {
-                _this._opts.onKeyDown(keyboardEvent);
-            }
+            _this._onKeyDown.fire(keyboardEvent);
         });
         return _this;
     }
-    Object.defineProperty(Checkbox.prototype, "enabled", {
-        get: function () {
-            return this.domNode.getAttribute('aria-disabled') !== 'true';
-        },
+    Object.defineProperty(Checkbox.prototype, "onChange", {
+        get: function () { return this._onChange.event; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Checkbox.prototype, "onKeyDown", {
+        get: function () { return this._onKeyDown.event; },
         enumerable: true,
         configurable: true
     });

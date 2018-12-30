@@ -2,7 +2,6 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 import { globals } from './platform.js';
 var hasPerformanceNow = (globals.performance && typeof globals.performance.now === 'function');
 var StopWatch = /** @class */ (function () {
@@ -14,9 +13,6 @@ var StopWatch = /** @class */ (function () {
     StopWatch.create = function (highResolution) {
         if (highResolution === void 0) { highResolution = true; }
         return new StopWatch(highResolution);
-    };
-    StopWatch.prototype.stop = function () {
-        this._stopTime = this._now();
     };
     StopWatch.prototype.elapsed = function () {
         if (this._stopTime !== -1) {

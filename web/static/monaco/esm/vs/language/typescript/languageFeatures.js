@@ -4,18 +4,56 @@
  *--------------------------------------------------------------------------------------------*/
 'use strict';
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import * as ts from './lib/typescriptServices.js';
 var Uri = monaco.Uri;
 var Promise = monaco.Promise;
+//#region utils copied from typescript to prevent loading the entire typescriptServices ---
+var IndentStyle;
+(function (IndentStyle) {
+    IndentStyle[IndentStyle["None"] = 0] = "None";
+    IndentStyle[IndentStyle["Block"] = 1] = "Block";
+    IndentStyle[IndentStyle["Smart"] = 2] = "Smart";
+})(IndentStyle || (IndentStyle = {}));
+function flattenDiagnosticMessageText(messageText, newLine) {
+    if (typeof messageText === "string") {
+        return messageText;
+    }
+    else {
+        var diagnosticChain = messageText;
+        var result = "";
+        var indent = 0;
+        while (diagnosticChain) {
+            if (indent) {
+                result += newLine;
+                for (var i = 0; i < indent; i++) {
+                    result += "  ";
+                }
+            }
+            result += diagnosticChain.messageText;
+            indent++;
+            diagnosticChain = diagnosticChain.next;
+        }
+        return result;
+    }
+}
+function displayPartsToString(displayParts) {
+    if (displayParts) {
+        return displayParts.map(function (displayPart) { return displayPart.text; }).join("");
+    }
+    return "";
+}
+//#endregion
 var Adapter = /** @class */ (function () {
     function Adapter(_worker) {
         this._worker = _worker;
@@ -126,7 +164,7 @@ var DiagnostcsAdapter = /** @class */ (function (_super) {
                 .reduce(function (p, c) { return c.concat(p); }, [])
                 .map(function (d) { return _this._convertDiagnostics(resource, d); });
             monaco.editor.setModelMarkers(monaco.editor.getModel(resource), _this._selector, markers);
-        }).done(undefined, function (err) {
+        }).then(undefined, function (err) {
             console.error(err);
         });
     };
@@ -139,7 +177,7 @@ var DiagnostcsAdapter = /** @class */ (function (_super) {
             startColumn: startColumn,
             endLineNumber: endLineNumber,
             endColumn: endColumn,
-            message: ts.flattenDiagnosticMessageText(diag.messageText, '\n')
+            message: flattenDiagnosticMessageText(diag.messageText, '\n')
         };
     };
     return DiagnostcsAdapter;
@@ -157,11 +195,11 @@ var SuggestAdapter = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    SuggestAdapter.prototype.provideCompletionItems = function (model, position, token) {
+    SuggestAdapter.prototype.provideCompletionItems = function (model, position, _context, token) {
         var wordInfo = model.getWordUntilPosition(position);
         var resource = model.uri;
         var offset = this._positionToOffset(resource, position);
-        return wireCancellationToken(token, this._worker(resource).then(function (worker) {
+        return this._worker(resource).then(function (worker) {
             return worker.getCompletionsAtPosition(resource.toString(), offset);
         }).then(function (info) {
             if (!info) {
@@ -172,19 +210,22 @@ var SuggestAdapter = /** @class */ (function (_super) {
                     uri: resource,
                     position: position,
                     label: entry.name,
+                    insertText: entry.name,
                     sortText: entry.sortText,
                     kind: SuggestAdapter.convertKind(entry.kind)
                 };
             });
-            return suggestions;
-        }));
+            return {
+                suggestions: suggestions
+            };
+        });
     };
-    SuggestAdapter.prototype.resolveCompletionItem = function (item, token) {
+    SuggestAdapter.prototype.resolveCompletionItem = function (_model, _position, item, token) {
         var _this = this;
         var myItem = item;
         var resource = myItem.uri;
         var position = myItem.position;
-        return wireCancellationToken(token, this._worker(resource).then(function (worker) {
+        return this._worker(resource).then(function (worker) {
             return worker.getCompletionEntryDetails(resource.toString(), _this._positionToOffset(resource, position), myItem.label);
         }).then(function (details) {
             if (!details) {
@@ -195,10 +236,12 @@ var SuggestAdapter = /** @class */ (function (_super) {
                 position: position,
                 label: details.name,
                 kind: SuggestAdapter.convertKind(details.kind),
-                detail: ts.displayPartsToString(details.displayParts),
-                documentation: ts.displayPartsToString(details.documentation)
+                detail: displayPartsToString(details.displayParts),
+                documentation: {
+                    value: displayPartsToString(details.documentation)
+                }
             };
-        }));
+        });
     };
     SuggestAdapter.convertKind = function (kind) {
         switch (kind) {
@@ -244,7 +287,7 @@ var SignatureHelpAdapter = /** @class */ (function (_super) {
     SignatureHelpAdapter.prototype.provideSignatureHelp = function (model, position, token) {
         var _this = this;
         var resource = model.uri;
-        return wireCancellationToken(token, this._worker(resource).then(function (worker) { return worker.getSignatureHelpItems(resource.toString(), _this._positionToOffset(resource, position)); }).then(function (info) {
+        return this._worker(resource).then(function (worker) { return worker.getSignatureHelpItems(resource.toString(), _this._positionToOffset(resource, position)); }).then(function (info) {
             if (!info) {
                 return;
             }
@@ -259,24 +302,24 @@ var SignatureHelpAdapter = /** @class */ (function (_super) {
                     documentation: null,
                     parameters: []
                 };
-                signature.label += ts.displayPartsToString(item.prefixDisplayParts);
+                signature.label += displayPartsToString(item.prefixDisplayParts);
                 item.parameters.forEach(function (p, i, a) {
-                    var label = ts.displayPartsToString(p.displayParts);
+                    var label = displayPartsToString(p.displayParts);
                     var parameter = {
                         label: label,
-                        documentation: ts.displayPartsToString(p.documentation)
+                        documentation: displayPartsToString(p.documentation)
                     };
                     signature.label += label;
                     signature.parameters.push(parameter);
                     if (i < a.length - 1) {
-                        signature.label += ts.displayPartsToString(item.separatorDisplayParts);
+                        signature.label += displayPartsToString(item.separatorDisplayParts);
                     }
                 });
-                signature.label += ts.displayPartsToString(item.suffixDisplayParts);
+                signature.label += displayPartsToString(item.suffixDisplayParts);
                 ret.signatures.push(signature);
             });
             return ret;
-        }));
+        });
     };
     return SignatureHelpAdapter;
 }(Adapter));
@@ -290,13 +333,13 @@ var QuickInfoAdapter = /** @class */ (function (_super) {
     QuickInfoAdapter.prototype.provideHover = function (model, position, token) {
         var _this = this;
         var resource = model.uri;
-        return wireCancellationToken(token, this._worker(resource).then(function (worker) {
+        return this._worker(resource).then(function (worker) {
             return worker.getQuickInfoAtPosition(resource.toString(), _this._positionToOffset(resource, position));
         }).then(function (info) {
             if (!info) {
                 return;
             }
-            var documentation = ts.displayPartsToString(info.documentation);
+            var documentation = displayPartsToString(info.documentation);
             var tags = info.tags ? info.tags.map(function (tag) {
                 var label = "*@" + tag.name + "*";
                 if (!tag.text) {
@@ -305,16 +348,16 @@ var QuickInfoAdapter = /** @class */ (function (_super) {
                 return label + (tag.text.match(/\r\n|\n/g) ? ' \n' + tag.text : " - " + tag.text);
             })
                 .join('  \n\n') : '';
-            var contents = ts.displayPartsToString(info.displayParts);
+            var contents = displayPartsToString(info.displayParts);
             return {
                 range: _this._textSpanToRange(resource, info.textSpan),
                 contents: [{
-                        value: contents
+                        value: '```js\n' + contents + '\n```\n'
                     }, {
                         value: documentation + (tags ? '\n\n' + tags : '')
                     }]
             };
-        }));
+        });
     };
     return QuickInfoAdapter;
 }(Adapter));
@@ -328,7 +371,7 @@ var OccurrencesAdapter = /** @class */ (function (_super) {
     OccurrencesAdapter.prototype.provideDocumentHighlights = function (model, position, token) {
         var _this = this;
         var resource = model.uri;
-        return wireCancellationToken(token, this._worker(resource).then(function (worker) {
+        return this._worker(resource).then(function (worker) {
             return worker.getOccurrencesAtPosition(resource.toString(), _this._positionToOffset(resource, position));
         }).then(function (entries) {
             if (!entries) {
@@ -340,7 +383,7 @@ var OccurrencesAdapter = /** @class */ (function (_super) {
                     kind: entry.isWriteAccess ? monaco.languages.DocumentHighlightKind.Write : monaco.languages.DocumentHighlightKind.Text
                 };
             });
-        }));
+        });
     };
     return OccurrencesAdapter;
 }(Adapter));
@@ -354,7 +397,7 @@ var DefinitionAdapter = /** @class */ (function (_super) {
     DefinitionAdapter.prototype.provideDefinition = function (model, position, token) {
         var _this = this;
         var resource = model.uri;
-        return wireCancellationToken(token, this._worker(resource).then(function (worker) {
+        return this._worker(resource).then(function (worker) {
             return worker.getDefinitionAtPosition(resource.toString(), _this._positionToOffset(resource, position));
         }).then(function (entries) {
             if (!entries) {
@@ -372,7 +415,7 @@ var DefinitionAdapter = /** @class */ (function (_super) {
                 }
             }
             return result;
-        }));
+        });
     };
     return DefinitionAdapter;
 }(Adapter));
@@ -386,7 +429,7 @@ var ReferenceAdapter = /** @class */ (function (_super) {
     ReferenceAdapter.prototype.provideReferences = function (model, position, context, token) {
         var _this = this;
         var resource = model.uri;
-        return wireCancellationToken(token, this._worker(resource).then(function (worker) {
+        return this._worker(resource).then(function (worker) {
             return worker.getReferencesAtPosition(resource.toString(), _this._positionToOffset(resource, position));
         }).then(function (entries) {
             if (!entries) {
@@ -404,7 +447,7 @@ var ReferenceAdapter = /** @class */ (function (_super) {
                 }
             }
             return result;
-        }));
+        });
     };
     return ReferenceAdapter;
 }(Adapter));
@@ -418,18 +461,17 @@ var OutlineAdapter = /** @class */ (function (_super) {
     OutlineAdapter.prototype.provideDocumentSymbols = function (model, token) {
         var _this = this;
         var resource = model.uri;
-        return wireCancellationToken(token, this._worker(resource).then(function (worker) { return worker.getNavigationBarItems(resource.toString()); }).then(function (items) {
+        return this._worker(resource).then(function (worker) { return worker.getNavigationBarItems(resource.toString()); }).then(function (items) {
             if (!items) {
                 return;
             }
             var convert = function (bucket, item, containerLabel) {
                 var result = {
                     name: item.text,
+                    detail: '',
                     kind: (outlineTypeTable[item.kind] || monaco.languages.SymbolKind.Variable),
-                    location: {
-                        uri: resource,
-                        range: _this._textSpanToRange(resource, item.spans[0])
-                    },
+                    range: _this._textSpanToRange(resource, item.spans[0]),
+                    selectionRange: _this._textSpanToRange(resource, item.spans[0]),
                     containerName: containerLabel
                 };
                 if (item.childItems && item.childItems.length > 0) {
@@ -443,7 +485,7 @@ var OutlineAdapter = /** @class */ (function (_super) {
             var result = [];
             items.forEach(function (item) { return convert(result, item); });
             return result;
-        }));
+        });
     };
     return OutlineAdapter;
 }(Adapter));
@@ -508,7 +550,7 @@ var FormatHelper = /** @class */ (function (_super) {
             ConvertTabsToSpaces: options.insertSpaces,
             TabSize: options.tabSize,
             IndentSize: options.tabSize,
-            IndentStyle: ts.IndentStyle.Smart,
+            IndentStyle: IndentStyle.Smart,
             NewLineCharacter: '\n',
             InsertSpaceAfterCommaDelimiter: true,
             InsertSpaceAfterSemicolonInForStatements: true,
@@ -539,13 +581,13 @@ var FormatAdapter = /** @class */ (function (_super) {
     FormatAdapter.prototype.provideDocumentRangeFormattingEdits = function (model, range, options, token) {
         var _this = this;
         var resource = model.uri;
-        return wireCancellationToken(token, this._worker(resource).then(function (worker) {
+        return this._worker(resource).then(function (worker) {
             return worker.getFormattingEditsForRange(resource.toString(), _this._positionToOffset(resource, { lineNumber: range.startLineNumber, column: range.startColumn }), _this._positionToOffset(resource, { lineNumber: range.endLineNumber, column: range.endColumn }), FormatHelper._convertOptions(options));
         }).then(function (edits) {
             if (edits) {
                 return edits.map(function (edit) { return _this._convertTextChanges(resource, edit); });
             }
-        }));
+        });
     };
     return FormatAdapter;
 }(FormatHelper));
@@ -565,21 +607,14 @@ var FormatOnTypeAdapter = /** @class */ (function (_super) {
     FormatOnTypeAdapter.prototype.provideOnTypeFormattingEdits = function (model, position, ch, options, token) {
         var _this = this;
         var resource = model.uri;
-        return wireCancellationToken(token, this._worker(resource).then(function (worker) {
+        return this._worker(resource).then(function (worker) {
             return worker.getFormattingEditsAfterKeystroke(resource.toString(), _this._positionToOffset(resource, position), ch, FormatHelper._convertOptions(options));
         }).then(function (edits) {
             if (edits) {
                 return edits.map(function (edit) { return _this._convertTextChanges(resource, edit); });
             }
-        }));
+        });
     };
     return FormatOnTypeAdapter;
 }(FormatHelper));
 export { FormatOnTypeAdapter };
-/**
- * Hook a cancellation token to a WinJS Promise
- */
-function wireCancellationToken(token, promise) {
-    token.onCancellationRequested(function () { return promise.cancel(); });
-    return promise;
-}

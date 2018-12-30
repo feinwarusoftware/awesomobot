@@ -2,10 +2,9 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
+import * as browser from './browser.js';
 import { KeyCodeUtils, SimpleKeybinding } from '../common/keyCodes.js';
 import * as platform from '../common/platform.js';
-import * as browser from './browser.js';
 var KEY_CODE_MAP = new Array(230);
 var INVERSE_KEY_CODE_MAP = new Array(112 /* MAX_VALUE */);
 (function () {
@@ -160,9 +159,6 @@ function extractKeyCode(e) {
         return KeyCodeUtils.fromString(char);
     }
     return KEY_CODE_MAP[e.keyCode] || 0 /* Unknown */;
-}
-export function getCodeForKeyCode(keyCode) {
-    return INVERSE_KEY_CODE_MAP[keyCode];
 }
 var ctrlKeyMod = (platform.isMacintosh ? 256 /* WinCtrl */ : 2048 /* CtrlCmd */);
 var altKeyMod = 512 /* Alt */;

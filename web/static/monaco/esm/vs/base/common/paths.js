@@ -2,9 +2,8 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 import { isWindows } from './platform.js';
-import { startsWithIgnoreCase, equalsIgnoreCase } from './strings.js';
+import { startsWithIgnoreCase } from './strings.js';
 /**
  * The forward slash path separator.
  */
@@ -14,9 +13,13 @@ export var sep = '/';
  */
 export var nativeSep = isWindows ? '\\' : '/';
 /**
+ * @param path the path to get the dirname from
+ * @param separator the separator to use
  * @returns the directory name of a path.
+ *
  */
-export function dirname(path) {
+export function dirname(path, separator) {
+    if (separator === void 0) { separator = nativeSep; }
     var idx = ~path.lastIndexOf('/') || ~path.lastIndexOf('\\');
     if (idx === 0) {
         return '.';
@@ -30,7 +33,7 @@ export function dirname(path) {
     else {
         var res = path.substring(0, ~idx);
         if (isWindows && res[res.length - 1] === ':') {
-            res += nativeSep; // make sure drive letters end with backslash
+            res += separator; // make sure drive letters end with backslash
         }
         return res;
     }
@@ -51,7 +54,7 @@ export function basename(path) {
     }
 }
 /**
- * @returns {{.far}} from boo.far or the empty string.
+ * @returns `.far` from `boo.far` or the empty string.
  */
 export function extname(path) {
     path = basename(path);
@@ -73,7 +76,7 @@ export function normalize(path, toOSPath) {
     if (len === 0) {
         return '.';
     }
-    var wantsBackslash = isWindows && toOSPath;
+    var wantsBackslash = !!(isWindows && toOSPath);
     if (_isNormal(path, wantsBackslash)) {
         return path;
     }
@@ -212,83 +215,8 @@ export var join = function () {
     }
     return normalize(value);
 };
-/**
- * Check if the path follows this pattern: `\\hostname\sharename`.
- *
- * @see https://msdn.microsoft.com/en-us/library/gg465305.aspx
- * @return A boolean indication if the path is a UNC path, on none-windows
- * always false.
- */
-export function isUNC(path) {
-    if (!isWindows) {
-        // UNC is a windows concept
-        return false;
-    }
-    if (!path || path.length < 5) {
-        // at least \\a\b
-        return false;
-    }
-    var code = path.charCodeAt(0);
-    if (code !== 92 /* Backslash */) {
-        return false;
-    }
-    code = path.charCodeAt(1);
-    if (code !== 92 /* Backslash */) {
-        return false;
-    }
-    var pos = 2;
-    var start = pos;
-    for (; pos < path.length; pos++) {
-        code = path.charCodeAt(pos);
-        if (code === 92 /* Backslash */) {
-            break;
-        }
-    }
-    if (start === pos) {
-        return false;
-    }
-    code = path.charCodeAt(pos + 1);
-    if (isNaN(code) || code === 92 /* Backslash */) {
-        return false;
-    }
-    return true;
-}
-// Reference: https://en.wikipedia.org/wiki/Filename
-var INVALID_FILE_CHARS = isWindows ? /[\\/:\*\?"<>\|]/g : /[\\/]/g;
-var WINDOWS_FORBIDDEN_NAMES = /^(con|prn|aux|clock\$|nul|lpt[0-9]|com[0-9])$/i;
-export function isValidBasename(name) {
-    if (!name || name.length === 0 || /^\s+$/.test(name)) {
-        return false; // require a name that is not just whitespace
-    }
-    INVALID_FILE_CHARS.lastIndex = 0; // the holy grail of software development
-    if (INVALID_FILE_CHARS.test(name)) {
-        return false; // check for certain invalid file characters
-    }
-    if (isWindows && WINDOWS_FORBIDDEN_NAMES.test(name)) {
-        return false; // check for certain invalid file names
-    }
-    if (name === '.' || name === '..') {
-        return false; // check for reserved values
-    }
-    if (isWindows && name[name.length - 1] === '.') {
-        return false; // Windows: file cannot end with a "."
-    }
-    if (isWindows && name.length !== name.trim().length) {
-        return false; // Windows: file cannot end with a whitespace
-    }
-    return true;
-}
-export function isEqual(pathA, pathB, ignoreCase) {
-    var identityEquals = (pathA === pathB);
-    if (!ignoreCase || identityEquals) {
-        return identityEquals;
-    }
-    if (!pathA || !pathB) {
-        return false;
-    }
-    return equalsIgnoreCase(pathA, pathB);
-}
-export function isEqualOrParent(path, candidate, ignoreCase) {
+export function isEqualOrParent(path, candidate, ignoreCase, separator) {
+    if (separator === void 0) { separator = nativeSep; }
     if (path === candidate) {
         return true;
     }
@@ -307,42 +235,13 @@ export function isEqualOrParent(path, candidate, ignoreCase) {
             return true; // same path, different casing
         }
         var sepOffset = candidate.length;
-        if (candidate.charAt(candidate.length - 1) === nativeSep) {
+        if (candidate.charAt(candidate.length - 1) === separator) {
             sepOffset--; // adjust the expected sep offset in case our candidate already ends in separator character
         }
-        return path.charAt(sepOffset) === nativeSep;
+        return path.charAt(sepOffset) === separator;
     }
-    if (candidate.charAt(candidate.length - 1) !== nativeSep) {
-        candidate += nativeSep;
+    if (candidate.charAt(candidate.length - 1) !== separator) {
+        candidate += separator;
     }
     return path.indexOf(candidate) === 0;
-}
-/**
- * Adapted from Node's path.isAbsolute functions
- */
-export function isAbsolute(path) {
-    return isWindows ?
-        isAbsolute_win32(path) :
-        isAbsolute_posix(path);
-}
-export function isAbsolute_win32(path) {
-    if (!path) {
-        return false;
-    }
-    var char0 = path.charCodeAt(0);
-    if (char0 === 47 /* Slash */ || char0 === 92 /* Backslash */) {
-        return true;
-    }
-    else if ((char0 >= 65 /* A */ && char0 <= 90 /* Z */) || (char0 >= 97 /* a */ && char0 <= 122 /* z */)) {
-        if (path.length > 2 && path.charCodeAt(1) === 58 /* Colon */) {
-            var char2 = path.charCodeAt(2);
-            if (char2 === 47 /* Slash */ || char2 === 92 /* Backslash */) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-export function isAbsolute_posix(path) {
-    return path && path.charCodeAt(0) === 47 /* Slash */;
 }

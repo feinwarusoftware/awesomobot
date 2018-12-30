@@ -2,15 +2,13 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
+import { CancellationToken } from '../../../base/common/cancellation.js';
 import { onUnexpectedExternalError } from '../../../base/common/errors.js';
-import URI from '../../../base/common/uri.js';
-import { TPromise } from '../../../base/common/winjs.base.js';
+import { URI } from '../../../base/common/uri.js';
 import { Range } from '../../common/core/range.js';
 import { LinkProviderRegistry } from '../../common/modes.js';
-import { asWinJsPromise } from '../../../base/common/async.js';
-import { CommandsRegistry } from '../../../platform/commands/common/commands.js';
 import { IModelService } from '../../common/services/modelService.js';
+import { CommandsRegistry } from '../../../platform/commands/common/commands.js';
 var Link = /** @class */ (function () {
     function Link(link, provider) {
         this._link = link;
@@ -36,58 +34,62 @@ var Link = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Link.prototype.resolve = function () {
+    Link.prototype.resolve = function (token) {
         var _this = this;
         if (this._link.url) {
             try {
-                return TPromise.as(URI.parse(this._link.url));
+                return Promise.resolve(URI.parse(this._link.url));
             }
             catch (e) {
-                return TPromise.wrapError(new Error('invalid'));
+                return Promise.reject(new Error('invalid'));
             }
         }
         if (typeof this._provider.resolveLink === 'function') {
-            return asWinJsPromise(function (token) { return _this._provider.resolveLink(_this._link, token); }).then(function (value) {
+            return Promise.resolve(this._provider.resolveLink(this._link, token)).then(function (value) {
                 _this._link = value || _this._link;
                 if (_this._link.url) {
                     // recurse
-                    return _this.resolve();
+                    return _this.resolve(token);
                 }
-                return TPromise.wrapError(new Error('missing'));
+                return Promise.reject(new Error('missing'));
             });
         }
-        return TPromise.wrapError(new Error('missing'));
+        return Promise.reject(new Error('missing'));
     };
     return Link;
 }());
 export { Link };
-export function getLinks(model) {
+export function getLinks(model, token) {
     var links = [];
     // ask all providers for links in parallel
     var promises = LinkProviderRegistry.ordered(model).reverse().map(function (provider) {
-        return asWinJsPromise(function (token) { return provider.provideLinks(model, token); }).then(function (result) {
+        return Promise.resolve(provider.provideLinks(model, token)).then(function (result) {
             if (Array.isArray(result)) {
                 var newLinks = result.map(function (link) { return new Link(link, provider); });
                 links = union(links, newLinks);
             }
         }, onUnexpectedExternalError);
     });
-    return TPromise.join(promises).then(function () {
+    return Promise.all(promises).then(function () {
         return links;
     });
 }
 function union(oldLinks, newLinks) {
     // reunite oldLinks with newLinks and remove duplicates
-    var result = [], oldIndex, oldLen, newIndex, newLen, oldLink, newLink, comparisonResult;
+    var result = [];
+    var oldIndex;
+    var oldLen;
+    var newIndex;
+    var newLen;
     for (oldIndex = 0, newIndex = 0, oldLen = oldLinks.length, newLen = newLinks.length; oldIndex < oldLen && newIndex < newLen;) {
-        oldLink = oldLinks[oldIndex];
-        newLink = newLinks[newIndex];
+        var oldLink = oldLinks[oldIndex];
+        var newLink = newLinks[newIndex];
         if (Range.areIntersectingOrTouching(oldLink.range, newLink.range)) {
             // Remove the oldLink
             oldIndex++;
             continue;
         }
-        comparisonResult = Range.compareRangesUsingStarts(oldLink.range, newLink.range);
+        var comparisonResult = Range.compareRangesUsingStarts(oldLink.range, newLink.range);
         if (comparisonResult < 0) {
             // oldLink is before
             result.push(oldLink);
@@ -120,5 +122,5 @@ CommandsRegistry.registerCommand('_executeLinkProvider', function (accessor) {
     if (!model) {
         return undefined;
     }
-    return getLinks(model);
+    return getLinks(model, CancellationToken.None);
 });

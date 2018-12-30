@@ -3,9 +3,12 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -19,6 +22,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import './list.css';
+import { localize } from '../../../../nls.js';
 import { dispose } from '../../../common/lifecycle.js';
 import { isNumber } from '../../../common/types.js';
 import { range, firstIndex } from '../../../common/arrays.js';
@@ -32,19 +36,8 @@ import { domEvent } from '../../event.js';
 import { ListView } from './listView.js';
 import { Color } from '../../../common/color.js';
 import { mixin } from '../../../common/objects.js';
+import { CombinedSpliceable } from './splice.js';
 import { clamp } from '../../../common/numbers.js';
-var CombinedSpliceable = /** @class */ (function () {
-    function CombinedSpliceable(spliceables) {
-        this.spliceables = spliceables;
-    }
-    CombinedSpliceable.prototype.splice = function (start, deleteCount, elements) {
-        for (var _i = 0, _a = this.spliceables; _i < _a.length; _i++) {
-            var spliceable = _a[_i];
-            spliceable.splice(start, deleteCount, elements);
-        }
-    };
-    return CombinedSpliceable;
-}());
 var TraitRenderer = /** @class */ (function () {
     function TraitRenderer(trait) {
         this.trait = trait;
@@ -72,6 +65,9 @@ var TraitRenderer = /** @class */ (function () {
             this.renderedElements.push(rendered);
         }
         this.trait.renderIndex(index, templateData);
+    };
+    TraitRenderer.prototype.disposeElement = function () {
+        // noop
     };
     TraitRenderer.prototype.splice = function (start, deleteCount, insertCount) {
         var rendered = [];
@@ -148,12 +144,12 @@ var Trait = /** @class */ (function () {
      * @param indexes Indexes which should have this trait.
      * @return The old indexes which had this trait.
      */
-    Trait.prototype.set = function (indexes) {
+    Trait.prototype.set = function (indexes, browserEvent) {
         var result = this.indexes;
         this.indexes = indexes;
         var toRender = disjunction(result, indexes);
         this.renderer.renderIndexes(toRender);
-        this._onChange.fire({ indexes: indexes });
+        this._onChange.fire({ indexes: indexes, browserEvent: browserEvent });
         return result;
     };
     Trait.prototype.get = function () {
@@ -182,6 +178,12 @@ var FocusTrait = /** @class */ (function (_super) {
         _super.prototype.renderIndex.call(this, index, container);
         container.setAttribute('role', 'treeitem');
         container.setAttribute('id', this.getDomId(index));
+        if (this.contains(index)) {
+            container.setAttribute('aria-selected', 'true');
+        }
+        else {
+            container.removeAttribute('aria-selected');
+        }
     };
     return FocusTrait;
 }(Trait));
@@ -233,7 +235,7 @@ var KeyboardController = /** @class */ (function () {
     KeyboardController.prototype.onEnter = function (e) {
         e.preventDefault();
         e.stopPropagation();
-        this.list.setSelection(this.list.getFocus());
+        this.list.setSelection(this.list.getFocus(), e.browserEvent);
         if (this.openController.shouldOpen(e.browserEvent)) {
             this.list.open(this.list.getFocus(), e.browserEvent);
         }
@@ -241,41 +243,41 @@ var KeyboardController = /** @class */ (function () {
     KeyboardController.prototype.onUpArrow = function (e) {
         e.preventDefault();
         e.stopPropagation();
-        this.list.focusPrevious();
+        this.list.focusPrevious(1, false, e.browserEvent);
         this.list.reveal(this.list.getFocus()[0]);
         this.view.domNode.focus();
     };
     KeyboardController.prototype.onDownArrow = function (e) {
         e.preventDefault();
         e.stopPropagation();
-        this.list.focusNext();
+        this.list.focusNext(1, false, e.browserEvent);
         this.list.reveal(this.list.getFocus()[0]);
         this.view.domNode.focus();
     };
     KeyboardController.prototype.onPageUpArrow = function (e) {
         e.preventDefault();
         e.stopPropagation();
-        this.list.focusPreviousPage();
+        this.list.focusPreviousPage(e.browserEvent);
         this.list.reveal(this.list.getFocus()[0]);
         this.view.domNode.focus();
     };
     KeyboardController.prototype.onPageDownArrow = function (e) {
         e.preventDefault();
         e.stopPropagation();
-        this.list.focusNextPage();
+        this.list.focusNextPage(e.browserEvent);
         this.list.reveal(this.list.getFocus()[0]);
         this.view.domNode.focus();
     };
     KeyboardController.prototype.onCtrlA = function (e) {
         e.preventDefault();
         e.stopPropagation();
-        this.list.setSelection(range(this.list.length));
+        this.list.setSelection(range(this.list.length), e.browserEvent);
         this.view.domNode.focus();
     };
     KeyboardController.prototype.onEscape = function (e) {
         e.preventDefault();
         e.stopPropagation();
-        this.list.setSelection([]);
+        this.list.setSelection([], e.browserEvent);
         this.view.domNode.focus();
     };
     KeyboardController.prototype.dispose = function () {
@@ -305,7 +307,11 @@ var DOMFocusController = /** @class */ (function () {
         }
         var focusedDomElement = this.view.domElement(focus[0]);
         var tabIndexElement = focusedDomElement.querySelector('[tabIndex]');
-        if (!tabIndexElement || !(tabIndexElement instanceof HTMLElement)) {
+        if (!tabIndexElement || !(tabIndexElement instanceof HTMLElement) || tabIndexElement.tabIndex === -1) {
+            return;
+        }
+        var style = window.getComputedStyle(tabIndexElement);
+        if (style.visibility === 'hidden' || style.display === 'none') {
             return;
         }
         e.preventDefault();
@@ -365,6 +371,12 @@ var MouseController = /** @class */ (function () {
                 .map(function (e) { return new StandardKeyboardEvent(e); })
                 .filter(function (e) { return _this.didJustPressContextMenuKey = e.keyCode === 58 /* ContextMenu */ || (e.shiftKey && e.keyCode === 68 /* F10 */); })
                 .filter(function (e) { e.preventDefault(); e.stopPropagation(); return false; })
+                .map(function (event) {
+                var index = _this.list.getFocus()[0];
+                var element = _this.view.element(index);
+                var anchor = _this.view.domElement(index);
+                return { index: index, element: element, anchor: anchor, browserEvent: event.browserEvent };
+            })
                 .event;
             var fromKeyup = chain(domEvent(this.view.domNode, 'keyup'))
                 .filter(function () {
@@ -373,11 +385,11 @@ var MouseController = /** @class */ (function () {
                 return didJustPressContextMenuKey;
             })
                 .filter(function () { return _this.list.getFocus().length > 0; })
-                .map(function () {
+                .map(function (browserEvent) {
                 var index = _this.list.getFocus()[0];
                 var element = _this.view.element(index);
                 var anchor = _this.view.domElement(index);
-                return { index: index, element: element, anchor: anchor };
+                return { index: index, element: element, anchor: anchor, browserEvent: browserEvent };
             })
                 .filter(function (_a) {
                 var anchor = _a.anchor;
@@ -388,7 +400,7 @@ var MouseController = /** @class */ (function () {
                 .filter(function () { return !_this.didJustPressContextMenuKey; })
                 .map(function (_a) {
                 var element = _a.element, index = _a.index, browserEvent = _a.browserEvent;
-                return ({ element: element, index: index, anchor: { x: browserEvent.clientX + 1, y: browserEvent.clientY } });
+                return ({ element: element, index: index, anchor: { x: browserEvent.clientX + 1, y: browserEvent.clientY }, browserEvent: browserEvent });
             })
                 .event;
             return anyEvent(fromKeydown, fromKeyup, fromMouse);
@@ -427,13 +439,13 @@ var MouseController = /** @class */ (function () {
         }
         var focus = e.index;
         if (selection.every(function (s) { return s !== focus; })) {
-            this.list.setFocus([focus]);
+            this.list.setFocus([focus], e.browserEvent);
         }
         if (this.multipleSelectionSupport && this.isSelectionChangeEvent(e)) {
             return this.changeSelection(e, reference);
         }
         if (this.options.selectOnMouseDown && !isMouseRightClick(e.browserEvent)) {
-            this.list.setSelection([focus]);
+            this.list.setSelection([focus], e.browserEvent);
             if (this.openController.shouldOpen(e.browserEvent)) {
                 this.list.open([focus], e.browserEvent);
             }
@@ -445,7 +457,7 @@ var MouseController = /** @class */ (function () {
         }
         if (!this.options.selectOnMouseDown) {
             var focus_1 = this.list.getFocus();
-            this.list.setSelection(focus_1);
+            this.list.setSelection(focus_1, e.browserEvent);
             if (this.openController.shouldOpen(e.browserEvent)) {
                 this.list.open(focus_1, e.browserEvent);
             }
@@ -456,7 +468,7 @@ var MouseController = /** @class */ (function () {
             return;
         }
         var focus = this.list.getFocus();
-        this.list.setSelection(focus);
+        this.list.setSelection(focus, e.browserEvent);
         this.list.pin(focus);
     };
     MouseController.prototype.changeSelection = function (e, reference) {
@@ -471,16 +483,16 @@ var MouseController = /** @class */ (function () {
                 return;
             }
             var newSelection = disjunction(rangeSelection, relativeComplement(selection, contiguousRange));
-            this.list.setSelection(newSelection);
+            this.list.setSelection(newSelection, e.browserEvent);
         }
         else if (this.isSelectionSingleChangeEvent(e)) {
             var selection = this.list.getSelection();
             var newSelection = selection.filter(function (i) { return i !== focus; });
             if (selection.length === newSelection.length) {
-                this.list.setSelection(newSelection.concat([focus]));
+                this.list.setSelection(newSelection.concat([focus]), e.browserEvent);
             }
             else {
-                this.list.setSelection(newSelection);
+                this.list.setSelection(newSelection, e.browserEvent);
             }
         }
     };
@@ -670,6 +682,13 @@ var PipelineRenderer = /** @class */ (function () {
             renderer.renderElement(element, index, templateData[i++]);
         }
     };
+    PipelineRenderer.prototype.disposeElement = function (element, index, templateData) {
+        var i = 0;
+        for (var _i = 0, _a = this.renderers; _i < _a.length; _i++) {
+            var renderer = _a[_i];
+            renderer.disposeElement(element, index, templateData[i++]);
+        }
+    };
     PipelineRenderer.prototype.disposeTemplate = function (templateData) {
         var i = 0;
         for (var _i = 0, _a = this.renderers; _i < _a.length; _i++) {
@@ -679,22 +698,50 @@ var PipelineRenderer = /** @class */ (function () {
     };
     return PipelineRenderer;
 }());
+var AccessibiltyRenderer = /** @class */ (function () {
+    function AccessibiltyRenderer(accessibilityProvider) {
+        this.accessibilityProvider = accessibilityProvider;
+        this.templateId = 'a18n';
+    }
+    AccessibiltyRenderer.prototype.renderTemplate = function (container) {
+        return container;
+    };
+    AccessibiltyRenderer.prototype.renderElement = function (element, index, container) {
+        var ariaLabel = this.accessibilityProvider.getAriaLabel(element);
+        if (ariaLabel) {
+            container.setAttribute('aria-label', ariaLabel);
+        }
+        else {
+            container.removeAttribute('aria-label');
+        }
+    };
+    AccessibiltyRenderer.prototype.disposeElement = function (element, index, container) {
+        // noop
+    };
+    AccessibiltyRenderer.prototype.disposeTemplate = function (templateData) {
+        // noop
+    };
+    return AccessibiltyRenderer;
+}());
 var List = /** @class */ (function () {
-    function List(container, delegate, renderers, options) {
+    function List(container, virtualDelegate, renderers, options) {
         if (options === void 0) { options = DefaultOptions; }
         var _this = this;
         this.idPrefix = "list_id_" + ++List.InstanceCount;
         this.eventBufferer = new EventBufferer();
         this.onContextMenu = Event.None;
         this._onOpen = new Emitter();
-        this.onOpen = this._onOpen.event;
         this._onPin = new Emitter();
         this._onDidDispose = new Emitter();
         this.focus = new FocusTrait(function (i) { return _this.getElementDomId(i); });
         this.selection = new Trait('selected');
         mixin(options, defaultStyles, false);
-        renderers = renderers.map(function (r) { return new PipelineRenderer(r.templateId, [_this.focus.renderer, _this.selection.renderer, r]); });
-        this.view = new ListView(container, delegate, renderers, options);
+        var baseRenderers = [this.focus.renderer, this.selection.renderer];
+        if (options.accessibilityProvider) {
+            baseRenderers.push(new AccessibiltyRenderer(options.accessibilityProvider));
+        }
+        renderers = renderers.map(function (r) { return new PipelineRenderer(r.templateId, baseRenderers.concat([r])); });
+        this.view = new ListView(container, virtualDelegate, renderers, options);
         this.view.domNode.setAttribute('role', 'tree');
         DOM.addClass(this.view.domNode, this.idPrefix);
         this.view.domNode.tabIndex = 0;
@@ -724,7 +771,7 @@ var List = /** @class */ (function () {
         this.onFocusChange(this._onFocusChange, this, this.disposables);
         this.onSelectionChange(this._onSelectionChange, this, this.disposables);
         if (options.ariaLabel) {
-            this.view.domNode.setAttribute('aria-label', options.ariaLabel);
+            this.view.domNode.setAttribute('aria-label', localize('aria list', "{0}. Use the navigation keys to navigate.", options.ariaLabel));
         }
         this.style(options);
     }
@@ -744,71 +791,13 @@ var List = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(List.prototype, "onPin", {
-        get: function () {
-            var _this = this;
-            return mapEvent(this._onPin.event, function (indexes) { return _this.toListEvent({ indexes: indexes }); });
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(List.prototype, "onMouseClick", {
         get: function () { return this.view.onMouseClick; },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(List.prototype, "onMouseDblClick", {
-        get: function () { return this.view.onMouseDblClick; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(List.prototype, "onMouseUp", {
-        get: function () { return this.view.onMouseUp; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(List.prototype, "onMouseDown", {
-        get: function () { return this.view.onMouseDown; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(List.prototype, "onMouseOver", {
-        get: function () { return this.view.onMouseOver; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(List.prototype, "onMouseMove", {
-        get: function () { return this.view.onMouseMove; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(List.prototype, "onMouseOut", {
-        get: function () { return this.view.onMouseOut; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(List.prototype, "onTouchStart", {
-        get: function () { return this.view.onTouchStart; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(List.prototype, "onTap", {
-        get: function () { return this.view.onTap; },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(List.prototype, "onKeyDown", {
         get: function () { return domEvent(this.view.domNode, 'keydown'); },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(List.prototype, "onKeyUp", {
-        get: function () { return domEvent(this.view.domNode, 'keyup'); },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(List.prototype, "onKeyPress", {
-        get: function () { return domEvent(this.view.domNode, 'keypress'); },
         enumerable: true,
         configurable: true
     });
@@ -820,6 +809,12 @@ var List = /** @class */ (function () {
     List.prototype.splice = function (start, deleteCount, elements) {
         var _this = this;
         if (elements === void 0) { elements = []; }
+        if (start < 0 || start > this.view.length) {
+            throw new Error("Invalid start index: " + start);
+        }
+        if (deleteCount < 0) {
+            throw new Error("Invalid delete count: " + deleteCount);
+        }
         if (deleteCount === 0 && elements.length === 0) {
             return;
         }
@@ -839,23 +834,10 @@ var List = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(List.prototype, "scrollTop", {
-        get: function () {
-            return this.view.getScrollTop();
-        },
-        set: function (scrollTop) {
-            this.view.setScrollTop(scrollTop);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    List.prototype.domFocus = function () {
-        this.view.domNode.focus();
-    };
     List.prototype.layout = function (height) {
         this.view.layout(height);
     };
-    List.prototype.setSelection = function (indexes) {
+    List.prototype.setSelection = function (indexes, browserEvent) {
         for (var _i = 0, indexes_1 = indexes; _i < indexes_1.length; _i++) {
             var index = indexes_1[_i];
             if (index < 0 || index >= this.length) {
@@ -863,39 +845,12 @@ var List = /** @class */ (function () {
             }
         }
         indexes = indexes.sort(numericSort);
-        this.selection.set(indexes);
-    };
-    List.prototype.selectNext = function (n, loop) {
-        if (n === void 0) { n = 1; }
-        if (loop === void 0) { loop = false; }
-        if (this.length === 0) {
-            return;
-        }
-        var selection = this.selection.get();
-        var index = selection.length > 0 ? selection[0] + n : 0;
-        this.setSelection(loop ? [index % this.length] : [Math.min(index, this.length - 1)]);
-    };
-    List.prototype.selectPrevious = function (n, loop) {
-        if (n === void 0) { n = 1; }
-        if (loop === void 0) { loop = false; }
-        if (this.length === 0) {
-            return;
-        }
-        var selection = this.selection.get();
-        var index = selection.length > 0 ? selection[0] - n : 0;
-        if (loop && index < 0) {
-            index = this.length + (index % this.length);
-        }
-        this.setSelection([Math.max(index, 0)]);
+        this.selection.set(indexes, browserEvent);
     };
     List.prototype.getSelection = function () {
         return this.selection.get();
     };
-    List.prototype.getSelectedElements = function () {
-        var _this = this;
-        return this.getSelection().map(function (i) { return _this.view.element(i); });
-    };
-    List.prototype.setFocus = function (indexes) {
+    List.prototype.setFocus = function (indexes, browserEvent) {
         for (var _i = 0, indexes_2 = indexes; _i < indexes_2.length; _i++) {
             var index = indexes_2[_i];
             if (index < 0 || index >= this.length) {
@@ -903,9 +858,9 @@ var List = /** @class */ (function () {
             }
         }
         indexes = indexes.sort(numericSort);
-        this.focus.set(indexes);
+        this.focus.set(indexes, browserEvent);
     };
-    List.prototype.focusNext = function (n, loop) {
+    List.prototype.focusNext = function (n, loop, browserEvent) {
         if (n === void 0) { n = 1; }
         if (loop === void 0) { loop = false; }
         if (this.length === 0) {
@@ -913,9 +868,9 @@ var List = /** @class */ (function () {
         }
         var focus = this.focus.get();
         var index = focus.length > 0 ? focus[0] + n : 0;
-        this.setFocus(loop ? [index % this.length] : [Math.min(index, this.length - 1)]);
+        this.setFocus(loop ? [index % this.length] : [Math.min(index, this.length - 1)], browserEvent);
     };
-    List.prototype.focusPrevious = function (n, loop) {
+    List.prototype.focusPrevious = function (n, loop, browserEvent) {
         if (n === void 0) { n = 1; }
         if (loop === void 0) { loop = false; }
         if (this.length === 0) {
@@ -926,27 +881,27 @@ var List = /** @class */ (function () {
         if (loop && index < 0) {
             index = (this.length + (index % this.length)) % this.length;
         }
-        this.setFocus([Math.max(index, 0)]);
+        this.setFocus([Math.max(index, 0)], browserEvent);
     };
-    List.prototype.focusNextPage = function () {
+    List.prototype.focusNextPage = function (browserEvent) {
         var _this = this;
         var lastPageIndex = this.view.indexAt(this.view.getScrollTop() + this.view.renderHeight);
         lastPageIndex = lastPageIndex === 0 ? 0 : lastPageIndex - 1;
         var lastPageElement = this.view.element(lastPageIndex);
         var currentlyFocusedElement = this.getFocusedElements()[0];
         if (currentlyFocusedElement !== lastPageElement) {
-            this.setFocus([lastPageIndex]);
+            this.setFocus([lastPageIndex], browserEvent);
         }
         else {
             var previousScrollTop = this.view.getScrollTop();
             this.view.setScrollTop(previousScrollTop + this.view.renderHeight - this.view.elementHeight(lastPageIndex));
             if (this.view.getScrollTop() !== previousScrollTop) {
                 // Let the scroll event listener run
-                setTimeout(function () { return _this.focusNextPage(); }, 0);
+                setTimeout(function () { return _this.focusNextPage(browserEvent); }, 0);
             }
         }
     };
-    List.prototype.focusPreviousPage = function () {
+    List.prototype.focusPreviousPage = function (browserEvent) {
         var _this = this;
         var firstPageIndex;
         var scrollTop = this.view.getScrollTop();
@@ -959,28 +914,28 @@ var List = /** @class */ (function () {
         var firstPageElement = this.view.element(firstPageIndex);
         var currentlyFocusedElement = this.getFocusedElements()[0];
         if (currentlyFocusedElement !== firstPageElement) {
-            this.setFocus([firstPageIndex]);
+            this.setFocus([firstPageIndex], browserEvent);
         }
         else {
             var previousScrollTop = scrollTop;
             this.view.setScrollTop(scrollTop - this.view.renderHeight);
             if (this.view.getScrollTop() !== previousScrollTop) {
                 // Let the scroll event listener run
-                setTimeout(function () { return _this.focusPreviousPage(); }, 0);
+                setTimeout(function () { return _this.focusPreviousPage(browserEvent); }, 0);
             }
         }
     };
-    List.prototype.focusLast = function () {
+    List.prototype.focusLast = function (browserEvent) {
         if (this.length === 0) {
             return;
         }
-        this.setFocus([this.length - 1]);
+        this.setFocus([this.length - 1], browserEvent);
     };
-    List.prototype.focusFirst = function () {
+    List.prototype.focusFirst = function (browserEvent) {
         if (this.length === 0) {
             return;
         }
-        this.setFocus([0]);
+        this.setFocus([0], browserEvent);
     };
     List.prototype.getFocus = function () {
         return this.focus.get();
@@ -1012,29 +967,8 @@ var List = /** @class */ (function () {
             }
         }
     };
-    /**
-     * Returns the relative position of an element rendered in the list.
-     * Returns `null` if the element isn't *entirely* in the visible viewport.
-     */
-    List.prototype.getRelativeTop = function (index) {
-        if (index < 0 || index >= this.length) {
-            throw new Error("Invalid index " + index);
-        }
-        var scrollTop = this.view.getScrollTop();
-        var elementTop = this.view.elementTop(index);
-        var elementHeight = this.view.elementHeight(index);
-        if (elementTop < scrollTop || elementTop + elementHeight > scrollTop + this.view.renderHeight) {
-            return null;
-        }
-        // y = mx + b
-        var m = elementHeight - this.view.renderHeight;
-        return Math.abs((scrollTop - elementTop) / m);
-    };
     List.prototype.getElementDomId = function (index) {
         return this.idPrefix + "_" + index;
-    };
-    List.prototype.isDOMFocused = function () {
-        return this.view.domNode === document.activeElement;
     };
     List.prototype.getHTMLElement = function () {
         return this.view.domNode;
@@ -1063,8 +997,8 @@ var List = /** @class */ (function () {
     };
     List.prototype.toListEvent = function (_a) {
         var _this = this;
-        var indexes = _a.indexes;
-        return { indexes: indexes, elements: indexes.map(function (i) { return _this.view.element(i); }) };
+        var indexes = _a.indexes, browserEvent = _a.browserEvent;
+        return { indexes: indexes, elements: indexes.map(function (i) { return _this.view.element(i); }), browserEvent: browserEvent };
     };
     List.prototype._onFocusChange = function () {
         var focus = this.focus.get();
@@ -1086,6 +1020,9 @@ var List = /** @class */ (function () {
     List.prototype.dispose = function () {
         this._onDidDispose.fire();
         this.disposables = dispose(this.disposables);
+        this._onOpen.dispose();
+        this._onPin.dispose();
+        this._onDidDispose.dispose();
     };
     List.InstanceCount = 0;
     __decorate([
@@ -1094,9 +1031,6 @@ var List = /** @class */ (function () {
     __decorate([
         memoize
     ], List.prototype, "onSelectionChange", null);
-    __decorate([
-        memoize
-    ], List.prototype, "onPin", null);
     return List;
 }());
 export { List };

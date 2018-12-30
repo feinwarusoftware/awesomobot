@@ -2,11 +2,13 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -16,7 +18,6 @@ var __extends = (this && this.__extends) || (function () {
 import * as Assert from '../../../common/assert.js';
 import { onUnexpectedError } from '../../../common/errors.js';
 import { combinedDisposable } from '../../../common/lifecycle.js';
-import * as arrays from '../../../common/arrays.js';
 import * as WinJS from '../../../common/winjs.base.js';
 import { Emitter, once, EventMultiplexer, Relay } from '../../../common/event.js';
 var LockData = /** @class */ (function () {
@@ -53,12 +54,11 @@ var Lock = /** @class */ (function () {
         var _this = this;
         var lock = this.getLock(item);
         if (lock) {
-            var unbindListener;
             return new WinJS.TPromise(function (c, e) {
-                unbindListener = once(lock.onDispose)(function () {
+                once(lock.onDispose)(function () {
                     return _this.run(item, fn).then(c, e);
                 });
-            }, function () { unbindListener.dispose(); });
+            });
         }
         var result;
         return new WinJS.TPromise(function (c, e) {
@@ -72,7 +72,7 @@ var Lock = /** @class */ (function () {
                 return r;
             }).then(c, e);
             return result;
-        }, function () { return result.cancel(); });
+        });
     };
     Lock.prototype.getLock = function (item) {
         var key;
@@ -166,7 +166,6 @@ export { ItemRegistry };
 var Item = /** @class */ (function () {
     function Item(id, registry, context, lock, element) {
         this._onDidCreate = new Emitter();
-        this.onDidCreate = this._onDidCreate.event;
         this._onDidReveal = new Emitter();
         this.onDidReveal = this._onDidReveal.event;
         this._onExpand = new Emitter();
@@ -242,6 +241,9 @@ var Item = /** @class */ (function () {
             return WinJS.TPromise.as(false);
         }
         var result = this.lock.run(this, function () {
+            if (_this.isExpanded() || !_this.doesHaveChildren) {
+                return WinJS.TPromise.as(false);
+            }
             var eventData = { item: _this };
             var result;
             _this._onExpand.fire(eventData);
@@ -324,7 +326,11 @@ var Item = /** @class */ (function () {
         if (safe === void 0) { safe = false; }
         if (force === void 0) { force = false; }
         if (!force && !this.isExpanded()) {
-            this.needsChildrenRefresh = true;
+            var setNeedsChildrenRefresh_1 = function (item) {
+                item.needsChildrenRefresh = true;
+                item.forEachChild(setNeedsChildrenRefresh_1);
+            };
+            setNeedsChildrenRefresh_1(this);
             return WinJS.TPromise.as(this);
         }
         this.needsChildrenRefresh = false;
@@ -374,7 +380,15 @@ var Item = /** @class */ (function () {
                     }));
                 }
                 else {
-                    return WinJS.TPromise.as(null);
+                    return WinJS.Promise.join(_this.mapEachChild(function (child) {
+                        if (child.isExpanded() && child.needsChildrenRefresh) {
+                            return child.doRefresh(recursive, true);
+                        }
+                        else {
+                            child.updateVisibility();
+                            return WinJS.TPromise.as(null);
+                        }
+                    }));
                 }
             });
             return result
@@ -387,9 +401,12 @@ var Item = /** @class */ (function () {
         if (safe === void 0) { safe = false; }
         this.doesHaveChildren = this.context.dataSource.hasChildren(this.context.tree, this.element);
         this.height = this._getHeight();
-        this.setVisible(this._isVisible());
+        this.updateVisibility();
         this._onDidRefresh.fire(this);
         return this.refreshChildren(recursive, safe);
+    };
+    Item.prototype.updateVisibility = function () {
+        this.setVisible(this._isVisible());
     };
     Item.prototype.refresh = function (recursive) {
         return this.doRefresh(recursive);
@@ -399,25 +416,6 @@ var Item = /** @class */ (function () {
     };
     Item.prototype.intersects = function (other) {
         return this.isAncestorOf(other) || other.isAncestorOf(this);
-    };
-    Item.prototype.getHierarchy = function () {
-        var result = [];
-        var node = this;
-        do {
-            result.push(node);
-            node = node.parent;
-        } while (node);
-        result.reverse();
-        return result;
-    };
-    Item.prototype.getChildren = function () {
-        var child = this.firstChild;
-        var results = [];
-        while (child) {
-            results.push(child);
-            child = child.next;
-        }
-        return results;
     };
     Item.prototype.isAncestorOf = function (item) {
         while (item) {
@@ -555,9 +553,6 @@ var RootItem = /** @class */ (function (_super) {
     /* protected */ RootItem.prototype._setExpanded = function (value) {
         // no-op
     };
-    RootItem.prototype.render = function () {
-        // no-op
-    };
     /* protected */ RootItem.prototype._getHeight = function () {
         return 0;
     };
@@ -653,34 +648,6 @@ var TreeNavigator = /** @class */ (function () {
     return TreeNavigator;
 }());
 export { TreeNavigator };
-function getRange(one, other) {
-    var oneHierarchy = one.getHierarchy();
-    var otherHierarchy = other.getHierarchy();
-    var length = arrays.commonPrefixLength(oneHierarchy, otherHierarchy);
-    var item = oneHierarchy[length - 1];
-    var nav = item.getNavigator();
-    var oneIndex = null;
-    var otherIndex = null;
-    var index = 0;
-    var result = [];
-    while (item && (oneIndex === null || otherIndex === null)) {
-        result.push(item);
-        if (item === one) {
-            oneIndex = index;
-        }
-        if (item === other) {
-            otherIndex = index;
-        }
-        index++;
-        item = nav.next();
-    }
-    if (oneIndex === null || otherIndex === null) {
-        return [];
-    }
-    var min = Math.min(oneIndex, otherIndex);
-    var max = Math.max(oneIndex, otherIndex);
-    return result.slice(min, max + 1);
-}
 var TreeModel = /** @class */ (function () {
     function TreeModel(context) {
         this._onSetInput = new Emitter();
@@ -718,7 +685,6 @@ var TreeModel = /** @class */ (function () {
         this._onDidRefreshItemChildren = new Relay();
         this.onDidRefreshItemChildren = this._onDidRefreshItemChildren.event;
         this._onDidDisposeItem = new Relay();
-        this.onDidDisposeItem = this._onDidDisposeItem.event;
         this.context = context;
         this.input = null;
         this.traitsToItems = {};
@@ -782,21 +748,6 @@ var TreeModel = /** @class */ (function () {
         }
         return item.expand();
     };
-    TreeModel.prototype.expandAll = function (elements) {
-        if (!elements) {
-            elements = [];
-            var item;
-            var nav = this.getNavigator();
-            while (item = nav.next()) {
-                elements.push(item);
-            }
-        }
-        var promises = [];
-        for (var i = 0, len = elements.length; i < len; i++) {
-            promises.push(this.expand(elements[i]));
-        }
-        return WinJS.Promise.join(promises);
-    };
     TreeModel.prototype.collapse = function (element, recursive) {
         if (recursive === void 0) { recursive = false; }
         var item = this.getItem(element);
@@ -805,47 +756,9 @@ var TreeModel = /** @class */ (function () {
         }
         return item.collapse(recursive);
     };
-    TreeModel.prototype.collapseAll = function (elements, recursive) {
-        if (elements === void 0) { elements = null; }
-        if (recursive === void 0) { recursive = false; }
-        if (!elements) {
-            elements = [this.input];
-            recursive = true;
-        }
-        var promises = [];
-        for (var i = 0, len = elements.length; i < len; i++) {
-            promises.push(this.collapse(elements[i], recursive));
-        }
-        return WinJS.Promise.join(promises);
-    };
-    TreeModel.prototype.collapseDeepestExpandedLevel = function () {
-        var _this = this;
-        var levelToCollapse = this.findDeepestExpandedLevel(this.input, 0);
-        var items = [this.input];
-        for (var i = 0; i < levelToCollapse; i++) {
-            items = arrays.flatten(items.map(function (node) { return node.getChildren(); }));
-        }
-        var promises = items.map(function (child) { return _this.collapse(child, false); });
-        return WinJS.Promise.join(promises);
-    };
-    TreeModel.prototype.findDeepestExpandedLevel = function (item, currentLevel) {
-        var _this = this;
-        var expandedChildren = item.getChildren().filter(function (child) { return child.isExpanded(); });
-        if (!expandedChildren.length) {
-            return currentLevel;
-        }
-        return Math.max.apply(Math, expandedChildren.map(function (child) { return _this.findDeepestExpandedLevel(child, currentLevel + 1); }));
-    };
     TreeModel.prototype.toggleExpansion = function (element, recursive) {
         if (recursive === void 0) { recursive = false; }
         return this.isExpanded(element) ? this.collapse(element, recursive) : this.expand(element);
-    };
-    TreeModel.prototype.toggleExpansionAll = function (elements) {
-        var promises = [];
-        for (var i = 0, len = elements.length; i < len; i++) {
-            promises.push(this.toggleExpansion(elements[i]));
-        }
-        return WinJS.Promise.join(promises);
     };
     TreeModel.prototype.isExpanded = function (element) {
         var item = this.getItem(element);
@@ -853,17 +766,6 @@ var TreeModel = /** @class */ (function () {
             return false;
         }
         return item.isExpanded();
-    };
-    TreeModel.prototype.getExpandedElements = function () {
-        var result = [];
-        var item;
-        var nav = this.getNavigator();
-        while (item = nav.next()) {
-            if (item.isExpanded()) {
-                result.push(item.getElement());
-            }
-        }
-        return result;
     };
     TreeModel.prototype.reveal = function (element, relativeTop) {
         var _this = this;
@@ -902,141 +804,18 @@ var TreeModel = /** @class */ (function () {
         var result = this.getElementsWithTrait('highlighted', includeHidden);
         return result.length === 0 ? null : result[0];
     };
-    TreeModel.prototype.isHighlighted = function (element) {
-        var item = this.getItem(element);
-        if (!item) {
-            return false;
-        }
-        return item.hasTrait('highlighted');
-    };
-    TreeModel.prototype.select = function (element, eventPayload) {
-        this.selectAll([element], eventPayload);
-    };
-    TreeModel.prototype.selectRange = function (fromElement, toElement, eventPayload) {
-        var fromItem = this.getItem(fromElement);
-        var toItem = this.getItem(toElement);
-        if (!fromItem || !toItem) {
-            return;
-        }
-        this.selectAll(getRange(fromItem, toItem), eventPayload);
-    };
-    TreeModel.prototype.deselectRange = function (fromElement, toElement, eventPayload) {
-        var fromItem = this.getItem(fromElement);
-        var toItem = this.getItem(toElement);
-        if (!fromItem || !toItem) {
-            return;
-        }
-        this.deselectAll(getRange(fromItem, toItem), eventPayload);
-    };
-    TreeModel.prototype.selectAll = function (elements, eventPayload) {
-        this.addTraits('selected', elements);
-        var eventData = { selection: this.getSelection(), payload: eventPayload };
-        this._onDidSelect.fire(eventData);
-    };
-    TreeModel.prototype.deselect = function (element, eventPayload) {
-        this.deselectAll([element], eventPayload);
-    };
-    TreeModel.prototype.deselectAll = function (elements, eventPayload) {
-        this.removeTraits('selected', elements);
-        var eventData = { selection: this.getSelection(), payload: eventPayload };
-        this._onDidSelect.fire(eventData);
-    };
     TreeModel.prototype.setSelection = function (elements, eventPayload) {
         this.setTraits('selected', elements);
         var eventData = { selection: this.getSelection(), payload: eventPayload };
         this._onDidSelect.fire(eventData);
     };
-    TreeModel.prototype.toggleSelection = function (element, eventPayload) {
-        this.toggleTrait('selected', element);
-        var eventData = { selection: this.getSelection(), payload: eventPayload };
-        this._onDidSelect.fire(eventData);
-    };
-    TreeModel.prototype.isSelected = function (element) {
-        var item = this.getItem(element);
-        if (!item) {
-            return false;
-        }
-        return item.hasTrait('selected');
-    };
     TreeModel.prototype.getSelection = function (includeHidden) {
         return this.getElementsWithTrait('selected', includeHidden);
-    };
-    TreeModel.prototype.selectNext = function (count, clearSelection, eventPayload) {
-        if (count === void 0) { count = 1; }
-        if (clearSelection === void 0) { clearSelection = true; }
-        var selection = this.getSelection();
-        var item = selection.length > 0 ? selection[0] : this.input;
-        var nextItem;
-        var nav = this.getNavigator(item, false);
-        for (var i = 0; i < count; i++) {
-            nextItem = nav.next();
-            if (!nextItem) {
-                break;
-            }
-            item = nextItem;
-        }
-        if (clearSelection) {
-            this.setSelection([item], eventPayload);
-        }
-        else {
-            this.select(item, eventPayload);
-        }
-    };
-    TreeModel.prototype.selectPrevious = function (count, clearSelection, eventPayload) {
-        if (count === void 0) { count = 1; }
-        if (clearSelection === void 0) { clearSelection = true; }
-        var selection = this.getSelection(), item = null, previousItem = null;
-        if (selection.length === 0) {
-            var nav = this.getNavigator(this.input);
-            while (item = nav.next()) {
-                previousItem = item;
-            }
-            item = previousItem;
-        }
-        else {
-            item = selection[0];
-            var nav = this.getNavigator(item, false);
-            for (var i = 0; i < count; i++) {
-                previousItem = nav.previous();
-                if (!previousItem) {
-                    break;
-                }
-                item = previousItem;
-            }
-        }
-        if (clearSelection) {
-            this.setSelection([item], eventPayload);
-        }
-        else {
-            this.select(item, eventPayload);
-        }
-    };
-    TreeModel.prototype.selectParent = function (eventPayload, clearSelection) {
-        if (clearSelection === void 0) { clearSelection = true; }
-        var selection = this.getSelection();
-        var item = selection.length > 0 ? selection[0] : this.input;
-        var nav = this.getNavigator(item, false);
-        var parent = nav.parent();
-        if (parent) {
-            if (clearSelection) {
-                this.setSelection([parent], eventPayload);
-            }
-            else {
-                this.select(parent, eventPayload);
-            }
-        }
     };
     TreeModel.prototype.setFocus = function (element, eventPayload) {
         this.setTraits('focused', element ? [element] : []);
         var eventData = { focus: this.getFocus(), payload: eventPayload };
         this._onDidFocus.fire(eventData);
-    };
-    TreeModel.prototype.isFocused = function (element) {
-        var item = this.getItem(element);
-        if (!item) {
-            return false;
-        }
-        return item.hasTrait('focused');
     };
     TreeModel.prototype.getFocus = function (includeHidden) {
         var result = this.getElementsWithTrait('focused', includeHidden);
@@ -1144,18 +923,6 @@ var TreeModel = /** @class */ (function () {
             return this.registry.getItem(this.context.dataSource.getId(this.context.tree, element));
         }
     };
-    TreeModel.prototype.addTraits = function (trait, elements) {
-        var items = this.traitsToItems[trait] || {};
-        var item;
-        for (var i = 0, len = elements.length; i < len; i++) {
-            item = this.getItem(elements[i]);
-            if (item) {
-                item.addTrait(trait);
-                items[item.id] = item;
-            }
-        }
-        this.traitsToItems[trait] = items;
-    };
     TreeModel.prototype.removeTraits = function (trait, elements) {
         var items = this.traitsToItems[trait] || {};
         var item;
@@ -1177,22 +944,6 @@ var TreeModel = /** @class */ (function () {
                     delete items[item.id];
                 }
             }
-        }
-    };
-    TreeModel.prototype.hasTrait = function (trait, element) {
-        var item = this.getItem(element);
-        return item && item.hasTrait(trait);
-    };
-    TreeModel.prototype.toggleTrait = function (trait, element) {
-        var item = this.getItem(element);
-        if (!item) {
-            return;
-        }
-        if (item.hasTrait(trait)) {
-            this.removeTraits(trait, [element]);
-        }
-        else {
-            this.addTraits(trait, [element]);
         }
     };
     TreeModel.prototype.setTraits = function (trait, elements) {

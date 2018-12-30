@@ -2,26 +2,27 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-'use strict';
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+import * as browser from '../../../base/browser/browser.js';
 import { Emitter } from '../../../base/common/event.js';
 import { Disposable } from '../../../base/common/lifecycle.js';
 import * as platform from '../../../base/common/platform.js';
-import * as browser from '../../../base/browser/browser.js';
+import { CharWidthRequest, readCharWidths } from './charWidthReader.js';
+import { ElementSizeObserver } from './elementSizeObserver.js';
 import { CommonEditorConfiguration } from '../../common/config/commonEditorConfig.js';
 import { FontInfo } from '../../common/config/fontInfo.js';
-import { ElementSizeObserver } from './elementSizeObserver.js';
-import { CharWidthRequest, readCharWidths } from './charWidthReader.js';
-import { StorageScope } from '../../../platform/storage/common/storage.js';
 var CSSBasedConfigurationCache = /** @class */ (function () {
     function CSSBasedConfigurationCache() {
         this._keys = Object.create(null);
@@ -51,30 +52,6 @@ var CSSBasedConfigurationCache = /** @class */ (function () {
     };
     return CSSBasedConfigurationCache;
 }());
-export function readFontInfo(bareFontInfo) {
-    return CSSBasedConfiguration.INSTANCE.readConfiguration(bareFontInfo);
-}
-export function restoreFontInfo(storageService) {
-    var strStoredFontInfo = storageService.get('editorFontInfo', StorageScope.GLOBAL);
-    if (typeof strStoredFontInfo !== 'string') {
-        return;
-    }
-    var storedFontInfo = null;
-    try {
-        storedFontInfo = JSON.parse(strStoredFontInfo);
-    }
-    catch (err) {
-        return;
-    }
-    if (!Array.isArray(storedFontInfo)) {
-        return;
-    }
-    CSSBasedConfiguration.INSTANCE.restoreFontInfo(storedFontInfo);
-}
-export function saveFontInfo(storageService) {
-    var knownFontInfo = CSSBasedConfiguration.INSTANCE.saveFontInfo();
-    storageService.store('editorFontInfo', JSON.stringify(knownFontInfo), StorageScope.GLOBAL);
-}
 var CSSBasedConfiguration = /** @class */ (function (_super) {
     __extends(CSSBasedConfiguration, _super);
     function CSSBasedConfiguration() {
@@ -117,18 +94,6 @@ var CSSBasedConfiguration = /** @class */ (function (_super) {
             this._onDidChange.fire();
         }
     };
-    CSSBasedConfiguration.prototype.saveFontInfo = function () {
-        // Only save trusted font info (that has been measured in this running instance)
-        return this._cache.getValues().filter(function (item) { return item.isTrusted; });
-    };
-    CSSBasedConfiguration.prototype.restoreFontInfo = function (savedFontInfo) {
-        // Take all the saved font info and insert them in the cache without the trusted flag.
-        // The reason for this is that a font might have been installed on the OS in the meantime.
-        for (var i = 0, len = savedFontInfo.length; i < len; i++) {
-            var fontInfo = new FontInfo(savedFontInfo[i], false);
-            this._writeToCache(fontInfo, fontInfo);
-        }
-    };
     CSSBasedConfiguration.prototype.readConfiguration = function (bareFontInfo) {
         if (!this._cache.has(bareFontInfo)) {
             var readConfig = CSSBasedConfiguration._actualReadConfiguration(bareFontInfo);
@@ -144,6 +109,7 @@ var CSSBasedConfiguration = /** @class */ (function (_super) {
                     isMonospace: readConfig.isMonospace,
                     typicalHalfwidthCharacterWidth: Math.max(readConfig.typicalHalfwidthCharacterWidth, 5),
                     typicalFullwidthCharacterWidth: Math.max(readConfig.typicalFullwidthCharacterWidth, 5),
+                    canUseHalfwidthRightwardsArrow: readConfig.canUseHalfwidthRightwardsArrow,
                     spaceWidth: Math.max(readConfig.spaceWidth, 5),
                     maxDigitWidth: Math.max(readConfig.maxDigitWidth, 5),
                 }, false);
@@ -177,7 +143,8 @@ var CSSBasedConfiguration = /** @class */ (function (_super) {
         var digit8 = this.createRequest('8', 0 /* Regular */, all, monospace);
         var digit9 = this.createRequest('9', 0 /* Regular */, all, monospace);
         // monospace test: used for whitespace rendering
-        this.createRequest('→', 0 /* Regular */, all, monospace);
+        var rightwardsArrow = this.createRequest('→', 0 /* Regular */, all, monospace);
+        var halfwidthRightwardsArrow = this.createRequest('￫', 0 /* Regular */, all, null);
         this.createRequest('·', 0 /* Regular */, all, monospace);
         // monospace test: some characters
         this.createRequest('|', 0 /* Regular */, all, monospace);
@@ -212,6 +179,15 @@ var CSSBasedConfiguration = /** @class */ (function (_super) {
                 break;
             }
         }
+        var canUseHalfwidthRightwardsArrow = true;
+        if (isMonospace && halfwidthRightwardsArrow.width !== referenceWidth) {
+            // using a halfwidth rightwards arrow would break monospace...
+            canUseHalfwidthRightwardsArrow = false;
+        }
+        if (halfwidthRightwardsArrow.width > rightwardsArrow.width) {
+            // using a halfwidth rightwards arrow would paint a larger arrow than a regular rightwards arrow
+            canUseHalfwidthRightwardsArrow = false;
+        }
         // let's trust the zoom level only 2s after it was changed.
         var canTrustBrowserZoomLevel = (browser.getTimeSinceLastZoomLevelChanged() > 2000);
         return new FontInfo({
@@ -224,6 +200,7 @@ var CSSBasedConfiguration = /** @class */ (function (_super) {
             isMonospace: isMonospace,
             typicalHalfwidthCharacterWidth: typicalHalfwidthCharacter.width,
             typicalFullwidthCharacterWidth: typicalFullwidthCharacter.width,
+            canUseHalfwidthRightwardsArrow: canUseHalfwidthRightwardsArrow,
             spaceWidth: space.width,
             maxDigitWidth: maxDigitWidth
         }, canTrustBrowserZoomLevel);
@@ -246,26 +223,15 @@ var Configuration = /** @class */ (function (_super) {
         _this._recomputeOptions();
         return _this;
     }
-    Configuration._massageFontFamily = function (fontFamily) {
-        if (/[,"']/.test(fontFamily)) {
-            // Looks like the font family might be already escaped
-            return fontFamily;
-        }
-        if (/[+ ]/.test(fontFamily)) {
-            // Wrap a font family using + or <space> with quotes
-            return "\"" + fontFamily + "\"";
-        }
-        return fontFamily;
-    };
     Configuration.applyFontInfoSlow = function (domNode, fontInfo) {
-        domNode.style.fontFamily = Configuration._massageFontFamily(fontInfo.fontFamily);
+        domNode.style.fontFamily = fontInfo.getMassagedFontFamily();
         domNode.style.fontWeight = fontInfo.fontWeight;
         domNode.style.fontSize = fontInfo.fontSize + 'px';
         domNode.style.lineHeight = fontInfo.lineHeight + 'px';
         domNode.style.letterSpacing = fontInfo.letterSpacing + 'px';
     };
     Configuration.applyFontInfo = function (domNode, fontInfo) {
-        domNode.setFontFamily(Configuration._massageFontFamily(fontInfo.fontFamily));
+        domNode.setFontFamily(fontInfo.getMassagedFontFamily());
         domNode.setFontWeight(fontInfo.fontWeight);
         domNode.setFontSize(fontInfo.fontSize);
         domNode.setLineHeight(fontInfo.lineHeight);
