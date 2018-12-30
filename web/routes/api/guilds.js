@@ -140,13 +140,13 @@ router.route("/premium/:discord_id").post(authUser, async (req, res) => {
             }).catch(err => {
 
                 error(err);
-                return res.json({ status: 500 });
+                return res.json({ status: 500, message: "I selled my wife for internet connection." });
             });
         })
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 });
 
@@ -186,13 +186,13 @@ router.route("/premium/:discord_id").delete(authUser, (req, res) => {
             }).catch(err => {
 
                 error(err);
-                return res.json({ status: 500 });
+                return res.json({ status: 500, message: "I selled my wife for internet connection." });
             });
         })
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 });
 
@@ -220,7 +220,7 @@ router.route("/").post(authUser, (req, res) => {
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 });
 
@@ -335,20 +335,20 @@ router.route("/@me").get(authUser, (req, res) => {
                         .catch(err => {
                 
                             error(err);
-                            return res.json({ status: 500 });
+                            return res.json({ status: 500, message: "I selled my wife for internet connection." });
                         });
                 })
                 .catch(err => {
 
                     error(err);
-                    return res.json({ status: 500 });
+                    return res.json({ status: 500, message: "I selled my wife for internet connection." });
                 });
 
         })
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 });
 
@@ -374,7 +374,7 @@ router.route("/:discord_id").get(authUser, (req, res) => {
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 
 }).patch(authUser, (req, res) => {
@@ -425,19 +425,19 @@ router.route("/:discord_id").get(authUser, (req, res) => {
                         .catch(err => {
 
                             error(err);
-                            return res.json({ status: 500 });
+                            return res.json({ status: 500, message: "I selled my wife for internet connection." });
                         });
                 })
                 .catch(err => {
         
                     error(err);
-                    return res.json({ status: 500 });
+                    return res.json({ status: 500, message: "I selled my wife for internet connection." });
                 });
         })
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 
 }).delete(authUser, (req, res) => {
@@ -475,19 +475,19 @@ router.route("/:discord_id").get(authUser, (req, res) => {
                         .catch(err => {
 
                             error(err);
-                            return res.json({ status: 500 });
+                            return res.json({ status: 500, message: "I selled my wife for internet connection." });
                         });
                 })
                 .catch(err => {
         
                     error(err);
-                    return res.json({ status: 500 });
+                    return res.json({ status: 500, message: "I selled my wife for internet connection." });
                 });
         })
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 });
 
@@ -581,13 +581,13 @@ router.route("/:discord_id/scripts").get(authUser, (req, res) => {
                             .catch(err => {
                     
                                 error(err);
-                                return res.json({ status: 500 });
+                                return res.json({ status: 500, message: "I selled my wife for internet connection." });
                             });
                     })
                     .catch(err => {
             
                         error(err);
-                        return res.json({ status: 500 });
+                        return res.json({ status: 500, message: "I selled my wife for internet connection." });
                     });
             } else {
 
@@ -597,7 +597,7 @@ router.route("/:discord_id/scripts").get(authUser, (req, res) => {
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 
 }).post(authUser, (req, res) => {
@@ -684,31 +684,31 @@ router.route("/:discord_id/scripts").get(authUser, (req, res) => {
                                         .catch(err => {
                 
                                             error(err);
-                                            return res.json({ status: 500 });
+                                            return res.json({ status: 500, message: "I selled my wife for internet connection." });
                                         });
                                 })
                                 .catch(err => {
         
                                     error(err);
-                                    return res.json({ status: 500 });
+                                    return res.json({ status: 500, message: "I selled my wife for internet connection." });
                                 });
                         })
                         .catch(err => {
                 
                             error(err);
-                            return res.json({ status: 500 });
+                            return res.json({ status: 500, message: "I selled my wife for internet connection." });
                         });
                 })
                 .catch(err => {
 
                     error(err);
-                    return res.json({ status: 500 });
+                    return res.json({ status: 500, message: "I selled my wife for internet connection." });
                 });
         })
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 });
 
@@ -752,7 +752,7 @@ router.route("/:discord_id/scripts/:object_id").get(authUser, (req, res) => {
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 
 }).patch(authUser, (req, res) => {
@@ -824,19 +824,19 @@ router.route("/:discord_id/scripts/:object_id").get(authUser, (req, res) => {
                         .catch(err => {
 
                             error(err);
-                            return res.json({ status: 500 });
+                            return res.json({ status: 500, message: "I selled my wife for internet connection." });
                         });
                 })
                 .catch(err => {
         
                     error(err);
-                    return res.json({ status: 500 });
+                    return res.json({ status: 500, message: "I selled my wife for internet connection." });
                 });
         })
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 
 }).delete(authUser, (req, res) => {
@@ -915,31 +915,31 @@ router.route("/:discord_id/scripts/:object_id").get(authUser, (req, res) => {
                                         .catch(err => {
                 
                                             error(err);
-                                            return res.json({ status: 500 });
+                                            return res.json({ status: 500, message: "I selled my wife for internet connection." });
                                         });
                                 })
                                 .catch(err => {
                 
                                     error(err);
-                                    return res.json({ status: 500 });
+                                    return res.json({ status: 500, message: "I selled my wife for internet connection." });
                                 });
                         })
                         .catch(err => {
         
                             error(err);
-                            return res.json({ status: 500 });
+                            return res.json({ status: 500, message: "I selled my wife for internet connection." });
                         });
                 })
                 .catch(err => {
         
                     error(err);
-                    return res.json({ status: 500 });
+                    return res.json({ status: 500, message: "I selled my wife for internet connection." });
                 });
         })
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 });
 

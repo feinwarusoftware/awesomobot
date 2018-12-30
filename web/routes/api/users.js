@@ -60,7 +60,7 @@ router.route("/").get(authUser, (req, res) => {
     }).catch(err => {
 
         error(err);
-        return res.json({ status: 500 });
+        return res.json({ status: 500, message: "I selled my wife for internet connection." });
     });
 
 }).post(authAdmin, (req, res) => {
@@ -99,7 +99,7 @@ router.route("/").get(authUser, (req, res) => {
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 });
 
@@ -130,7 +130,7 @@ router.route("/@me").get(authUser, (req, res) => {
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 });
 
@@ -170,7 +170,7 @@ router.route("/:discord_id").get(authUser, (req, res) => {
                     .catch(err => {
 
                         error(err);
-                        return res.json({ status: 500 });
+                        return res.json({ status: 500, message: "I selled my wife for internet connection." });
                     })
             } else {
 
@@ -180,7 +180,7 @@ router.route("/:discord_id").get(authUser, (req, res) => {
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 
 }).patch(authUser, (req, res) => {
@@ -219,7 +219,7 @@ router.route("/:discord_id").get(authUser, (req, res) => {
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 
 }).delete(authUser, (req, res) => {
@@ -238,7 +238,7 @@ router.route("/:discord_id").get(authUser, (req, res) => {
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 });
 
