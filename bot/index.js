@@ -142,10 +142,15 @@ client.on('message', async (message) => {
   }
 
   const userStatsInc = {};
+  let trophiesPush = null;
 
   if (message.content.includes('shit')) {
     dbUser.shits += 1;
     userStatsInc.shits = 1;
+
+    if (dbUser.shits >= 1000 && !dbUser.trophies.includes("1kshits")){
+      trophiesPush = "1kshits";
+    }
   }
 
   let xp;
@@ -161,6 +166,7 @@ client.on('message', async (message) => {
   // async
   dbUser.updateOne({
     $inc: userStatsInc,
+    ...( trophiesPush == null ? {} : { $push: { "trophies": trophiesPush } } )
   }).catch((err) => {
     error(`error saving user stats: ${message.author.username}, ${message.author.id}: ${err}`);
   });
