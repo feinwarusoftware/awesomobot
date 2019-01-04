@@ -25,6 +25,8 @@ router.route("/").get(authUser, async (req, res) => {
 
     const client = await getClient();
 
+    const sort = req.query.sort;
+
     // + cond user data
     const extended = req.query.extended === "true" ? true : req.query.extended === "false" ? false : undefined;
 
@@ -53,6 +55,7 @@ router.route("/").get(authUser, async (req, res) => {
 
             schemas.ScriptSchema
                 .find(search)
+                .sort(sort == null ? {} : { [sort]: -1 })
                 .skip(page * limit)
                 .limit(limit)
                 .select({ __v: 0 })
