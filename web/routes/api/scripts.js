@@ -75,7 +75,7 @@ router.route("/").get(authUser, async (req, res) => {
                             const user = await client.fetchUser(script_objs[i].author_id, true).catch(err => {
                                 
                                 error(err);
-                                return res.json({ status: 500 });
+                                return res.json({ status: 500, message: "I selled my wife for internet connection." });
                             });
 
                             script_objs[i].author_username = user.username;
@@ -105,7 +105,7 @@ router.route("/").get(authUser, async (req, res) => {
                             .catch(err => {
 
                                 error(err);
-                                return res.json({ status: 500 });
+                                return res.json({ status: 500, message: "I selled my wife for internet connection." });
                             });
                     } else {
 
@@ -115,13 +115,13 @@ router.route("/").get(authUser, async (req, res) => {
                 .catch(err => {
         
                     error(err);
-                    return res.json({ status: 500 });
+                    return res.json({ status: 500, message: "I selled my wife for internet connection." });
                 });
         })
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 
 }).post(authUser, (req, res) => {
@@ -164,7 +164,7 @@ router.route("/").get(authUser, async (req, res) => {
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 });
 
@@ -215,13 +215,13 @@ router.route("/@me").get(authUser, (req, res) => {
                 .catch(err => {
         
                     error(err);
-                    return res.json({ status: 500 });
+                    return res.json({ status: 500, message: "I selled my wife for internet connection." });
                 });
         })
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 });
 
@@ -257,7 +257,7 @@ router.route("/:object_id").get(authUser, (req, res) => {
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 
 }).patch(authUser, (req, res) => {
@@ -319,13 +319,13 @@ router.route("/:object_id").get(authUser, (req, res) => {
                 .catch(err => {
 
                     error(err);
-                    return res.json({ status: 500 });
+                    return res.json({ status: 500, message: "I selled my wife for internet connection." });
                 });
         })
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 
 }).delete(authUser, (req, res) => {
@@ -361,13 +361,13 @@ router.route("/:object_id").get(authUser, (req, res) => {
                 .catch(err => {
 
                     error(err);
-                    return res.json({ status: 500 });
+                    return res.json({ status: 500, message: "I selled my wife for internet connection." });
                 });
         })
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 });
 
@@ -425,19 +425,19 @@ router.route("/:object_id/likes").post(authUser, (req, res) => {
                         .catch(err => {
 
                             error(err);
-                            return res.json({ status: 500 });
+                            return res.json({ status: 500, message: "I selled my wife for internet connection." });
                         });
                 })
                 .catch(err => {
 
                     error(err);
-                    return res.json({ status: 500 });
+                    return res.json({ status: 500, message: "I selled my wife for internet connection." });
                 });
         })
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 
 }).delete(authUser, (req, res) => {
@@ -500,19 +500,19 @@ router.route("/:object_id/likes").post(authUser, (req, res) => {
                         .catch(err => {
 
                             error(err);
-                            return res.json({ status: 500 });
+                            return res.json({ status: 500, message: "I selled my wife for internet connection." });
                         });
                 })
                 .catch(err => {
 
                     error(err);
-                    return res.json({ status: 500 });
+                    return res.json({ status: 500, message: "I selled my wife for internet connection." });
                 });
         })
         .catch(err => {
 
             error(err);
-            return res.json({ status: 500 });
+            return res.json({ status: 500, message: "I selled my wife for internet connection." });
         });
 });
 

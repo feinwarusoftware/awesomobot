@@ -697,10 +697,18 @@
         };
         if (profileyay.trophies.indexOf("christmas-comp") !== -1) {
             $("#trophycase").append(
-                `<div class="mx-1 chip white-text style="background-color: #ad1123;">
+                `<div class="mx-1 chip white-text" style="background-color: #ad1123;">
                             <img src="/img/trophy/trophy-christmas.png">
                             <%= trans.CHRISTMAS_COMP %>
                         </div>`
+            )
+        };
+        if (profileyay.trophies.indexOf("1kshits") !== -1) {
+            $("#trophycase").append(
+                `<div class="mx-1 chip white-text" style="background-color: #7a513f; box-shadow: 0px 0px 10px 2px #7a513f;">
+                    <img src="/img/trophy/trophy-shit.png">
+                    <%= trans.THOUSAND_SHITS %>
+                </div>`
             )
         };
         if (profileyay.trophies.indexOf("ac18_1") !== -1) {
