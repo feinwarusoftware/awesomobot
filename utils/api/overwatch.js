@@ -8,7 +8,7 @@ const VERSION = "/api/v3";
 class Overwatch {
     constructor() {
     }
-    makeApiRequest(username) {
+    makeApiRequest(username, platform) {
         return new Promise(async (resolve, reject) => {
 
             let options = {
@@ -18,7 +18,7 @@ class Overwatch {
             };
 
             try {
-                const res = await rp(`https://${HOST}${VERSION}/u/${username}/stats`, options);
+                const res = await rp(`https://${HOST}${VERSION}/u/${username}/stats?platform=${platform}`, options);
                 resolve(res);
     
             } catch(err) {

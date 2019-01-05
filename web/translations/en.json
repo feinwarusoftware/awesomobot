@@ -358,5 +358,8 @@
     "LEGACY_BINDINGS_DESC":"Viewing all of your bindings made in version 2.0",
     "VIEW_SOURCE": "View Source",
     "SOURCE_CODE": "Source Code",
-    "THOUSAND_SHITS": "1k Shits Given"
+    "THOUSAND_SHITS": "1k Shits Given",
+    "INVITE_AWESOMO": "Invite AWESOM-O",
+    "NOT_ON_SERVER": "AWESOM-O not on your server? Add him here!",
+    "COMMAND_PREFIX": "Command Prefix | Appears before command"
 }

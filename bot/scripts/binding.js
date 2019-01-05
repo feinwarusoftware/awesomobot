@@ -13,7 +13,7 @@ const binding = new Command({
 
     type: "js",
     match_type: "command",
-    match: "bind;unbind",
+    match: "bind;unbind;unbind-all",
 
     featured: false,
 
@@ -37,6 +37,48 @@ const binding = new Command({
         const bind = args.shift();
         const name = args.shift();
         const action = args.shift();
+
+        if (match === "unbind-all") {
+
+            const args = message.content.split(" ");
+
+            if ((message.member.permissions.bitfield & 0b1000) !== 0b1000) {
+                return message.reply("You need to be a server admin to run this command for security reasons.")
+            }
+            if (args[1] == null) {
+                return message.reply("🚨 This command is dangerous! 🚨\n\nIf you are **certain** that you want to run this command, please enter the command again but with the name of the server.");
+            }
+            if (args.slice(1).reduce((a, e) => a += e + " ", "").trim() === message.guild.name) {
+                schemas.ScriptSchema
+                    .find({
+                        _id: { $in: guild.scripts.map(e => e.object_id) },
+                        created_with: "script_bindings"
+                    })
+                    .then(scripts => {
+                        if (script.length === 0) {
+                            return message.reply("no bound scripts found");
+                        }
+
+                        schemas.GuildSchema
+                            .updateOne({
+                                discord_id: guild.discord_id
+                            }, {
+                                $pull: { scripts: { object_id: { $in: scripts.map(e => e._id) } } }
+                            })
+                            .then(() => {
+                                return message.reply("successfully unbound all bindings");
+                            })
+                            .catch(error => {
+                                return message.reply("error unbinding scripts");
+                            });
+                    })
+                    .catch(error => {
+                        return message.reply("error unbinding scripts");
+                    });
+            } else {
+                message.reply("ye mate you got the name of your own server wrong teehee");
+            }
+        }
 
         // bind name action args
         if (match === "bind") {
@@ -186,81 +228,43 @@ const binding = new Command({
 
         // unbind name
         if (match === "unbind") {
+            if (name == null) {
+                return message.reply("script name is not set");
+            }
 
             schemas.ScriptSchema
                 .find({
-                    name,
-                    created_with: "script_bindings"
+                    _id: { $in: guild.scripts.map(e => e.object_id) }
                 })
                 .then(scripts => {
-                    if (scripts.length === 0) {
-
+                    if (script.length === 0) {
                         return message.reply(`script '${name}' not found`);
                     }
-
-                    scripts = scripts.filter(e => e.author_id === message.author.id);
+                    if (scripts.length > 1) {
+                        scripts = scripts.filter(e => (((e.author_id === message.author.id) || ((message.member.permissions.bitfield & 0b1000) === 0b1000)) && (e.local === false) && (name === e.name)));
+                    }
                     if (scripts.length === 0) {
-
                         return message.reply(`script '${name}' does not belong to you`);
+                    }
+                    if (scripts.length > 1) {
+                        return message.reply(`error: more than one script selected, this is probably a bug and should be reported to the devs`);
                     }
 
                     schemas.GuildSchema
-                        .findOne({
-                            discord_id: message.guild.id
+                        .updateOne({
+                            discord_id: guild.discord_id
+                        }, {
+                            $pull: { scripts: { object_id: scripts[0]._id } }
                         })
-                        .then(guild => {
-
-                            let found = false;
-                            for (let i = 0; i < scripts.length; i++) {
-
-                                for (let j = 0; j < guild.scripts.length; j++) {
-                                
-                                    if (scripts[i]._id.equals(guild.scripts[j].object_id)) {
-
-                                        found = true;
-                                        guild.scripts.splice(i, 1);
-
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if (found === false) {
-
-                                return message.reply(`script not found in current guild`);
-                            }
-
-                            guild
-                                .save()
-                                .then(() => {
-
-                                    const promises = [];
-                                    for (let i = 0; i < scripts.length; i++) {
-
-                                        promises.push(scripts[i].remove());
-                                    }
-
-                                    Promise.all(promises).then(() => {
-
-                                        message.reply(`successfully removed '${name}'`);
-                                    }).catch(error => {
-
-                                        message.reply(`error removing scripts: ${error}`);
-                                    });
-                                })
-                                .catch(error => {
-
-                                    message.reply(`error saving guild: ${error}`);
-                                });
+                        .then(() => {
+                            message.reply(`binding '${name}' successfully removed`);
                         })
                         .catch(error => {
-
-                            message.reply(`error finding guild: ${error}`);
+                            return message.reply(`error unbinding the script: ${error}`);
                         });
                 })
                 .catch(error => {
-
-                    message.reply(`error finding scripts: ${error}`);
+                    return message.reply(`error unbinding the script: ${error}`);
                 });
         }
     }
