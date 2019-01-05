@@ -50,6 +50,7 @@ const initScriptSchema = mongoose => {
         // User set parameters. Note that 'thumbnail' should be set to a url of an image.
         name: { type: String, required: true },
         description: { type: String, default: "" },
+        help: { type: String, default: "" },
         thumbnail: { type: String, default: getRandomThumbnail },
         marketplace_enabled: { type: Boolean, default: false },
     

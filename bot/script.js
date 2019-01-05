@@ -4,6 +4,7 @@ class Script {
 
     this.name = options.name;
     this.description = options.description;
+    this.help = options.help;
     this.thumbnail = options.thumbnail;
     this.marketplace_enabled = options.marketplace_enabled;
 

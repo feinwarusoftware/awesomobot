@@ -686,18 +686,10 @@
 
             function getScripts(page, search) {
 
-
-            const scriptsRequest = new XMLHttpRequest();
-            const url = (search === null || search === undefined || search === "") ?
-                `/api/v3/scripts?featured=false&extended=true&limit=8&page=${page}&sort=use_count` :
-                `/api/v3/scripts?featured=false&extended=true&name=${search}&limit=8&page=${page}&sort=use_count`;
-            scriptsRequest.open("GET", url, false);
-            scriptsRequest.send();
-
                 const scriptsRequest = new XMLHttpRequest();
                 const url = (search === null || search === undefined || search === "") ?
-                    `/api/v3/scripts?featured=false&extended=true&limit=8&page=${page}` :
-                    `/api/v3/scripts?featured=false&extended=true&name=${search}&limit=8&page=${page}`;
+                    `/api/v3/scripts?featured=false&extended=true&limit=8&page=${page}&sort=use_count` :
+                    `/api/v3/scripts?featured=false&extended=true&name=${search}&limit=8&page=${page}&sort=use_count`;
                 scriptsRequest.open("GET", url, false);
                 scriptsRequest.send();
 
