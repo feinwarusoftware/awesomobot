@@ -284,7 +284,7 @@
     }
 
     const guildsRequest = new XMLHttpRequest();
-    guildsRequest.open("GET", "/api/v3/guilds/@me?extended=true", false);
+    guildsRequest.open("GET", "/api/v3/guilds/@me?extended=true&limit=20", false);
     guildsRequest.send();
 
     let guildsYay;

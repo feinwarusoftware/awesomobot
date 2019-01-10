@@ -134,9 +134,13 @@
                             <!--<h1 class="font-weight-bold mb-2 mt-2 pb-1">
                                 <%= trans.OTHER_SERVERS %>
                             </h1>-->
+                            
                             <h4 class="mt-3 dark-grey-text">
                                 <%- md(trans.OTHER_SERVERS_DESC) %>
                             </h4>
+                            <a href="https://discordapp.com/oauth2/authorize?client_id=379370506933108746&scope=bot&permissions=8" target="_blank" class="mt-3 btn btn-primary">
+                                <%= trans.NOT_ON_SERVER %>
+                            </a>
                         </div>
                     </div>
 
@@ -153,7 +157,7 @@
                                         <%= trans.NAME %>
                                     </th>
                                     <th scope="col">
-                                        <%= trans.PREFIX %>
+                                        <%- trans.COMMAND_PREFIX %>
                                     </th>
                                     <th scope="col">
                                         <%= trans.STATUS %>
@@ -284,7 +288,7 @@
                         </div>
                         <!-- Grid column -->
                         <div class="col-auto">
-                          <button id="${i}" class="btn btn-sm btn-feinwaru mb-0 prefix-button"><%= trans.UPDATE %></button>
+                          <button id="${i}" class="btn btn-sm btn-success mb-0 prefix-button"><%= trans.UPDATE %></button>
                         </div>
                         <!-- Grid column -->
                       </div>
@@ -358,11 +362,6 @@
 
                     return;
                 }
-
-                btn.onclick = function () {
-
-                    premiumDisable(this);
-                }
             }
 
             const premiumDisable = btn => {
@@ -396,11 +395,6 @@
                     throw `failed to disable premium on the server with error: ${premiumDisableYay.status}`;
 
                     return;
-                }
-
-                btn.onclick = function () {
-
-                    premiumEnable(this);
                 }
             }
 

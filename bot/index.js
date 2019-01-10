@@ -205,6 +205,12 @@ client.on('message', async (message) => {
     return;
   }
 
+  matchedScript.updateOne({
+    $inc: { use_count: 1 }
+  }).catch(error => {
+    error(`error updating script use_count: ${message.author.username}, ${message.author.id}, script: ${matchedScript.name}: ${error}`);
+  });
+
   if (matchedScript.local) {
     // message.channel.startTyping();
 

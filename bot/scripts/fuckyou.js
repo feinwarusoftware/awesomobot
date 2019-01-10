@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 const discord = require("discord.js");
 
@@ -6,25 +6,26 @@ const Command = require("../script");
 
 const fuckyou = new Command({
 
-    name: "Fuck You",
-    description: "Can we copystrike Feinwaru?",
-    thumbnail: "https://cdn.discordapp.com/attachments/379432139856412682/487740197497470976/unknown.png",
-    marketplace_enabled: true,
+  name: "Fuck You",
+  description: "Can we copystrike Feinwaru?",
+  help: "**[prefix]fuckyou** to show a funny image!",
+  thumbnail: "https://cdn.discordapp.com/attachments/379432139856412682/487740197497470976/unknown.png",
+  marketplace_enabled: true,
 
-    type: "js",
-    match_type: "command",
-    match: "fuckyou",
+  type: "js",
+  match_type: "command",
+  match: "fuckyou",
 
-    featured: false,
+  featured: false,
 
-    preload: true,
+  preload: true,
 
-    cb: function(client, message, guildDoc) {
+  cb: function(client, message, guildDoc) {
 
-        message.channel.send("", {
-            file: "https://cdn.discordapp.com/attachments/379432139856412682/487740197497470976/unknown.png"
-        });
-    }
+    message.channel.send("", {
+      file: "https://cdn.discordapp.com/attachments/379432139856412682/487740197497470976/unknown.png"
+    });
+  }
 });
 
 module.exports = fuckyou;
