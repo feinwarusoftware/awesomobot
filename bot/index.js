@@ -201,7 +201,7 @@ client.on('message', async (message) => {
     return;
   }
 
-  if (!evalPerms(matchedScript, message.member, message.channel)) {
+  if (!evalPerms(dbGuild, matchedScript, message.member, message.channel)) {
     return;
   }
 

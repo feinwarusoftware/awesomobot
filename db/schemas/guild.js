@@ -6,7 +6,7 @@ const initGuildSchemas = mongoose => {
 
     const permNodeSchema = new Schema({
 
-        allow_list: { type: Boolean, default: false },
+        whitelist: { type: Boolean, default: false },
         list: [ String ]
     }, {
         _id: false
@@ -25,8 +25,6 @@ const initGuildSchemas = mongoose => {
     const guildScriptSchema = new Schema({
 
         object_id: { type: Schema.Types.ObjectId, required: true },
-        match_type_override: { type: String, default: null },
-        match_override: { type: String, default: null },
         permissions: scriptPermSchema
     }, {
         _id: false
@@ -49,6 +47,7 @@ const initGuildSchemas = mongoose => {
         prefix: { type: String, default: "-" },
         premium: { type: Boolean, default: false },
         member_perms: [ memberPermSchema ],
+        script_perms: scriptPermSchema,
         scripts: [ guildScriptSchema ],
     });
 

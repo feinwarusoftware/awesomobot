@@ -325,113 +325,64 @@ const matchScript = (prefix, type, match, content) => {
     return { matched: false, err: null };
 }
 
-const evalPerms = (script, member, channel) => {
-    
-    if (script.permissions == null) {
+const evalPerms = (guild, script, member, channel) => {
 
-        script.permissions = {
-            members: {
-                allow_list: false,
-                list: []
-            },
-            channels: {
-                allow_list: false,
-                list: []
-            },
-            roles: {
-                allow_list: false,
-                list: []
-            }
-        };
+    const defaultPerms = {
+        members: {
+            whitelist: false,
+            list: []
+        },
+        channels: {
+            whitelist: false,
+            list: []
+        },
+        roles: {
+            whitelist: false,
+            list: []
+        }
+    };
+
+    // handle overrides with the spread operator
+    const scriptPerms = {
+        // the default fields that are expected to exist
+        ...defaultPerms,
+        // the global guild perms
+        ...guild.script_perms,
+        // the script overrides
+        ...script.permissions
+    };
+
+    // if list is empty, and whitelist, disallow everything
+    // if list is empty, and blacklist, allow everything
+    // if whitelist, allow only in list (roles - allow if the member has any of the whitelisted roles)
+    // if blacklist, allow everything not in list (roles - disallow if the member has any of the blacklisted roles)
+
+    // member null, whitelist - block
+    // member null, blacklist - allow
+    // member found, whitelist - allow
+    // member found, blacklist - block
+    const memberp = scriptPerms.members.list.find(e => e === member.user.id);
+    if ((memberp == null && scriptPerms.members.whitelist === true) || (memberp != null && scriptPerms.members.whitelist === false)) {
+        return false;
     }
 
-    // member perms
-    if (script.permissions.members.allow_list === false) {
-
-        for (let memberId of script.permissions.members.list) {
-
-            if (member.user.id === memberId) {
-
-                return false;
-            }
-        }
-    } else {
-
-        let found = false;
-        for (let memberId of script.permissions.members.list) {
-
-            if (member.user.id === memberId) {
-
-                found = true;
-                break;
-            }
-        }
-        if (found === false) {
-
-            return false;
-        }
+    // channel null, whitelist - block
+    // channel null, whitelist - allow
+    // channel found, whitelist - allow
+    // channel found, whitelist - block
+    const channelp = scriptPerms.channels.list.find(e => e === channel.id);
+    if ((channelp == null && scriptPerms.channels.whitelist === true) || (channelp != null && scriptPerms.channels.whitelist === false)) {
+        return false;
     }
 
-    // channel perms
-    if (script.permissions.channels.allow_list === false) {
-
-        for (let channelId of script.permissions.channels.list) {
-
-            if (channel.id === channelId) {
-
-                return false;
-            }
-        }
-    } else {
-
-        let found = false;
-        for (let channelId of script.permissions.channels.list) {
-
-            if (channel.id === channelId) {
-
-                found = true;
-                break;
-            }
-        }
-        if (found === false) {
-
-            return false;
-        }
-    }
-
-    // rule perms
-    if (script.permissions.roles.allow_list === false) {
-
-        for (let roleId of script.permissions.roles.list) {
-
-            for (let role of member.roles.array()) {
-
-                if (roleId === role.id) {
-
-                    return false;
-                }
-            }
-        }
-
-    } else {
-
-        let found = 0;
-
-        for (let roleId of script.permissions.roles.list) {
-
-            for (let role of member.roles.array()) {
-
-                if (roleId === role.id) {
-
-                    found++;
-                    break;
-                }
-            }
-        }
-        if (found !== script.permissions.roles.list.length) {
-
-            return false;
-        }
+    // role null, whitelist - block (no role overlap between user and list)
+    // role null, whitelist - allow (no role overlap between user and list)
+    // role found, whitelist - allow (there is role overlap between user and list)
+    // role found, whitelist - block (there is role overlap between user and list)
+    const memberRoleIds = member.roles.array().map(e => e.id);
+    const rolep = scriptPerms.roles.list.find(e => memberRoleIds.contains(e));
+    if ((rolep == null && scriptPerms.roles.whitelist === true) || (rolep != null && scriptPerms.roles.whitelist === false)) {
+        return false;
     }
 
     return true;

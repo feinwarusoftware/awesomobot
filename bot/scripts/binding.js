@@ -13,7 +13,7 @@ const binding = new Command({
 
     type: "js",
     match_type: "command",
-    match: "bind;unbind",
+    match: "bind;unbind;unbind-all",
 
     featured: false,
 
