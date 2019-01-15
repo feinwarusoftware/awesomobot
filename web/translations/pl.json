@@ -1,27 +1,21 @@
 {
-    "_TRANSLATION_VERSION": "Version 3.0, 06/11/18",
-
     "LANG": "?hl=pl",
     "INITIALS": "PL",
     "ERROR_401": "Błąd 401",
     "ERROR_404": "Błąd 404",
     "ERROR_404_BUTTON": "Kurwa, wracaj!",
-
+    "_NAVBAR": "Below is the shit for the NAVBAR",
     "HOME": "Strona główna",
     "DASHBOARD": "Dashboard",
     "COMMANDS": "Polecenia",
     "ROADMAP": "Plany",
     "PREMIUM": "Premium",
     "SELECT_LANGUAGE": "Wybierz język",
-    
     "LOGGED_IN_AS": "Zaloguj się jako",
     "LOGOUT": "Wyloguj się",
-
-
     "LOGIN": "Zaloguj się przy pomocy konta Discord",
     "GOTO_DASHBOARD": "Idź do Dashboard",
     "LEARN_MORE": "Dowiedz się więcej",
-
     "FULLY_FEATURED": "W pełni funkcjonalny Bot",
     "CUSTOM_SCRIPTS": "Niestandardowe skrypty",
     "PD_CARDS": "Karty z 'Phone Destroyer'",
@@ -39,12 +33,14 @@
     "ANALYTICS_DESC": "Uzyskaj szczegółowe informacje o swoim serwerze, aby pomóc Ci je ulepszyć. Nie martw się o wszystkie liczby, załatwmy to i zamieńmy te dane w fantazyjne wykresy!",
     "PROFILES_DESC": "Miej własną przestrzeń, w której możesz dzielić się dziełami Bronisława Komorowskiego i Andrzeja Dudy, które zrobiłeś, aby świat mógł zobaczyć!",
     "MANY_MORE": "..i wiele więcej!",
-
     "OUR_SUBSCRIBERS": "Nasi Subskrybenci",
     "SUBSCRIBER_AMOUNT": "$${kwota.patrona} Subskrybent",
     "SUBSCRIBER_SINCE": "Subskrybent od",
     "VIEW_PROFILE": "Zobacz profil",
-
+    "DATE_ST": "st",
+    "DATE_ND": "nd",
+    "DATE_RD": "rd",
+    "DATE_TH": "th",
     "JANUARY": "Styczeń",
     "FEBRUARY": "Luty",
     "MARCH": "Marzec",
@@ -55,36 +51,31 @@
     "AUGUST": "Sierpień",
     "SEPTEMBER": "Wrzesień",
     "OCTOBER": "Październik",
-    "NOVEMBER": "Listopad", 
-    "DECEMBER": "Grudzień", 
+    "NOVEMBER": "Listopad",
+    "DECEMBER": "Grudzień",
     "MONTH_SHORT": "mies",
-
     "GET_AWESOMO": "Uzyskaj AWESOM-O",
     "MONTHLY_SUBSCRIPTIONS": "Miesięczne subskrypcje",
     "ONE_TIME_PAYMENTS": "Jednorazowe płatności",
     "MONTH": "Miesiąc",
     "MONTHS": "Miesiące",
-
     "FRIENDS": "Przyjaciele",
     "FRIENDS_ROLE": "**Przyjaciele** rola",
     "CUSTOM_COMMANDS": "**Niestandardowe** Polecenia",
     "SUBSCRIBER_CHANNEL_ACCESS": "Dostęp do kanału **tylko dla subskrybentów**",
     "EARLY_FEATURES": "**Dostęp do wczesnych funkcji**",
-
     "BEST_FRIENDS": "Najlepsi Przyjaciele",
     "BF_ROLE": "**Rola Najlepsi Przyjaciele**",
     "AWESOMO_BETA": "**Pobierz AWESOM-O Beta** na swój serwer",
     "YOUR_NAME": "**Twoje imię** na stronie internetowej",
     "LOWER_TIERS": "Wszystkie profity z niższych poziomów",
-
     "SUPER_BEST_FRIENDS": "Super najlepsi przyjaciele",
     "SBF_ROLE": "**Twoja własna rola**",
     "AWESOMO_BETA_2": "**Uzyskaj AWESOM-O** na 2 dodatkowych serwerach",
     "EARLIEST_ACCESS_TM": "**Wypróbuj funkcje beta** przed nikim innym",
     "API_ACCESS": "**Dostęp do naszego API**",
-
     "BECOME_A_SUBSCRIBER": "Zostań subskrybentem",
-
+    "_COMMANDS_PAGE": "Below is the shit for the commands page",
     "CURRENTLY_VIEWING_COMMANDS": "Obecnie włączone są polecenia wyświetlania",
     "NAME": "Imię",
     "DESCRIPTION": "Opis",
@@ -92,29 +83,27 @@
     "ORIGIN": "Powstanie",
     "VANILLA_AWESOMO": "Vanilla AWESOM-O",
     "USER_MADE": "Wykonane przez użytkownika",
-
+    "_CREDITS PAGE": "Below is all the shit for the credits page",
     "BACKEND_DEV": "Programista backendu",
     "FRONTEND_DEV": "Frontend Developer",
     "COMMUNITY_MANAGER": "Community Manager",
     "PD_COMMANDS": "Phone Destroyer Polecenia",
-
     "ARTISTS": "Artyści",
     "AWESOMO_PORTRAIT": "AWESOM-O Portret",
     "AWESOMO_404": "404 Page Art",
     "MARKETPLACE_ART": "Rynek sztuki",
     "BOT_ART": "Bot Art i Credits Art",
-    
     "TRANSLATORS": "Tłumaczenie",
     "PORTUGUESE_TRANSLATION": "Portugalskie tłumaczenie ",
     "CHINESE_TRANSLATION": "Chińskie tłumaczenie",
     "ROMANIAN_TRANSLATION": "Rumuńskie tłumaczenie",
     "POLISH_TRANSLATION": "Polskie Tłumaczenie",
     "GERMAN_TRANSLATION": "Niemieckie tłumaczenie",
-    "SPANISH_TRANSLATION" : "Hiszpańskie tłumaczenie",
+    "SPANISH_TRANSLATION": "Hiszpańskie tłumaczenie",
     "FRENCH_AND_IRISH_TRANSLATION": "Francusko-irlandzkie tłumaczenie",
-
+    "_PRIVACY PAGE": "Below is all the shit for the privacy page",
     "PRIVACY_POLICY": "Polityka prywatności",
-    
+    "_DASHBOARD_PAGE": "Below is all the shit for the dashboard",
     "MY_SCRIPTS": "Moje skrypty",
     "FEINWARU_EDITOR": "Edytor Feinwaru",
     "RETURN_TO_DASHBOARD": "Wróć do pulpitu nawigacyjnego",
@@ -129,7 +118,6 @@
     "DELETE_MSG": "Spowoduje to usunięcie twoich uprawnień do edycji skryptu, nie spowoduje to usunięcia go z naszej bazy danych. Jeśli chcesz go usunąć z dowolnego miejsca, wyślij wiadomość e-mail na adres <a href='mailto:deletescript@feinwaru.com'>deletescript@feinwaru.com</a> z identyfikatorem skryptu w treści.",
     "WAIT_UP": "Wow, wow, Czekaj!",
     "DONT_DELET": "plz nie, kocham mój gówniany kod",
-
     "MARKETPLACE": "Rynek",
     "MARKET_WELCOME": "Witamy na rynku AWESOM-O",
     "FEATURED_SCRIPTS": "Polecane skrypty",
@@ -151,34 +139,30 @@
     "YOUR_SCRIPTS_DESC": "Zezwalaj na używanie skryptów na rynku",
     "NO_SCRIPTS": "Nie masz żadnych skryptów :(",
     "NO_SCRIPTS_DESC": "Utwórz skrypt, aby pojawił się tutaj",
-
+    "_FOOTER": "Below is the shit for the footer",
     "GET_CONNECTED": "Połącz się z nami w sieciach społecznościowych!",
-
     "FEINWARU_SOFTWARE": "Oprogramowanie Feinwaru",
     "OUR_TEAM": "Nasz zespół",
     "PROJECTS": "Projekty",
     "BRANDING": "Branding",
     "DISCORD": "Discord",
-
     "AWESOMO": "AWESOM-O",
     "CREDITS": "Uznanie",
     "STATUS": "Status",
     "PATREON": "Patreon",
     "GITHUB": "Github",
-
     "RESOURCES": "Zasoby",
     "HELP_AND_SUPPORT": "Pomoc i wsparcie",
     "DEVELOPERS": "Deweloperzy",
     "FEEDBACK": "Opinie",
     "TERMS": "Warunki",
     "PRIVACY": "Prywatność",
-
     "SCRIPT_UPDATE_SUCCESS": "Skrypt został zaktualizowany z powodzeniem",
     "FACTS": "Fakty o AWESOM-O",
     "UPTIME": "Czas pracy",
     "ACTIVE_USERS": "Aktywni użytkownicy",
     "LINES_OF_CODE": "Linie kodu",
-    "RETURN_TO_HOME":"Powrót do domu",
+    "RETURN_TO_HOME": "Powrót do domu",
     "SCRIPT_MANAGER": "Menedżer skryptów",
     "GET_YOUR_AWESOMO": "Uzyskaj swój AWESOM-O",
     "SELECT_A_SERVER": "Wybierz serwer",
@@ -202,7 +186,6 @@
     "HELP_DESC": "Dowiedz się, jak korzystać z AWESOM-O",
     "LATEST_BLOG_UPDATES": "Najnowsze aktualizacje blogów",
     "CLICK_TO_READ": "Kliknij, aby przeczytać",
-
     "TROPHY_CASE": "Skrzynka na Puchar",
     "SHITS_GIVEN": "Shits Given",
     "ABOUT": "O",
@@ -238,7 +221,6 @@
     "ACTIVITY_SCORE": "Wynik aktywności",
     "SHIT_SCORE": "Shit Score™",
     "JUMP_TO_YOU": "Jump to you",
-
     "FEINWARU_DEV": "Programista Feinwaru",
     "AC18_1": "Art Contest 1. miejsce",
     "AC18_2": "Art Contest 2. miejsce",
@@ -261,7 +243,6 @@
     "PARTNER": "Feinwaru Partner",
     "UCCP": "Ultimate Crown Chinpokomaster™",
     "RCCP": "Royal Crown Chinpokomaster™",
-
     "DASH_HOME": "Dashboard strona główna",
     "LEADERBOARDS": "Tabele wyników",
     "MAIN_LEADERBOARD": "Główna tablica rekordów",
@@ -276,12 +257,10 @@
     "AWESOMO_2_STATS": "AWESOM-O 2.0 Stats",
     "ACTIVITY_SCORES": "Wyniki aktywności",
     "IHTF": "To uderza w wentylatora",
-
     "STEPPER_1": "Wybierz ustawienie wstępne",
     "STEPPER_2": "Wypełnij informacje",
     "STEPPER_3": "???",
     "STEPPER_4": "Zysk",
-
     "STEP_1": "Krok 1:",
     "STEP_1_DESC": "Co chcesz, żeby AWESOM-O publikował?",
     "TEXT": "tekst",
@@ -308,7 +287,6 @@
     "ITEM": "Pozycja",
     "ADD_ANOTHER_ITEM": "Dodaj kolejny element",
     "ENTER_GIF_URL": "Wprowadź adres URL GIF",
-
     "GENERATED_BY_FEINWARU_EDITOR": "Kod wygenerowany przez Feinwaru Basic Script Editor.",
     "JS_STRICT_MODE": "Wprowadza Javascript w trybie ścisłym.",
     "MESSAGE_CHANNEL_DESC": "Wysyła komunikat z pliku w tym samym kanale, w którym wywołano polecenie.",
@@ -317,25 +295,27 @@
     "RANDOM_ELEMENT_DESC": "Wybierz losowy element z tablicy na podstawie wygenerowanego przez nas numeru.",
     "EMBED_GIF_DESC": "Utwórz osadzenie, aby zatrzymać gif, ponieważ będzie on ładował się szybciej w ten sposób.",
     "EMBED_GIF_URL_DESC": "Ustaw URL obrazu z osadzeniem na URL, który chcemy.",
-    "EMBED_SEND_DESC":"Wysyła osadzenie, które stworzyliśmy wcześniej w niezgody.",
-
+    "EMBED_SEND_DESC": "Wysyła osadzenie, które stworzyliśmy wcześniej w niezgody.",
     "STEP_4": "Twoje arcydzieło zostało stworzone!",
     "STEP_4_DESC": "Teraz wystarczy dodać go do swojego serwera",
     "STEP_4_DESC_2": "Po prostu wejdź na rynek, wybierz serwer, na którym chcesz go dodać, znajdź swój skrypt i kliknij przycisk dodawania. Stanie się to łatwiejsze w przyszłej aktualizacji.",
-
     "PATRON_MANAGEMENT": "Panel patronów",
     "PREFIX": "Prefix",
     "ENTER_PREFIX": "Wprowadź prefiks",
     "PLAN_QUOTA": "Aktualnie używasz <span class='feinwaru-text'>${quota.current}</span> z <span class='feinwaru-text'>${quota.total}</span>łącznie z serwerami plan",
     "OTHER_SERVERS": "Inne serwery",
     "OTHER_SERVERS_DESC": "Musisz mieć uprawnienia **Właściciel** lub **Admin** na serwerze, żeby się pojawił",
-    "AWESOMO_ADDED":"AWESOM-O jest dodawane",
-    "AWESOMO_NOT_ADDED" : "AWESOM-O nie jest dodawany na tym serwerze",
+    "AWESOMO_ADDED": "AWESOM-O jest dodawane",
+    "AWESOMO_NOT_ADDED": "AWESOM-O nie jest dodawany na tym serwerze",
     "ACTIVATE": "Aktywuj",
-
-    
     "COOKIE_MESSAGE": "AWESOM-O wykorzystuje pliki cookie, aby zapewnić jak najlepszą obsługę strony.",
-
-
-    "CHRISTMAS_COMP": "Zwycięzca konkursu świątecznego"
+    "CHRISTMAS_COMP": "Zwycięzca konkursu świątecznego",
+    "LEGACY_BINDINGS": "Legacy Bindings",
+    "LEGACY_BINDINGS_DESC": "Viewing all of your bindings made in version 2.0",
+    "VIEW_SOURCE": "View Source",
+    "SOURCE_CODE": "Source Code",
+    "THOUSAND_SHITS": "1k Shits Given",
+    "INVITE_AWESOMO": "Invite AWESOM-O",
+    "NOT_ON_SERVER": "AWESOM-O not on your server? Add him here!",
+    "COMMAND_PREFIX": "Command Prefix | Appears before command"
 }
