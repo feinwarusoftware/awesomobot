@@ -1,0 +1,29 @@
+LogSchema:
+
+client: String, required, bot | web
+type: String, required, stdout | warning | error | debug
+content: {
+  type: String, required, string | json
+  message: String, required
+}
+created_at: Date, required, default: Date.now
+
+GuildSchema:
+
+
+
+MemberSchema:
+
+
+
+ScriptSchema:
+
+
+
+SurveySchema:
+
+
+
+UserSchema:
+
+
