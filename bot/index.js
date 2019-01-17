@@ -127,7 +127,7 @@ client.on('message', async (message) => {
   try {
     dbGuild = await loadGuild(message.guild.id);
   } catch (err) {
-    return error(`error loading guild: ${guild.name}, ${guild.id}: ${err}`);
+    return error(`error loading guild: ${message.guild.name}, ${message.guild.id}: ${err}`);
   }
 
   if (dbGuild.premium === false) {
@@ -175,8 +175,11 @@ client.on('message', async (message) => {
   try {
     guildScripts = await loadGuildScripts(dbGuild);
   } catch (err) {
-    return error(`error loading guild scripts: ${guild.name}, ${guild.id}: ${err}`);
+    return error(`error loading guild scripts: ${message.guild.name}, ${message.guild.id}: ${err}`);
   }
+
+  // assign -1 weight to non local scripts, then sort by weight.
+  guildScripts.forEach(e => e.local || (e.weight = -1)).sort((a, b) => b.weight - a.weight);
 
   let matchedScript;
   let matchedTerm;

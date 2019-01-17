@@ -23,6 +23,8 @@ const help = new Command({
 
   preload: true,
 
+  weight: 1,
+
   cb: function(client, message, guildDoc) {
 
     schemas.ScriptSchema

@@ -270,7 +270,7 @@ router.route("/@me").get(authUser, (req, res) => {
                 .skip(page * limit)
                 .limit(limit)
                 .then(total => {
-                    if (total === 0) {
+                    if (total === 0 && noawesomo !== true) {
 
                         return res.json({ status: 404 });
                     }
@@ -299,7 +299,7 @@ router.route("/@me").get(authUser, (req, res) => {
                                     for (let guild of guilds) {
 
                                         if (guild.id === doc_obj.discord_id) {
-
+``
                                             doc_obj.owner = guild.owner;
                                             doc_obj.permissions = guild.permissions;
                                             doc_obj.icon = guild.icon;
