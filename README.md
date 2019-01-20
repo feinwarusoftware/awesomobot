@@ -1,5 +1,5 @@
 ![](https://cdn.discordapp.com/attachments/427938626387574784/535542610492915723/funky_boii_logo.png)
-<center>
+<div align="center">
   <p>
     Modular Discord bot with support for user created scripts and an online dashboard.
     <br>
@@ -22,7 +22,7 @@
     <img src="https://img.shields.io/discord/438701535208275978.svg?style=flat-square" />
     
   </p>
-</center>
+</div>
 
 ## Table of Contents
 
@@ -94,11 +94,11 @@ If possible, we plan to release a new version of the bot every 4 weeks, with hot
 ## Creators
 
 Lukasz Niezabitowski
-- **GitHub:** Dragon1320
+- **GitHub:** [Dragon1320](https://github.com/Dragon1320)
 - **Discord:** !Dragon1320#1893
 
 Matthew Watt
-- **GitHub:** MattheousDT
+- **GitHub:** [MattheousDT](https://github.com/MattheousDT)
 - **Discord:** Mattheous#5750
 
 ## Thanks
