@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+            <%- include ../partials/headers.ejs %>
+        <title>AWESOM-O //
+            <%= trans.SCRIPT_MANAGER %>
+        </title>
+
+    <style>
+        .switch.round label .lever {
+            width: 54px;
+            height: 34px;
+            border-radius: 10em;
+        }
+
+        .switch.round label .lever:after {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            left: 4px;
+            top: 4px;
+        }
+
+        .switch.blue-white-switch label input[type=checkbox]:checked+.lever {
+            background-color: #2196f3;
+        }
+
+        .switch.blue-white-switch label input[type=checkbox]:checked+.lever:after {
+            background-color: #fff;
+        }
+
+        .switch.blue-white-switch label .lever {
+            background-color: #ccc;
+        }
+
+        .switch.blue-white-switch label .lever:after {
+            background-color: #fff;
+        }
+
+        .switch label input[type=checkbox]:checked+.lever:after {
+            background-color: #ff594f;
+            left: 24px;
+        }
+
+        .switch label input[type=checkbox]:checked+.lever {
+            background-color: #f8c9c9
+        }
+
+        .dropdown-content li>a,
+        .dropdown-content li>span {
+            color: #2c2c2c;
+        }
+    </style>
+</head>
+
+<body class="fixed-sn">
+    <!--
+    <div id="mdb-preloader" class="flex-center">
+        <div id="preloader-markup" class="text-center">
+            <img src="/img/headerlogo.png">
+            <br>
+            <div class="preloader-wrapper active">
+                <div class="spinner-layer spinner-red-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+-->
+    <%- include ../partials/d-navbar.ejs %>
+        <!--Main Layout-->
+
+
+        <main>
+            <div class="mb-5">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="text-center" style="width: 100%">
+                                <h1 class="font-weight-bold mb-2 mt-2 pb-1">
+                                    <%= trans.SCRIPT_MANAGER %>
+                                </h1>
+                                <th>
+                                    <h4 class="font-weight-bold dark-grey-text">Editing script settings for
+                                        <span id="server-name"></span>
+                                    </h4>
+                                </th>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <form class="form-inline md-form mr-auto mb-4">
+                                            <input class="form-control mr-sm-2" type="text" placeholder="<%= trans.SEARCH %>" aria-label="Search">
+                                            <button class="btn btn-feinwaru btn-rounded btn-sm my-0" type="submit">
+                                                <%= trans.SEARCH %>
+                                            </button>
+                                        </form>
+                                    </div>
+
+                                </div>
+                                <div class="card">
+                                    <table class="table table-borderless">
+                                        <col width="2%">
+                                        <col width="15%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="2%">
+
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>
+                                                    <h4 class="dark-grey-text">Script Name</h4>
+                                                </th>
+                                                <th>
+                                                    <h4 class="dark-grey-text">Channels</h4>
+                                                </th>
+                                                <th>
+                                                    <h4 class="dark-grey-text">Roles</h4>
+                                                </th>
+                                                <th>
+                                                    <h4 class="dark-grey-text">Members</h4>
+                                                </th>
+                                                <th>
+                                                    <h4 class="dark-grey-text text-right">Enabled?</h4>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <!--Table body-->
+                                        <tbody id="script-list">
+                                            <tr class="border-bottom" style="height: 8vh">
+                                                <td>
+                                                    <h2 class="font-weight-bold text-right">#1</h2>
+                                                </td>
+                                                <td>
+                                                    <h3 class="my-auto font-weight-bold">Regional Indicator
+                                                        <sup>
+                                                            <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" title="<%= trans.VERIFIED_SCRIPT %>">
+                                                                <i class="fa fa-check pr-1"></i>
+                                                            </span>
+                                                        </sup>
+                                                    </h3>
+                                                    <p class="mb-0 grey-text">Downloaded from the Marketplace</p>
+                                                </td>
+                                                <td>
+                                                    <button class="btn-save btn btn-grey btn-sm">Deselect All</button>
+                                                    <button class="btn-save btn btn-primary btn-sm">Select All</button>
+                                                    <select class="mdb-select" multiple>
+
+                                                        <option value="1" selected>@everyone</option>
+                                                        <option value="2">@Admin Boiiz</option>
+                                                        <option value="3">@Moddy Boiiz</option>
+                                                    </select>
+                                                    <button class="btn-save btn btn-feinwaru btn-sm">Save</button>
+                                                </td>
+                                                <td>
+                                                    <button class="btn-save btn btn-grey btn-sm">Deselect All</button>
+                                                    <button class="btn-save btn btn-primary btn-sm">Select All</button>
+                                                    <select class="mdb-select" multiple searchable="Search Users">
+                                                        <option value="1" selected>Tweeno</option>
+                                                        <option value="2">@Admin Boiiz</option>
+                                                        <option value="3">@Moddy Boiiz</option>
+                                                    </select>
+                                                    <button class="btn-save btn btn-feinwaru btn-sm">Save</button>
+                                                </td>
+                                                <td>
+                                                    <button class="btn-save btn btn-grey btn-sm">Deselect All</button>
+                                                    <button class="btn-save btn btn-primary btn-sm">Select All</button>
+                                                    <select class="mdb-select" multiple>
+                                                        <option value="1" selected>Feinwaru Server</option>
+                                                        <option value="2">Dream Theater</option>
+                                                        <option value="3">South Park Phone Destroyer</option>
+                                                    </select>
+                                                    <button class="btn-save btn btn-feinwaru btn-sm">Save</button>
+                                                </td>
+                                                <td>
+                                                    <div class="switch round red-white-switch float-right">
+                                                        <label>
+                                                            <input id="checkbox" type="checkbox">
+                                                            <span class="lever"></span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                        <!--Table body-->
+
+                                    </table>
+                                    <!--Pagination -->
+                                    <nav aria-label="pagination example">
+                                        <ul class="pagination pagination-circle pg-feinwaru mb-3 justify-content-center">
+
+                                            <!--First-->
+                                            <li class="page-item disabled">
+                                                <a class="page-link">First</a>
+                                            </li>
+
+                                            <!--Arrow left-->
+                                            <li class="page-item disabled">
+                                                <a class="page-link" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                            </li>
+
+                                            <!--Numbers-->
+                                            <li class="page-item active">
+                                                <a class="page-link">1</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link">2</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link">3</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link">4</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link">5</a>
+                                            </li>
+
+                                            <!--Arrow right-->
+                                            <li class="page-item">
+                                                <a class="page-link" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </li>
+
+                                            <!--Last-->
+                                            <li class="page-item">
+                                                <a class="page-link">Last</a>
+                                            </li>
+
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <!--Table-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!--/Section: Pricing v.5-->
+        <!-- Streak -->
+
+        <%- include ../partials/footer.ejs %>
+
+            <!--/.Footer-->
+
+
+            <!-- SCRIPTS -->
+
+            <!-- JQuery -->
+            <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+
+            <!-- Bootstrap tooltips -->
+            <script type="text/javascript" src="/js/popper.min.js"></script>
+
+            <!-- Bootstrap core JavaScript -->
+            <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+            <!-- MDB core JavaScript -->
+            <script type="text/javascript" src="/js/mdb.min.js"></script>
+
+            <script type="text/javascript" src="/js/server-select.js"></script>
+
+            <script>
+                //Animation init
+                new WOW().init();
+
+                //Modal
+                $('#myModal').on('shown.bs.modal', function () {
+                    $('#myInput').focus()
+                })
+
+                // SideNav Button Initialization
+                $(".button-collapse").sideNav();
+                // SideNav Scrollbar Initialization
+                var sideNavScrollbar = document.querySelector('.custom-scrollbar');
+                Ps.initialize(sideNavScrollbar);
+
+
+                window.onload = () => {
+
+                    initServerSelect();
+
+                    /*
+                    const getGuilds = new XMLHttpRequest();
+                    getGuilds.open("GET", `/api/v3/guilds/temp/userguilds`, false);
+                    getGuilds.send();
+
+                    const guildsYay = JSON.parse(getGuilds.response);
+                    */
+
+                    //
+
+                    const currentGuildId = getCookie("guild");
+
+                    console.log(`cookie-id: ${currentGuildId}`);
+
+                    const getCurrentGuild = new XMLHttpRequest();
+                    getCurrentGuild.open("GET", `/api/v3/guilds/@me/${currentGuildId}`, false);
+                    getCurrentGuild.send();
+
+                    const currentGuildYay = JSON.parse(getCurrentGuild.response);
+
+                    //
+
+                    let currentGuildName = "*placeholder*";
+
+                    /*
+                    for (let guild in guildsYay) {
+
+                        if (currentGuildYay.id === guild.id) {
+                            currentGuildName = guild.name;
+                        }
+                    }
+                    */
+
+                    const currentGuildNameSpan = document.getElementById("server-name");
+                    currentGuildNameSpan.innerText = currentGuildName;
+
+                    //
+
+                    /*
+                    const scriptList = document.getElementById("script-list");
+                    for (let script of currentGuildYay.scripts) {
+
+                        scriptList.innerHTML += `<tr class="border-bottom" style="height: 8vh">
+                            <td>
+                                <h2 class="font-weight-bold text-right">#1</h2>
+                            </td>
+                            <td>
+                                <h3 class="my-auto font-weight-bold">${"*placeholder*"}
+                                    <sup id="verified-tick>
+                                        <span class="font-weight-bold" data-toggle="tooltip" data-placement="top" title="<%= trans.VERIFIED_SCRIPT %>">
+                                            <i class="text-success fa fa-check pr-1"></i>
+                                        </span>
+                                    </sup>
+                                </h3>
+                                <p class="mb-0 grey-text">Downloaded from the Marketplace</p>
+                            </td>
+                            <td>
+                                <button class="btn-save btn btn-grey btn-sm">Deselect All</button>
+                                <button class="btn-save btn btn-primary btn-sm">Select All</button>
+                                <select class="mdb-select" multiple>
+
+                                    <option value="1" selected>@everyone</option>
+                                    <option value="2">@Admin Boiiz</option>
+                                    <option value="3">@Moddy Boiiz</option>
+                                </select>
+                                <button class="btn-save btn btn-feinwaru btn-sm">Save</button>
+                            </td>
+                            <td>
+                                <button class="btn-save btn btn-grey btn-sm">Deselect All</button>
+                                <button class="btn-save btn btn-primary btn-sm">Select All</button>
+                                <select class="mdb-select" multiple searchable="Search Users">
+                                    <option value="1" selected>Tweeno</option>
+                                    <option value="2">@Admin Boiiz</option>
+                                    <option value="3">@Moddy Boiiz</option>
+                                </select>
+                                <button class="btn-save btn btn-feinwaru btn-sm">Save</button>
+                            </td>
+                            <td>
+                                <button class="btn-save btn btn-grey btn-sm">Deselect All</button>
+                                <button class="btn-save btn btn-primary btn-sm">Select All</button>
+                                <select class="mdb-select" multiple>
+                                    <option value="1" selected>Feinwaru Server</option>
+                                    <option value="2">Dream Theater</option>
+                                    <option value="3">South Park Phone Destroyer</option>
+                                </select>
+                                <button class="btn-save btn btn-feinwaru btn-sm">Save</button>
+                            </td>
+                        </tr>`;
+                    };
+                    */
+
+                    // Tooltips Initialization
+                    $(function () {
+                        $('[data-toggle="tooltip"]').tooltip();
+                        $('.mdb-select').material_select('destroy');
+                        $('.mdb-select').material_select();
+                    });
+                }
+            </script>
+
+
+</body>
+
+</html>

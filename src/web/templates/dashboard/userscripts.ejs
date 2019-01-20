@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <%- include ../partials/headers.ejs %>
+    <title>AWESOM-O //
+        <%= trans.MY_SCRIPTS %>
+    </title>
+
+    <style>
+        html,
+        body,
+        header,
+        .jarallax {
+            height: 200px;
+        }
+
+        @media (max-width: 740px) {
+            html,
+            body,
+            header,
+            .view {
+                height: 400px;
+            }
+        }
+
+        @media (min-width: 576px) {
+            .editor-space {
+                margin-left: 0px;
+                margin-top: 80px;
+            }
+        }
+
+        @media (min-width: 1440px) {
+            .editor-space {
+                margin-left: 240px;
+                margin-top: 80px;
+            }
+        }
+    .side-nav .collapsible li a:hover {
+        background-color: rgba(254, 85, 76, 0.705);
+    }
+    </style>
+</head>
+
+<body class="fixed-sn">
+    <!--
+    <div id="mdb-preloader" class="flex-center">
+        <div id="preloader-markup" class="text-center">
+            <img src="/img/headerlogo.png">
+            <br>
+            <div class="preloader-wrapper active">
+                <div class="spinner-layer spinner-red-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include ../partials/s-navbar.ejs %>
+        <!--Main Layout-->
+    <div class="editor-space">
+        <div class="col-12 mb-5">
+            <div class="row">
+                <div class="col-md-8 col-sm-12 pb-2">
+                    <h4>
+                        <b>
+                            <%= trans.CODE %>
+                        </b>
+                    </h4>
+                    <div id="codeEditor" style="width:100%; height:80vh"></div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <h4>
+                        <b>
+                            <%= trans.OPTIONS %>
+                        </b>
+                    </h4>
+                    <div id="optionsEditor" style="width:100%; height:80vh"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 col-sm-12 pb-2">
+                    <a href="/help/dashboard/editor">
+                        <button type="button" class="btn btn-feinwaru mx-auto">
+                            <%= trans.BEGINNERS_GUIDE %>
+                        </button>
+                    </a>
+                    <a href="https://github.com/feinwarusoftware/awesomobot/wiki/api/">
+                        <button type="button" class="btn btn-feinwaru float-left">
+                            <%= trans.API_DOCUMENTATION %>
+                        </button>
+                    </a>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <button type="button" id="createCode" class="btn btn-success" style="display:none">
+                        <%= trans.CREATE %>
+                    </button>
+                    <button type="button" id="deleteCode" class="btn btn-danger" style="display:none" data-toggle="modal" data-target="#deleteModal">
+                        <%= trans.DELETE %>
+                    </button>
+                    <button type="button" id="updateCode" class="btn btn-info" style="display:none">
+                        <%= trans.UPDATE %>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-danger modal-md" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <p class="heading lead">
+                        <%= trans.WAIT_UP %>
+                    </p>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body">
+                    <div class="text-center">
+                        <i id="metalgearexclamation" class="fa fa-exclamation fa-4x mb-3 red-text"></i>
+                        <p>
+                            <%- trans.DELETE_MSG %>
+                        </p>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer justify-content-center">
+                    <a type="button" id="yaDelet" class="btn btn-danger">
+                        <%= trans.DELETE %>
+                    </a>
+                    <a type="button" id="noKThanksBye" class="btn btn-outline-danger waves-effect" data-dismiss="modal">
+                        <%= trans.DONT_DELET %>
+                    </a>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <audio id="metalgearalert" style="display:none;" volume="0.2">
+        <source src="/audio/metalgear.mp3" type="audio/mp3">
+        <embed height="50" width="100" src="/audio/metalgear.mp3">
+    </audio>
+    <%- include ../partials/footer.ejs %>
+</body>
+<!--/.Footer-->
+
+<!-- SCRIPTS -->
+<!-- JQuery -->
+<script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="/js/popper.min.js"></script>
+
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="/js/mdb.min.js"></script>
+
+<script>
+    //Animation init
+    new WOW().init();
+
+    //Modal
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').focus()
+    })
+
+    // Material Select Initialization
+    $(document).ready(function () {
+        $('.mdb-select').material_select();
+    });
+
+    // SideNav Button Initialization
+    $(".button-collapse").sideNav();
+    // SideNav Scrollbar Initialization
+    var sideNavScrollbar = document.querySelector('.custom-scrollbar');
+    Ps.initialize(sideNavScrollbar);
+
+    // Tooltips Initialization
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+
+<script type="text/javascript" src="/js/json-beautify.js"></script>
+
+<script src="/monaco/min/vs/loader.js"></script>
+<script>
+    require.config({
+        paths: {
+            'vs': '/monaco/min/vs'
+        }
+    });
+
+    require(['vs/editor/editor.main'], function () {
+
+        monaco.editor.defineTheme('TowelTest', {
+            base: 'vs', // can also be vs-dark or hc-black
+            inherit: true, // can also be false to completely replace the builtin rules
+            rules: [{
+                    token: "",
+                    foreground: "ef596f",
+                    background: "282c34"
+                },
+                {
+                    token: 'invalid',
+                    foreground: '00ff00'
+                },
+                {
+                    token: "emphasis",
+                    fontStyle: "italic"
+                },
+                {
+                    token: "strong",
+                    fontStyle: "bold"
+                },
+                {
+                    token: 'variable',
+                    foreground: '00ff00'
+                },
+                {
+                    token: 'variable.predefined',
+                    foreground: '00ff00'
+                },
+                {
+                    token: 'variable.parameter',
+                    foreground: '00ff00'
+                },
+                {
+                    token: 'constant',
+                    foreground: '00ff00'
+                },
+                {
+                    token: "comment",
+                    foreground: "5C6370",
+                    fontStyle: "italic"
+                },
+                {
+                    token: "number",
+                    foreground: "D8985F"
+                },
+                {
+                    token: "number.hex",
+                    foreground: "D8985F"
+                },
+                {
+                    token: 'regexp',
+                    foreground: '00ff00'
+                },
+                {
+                    token: 'annotation',
+                    foreground: '00ff00'
+                },
+                {
+                    token: 'type',
+                    foreground: '00ff00'
+                },
+                {
+                    token: "delimiter",
+                    foreground: "bbbbbb"
+                },
+                {
+                    token: 'tag',
+                    foreground: '00ff00'
+                },
+                {
+                    token: 'meta.tag',
+                    foreground: '00ff00'
+                },
+                {
+                    token: 'metatag',
+                    foreground: '00ff00'
+                },
+                {
+                    token: 'key',
+                    foreground: '00ff00'
+                },
+                {
+                    token: 'string.key.json',
+                    foreground: '00ff00'
+                },
+                {
+                    token: 'string.value.json',
+                    foreground: '00ff00'
+                },
+
+                {
+                    token: 'attribute.name',
+                    foreground: '00ff00'
+                },
+                {
+                    token: 'attribute.value',
+                    foreground: '00ff00'
+                },
+                {
+                    token: "string",
+                    foreground: "89CA78"
+                },
+                {
+                    token: "keyword",
+                    foreground: "D55FDE"
+                },
+                {
+                    token: 'keyword.flow',
+                    foreground: '00ff00'
+                },
+                {
+                    token: 'keyword.json',
+                    foreground: '00ff00'
+                },
+                {
+                    token: "operator",
+                    foreground: "2BBAC5"
+                }
+            ]
+        });
+
+        monaco.editor.defineTheme('MattIsTrueWaifu', {
+            base: 'vs-dark',
+            inherit: true,
+            colors: {
+                "activityBar.background": "#2F333D",
+                "activityBar.foreground": "#D7DAE0",
+                "activityBarBadge.background": "#4D78CC",
+                "activityBarBadge.foreground": "#F8FAFD",
+                "badge.background": "#282c34",
+                "button.background": "#404754",
+                "debugToolBar.background": "#21252b",
+                "dropdown.background": "#1d1f23",
+                "diffEditor.insertedTextBackground": "#00809B33",
+                "dropdown.border": "#181A1F",
+                "editor.background": "#282c34",
+                "editorError.foreground": "#c24038",
+                "editorIndentGuide.activeBackground": "#C8C8C859",
+                "editorMarkerNavigation.background": "#21252b",
+                "editorRuler.foreground": "#AAB1C026",
+                "editor.lineHighlightBackground": "#2c313c",
+                "editor.selectionBackground": "#67769660",
+                "editor.selectionHighlightBackground": "#ffffff10",
+                "editor.selectionHighlightBorder": "#ddd",
+                "editorCursor.background": "#ffffffc9",
+                "editorCursor.foreground": "#528bff",
+                "editorBracketMatch.border": "#515a6b",
+                "editorBracketMatch.background": "#515a6b",
+                "editor.findMatchBackground": "#42557B",
+                "editor.findMatchBorder": "#457dff",
+                "editor.findMatchHighlightBackground": "#314365",
+                "editor.wordHighlightBackground": "#484e5b",
+                "editor.wordHighlightBorder": "#7f848e",
+                "editor.wordHighlightStrongBackground": "#AAB1C026",
+                "editor.wordHighlightStrongBorder": "#7f848e",
+                "editorGroup.background": "#181A1F",
+                "editorGroup.border": "#181A1F",
+                "editorGroupHeader.tabsBackground": "#21252B",
+                "editorIndentGuide.background": "#3B4048",
+                "editorLineNumber.foreground": "#495162",
+                "editorActiveLineNumber.foreground": "#737984",
+                "editorWhitespace.foreground": "#3B4048",
+                "editorHoverWidget.background": "#21252B",
+                "editorHoverWidget.border": "#181A1F",
+                "editorSuggestWidget.background": "#21252B",
+                "editorSuggestWidget.border": "#181A1F",
+                "editorSuggestWidget.selectedBackground": "#2c313a",
+                "editorWidget.background": "#21252B",
+                "focusBorder": "#21252b",
+                "input.background": "#1d1f23",
+                "list.activeSelectionBackground": "#2c313a",
+                "list.activeSelectionForeground": "#d7dae0",
+                "list.focusBackground": "#383E4A",
+                "list.hoverBackground": "#292d35",
+                "list.highlightForeground": "#C5C5C5",
+                "list.inactiveSelectionBackground": "#2c313a",
+                "list.inactiveSelectionForeground": "#d7dae0",
+                "peekViewEditor.matchHighlightBackground": "#29244b",
+                "scrollbarSlider.background": "#4e566660",
+                "scrollbarSlider.activeBackground": "#747D9180",
+                "scrollbarSlider.hoverBackground": "#5A637580",
+                "sideBar.background": "#21252b",
+                "sideBarSectionHeader.background": "#282c34",
+                "statusBar.background": "#21252B",
+                "statusBar.foreground": "#9da5b4",
+                "statusBarItem.hoverBackground": "#2c313a",
+                "statusBar.noFolderBackground": "#21252B",
+                "statusBar.debuggingBackground": "#7e0097",
+                "statusBar.debuggingBorder": "#66017a",
+                "statusBar.debuggingForeground": "#ffffff",
+                "tab.activeBackground": "#2c313a",
+                "tab.border": "#181A1F",
+                "tab.inactiveBackground": "#21252B",
+                "tab.hoverBackground": "#323842",
+                "tab.unfocusedHoverBackground": "#323842",
+                "terminal.foreground": "#C8C8C8",
+                "terminal.ansiBlack": "#2D3139",
+                "terminal.ansiBlue": "#61AFEF",
+                "terminal.ansiGreen": "#98C379",
+                "terminal.ansiYellow": "#D19A66",
+                "titleBar.activeBackground": "#282c34",
+                "titleBar.activeForeground": "#9da5b4",
+                "titleBar.inactiveBackground": "#282C34",
+                "titleBar.inactiveForeground": "#6B717D"
+            },
+            rules: [{
+                token: "",
+                background: "282c34"
+            }, ]
+        });
+        const editorCode = monaco.editor.create(document.getElementById('codeEditor'), {
+            value: [
+                `/*\nWelcome to the Feinwaru editor. You are currently editing your own scripts.\n\n< -- Access your scripts here / create new ones\n\nEdit the options of the script here -->\n\nIf you need help, we have extensive API documentation available below and an easy\nto follow guide which would be recommended for beginners to read.\n\nIf you are not familiar with Javascript or Discord.js, It would be advised to do further research\nand read our documentation to familarise yourself first.\n*/`
+            ].join('\n'),
+            language: 'javascript',
+            theme: "MattIsTrueWaifu",
+            automaticLayout: true,
+            minimap: {
+		enabled: false
+	}
+        });
+
+        const editorOptions = monaco.editor.create(document.getElementById('optionsEditor'), {
+            value: [].join('\n'),
+            language: 'json',
+            theme: "MattIsTrueWaifu",
+            automaticLayout: true,
+            minimap: {
+		enabled: false
+	}
+        });
+
+        const loadScripts = () => {
+
+            let yourScripts = [];
+            let currentPage = 0;
+            let yourScriptsLoaded = false;
+            while (yourScriptsLoaded === false) {
+
+                const yourScriptsRequest = new XMLHttpRequest();
+                yourScriptsRequest.open("GET", "/api/v3/scripts/@me?limit=20&page=" + currentPage, false);
+                yourScriptsRequest.send();
+
+                let yourScriptsYay;
+                try {
+
+                    yourScriptsYay = JSON.parse(yourScriptsRequest.response);
+                } catch (error) {
+
+                    toastr["error"](`failed to parse your scripts json with error: ${error}`);
+                    throw `failed to parse your scripts json with error: ${error}`;
+                }
+
+                switch (yourScriptsYay.status) {
+                    case 200:
+                        yourScripts.push(...yourScriptsYay.scripts);
+                        
+                        break;
+                    case 403:
+                        toastr["error"](`failed to fetch your scripts: 403 forbidden`);
+                        throw "failed to fetch your scripts: 403 forbidden";
+                        break;
+                    case 404:
+                        //toastr["error"](`failed to fetch your scripts: 404 not found`);
+                        //throw "failed to fetch your scripts: 404 not found";
+                        break;
+                    case 500:
+                        toastr["error"](`failed to fetch your scripts: 500 internal server error`);
+                        throw "failed to fetch your scripts: 500 internal server error";
+                        break;
+                    default:
+                        toastr["error"](`failed to fetch your scripts: ${yourScriptsRequest.response.status}`);
+                        throw `failed to fetch your scripts: ${yourScriptsRequest.response.status}`;
+                }
+
+                if (Math.ceil(yourScriptsYay.total / yourScriptsYay.limit) - 1 > currentPage) {
+
+                    currentPage++;
+                } else {
+
+                    yourScriptsLoaded = true;
+                }
+            }
+
+            const scriptSelectors = document.getElementsByClassName("selection");
+
+            const scripts = $("#scriptList");
+            scripts.html("");
+
+            for (let script of yourScripts) {
+
+                scripts.append(
+                    `<li><a id="${script._id}-clicker" class="waves-effect selection"><i class="fa fa-code"></i> ${script.name}</a></li>`
+                );
+
+                const scriptSelection = document.getElementById(`${script._id}-clicker`);
+
+                scriptSelection.onclick = () => {
+
+                    if ((currentCode !== null || currentOptions !== null) && (currentCode !==
+                            editorCode.getValue() || currentOptions !== editorOptions.getValue()) &&
+                        saved === false) {
+                        alert("changes are being fucked");
+                    }
+
+                    for (let scriptSelector of scriptSelectors) {
+                        scriptSelector.classList.remove("feinwaru");
+                    }
+
+                    scriptSelection.classList.add("feinwaru");
+
+                    current_id = script._id;
+
+                    editorCode.setValue(script.code);
+                    let options = JSON.parse(JSON.stringify(script));
+                    delete options.type;
+                    delete options.local;
+                    delete options.featured;
+                    delete options.verified;
+                    delete options.likes;
+                    delete options.guild_count;
+                    delete options.use_count;
+                    delete options.updated_at;
+                    delete options.created_at;
+                    delete options.created_with;
+                    delete options.code;
+
+                    editorOptions.setValue(beautify(options, null, 2, 100));
+
+                    currentCode = editorCode.getValue();
+                    currentOptions = editorOptions.getValue();
+                    saved = false;
+
+                    $("#deleteCode").show();
+                    $("#updateCode").show();
+                    $("#createCode").hide();
+                };
+            };
+        }
+
+        loadScripts();
+
+        let current_id = "rawrxd";
+
+        document.getElementById("updateCode").onclick = () => {
+
+            const upd = new XMLHttpRequest();
+            upd.open("PATCH", `/api/v3/scripts/${current_id}`, false);
+            upd.setRequestHeader("Content-Type", "application/json");
+
+            const options = JSON.parse(editorOptions.getValue());
+            options.code = editorCode.getValue();
+
+            upd.send(JSON.stringify(options));
+
+            const upd_res = JSON.parse(upd.response);
+            if (upd_res.status === 200) {
+
+                // success
+                toastr["success"]("<%= trans.SCRIPT_UPDATE_SUCCESS %>");
+
+                loadScripts();
+
+                $("#updateCode").hide();
+                $("#deleteCode").hide();
+                $("#createCode").hide();
+
+                editorCode.setValue("");
+                editorOptions.setValue("");
+
+                let currentCode = null;
+                let currentOptions = null;
+                saved = true;
+
+            } else {
+                // failure
+                toastr["error"](typeof upd_res.error === "string" ? upd_res.error :
+                    `${upd_res.status} - ${upd_res.message}`);
+            }
+        }
+
+        document.getElementById("createCode").onclick = () => {
+
+            const create = new XMLHttpRequest();
+            create.open("POST", `/api/v3/scripts`, false);
+            create.setRequestHeader("Content-Type", "application/json");
+
+            const options = JSON.parse(editorOptions.getValue());
+            options.code = editorCode.getValue();
+
+            create.send(JSON.stringify({ ...options, created_with: "feinwaru_editor" }));
+
+            const create_res = JSON.parse(create.response);
+            if (create_res.status === 200) {
+
+                // success
+                toastr["success"]("Script created successfully");
+
+                loadScripts();
+
+                const scriptSelectors = document.getElementsByClassName("selection");
+
+                for (let scriptSelector of scriptSelectors) {
+                    scriptSelector.classList.remove("feinwaru");
+                }
+
+                $("#updateCode").hide();
+                $("#deleteCode").hide();
+                $("#createCode").hide();
+
+                editorCode.setValue("");
+                editorOptions.setValue("");
+
+                let currentCode = null;
+                let currentOptions = null;
+                saved = true;
+
+            } else {
+
+                // failure
+                toastr["error"](typeof create_res.error === "string" ? create_res.error :
+                    `${create_res.status} - ${create_res.message}`);
+            }
+        };
+
+        document.getElementById("yaDelet").onclick = () => {
+
+            const delet = new XMLHttpRequest();
+            delet.open("DELETE", `/api/v3/scripts/${current_id}`, false);
+            delet.send();
+
+            const delet_res = JSON.parse(delet.response);
+            if (delet_res.status === 200) {
+
+                // success
+                toastr["success"]("Script deleted successfully");
+
+                loadScripts();
+
+                const scriptSelectors = document.getElementsByClassName("selection");
+
+                for (let scriptSelector of scriptSelectors) {
+                    scriptSelector.classList.remove("feinwaru");
+                }
+
+                $("#updateCode").hide();
+                $("#deleteCode").hide();
+                $("#createCode").hide();
+
+                editorCode.setValue("");
+                editorOptions.setValue("");
+
+                let currentCode = null;
+                let currentOptions = null;
+                saved = true;
+
+                $("#deleteModal").modal("hide");
+
+            } else {
+
+                // failure
+                toastr["error"](typeof delet_res.error === "string" ? delet_res.error :
+                    `${delet_res.status} - ${delet_res.message}`);
+            }
+        };
+
+        let currentCode = null;
+        let currentOptions = null;
+        let saved = false;
+
+        const newScriptButton = document.getElementById("newScript");
+        newScriptButton.onclick = () => {
+
+            if ((currentCode !== null || currentOptions !== null) && (currentCode !== editorCode.getValue() ||
+                    currentOptions !== editorOptions.getValue()) && saved === false) {
+                alert("changes are being fucked");
+            }
+
+            const scriptSelectors = document.getElementsByClassName("selection");
+
+            for (let scriptSelector of scriptSelectors) {
+                scriptSelector.classList.remove("feinwaru");
+            }
+
+            newScriptButton.classList.add("feinwaru");
+
+            const base = {
+                description: "",
+                marketplace_enabled: false,
+                match_type: "command",
+                name: "",
+                thumbnail: "",
+                match: ""
+            }
+
+            editorCode.setValue(`message.channel.send("example reply");`);
+            editorOptions.setValue(beautify(base, null, 2, 100));
+
+            currentCode = editorCode.getValue();
+            currentOptions = editorOptions.getValue();
+            saved = false;
+
+            $("#updateCode").hide();
+            $("#deleteCode").hide();
+            $("#createCode").show();
+        };
+
+        document.getElementById("metalgearalert").volume = 0.2;
+
+        $("#deleteModal").on("shown.bs.modal", function () {
+            $("#metalgearalert")[0].play();
+            $("#metalgearexclamation").addClass("animated tada");
+        });
+    });
+</script>
+<script>
+    /* $("#editModal").on("shown.bs.modal", e => {
+                                                                                                                                                                                    $("#editorHolder").append(`<div id="advancedEditor" class="card" style="width: 100%; height:600px"></div>`)
+
+                                                                                                                                                                                        var editor = monaco.editor.create(document.getElementById('advancedEditor'), {
+                                                                                                                                                                                            value: [].join('\n'),
+                                                                                                                                                                                            language: 'javascript',
+                                                                                                                                                                                            theme: "MattIsTrueWaifu"
+                                                                                                                                                                                        })
+                                                                                                                                                                                    
+                                                                                                                                                                                })
+                                                                                                                                                                                $("#editModal").on("hidden.bs.modal", e => {
+                                                                                                                                                                                    $("#advancedEditor").remove()
+                                                                                                                                                                                }) */
+</script>
+</body>
+
+</html>

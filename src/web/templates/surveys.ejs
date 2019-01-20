@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>AWESOM-O //
+        <%= trans.DASHBOARD %>
+    </title>
+
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png" />
+    <meta name="theme-color" content="#ff594f">
+
+    <link rel="alternate" href="/" hreflang="x-default" />
+    <link rel="alternate" href="/?hl=en" hreflang="en" />
+    <link rel="alternate" href="/?hl=ie" hreflang="ie" />
+    <link rel="alternate" href="/?hl=pt" hreflang="pt" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="/css/mdb.min.css" rel="stylesheet">
+
+    <link href="/css/style.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css">
+
+    <style>
+        .bg {
+            /* The image used */
+            background-image: url("https://media.discordapp.net/attachments/379432139856412682/462737165806338058/abstract2.png");
+
+            /* Full height */
+            height: 100%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body class="bg">
+    <!--
+    <div id="mdb-preloader" class="flex-center">
+        <div id="preloader-markup" class="text-center">
+            <img src="/img/headerlogo.png">
+            <br>
+            <div class="preloader-wrapper active">
+                <div class="spinner-layer spinner-red-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+-->
+    <%- include partials/navbar.ejs %>
+        <!--Intro Section-->
+        <section class="view intro-2">
+            <div class="mask">
+                <div class="container h-100 d-flex justify-content-center align-items-center">
+
+
+                    <div class="col-12">
+                        <!--Grid row-->
+                        <div class="row pt-5 mt-3 justify-content-center">
+
+
+
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <h2 class="feature-title text-center mb-5 mt-4 font-weight-bold">
+                                        <strong>NAME OF SURVEY</strong>
+                                    </h2>
+                                    <hr>
+
+                                    <!--Grid row-->
+                                    <div class="row mt-5 justify-content-center">
+                                        <div class="col-12">
+                                            <!-- Material unchecked -->
+                                            <div class="form-check">
+                                                <input type="radio" class="form-check-input" id="materialUnchecked" name="materialExampleRadios">
+                                                <label class="form-check-label" for="materialUnchecked">Material unchecked</label>
+                                            </div>
+
+                                            <!-- Material checked -->
+                                            <div class="form-check">
+                                                <input type="radio" class="form-check-input" id="materialChecked" name="materialExampleRadios" checked>
+                                                <label class="form-check-label" for="materialChecked">Material checked</label>
+                                            </div>
+
+                                            <!-- Material checked -->
+                                            <div class="form-check">
+                                                <input type="radio" class="form-check-input" id="materialChecked" name="materialExampleRadios" checked>
+                                                <label class="form-check-label" for="materialChecked">Material checked</label>
+                                            </div>
+
+                                            <!-- Material checked -->
+                                            <div class="form-check">
+                                                <input type="radio" class="form-check-input" id="materialChecked" name="materialExampleRadios" checked>
+                                                <label class="form-check-label" for="materialChecked">Material checked</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card footer -->
+                                <div class="rounded-bottom feinwaru text-center pt-3">
+                                    <ul class="list-unstyled list-inline">
+                                        <li class="list-inline-item white-text">Survey created with AWESOM-O</li>
+                                    </ul>
+                                </div>
+
+
+
+                            </div>
+                            <!--Grid row-->
+                        </div>
+                    </div>
+        </section>
+        <%- include partials/footer.ejs %>
+
+            <!--/.Footer-->
+
+
+            <!-- SCRIPTS -->
+
+            <!-- JQuery -->
+            <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+
+            <!-- Bootstrap tooltips -->
+            <script type="text/javascript" src="/js/popper.min.js"></script>
+
+            <!-- Bootstrap core JavaScript -->
+            <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+            <!-- MDB core JavaScript -->
+            <script type="text/javascript" src="/js/mdb.min.js"></script>
+
+            <script>
+                //Animation init
+                new WOW().init();
+
+                //Modal
+                $('#myModal').on('shown.bs.modal', function () {
+                    $('#myInput').focus()
+                })
+
+                // Material Select Initialization
+                $(document).ready(function () {
+                    $('.mdb-select').material_select();
+                    $("#danger").addClass("feinwaru text-white px-3 text-center z-depth-1");
+                });
+
+                // SideNav Button Initialization
+                $(".button-collapse").sideNav();
+                // SideNav Scrollbar Initialization
+                var sideNavScrollbar = document.querySelector('.custom-scrollbar');
+                Ps.initialize(sideNavScrollbar);
+
+                // Tooltips Initialization
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+                })
+            </script>
+
+            <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+            <script>
+                hljs.initHighlightingOnLoad();
+            </script>
+
+</body>
+
+</html>

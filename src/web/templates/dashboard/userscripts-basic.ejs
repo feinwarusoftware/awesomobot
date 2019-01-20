@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <%- include ../partials/headers.ejs %>
+    <title>AWESOM-O //
+        <%= trans.SCRIPT_CREATOR_BASIC %>
+    </title>
+
+    <style>
+        .switch.round label .lever {
+            width: 54px;
+            height: 34px;
+            border-radius: 10em;
+        }
+
+        .switch.round label .lever:after {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            left: 4px;
+            top: 4px;
+        }
+
+        .switch.blue-white-switch label input[type=checkbox]:checked+.lever {
+            background-color: #2196f3;
+        }
+
+        .switch.blue-white-switch label input[type=checkbox]:checked+.lever:after {
+            background-color: #fff;
+        }
+
+        .switch.blue-white-switch label .lever {
+            background-color: #ccc;
+        }
+
+        .switch.blue-white-switch label .lever:after {
+            background-color: #fff;
+        }
+
+        .switch label input[type=checkbox]:checked+.lever:after {
+            background-color: #ff594f;
+            left: 24px;
+        }
+
+        .switch label input[type=checkbox]:checked+.lever {
+            background-color: #f8c9c9
+        }
+
+        .dropdown-content li>a,
+        .dropdown-content li>span {
+            color: #2c2c2c;
+        }
+
+        .stepper-horizontal li:hover {
+            background-color: rgba(0, 0, 0, 0)
+        }
+    </style>
+</head>
+
+<body class="fixed-sn">
+    <!--
+    <div id="mdb-preloader" class="flex-center">
+        <div id="preloader-markup" class="text-center">
+            <img src="/img/headerlogo.png">
+            <br>
+            <div class="preloader-wrapper active">
+                <div class="spinner-layer spinner-red-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+-->
+    <%- include ../partials/d-navbar.ejs %>
+    <!--Main Layout-->
+
+
+    <main>
+        <div class="mb-5">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="text-center" style="width: 100%">
+                            <h1 class="font-weight-bold mb-2 mt-2 pb-1">
+                                <%= trans.SCRIPT_CREATOR_BASIC %>
+                            </h1>
+                        </div>
+                    </div>
+
+                    <div class="row pt-5">
+                        <div class="col-12">
+
+                            <!-- Horizontal Steppers -->
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <!-- Stepers Wrapper -->
+                                    <ul class="stepper stepper-horizontal">
+
+                                        <!-- First Step -->
+                                        <li class="active">
+                                            <a href="#!">
+                                                <span class="circle">1</span>
+                                                <span class="label">
+                                                    <%= trans.STEPPER_1 %></span>
+                                            </a>
+                                        </li>
+
+                                        <!-- Second Step -->
+                                        <li class="disabled">
+                                            <a href="#!">
+                                                <span class="circle">2</span>
+                                                <span class="label">
+                                                    <%= trans.STEPPER_2 %></span>
+                                            </a>
+                                        </li>
+
+                                        <!-- Third Step -->
+                                        <li class="disabled">
+                                            <a href="#!">
+                                                <span class="circle">3</span>
+                                                <span class="label">
+                                                    <%= trans.STEPPER_3 %></span>
+                                            </a>
+                                        </li>
+
+                                        <!-- Third Step -->
+                                        <li class="disabled">
+                                            <a href="#!">
+                                                <span class="circle">4</span>
+                                                <span class="label">
+                                                    <%= trans.STEPPER_4 %></span>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                    <!-- /.Stepers Wrapper -->
+
+                                </div>
+                            </div>
+                            <!-- /.Horizontal Steppers -->
+
+
+                            <div id="step1" style="display:block;">
+                                <div class="row">
+                                    <div class="col-12 mb-5">
+                                        <h2 class="font-weight-bold text-center">
+                                            <%= trans.STEP_1 %> <span class="dark-grey-text font-weight-normal">
+                                                <%= trans.STEP_1_DESC %></span></h2>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3 col-6">
+                                        <button cmdtype="text" type="button" class="btn btn-flat btn-lg btn-block px-0"><i
+                                                class="fa fa-font fa-5x red-text"></i>
+                                            <h4 class="red-text font-weight-bold text-center pt-3">
+                                                <%= trans.TEXT %>
+                                            </h4>
+                                        </button>
+
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <button cmdtype="random" type="button" class="btn btn-flat btn-lg btn-block px-0"><i
+                                                class="fa fa-list fa-5x orange-text"></i>
+                                            <h4 class="font-weight-bold text-center pt-3 orange-text">
+                                                <%= trans.RANDOM_TEXT %>
+                                            </h4>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <button cmdtype="image" type="button" class="btn btn-flat btn-lg btn-block px-0"><i
+                                                class="fa fa-image fa-5x green-text"></i>
+                                            <h4 class="font-weight-bold text-center pt-3 green-text">
+                                                <%= trans.IMAGE %>
+                                            </h4>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <button cmdtype="gif" type="button" class="btn btn-flat btn-lg btn-block px-0"><i
+                                                class="fas fa-film fa-5x blue-text"></i>
+                                            <h4 class="font-weight-bold text-center pt-3 blue-text">
+                                                <%= trans.GIF %>
+                                            </h4>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div id="step2" style="display:none;">
+                                <div class="row">
+                                    <div class="col-12 mb-5">
+                                        <h2 class="font-weight-bold text-center">
+                                            <%= trans.STEP_2 %> <span class="dark-grey-text font-weight-normal">
+                                                <%= trans.STEP_2_DESC %></span></h2>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 mb-5">
+                                        <h2 class="font-weight-bold text-center">
+                                            <%= trans.COMMAND_INFORMATION %>
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div id="step2-info" class="row justify-content-center">
+                                    <div class="col-10 col-md-6 mb-5">
+                                        <div class="md-form form-lg">
+                                            <input type="text" id="step2-title" placeholder="<%= trans.COMMAND_TITLE_EG %>"
+                                                class="form-control form-control-lg" required>
+                                            <label for="step2-title">
+                                                <%= trans.COMMAND_TITLE %></label>
+                                            <div class="valid-feedback">
+                                                <%= trans.LOOKS_GOOD %>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                <%= trans.COMMAND_TITLE_ERROR %>
+                                            </div>
+                                        </div>
+                                        <div class="md-form form-lg">
+                                            <input type="text" id="step2-command" placeholder="<%= trans.COMMAND_TRIGGER_EG %>"
+                                                class="form-control form-control-lg" required>
+                                            <label for="step2-command">
+                                                <%= trans.COMMAND_TRIGGER %></label>
+                                            <div class="valid-feedback">
+                                                <%= trans.LOOKS_GOOD %>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                <%= trans.COMMAND_TRIGGER_ERROR %>
+                                            </div>
+                                        </div>
+                                        <div class="md-form form-lg">
+                                            <input type="text" id="step2-thumb" placeholder="<%= trans.COMMAND_THUMBNAIL_EG %>"
+                                                class="form-control form-control-lg">
+                                            <label for="step2-thumb">
+                                                <%= trans.COMMAND_THUMBNAIL %></label>
+                                            <div class="valid-feedback">
+                                                <%= trans.LOOKS_GOOD %>
+                                            </div>
+                                        </div>
+                                        <div class="md-form form-lg">
+                                            <input type="checkbox" class="form-check-input" id="materialUnchecked"
+                                                checked disabled>
+                                            <label class="form-check-label" for="materialUnchecked">
+                                                <%= trans.COMMAND_MARKETPLACE %></label>
+                                            <div class="valid-feedback">
+                                                <%= trans.LOOKS_GOOD %>
+                                            </div>
+                                            <p class="font-italic pt-3">
+                                                <%= trans.COMMAND_MARKETPLACE_DISCLAIMER %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 mb-5">
+                                        <h2 class="font-weight-bold text-center">
+                                            <%= trans.COMMAND_CONTENTS %>
+                                        </h2>
+                                    </div>
+                                </div>
+
+                                <!-- TEXT -->
+                                <div id="text-content" class="row justify-content-center" style="display: none;">
+                                    <div class="col-10 col-md-6 mb-5">
+                                        <div class="md-form">
+                                            <textarea type="text" id="text" class="md-textarea form-control" rows="3"></textarea>
+                                            <label for="text">
+                                                <%= trans.ENTER_YOUR_TEXT %></label>
+                                            <div class="valid-feedback">
+                                                <%= trans.LOOKS_GOOD %>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                <%= trans.COMMAND_TRIGGER_ERROR %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- RANDOM TEXT CONTENT-->
+                                <div id="random-content" class="row justify-content-center" style="display: none;">
+                                    <div class="col-10 col-md-6 mb-5">
+                                        <table class="table table-borderless">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="py-0">
+                                                        <div class="md-form form-lg">
+                                                            <input type="text" id="random-1" class="form-control form-control-lg random-input"
+                                                                required>
+                                                            <label class="random-label" for="random-1">
+                                                                <%= trans.ITEM %> 1</label>
+                                                            <div class="valid-feedback">
+                                                                <%= trans.LOOKS_GOOD %>
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                <%= trans.COMMAND_ITEM_ERROR %>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="py-0"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <a class="btn btn-primary btn-rounded mx-auto">
+                                            <%= trans.ADD_ANOTHER_ITEM %></a>
+                                    </div>
+                                </div>
+
+                                <!-- IMAGE -->
+                                <div id="image-content" class="row justify-content-center" style="display: none;">
+                                    <div class="col-10 col-md-6 mb-5">
+                                        <div class="md-form">
+                                            <input type="text" id="image" class="form-control form-control-lg">
+                                            <label for="image">
+                                                <%= trans.ENTER_IMAGE_URL %></label>
+                                            <div class="valid-feedback">
+                                                <%= trans.LOOKS_GOOD %>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                <%= trans.COMMAND_TRIGGER_ERROR %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- GIF -->
+                                <div id="gif-content" class="row justify-content-center" style="display: none;">
+                                    <div class="col-10 col-md-6 mb-5">
+                                        <div class="md-form">
+                                            <input type="text" id="gif" class="form-control form-control-lg">
+                                            <label for="gif">
+                                                <%= trans.ENTER_GIF_URL %></label>
+                                            <div class="valid-feedback">
+                                                <%= trans.LOOKS_GOOD %>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                <%= trans.COMMAND_TRIGGER_ERROR %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <button type="button" class="btn btn-primary">
+                                        <%= trans.NEXT %></button>
+                                </div>
+                            </div>
+
+
+                            <div id="step3" style="display:none;">
+
+                                <div class="row justify-content-center">
+                                    <div class="col-10 col-md-6 mb-5">
+                                        <h1 class="text-center red-text font-weight-bold animated pulse infinite" style="font-size: 20rem">?</h1>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="step4" style="display:none;">
+
+                                <div class="row justify-content-center">
+                                    <div class="col-10 col-md-6 mb-5">
+                                        <h1 class="text-center font-weight-bold">
+                                            <%= trans.STEP_4 %>
+                                        </h1>
+                                        <h4 class="text-center">
+                                            <%= trans.STEP_4_DESC %>
+                                        </h4>
+                                        <p class="text-center pt-5">
+                                            <%= trans.STEP_4_DESC_2 %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </main>
+    <!--/Section: Pricing v.5-->
+    <!-- Streak -->
+
+    <%- include ../partials/footer.ejs %>
+
+    <!--/.Footer-->
+
+
+    <!-- SCRIPTS -->
+
+    <!-- JQuery -->
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="/js/popper.min.js"></script>
+
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="/js/mdb.min.js"></script>
+
+    <script>
+        //Animation init
+        new WOW().init();
+
+        //Modal
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').focus()
+        })
+
+        // Material Select Initialization
+        $(document).ready(function () {
+            $('.mdb-select').material_select();
+        });
+
+        // SideNav Button Initialization
+        $(".button-collapse").sideNav();
+        // SideNav Scrollbar Initialization
+        var sideNavScrollbar = document.querySelector('.custom-scrollbar');
+        Ps.initialize(sideNavScrollbar);
+
+        // Tooltips Initialization
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+        // code teehee
+        const stepper = document.querySelectorAll(".stepper li");
+
+        const step1 = document.getElementById("step1");
+        const step2 = document.getElementById("step2");
+        const step3 = document.getElementById("step3");
+        const step4 = document.getElementById("step4");
+
+        const textContent = document.getElementById("text-content");
+        const randomContent = document.getElementById("random-content");
+        const imageContent = document.getElementById("image-content");
+        const gifContent = document.getElementById("gif-content");
+
+        window.onload = () => {
+
+            let type = null;
+            let data = [];
+
+            for (let div of step1.children[1].children) {
+
+                div.children[0].onclick = () => {
+
+                    type = div.children[0].getAttribute("cmdtype");
+
+                    // proceed
+                    step1.style.display = "none";
+                    step2.style.display = "block";
+
+                    stepper[0].classList.remove("active");
+                    stepper[0].classList.add("completed");
+                    stepper[1].classList.remove("disabled");
+                    stepper[1].classList.add("active");
+
+                    switch (type) {
+                        case "text":
+                            textContent.style.display = "flex";
+                            break;
+                        case "random":
+                            randomContent.style.display = "flex";
+                            break;
+                        case "image":
+                            imageContent.style.display = "flex";
+                            break;
+                        case "gif":
+                            gifContent.style.display = "flex";
+                            break;
+                        default:
+                            alert("debug: error");
+                    }
+                }
+            }
+
+            // random text command
+            const randomChild = document.createElement("tr");
+            randomChild.appendChild(document.createElement("td"));
+            randomChild.children[0].classList.add("py-0");
+            randomChild.children[0].appendChild(document.createElement("div"));
+            randomChild.children[0].children[0].classList.add("md-form", "form-lg");
+            randomChild.children[0].children[0].appendChild(document.createElement("input"));
+            randomChild.children[0].children[0].children[0].classList.add("form-control", "form-control-lg",
+                "random-input");
+            randomChild.children[0].children[0].children[0].setAttribute("required", "");
+            randomChild.children[0].children[0].children[0].setAttribute("type", "text");
+            randomChild.children[0].children[0].appendChild(document.createElement("label"));
+            randomChild.children[0].children[0].children[1].classList.add("random-label");
+            randomChild.children[0].children[0].appendChild(document.createElement("div"));
+            randomChild.children[0].children[0].children[2].classList.add("valid-feedback");
+            randomChild.children[0].children[0].children[2].innerText = "<%= trans.LOOKS_GOOD %>";
+            randomChild.children[0].children[0].appendChild(document.createElement("div"));
+            randomChild.children[0].children[0].children[3].classList.add("invalid-feedback");
+            randomChild.children[0].children[0].children[3].innerText = "<%= trans.COMMAND_ITEM_ERROR %>";
+            randomChild.appendChild(document.createElement("td"));
+            randomChild.children[1].classList.add("py-0", "mb-2");
+            randomChild.children[1].setAttribute("style", "vertical-align: inherit;");
+            randomChild.children[1].appendChild(document.createElement("a"));
+            randomChild.children[1].children[0].classList.add("red-text", "pl-3", "fa-lg");
+            randomChild.children[1].children[0].appendChild(document.createElement("i"));
+            randomChild.children[1].children[0].children[0].classList.add("fas", "fa-close");
+
+            // add more fields button
+            randomContent.children[0].children[1].onclick = () => {
+
+                const newChild = randomChild.cloneNode(true);
+
+                newChild.children[1].children[0].onclick = () => {
+
+                    newChild.remove();
+
+                    const labels = document.getElementsByClassName("random-label");
+
+                    for (let [i, label] of [...labels].entries()) {
+
+                        label.innerText = `<%= trans.ITEM %> ${i + 1}`;
+                    }
+                }
+
+                randomContent.children[0].children[0].children[0].appendChild(newChild);
+
+                const labels = document.getElementsByClassName("random-label");
+
+                for (let [i, label] of [...labels].entries()) {
+
+                    label.innerText = `<%= trans.ITEM %> ${i + 1}`;
+                }
+            }
+
+            step2.children[8].children[0].onclick = () => {
+
+                let children = [];
+
+                switch (type) {
+                    case "text":
+                        children = textContent.children[0].children;
+                        break;
+                    case "random":
+                        children = randomContent.children[0].children[0].children[0].children;
+                        break;
+                    case "image":
+                        children = imageContent.children[0].children;
+                        break;
+                    case "gif":
+                        children = gifContent.children[0].children;
+                        break;
+                    default:
+                        alert("debug: error");
+                }
+
+                for (let div of step2.children[2].children[0].children) {
+
+                    // mdb validation
+                    div.classList.add("was-validated");
+                }
+
+                for (let div of children) {
+
+                    // more mdb validation
+                    div.classList.add("was-validated");
+                }
+
+                for (let div of step2.children[2].children[0].children) {
+
+                    // validation
+                    if (div.children[0].value.trim().length === 0 && div.children[0].id !== "step2-thumb") {
+
+                        div.children[1].focus();
+                        return;
+                    }
+
+                    data.push(div.children[0].value);
+                }
+
+                for (let div of children) {
+
+                    // more validation
+                    if (type === "random") {
+
+                        if (div.children[0].children[0].children[0].value.trim().length === 0) {
+
+                            div.children[0].children[0].children[0].focus();
+                            return;
+                        }
+
+                        data.push(div.children[0].children[0].children[0].value);
+                    } else {
+
+                        if (div.children[0].value.trim().length === 0) {
+
+                            div.children[0].focus();
+                            return;
+                        }
+
+                        data.push(div.children[0].value);
+                    }
+                }
+
+                // proceed
+                step2.style.display = "none";
+                step3.style.display = "block";
+
+                stepper[1].classList.remove("active");
+                stepper[1].classList.add("completed");
+                stepper[2].classList.remove("disabled");
+                stepper[2].classList.add("active");
+
+                // timer
+                const timer = Date.now() + 1500;
+
+                // api request
+                const create = new XMLHttpRequest();
+                create.open("POST", `/api/v3/scripts`, false);
+                create.setRequestHeader("Content-Type", "application/json");
+
+                const options = {};
+                options.author_id = userYay.discord_id;
+                options.name = data[0];
+                options.description = `Auto-generated by the Feinwaru Editor™`;
+                options.thumbnail = data[2] === "" ? undefined : data[2];
+                // will change in a future update
+                options.marketplace_enabled = true;
+                options.type = "js";
+                options.match_type = "command";
+                options.match = data[1];
+                // auto generate code based on selected options
+                switch (type) {
+                    case "text":
+                        options.code = "";
+
+                        options.code += "\/\/ <%= trans.GENERATED_BY_FEINWARU_EDITOR %>\n";
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.JS_STRICT_MODE %>\n";
+                        options.code += `"use strict";\n`;
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.MESSAGE_CHANNEL_DESC %>\n";
+                        options.code += `message.channel.send("${data[4]}");\n`;
+                        break;
+                    case "random":
+                        options.code = ``;
+
+                        options.code += "\/\/ <%= trans.GENERATED_BY_FEINWARU_EDITOR %>\n";
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.JS_STRICT_MODE %>\n";
+                        options.code += `"use strict";\n`;
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.RANDOM_ARRAY_DESC %>\n";
+                        options.code += `const options = ${JSON.stringify(data.slice(4, data.length))};\n`;
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.RANDOM_NUMBER_DESC %>\n";
+                        options.code += "const randomNumber = Math.floor(Math.random() * options.length);\n";
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.RANDOM_ELEMENT_DESC %>\n";
+                        options.code += "const randomMessage = options[randomNumber];\n";
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.MESSAGE_CHANNEL_DESC %>\n";
+                        options.code += "message.channel.send(randomMessage);\n";
+                        break;
+                    case "image":
+                        options.code = "";
+
+                        options.code += "\/\/ <%= trans.GENERATED_BY_FEINWARU_EDITOR %>\n";
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.JS_STRICT_MODE %>\n";
+                        options.code += `"use strict";\n`;
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.MESSAGE_CHANNEL_DESC %>\n";
+                        options.code += `message.channel.send("", {\n`;
+                        options.code += `\tfile: "${data[4]}"\n`;
+                        options.code += `});\n`;
+                        break;
+                    case "gif":
+                        options.code = "";
+
+                        options.code += "\/\/ <%= trans.GENERATED_BY_FEINWARU_EDITOR %>\n";
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.JS_STRICT_MODE %>\n";
+                        options.code += `"use strict";\n`;
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.EMBED_GIF_DESC %>\n";
+                        options.code += "const embed = new utils.RichEmbed();\n";
+                        options.code += "\/\/ <%= trans.EMBED_GIF_URL_DESC %>\n";
+                        options.code += `embed.setImage("${data[4]}");\n`;
+                        options.code += "\n";
+                        options.code += "\/\/ <%= trans.EMBED_SEND_DESC %>\n";
+                        options.code += "message.channel.send(embed);\n"
+                        break;
+                    default:
+                        alert("debug: error");
+                        return;
+                }
+
+                options.created_with = "feinwaru-editor-basic";
+
+                create.send(JSON.stringify(options));
+
+                const create_res = JSON.parse(create.response);
+                if (create_res.status === 200) {
+
+                    // success
+                    setTimeout(() => {
+
+                        step3.style.display = "none";
+                        step4.style.display = "block";
+
+                        stepper[2].classList.remove("active");
+                        stepper[2].classList.add("completed");
+                        stepper[3].classList.remove("disabled");
+                        stepper[3].classList.add("active");
+                    }, Math.max(0, timer - Date.now()));
+
+                } else {
+
+                    // failure
+                    alert("debug: error");
+                }
+            }
+        }
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <%- include ../partials/headers.ejs %>
+    <title>AWESOM-O //
+        <%= trans.PATRON_MANAGEMENT %>
+    </title>
+
+    <style>
+        .switch.round label .lever {
+            width: 54px;
+            height: 34px;
+            border-radius: 10em;
+        }
+
+        .switch.round label .lever:after {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            left: 4px;
+            top: 4px;
+        }
+
+        .switch.blue-white-switch label input[type=checkbox]:checked+.lever {
+            background-color: #2196f3;
+        }
+
+        .switch.blue-white-switch label input[type=checkbox]:checked+.lever:after {
+            background-color: #fff;
+        }
+
+        .switch.blue-white-switch label .lever {
+            background-color: #ccc;
+        }
+
+        .switch.blue-white-switch label .lever:after {
+            background-color: #fff;
+        }
+
+        .switch label input[type=checkbox]:checked+.lever:after {
+            background-color: #ff594f;
+            left: 24px;
+        }
+
+        .switch label input[type=checkbox]:checked+.lever {
+            background-color: #f8c9c9
+        }
+
+        .dropdown-content li>a,
+        .dropdown-content li>span {
+            color: #2c2c2c;
+        }
+
+        td {
+            vertical-align: middle !important;
+        }
+    </style>
+</head>
+
+<body class="fixed-sn">
+    <!--
+    <div id="mdb-preloader" class="flex-center">
+        <div id="preloader-markup" class="text-center">
+            <img src="/img/headerlogo.png">
+            <br>
+            <div class="preloader-wrapper active">
+                <div class="spinner-layer spinner-red-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+-->
+    <%- include ../partials/d-navbar.ejs %>
+    <!--Main Layout-->
+
+
+    <main>
+        <div class="mb-5">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="text-center" style="width: 100%">
+                            <h1 class="font-weight-bold mb-2 mt-2 pb-1">
+                                <%= trans.PATRON_MANAGEMENT %>
+                            </h1>
+                            <h4 id="plan-quota" class="font-weight-bold dark-grey-text">
+                            </h4>
+                        </div>
+                    </div>
+
+                    <!--<div class="row pt-5 justify-content-center">
+                        <div class="col-3">
+
+                            <div class="card">
+
+                                <div class="view overlay">
+                                    <img id="yourma" class="card-img-top" src="https://cdn.discordapp.com/icons/405129031445381120/11209b0efa9e483f5f32da8d5fc6edbc.png"
+                                        alt="Card image cap">
+                                    <a>
+                                        <div class="mask rgba-white-slight"></div>
+                                    </a>
+                                </div>
+
+                                <a class="btn-floating btn-action ml-auto mr-4 feinwaru"><i class="fa fa-close"
+                                        data-toggle="tooltip" data-placement="top" title="Disable AWESOM-O on this server "></i></a>
+
+                                <div class="card-body">
+
+                                    <h4 class="card-title">Feinwaru Admin Server</h4>
+                                    <hr>
+                                    <button type="button" class="btn btn-primary">
+                                        <%= trans.PREFIX %></button>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>-->
+
+                    <div class="row mt-5">
+                        <div class="text-center" style="width: 100%">
+                            <!--<h1 class="font-weight-bold mb-2 mt-2 pb-1">
+                                <%= trans.OTHER_SERVERS %>
+                            </h1>-->
+                            
+                            <h4 class="mt-3 dark-grey-text">
+                                <%- md(trans.OTHER_SERVERS_DESC) %>
+                            </h4>
+                            <a href="https://discordapp.com/oauth2/authorize?client_id=379370506933108746&scope=bot&permissions=8" target="_blank" class="mt-3 btn btn-primary">
+                                <%= trans.NOT_ON_SERVER %>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <table class="table table-striped">
+                            <col width="10%">
+                            <col width="25%">
+                            <col width="25%">
+                            <col width="25%">
+                            <thead class="feinwaru white-text">
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">
+                                        <%= trans.NAME %>
+                                    </th>
+                                    <th scope="col">
+                                        <%- trans.COMMAND_PREFIX %>
+                                    </th>
+                                    <th scope="col">
+                                        <%= trans.STATUS %>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="other-server-list">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </main>
+    <!--/Section: Pricing v.5-->
+    <!-- Streak -->
+
+    <%- include ../partials/footer.ejs %>
+
+    <!--/.Footer-->
+
+
+    <!-- SCRIPTS -->
+
+    <!-- JQuery -->
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="/js/popper.min.js"></script>
+
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="/js/mdb.min.js"></script>
+
+    <script>
+        //Animation init
+        new WOW().init();
+
+        //Modal
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').focus()
+        })
+
+
+        // Material Select Initialization
+        $(document).ready(function () {
+            $('.mdb-select').material_select();
+
+            const premium = new XMLHttpRequest();
+            premium.open("GET", `/api/v3/guilds/@me?extended=true&noawesomo=true`, false);
+            premium.send();
+            const premiumhmmm = JSON.parse(premium.response);
+
+            const premiumYay = premiumhmmm.guilds
+
+            //console.log(premiumYay);
+            //console.log(guildsYay);
+
+            // sort by name
+            premiumYay.sort(function (a, b) {
+                const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+                const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+
+                // names must be equal
+                return 0;
+            });
+
+            const validServers = [];
+
+            const quota = {
+                total: 0,
+                current: userYay.user.premium.length
+            };
+
+
+            for (let i = 0; i < premiumYay.length; i++) {
+                if (((premiumYay[i].permissions & 8) === 8) === true || premiumYay.owner === true) {
+                    validServers.push(premiumYay[i]);
+                }
+            }
+
+            for (let i = 0; i < validServers.length; i++) {
+                $("#other-server-list").append(
+                    `
+            <tr>
+                <td><img src="${validServers[i].icon === null ? "https://cdn.discordapp.com/attachments/379432139856412682/509421343620595734/image.png" : "https://cdn.discordapp.com/icons/" + validServers[i].discord_id + "/" +validServers[i].icon}" style="height:64px" class="rounded-circle float-right"></td>
+                <td><h5 class="font-weight-bold">${validServers[i].name}</h5></td>
+                <td id="options-${i}">
+                </td>
+                <td>
+                    <div class="switch round red-white-switch">
+                        <label>
+                            <input id="switch-${i}" class="server-toggle" type="checkbox" ${validServers[i].premium === undefined || validServers[i].premium === false  ? "" : "checked"}>
+                            <span class="lever mx-0 my-0"></span>
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            `
+                );
+
+                if (validServers[i].prefix === undefined) {
+                    $("#options-" + [i]).html(
+                        `
+                    <p><%= trans.AWESOMO_NOT_ADDED %></p>
+                    `);
+                    $("#switch-" + [i]).prop("disabled", true);
+
+                } else {
+                    $("#options-" + [i]).html(
+                        `
+                    <form>
+                      <!-- Grid row -->
+                      <div class="form-row align-items-center">
+                        <!-- Grid column -->
+                        <div class="col-auto">
+                          <!-- Material input -->
+                          <div class="md-form">
+                            <input value="${validServers[i].prefix}" type="text" id="prefix-${i}" class="form-control">
+                            </div>
+                        </div>
+                        <!-- Grid column -->
+                        <div class="col-auto">
+                          <button id="${i}" class="btn btn-sm btn-success mb-0 prefix-button"><%= trans.UPDATE %></button>
+                        </div>
+                        <!-- Grid column -->
+                      </div>
+                      <!-- Grid row -->
+                    </form>
+                    `
+                    );
+                }
+            }
+
+            $(".prefix-button").click(function () {
+
+                const id = this.id
+                const value = document.getElementById("prefix-" + id).value
+
+                console.log(validServers[id]);
+
+                const prefixUpdate = new XMLHttpRequest();
+                prefixUpdate.open("PATCH", "/api/v3/guilds/" + validServers[id].discord_id, false);
+                prefixUpdate.setRequestHeader("Content-Type", "application/json");
+                prefixUpdate.send(JSON.stringify({
+                    prefix: value
+                }));
+                console.log(prefixUpdate.response)
+
+                return false;
+            })
+
+            $(".server-toggle").click(function () {
+
+                if (this.checked === true) {
+
+                    premiumEnable(this);
+                }
+
+                if (this.checked === false) {
+
+                    premiumDisable(this);
+                }
+            })
+
+            const premiumEnable = btn => {
+
+                const id = btn.id.substring(7);
+
+                const premiumEnableRequest = new XMLHttpRequest();
+                premiumEnableRequest.open("POST", "/api/v3/guilds/premium/" + validServers[id].discord_id,
+                    false);
+                premiumEnableRequest.setRequestHeader("Content-Type", "application/json");
+                premiumEnableRequest.send();
+
+                let premiumEnableYay;
+                try {
+
+                    premiumEnableYay = JSON.parse(premiumEnableRequest.response);
+                } catch (error) {
+
+                    this.checked = false;
+
+                    toastr["error"](`failed to parse script enable json with error: ${error}`);
+                    throw `failed to parse script enable json with error: ${error}`;
+                }
+
+                if (premiumEnableYay.status === 200) {
+
+                    toastr["success"](`Enabled premium!`);
+                } else {
+
+                    toastr["error"](`failed to enable premium on the server with error: ${premiumEnableYay.status}`);
+                    throw `failed to enable premium on the server with error: ${premiumEnableYay.status}`;
+
+                    return;
+                }
+            }
+
+            const premiumDisable = btn => {
+
+                const id = btn.id.substring(7);
+
+                const premiumDisableRequest = new XMLHttpRequest();
+                premiumDisableRequest.open("DELETE", "/api/v3/guilds/premium/" + validServers[id].discord_id,
+                    false);
+                premiumDisableRequest.setRequestHeader("Content-Type", "application/json");
+                premiumDisableRequest.send();
+
+                let premiumDisableYay;
+                try {
+
+                    premiumDisableYay = JSON.parse(premiumDisableRequest.response);
+                } catch (error) {
+
+                    this.checked = true;
+
+                    toastr["error"](`failed to parse script enable json with error: ${error}`);
+                    throw `failed to parse script enable json with error: ${error}`;
+                }
+
+                if (premiumDisableYay.status === 200) {
+
+                    toastr["success"](`Disabled premium!`);
+                } else {
+
+                    toastr["error"](`failed to disable premium on the server with error: ${premiumDisableYay.status}`);
+                    throw `failed to disable premium on the server with error: ${premiumDisableYay.status}`;
+
+                    return;
+                }
+            }
+
+            console.log(validServers);
+
+            console.log(userYay);
+
+            //Plan Quota
+
+
+            switch (userYay.user.tier) {
+                case "free":
+                quota.total = 0;
+                    break;
+                case "partner":
+                quota.total = 1;
+                    break;
+                case "f":
+                quota.total = 0;
+                    break;
+                case "bf":
+                quota.total = 1;
+                    break;
+                case "sbf":
+                quota.total = 3;
+                    break;
+                default:
+                quota.total = parseInt(userYay.user.tier);
+
+                    if (isNaN(quota.total)) {
+
+                        return console.log({
+                            status: 400,
+                            message: "invalid tier"
+                        });
+                    }
+            }
+
+            //admin op plz nerf
+
+            if (userYay.user.admin === true) {
+                quota.total = "unlimited";
+                quota.current = "idk lol"
+            }
+
+            $("#plan-quota").html(`<%- trans.PLAN_QUOTA %>`)
+
+            console.log(quota)
+        });
+
+
+        // SideNav Button Initialization
+        $(".button-collapse").sideNav();
+        // SideNav Scrollbar Initialization
+        var sideNavScrollbar = document.querySelector('.custom-scrollbar');
+        Ps.initialize(sideNavScrollbar);
+
+        // Tooltips Initialization
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>AWESOM-O //
+            <%= trans.DASHBOARD %>
+        </title>
+    
+        <link rel="icon" type="image/png" href="/img/favicon.png" />
+        <link rel="shortcut icon" type="image/png" href="/img/favicon.png" />
+        <meta name="theme-color" content="#ff594f">
+    
+        <link rel="alternate" href="/" hreflang="x-default" />
+        <link rel="alternate" href="/?hl=en" hreflang="en" />
+        <link rel="alternate" href="/?hl=ie" hreflang="ie" />
+        <link rel="alternate" href="/?hl=pt" hreflang="pt" />
+    
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+        <!-- Bootstrap core CSS -->
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="/css/mdb.min.css" rel="stylesheet">
+    
+        <link href="/css/style.css" rel="stylesheet">
+
+        <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css">
+        
+        <style>
+            .bg {
+    /* The image used */
+    background-image: url("https://cdn.discordapp.com/attachments/379432139856412682/462401813337997312/abstract.png");
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+        </style>
+</head>
+
+<body class="bg">
+    <!--
+    <div id="mdb-preloader" class="flex-center">
+        <div id="preloader-markup" class="text-center">
+            <img src="/img/headerlogo.png">
+            <br>
+            <div class="preloader-wrapper active">
+                <div class="spinner-layer spinner-red-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+-->
+    <%- include partials/navbar.ejs %>
+        <!--Main Layout-->
+
+
+            <div class="container mb-5 mt-5">
+                <div class="row">
+                    <div class="col-12 col-md-3 mt-5">
+                        <div class="row">
+                            <!--Card-->
+                            <div class="card black-text"  style="width: 100%">
+                                <div class="card-body">
+                                    <ul class="list-group">
+                                        <li class="list-group-item feinwaru white-text">Reference</li>
+                                        <li class="list-group-item">Guilds</li>
+                                        <li class="list-group-item">Logs</li>
+                                        <li class="list-group-item">Scripts</li>
+                                        <li class="list-group-item">Guilds</li>
+                                        <li class="list-group-item">Users</li>
+                                      </ul>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-9 mt-5">
+                        <div class="row pl-md-4">
+                            <!-- Card -->
+                            <div class="card text-center" style="width: 100%">
+                                <div class="card-body">
+
+                                    <!-- Title -->
+                                    <div class="container text-left">
+                                        <%- md(apidocs); %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row pl-md-4 pt-4">
+                            <!-- Card -->
+                            <div class="card text-center" style="width: 100%">
+                                <div class="card-body">
+
+                                    <!-- Title -->
+                                    <h4 class="font-weight-bold mb-4">
+                                        Artwork Showcase
+                                    </h4>
+
+                                    <%- include partials/lightbox.ejs %>
+
+                                        <div class="mdb-lightbox">
+                                            <figure class="col-lg-4 col-md-6">
+                                                <a href="https://images-ext-1.discordapp.net/external/hSPZ7rqNXNLtTPYZjSdkH9O7jPXK70aT6wPn5RNDV9s/https/cdn.discordapp.com/attachments/394504208222650369/453235134817107988/just_ryan.rpy.png?width=1178&height=663"
+                                                    data-size="1920x1080">
+                                                    <img src="https://images-ext-1.discordapp.net/external/hSPZ7rqNXNLtTPYZjSdkH9O7jPXK70aT6wPn5RNDV9s/https/cdn.discordapp.com/attachments/394504208222650369/453235134817107988/just_ryan.rpy.png?width=1178&height=663"
+                                                        alt="placeholder" class="img-fluid">
+                                                </a>
+                                            </figure>
+
+                                            <figure class="col-lg-4 col-md-6">
+                                                <a href="https://cdn.discordapp.com/attachments/379432139856412682/453306913740816394/ryan-notasfucked-tm.png" data-size="1920x1080">
+                                                    <img src="https://cdn.discordapp.com/attachments/379432139856412682/453306913740816394/ryan-notasfucked-tm.png" alt="placeholder"
+                                                        class="img-fluid">
+                                                </a>
+                                            </figure>
+
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row pl-md-4 pt-4"></div>
+                    </div>
+                </div>
+            </div>
+        <!--/Section: Pricing v.5-->
+        <!-- Streak -->
+
+        <%- include partials/footer.ejs %>
+
+            <!--/.Footer-->
+
+
+            <!-- SCRIPTS -->
+
+            <!-- JQuery -->
+            <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+
+            <!-- Bootstrap tooltips -->
+            <script type="text/javascript" src="/js/popper.min.js"></script>
+
+            <!-- Bootstrap core JavaScript -->
+            <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+            <!-- MDB core JavaScript -->
+            <script type="text/javascript" src="/js/mdb.min.js"></script>
+
+            <script>
+                //Animation init
+                new WOW().init();
+
+                //Modal
+                $('#myModal').on('shown.bs.modal', function () {
+                    $('#myInput').focus()
+                })
+
+                // Material Select Initialization
+                $(document).ready(function () {
+                    $('.mdb-select').material_select();
+                    $( "#danger" ).addClass("feinwaru text-white px-3 text-center z-depth-1");
+                });
+
+                // SideNav Button Initialization
+                $(".button-collapse").sideNav();
+                // SideNav Scrollbar Initialization
+                var sideNavScrollbar = document.querySelector('.custom-scrollbar');
+                Ps.initialize(sideNavScrollbar);
+
+                // Tooltips Initialization
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+                })
+
+                
+            </script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+
+</html>
