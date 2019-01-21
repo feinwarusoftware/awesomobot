@@ -349,6 +349,17 @@ router.route("/@me").get(authUser, (req, res) => {
                         return e;
                       })];
                 }
+              } else {
+                if (noawesomo === true) {
+
+                  docs = search_guilds.map(e => {
+
+                    e.discord_id = e.id;
+                    delete e.id;
+
+                    return e;
+                  });
+                }
               }
 
               return res.json({
@@ -409,9 +420,14 @@ router.route("/:discord_id").get(authUser, (req, res) => {
   const params = {};
   params.prefix = req.body.prefix;
   params.member_perms = req.body.member_perms;
+  params.script_perms = req.body.script_perms;
 
   if (params.member_perms === undefined || params.member_perms === null){
     params.member_perms = [];
+  }
+
+  if (params.script_perms === undefined || params.script_perms === null){
+    params.script_perms = [];
   }
 
   if (req.user.admin === true) {
@@ -826,8 +842,8 @@ router.route("/:discord_id/scripts/:object_id").get(authUser, (req, res) => {
   }
 
   const params = {};
-  params.match_type_override = req.body.match_type_override;
-  params.match_override = req.body.match_override;
+  // params.match_type_override = req.body.match_type_override;
+  // params.match_override = req.body.match_override;
   params.permissions = req.body.permissions;
 
   schemas.GuildSchema
@@ -862,14 +878,6 @@ router.route("/:discord_id/scripts/:object_id").get(authUser, (req, res) => {
 
               found = true;
 
-              doc.scripts[i].match_type_override =
-                params.match_type_override === undefined
-                  ? doc.scripts[i].match_type_override
-                  : params.match_type_override;
-              doc.scripts[i].match_override =
-                params.match_override === undefined
-                  ? doc.scripts[i].match_override
-                  : params.match_override;
               doc.scripts[i].permissions = params.permissions === undefined
                 ? doc.scripts[i].permissions
                 : params.permissions;

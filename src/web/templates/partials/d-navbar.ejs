@@ -128,13 +128,6 @@
                                 </a>
 
                             </li>
-                            <!--
-                            <li>
-                                <a href="/dashboard/scripts/manager<%= trans.LANG %>" class="waves-effect">
-                                    <i class="fa fa-list"></i>
-                                    <%= trans.SCRIPT_MANAGER %>
-                                </a>
-                            </li>-->
                             <li>
                                 <a href="/dashboard/scripts/editor/basic<%= trans.LANG %>">
                                     <i class="fa fa-pencil-alt"></i>
@@ -151,10 +144,26 @@
                     </div>
                 </li>
                 <li>
-                    <a href="/dashboard/patrons<%= trans.LANG %>" class=" waves-effect">
-                        <i class="fab fa-patreon" style="margin-right: 13px"></i>
-                        <%= trans.PATRON_MANAGEMENT %>
-                    </a>
+                    <a class="waves-effect">
+                        <i class="fab fa-patreon" style="font-size: .8rem; margin-right: 13px;"></i>
+                        <%= trans.PATRON_ONLY %></a>
+                    <div class="ml-3">
+                        <ul>
+                            <li>
+                                <a href="/dashboard/patrons/server-manager<%= trans.LANG %>" class=" waves-effect">
+                                    <i class="fas fa-server" style="margin-right: 13px"></i>
+                                    <%= trans.SERVER_MANAGER %>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/dashboard/patrons/script-manager<%= trans.LANG %>" class="waves-effect">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <%= trans.SCRIPT_MANAGER %> <span class="badge blue">NEW</span>
+                                </a>
+
+                            </li>
+                        </ul>
+                    </div>
                 </li>
                 <li>
                     <a class=" waves-effect">
@@ -165,7 +174,7 @@
                         <ul>
                             <li>
                                 <a href="/dashboard/legacy/bindings<%= trans.LANG %>" class="waves-effect">
-                                    <%= trans.LEGACY_BINDINGS %> <span class="badge blue">NEW</span></a>
+                                    <%= trans.LEGACY_BINDINGS %></a>
                             </li>
                             <li>
                                 <p class="ml-3 pl-1 mb-0 mt-2" style="font-size: 10pt;">

@@ -609,12 +609,12 @@ router.get("/dashboard/scripts/editor/basic", authUser, (req, res) => {
   res.render("dashboard/userscripts-basic");
 });
 
-router.get("/dashboard/scripts/manager", authUser, (req, res) => {
+router.get("/dashboard/patrons/script-manager", authUser, (req, res) => {
 
   res.render("dashboard/scriptmanager");
 });
 
-router.get("/dashboard/patrons", authPremium, (req, res) => {
+router.get("/dashboard/patrons/server-manager", authPremium, (req, res) => {
 
   res.render("dashboard/patrons", { md: text => {
     return converter.makeHtml(text);

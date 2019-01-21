@@ -361,5 +361,11 @@
     "THOUSAND_SHITS": "1k Shits Given",
     "INVITE_AWESOMO": "Invite AWESOM-O",
     "NOT_ON_SERVER": "AWESOM-O not on your server? Add him here!",
-    "COMMAND_PREFIX": "Command Prefix | Appears before command"
+    "COMMAND_PREFIX": "Command Prefix | Appears before command",
+
+    "PATRON_ONLY": "Patron-Only Utilities",
+    "SERVER_MANAGER": "Server Manager",
+
+    "WHITELIST": "Whitelist",
+    "BLACKLIST": "Blacklist"
 }

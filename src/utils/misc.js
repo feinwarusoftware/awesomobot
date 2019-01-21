@@ -3,6 +3,8 @@
 const fs = require("fs");
 const path = require("path");
 
+const _ = require("lodash");
+
 const { wikia, wikipedia } = require("./api");
 
 const isFile = fp => fs.lstatSync(fp).isFile();
@@ -395,15 +397,46 @@ const evalPerms = (guild, script, member, channel) => {
     }
   };
 
-  // handle overrides with the spread operator
+  const globalPerms = guild.script_perms || {};
+  const localPerms = guild.scripts
+    .find(e => e.object_id.equals(script._id))
+    .permissions || {};
+
+  // handle overrides
+  const scriptPerms = defaultPerms;
+
+  for (let field in scriptPerms) {
+    if (globalPerms[field] != null) {
+      scriptPerms[field].whitelist = globalPerms[field].whitelist
+        || scriptPerms[field].whitelist;
+
+      scriptPerms[field].list = globalPerms[field].list != null
+        ? _.uniq([ ...scriptPerms[field].list, ...globalPerms[field].list ])
+        : scriptPerms[field].list;
+    }
+  }
+
+  for (let field in scriptPerms) {
+    if (localPerms[field] != null) {
+      scriptPerms[field].whitelist = localPerms[field].whitelist
+        || scriptPerms[field].whitelist;
+
+      scriptPerms[field].list = localPerms[field].list != null
+        ? _.uniq([ ...scriptPerms[field].list, ...localPerms[field].list ])
+        : scriptPerms[field].list;
+    }
+  }
+
+  /*
   const scriptPerms = {
     // the default fields that are expected to exist
     ...defaultPerms,
     // the global guild perms
     ...guild.script_perms,
     // the script overrides
-    ...script.permissions
+    ...guildScript.permissions
   };
+  */
 
   // if list is empty, and whitelist, disallow everything
   // if list is empty, and blacklist, allow everything
@@ -439,7 +472,7 @@ const evalPerms = (guild, script, member, channel) => {
   // role found, whitelist - allow (there is role overlap between user and list)
   // role found, whitelist - block (there is role overlap between user and list)
   const memberRoleIds = member.roles.array().map(e => e.id);
-  const rolep = scriptPerms.roles.list.find(e => memberRoleIds.contains(e));
+  const rolep = scriptPerms.roles.list.find(e => memberRoleIds.includes(e));
   if (rolep == null && scriptPerms.roles.whitelist === true
     || rolep != null && scriptPerms.roles.whitelist === false) {
 
