@@ -31,11 +31,10 @@ class LastFM {
             });
 
             try {
-                const res = await rp(encodeURIParams(`https://${HOST}${VERSION}`), opt.options);
+                const res = await rp(encodeURIParams(`https://${HOST}${VERSION}`, opt.options));
                 resolve(res);
     
             } catch(err) {
-    
                 reject(err);
             }
         });

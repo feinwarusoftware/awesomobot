@@ -1,0 +1,94 @@
+<!--Double navigation-->
+<!-- Sidebar navigation -->
+<div id="slide-out" class="side-nav fixed dark">
+    <ul class="custom-scrollbar">
+        <!-- Logo -->
+        <div class="logo-wrapper waves-light" style="border-style: none; height: 80px">
+            <a href="/dashboard">
+                <img src="/img/navbar_dash_logo.svg" class="img-fluid flex-center px-4 py-4">
+
+            </a>
+        </div>
+        <!--/. Logo -->
+        <!-- Side navigation links -->
+        <li>
+            <ul class="collapsible collapsible-accordion">
+                    <li>
+                            <a class="waves-effect" href="/<%= trans.LANG %>">
+                                Back to Home
+                            </a>
+                        </li>
+                        <hr style="border-top: 1px solid #aaa; margin-left: 20px; margin-right: 20px">
+                <li>
+                    <a class="waves-effect" href="welcome<%= trans.LANG %>">
+                        Welcome
+                    </a>
+                </li>
+                <li>
+                        <a class="waves-effect" href="dashboard<%= trans.LANG %>">
+                            Dashboard
+                        </a>
+                    </li>
+                <li>
+                    <a class="waves-effect" href="commands<%= trans.LANG %>">
+                        Commands
+                    </a>
+                </li>
+                <li>
+                    <a class="waves-effect" href="marketplace<%= trans.LANG %>">
+                        Marketplace
+                    </a>
+                </li>
+                <li>
+                    <a class="waves-effect" href="basic-script-editor<%= trans.LANG %>">
+                        Basic Script Editor
+                    </a>
+                </li>
+                <li>
+                    <a class="waves-effect" href="advanced-script-editor<%= trans.LANG %>">
+                        Advanced Script Editor
+                    </a>
+                </li>
+                <li>
+                    <a class="waves-effect" href="patron-management-panel<%= trans.LANG %>">
+                        Patron Management Panel
+                    </a>
+                </li>
+                <li>
+                    <a class="waves-effect" href="translate<%= trans.LANG %>">
+                        Translate AWESOM-O
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <!--/. Side navigation links -->
+    </ul>
+    <div class="sidenav-bg mask-strong"></div>
+</div>
+<!--/. Sidebar navigation -->
+<!-- Navbar -->
+<nav class="navbar fixed-top navbar-toggleable-md navbar-expand-lg double-nav">
+    <!-- SideNav slide-out button -->
+    <div class="float-left">
+        <a href="#" data-activates="slide-out" class="button-collapse">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+
+    <ul class="nav navbar-nav nav-flex-icons ml-auto">
+        <li class="nav-item">
+            <a class="nav-link waves-effect waves-light" data-toggle="modal" data-target="#LangModal">
+                <i class="far fa-globe"></i>
+                <b>
+                    <%= trans.INITIALS %>
+                </b>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<!-- <img src="https://cdn.discordapp.com/icons/438701535208275978/c5bde67f9f079d283d39b3ae80f5292f.webp" class="rounded-circle z-depth-0"
+                                        alt="there is supposed to be an image but dragon 🅱roke it" style="background-color: #333333;">-->
+<!-- /.Navbar -->
+<!--/.Double navigation-->
+<%- include ../partials/langpicker.ejs %>

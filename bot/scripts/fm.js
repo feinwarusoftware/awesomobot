@@ -40,7 +40,7 @@ const fm = new Command({
         message.reply("youre missing either 'artists', 'albums', or 'tracks'");
         return;
       }
-      if (args[3] === undefined) {
+      if (args[3] === undefined && args[2]) {
         message.reply("youre missing the time frame to look up, either 'week', 'month', or 'all'");
         return;
       }
@@ -96,8 +96,8 @@ const fm = new Command({
 
 
     lastfm.makeApiRequest(options).then(response => {
-
-      if (response.data.error !== undefined) {
+      response = JSON.parse(response);
+      if (response.error !== undefined) {
         message.reply("error making lastfm api request, check if you entered the user correctly");
         return;
       }
@@ -119,13 +119,13 @@ const fm = new Command({
       let embed = new discord.RichEmbed()
         .setColor(0xff594f)
         .setAuthor("AWESOM-O // Last.fm", "https://cdn.discordapp.com/attachments/437671103536824340/462653108636483585/a979694bf250f2293d929278328b707c.png")
-        .setThumbnail(response.data[topFieldName][scopeName][0].image[response.data[topFieldName][scopeName][0].image.length - 1]["#text"])
-        .setTitle(`last.fm ${args[2] === "recent" ? "" : "top"} ${args[3] === null ? "" : args[3]} ${args[2]}`)
+        .setThumbnail(response[topFieldName][scopeName][0].image[response[topFieldName][scopeName][0].image.length - 1]["#text"])
+        .setTitle(`View ${args[1]}'s profile'`)
         .setFooter("View full stats on last.fm")
         .setURL(`https://last.fm/user/${args[1]}`);
 
-      for (let i = 0; i < response.data[topFieldName][scopeName].length; i++) {
-        embed.addField(response.data[topFieldName][scopeName][i].name, `${response.data[topFieldName][scopeName][i].playcount === undefined ? response.data[topFieldName][scopeName][i].artist["#text"] : response.data[topFieldName][scopeName][i].playcount + " plays"}`);
+      for (let i = 0; i < response[topFieldName][scopeName].length; i++) {
+        embed.addField(response[topFieldName][scopeName][i].name, `${response[topFieldName][scopeName][i].playcount === undefined ? response[topFieldName][scopeName][i].artist["#text"] : response[topFieldName][scopeName][i].playcount + " plays"}`);
       }
 
       message.channel.send(embed);
