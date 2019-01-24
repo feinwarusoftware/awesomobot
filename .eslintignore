@@ -1,0 +1,4 @@
+node_modules/
+src/bot/assets/
+src/web/templates/
+src/web/static/
