@@ -366,6 +366,13 @@
     "PATRON_ONLY": "Patron-Only Utilities",
     "SERVER_MANAGER": "Server Manager",
 
+    "PERMISSIONS": "Permissions",
     "WHITELIST": "Whitelist",
-    "BLACKLIST": "Blacklist"
+    "BLACKLIST": "Blacklist",
+    "MEMBERS": "Members",
+    "SELECT_MEMBERS": "Select members",
+    "ROLES": "Roles",
+    "SELECT_ROLES": "Select roles",
+    "CHANNELS": "Channels",
+    "SELECT_CHANNELS": "Select channels"
 }

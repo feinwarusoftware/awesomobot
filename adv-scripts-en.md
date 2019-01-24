@@ -105,9 +105,13 @@ Prerequisites:
 
 We use [Discord.js]() to interact with the Discord API, and as such, you can use almost all it's features in our editor so go chech out their [documentation]()! You have (almost) complete access to the [message]() object with one exception; you can't acess our token, so don't even try.
 
+Note that in the future, we plan to move away from Discord.js for scripting.
+
 ## Caveats
 ***
 
 There are some javascript features that we've disabled to prevent abuse. Here are the noteworthy ones:
 - The script and any loops time out after 2 seconds.
-- Any global javascript values that would normally be present are not, such as 'Promise'.
+- Any global javascript values that would normally be present are not, such as promises.
+
+Note that in the future, we plan to update our sandbox and make all of these features available.
