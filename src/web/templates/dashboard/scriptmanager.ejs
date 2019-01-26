@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include ../partials/headers.ejs %>
+  <title>AWESOM-O //
+    <%= trans.SCRIPT_MANAGER %>
+  </title>
+
+  <style>
+    .switch.round label .lever {
+            width: 54px;
+            height: 34px;
+            border-radius: 10em;
+        }
+
+        .switch.round label .lever:after {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            left: 4px;
+            top: 4px;
+        }
+
+        .switch.blue-white-switch label input[type=checkbox]:checked+.lever {
+            background-color: #2196f3;
+        }
+
+        .switch.blue-white-switch label input[type=checkbox]:checked+.lever:after {
+            background-color: #fff;
+        }
+
+        .switch.blue-white-switch label .lever {
+            background-color: #ccc;
+        }
+
+        .switch.blue-white-switch label .lever:after {
+            background-color: #fff;
+        }
+
+        .switch label input[type=checkbox]:checked+.lever:after {
+            background-color: #ff594f;
+            left: 24px;
+        }
+
+        .switch label input[type=checkbox]:checked+.lever {
+            background-color: #f8c9c9
+        }
+
+        .dropdown-content li>a,
+        .dropdown-content li>span {
+            color: #2c2c2c;
+        }
+
+        code {
+            display: block;
+            overflow-x: auto;
+            padding: 0.5em;
+            color: #e2e2e2;
+            background: #555658;
+            border-radius: 4px
+        }
+
+        .smallboiicode {
+            display: inline;
+            transform: translateY(-0.1em);
+            padding: 0.2em;
+            padding-right: 0.4em;
+            padding-left: 0.4em;
+            overflow-x: 0;
+            color: #e2e2e2;
+            background: #555658;
+            border-radius: 4px
+        }
+
+  .md-form label {
+    top: 0
+  }
+
+    </style>
+</head>
+
+<body class="fixed-sn">
+  <!--
+    <div id="mdb-preloader" class="flex-center">
+        <div id="preloader-markup" class="text-center">
+            <img src="/img/headerlogo.png">
+            <br>
+            <div class="preloader-wrapper active">
+                <div class="spinner-layer spinner-red-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+-->
+  <%- include ../partials/d-navbar.ejs %>
+  <!--Main Layout-->
+
+
+  <main>
+    <div class="mb-5">
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="text-center" style="width: 100%">
+              <h1 class="font-weight-bold mb-2 mt-2 pb-1">
+                <%= trans.SCRIPT_MANAGER %>
+              </h1>
+              <th>
+                <h4 class="font-weight-bold dark-grey-text">Editing script settings for
+                  <span id="server-name"></span>
+                </h4>
+              </th>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-12">
+                  <form class="form-inline md-form mr-auto mb-4">
+                    <input id="search" disabled class="form-control mr-sm-2" type="text" placeholder="<%= trans.SEARCH %>" aria-label="Search">
+                    <button id="searchBtn" disabled class="btn btn-feinwaru btn-rounded btn-sm my-0" type="submit">
+                      <%= trans.SEARCH %>
+                    </button>
+                  </form>
+                </div>
+
+              </div>
+
+              <div id="script-list" class="row">
+
+              </div>
+
+
+
+              <!--Pagination -->
+              <nav aria-label="pagination example">
+                <ul id="pagination" class="pagination pagination-circle pg-feinwaru mb-3 justify-content-center">
+
+                </ul>
+              </nav>
+            </div>
+            <!--Table-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!--/Section: Pricing v.5-->
+  <!-- Streak -->
+
+  <%- include ../partials/footer.ejs %>
+
+  <!--/.Footer-->
+
+
+  <!-- SCRIPTS -->
+
+  <!-- JQuery -->
+  <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="/js/popper.min.js"></script>
+
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="/js/mdb.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
+
+  <script>
+    // Material Select Initialization
+    $(document).ready(function() {
+    $('.mdb-select').material_select();
+    });
+
+    //Animation init
+    new WOW().init();
+
+    //Modal
+    $('#myModal').on('shown.bs.modal', function () {
+      $('#myInput').focus()
+    })
+    // SideNav Button Initialization
+    $(".button-collapse").sideNav();
+    // SideNav Scrollbar Initialization
+    const sideNavScrollbar = document.querySelector('.custom-scrollbar');
+    Ps.initialize(sideNavScrollbar);
+
+    //
+
+    const scripts = document.getElementById("script-list");
+    const pagination = document.getElementById("pagination");
+
+    //
+
+    let prefix;
+
+    const currentGuild = guildsYay.guilds.find(e => e.discord_id === currentServer);
+    if (currentGuild === undefined) {
+
+        prefix = "-";
+    } else {
+
+        prefix = currentGuild.prefix.replace(/</g, "&lt").replace(/>/g, "&rt");
+    }
+
+
+
+    //
+    function getGuildScripts(page, search) {
+
+      const scriptLimit = 20;
+
+      const scriptsRequest = new XMLHttpRequest();
+      const url = (search === null || search === undefined || search === "") ?
+          `/api/v3/guilds/${currentServer}/scripts?extended=true&limit=${scriptLimit}&page=${page}` :
+          `/api/v3/guilds/${currentServer}/scripts?extended=true&name=${search}&limit=${scriptLimit}&page=${page}`;
+      scriptsRequest.open("GET", url, false);
+      scriptsRequest.send();
+
+      let scriptsYay;
+      try {
+
+          scriptsYay = JSON.parse(scriptsRequest.response);
+      } catch (error) {
+
+          toastr["error"](`failed to parse scripts json with error: ${error}`);
+          throw `failed to parse scripts json with error: ${error}`;
+      }
+
+      switch (scriptsYay.status) {
+          case 200:
+
+              break;
+          case 403:
+              toastr["error"](`failed to fetch scripts: 403 forbidden`);
+              throw "failed to fetch scripts: 403 forbidden";
+              break;
+          case 404:
+              toastr["error"](`failed to fetch scripts: 404 not found`);
+              throw "failed to fetch scripts: 404 not found";
+              break;
+          case 500:
+              toastr["error"](`failed to fetch scripts: 500 internal server error`);
+              throw "failed to fetch scripts: 500 internal server error";
+              break;
+          default:
+              toastr["error"](`failed to fetch scripts: ${scriptsYay.status}`);
+              throw `failed to fetch scripts: ${scriptsYay.status}`;
+      }
+
+      let pages = ``;
+
+      scripts.innerHTML = "";
+
+      for (let i = 0; i < scriptsYay.scripts.length; i++) {
+
+          // perms
+          const defaultPerms = {
+            members: {
+              whitelist: false,
+              list: []
+            },
+            channels: {
+              whitelist: false,
+              list: []
+            },
+            roles: {
+              whitelist: false,
+              list: []
+            }
+          };
+
+          const globalPerms = currentGuild.script_perms || {};
+          const localPerms = scriptsYay.scripts[i].permissions || {};
+
+          // handle overrides
+          const scriptPerms = defaultPerms;
+
+          for (let field in scriptPerms) {
+            if (globalPerms[field] != null) {
+              scriptPerms[field].whitelist = globalPerms[field].whitelist
+                || scriptPerms[field].whitelist;
+
+              scriptPerms[field].list = globalPerms[field].list != null
+                ? _.uniq([ ...scriptPerms[field].list, ...globalPerms[field].list ])
+                : scriptPerms[field].list;
+            }
+          }
+
+          for (let field in scriptPerms) {
+            if (localPerms[field] != null) {
+              scriptPerms[field].whitelist = localPerms[field].whitelist
+                || scriptPerms[field].whitelist;
+
+              scriptPerms[field].list = localPerms[field].list != null
+                ? _.uniq([ ...scriptPerms[field].list, ...localPerms[field].list ])
+                : scriptPerms[field].list;
+            }
+          }
+          //
+
+          // console.log(scriptPerms);
+
+          scripts.innerHTML +=
+            `
+              <div class="col-sm-6 col-md-6 col-lg-3 col-xxl-2 mb-5">
+               <!-- Card -->
+               <div class="card">
+                   <!-- Card content -->
+                   <div class="card-body">
+                      <!-- Title -->
+                          <h4 class="card-title font-weight-bold">${scriptsYay.scripts[i].name}
+                              <sup><span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" title="" data-original-title="Verified Script">
+                                          <i class="fa fa-check pr-1"></i>
+                                      </span></sup>
+                          </h4>
+                          <p>
+                          <code>
+                            ${
+                              scriptsYay.scripts[i].match_type === "command" ? prefix + scriptsYay.scripts[i].match : 
+                              scriptsYay.scripts[i].match_type === "startswith" ? 'Message must start with "' + scriptsYay.scripts[i].match + '"' :
+                              scriptsYay.scripts[i].match_type === "contains" ? 'Message must contain "' + scriptsYay.scripts[i].match + '"' :
+                              scriptsYay.scripts[i].match_type === "exactmatch" ? 'Message must only contain "' + scriptsYay.scripts[i].match + '"' :
+                              scriptsYay.scripts[i].match_type === "regex" ? 'REGEX "' + scriptsYay.scripts[i].match + '"' :
+                              prefix + scriptsYay.scripts[i].match
+                            }       
+                          </code>
+                      </p>
+                      <hr>
+                      <h5 class="font-weight-bold"><%= trans.PERMISSIONS %></h class="font-weight-bold">
+                      <h5><%= trans.MEMBERS %></h6>
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="members_whitelist ${scriptPerms.members.whitelist === true ? "btn-orange" : "btn-white"} btn btn-sm btn-rounded"><%= trans.WHITELIST %></button>
+                        <button type="button" class="members_blacklist ${scriptPerms.members.whitelist === true ? "btn-white" : "btn-orange"} btn btn-sm btn-rounded"><%= trans.BLACKLIST %></button>
+                      </div>
+                      <!-- Text -->
+
+                      <div class="md-form mt-5">
+                        <input class="member_id_input" type="text" id="hmmm" class="form-control" aria-describedby="hm">
+                        <label for="hmmm"><%= trans.DISCORD_ID %></label>
+                        <small id="hm" class="form-text text-muted">
+                            <%- trans.DISCORD_ID_DESC %>
+                        </small>
+                      </div>
+
+                      <div class="member_id_tags" class="mt-4">
+                        ${scriptPerms.members.list.map(e => `<div class="chip pink lighten-4">${e}<i class="close fas fa-times"></i></div>`)}
+                      </div>
+
+                      <h5><%= trans.ROLES %></h6>
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="roles_whitelist ${scriptPerms.roles.whitelist === true ? "btn-orange" : "btn-white"} btn btn-sm btn-rounded"><%= trans.WHITELIST %></button>
+                        <button type="button" class="roles_blacklist ${scriptPerms.roles.whitelist === true ? "btn-white" : "btn-orange"} btn btn-sm btn-rounded"><%= trans.BLACKLIST %></button>
+                      </div>
+                      <!-- Text -->
+                      <select class="mdb-select md-form select-role-names" searchable="<%= trans.SEARCH %>" multiple>
+                        <option value="" disabled selected><%= trans.SELECT_ROLES %></option>
+                        ${currentGuild.roles.map((e, j, s) => `<option ${scriptPerms.roles.list.includes(e.id) ? "selected" : ""} value="${j}">${e.name}</option>`)}
+                      </select>
+
+                      <h5><%= trans.CHANNELS %></h6>
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="channels_whitelist ${scriptPerms.channels.whitelist === true ? "btn-orange" : "btn-white"} btn btn-sm btn-rounded"><%= trans.WHITELIST %></button>
+                        <button type="button" class="channels_blacklist ${scriptPerms.channels.whitelist === true ? "btn-white" : "btn-orange"} btn btn-sm btn-rounded"><%= trans.BLACKLIST %></button>
+                      </div>
+                      <!-- Text -->
+                      <select class="mdb-select md-form select-channel-names" searchable="<%= trans.SEARCH %>" multiple>
+                        <option value="" disabled selected><%= trans.SELECT_CHANNELS %></option>
+                        ${currentGuild.channels.map((e, j, s) => `<option ${scriptPerms.channels.list.includes(e.id) ? "selected" : ""} value="${j}">#${e.name}</option>`)}
+                      </select>
+                   </div>
+                   <!-- Card footer -->
+                   <div class="rounded-bottom green text-center pt-3">
+                       <ul class="list-unstyled list-inline font-small">
+                           <li class="list-inline-item pr-2">
+                               <a id="5c41acbff4d9a83cb858c346" class="white-text like save-script-button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Like this script!">
+                                   <i class="fas fa-save"> </i> <%= trans.SAVE %>
+                               </a>
+                           </li>
+                       </ul>
+                   </div>
+               </div>
+           </div>
+          `
+      }
+
+      for (let i = 0; i < Math.ceil(scriptsYay.total / scriptsYay.limit); i++) {
+
+          if (((page === 0 || page === Math.ceil(scriptsYay.total / scriptsYay.limit) - 1) && Math.abs(
+                      page - i) <
+                  5) || ((page === 1 || page === Math.ceil(scriptsYay.total / scriptsYay.limit) - 2) &&
+                  Math.abs(
+                      page - i) < 4) || (Math.abs(page - i) < 3)) {
+
+              pages +=
+                  `
+                      <li id="pagination-${i}" class="page-item ${page === i ? 'active' : ''}">
+                          <a style="user-select: none; -moz-user-select: none;" class="page-link">${i + 1}</a>
+                      </li>
+              `;
+          }
+      }
+
+      pagination.innerHTML =
+          `
+              <!--First-->
+              <li id="pagination-first" class="page-item ${page <= 0 ? 'disabled' : ''}">
+                  <a style="user-select: none; -moz-user-select: none;" class="page-link"><%= trans.FIRST %></a>
+              </li>
+
+              <!--Arrow left-->
+              <li id="pagination-previous" class="page-item ${page <= 0 ? 'disabled' : ''}">
+                  <a class="page-link" aria-label="Previous">
+                      <span style="user-select: none; -moz-user-select: none;" aria-hidden="true">&laquo;</span>
+                      <span class="sr-only"><%= trans.PREVIOUS %></span>
+                  </a>
+              </li>
+
+              <!--Numbers-->
+              ${pages}
+
+              <!--Arrow right-->
+              <li id="pagination-next" class="page-item ${page >= Math.ceil(scriptsYay.total / scriptsYay.limit) - 1 ? 'disabled' : ''}">
+                  <a class="page-link" aria-label="Next">
+                      <span style="user-select: none; -moz-user-select: none;" aria-hidden="true">&raquo;</span>
+                      <span class="sr-only"><%= trans.NEXT %></span>
+                  </a>
+              </li>
+
+              <!--Last-->
+              <li id="pagination-last" class="page-item ${page >= Math.ceil(scriptsYay.total / scriptsYay.limit) - 1 ? 'disabled' : ''}">
+                  <a style="user-select: none; -moz-user-select: none;" class="page-link"><%= trans.LAST %></a>
+              </li>
+      `;
+
+      document.getElementById("pagination-last").onclick = () => {
+
+          getScripts(Math.ceil(scriptsYay.total / scriptsYay.limit) - 1, search);
+      };
+
+      document.getElementById("pagination-first").onclick = () => {
+
+          getScripts(0, search);
+      };
+
+      document.getElementById("pagination-next").onclick = () => {
+
+          getScripts(page + 1, search);
+      };
+
+      document.getElementById("pagination-previous").onclick = () => {
+
+          getScripts(page - 1, search);
+      };
+
+      for (let i = 0; i < Math.ceil(scriptsYay.total / scriptsYay.limit); i++) {
+
+          if (page === i) {
+
+              continue;
+          }
+
+          if (((page === 0 || page === Math.ceil(scriptsYay.total / scriptsYay.limit) - 1) && Math.abs(
+                      page - i) <
+                  5) || ((page === 1 || page === Math.ceil(scriptsYay.total / scriptsYay.limit) - 2) &&
+                  Math.abs(
+                      page - i) < 4) || (Math.abs(page - i) < 3)) {
+
+              document.getElementById(`pagination-${i}`).onclick = () => {
+
+                  getScripts(i, search);
+              };
+          }
+      }
+
+      // blacklist/whitelist buttons
+      const membersWhitelist = document.getElementsByClassName("members_whitelist");
+      const membersBlacklist = document.getElementsByClassName("members_blacklist");
+
+      const rolesWhitelist = document.getElementsByClassName("roles_whitelist");
+      const rolesBlacklist = document.getElementsByClassName("roles_blacklist");
+
+      const channelsWhitelist = document.getElementsByClassName("channels_whitelist");
+      const channelsBlacklist = document.getElementsByClassName("channels_blacklist");
+      
+      for (let i = 0; i < scriptsYay.scripts.length; i++) {
+
+        membersWhitelist[i].onclick = () => {
+          membersWhitelist[i].classList.remove("btn-white");
+          membersWhitelist[i].classList.add("btn-orange");
+
+          membersBlacklist[i].classList.remove("btn-orange");
+          membersBlacklist[i].classList.add("btn-white");
+        }
+        membersBlacklist[i].onclick = () => {
+          membersBlacklist[i].classList.remove("btn-white");
+          membersBlacklist[i].classList.add("btn-orange");
+
+          membersWhitelist[i].classList.remove("btn-orange");
+          membersWhitelist[i].classList.add("btn-white");
+        }
+        rolesWhitelist[i].onclick = () => {
+          rolesWhitelist[i].classList.remove("btn-white");
+          rolesWhitelist[i].classList.add("btn-orange");
+
+          rolesBlacklist[i].classList.remove("btn-orange");
+          rolesBlacklist[i].classList.add("btn-white");
+        }
+        rolesBlacklist[i].onclick = () => {
+          rolesBlacklist[i].classList.remove("btn-white");
+          rolesBlacklist[i].classList.add("btn-orange");
+
+          rolesWhitelist[i].classList.remove("btn-orange");
+          rolesWhitelist[i].classList.add("btn-white");
+        }
+        channelsWhitelist[i].onclick = () => {
+          channelsWhitelist[i].classList.remove("btn-white");
+          channelsWhitelist[i].classList.add("btn-orange");
+
+          channelsBlacklist[i].classList.remove("btn-orange");
+          channelsBlacklist[i].classList.add("btn-white");
+        }
+        channelsBlacklist[i].onclick = () => {
+          channelsBlacklist[i].classList.remove("btn-white");
+          channelsBlacklist[i].classList.add("btn-orange");
+
+          channelsWhitelist[i].classList.remove("btn-orange");
+          channelsWhitelist[i].classList.add("btn-white");
+        }
+      }
+
+      // member id tags
+      const memberIdInput = document.getElementsByClassName("member_id_input");
+      const memberIdtags = document.getElementsByClassName("member_id_tags");
+
+      for (let i = 0; i < scriptsYay.scripts.length; i++) {
+
+        memberIdInput[i].addEventListener("keydown", e => {
+
+          if (e.code === "Enter" && memberIdInput[i].value != null && memberIdInput[i].value !== "") {
+
+            memberIdtags[i].innerHTML += `<div class="chip red lighten-3">${memberIdInput[i].value}<i class="close fas fa-times"></i></div>`;
+            memberIdInput[i].value = "";
+          }
+        });
+      }
+
+      // now we save
+      const saveButtons = document.getElementsByClassName("save-script-button");
+
+      const selectRoleNames = document.getElementsByClassName("select-role-names");
+      const selectChannelNames = document.getElementsByClassName("select-channel-names");
+
+      for (let i = 0; i < scriptsYay.scripts.length; i++) {
+
+        saveButtons[i].onclick = () => {
+
+          const saveScriptsRequest = new XMLHttpRequest();
+          const url = `/api/v3/guilds/${currentServer}/scripts/${scriptsYay.scripts[i].object_id}`;
+
+          saveScriptsRequest.open("PATCH", url, false);
+          saveScriptsRequest.setRequestHeader("Content-Type", "application/json");
+
+          const selectRoleOptions = selectRoleNames[i].children[2].children;
+          const selectChannelOptions = selectChannelNames[i].children[2].children;
+
+          const options = {
+            permissions: {
+              enabled: scriptsYay.scripts[i].permissions.enabled,
+              members: {
+                whitelist: membersWhitelist[i].classList.contains("btn-orange"),
+                list: Array.from(memberIdtags[i].children).map(e => e.innerText)
+              },
+              roles: {
+                whitelist: rolesWhitelist[i].classList.contains("btn-orange"),
+                list: Array.from(selectRoleOptions).slice(2, selectRoleOptions.length).filter(e => e.children[0].children[0].checked).map(e => currentGuild.roles.find(f => f.name === e.innerText).id)
+              },
+              channels: {
+                whitelist: channelsWhitelist[i].classList.contains("btn-orange"),
+                list: Array.from(selectChannelOptions).slice(2, selectChannelOptions.length).filter(e => e.children[0].children[0].checked).map(e => currentGuild.channels.find(f => f.name === e.innerText.slice(1, e.innerText.length)).id)
+              }
+            }
+          };
+
+          // console.log(Array.from(selectChannelOptions).slice(2, selectChannelOptions.length)[0].children[0].children[0].checked);
+
+          // console.log(options);
+
+          saveScriptsRequest.send(JSON.stringify(options));
+
+          let saveScriptsYay;
+          try {
+
+            saveScriptsYay = JSON.parse(saveScriptsRequest.response);
+          } catch (error) {
+
+              toastr["error"](`failed to parse scripts json with error: ${error}`);
+              throw `failed to parse scripts json with error: ${error}`;
+          }
+
+          switch (saveScriptsYay.status) {
+              case 200:
+                  toastr["success"](`Yay it did a thing!`);
+                  break;
+              case 403:
+                  toastr["error"](`failed to fetch scripts: 403 forbidden`);
+                  throw "failed to fetch scripts: 403 forbidden";
+                  break;
+              case 404:
+                  toastr["error"](`failed to fetch scripts: 404 not found`);
+                  throw "failed to fetch scripts: 404 not found";
+                  break;
+              case 500:
+                  toastr["error"](`failed to fetch scripts: 500 internal server error`);
+                  throw "failed to fetch scripts: 500 internal server error";
+                  break;
+              default:
+                  toastr["error"](`failed to fetch scripts: ${saveScriptsYay.status}`);
+                  throw `failed to fetch scripts: ${saveScriptsYay.status}`;
+          }
+        }
+
+        // />(.*?)</
+
+        //
+
+        /*
+
+        */
+      }
+
+      $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+      });
+    }
+    //
+
+    /*
+    const searchBox = document.getElementById("search");
+    searchBox.addEventListener("keypress", function (e) {
+
+        if (e.keyCode === 13) {
+
+            getGuildScripts(0, this.value);
+        }
+    });
+
+    const searchBtn = document.getElementById("searchBtn");
+    searchBtn.onclick = () => {
+
+        getGuildScripts(0, searchBox.value);
+        searchBox.value = "";
+
+        return false;
+    }
+    */
+
+    getGuildScripts(0);
+
+    /*
+    for (let i = 0; i < 20; i++) {
+      $("#script-list").append(
+        `
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xxl-2 mb-5">
+               <!-- Card -->
+               <div class="card">
+                   <!-- Card content -->
+                   <div class="card-body">
+                      <!-- Title -->
+                          <h4 class="card-title font-weight-bold">Overwatch Stats
+                              <sup><span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" title="" data-original-title="Verified Script">
+                                          <i class="fa fa-check pr-1"></i>
+                                      </span></sup>
+                          </h4>
+                          <p>
+                          <code>-ow</code>
+                      </p>
+                      <hr>
+                      <h5 class="font-weight-bold"><%= trans.PERMISSIONS %></h class="font-weight-bold">
+                      <h5>Members</h6>
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-sm btn-orange btn-rounded"><%= trans.WHITELIST %></button>
+                        <button type="button" class="btn btn-sm btn-white btn-rounded"><%= trans.BLACKLIST %></button>
+                      </div>
+                      <!-- Text -->
+                      <select class="mdb-select md-form" searchable="Search here..">
+                        <option value="" disabled selected><%= trans.SELECT_MEMBERS %></option>
+                        <option value="1">USA</option>
+                        <option value="2">Germany</option>
+                        <option value="3">France</option>
+                        <option value="3">Poland</option>
+                        <option value="3">Japan</option>
+                      </select>
+                      
+                      <h5>Roles</h6>
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-sm btn-orange btn-rounded"><%= trans.WHITELIST %></button>
+                        <button type="button" class="btn btn-sm btn-white btn-rounded"><%= trans.BLACKLIST %></button>
+                      </div>
+                      <!-- Text -->
+                      <select class="mdb-select md-form" searchable="Search here..">
+                        <option value="" disabled selected><%= trans.SELECT_ROLES %></option>
+                        <option value="1">USA</option>
+                        <option value="2">Germany</option>
+                        <option value="3">France</option>
+                        <option value="3">Poland</option>
+                        <option value="3">Japan</option>
+                      </select>
+
+                      <h5>Channels</h6>
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-sm btn-orange btn-rounded"><%= trans.WHITELIST %></button>
+                        <button type="button" class="btn btn-sm btn-white btn-rounded"><%= trans.BLACKLIST %></button>
+                      </div>
+                      <!-- Text -->
+                      <select class="mdb-select md-form" searchable="Search here..">
+                        <option value="" disabled selected><%= trans.SELECT_CHANNELS %></option>
+                        <option value="1">USA</option>
+                        <option value="2">Germany</option>
+                        <option value="3">France</option>
+                        <option value="3">Poland</option>
+                        <option value="3">Japan</option>
+                      </select>
+                   </div>
+                   <!-- Card footer -->
+                   <div class="rounded-bottom green text-center pt-3">
+                       <ul class="list-unstyled list-inline font-small">
+                           <li class="list-inline-item pr-2">
+                               <a id="5c41acbff4d9a83cb858c346" class="white-text like" data-toggle="tooltip" data-placement="top" title="" data-original-title="Like this script!">
+                                   <i class="fas fa-save"> </i> <%= trans.SAVE %>
+                               </a>
+                           </li>
+                       </ul>
+                   </div>
+               </div>
+           </div>
+           `
+      )
+    }
+    */
+
+  </script>
+
+
+</body>
+
+</html>

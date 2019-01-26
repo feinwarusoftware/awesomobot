@@ -1,0 +1,88 @@
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="/img/navbarlogo2.svg" height="30" alt="">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7"
+            aria-controls="navbarSupportedContent-7" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/<%= trans.LANG %>">
+                        <%= trans.HOME %>
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard<%= trans.LANG %>">
+                        <%= trans.DASHBOARD %>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/docs/welcome<%= trans.LANG %>">
+                        <%= trans.DOCUMENTATION %>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://sppd.feinwaru.com">
+                        Phone Destroyer
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link yellow-text" href="https://patreon.com/awesomo">
+                        <b>
+                            <%= trans.PREMIUM %>
+                        </b>
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav ml-auto nav-flex-icons">
+                <!--
+                <% if (user === null) { %>
+
+                    <li>
+                        <a class="btn_login_discord">
+                            <button href="/login<%= trans.LANG %>" class="btn btn-sm align-middle btn-outline-white btn-rounded" type="button">
+                                <%= trans.LOGIN %>
+                            </button>
+                        </a>
+                    </li>
+
+                    <% } else { %>
+
+                        <li class="nav-item avatar dropdown pr-3 mr-2">
+                            <a class="nav-link dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <img src="<%= 'https://cdn.discordapp.com/avatars/' + user.id + '/' + user.avatar + '.png?size=128' %>" onerror="this.onerror=null;this.src='https://discordapp.com/assets/0e291f67c9274a1abdddeb3fd919cbaa.png'" class="rounded-circle z-depth-0"
+                                    alt="there is supposed to be an image but dragon 🅱roke it">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-feinwaru">
+                                <h6 class="dropdown-item">
+                                    <%= trans.LOGGED_IN_AS %>
+                                        <%= user.username %>
+                                </h6>
+                                <a class="dropdown-item waves-effect waves-light" href="/dashboard/profiles/<%= user.username %><%= trans.LANG %>">
+                                    <%= trans.VIEW_PROFILE %>
+                                </a>
+                                <a class="dropdown-item waves-effect waves-light" href="#">
+                                    <%= trans.LOGOUT %>
+                                </a>
+                            </div>
+                        </li>
+
+                        <% } %>-->
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" data-toggle="modal" data-target="#LangModal">
+                        <i class="far fa-globe"></i> <b>
+                            <%= trans.INITIALS %></b>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<%- include ../partials/langpicker.ejs %>
