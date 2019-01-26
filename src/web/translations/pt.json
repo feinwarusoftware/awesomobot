@@ -29,7 +29,7 @@
     "MUSIC": "Funcionalidade de música",
     "ONLINE_DASHBOARD": "Painel de Controlo Online",
     "ANALYTICS": "Estatisticas do Servidor",
-    "PROFILES": "Perfis costumizados",
+    "PROFILES": "Perfis",
     "CUSTOM_SCRIPTS_DESC": "Faz os teus comandos e scripts com o nosso criador de scripts online! *Apenas disponível para patrons*",
     "PD_CARDS_DESC": "Vê qualquer carta do Phone Destroyer, renderizada em tempo real com estatísticas completas devido á nossa parceria com a Red Lynx.",
     "SURVEYS_DESC": "Vê-te livre de questionários duplicados com a nossa ferramenta de questionários, cria votações instantãneas, até para roles do discord e manda para toda a gente!",
@@ -337,5 +337,28 @@
     "COOKIE_MESSAGE": "O AWESOM-O usa cookies para assegurar que terás a melhor experiência no nosso Website.",
 
 
-    "CHRISTMAS_COMP": "Vencedor da competição de Natal"
+    "CHRISTMAS_COMP": "Vencedor da competição de Natal",
+
+    "LEGACY_BINDINGS": "Legacy Bindings",
+    "LEGACY_BINDINGS_DESC": "A visualizar todas as tuas ligações feitas na versão 2.0",
+    "VIEW_SOURCE": "Ver código-fonte",
+    "SOURCE_CODE": "Código Fonte",
+    "THOUSAND_SHITS": "1k Shits Given",
+    "INVITE_AWESOMO": "Convidar AWESOM-O",
+    "NOT_ON_SERVER": "AWESOM-O não está no seu servidor? Adiciona-o aqui!",
+    "COMMAND_PREFIX": "Prefixo do comando | Aparece antes do comando",
+    "DOCUMENTATION": "Documentação",
+    "PATRON_ONLY": "Ferramentas apenas para Patrons",
+    "TRANSLATE_AWESOMO": "Traduzir AWESOM-O",
+    "SERVER_MANAGER": "Gerenciador de Servidores",
+    "PERMISSIONS": "Permissões",
+    "WHITELIST": "Whitelist",
+    "BLACKLIST": "Lista negra",
+    "MEMBERS": "Membros",
+    "DISCORD_ID": "Discord ID",
+    "DISCORD_ID_DESC": "Insere o ID de discord de um membro e pressiona Enter. <a href='https://support.discordapp.com/hc/pt-br/articles/206346498-Onde-posso-encontrar-minhas-IDs-de-Usu%C3%A1rio-Servidor-Mensagem-'>a saber como descobrir o ID aqui.</a>",
+    "ROLES": "Papéis",
+    "SELECT_ROLES": "Selecionar roles",
+    "CHANNELS": "Canais",
+    "SELECT_CHANNELS": "Selecionar canais"
 }

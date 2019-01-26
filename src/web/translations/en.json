@@ -354,6 +354,7 @@
 
 
     "CHRISTMAS_COMP": "Christmas Competition Winner",
+    
     "LEGACY_BINDINGS":"Legacy Bindings",
     "LEGACY_BINDINGS_DESC":"Viewing all of your bindings made in version 2.0",
     "VIEW_SOURCE": "View Source",
@@ -371,7 +372,7 @@
     "BLACKLIST": "Blacklist",
     "MEMBERS": "Members",
     "DISCORD_ID": "Discord ID",
-    "DISCORD_ID_DESC": "Enter a member's Discord ID and press enter.<a href='https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-'>Find out how to find out the ID here</a>",
+    "DISCORD_ID_DESC": "Enter a member's Discord ID and press enter. <a href='https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-'>Find out how to find out the ID here.</a>",
     "ROLES": "Roles",
     "SELECT_ROLES": "Select roles",
     "CHANNELS": "Channels",

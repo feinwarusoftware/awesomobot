@@ -5,7 +5,7 @@ const discord = require("discord.js");
 const Command = require("../script");
 const { api: { LastFM } } = require("../../utils");
 
-const config = require("../config.json");
+const config = require("../../../config.json");
 
 const lastfm = new LastFM(config.fm_key);
 

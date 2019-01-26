@@ -6,9 +6,11 @@ All notable changes to this project will be documented in this file.
 - Added a trophy for reaching 1000 shits
 - "I selled my wife for internet connection" message on 500 errors
 - Added Overwatch Stats command, `-ow`
+    
     ![](https://cdn.discordapp.com/attachments/508629797421973504/535949487722463243/unknown.png)
 
 - Added the ability to View source of scripts on the Marketplace
+    
     ![](https://cdn.discordapp.com/attachments/508629797421973504/535950123507646494/unknown.png)
 
 - Added the ability for server admins to unbind any binding/all bindings from the server
@@ -16,6 +18,7 @@ All notable changes to this project will be documented in this file.
   - `-unbind-all`
 - Added pagination to the `-help` command
 - Added the ability to view help for any vanilla command
+    
     ![](https://cdn.discordapp.com/attachments/508629797421973504/535953710778548235/unknown.png)
 - Added better prefixes to the marketplace
 - Added a sorting system for scripts. Now sorted by use count by default
@@ -24,10 +27,11 @@ All notable changes to this project will be documented in this file.
 - [Added AWESOM-O Documentation](https://awesomo.feinwaru.com/docs/welcome)
     - [Welcome](https://awesomo.feinwaru.com/docs/welcome)
     - [Dashboard](https://awesomo.feinwaru.com/docs/dashboard)
+    - [Profiles](https://awesomo.feinwaru.com/docs/profiles)
     - [Marketplace](https://awesomo.feinwaru.com/docs/marketplace)
     - [Basic Script Editor](https://awesomo.feinwaru.com/docs/basic-script-editor)
     - [Advanced Script Editor](https://awesomo.feinwaru.com/docs/advanced-script-editor)
-    - [Patron Management Panel](https://awesomo.feinwaru.com/docs/patron-management-panel)
+    - [Patron Features](https://awesomo.feinwaru.com/docs/patrons)
     - [Translating AWESOM-O](https://awesomo.feinwaru.com/docs/translate)
 - Added a sexy af README
 - Added a script permissions page where you can whitelist/blacklist users or roles from using certain scripts

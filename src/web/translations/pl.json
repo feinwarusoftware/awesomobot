@@ -29,7 +29,7 @@
     "MUSIC": "Funkcjonalność muzyki",
     "ONLINE_DASHBOARD": "Online Dashboard",
     "ANALYTICS": "Analiza serwerów",
-    "PROFILES": "Profile niestandardowe",
+    "PROFILES": "Profile",
     "CUSTOM_SCRIPTS_DESC": "Twórz własne komendy i skrypty za pomocą naszego twórcy skryptów online! *Obecnie dostępne tylko dla subskrybentów*",
     "PD_CARDS_DESC": "Zobacz dowolną kartę z Phone Destroyer'a, renderowaną w czasie rzeczywistym z pełnymi statystykami dzięki naszej współpracy z Red Lynx.",
     "SURVEYS_DESC": "Pozbądź się zduplikowanych ankiet dzięki naszej niestandardowej funkcji ankiety, od razu utwórz ankiety, ogranicz role w Discordzie i natychmiast udostępnij je przez bota!",
@@ -336,6 +336,28 @@
     
     "COOKIE_MESSAGE": "AWESOM-O wykorzystuje pliki cookie, aby zapewnić jak najlepszą obsługę strony.",
 
+    "CHRISTMAS_COMP": "Zwycięzca konkursu świątecznego",
 
-    "CHRISTMAS_COMP": "Zwycięzca konkursu świątecznego"
+    "LEGACY_BINDINGS": "Wiązania Legacy",
+    "LEGACY_BINDINGS_DESC":"Wyświetlanie wszystkich powiązań dokonanych w wersji 2.0",
+    "VIEW_SOURCE": "Pokaż źródło",
+    "SOURCE_CODE": "Kod źródłowy",
+    "THOUSAND_SHITS": "1k podarowanego gówna",
+    "INVITE_AWESOMO": "Zaproś AWESOM-O",
+    "NOT_ON_SERVER": "AWESOM-O nie na twoim serwerze? Dodaj go tutaj!",
+    "COMMAND_PREFIX": "Prefiks poleceń | Pojawia się przed poleceniem",
+    "DOCUMENTATION": "Dokumentacja",
+    "PATRON_ONLY": "Narzędzia tylko dla patronów",
+    "TRANSLATE_AWESOMO": "Przetłumacz AWESOM-O",
+    "SERVER_MANAGER": "Menedżer serwera",
+    "PERMISSIONS": "Uprawnienia",
+    "WHITELIST": "Biała lista",
+    "BLACKLIST": "Czarna lista",
+    "MEMBERS": "Członkowie",
+    "DISCORD_ID": "Discord ID",
+    "DISCORD_ID_DESC": "Wprowadź ID członka aplikacji Discord i naciśnij enter. <a href='https://support.discordapp.com/hc/en/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-'>Dowiedz się, jak znaleźć ten identyfikator tutaj.</a>",
+    "ROLES": "Role",
+    "SELECT_ROLES": "Wybierz role",
+    "CHANNELS": "Kanały",
+    "SELECT_CHANNELS": "Wybierz kanał"
 }
