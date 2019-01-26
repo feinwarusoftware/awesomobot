@@ -609,7 +609,7 @@ router.get("/dashboard/scripts/editor/basic", authUser, (req, res) => {
   res.render("dashboard/userscripts-basic");
 });
 
-router.get("/dashboard/patrons/script-manager", authUser, (req, res) => {
+router.get("/dashboard/patrons/script-manager", authPremium, (req, res) => {
 
   res.render("dashboard/scriptmanager");
 });

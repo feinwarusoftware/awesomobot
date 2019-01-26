@@ -1,6 +1,7 @@
 # Probably Incomplete Guide
 
 Heres how you actually get this thing running. Probably a horribly incomplete guide. If you find that something is missing, please add an issue to our repo and we will try to fix it as soon as we can.
+But seriously, we're still working on this and it'll probably change completely in the next update.
 
 ## What you need:
 - windows or linux (tested on windows 10 and ubuntu 18 lts)
