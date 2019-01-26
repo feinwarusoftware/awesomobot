@@ -20,7 +20,8 @@ let spaces = new Command({
 
   cb: function (client, message, guildDoc) {
 
-    let text = message.content.substring(this.match.length + guildDoc.prefix.length);
+    let text = message.content
+      .substring(this.match.length + guildDoc.prefix.length);
     let modified = "";
 
     for (let i = 0; i < text.length; i++) {

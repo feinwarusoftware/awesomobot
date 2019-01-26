@@ -2,35 +2,40 @@
 
 const discord = require("discord.js");
 
-const config = require("../config.json");
+const config = require("../../../config.json");
 
 const client = new discord.Client();
-const login = client.login(config.token);
+const login = client.login(config.discord_token);
 
-const wait = ms => new Promise((resolve, reject) => setTimeout(() => resolve(), ms));
+// const wait = ms => new Promise(resolve => setTimeout(() => resolve(), ms));
 
 let ready = false;
 
 client.on("ready", () => {
 
-    ready = true;
+  ready = true;
 });
 
 const getClient = () => {
-    return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
 
-        await login;
+    login.then(() => {
 
-        while(!ready) {
-    
-            await wait(50);
-        }
-    
-        resolve(client);
+      while(!ready) {
+
+        //await wait(50);
+      }
+
+      resolve(client);
+
+    }).catch(error => {
+
+      reject(error);
     });
-}
+  });
+};
 
 module.exports = {
 
-    getClient
+  getClient
 };

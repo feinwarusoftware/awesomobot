@@ -7,8 +7,8 @@ const Overwatch = require("./overwatch");
 
 module.exports = {
 
-    LastFM,
-    wikia,
-    wikipedia,
-    Overwatch
+  LastFM,
+  wikia,
+  wikipedia,
+  Overwatch
 };

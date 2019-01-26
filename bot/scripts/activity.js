@@ -17,7 +17,29 @@ const getLevelData = xp => {
     };
   }
 
-  const levels = [0, 1, 250, 400, 550, 700, 850, 1000, 1200, 1400, 1600, 1800, 2000, 2250, 2500, 2750, 3000, 3300, 3600, 4000, 4500];
+  const levels = [
+    0,
+    1,
+    250,
+    400,
+    550,
+    700,
+    850,
+    1000,
+    1200,
+    1400,
+    1600,
+    1800,
+    2000,
+    2250,
+    2500,
+    2750,
+    3000,
+    3300,
+    3600,
+    4000,
+    4500
+  ];
 
   let count = 0;
   let level = 0;
@@ -290,7 +312,7 @@ const xp = new Command({
     }
     if (match === "activeglobal") {
 
-      const memberIds = message.guild.members.array().map(m => m.user.id);
+      //const memberIds = message.guild.members.array().map(m => m.user.id);
 
       schemas.UserSchema
         .find()
@@ -308,7 +330,8 @@ const xp = new Command({
 
               if (discordIds.includes(member.user.id)) {
 
-                if (leaderboard.map(l => l.user.discord_id).includes(member.user.id) === true) {
+                const userIds = leaderboard.map(l => l.user.discord_id);
+                if (userIds.includes(member.user.id) === true) {
 
                   if (guild.id === message.guild.id) {
 

@@ -2,60 +2,60 @@
 
 // utility classes and functions for making http requests
 class Opt {
-    constructor(options) {
+  constructor(options) {
 
-        this.options = options;
+    this.options = options;
+  }
+  fillDefaults(defaults) {
+
+    for (let def in defaults) {
+
+      if (this.options[def] == null) {
+
+        this.options[def] = defaults[def];
+      }
     }
-    fillDefaults(defaults) {
+  }
+  assertContains(fields) {
 
-        for (let def in defaults) {
+    for (let field of fields) {
 
-            if (this.options[def] == null) {
+      if (this.options[field] == null) {
 
-                this.options[def] = defaults[def];
-            }
-        }
+        return false;
+      }
     }
-    assertContains(fields) {
 
-        for (let field of fields) {
-
-            if (this.options[field] == null) {
-
-                return false;
-            }
-        }
-
-        return true;
-    }
+    return true;
+  }
 }
 
 const encodeURIParams = (uri, params) => {
 
-    let first = true;
+  let first = true;
 
-    for (let param in params) {
+  for (let param in params) {
 
-        if (param != null && param !== "") {
+    if (param != null && param !== "") {
 
-            if (first) {
+      if (first) {
 
-                uri += "?";
-                first = false;
-            } else {
+        uri += "?";
+        first = false;
+      } else {
 
-                uri += "&";
-            }
+        uri += "&";
+      }
 
-            uri += `${param}=${params[param]}`;
-        }
+      uri += `${param}=${params[param]}`;
     }
+  }
 
-    return encodeURI(uri);
-}
+  return encodeURI(uri);
+};
 
 module.exports = {
 
-    Opt,
-    encodeURIParams
+  Opt,
+  encodeURIParams
 };

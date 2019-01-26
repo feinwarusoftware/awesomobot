@@ -18,7 +18,7 @@ const advice = new Command({
 
   preload: true,
 
-  cb: function (client, message, guildDoc) {
+  cb: function (client, message) {
 
     let advice = [
       "Stop being so lame. It's not kewl.",

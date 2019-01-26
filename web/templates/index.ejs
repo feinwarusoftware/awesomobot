@@ -221,7 +221,7 @@
                 
 
                         <div class="col-md-3 mb-2">
-                            <a href="https://status.feinwaru.com/780641651">
+                            <a href="https://status.feinwaru.com/780640679">
                                 <h1 class="white-text mb-1 font-weight-bold">
                                     <span id="uptimeplaceholder">
                                         <div class="preloader-wrapper small active">
@@ -846,21 +846,29 @@
 
 
             const stats = new XMLHttpRequest();
-            stats.open("GET", `/api/v3/stats`, false);
+            stats.open("GET", `/api/v3/stats`, true);
+            stats.onload = e => {
+                if (stats.readyState === 4 && stats.status === 200) {
+                    const statsyay = JSON.parse(stats.response).stats;
+                    $("#usersplaceholder").html(statsyay.members.total);
+                    $("#serversplaceholder").html(statsyay.servers);
+                    $("#uptimeplaceholder").html(Math.round(statsyay.status.uptime));
+                }
+            };
             stats.send();
-            const statsyay = JSON.parse(stats.response).stats;
-            $("#usersplaceholder").html(statsyay.members.total);
-            $("#serversplaceholder").html(statsyay.servers);
-            $("#uptimeplaceholder").html(Math.round(statsyay.status.uptime));
 
             setInterval(function () {
                 const stats = new XMLHttpRequest();
-                stats.open("GET", `/api/v3/stats`, false);
+                stats.open("GET", `/api/v3/stats`, true);
+                stats.onload(e => {
+                    if (stats.readyState === 4 && stats.status === 200) {
+                        const statsyay = JSON.parse(stats.response).stats;
+                        $("#usersplaceholder").html(statsyay.members.total);
+                        $("#serversplaceholder").html(statsyay.servers);
+                        $("#uptimeplaceholder").html(Math.round(statsyay.status.uptime));
+                    }
+                });
                 stats.send();
-                const statsyay = JSON.parse(stats.response).stats;
-                $("#usersplaceholder").html(statsyay.members.total);
-                $("#serversplaceholder").html(statsyay.servers);
-                $("#uptimeplaceholder").html(Math.round(statsyay.status.uptime));
             }, 15000);
 
             $("#featurehead").mouseenter(function () {

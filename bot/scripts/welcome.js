@@ -18,7 +18,7 @@ const welcome = new Command({
 
   preload: false,
 
-  cb: function (client, message, guildDoc) {
+  cb: function (client, message) {
 
     message.channel.send("", {
       file: "https://cdn.discordapp.com/attachments/430447280932388865/452883193431982082/Welcome.png"

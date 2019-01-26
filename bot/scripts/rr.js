@@ -20,7 +20,7 @@ const rr = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message) {
 
     let random = Math.random();
     console.log(random);

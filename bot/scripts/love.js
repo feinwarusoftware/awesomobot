@@ -20,7 +20,7 @@ const love = new Command({
 
   preload: true,
 
-  cb: function (client, message, guildDoc) {
+  cb: function (client, message) {
 
     const chefquotes = [
 

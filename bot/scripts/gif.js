@@ -20,7 +20,7 @@ const gif = new Command({
 
   preload: true,
 
-  cb: function (client, message, guildDoc) {
+  cb: function (client, message) {
 
     const map = ["vchip", "buttersgun", "buttersdance", "kennydance", "meeem", "cartmandance", "slap", "zimmerman", "nice", "triggered", "cartmansmile", "stanninja", "kylethinking", "ninjastar", "cartmaninvisible", "stanpuking", "kylegiant", "iketrumpet"];
 
@@ -48,12 +48,16 @@ const gif = new Command({
     const args = message.content.split(" ");
 
     if (!args[1] || !gifs[args[1]]) {
-      let embed = new discord.RichEmbed().setColor(0xff594f).setImage(gifs[map[Math.floor(Math.random() * map.length)]]);
+      let embed = new discord.RichEmbed()
+        .setColor(0xff594f)
+        .setImage(gifs[map[Math.floor(Math.random() * map.length)]]);
       message.channel.send(embed);
       return;
     }
 
-    let embed = new discord.RichEmbed().setColor(0xff594f).setImage(gifs[args[1]]);
+    let embed = new discord.RichEmbed()
+      .setColor(0xff594f)
+      .setImage(gifs[args[1]]);
     message.channel.send(embed);
   }
 });

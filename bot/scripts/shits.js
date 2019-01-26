@@ -240,7 +240,7 @@ const shits = new Command({
     }
     if (match === "shitglobal") {
 
-      const memberIds = message.guild.members.array().map(m => m.user.id);
+      //const memberIds = message.guild.members.array().map(m => m.user.id);
 
       schemas.UserSchema
         .find()
@@ -258,7 +258,9 @@ const shits = new Command({
 
               if (discordIds.includes(member.user.id)) {
 
-                if (leaderboard.map(l => l.user.discord_id).includes(member.user.id) === true) {
+                if (leaderboard
+                  .map(l => l.user.discord_id)
+                  .includes(member.user.id) === true) {
 
                   if (guild.id === message.guild.id) {
 

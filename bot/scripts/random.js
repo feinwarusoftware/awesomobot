@@ -24,7 +24,7 @@ const random = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message) {
 
     const query = cachedeplist[Math.floor(Math.random() * cachedeplist.length)];
 
@@ -54,11 +54,15 @@ const random = new Command({
     });
   },
   load: function() {
-    return new Promise(async (resolve, reject) => {
-
-      cachedeplist = await getEpList();
-
-      resolve();
+    return new Promise((resolve, reject) => {
+      getEpList()
+        .then(episodes => {
+          cachedeplist = episodes;
+          resolve();
+        })
+        .catch(error => {
+          reject(error);
+        });
     });
   }
 });

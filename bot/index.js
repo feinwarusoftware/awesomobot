@@ -1,18 +1,14 @@
-const path = require('path');
-const mongoose = require('mongoose');
-const discord = require('discord.js');
+const path = require("path");
+const mongoose = require("mongoose");
+const discord = require("discord.js");
 
-const { initSchemas } = require('../db');
-
-initSchemas(mongoose);
-
-const config = require('./config.json');
+const config = require("../../config.json");
 
 const {
   log: {
     info,
     warn,
-    error,
+    error
   },
   Sandbox,
   loadGuild,
@@ -21,32 +17,32 @@ const {
   loadGuildScripts,
   loadUser,
   matchScript,
-  evalPerms,
-} = require('../utils');
+  evalPerms
+} = require("../utils");
 
-process.on('uncaughtException', (exception) => {
+process.on("uncaughtException", (exception) => {
   console.error(exception); // to see your exception details in the console
   // if you are on production, maybe you can send the exception details to your
   // email as well ?
 });
 
 //
-mongoose.connect(`mongodb://${config.mongo_user === null && config.mongo_pass === null ? '' : `${config.mongo_user}:${config.mongo_pass}@`}localhost/rawrxd`, {
+mongoose.connect(`mongodb://${config.mongo_user === null && config.mongo_pass === null ? "" : `${config.mongo_user}:${config.mongo_pass}@`}localhost/rawrxd`, {
   useNewUrlParser: true,
-  ...(config.mongo_user === null && config.mongo_pass === null ? {} : {
+  ...config.mongo_user === null && config.mongo_pass === null ? {} : {
     auth: {
-      authdb: 'admin',
-    },
-  }),
+      authdb: "admin"
+    }
+  }
 });
 mongoose.Promise = global.Promise;
 
 const db = mongoose.connection;
-db.on('error', (err) => {
+db.on("error", (err) => {
   error(`error connecting to mongo: ${err}`);
 });
-db.on('open', () => {
-  info('connected to mongo');
+db.on("open", () => {
+  info("connected to mongo");
 });
 //
 
@@ -57,8 +53,8 @@ const baseScriptSandbox = {
 
   RichEmbed: discord.RichEmbed,
   utils: {
-    RichEmbed: discord.RichEmbed,
-  },
+    RichEmbed: discord.RichEmbed
+  }
 };
 //
 
@@ -68,20 +64,20 @@ let scripts;
 
 //
 const client = new discord.Client();
-client.login(config.token).then(() => {
-  info('logged into discord');
+client.login(config.discord_token).then(() => {
+  info("logged into discord");
 }).catch((err) => {
   error(`error logging into discord: ${err}`);
   return process.exit(-1);
 });
 
-client.on('error', (err) => {
+client.on("error", (err) => {
   error(err);
 });
 
-client.on('ready', async () => {
+client.on("ready", async () => {
   try {
-    scripts = await loadLocalScripts(path.join(__dirname, 'scripts'));
+    scripts = await loadLocalScripts(path.join(__dirname, "scripts"));
   } catch (err) {
     error(`error loading local scripts: ${err}`);
     return process.exit(-1);
@@ -101,10 +97,10 @@ client.on('ready', async () => {
     return process.exit(-1);
   }
 
-  info('bot ready');
+  info("bot ready");
 });
 
-client.on('guildCreate', async (guild) => {
+client.on("guildCreate", async (guild) => {
   try {
     await loadGuild(guild.id);
   } catch (err) {
@@ -114,20 +110,20 @@ client.on('guildCreate', async (guild) => {
   info(`loaded new guild: ${guild.name}, ${guild.id}`);
 });
 
-client.on('message', async (message) => {
+client.on("message", async (message) => {
   if (client.user.id === message.author.id) {
     return;
   }
 
   if (scripts == null) {
-    return warn('received a message event before loading local scripts, ignoring');
+    return warn("received a message event before loading local scripts, ignoring");
   }
 
   let dbGuild;
   try {
     dbGuild = await loadGuild(message.guild.id);
   } catch (err) {
-    return error(`error loading guild: ${guild.name}, ${guild.id}: ${err}`);
+    return error(`error loading guild: ${message.guild.name}, ${message.guild.id}: ${err}`);
   }
 
   if (dbGuild.premium === false) {
@@ -144,7 +140,7 @@ client.on('message', async (message) => {
   const userStatsInc = {};
   let trophiesPush = null;
 
-  if (message.content.includes('shit')) {
+  if (message.content.includes("shit")) {
     dbUser.shits += 1;
     userStatsInc.shits = 1;
 
@@ -166,7 +162,7 @@ client.on('message', async (message) => {
   // async
   dbUser.updateOne({
     $inc: userStatsInc,
-    ...( trophiesPush == null ? {} : { $push: { "trophies": trophiesPush } } )
+    ... trophiesPush == null ? {} : { $push: { trophies: trophiesPush } }
   }).catch((err) => {
     error(`error saving user stats: ${message.author.username}, ${message.author.id}: ${err}`);
   });
@@ -175,8 +171,19 @@ client.on('message', async (message) => {
   try {
     guildScripts = await loadGuildScripts(dbGuild);
   } catch (err) {
-    return error(`error loading guild scripts: ${guild.name}, ${guild.id}: ${err}`);
+    return error(`error loading guild scripts: ${message.guild.name}, ${message.guild.id}: ${err}`);
   }
+
+  // merge with local script data as weight isnt supported by the database.
+  // assign -1 weight to non local scripts, then sort by weight.
+  guildScripts.forEach(e => {
+    const local = scripts.find(f => f.name === e.name);
+    if (local == null) {
+      return e.weight = -1;
+    }
+    e.weight = local.weight || 0;
+  });
+  guildScripts.sort((a, b) => b.weight - a.weight);
 
   let matchedScript;
   let matchedTerm;
@@ -220,17 +227,24 @@ client.on('message', async (message) => {
     }
 
     try {
-      localScript.run(client, message, dbGuild, dbUser, matchedScript, matchedTerm);
+      localScript.run(
+        client,
+        message,
+        dbGuild,
+        dbUser,
+        matchedScript,
+        matchedTerm
+      );
     } catch (err) {
       error(`error running local script: ${localScript.name}: ${err}`);
     }
 
     // message.channel.stopTyping();
-  } else if (matchedScript.type === 'js') {
+  } else if (matchedScript.type === "js") {
     try {
       sandbox.exec(matchedScript.code, {
         ...baseScriptSandbox,
-        message,
+        message
       });
     } catch (err) {
       error(`error running non local script: ${matchedScript.name}: ${err}`);
@@ -241,17 +255,17 @@ client.on('message', async (message) => {
 
     // json script handling
 
-    if (matchedScript.data.action === 'text') {
+    if (matchedScript.data.action === "text") {
       return message.channel.send(matchedScript.data.args[0].value);
     }
 
-    if (matchedScript.data.action === 'file') {
-      return message.channel.send('', {
-        file: matchedScript.data.args[0].value,
+    if (matchedScript.data.action === "file") {
+      return message.channel.send("", {
+        file: matchedScript.data.args[0].value
       });
     }
 
-    if (matchedScript.data.action === 'embed') {
+    if (matchedScript.data.action === "embed") {
       // author
       // color
       // description
@@ -267,35 +281,35 @@ client.on('message', async (message) => {
       for (const arg of matchedScript.data.args) {
         // cos discord embeds have the BIG gay
         switch (arg.field) {
-          case 'author':
-            embed.setAuthor(arg.value);
-            break;
-          case 'color':
-            embed.setColor(arg.value);
-            break;
-          case 'description':
-            embed.setDescription(arg.value);
-            break;
-          case 'footer':
-            embed.setFooter(arg.value);
-            break;
-          case 'image':
-            embed.setImage(arg.value);
-            break;
-          case 'thumbnail':
-            embed.setThumbnail(arg.value);
-            break;
-          case 'timestamp':
-            embed.setTimestamp(arg.value);
-            break;
-          case 'title':
-            embed.setTitle(arg.value);
-            break;
-          case 'url':
-            embed.setURL(arg.value);
-            break;
-          default:
-            return message.channel.send('invalid embed argument');
+        case "author":
+          embed.setAuthor(arg.value);
+          break;
+        case "color":
+          embed.setColor(arg.value);
+          break;
+        case "description":
+          embed.setDescription(arg.value);
+          break;
+        case "footer":
+          embed.setFooter(arg.value);
+          break;
+        case "image":
+          embed.setImage(arg.value);
+          break;
+        case "thumbnail":
+          embed.setThumbnail(arg.value);
+          break;
+        case "timestamp":
+          embed.setTimestamp(arg.value);
+          break;
+        case "title":
+          embed.setTitle(arg.value);
+          break;
+        case "url":
+          embed.setURL(arg.value);
+          break;
+        default:
+          return message.channel.send("invalid embed argument");
         }
       }
 

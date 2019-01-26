@@ -20,7 +20,7 @@ const artcomp = new Command({
 
   preload: true,
 
-  cb: function (client, message, guildDoc) {
+  cb: function (client, message) {
 
     const artall = [{
       name: "orang",
@@ -245,7 +245,11 @@ const artcomp = new Command({
     ];
     let randall = Math.floor(Math.random() * artall.length);
     let randomobject = artall[randall];
-    message.channel.send(new discord.RichEmbed().setColor(0xff594f).setAuthor(randomobject.name).setDescription(randomobject.desc).setImage(randomobject.file));
+    message.channel.send(new discord.RichEmbed()
+      .setColor(0xff594f)
+      .setAuthor(randomobject.name)
+      .setDescription(randomobject.desc)
+      .setImage(randomobject.file));
   }
 });
 

@@ -18,7 +18,7 @@ const movieidea = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message) {
 
     const movieIdeas = [
       "Movie Idea #01: Adam Sandler... is like in love with some girl.. but then it turns out that the girl is actually a golden retriever or something..",

@@ -18,10 +18,23 @@ const rps = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message,) {
 
     const rand = Math.floor(Math.random() * 3);
-    message.reply(rand === 0 ? "Rock" : rand === 1 ? "Paper" : "Scissors");
+
+    let rps;
+    switch (rand) {
+    case 0:
+      rps = "Rock";
+      break;
+    case 1:
+      rps = "Paper";
+      break;
+    case 2:
+      rps = "Scissors";
+      break;
+    }
+    message.reply(rps);
   }
 });
 

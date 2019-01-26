@@ -5,125 +5,120 @@ const { ScriptSchema } = require("../db");
 const { getFilePathsInDir } = require("./misc");
 
 const loadGuildScripts = guild => {
-    return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
 
-        let guildScripts;
-        try {
-            guildScripts = await ScriptSchema.find({ _id: { $in: guild.scripts.map(e => e.object_id) } });
-
-        } catch(err) {
-
-            reject(err);
-        }
-
+    ScriptSchema.find({ _id: { $in: guild.scripts.map(e => e.object_id) } })
+      .then(guildScripts => {
         resolve(guildScripts);
-    });
-}
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
 
 const loadLocalScripts = dir => {
-    return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
 
-        const scripts = [];
+    const scripts = [];
 
-        const files = getFilePathsInDir(dir);
+    const files = getFilePathsInDir(dir);
 
-        for (let file of files) {
+    for (let file of files) {
 
-            const ext = file.slice(file.lastIndexOf(".") + 1);
+      const ext = file.slice(file.lastIndexOf(".") + 1);
 
-            if (ext !== "js") {
+      if (ext !== "js") {
 
-                return reject(`non js scripts not supported: '${file}'`);
-            }
+        return reject(`non js scripts not supported: '${file}'`);
+      }
 
-            const script = require(file);
+      const script = require(file);
 
-            scripts.push(script);
-        }
+      scripts.push(script);
+    }
 
-        let dbScripts;
-        try {
-
-            dbScripts = await ScriptSchema.find({ local: true, name: { $in: scripts.map(e => e.name) } });
-
-        } catch(err) {
-
-            return reject(err);
-        }
-
+    ScriptSchema.find({ local: true, name: { $in: scripts.map(e => e.name) } })
+      .then(dbScripts => {
         const promises = [];
 
         for (let script of scripts) {
 
-            promises.push(script.startup());
+          promises.push(script.startup());
 
-            const dbScript = dbScripts.length === 0 ? null : dbScripts.find(e => e.name === script.name);
-            if (dbScript == null) {
+          const dbScript = dbScripts.length === 0
+            ? null
+            : dbScripts.find(e => e.name === script.name);
 
-                const newScript = new ScriptSchema({
-                    
-                    author_id: "feinwaru-devs",
+          if (dbScript == null) {
 
-                    name: script.name,
-                    description: script.description,
-                    thumbnail: script.thumbnail,
-                    marketplace_enabled: script.marketplace_enabled,
+            const newScript = new ScriptSchema({
 
-                    type: script.type,
-                    match_type: script.match_type,
-                    match: script.match,
+              author_id: "feinwaru-devs",
 
-                    code: null,
-                    data: null,
+              name: script.name,
+              description: script.description,
+              thumbnail: script.thumbnail,
+              marketplace_enabled: script.marketplace_enabled,
 
-                    local: true,
-                    featured: script.featured,
-                    preload: script.preload,
-                    verified: true,
-                    likes: 0,
-                    guild_count: 0,
-                    use_count: 0,
+              type: script.type,
+              match_type: script.match_type,
+              match: script.match,
 
-                    created_with: "vscode"
-                });
+              code: null,
+              data: null,
 
-                dbScripts.push(newScript);
+              local: true,
+              featured: script.featured,
+              preload: script.preload,
+              verified: true,
+              likes: 0,
+              guild_count: 0,
+              use_count: 0,
 
-                promises.push(newScript.save());
-                continue;
+              created_with: "vscode"
+            });
+
+            dbScripts.push(newScript);
+
+            promises.push(newScript.save());
+            continue;
+          }
+
+          let options = {};
+          let change = false;
+          for (let prop in script) {
+
+            if (dbScript[prop] !== script[prop] && prop !== "author_id" && prop !== "cb" && prop !== "load") {
+
+              options[prop] = script[prop];
+              change = true;
             }
+          }
 
-            let options = {};
-            let change = false;
-            for (let prop in script) {
+          if (change) {
 
-                if (dbScript[prop] !== script[prop] && prop !== "author_id" && prop !== "cb" && prop !== "load") {
-
-                    options[prop] = script[prop];
-                    change = true;
-                }
-            }
-
-            if (change) {
-
-                promises.push(dbScript.updateOne(options));
-            }
+            promises.push(dbScript.updateOne(options));
+          }
         }
 
-        try {
-            await Promise.all(promises);
+        Promise.all(promises)
+          .then(() => {
 
-        } catch(err) {
-
-            reject(err);
-        }
-
-        resolve(scripts, dbScripts);
-    });
-}
+            resolve(scripts, dbScripts);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
 
 module.exports = {
 
-    loadGuildScripts,
-    loadLocalScripts
+  loadGuildScripts,
+  loadLocalScripts
 };

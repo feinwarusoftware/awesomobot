@@ -2,8 +2,6 @@
 
 const Command = require("../script");
 
-const discord = require("discord.js");
-
 let towelquote = new Command({
 
   name: "Towelie Quotes",
@@ -20,7 +18,7 @@ let towelquote = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message) {
 
     const quotes = [
       "*Don't forget to bring a towel!*",

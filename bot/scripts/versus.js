@@ -113,7 +113,7 @@ const versus = new Command({
 
   preload: true,
 
-  cb: function (client, message, guildDoc) {
+  cb: function (client, message) {
 
     const random1 = Math.floor(Math.random() * characters.length);
     const random2 = Math.floor(Math.random() * characters.length);

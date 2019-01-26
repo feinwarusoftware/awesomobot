@@ -1,6 +1,5 @@
 "use strict";
 
-const fs = require("fs");
 const path = require("path");
 
 //const { performance } = require("perf_hooks");
@@ -14,16 +13,7 @@ const Command = require("../script");
 
 const schemas = require("../../db");
 const {
-  jimp: {
-    magicRecolour,
-    colourPrint,
-    plainText
-  },
-  getTextHeight,
-  textWidth,
-  printCenter,
-  getLevelData,
-  hexToRgb
+  getLevelData
 } = require("../../utils");
 
 let infoCardBase = null;
@@ -248,7 +238,7 @@ const levels = new Command({
 
   preload: true,
 
-  cb: function (client, message, guild, user, script, match) {
+  cb: function (client, message) {
 
     //const ts0 = performance.now();
 
@@ -260,7 +250,9 @@ const levels = new Command({
       args.shift();
 
       const username = args.join(" ");
-      const member = message.guild.members.find(e => e.displayName.toLowerCase() === username.toLowerCase() || e.user.username.toLowerCase() === username.toLowerCase());
+      const member = message.guild.members
+        .find(e => e.displayName.toLowerCase() === username.toLowerCase()
+          || e.user.username.toLowerCase() === username.toLowerCase());
       if (member === null) {
 
         return message.reply(`user '${username}' does not exist in this guild`);
@@ -360,9 +352,15 @@ const levels = new Command({
         });
 
         // cache teehee
-        // improvement: check if the change in trophies would actually affect the pf (some may not be drawn)
-        let cachedBase = cache.find(e => e.discord_id === users[0].discord_id);
-        if (cachedBase != null && (cachedBase.avatarURL !== searchUser.avatarURL || cachedBase.banner !== users[0].banner || JSON.stringify(cachedBase.trophies) !== JSON.stringify(users[0].trophies))) {
+        // improvement: check if the change in trophies
+        // would actually affect the pf (some may not be drawn)
+        let cachedBase = cache
+          .find(e => e.discord_id === users[0].discord_id);
+        if (cachedBase != null
+          && (cachedBase.avatarURL !== searchUser.avatarURL
+            || cachedBase.banner !== users[0].banner
+            || JSON.stringify(cachedBase.trophies)
+              !== JSON.stringify(users[0].trophies))) {
 
           cache.splice(cache.indexOf(cachedBase), 1);
           cachedBase = null;
@@ -379,7 +377,10 @@ const levels = new Command({
           try {
 
             //net0 = performance.now();
-            const banner = rp({ url: users[0].banner, encoding: null }).then(async buffer => {
+            const banner = rp({
+              url: users[0].banner,
+              encoding: null
+            }).then(async buffer => {
 
               //net1 = performance.now();
               const banner = sharp({
@@ -398,7 +399,10 @@ const levels = new Command({
               return await banner;
             });
 
-            const pf = rp({ url: searchUser.avatarURL, encoding: null }).then(async buffer => {
+            const pf = rp({
+              url: searchUser.avatarURL,
+              encoding: null
+            }).then(async buffer => {
 
               //net1 = performance.now();
 
@@ -416,7 +420,13 @@ const levels = new Command({
               .map(e => e.buffer);
 
             // banner
-            cachedBase.buffer = sharp(await banner, { raw: { width: 800, height: 750, channels: 4 } })
+            cachedBase.buffer = sharp(await banner, {
+              raw: {
+                width: 800,
+                height: 750,
+                channels: 4
+              }
+            })
               .overlayWith(infoCardBase, {
                 gravity: sharp.gravity.centre
               })
@@ -429,7 +439,13 @@ const levels = new Command({
             cachedBase.buffer = userTrophies
               .reduce((input, overlay) => {
                 return input.then(data => {
-                  const next = sharp(data, { raw: { width: 800, height: 750, channels: 4 } })
+                  const next = sharp(data, {
+                    raw: {
+                      width: 800,
+                      height: 750,
+                      channels: 4
+                    }
+                  })
                     .overlayWith(overlay, {
                       left: 416 + current % 4 * 90,
                       top: 472 + (current > 3 ? 1 : 0) * 90
@@ -444,12 +460,20 @@ const levels = new Command({
               }, cachedBase.buffer);
 
             // pfp
-            cachedBase.buffer = sharp(await cachedBase.buffer, { raw: { width: 800, height: 750, channels: 4 } })
+            const cachedBuffer = sharp(await cachedBase.buffer, {
+              raw: {
+                width: 800,
+                height: 750,
+                channels: 4
+              }
+            })
               .overlayWith(await pf, {
                 left: 16, top: 19
               })
               .raw()
               .toBuffer();
+
+            cachedBase.buffer = cachedBuffer;
 
             cache.push(cachedBase);
 
@@ -460,82 +484,22 @@ const levels = new Command({
         }
 
         try {
-          // changed to measure performance of individual parts of code
-          /*
-                    let finished = await sharp(cachedBase.buffer)
-                        .overlayWith(svg)
-                        .raw()
-                        .toBuffer();
-                    */
 
-          /*
-                    for (let [i, trophy] of userTrophies.entries()) {
-
-                        // 90 -> trophy size
-                        let xoffset = (i % 4) * 90;
-                        let yoffset = (i > 3 ? 1 : 0) * 90;
-
-                        finished = await sharp(finished)
-                            .overlayWith(trophy.buffer, {
-                                left: 416 + xoffset,
-                                top: 472 + yoffset
-                            })
-                            .toBuffer();
-                    }
-                    */
-
-          /*
-                    let i = -1;
-
-                    const composite =  userTrophies
-                        .map(e => e.buffer)
-                        .reduce((input, overlay) => {
-                            return input.then(data => {
-
-                                i++;
-
-                                return sharp(data, { raw: { width: 800, height: 700, channels: 4 } })
-                                    .overlayWith(overlay, {
-                                        left: 416 + (i % 4) * 90,
-                                        top: 472 + (i > 3 ? 1 : 0) * 90
-                                    })
-                                    .raw()
-                                    .toBuffer();
-                            });
-                        }, sharp(cachedBase.buffer)
-                            .overlayWith(svg)
-                            .raw()
-                            .toBuffer());
-
-                    let finished = await composite;
-                    */
-
-          const finished = sharp(await cachedBase.buffer, { raw: { width: 800, height: 750, channels: 4 } })
+          const finished = sharp(await cachedBase.buffer, {
+            raw: {
+              width: 800,
+              height: 750,
+              channels: 4
+            }
+          })
             .overlayWith(svg)
             .jpeg()
             .toBuffer();
-
-          //const tr1 = performance.now();
-
-          //const tm0 = performance.now();
 
           // await here so start/stop typing works properly
           await message.channel.send("", {
             file: await finished
           });
-
-          //const tm1 = performance.now();
-
-          //message.channel.send(`script took ${Math.round((tm1 - ts0) * 100) / 100}ms\n\*search > ${Math.round((ts1 - ts0) * 100) / 100}ms\n\*db > ${Math.round((td1 - td0) * 100) / 100}ms\n\*render > ${Math.round((tr1 - tr0) * 100) / 100}ms, incl. ${Math.round((net1 - net0) * 100) / 100}ms net delay\n\*message > ${Math.round((tm1 - tm0) * 100) / 100}ms`);
-
-          /*
-                    await message.channel.send("", {
-                        file: await sharp(cachedBase.buffer)
-                            .overlayWith(svg)
-                            .webp()
-                            .toBuffer()
-                    });
-                    */
 
         } catch(err) {
 
@@ -547,260 +511,6 @@ const levels = new Command({
           cache.shift();
         }
 
-        /*
-                const fetchImages = [];
-                fetchImages.push(rp({ url: users[0].banner, encoding: null }));
-                fetchImages.push(rp({ url: message.author.avatarURL, encoding: null }));
-
-                let images;
-                try {
-                    images = await Promise.all(fetchImages);
-
-                } catch(err) {
-
-                    throw err;
-                }
-
-                let font;
-                try {
-                    font = await sharp(svg)
-                        .toBuffer();
-
-                } catch(err) {
-
-                    throw err;
-                }
-
-                let pf;
-                try {
-                    pf = await sharp(images[1])
-                        .resize(296, 296)
-                        .toBuffer();
-
-                } catch(err) {
-
-                    throw err;
-                }
-
-                let banner;
-                try {
-                    banner = await sharp(images[0])
-                        .resize(800, 750)
-                        .blur(2)
-                        .overlayWith(pf, {
-                            left: 16, top: 19
-                        })
-                        .toBuffer();
-
-                    banner = await sharp(banner)
-                        .overlayWith(infoCardBase, {
-                            gravity: sharp.gravity.centre
-                        })
-                        .toBuffer();
-
-                    banner = await sharp(banner)
-                        .overlayWith(font)
-                        .png()
-                        .toBuffer();
-
-                } catch(err) {
-
-                    // temp
-                    throw err;
-                }
-
-                message.channel.send("", {
-                    file: banner
-                });
-                */
-
-        /*
-                // colours
-                const defaultColour = "#14b252";
-                const defaultNameColour = "#ffffff";
-
-                if (users[0].colours === undefined || users[0].colours === null) {
-
-                    users[0].colours = {};
-                }
-
-                if (users[0].colours.progress === undefined || users[0].colours.progress === null) {
-
-                    users[0].colours.progress = defaultColour;
-                }
-
-                if (users[0].colours.level === undefined || users[0].colours.level === null) {
-
-                    users[0].colours.level = defaultColour;
-                }
-
-                if (users[0].colours.rank === undefined || users[0].colours.rank === null) {
-
-                    users[0].colours.rank = defaultColour;
-                }
-
-                if (users[0].colours.name === undefined || users[0].colours.name === null) {
-
-                    users[0].colours.name = defaultNameColour;
-                }
-
-                const colours = {};
-
-                for (let colour in users[0].colours) {
-
-                    const rgb = hexToRgb(users[0].colours[colour]);
-
-                    colours[colour] = {
-                        hex: users[0].colours[colour],
-                        rgb
-                    };
-                }
-                */
-        //
-
-        /*
-                const bg = new jimp(800, 750);
-
-                let banner = await jimp.read(users[0].banner);
-                //let banner = await jimp.read("https://cdn.discordapp.com/attachments/449655476297138177/502508170019864586/tweekxcraig.png");
-                if (banner === undefined) {
-
-                    banner = defaultBanner;
-                }
-
-                const prop = banner.bitmap.width / banner.bitmap.height;
-                if (prop >= (bg.bitmap.width) / bg.bitmap.height) {
-
-                    // change height
-                    const heightDiff = bg.bitmap.height - banner.bitmap.height;
-                    banner.resize(banner.bitmap.width + (heightDiff * prop), banner.bitmap.height + heightDiff);
-
-                    banner.crop((banner.bitmap.width / 2) - bg.bitmap.width / 2, 0, bg.bitmap.width, bg.bitmap.height);
-                    banner.blur(2);
-
-                    bg.composite(banner, 0, 0);
-
-                } else {
-
-                    // change width
-                    const widthDiff = bg.bitmap.width - banner.bitmap.width;
-                    banner.resize(banner.bitmap.width + widthDiff, banner.bitmap.height + (widthDiff * prop));
-
-                    banner.crop((banner.bitmap.width / 2) - bg.bitmap.width / 2, 0, bg.bitmap.width, bg.bitmap.height);
-                    banner.blur(2);
-
-                    bg.composite(banner, 0, 0);
-                }
-
-                bg.composite(infoCardBase, 0, 0);
-
-                const levelData = getLevelData(users[0].xp);
-
-                // 398 148 723 187
-                const progress = new jimp(Math.floor(325 * levelData.progress), 39);
-                progress.opaque();
-                magicRecolour(progress, { r: 0, g: 0, b: 0, a: 255 }, { r: colours.progress.rgb.r, g: colours.progress.rgb.g, b: colours.progress.rgb.b, a: 255 }, 160);
-
-                bg.composite(progress, 398, 148);
-
-                printCenter(bg, fontPercent, 161, 146, `${Math.floor(levelData.progress * 100)}%`, 800);
-
-                // 16 19 296
-                const avatar = await jimp.read(`https://cdn.discordapp.com/avatars/${searchUser.id}/${searchUser.avatar}.png?size=512`);
-                avatar.resize(296, 296);
-                bg.composite(avatar, 16, 19);
-
-                //printCenter(bg, fontLevel, 163, 35, `Level ${levelData.level}`, 800);
-                const levelText = plainText(fontLevel, `Level ${levelData.level}`);
-                magicRecolour(levelText, { r: 20, g: 178, b: 82, a: 255 }, { r: colours.level.rgb.r, g: colours.level.rgb.g, b: colours.level.rgb.b, a: 255 }, 160);
-                bg.composite(levelText, (bg.bitmap.width / 2) - (levelText.bitmap.width / 2) + 173, 40);
-
-                //printCenter(bg, fontRank, 165, 195, `#${users[0].globalRank + 1}/${users[0].globalTotal}`, 800);
-                const rankText = plainText(fontRank, `#${users[0].globalRank + 1}/${users[0].globalTotal}`);
-                magicRecolour(rankText, { r: 20, g: 178, b: 82, a: 255 }, { r: colours.rank.rgb.r, g: colours.rank.rgb.g, b: colours.rank.rgb.b, a: 255 }, 160);
-                bg.composite(rankText, (bg.bitmap.width / 2) - (rankText.bitmap.width / 2) + 165, 200);
-
-                //colourPrint(bg, fontName, 15, 321, searchUser.username, "#000000");
-
-                const shadowText = plainText(fontName, searchUser.username);
-                magicRecolour(shadowText, { r: 255, g: 255, b: 255, a: 255 }, { a: 0, g: 0, b: 0, a: 160 }, 256);
-                bg.composite(shadowText, 15, 321);
-
-                colourPrint(bg, fontName, 12, 316, searchUser.username, colours.name.hex);
-
-                //bg.print(fontName, 12, 316, searchUser.username);
-
-                if (users[0].verified === true) {
-
-                    bg.composite(verifiedIcon, textWidth(fontName, searchUser.username) - 5, 333);
-                }
-
-                // 24,472 || 360x254
-                let changed = false;
-                let modifiedAbout = users[0].bio;
-
-                //const testHeight = getTextHeight(fontAbout, changed === true ? `${modifiedAbout}...` : modifiedAbout, 360);
-
-                while (getTextHeight(fontAbout, changed === true ? `${modifiedAbout}...` : modifiedAbout, 360) > 150) {
-
-                    const modifedArray = modifiedAbout.split(" ");
-                    modifedArray.pop();
-                    modifiedAbout = modifedArray.join(" ");
-
-                    changed = true;
-                }
-
-                bg.print(fontAbout, 24, 472, changed === true ? `${modifiedAbout}...` : modifiedAbout, 290);
-
-                // trophies
-                const userTrophies = [];
-                for (let i = 0; i < trophies.length; i++) {
-
-                    const trophy = users[0].trophies.find(e => e === trophies[i].dbName);
-                    if (trophy !== undefined) {
-
-                        userTrophies.push(trophies[i]);
-                    }
-                }
-
-                userTrophies.sort((a, b) => {
-
-                    return a.importance - b.importance;
-                });
-
-                userTrophies.splice(8, Math.max(0, userTrophies.length - 8));
-
-                const trophySize = 90;
-
-                for (let i = 0; i < userTrophies.length; i++) {
-
-                    let xoffset = (i % 4) * trophySize;
-                    let yoffset = (i > 3 ? 1 : 0) * trophySize;
-
-                    userTrophies[i].image.color([
-                        { apply: "mix", params: [userTrophies[i].colour, 100] }
-                    ]);
-
-                    bg.composite(userTrophies[i].image, 416 + xoffset, 472 + yoffset);
-                }
-
-                // save + post
-                const saveDate = Date.now();
-
-                bg.write(path.join(__dirname, "temp", `pf-${saveDate}.png`), async () => {
-
-                    await message.channel.send("", {
-                        file: path.join(__dirname, "temp", `pf-${saveDate}.png`)
-                    })
-
-                    fs.unlink(path.join(__dirname, "temp", `pf-${saveDate}.png`), error => {
-                        if (error !== null && error !== undefined) {
-
-                            throw `could not delete: pf-${saveDate}.png`;
-                        }
-                    });
-                });
-                */
       })
       .catch(error => {
 
@@ -809,721 +519,623 @@ const levels = new Command({
   },
 
   load: function () {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
 
-      infoCardBase = await sharp(path.join(__dirname, "..", "assets", "profiles", "info_card_base.png"))
+      const filesLoaded = [];
+
+      filesLoaded.push(sharp(path.join(__dirname, "..", "assets", "profiles", "info_card_base.png"))
         .png()
-        .toBuffer();
+        .toBuffer()
+        .then(image => {
+          infoCardBase = image;
+        })
+        .catch(error => reject(error)));
 
-      const trophy1 = await sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-1.0.png"))
+      let trophy1;
+      filesLoaded.push(sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-1.0.png"))
         .png()
-        .toBuffer();
-      const trophy2 = await sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-2.0.png"))
+        .toBuffer()
+        .then(image => {
+          trophy1 = image;
+        })
+        .catch(error => reject(error)));
+
+      let trophy2;
+      filesLoaded.push(sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-2.0.png"))
         .png()
-        .toBuffer();
-      const trophyArt = await sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-art.png"))
+        .toBuffer()
+        .then(image => {
+          trophy2 = image;
+        })
+        .catch(error => reject(error)));
+
+      let trophyArt;
+      filesLoaded.push(sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-art.png"))
         .png()
-        .toBuffer();
-      const trophyBot = await sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-bot.png"))
+        .toBuffer()
+        .then(image => {
+          trophyArt = image;
+        })
+        .catch(error => reject(error)));
+
+      let trophyBot;
+      filesLoaded.push(sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-bot.png"))
         .png()
-        .toBuffer();
-      const trophyChinpokomon = await sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-chinpokomon.png"))
+        .toBuffer()
+        .then(image => {
+          trophyBot = image;
+        })
+        .catch(error => reject(error)));
+
+      let trophyChinpokomon;
+      filesLoaded.push(sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-chinpokomon.png"))
         .png()
-        .toBuffer();
-      const trophyCode = await sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-code.png"))
+        .toBuffer()
+        .then(image => {
+          trophyChinpokomon = image;
+        })
+        .catch(error => reject(error)));
+
+      let trophyCode;
+      filesLoaded.push(sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-code.png"))
         .png()
-        .toBuffer();
-      const trophyCrayon = await sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-crayon.png"))
+        .toBuffer()
+        .then(image => {
+          trophyCode = image;
+        })
+        .catch(error => reject(error)));
+
+      let trophyCrayon;
+      filesLoaded.push(sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-crayon.png"))
         .png()
-        .toBuffer();
-      const trophyFs = await sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-fs.png"))
+        .toBuffer()
+        .then(image => {
+          trophyCrayon = image;
+        })
+        .catch(error => reject(error)));
+
+      let trophyFs;
+      filesLoaded.push(sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-fs.png"))
         .png()
-        .toBuffer();
-      const trophyGroup = await sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-group.png"))
+        .toBuffer()
+        .then(image => {
+          trophyFs = image;
+        })
+        .catch(error => reject(error)));
+
+      let trophyGroup;
+      filesLoaded.push(sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-group.png"))
         .png()
-        .toBuffer();
-      const trophyMod = await sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-mod.png"))
+        .toBuffer()
+        .then(image => {
+          trophyGroup = image;
+        })
+        .catch(error => reject(error)));
+
+      let trophyMod;
+      filesLoaded.push(sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-mod.png"))
         .png()
-        .toBuffer();
-      const trophyPatreon = await sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-patreon.png"))
+        .toBuffer()
+        .then(image => {
+          trophyMod = image;
+        })
+        .catch(error => reject(error)));
+
+      let trophyPatreon;
+      filesLoaded.push(sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-patreon.png"))
         .png()
-        .toBuffer();
-      const trophyTrans = await sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-trans.png"))
+        .toBuffer()
+        .then(image => {
+          trophyPatreon = image;
+        })
+        .catch(error => reject(error)));
+
+      let trophyTrans;
+      filesLoaded.push(sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-trans.png"))
         .png()
-        .toBuffer();
-      const trophyVerified = await sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-verified.png"))
+        .toBuffer()
+        .then(image => {
+          trophyTrans = image;
+        })
+        .catch(error => reject(error)));
+
+      let trophyChristmas;
+      filesLoaded.push(sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-christmas.png"))
         .png()
-        .toBuffer();
-      const trophyChristmas = await sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-christmas.png"))
+        .toBuffer()
+        .then(image => {
+          trophyChristmas = image;
+        })
+        .catch(error => reject(error)));
+
+      let trophyShit;
+      filesLoaded.push(sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-shit.png"))
         .png()
-        .toBuffer();
-
-      const trophyShit = await sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-shit.png"))
-        .png()
-        .toBuffer();
-
-      // await sharp(trophyFs).tint("#ff594f").toBuffer()
-      trophies.push({
-        dbName: "feinwaru-dev",
-        importance: 0,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 255, g: 89, b: 79, alpha: 1.0 }
-          }
+        .toBuffer()
+        .then(image => {
+          trophyShit = image;
         })
-          .overlayWith(trophyFs, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
+        .catch(error => reject(error)));
 
-      // await sharp(trophyMod).tint("#099b10").toBuffer()
-      trophies.push({
-        dbName: "mod",
-        importance: 1,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 9, g: 155, b: 16, alpha: 1.0 }
-          }
+      Promise.all(filesLoaded)
+        .then(async () => {
+
+          // await sharp(trophyFs).tint("#ff594f").toBuffer()
+          trophies.push({
+            dbName: "feinwaru-dev",
+            importance: 0,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 255, g: 89, b: 79, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyFs, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyMod).tint("#099b10").toBuffer()
+          trophies.push({
+            dbName: "mod",
+            importance: 1,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 9, g: 155, b: 16, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyMod, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyGroup).tint("#1cb891").toBuffer()
+          trophies.push({
+            dbName: "partner",
+            importance: 2,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 28, g: 184, b: 145, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyGroup, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyBot).tint("#ff594f").toBuffer()
+          trophies.push({
+            dbName: "bot",
+            importance: 3,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 255, g: 89, b: 79, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyBot, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyPatreon).tint("#fb664e").toBuffer()
+          trophies.push({
+            dbName: "patron-1",
+            importance: 4,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 251, g: 102, b: 78, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyPatreon, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyPatreon).tint("#fb664e").toBuffer()
+          trophies.push({
+            dbName: "patron-5",
+            importance: 5,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 251, g: 102, b: 78, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyPatreon, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyPatreon).tint("#fb664e").toBuffer()
+          trophies.push({
+            dbName: "patron-10",
+            importance: 6,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 251, g: 102, b: 78, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyPatreon, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyTrans).tint("#1c65b8").toBuffer()
+          trophies.push({
+            dbName: "translator",
+            importance: 7,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 28, g: 101, b: 184, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyTrans, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyArt).tint("#df3cb6").toBuffer()
+          trophies.push({
+            dbName: "artist",
+            importance: 8,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 223, g: 60, b: 182, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyArt, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyChinpokomon).tint("#d67f0e").toBuffer()
+          trophies.push({
+            dbName: "uchinpokomon",
+            importance: 9,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 214, g: 127, b: 14, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyChinpokomon, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyChinpokomon).tint("#fd9a19").toBuffer()
+          trophies.push({
+            dbName: "rchinpokomon",
+            importance: 10,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 253, g: 154, b: 25, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyChinpokomon, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          trophies.push({
+            dbName: "christmas-comp",
+            importance: 11,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 173, g: 17, b: 35, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyChristmas, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          trophies.push({
+            dbName: "1kshits",
+            importance: 12,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 122, g: 81, b: 63, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyShit, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyArt).tint("#fd9a19").toBuffer()
+          trophies.push({
+            dbName: "ac18_1",
+            importance: 13,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 253, g: 154, b: 25, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyArt, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyArt).tint("#838383").toBuffer()
+          trophies.push({
+            dbName: "ac18_2",
+            importance: 14,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 131, g: 131, b: 131, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyArt, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyArt).tint("#a55029").toBuffer()
+          trophies.push({
+            dbName: "ac18_3",
+            importance: 15,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 164, g: 80, b: 41, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyArt, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyArt).tint("#7289DA").toBuffer()
+          trophies.push({
+            dbName: "ac18_ww",
+            importance: 16,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 114, g: 137, b: 218, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyArt, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyCrayon).tint("#fd9a19").toBuffer()
+          trophies.push({
+            dbName: "cc18_1",
+            importance: 17,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 253, g: 154, b: 25, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyCrayon, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyCrayon).tint("#838383").toBuffer()
+          trophies.push({
+            dbName: "cc18_2",
+            importance: 18,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 131, g: 131, b: 131, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyCrayon, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyCrayon).tint("#a55029").toBuffer()
+          trophies.push({
+            dbName: "cc18_3",
+            importance: 19,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 165, g: 80, b: 41, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyCrayon, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyCrayon).tint("#7289DA").toBuffer()
+          trophies.push({
+            dbName: "cc18ww",
+            importance: 20,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 114, g: 137, b: 218, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyCrayon, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophy1).tint("#4e9ffb").toBuffer()
+          trophies.push({
+            dbName: "awesomo-1",
+            importance: 21,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 78, g: 159, b: 251, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophy1, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophy2).tint("#68358a").toBuffer()
+          trophies.push({
+            dbName: "awesomo-2",
+            importance: 22,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 104, g: 53, b: 138, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophy2, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyCode).tint("#222222").toBuffer()
+          trophies.push({
+            dbName: "verified-script",
+            importance: 23,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 34, g: 34, b: 34, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyCode, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyCode).tint("#222222").toBuffer()
+          trophies.push({
+            dbName: "featured-script",
+            importance: 24,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 34, g: 34, b: 34, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyCode, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          resolve();
         })
-          .overlayWith(trophyMod, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophyGroup).tint("#1cb891").toBuffer()
-      trophies.push({
-        dbName: "partner",
-        importance: 2,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 28, g: 184, b: 145, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyGroup, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophyBot).tint("#ff594f").toBuffer()
-      trophies.push({
-        dbName: "bot",
-        importance: 3,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 255, g: 89, b: 79, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyBot, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophyPatreon).tint("#fb664e").toBuffer()
-      trophies.push({
-        dbName: "patron-1",
-        importance: 4,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 251, g: 102, b: 78, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyPatreon, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophyPatreon).tint("#fb664e").toBuffer()
-      trophies.push({
-        dbName: "patron-5",
-        importance: 5,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 251, g: 102, b: 78, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyPatreon, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophyPatreon).tint("#fb664e").toBuffer()
-      trophies.push({
-        dbName: "patron-10",
-        importance: 6,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 251, g: 102, b: 78, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyPatreon, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophyTrans).tint("#1c65b8").toBuffer()
-      trophies.push({
-        dbName: "translator",
-        importance: 7,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 28, g: 101, b: 184, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyTrans, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophyArt).tint("#df3cb6").toBuffer()
-      trophies.push({
-        dbName: "artist",
-        importance: 8,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 223, g: 60, b: 182, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyArt, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophyChinpokomon).tint("#d67f0e").toBuffer()
-      trophies.push({
-        dbName: "uchinpokomon",
-        importance: 9,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 214, g: 127, b: 14, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyChinpokomon, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophyChinpokomon).tint("#fd9a19").toBuffer()
-      trophies.push({
-        dbName: "rchinpokomon",
-        importance: 10,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 253, g: 154, b: 25, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyChinpokomon, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      trophies.push({
-        dbName: "christmas-comp",
-        importance: 11,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 173, g: 17, b: 35, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyChristmas, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      trophies.push({
-        dbName: "1kshits",
-        importance: 12,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 122, g: 81, b: 63, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyShit, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophyArt).tint("#fd9a19").toBuffer()
-      trophies.push({
-        dbName: "ac18_1",
-        importance: 13,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 253, g: 154, b: 25, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyArt, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophyArt).tint("#838383").toBuffer()
-      trophies.push({
-        dbName: "ac18_2",
-        importance: 14,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 131, g: 131, b: 131, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyArt, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophyArt).tint("#a55029").toBuffer()
-      trophies.push({
-        dbName: "ac18_3",
-        importance: 15,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 164, g: 80, b: 41, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyArt, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophyArt).tint("#7289DA").toBuffer()
-      trophies.push({
-        dbName: "ac18_ww",
-        importance: 16,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 114, g: 137, b: 218, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyArt, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophyCrayon).tint("#fd9a19").toBuffer()
-      trophies.push({
-        dbName: "cc18_1",
-        importance: 17,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 253, g: 154, b: 25, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyCrayon, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophyCrayon).tint("#838383").toBuffer()
-      trophies.push({
-        dbName: "cc18_2",
-        importance: 18,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 131, g: 131, b: 131, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyCrayon, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophyCrayon).tint("#a55029").toBuffer()
-      trophies.push({
-        dbName: "cc18_3",
-        importance: 19,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 165, g: 80, b: 41, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyCrayon, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophyCrayon).tint("#7289DA").toBuffer()
-      trophies.push({
-        dbName: "cc18ww",
-        importance: 20,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 114, g: 137, b: 218, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyCrayon, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophy1).tint("#4e9ffb").toBuffer()
-      trophies.push({
-        dbName: "awesomo-1",
-        importance: 21,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 78, g: 159, b: 251, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophy1, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophy2).tint("#68358a").toBuffer()
-      trophies.push({
-        dbName: "awesomo-2",
-        importance: 22,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 104, g: 53, b: 138, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophy2, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophyCode).tint("#222222").toBuffer()
-      trophies.push({
-        dbName: "verified-script",
-        importance: 23,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 34, g: 34, b: 34, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyCode, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      // await sharp(trophyCode).tint("#222222").toBuffer()
-      trophies.push({
-        dbName: "featured-script",
-        importance: 24,
-        buffer: await sharp({
-          create: {
-            width: 90,
-            height: 90,
-            channels: 4,
-            background: { r: 34, g: 34, b: 34, alpha: 1.0 }
-          }
-        })
-          .overlayWith(trophyCode, {
-            cutout: true
-          })
-          .png()
-          .toBuffer()
-      });
-
-      /*
-                fontLevel = await jimp.loadFont(path.join(__dirname, "..", "assets", "profiles", "fonts", "fontLevel.fnt"));
-                fontPercent = await jimp.loadFont(path.join(__dirname, "..", "assets", "profiles", "fonts", "fontPercent.fnt"));
-                fontRank = await jimp.loadFont(path.join(__dirname, "..", "assets", "profiles", "fonts", "fontRank.fnt"));
-                fontName = await jimp.loadFont(path.join(__dirname, "..", "assets", "profiles", "fonts", "fontName.fnt"));
-                fontSection = await jimp.loadFont(path.join(__dirname, "..", "assets", "profiles", "fonts", "fontSection.fnt"));
-                fontAbout = await jimp.loadFont(path.join(__dirname, "..", "assets", "profiles", "fonts", "fontAbout.fnt"));
-
-                infoCardBase = await jimp.read(path.join(__dirname, "..", "assets", "profiles", "info_card_base.png"));
-                verifiedIcon = await jimp.read(path.join(__dirname, "..", "assets", "profiles", "verified.png"));
-                defaultBanner = await jimp.read(path.join(__dirname, "..", "assets", "profiles", "404.jpg"));
-
-                const trophy1 = await jimp.read(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-1.0.png"));
-                const trophy2 = await jimp.read(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-2.0.png"));
-                const trophyArt = await jimp.read(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-art.png"));
-                const trophyBot = await jimp.read(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-bot.png"));
-                const trophyChinpokomon = await jimp.read(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-chinpokomon.png"));
-                const trophyCode = await jimp.read(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-code.png"));
-                const trophyCrayon = await jimp.read(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-crayon.png"));
-                const trophyFs = await jimp.read(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-fs.png"));
-                const trophyGroup = await jimp.read(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-group.png"));
-                const trophyMod = await jimp.read(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-mod.png"));
-                const trophyPatreon = await jimp.read(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-patreon.png"));
-                const trophyTrans = await jimp.read(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-trans.png"));
-                const trophyVerified = await jimp.read(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-verified.png"));
-
-                trophies.push({
-                    image: trophyFs,
-                    colour: "#ff594f",
-                    dbName: "feinwaru-dev",
-                    importance: 0
-                });
-
-                trophies.push({
-                    image: trophyMod,
-                    colour: "#099b10",
-                    dbName: "mod",
-                    importance: 1
-                });
-
-                trophies.push({
-                    image: trophyGroup,
-                    colour: "#1cb891",
-                    dbName: "partner",
-                    importance: 2
-                });
-
-                trophies.push({
-                    image: trophyBot,
-                    colour: "#ff594f",
-                    dbName: "bot",
-                    importance: 3
-                });
-
-                trophies.push({
-                    image: trophyPatreon,
-                    colour: "#fb664e",
-                    dbName: "patron-1",
-                    importance: 4
-                });
-
-                trophies.push({
-                    image: trophyPatreon,
-                    colour: "#fb664e",
-                    dbName: "patron-5",
-                    importance: 5
-                });
-
-                trophies.push({
-                    image: trophyPatreon,
-                    colour: "#fb664e",
-                    dbName: "patron-10",
-                    importance: 6
-                });
-
-                trophies.push({
-                    image: trophyTrans,
-                    colour: "#1c65b8",
-                    dbName: "translator",
-                    importance: 7
-                });
-
-                trophies.push({
-                    image: trophyArt,
-                    colour: "#df3cb6",
-                    dbName: "artist",
-                    importance: 8
-                });
-
-                trophies.push({
-                    image: trophyChinpokomon,
-                    colour: "#d67f0e",
-                    dbName: "uchinpokomon",
-                    importance: 9
-                });
-
-                trophies.push({
-                    image: trophyChinpokomon,
-                    colour: "#fd9a19",
-                    dbName: "rchinpokomon",
-                    importance: 10
-                });
-
-                trophies.push({
-                    image: trophyArt,
-                    colour: "#fd9a19",
-                    dbName: "ac18_1",
-                    importance: 11
-                });
-
-                trophies.push({
-                    image: trophyArt,
-                    colour: "#838383",
-                    dbName: "ac18_2",
-                    importance: 12
-                });
-
-                trophies.push({
-                    image: trophyArt,
-                    colour: "#a55029",
-                    dbName: "ac18_3",
-                    importance: 13
-                });
-
-                trophies.push({
-                    image: trophyArt,
-                    colour: "#7289DA",
-                    dbName: "ac18_ww",
-                    importance: 14
-                });
-
-                trophies.push({
-                    image: trophyCrayon,
-                    colour: "#fd9a19",
-                    dbName: "cc18_1",
-                    importance: 15
-                });
-
-                trophies.push({
-                    image: trophyCrayon,
-                    colour: "#838383",
-                    dbName: "cc18_2",
-                    importance: 16
-                });
-
-                trophies.push({
-                    image: trophyCrayon,
-                    colour: "#a55029",
-                    dbName: "cc18_3",
-                    importance: 17
-                });
-
-                trophies.push({
-                    image: trophyCrayon,
-                    colour: "#7289DA",
-                    dbName: "cc18ww",
-                    importance: 18
-                });
-
-                trophies.push({
-                    image: trophy1,
-                    colour: "#4e9ffb",
-                    dbName: "awesomo-1",
-                    importance: 19
-                });
-
-                trophies.push({
-                    image: trophy2,
-                    colour: "#68358a",
-                    dbName: "awesomo-2",
-                    importance: 20
-                });
-
-                trophies.push({
-                    image: trophyCode,
-                    colour: "#222222",
-                    dbName: "verified-script",
-                    importance: 21
-                });
-
-                trophies.push({
-                    image: trophyCode,
-                    colour: "#222222",
-                    dbName: "featured-script",
-                    importance: 22
-                });
-                */
-
-      resolve();
+        .catch(error => reject(error));
     });
   }
 });

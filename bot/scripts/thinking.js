@@ -18,7 +18,7 @@ const thinking = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message) {
 
     message.reply("Things that make you go 🤔🤔🤔");
   }

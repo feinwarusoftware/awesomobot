@@ -75,7 +75,7 @@ let ship = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message) {
 
     const randommale = Math.floor(Math.random() * males.length);
     const randomfemale = Math.floor(Math.random() * females.length);

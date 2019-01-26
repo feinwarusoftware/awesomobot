@@ -3,134 +3,105 @@
 const { GuildSchema, ScriptSchema } = require("../db");
 
 const loadGuilds = ids => {
-    return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
 
-        const promises = [];
+    GuildSchema.find({ discord_id: { $in: ids } })
+      .then(dbGuilds => {
 
-        let dbGuilds;
-        try {
-            dbGuilds = await GuildSchema.find({ discord_id: { $in: ids } });
-    
-        } catch(err) {
-    
-            return reject(err);
+        // if guild null, add new guild and base scripts
+        // for the future: maybe basic scripts dont need to be
+        // added, theyre programmed to be there anyway
+
+        const dbGuildIds = dbGuilds.map(guild => guild.discord_id);
+        const newGuildIds = ids.filter(id => !dbGuildIds.includes(id));
+
+        let preloadScriptsPromise = new Promise(resolve => resolve());
+
+        // need to fetch preload script list
+        if (newGuildIds.length >= 0) {
+
+          preloadScriptsPromise = ScriptSchema.find({ preload: true });
         }
 
-        let dbScripts;
+        preloadScriptsPromise
+          .then(preloadScripts => {
 
-        for (let id of ids) {
+            const createdGuilds = newGuildIds.map(id => new GuildSchema({
+              discord_id: id,
+              scripts: preloadScripts.map(script => {
+                script.updateOne({ $inc: { guild_count: 1 } });
+                return {
+                  object_id: script._id
+                };
+              })
+            }));
 
-            const dbGuild = dbGuilds.length === 0 ? null : dbGuilds.find(e => e.discord_id === id);
-            if (dbGuild == null) {
+            const createdGuildsSavePromises = [];
 
-                if (dbScripts == null) {
-
-                    try {
-                        dbScripts = await ScriptSchema.find({ preload: true });
-            
-                    } catch(err) {
-            
-                        return reject(err);
-                    }
-                }
-
-                const newGuild = new GuildSchema({
-                
-                    discord_id: id,
-                    scripts: []
-                });
-
-                for (let dbScript of dbScripts) {
-
-                    newGuild.scripts.push({
-                        object_id: dbScript._id
-                    });
-
-                    dbScript.guild_count++;
-    
-                    promises.push(dbScript.updateOne({ $inc: { guild_count: 1 } }));
-                }
-
-                dbGuilds.push(newGuild);
-
-                promises.push(newGuild.save());
-            }
-        }
-
-        try {
-            await Promise.all(promises);
-
-        } catch(err) {
-
-            reject(err);
-        }
-
-        resolve(dbGuilds);
-    });
-}
-
-const loadGuild = id => {
-    return new Promise(async (resolve, reject) => {
-
-        const promises = [];
-
-        let dbGuild;
-        try {
-            dbGuild = await GuildSchema.findOne({ discord_id: id });
-    
-        } catch(err) {
-    
-            return reject(err);
-        }
-
-        let dbScripts;
-
-        if (dbGuild == null) {
-
-            try {
-                dbScripts = await ScriptSchema.find({ preload: true });
-    
-            } catch(err) {
-    
-                return reject(err);
-            }
-
-            const newGuild = new GuildSchema({
-                
-                discord_id: id,
-                scripts: []
+            createdGuilds.forEach(guild => {
+              createdGuildsSavePromises.push(guild.save());
             });
 
-            for (let dbScript of dbScripts) {
+            Promise.all(createdGuildsSavePromises)
+              .then(() => {
+                resolve([...dbGuilds, ...createdGuilds]);
+              })
+              .catch(error => {
+                reject(error);
+              });
+          })
+          .catch(error => {
+            reject(error);
+          });
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
 
-                newGuild.scripts.push({
-                    object_id: dbScript._id
+const loadGuild = id => {
+  return new Promise((resolve, reject) => {
+
+    GuildSchema.findOne({ discord_id: id })
+      .then(dbGuild => {
+        if (dbGuild == null) {
+
+          ScriptSchema.find({ preload: true })
+            .then(preloadScripts => {
+              const createdGuild = new GuildSchema({
+                discord_id: id,
+                scripts: preloadScripts.map(script => {
+                  script.updateOne({ $inc: { guild_count: 1 } });
+                  return {
+                    object_id: script._id
+                  };
+                })
+              });
+
+              createdGuild.save()
+                .then(() => {
+                  resolve(createdGuild);
+                })
+                .catch(error => {
+                  reject(error);
                 });
-
-                dbScript.guild_count++;
-
-                promises.push(dbScript.updateOne({ $inc: { guild_count: 1 } }));
-            }
-
-            dbGuild = newGuild;
-
-            promises.push(newGuild.save());
+            })
+            .catch(error => {
+              reject(error);
+            });
+        } else {
+          resolve(dbGuild);
         }
-
-        try {
-            await Promise.all(promises);
-
-        } catch(err) {
-
-            reject(err);
-        }
-
-        resolve(dbGuild);
-    });
-}
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
 
 module.exports = {
 
-    loadGuilds,
-    loadGuild
+  loadGuilds,
+  loadGuild
 };

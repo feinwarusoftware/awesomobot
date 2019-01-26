@@ -8,102 +8,93 @@ const HOST = "ws.audioscrobbler.com";
 const VERSION = "/2.0";
 
 class LastFM {
-    constructor(token) {
+  constructor(token) {
 
-        this.token = token;
-    }
-    makeApiRequest(options) {
-        return new Promise(async (resolve, reject) => {
+    this.token = token;
+  }
+  makeApiRequest(options) {
+    return new Promise((resolve, reject) => {
 
-            const opt = new Opt(options);
-    
-            const required = ["method", "user"];
-            if (opt.assertContains(required) === false) {
-    
-                return reject(`the query was missing one of the following: ${required}`);
-            }
+      const opt = new Opt(options);
 
-            opt.fillDefaults({
-                format: "json",
-                api_key: this.token,
-                limit: 5,
-                period: "overall"
-            });
+      const required = ["method", "user"];
+      if (opt.assertContains(required) === false) {
 
-            try {
-                const res = await rp(encodeURIParams(`https://${HOST}${VERSION}`), opt.options);
-                resolve(res);
-    
-            } catch(err) {
-    
-                reject(err);
-            }
+        return reject(`the query was missing one of the following: ${required}`);
+      }
+
+      opt.fillDefaults({
+        format: "json",
+        api_key: this.token,
+        limit: 5,
+        period: "overall"
+      });
+
+      rp(encodeURIParams(`https://${HOST}${VERSION}`), opt.options)
+        .then(res => {
+          resolve(res);
+        })
+        .catch(error => {
+          reject(error);
         });
-    }
-    getTopArtists(options) {
-        return new Promise(async (resolve, reject) => {
+    });
+  }
+  getTopArtists(options) {
+    return new Promise((resolve, reject) => {
 
-            options.method = "user.gettopartists";
+      options.method = "user.gettopartists";
 
-            try {
-
-                const res = await this.makeApiRequest(options);
-                resolve(res);
-
-            } catch(err) {
-
-                reject(err);
-            }
+      this.makeApiRequest(options)
+        .then(res => {
+          resolve(res);
+        })
+        .catch(error => {
+          reject(error);
         });
-    }
-    getTopAlbums(options) {
-        return new Promise(async (resolve, reject) => {
+    });
+  }
+  getTopAlbums(options) {
+    return new Promise((resolve, reject) => {
 
-            options.method = "user.gettopalbums";
+      options.method = "user.gettopalbums";
 
-            try {
-
-                const res = await this.makeApiRequest(options);
-                resolve(res);
-
-            } catch(err) {
-
-                reject(err);
-            }
+      this.makeApiRequest(options)
+        .then(res => {
+          resolve(res);
+        })
+        .catch(error => {
+          reject(error);
         });
-    }
-    getTopTracks(options) {
-        return new Promise(async (resolve, reject) => {
+    });
+  }
+  getTopTracks(options) {
+    return new Promise((resolve, reject) => {
 
-            options.method = "user.gettoptracks";
+      options.method = "user.gettoptracks";
 
-            try {
-
-                const res = await this.makeApiRequest(options);
-                resolve(res);
-
-            } catch(err) {
-
-                reject(err);
-            }
+      this.makeApiRequest(options)
+        .then(res => {
+          resolve(res);
+        })
+        .catch(error => {
+          reject(error);
         });
-    }
-    getRecentTracks(options) {
-        return new Promise(async (resolve, reject) => {
+    });
+  }
+  getRecentTracks(options) {
+    return new Promise((resolve, reject) => {
 
-            options.method = "user.getrecenttracks";
+      options.method = "user.getrecenttracks";
 
-            try {
-
-                const res = await this.makeApiRequest(options);
-                resolve(res);
-
-            } catch(err) {
-
-                reject(err);
-            }
+      this.makeApiRequest(options)
+        .then(res => {
+          resolve(res);
+        })
+        .catch(error => {
+          reject(error);
         });
-    }
+    });
+  }
 }
 
 module.exports = LastFM;

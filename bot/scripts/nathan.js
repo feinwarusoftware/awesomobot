@@ -20,7 +20,7 @@ const nathan = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message) {
 
     const nathan = [
       "https://cdn.discordapp.com/attachments/452632364238110721/457884887404511236/nathan1.gif",

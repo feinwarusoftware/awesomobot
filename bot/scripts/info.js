@@ -3,7 +3,6 @@
 const discord = require("discord.js");
 
 const Command = require("../script");
-const schemas = require("../../db");
 
 const info = new Command({
 
@@ -21,7 +20,7 @@ const info = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message) {
 
     const embed = new discord.RichEmbed();
     embed.setAuthor("AWESOM-O // Info", "https://cdn.discordapp.com/attachments/437671103536824340/462653108636483585/a979694bf250f2293d929278328b707c.png");

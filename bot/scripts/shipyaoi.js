@@ -50,7 +50,7 @@ let shipyaoi = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message) {
 
     let gayMods = Math.random();
     if(gayMods > 0.95){

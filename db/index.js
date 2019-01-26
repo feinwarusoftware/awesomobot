@@ -1,26 +1,17 @@
 "use strict";
 
-const initGuildSchemas = require("./schemas/guild");
-//const LogSchema = require("./schemas/log");
-const initScriptSchema = require("./schemas/script");
-const initSessionSchema = require("./schemas/session");
-const initUserSchema = require("./schemas/user");
-
-const initSchemas = mongoose => {
-
-    const guildSchemas = initGuildSchemas(mongoose);
-
-    module.exports.GuildSchema = guildSchemas.GuildSchema;
-    module.exports.GuildScriptSchema = guildSchemas.GuildScriptSchema;
-
-    module.exports.ScriptSchema = initScriptSchema(mongoose);
-
-    module.exports.SessionSchema = initSessionSchema(mongoose);
-
-    module.exports.UserSchema = initUserSchema(mongoose);
-}
+const { GuildSchema, GuildScriptSchema } = require("./schemas/guild");
+const LogSchema = require("./schemas/log");
+const ScriptSchema = require("./schemas/script");
+const SessionSchema = require("./schemas/session");
+const UserSchema = require("./schemas/user");
 
 module.exports = {
 
-    initSchemas
+  GuildSchema,
+  GuildScriptSchema,
+  LogSchema,
+  ScriptSchema,
+  SessionSchema,
+  UserSchema
 };

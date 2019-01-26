@@ -20,7 +20,7 @@ const nathanrate = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message) {
 
     const quotes = [
       "**0/10.** You're more retared than Mimsy AND more annoying than Jimmy...",
@@ -36,7 +36,9 @@ const nathanrate = new Command({
       "**10/10.** You're a Downs Syndrome destroyer!"
     ];
     const random = Math.floor(Math.random() * quotes.length);
-    message.channel.send(new discord.RichEmbed().setColor(0xff594f).setDescription(quotes[random]));
+    message.channel.send(new discord.RichEmbed()
+      .setColor(0xff594f)
+      .setDescription(quotes[random]));
   }
 });
 

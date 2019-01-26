@@ -18,7 +18,7 @@ const f = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message) {
 
     message.reply("Repects have been paid.");
   }

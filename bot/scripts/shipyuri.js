@@ -46,7 +46,7 @@ let shipyuri = new Command({
 
   preload: true,
 
-  cb: function (client, message, guildDoc) {
+  cb: function (client, message) {
 
     const randomfemale1 = Math.floor(Math.random() * females.length);
     const randomfemale2 = Math.floor(Math.random() * females.length);

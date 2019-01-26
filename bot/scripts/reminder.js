@@ -1,7 +1,5 @@
 "use strict";
 
-const discord = require("discord.js");
-
 const Command = require("../script");
 
 let reminder = new Command({
@@ -20,7 +18,7 @@ let reminder = new Command({
 
   preload: true,
 
-  cb: function (client, message, guildDoc) {
+  cb: function (client, message) {
 
     let random = Math.random();
     console.log(random);

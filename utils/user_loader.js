@@ -3,40 +3,31 @@
 const { UserSchema } = require("../db");
 
 const loadUser = id => {
-    return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
 
-        let dbUser;
-        try {
-            dbUser = await UserSchema.findOne({ discord_id: id });
-
-        } catch(err) {
-
-            return reject(err);
-        }
-
+    UserSchema.findOne({ discord_id: id })
+      .then(dbUser => {
         if (dbUser == null) {
-
-            const newUser = new UserSchema({
-                
-                discord_id: id
+          const newUser = new UserSchema({
+            discord_id: id
+          });
+          newUser.save()
+            .then(() => {
+              resolve(newUser);
+            })
+            .catch(error => {
+              reject(error);
             });
-
-            dbUser = newUser;
-
-            try {
-                await newUser.save();
-
-            } catch(err) {
-
-                return reject(err);
-            }
         }
-
         resolve(dbUser);
-    });
-}
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
 
 module.exports = {
 
-    loadUser
+  loadUser
 };

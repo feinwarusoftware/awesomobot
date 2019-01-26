@@ -18,10 +18,12 @@ const member = new Command({
 
   preload: true,
 
-  cb: function (client, message, guildDoc) {
+  cb: function (client, message) {
 
     const memberMessages = ["I member!", "Ohh yeah I member!", "Me member!", "Ohh boy I member that", "I member!, do you member?"];
-    message.reply(memberMessages[Math.floor(Math.random() * memberMessages.length)]);
+    message.reply(
+      memberMessages[Math.floor(Math.random() * memberMessages.length)]
+    );
   }
 });
 

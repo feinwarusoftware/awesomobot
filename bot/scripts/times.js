@@ -21,7 +21,7 @@ const times = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message) {
 
     message.channel.send(new discord.RichEmbed()
       .setColor(0xff594f)

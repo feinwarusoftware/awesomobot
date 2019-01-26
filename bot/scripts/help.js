@@ -5,7 +5,8 @@ const { matchScript } = require("../../utils");
 const Command = require("../script");
 const schemas = require("../../db");
 
-// Assumes that there is a limit on the length of the description, if (that_assumption === broken()) {
+// Assumes that there is a limit on the length
+// of the description, if (that_assumption === broken()) {
 // that could cause the page not to be sent or error out and node has a spasm. }
 const help = new Command({
 
@@ -22,6 +23,8 @@ const help = new Command({
   featured: false,
 
   preload: true,
+
+  weight: 1,
 
   cb: function(client, message, guildDoc) {
 
@@ -48,14 +51,25 @@ const help = new Command({
         };
 
         //Check if a page number is specified
-        if (args[1] !== undefined && isNaN(args[1]) === false){
+        if (args[1] !== undefined && isNaN(args[1]) === false)
           page = parseInt(args[1]);
-        }
+
         //Check if a term is specified
         else if (args[1] !== undefined && isNaN(args[1]) === true){
           for (let script of scripts) {
+            let modifiedMatchType;
+            if (script.match_type === "command") {
+              if (script.match === "help") {
+                modifiedMatchType = "startswith";
+              } else {
+                modifiedMatchType = "exactmatch";
+              }
+            } else {
+              modifiedMatchType = script.match_type;
+            }
+
             const { matched, err } = matchScript(null,
-              script.match_type === "command" ? script.match === "help" ? "startswith" : "exactmatch" : script.match_type,
+              modifiedMatchType,
               script.match,
               args.slice(1).reduce((a, e) => a += " " + e, "").trim());
 
@@ -91,12 +105,12 @@ const help = new Command({
         embed.setAuthor("AWESOM-O // Help", "https://cdn.discordapp.com/attachments/437671103536824340/462653108636483585/a979694bf250f2293d929278328b707c.png");
         embed.setFooter(`Page ${page}/${total}. ${page === total ? "This is the last page" : "Type `" + guildDoc.prefix + "help " + (page + 1) + "` for the next page"}`);
 
-        scripts = [ ...scripts ].sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1);
+        scripts = [ ...scripts ]
+          .sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1);
 
-        for (let [i, script] of scripts.slice(first,last).entries()) {
+        for (let script of scripts.slice(first,last)) {
 
           embed.addField(script.name, `${script.description}\n${"`"}${script.match_type === "command" ? guildDoc.prefix : ""}${script.match}${"`"}\n`, false);
-          //embed.description += `${i + 1}. **${script.name}**: ${script.description}\n[${"`"}${script.match_type === "command" ? guildDoc.prefix : ""}${script.match}${"`"}]\n`;
         }
         message.channel.send(embed);
       })

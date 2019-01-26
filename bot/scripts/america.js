@@ -20,7 +20,7 @@ const america = new Command({
 
   preload: true,
 
-  cb: function (client, message, guildDoc) {
+  cb: function (client, message) {
 
     let randomnumber = Math.random();
     if (randomnumber < 0.95) {

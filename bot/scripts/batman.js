@@ -18,7 +18,7 @@ const batman = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message) {
 
     message.channel.send("", {
       file: "https://cdn.discordapp.com/attachments/379432139856412682/401498015719882752/batman.png"

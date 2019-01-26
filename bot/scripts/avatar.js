@@ -18,7 +18,7 @@ const avatar = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message) {
 
     let scaledSize = 512;
 

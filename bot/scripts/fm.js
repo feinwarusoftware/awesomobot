@@ -5,7 +5,7 @@ const discord = require("discord.js");
 const Command = require("../script");
 const { api: { LastFM } } = require("../../utils");
 
-const config = require("../config.json");
+const config = require("../../../config.json");
 
 const lastfm = new LastFM(config.fm_key);
 
@@ -25,7 +25,7 @@ const fm = new Command({
 
   preload: true,
 
-  cb: function (client, message, guildDoc) {
+  cb: function (client, message) {
 
     const args = message.content.split(" ");
     if (args[1] === undefined) {
@@ -129,7 +129,7 @@ const fm = new Command({
       }
 
       message.channel.send(embed);
-    }).catch(error => {
+    }).catch(() => {
       message.reply("error making lastfm api request");
     });
   }

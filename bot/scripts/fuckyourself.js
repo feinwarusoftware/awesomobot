@@ -1,7 +1,5 @@
 "use strict";
 
-const discord = require("discord.js");
-
 const Command = require("../script");
 
 const fuckyourself = new Command({
@@ -20,7 +18,7 @@ const fuckyourself = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message) {
 
     message.channel.send("", {
       file: "https://cdn.discordapp.com/attachments/379432139856412682/487740516755177472/unknown.png"

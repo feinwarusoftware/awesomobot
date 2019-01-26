@@ -35,7 +35,7 @@ const binding = new Command({
 
     const args = message.content.split(" ");
 
-    const bind = args.shift();
+    //const bind = args.shift();
     const name = args.shift();
     const action = args.shift();
 
@@ -64,16 +64,22 @@ const binding = new Command({
               .updateOne({
                 discord_id: guild.discord_id
               }, {
-                $pull: { scripts: { object_id: { $in: scripts.map(e => e._id) } } }
+                $pull: {
+                  scripts: {
+                    object_id: {
+                      $in: scripts.map(e => e._id)
+                    }
+                  }
+                }
               })
               .then(() => {
                 return message.reply("successfully unbound all bindings");
               })
-              .catch(error => {
+              .catch(() => {
                 return message.reply("error unbinding scripts");
               });
           })
-          .catch(error => {
+          .catch(() => {
             return message.reply("error unbinding scripts");
           });
       } else {
@@ -242,7 +248,9 @@ const binding = new Command({
             return message.reply(`script '${name}' not found`);
           }
           if (scripts.length > 1) {
-            scripts = scripts.filter(e => (e.author_id === message.author.id || (message.member.permissions.bitfield & 0b1000) === 0b1000) && e.local === false && name === e.name);
+            scripts = scripts.filter(e => (e.author_id === message.author.id
+                || (message.member.permissions.bitfield & 0b1000) === 0b1000)
+              && e.local === false && name === e.name);
           }
           if (scripts.length === 0) {
             return message.reply(`script '${name}' does not belong to you`);

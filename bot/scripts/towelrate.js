@@ -20,7 +20,7 @@ let towelrate = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message) {
 
     const quotes = [
       "**0/10.** You're an ultra trash towel.",

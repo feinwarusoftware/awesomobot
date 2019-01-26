@@ -18,7 +18,7 @@ const kickbaby = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message) {
 
     message.reply("Don't kick the goddamn baby!");
   }

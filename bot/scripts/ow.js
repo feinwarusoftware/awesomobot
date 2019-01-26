@@ -27,7 +27,7 @@ const ow = new Command({
 
   preload: true,
 
-  cb: function (client, message, guildDoc) {
+  cb: function (client, message) {
 
     const args = message.content.split(" ");
 
@@ -87,7 +87,7 @@ const ow = new Command({
         .addField("Most Damage Blocked", comp.game_stats.barrier_damage_done_most_in_game, true);
 
       message.channel.send(embed);
-    }).catch(error => {
+    }).catch(() => {
       message.reply("Error: Your profile may be set to private or you have not played any competitive yet");
     });
   }

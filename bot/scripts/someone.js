@@ -18,7 +18,7 @@ let someone = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message) {
 
     const quotes = [
       "ʢ⸌人⸍ʡ",

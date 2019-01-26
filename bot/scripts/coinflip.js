@@ -18,7 +18,7 @@ const coinflip = new Command({
 
   preload: true,
 
-  cb: function(client, message, guildDoc) {
+  cb: function(client, message) {
 
     message.reply(Math.floor(Math.random() * 2) === 0 ? "heads" : "tails");
   }

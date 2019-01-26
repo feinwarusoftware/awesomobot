@@ -20,7 +20,7 @@ const butters = new Command({
 
   preload: true,
 
-  cb: function (client, message, guildDoc) {
+  cb: function (client, message) {
 
     const buttersimg = [
       "https://cdn.discordapp.com/attachments/394504208222650369/447785248931971082/Butters17.png",
@@ -71,7 +71,9 @@ const butters = new Command({
       "https://cdn.discordapp.com/attachments/394504208222650369/447785636376870943/Butters79.png"
     ];
 
-    message.channel.send(new discord.RichEmbed().setColor(0xff594f).setImage(buttersimg[Math.floor(Math.random() * buttersimg.length)]));
+    message.channel.send(new discord.RichEmbed()
+      .setColor(0xff594f)
+      .setImage(buttersimg[Math.floor(Math.random() * buttersimg.length)]));
   }
 });
 
