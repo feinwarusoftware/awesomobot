@@ -37,7 +37,7 @@ const nathan = new Command({
       "https://cdn.discordapp.com/attachments/452632364238110721/457886800070049792/nathan12.jpg"
     ];
     const random = Math.floor(Math.random() * nathan.length);
-    message.channel.send(new discord.RichEmbed().setColor(0xff594f).setAuthor("AWESOM-O // Nathan Moments!, https://cdn.discordapp.com/attachments/437671103536824340/462653108636483585/a979694bf250f2293d929278328b707c.png").setDescription("Various moments from Nathan... *and Mimsy...*").setImage(nathan[random]));
+    message.channel.send(new discord.RichEmbed().setColor(0xff594f).setAuthor("AWESOM-O // Nathan Moments!", "https://cdn.discordapp.com/attachments/437671103536824340/462653108636483585/a979694bf250f2293d929278328b707c.png").setDescription("Various moments from Nathan... *and Mimsy...*").setImage(nathan[random]));
   }
 });
 

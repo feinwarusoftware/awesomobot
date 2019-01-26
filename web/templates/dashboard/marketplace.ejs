@@ -524,7 +524,8 @@
                                         </a>
                                     </li>
                                     <li class="list-inline-item pr-2">
-                                        <a id="${featuredYay.scripts[i]._id}" class="source-code white-text" sourcecode="${featuredYay.scripts[i].code}" match="${featuredYay.scripts[i].match}" name="${featuredYay.scripts[i].name}">
+                                        <a id="${featuredYay.scripts[i]._id}" class="source-code white-text" match="${featuredYay.scripts[i].match}" name="${featuredYay.scripts[i].name}" local="${featuredYay.scripts[i].local}">
+                                            <p style="display:none;">${featuredYay.scripts[i].code}</p>
                                             <i class="far fa-code white-text pr-1"> </i>
                                             <%= trans.VIEW_SOURCE %>
                                         </a>
@@ -804,7 +805,8 @@
                                             </a>
                                         </li>
                                         <li class="list-item">
-                                            <a id="${scriptsYay.scripts[i]._id}" class="source-code" sourcecode="${scriptsYay.scripts[i].code}" match="${scriptsYay.scripts[i].match}" name="${scriptsYay.scripts[i].name}">
+                                            <a id="${scriptsYay.scripts[i]._id}" class="source-code" match="${scriptsYay.scripts[i].match}" name="${scriptsYay.scripts[i].name}" local="${scriptsYay.scripts[i].local}">
+                                                <p style="display:none;">${scriptsYay.scripts[i].code}</p>
                                                 <i class="far fa-code dark-grey-text pr-1"> </i>
                                                 <%= trans.VIEW_SOURCE %>
                                             </a>
@@ -1206,12 +1208,12 @@
                 $('#view-source').modal("show");
                 $("#view-source").on('shown.bs.modal', function () {
                     let code
-                    let title = btn.attributes[4].value
+                    let title = btn.attributes[3].value
 
                     $("#source-title").text(title + " // <%= trans.SOURCE_CODE %>")
 
-                    if (btn.attributes[2].value === "null") {
-                        let match = btn.attributes[3].value
+                    if (btn.attributes[4].value === "true") {
+                        let match = btn.attributes[2].value
 
                         const localRequest = new XMLHttpRequest();
                         localRequest.open("GET",
@@ -1221,14 +1223,13 @@
 
                         code = localRequest.response
                     } else {
-                        code = btn.attributes[2].value
+                        code = btn.children[0].innerHTML
                     };
                     $('#source-viewer').html("");
                     const editor = monaco.editor.create(document.getElementById('source-viewer'), {
                         language: 'javascript',
                         theme: "MattIsTrueWaifu"
                     });
-
                     editor.setValue(code);
                 });
 

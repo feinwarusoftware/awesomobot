@@ -268,7 +268,7 @@ const xp = new Command({
           });
 
           const embed = new discord.RichEmbed();
-          embed.setAuthor("AWESOM-O // Xp - Guild Top 5", "https://cdn.discordapp.com/avatars/379370506933108746/a979694bf250f2293d929278328b707c.png");
+          embed.setAuthor("AWESOM-O // Xp - Guild Top 5", "https://cdn.discordapp.com/attachments/437671103536824340/462653108636483585/a979694bf250f2293d929278328b707c.png");
           embed.setColor(0xff594f);
 
           for (let [i, l] of leaderboard.entries()) {
@@ -355,7 +355,7 @@ const xp = new Command({
           });
 
           const embed = new discord.RichEmbed();
-          embed.setAuthor("AWESOM-O // Xp - Global Top 5", "https://cdn.discordapp.com/avatars/379370506933108746/a979694bf250f2293d929278328b707c.png");
+          embed.setAuthor("AWESOM-O // Xp - Global Top 5", "https://cdn.discordapp.com/attachments/437671103536824340/462653108636483585/a979694bf250f2293d929278328b707c.png");
           embed.setColor(0xff594f);
 
           for (let [i, l] of leaderboard.entries()) {
