@@ -467,6 +467,36 @@ router.get("/privacy", async (req, res) => {
   res.render("soontm");
 });
 
+router.get("/docs/:name", async (req, res) => {
+  let doc;
+  try {
+    doc = fs.readFileSync(path.join(
+      __dirname,
+      "..",
+      "markdown",
+      "docs",
+      req.params.name + "-" + req.i18n_lang + ".md"
+    )).toString();
+  } catch (err){
+    try {
+      doc = fs.readFileSync(path.join(__dirname, "..", "markdown", "docs", req.params.name + "-en" + ".md")).toString();
+
+      return res.render("docs", {
+        md: text => {
+          return converter.makeHtml(text);
+        }, user: {}, doc, noLang: true
+      });
+    } catch (err){
+      return res.render("404");
+    }
+  }
+  res.render("docs", {
+    md: text => {
+      return converter.makeHtml(text);
+    }, user: {}, doc, noLang: false
+  });
+});
+
 router.get("/credits", async (req, res) => {
   let credits;
   try {

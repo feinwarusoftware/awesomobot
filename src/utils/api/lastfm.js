@@ -30,7 +30,7 @@ class LastFM {
         period: "overall"
       });
 
-      rp(encodeURIParams(`https://${HOST}${VERSION}`), opt.options)
+      rp(encodeURIParams(`https://${HOST}${VERSION}`, opt.options))
         .then(res => {
           resolve(res);
         })

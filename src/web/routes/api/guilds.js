@@ -320,7 +320,8 @@ router.route("/@me").get(authUser, (req, res) => {
 
                     if (guild.id === doc_obj.discord_id) {
 
-                      const clientGuild = client.guilds.find(e => e.id === guild.id);
+                      const clientGuild = client.guilds
+                        .find(e => e.id === guild.id);
 
                       doc_obj.owner = guild.owner;
                       doc_obj.permissions = guild.permissions;

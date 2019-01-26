@@ -329,5 +329,32 @@
     "OTHER_SERVERS_DESC": "You need to be the **Owner** or have **Admin** permissions on the server for it to show up",
     "AWESOMO_ADDED":"AWESOM-O is added",
     "AWESOMO_NOT_ADDED" : "AWESOM-O is not added on this server",
-    "ACTIVATE": "Activate"
+    "ACTIVATE": "Activate",
+    
+    "COOKIE_MESSAGE": "AWESOM-O uses cookies to ensure you get the best experience on our website.",
+
+
+    "CHRISTMAS_COMP": "Christmas Competition Winner",
+    "LEGACY_BINDINGS":"Legacy Bindings",
+    "LEGACY_BINDINGS_DESC":"Viewing all of your bindings made in version 2.0",
+    "VIEW_SOURCE": "View Source",
+    "SOURCE_CODE": "Source Code",
+    "THOUSAND_SHITS": "1k Shits Given",
+    "INVITE_AWESOMO": "Invite AWESOM-O",
+    "NOT_ON_SERVER": "AWESOM-O not on your server? Add him here!",
+    "COMMAND_PREFIX": "Command Prefix | Appears before command",
+    "DOCUMENTATION": "Documentation",
+    "PATRON_ONLY": "Patron-Only Utilities",
+    "TRANSLATE_AWESOMO": "Translate AWESOM-O",
+    "SERVER_MANAGER": "Server Manager",
+    "PERMISSIONS": "Permissions",
+    "WHITELIST": "Whitelist",
+    "BLACKLIST": "Blacklist",
+    "MEMBERS": "Members",
+    "DISCORD_ID": "Discord ID",
+    "DISCORD_ID_DESC": "Enter a member's Discord ID and press enter.<a href='https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-'>Find out how to find out the ID here</a>",
+    "ROLES": "Roles",
+    "SELECT_ROLES": "Select roles",
+    "CHANNELS": "Channels",
+    "SELECT_CHANNELS": "Select channels"
 }

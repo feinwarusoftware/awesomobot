@@ -28,7 +28,7 @@
     "MUSIC": "Music Functionality",
     "ONLINE_DASHBOARD": "Online Dashboard",
     "ANALYTICS": "Server Analytics",
-    "PROFILES": "Custom Profiles",
+    "PROFILES": "Profiles",
     "CUSTOM_SCRIPTS_DESC": "Make your own commands and scripts easily with our online script creator! *Currently only available to Subscribers*",
     "PD_CARDS_DESC": "View any card from phone destroyer, rendered in real time with full stats due to our partnership with Red Lynx.",
     "SURVEYS_DESC": "Get rid of duplicate surveys with our custom survey feature, instantly create polls, limit to Discord roles and instantly share through the bot!",
@@ -362,10 +362,10 @@
     "INVITE_AWESOMO": "Invite AWESOM-O",
     "NOT_ON_SERVER": "AWESOM-O not on your server? Add him here!",
     "COMMAND_PREFIX": "Command Prefix | Appears before command",
-
+    "DOCUMENTATION": "Documentation",
     "PATRON_ONLY": "Patron-Only Utilities",
+    "TRANSLATE_AWESOMO": "Translate AWESOM-O",
     "SERVER_MANAGER": "Server Manager",
-
     "PERMISSIONS": "Permissions",
     "WHITELIST": "Whitelist",
     "BLACKLIST": "Blacklist",
