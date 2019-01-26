@@ -27,7 +27,7 @@ many things, such as…
 
 Once you are logged in through Discord, you will see a screen similar to below.
 I have labelled each key section in order to explain the key features on how to use the AWESOM-O Dashboard
-![](https://cdn.discordapp.com/attachments/427938626387574784/535543244075827202/unknown.png)
+![](https://cdn.discordapp.com/attachments/379432139856412682/538347847230423041/unknown.png)
 
 ## Sidebar
 
@@ -73,13 +73,34 @@ Contrary to the prior, this lets you dive heads first into the code and create w
 
 [View the Advanced Script Editor documentation](/docs/advanced-script-editor)
 
-##### Patron Management Panel
-<p class="warning">This feature is only available for Patrons who are supporting us through Patreon or PayPal
+##### Patron-Only Features
+<p class="warning">These features are only available for Patrons who are supporting us through Patreon or PayPal
 </p>
 
-The Patron Management Panel lets you add/remove AWESOM-O from servers and change the prefix for each server.
+###### Server Manager
 
-[View the Patron Management Panel documentation](/docs/patron-management-panel)
+The Server Manager lets you add/remove AWESOM-O from servers and change the prefix for each server.
+
+###### Script Manager
+
+The script manager lets you whitelist or blacklist scripts from certain users/roles/channels on your server.
+
+[View the Patron-Only features documentation](/docs/patrons)
+
+##### Legacy Features
+
+<p class="danger">These features are no longer maintained or updated. They exist solely for archival purposes</p>
+
+###### Legacy Bindings
+
+View the list of all bindings you made using the AWESOM-O 2.0 binding system, which has now been replaced with the [Script Bindings](/docs/commands#scriptbindings) command available from the Marketplace.
+
+###### 1.0 & 2.0 Stats
+
+This lets you view the leaderboards from the previous versions of AWESOM-O
+
+* Activity Scores (Based on the user's message activity)
+* It Hits The Fan (How many times the user has said "shit")
 
 ## Selectors
 

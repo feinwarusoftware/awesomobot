@@ -5,7 +5,7 @@
         <!-- Logo -->
         <div class="logo-wrapper waves-light" style="border-style: none; height: 80px">
             <a href="/dashboard">
-                <img src="/img/navbar_dash_logo.svg" class="img-fluid flex-center px-4 py-4">
+                <img src="/img/awesomo_docs.svg" class="img-fluid flex-center px-4 py-4">
 
             </a>
         </div>
@@ -13,50 +13,55 @@
         <!-- Side navigation links -->
         <li>
             <ul class="collapsible collapsible-accordion">
-                    <li>
-                            <a class="waves-effect" href="/<%= trans.LANG %>">
-                                Back to Home
-                            </a>
-                        </li>
-                        <hr style="border-top: 1px solid #aaa; margin-left: 20px; margin-right: 20px">
+                <li>
+                    <a class="waves-effect" href="/<%= trans.LANG %>">
+                        Back to Home
+                    </a>
+                </li>
+                <hr style="border-top: 1px solid #aaa; margin-left: 20px; margin-right: 20px">
                 <li>
                     <a class="waves-effect" href="welcome<%= trans.LANG %>">
-                        Welcome
+                        <%= trans.WELCOME %>
                     </a>
                 </li>
                 <li>
-                        <a class="waves-effect" href="dashboard<%= trans.LANG %>">
-                            Dashboard
-                        </a>
-                    </li>
+                    <a class="waves-effect" href="dashboard<%= trans.LANG %>">
+                        <%= trans.DASHBOARD %>
+                    </a>
+                </li>
+                <li>
+                    <a class="waves-effect" href="profiles<%= trans.LANG %>">
+                        <%= trans.PROFILES %>
+                    </a>
+                </li>
                 <li>
                     <a class="waves-effect" href="commands<%= trans.LANG %>">
-                        Commands
+                        <%= trans.COMMANDS %>
                     </a>
                 </li>
                 <li>
                     <a class="waves-effect" href="marketplace<%= trans.LANG %>">
-                        Marketplace
+                        <%= trans.MARKETPLACE %>
                     </a>
                 </li>
                 <li>
                     <a class="waves-effect" href="basic-script-editor<%= trans.LANG %>">
-                        Basic Script Editor
+                        <%= trans.SCRIPT_CREATOR_BASIC %>
                     </a>
                 </li>
                 <li>
                     <a class="waves-effect" href="advanced-script-editor<%= trans.LANG %>">
-                        Advanced Script Editor
+                        <%= trans.SCRIPT_CREATOR %>
                     </a>
                 </li>
                 <li>
-                    <a class="waves-effect" href="patron-management-panel<%= trans.LANG %>">
-                        Patron Management Panel
+                    <a class="waves-effect" href="patrons<%= trans.LANG %>">
+                        <%= trans.PATRON_ONLY %>
                     </a>
                 </li>
                 <li>
                     <a class="waves-effect" href="translate<%= trans.LANG %>">
-                        Translate AWESOM-O
+                        <%= trans.TRANSLATE_AWESOMO %>
                     </a>
                 </li>
             </ul>
