@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 
 const schemas = require("../../../db");
 const { authUser } = require("../../middlewares");
+const { getClient } = require("../../helpers/client");
 
 const router = express.Router();
 const { log: { error } } = require("../../../utils");
@@ -305,9 +306,11 @@ router.route("/@me").get(authUser, (req, res) => {
               _id: 0,
               scripts: 0
             })
-            .then(docs => {
+            .then(async docs => {
 
               if (extended === true) {
+
+                const client = await getClient();
 
                 docs = docs.map(doc => {
 
@@ -317,11 +320,23 @@ router.route("/@me").get(authUser, (req, res) => {
 
                     if (guild.id === doc_obj.discord_id) {
 
+                      const clientGuild = client.guilds.find(e => e.id === guild.id);
+
                       doc_obj.owner = guild.owner;
                       doc_obj.permissions = guild.permissions;
                       doc_obj.icon = guild.icon;
                       //doc.id = guild.id;
                       doc_obj.name = guild.name;
+
+                      doc_obj.roles = clientGuild.roles.array().map(e => ({
+                        name: e.name,
+                        id: e.id
+                      }));
+
+                      doc_obj.channels = clientGuild.channels.array().filter(e => e.type === "text").map(e => ({
+                        id: e.id,
+                        name: e.name
+                      }));
 
                       break;
                     }

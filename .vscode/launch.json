@@ -9,13 +9,13 @@
             "type": "node",
             "request": "launch",
             "name": "Bot",
-            "program": "${workspaceFolder}\\bot\\index.js"
+            "program": "${workspaceFolder}\\index.js"
         },
         {
             "type": "node",
             "request": "launch",
             "name": "Web",
-            "program": "${workspaceFolder}\\web\\index.js"
+            "program": "${workspaceFolder}\\index.js"
         }
     ]
 }
