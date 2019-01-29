@@ -90,6 +90,12 @@ const binding = new Command({
     // bind name action args
     if (match === "bind") {
 
+      const args = message.content.split(" ");
+
+      const bind = args.shift();
+      const name = args.shift();
+      const action = args.shift();
+
       if (name === undefined) {
 
         return message.reply("name was not set");
