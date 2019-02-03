@@ -27,7 +27,7 @@ process.on("uncaughtException", (exception) => {
 });
 
 //
-mongoose.connect(`mongodb://${config.mongo_user === null && config.mongo_pass === null ? "" : `${config.mongo_user}:${config.mongo_pass}@`}localhost/rawrxd`, {
+mongoose.connect(`mongodb://${config.mongo_user === null && config.mongo_pass === null ? "" : `${config.mongo_user}:${config.mongo_pass}@`}localhost/rawrxd?authSource=admin`, {
   useNewUrlParser: true,
   ...config.mongo_user === null && config.mongo_pass === null ? {} : {
     auth: {

@@ -247,7 +247,7 @@ router.route("/@me").get(authUser, (req, res) => {
       : { marketplace_enabled: req.query.marketplace_enabled } ,
     ... req.query.name === undefined
       ? {}
-      : { name: { $regex: `.*${req.query.name}.*`   } }
+      : { name: { $regex: `.*${req.query.name}.*` } }
   };
 
   schemas.ScriptSchema
@@ -261,7 +261,7 @@ router.route("/@me").get(authUser, (req, res) => {
         return res.json({ status: 404 });
       }
 
-      schemas.ScriptSchem
+      schemas.ScriptSchema
         .find({
           author_id: req.user.discord_id,
           ...search
@@ -276,13 +276,13 @@ router.route("/@me").get(authUser, (req, res) => {
         .catch(err => {
 
           error(err);
-          return res.json({ status: 500, message: "I selled my wife for internet connection." });
+          return res.json({ status: 500, message: err });
         });
     })
     .catch(err => {
 
       error(err);
-      return res.json({ status: 500, message: "I selled my wife for internet connection." });
+      return res.json({ status: 500, message: err });
     });
 });
 
