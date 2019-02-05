@@ -329,15 +329,17 @@ router.route("/@me").get(authUser, (req, res) => {
                       //doc.id = guild.id;
                       doc_obj.name = guild.name;
 
-                      doc_obj.roles = clientGuild.roles.array().map(e => ({
-                        name: e.name,
-                        id: e.id
-                      }));
+                      if (clientGuild != null){
+                        doc_obj.roles = clientGuild.roles.array().map(e => ({
+                          name: e.name,
+                          id: e.id
+                        }));
 
-                      doc_obj.channels = clientGuild.channels.array().filter(e => e.type === "text").map(e => ({
-                        id: e.id,
-                        name: e.name
-                      }));
+                        doc_obj.channels = clientGuild.channels.array().filter(e => e.type === "text").map(e => ({
+                          id: e.id,
+                          name: e.name
+                        }));
+                      }
 
                       break;
                     }

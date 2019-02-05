@@ -71,3 +71,6 @@ config.json
 
 bot/config.json
 web/config.json
+
+# exclude any temp folders
+temp/
