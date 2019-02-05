@@ -241,6 +241,12 @@ const binding = new Command({
 
     // unbind name
     if (match === "unbind") {
+      const args = message.content.split(" ");
+
+      const bind = args.shift();
+      const name = args.shift();
+      const action = args.shift();
+
       if (name == null) {
         return message.reply("script name is not set");
       }

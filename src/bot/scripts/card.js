@@ -665,9 +665,9 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
     //bg.autocrop(0.002, false);
     bg.crop(135, 165, 526, 769);
 
-    bg.write(path.join(outputDir, `${card.Name[0]}.png`));
+    bg.write(path.join(outputDir, `frame_${card.Image}.png`));
   }
-}
+};
 
 const card = new Command({
 
