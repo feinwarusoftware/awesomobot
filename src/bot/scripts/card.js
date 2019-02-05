@@ -9,6 +9,7 @@ const jimp = require("jimp");
 const Command = require("../script");
 const { similarity, jimp: { printCenter, printCenterCenter } } = require("../../utils");
 
+const config = require("../../../config.json");
 const cards = require("../assets/cards/cards.json");
 
 let sp16Font = null;
@@ -246,6 +247,428 @@ const getMaxUpgradeStats = (currentCard, level) => {
   return getUpgradeStats(currentCard, upgradeModifier);
 };
 
+const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "cards")) => {
+  
+  for (let card of cards) {
+
+    const level = 1;
+    const stats = getLevelStats(card, level);
+
+    for (let stat in stats) {
+
+      if (stat === "Damage" || stat == "Health") {
+
+        continue;
+      }
+
+      if (stat === "PowerHeroDamage") {
+
+        // scale based on base stats
+        stats[stat] = stats["PowerDamage"] * (card.PowerHeroDamage / card.PowerDamage);
+      }
+
+      if (stat === "PowerMaxHPGain") {
+
+        card.Description = card.Description.replace("{PowerMaxHealthBoost}", typeof stats[stat] === "number" ? Math.round(stats[stat] * 100) / 100 : stats[stat]);
+        continue;
+      }
+
+      card.Description = card.Description.replace(`{${stat}}`, typeof stats[stat] === "number" ? Math.round(stats[stat] * 100) / 100 : stats[stat]);
+    }
+
+    if (card.Description.includes("{PowerDurationMin}-{PowerDurationMax}")) {
+
+      card.Description = card.Description.replace("{PowerDurationMin}-{PowerDurationMax}", `${Math.round(stats["PowerDuration"] * 100) / 100 - 1}-${Math.round(stats["PowerDuration"] * 100) / 100 + 1} seconds`);
+    }
+    if (card.Name instanceof Array ? card.Name[0] === "Cock Magic" : card.Name === "Cock Magic") {
+
+      card.Description = card.Description.replace("{PowerTargetAmount}", level);
+    }
+    if (card.Name instanceof Array ? card.Name[0] === "Marcus" : card.Name === "Marcus") {
+
+      card.Description = card.Description.replace("{PowerHeroDamage}", card.PowerDamage);
+    }
+    if (card.Name instanceof Array ? card.Name[0] === "Marine Craig" : card.Name === "Marine Craig") {
+
+      card.Description = card.Description.replace("{PowerHeroPoison}", card.PowerPoisonAmount);
+    }
+    if (card.Name instanceof Array ? card.Name[0] === "Chicken Coop" : card.Name === "Chicken Coop") {
+
+      card.Description = card.Description.replace("{PowerInterval.1}", "3.5");
+    }
+    if (card.Name instanceof Array ? card.Name[0] === "Shieldmaiden Wendy" : card.Name === "Shieldmaiden Wendy") {
+
+      card.Description = card.Description.slice(0, card.Description.length - 1) + " seconds.";
+    }
+    if (card.Name instanceof Array ? card.Name[0] === "Youth Pastor Craig" : card.Name === "Youth Pastor Craig") {
+
+      card.Description = card.Description.slice(0, card.Description.length - 1) + " seconds.";
+    }
+
+    /* --- pasted old code --- */
+
+    // Get the frame outline.
+    const frameWidth = 305;
+    const frameHeight = 418;
+
+    let x, y, z, w;
+
+    switch (card.Rarity) {
+    case 0: // common
+      y = 0;
+      switch (card.Theme) {
+      case "Adv":
+        x = frameWidth;
+        break;
+      case "Sci":
+        x = frameWidth * 2;
+        break;
+      case "Mys":
+        x = frameWidth * 3;
+        break;
+      case "Fan":
+        x = frameWidth * 4;
+        break;
+      case "Gen":
+        x = 0;
+        break;
+      default:
+        message.reply("theme not found");
+        return;
+      }
+      break;
+    default:
+      y = frameHeight;
+      switch (card.Theme) {
+      case "Adv":
+        x = frameWidth;
+        break;
+      case "Sci":
+        x = frameWidth * 2;
+        break;
+      case "Mys":
+        x = frameWidth * 3;
+        break;
+      case "Fan":
+        x = frameWidth * 4;
+        break;
+      case "Gen":
+        x = 0;
+        break;
+      default:
+        message.reply("theme not found");
+        return;
+      }
+      break;
+    }
+
+    z = frameWidth;
+    w = frameHeight;
+
+    // Get the frame top.
+    const topWidth = 338;
+    const topHeight = 107;
+
+    let fx, fy, fz, fw;
+
+    fx = 0;
+
+    switch (card.Rarity) {
+    case 0: // common
+      fy = undefined;
+      break;
+    case 1:
+      fy = 0;
+      break;
+    case 2:
+      fy = topHeight;
+      break;
+    case 3:
+      fy = topHeight * 2;
+      break;
+    default:
+      message.reply("rarity not found");
+      return;
+    }
+
+    fz = topWidth;
+    fw = topHeight;
+
+    // Get the icon.
+    const iconWidth = 116;
+    const iconHeight = 106;
+
+    let ix, iy, iz, iw;
+
+    switch (card.CharacterType) {
+    case "Tank":
+      iy = 0;
+      break;
+    case undefined:
+      iy = iconHeight * 2;
+      break;
+    case "Assassin":
+      iy = iconHeight * 4;
+      break;
+    case "Ranged":
+      iy = iconHeight * 6;
+      break;
+    case "Melee":
+      iy = iconHeight * 8;
+      break;
+    case "Totem":
+      iy = iconHeight * 10;
+      break;
+    }
+
+    switch (card.Rarity) {
+    case 0: // common
+      switch (card.Theme) {
+      case "Gen":
+        ix = 0;
+        break;
+      case "Adv":
+        ix = iconWidth;
+        break;
+      case "Sci":
+        ix = iconWidth * 2;
+        break;
+      case "Mys":
+        ix = iconWidth * 3;
+        break;
+      case "Fan":
+        ix = iconWidth * 4;
+        break;
+      }
+      break;
+    case 1:
+      iy += iconHeight;
+      ix = 0;
+      break;
+    case 2:
+      iy += iconHeight;
+      ix = iconWidth;
+      break;
+    case 3:
+      iy += iconHeight;
+      ix = iconWidth * 2;
+      break;
+    }
+
+    iz = iconWidth;
+    iw = iconHeight;
+
+    // Get the overlay.
+    const overlayWidth = 305;
+    const overlayHeight = 418;
+
+    let ox, oy, oz, ow;
+
+    oy = 0;
+
+    switch (card.CharacterType) {
+    case undefined:
+      ox = overlayWidth;
+      break;
+    default:
+      ox = 0;
+      break;
+    }
+
+    oz = overlayWidth;
+    ow = overlayHeight;
+
+    // Card theme icons.
+    const themeIconWidth = 36;
+    const themeIconHeight = 24;
+
+    let tx, ty, tz, tw;
+
+    ty = 0;
+
+    switch (card.Theme) {
+    case "Gen":
+      tx = 0;
+      break;
+    case "Adv":
+      tx = themeIconWidth;
+      break;
+    case "Sci":
+      tx = themeIconWidth * 2;
+      break;
+    case "Mys":
+      tx = themeIconWidth * 3;
+      break;
+    case "Fan":
+      tx = themeIconWidth * 4;
+      break;
+    default:
+      message.reply("theme not found");
+      return;
+    }
+
+    tz = themeIconWidth;
+    tw = themeIconHeight;
+
+    // Crystal things.
+    const crystalSheet = {
+      x: 0,
+      y: 24,
+      width: 180,
+      height: 76 // 36 + 4 + 36
+    };
+
+    const crystalWidth = 36;
+    const crystalHeight = 36;
+
+    let cx, cy, cz, cw;
+
+    cy = crystalSheet.y;
+
+    switch (card.Rarity) {
+    case 0: // common
+      switch (card.Theme) {
+      case "Gen":
+        cx = 0;
+        break;
+      case "Adv":
+        cx = crystalWidth;
+        break;
+      case "Sci":
+        cx = crystalWidth * 2;
+        break;
+      case "Mys":
+        cx = crystalWidth * 3;
+        break;
+      case "Fan":
+        cx = crystalWidth * 4;
+        break;
+      default:
+        message.reply("theme not found");
+        return;
+      }
+      break;
+    case 1:
+      cy += crystalHeight + 4;
+      cx = 17;
+      break;
+    case 2:
+      cy += crystalHeight + 4;
+      cx = 34 + crystalWidth;
+      break;
+    case 3:
+      cy += crystalHeight + 4;
+      cx = 34 + crystalWidth * 2;
+      break;
+    default:
+      message.reply("rarity not found");
+      return;
+    }
+
+    cz = crystalWidth;
+    cw = crystalHeight;
+
+    if (card.Rarity === 3) {
+      cz += 17;
+    }
+    /* --- end of old code --- */
+
+    // Make the image.
+    const bgWidth = 455;
+    const bgHeight = 630;
+
+    // image overlaying stuff.
+    let bg = await new jimp(800, 1200);
+    let cardArt = await jimp.read(path.join(__dirname, "..", "assets", "cards", "art", card.Image + ".jpg"));
+    let frameOverlay = frameOverlays
+      .clone()
+      .crop(ox, oy, oz, ow)
+      .resize(bgWidth, bgHeight);
+    let frameOutline = frameOutlines
+      .clone()
+      .crop(x, y, z, w)
+      .resize(bgWidth, bgHeight);
+    let typeIcon = typeIcons.clone().crop(ix, iy, iz, iw).scale(1.5);
+    let themeIcon = miscIcons.clone().crop(tx, ty, tz, tw).scale(1.5);
+    let crystal = miscIcons.clone().crop(cx, cy, cz, cw).scale(1.5);
+
+    let frameTop;
+    if (fy !== undefined) {
+      frameTop = frameTops
+        .clone()
+        .crop(fx, fy, fz, fw)
+        .resize(bgWidth + 49, 200);
+    }
+
+    /*
+    bg.composite(
+      cardArt,
+      bg.bitmap.width / 2 - cardArt.bitmap.width / 2,
+      bg.bitmap.height / 2 - cardArt.bitmap.height / 2
+    );
+    */
+    bg.composite(
+      frameOverlay,
+      bg.bitmap.width / 2 - frameOverlay.bitmap.width / 2,
+      bg.bitmap.height / 2 - frameOverlay.bitmap.height / 2
+    );
+    bg.composite(
+      frameOutline,
+      bg.bitmap.width / 2 - frameOutline.bitmap.width / 2,
+      bg.bitmap.height / 2 - frameOutline.bitmap.height / 2
+    );
+
+    if (fy !== undefined) {
+      bg.composite(
+        frameTop,
+        bg.bitmap.width / 2 - frameTop.bitmap.width / 2 - 8,
+        240
+      );
+    }
+
+    bg.composite(typeIcon, 130, 182);
+    bg.composite(
+      themeIcon,
+      bg.bitmap.width / 2 - themeIcon.bitmap.width / 2 - 168,
+      843
+    );
+
+    // 3 = legendary
+    let xoffset = 0;
+    if (card.Rarity === 3) {
+      xoffset = 25;
+    }
+
+    bg.composite(
+      crystal,
+      bg.bitmap.width / 2 - themeIcon.bitmap.width / 2 - 168 - xoffset,
+      745
+    );
+
+    if (card.Name instanceof Array) {
+      printCenter(bg, sp25Font, 20, 315, card.Name[0]);
+    } else {
+      printCenter(bg, sp25Font, 20, 315, card.Name);
+    }
+
+    printCenter(bg, sp60Font, -168, 350, card.ManaCost.toString());
+
+    if (ox === 0) {
+      printCenter(bg, sp27Font, -168, 515, stats.Health.toString());
+      printCenter(bg, sp27Font, -168, 640, stats.Damage.toString());
+    }
+
+    printCenter(bg, sp16Font, 17, 358, level === null ? `u ${upgrade}` : `lvl ${level}`);
+
+    printCenterCenter(bg, sp18Font, 20, 510, card.Description, 325);
+
+    //bg.autocrop(0.002, false);
+    bg.crop(135, 165, 526, 769);
+
+    bg.write(path.join(outputDir, `${card.Name[0]}.png`));
+  }
+}
+
 const card = new Command({
 
   name: "Phone Destroyer Cards",
@@ -267,6 +690,15 @@ const card = new Command({
     // deep copy cards so we can replace shit
     // without worrying about gay object shit
     const cardsCopy = JSON.parse(JSON.stringify(cards));
+
+    // render frames for the website
+    if (config.env != null 
+      && config.env.toLowerCase() === "dev"
+      && message.content.split(" ")[1] === "dev-frames") {
+
+        renderFrames(cardsCopy);
+        return;
+    }
 
     // legacy command support
 
