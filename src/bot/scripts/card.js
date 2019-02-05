@@ -248,7 +248,7 @@ const getMaxUpgradeStats = (currentCard, level) => {
 };
 
 const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "cards")) => {
-  
+
   for (let card of cards) {
 
     const level = 1;
@@ -333,7 +333,7 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
         x = 0;
         break;
       default:
-        message.reply("theme not found");
+        //message.reply("theme not found");
         return;
       }
       break;
@@ -356,7 +356,7 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
         x = 0;
         break;
       default:
-        message.reply("theme not found");
+        //message.reply("theme not found");
         return;
       }
       break;
@@ -387,7 +387,7 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
       fy = topHeight * 2;
       break;
     default:
-      message.reply("rarity not found");
+      //message.reply("rarity not found");
       return;
     }
 
@@ -503,7 +503,7 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
       tx = themeIconWidth * 4;
       break;
     default:
-      message.reply("theme not found");
+      //message.reply("theme not found");
       return;
     }
 
@@ -544,7 +544,7 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
         cx = crystalWidth * 4;
         break;
       default:
-        message.reply("theme not found");
+        //message.reply("theme not found");
         return;
       }
       break;
@@ -561,7 +561,7 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
       cx = 34 + crystalWidth * 2;
       break;
     default:
-      message.reply("rarity not found");
+      //message.reply("rarity not found");
       return;
     }
 
@@ -578,94 +578,95 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
     const bgHeight = 630;
 
     // image overlaying stuff.
-    let bg = await new jimp(800, 1200);
-    let cardArt = await jimp.read(path.join(__dirname, "..", "assets", "cards", "art", card.Image + ".jpg"));
-    let frameOverlay = frameOverlays
-      .clone()
-      .crop(ox, oy, oz, ow)
-      .resize(bgWidth, bgHeight);
-    let frameOutline = frameOutlines
-      .clone()
-      .crop(x, y, z, w)
-      .resize(bgWidth, bgHeight);
-    let typeIcon = typeIcons.clone().crop(ix, iy, iz, iw).scale(1.5);
-    let themeIcon = miscIcons.clone().crop(tx, ty, tz, tw).scale(1.5);
-    let crystal = miscIcons.clone().crop(cx, cy, cz, cw).scale(1.5);
-
-    let frameTop;
-    if (fy !== undefined) {
-      frameTop = frameTops
+    new jimp(800, 1200, (err, bg) => {
+      let frameOverlay = frameOverlays
         .clone()
-        .crop(fx, fy, fz, fw)
-        .resize(bgWidth + 49, 200);
-    }
+        .crop(ox, oy, oz, ow)
+        .resize(bgWidth, bgHeight);
+      let frameOutline = frameOutlines
+        .clone()
+        .crop(x, y, z, w)
+        .resize(bgWidth, bgHeight);
+      let typeIcon = typeIcons.clone().crop(ix, iy, iz, iw).scale(1.5);
+      let themeIcon = miscIcons.clone().crop(tx, ty, tz, tw).scale(1.5);
+      let crystal = miscIcons.clone().crop(cx, cy, cz, cw).scale(1.5);
 
-    /*
-    bg.composite(
-      cardArt,
-      bg.bitmap.width / 2 - cardArt.bitmap.width / 2,
-      bg.bitmap.height / 2 - cardArt.bitmap.height / 2
-    );
-    */
-    bg.composite(
-      frameOverlay,
-      bg.bitmap.width / 2 - frameOverlay.bitmap.width / 2,
-      bg.bitmap.height / 2 - frameOverlay.bitmap.height / 2
-    );
-    bg.composite(
-      frameOutline,
-      bg.bitmap.width / 2 - frameOutline.bitmap.width / 2,
-      bg.bitmap.height / 2 - frameOutline.bitmap.height / 2
-    );
+      let frameTop;
+      if (fy !== undefined) {
+        frameTop = frameTops
+          .clone()
+          .crop(fx, fy, fz, fw)
+          .resize(bgWidth + 49, 200);
+      }
 
-    if (fy !== undefined) {
+      /*
       bg.composite(
-        frameTop,
-        bg.bitmap.width / 2 - frameTop.bitmap.width / 2 - 8,
-        240
+        cardArt,
+        bg.bitmap.width / 2 - cardArt.bitmap.width / 2,
+        bg.bitmap.height / 2 - cardArt.bitmap.height / 2
       );
-    }
+      */
+      bg.composite(
+        frameOverlay,
+        bg.bitmap.width / 2 - frameOverlay.bitmap.width / 2,
+        bg.bitmap.height / 2 - frameOverlay.bitmap.height / 2
+      );
+      bg.composite(
+        frameOutline,
+        bg.bitmap.width / 2 - frameOutline.bitmap.width / 2,
+        bg.bitmap.height / 2 - frameOutline.bitmap.height / 2
+      );
 
-    bg.composite(typeIcon, 130, 182);
-    bg.composite(
-      themeIcon,
-      bg.bitmap.width / 2 - themeIcon.bitmap.width / 2 - 168,
-      843
-    );
+      if (fy !== undefined) {
+        bg.composite(
+          frameTop,
+          bg.bitmap.width / 2 - frameTop.bitmap.width / 2 - 8,
+          240
+        );
+      }
 
-    // 3 = legendary
-    let xoffset = 0;
-    if (card.Rarity === 3) {
-      xoffset = 25;
-    }
+      bg.composite(typeIcon, 130, 182);
+      bg.composite(
+        themeIcon,
+        bg.bitmap.width / 2 - themeIcon.bitmap.width / 2 - 168,
+        843
+      );
 
-    bg.composite(
-      crystal,
-      bg.bitmap.width / 2 - themeIcon.bitmap.width / 2 - 168 - xoffset,
-      745
-    );
+      // 3 = legendary
+      let xoffset = 0;
+      if (card.Rarity === 3) {
+        xoffset = 25;
+      }
 
-    if (card.Name instanceof Array) {
-      printCenter(bg, sp25Font, 20, 315, card.Name[0]);
-    } else {
-      printCenter(bg, sp25Font, 20, 315, card.Name);
-    }
+      bg.composite(
+        crystal,
+        bg.bitmap.width / 2 - themeIcon.bitmap.width / 2 - 168 - xoffset,
+        745
+      );
 
-    printCenter(bg, sp60Font, -168, 350, card.ManaCost.toString());
+      if (card.Name instanceof Array) {
+        printCenter(bg, sp25Font, 20, 315, card.Name[0]);
+      } else {
+        printCenter(bg, sp25Font, 20, 315, card.Name);
+      }
 
-    if (ox === 0) {
-      printCenter(bg, sp27Font, -168, 515, stats.Health.toString());
-      printCenter(bg, sp27Font, -168, 640, stats.Damage.toString());
-    }
+      printCenter(bg, sp60Font, -168, 350, card.ManaCost.toString());
 
-    printCenter(bg, sp16Font, 17, 358, level === null ? `u ${upgrade}` : `lvl ${level}`);
+      if (ox === 0) {
+        printCenter(bg, sp27Font, -168, 515, stats.Health.toString());
+        printCenter(bg, sp27Font, -168, 640, stats.Damage.toString());
+      }
 
-    printCenterCenter(bg, sp18Font, 20, 510, card.Description, 325);
+      printCenter(bg, sp16Font, 17, 358, level === null ? `u ${0}` : `lvl ${level}`);
 
-    //bg.autocrop(0.002, false);
-    bg.crop(135, 165, 526, 769);
+      printCenterCenter(bg, sp18Font, 20, 510, card.Description, 325);
 
-    bg.write(path.join(outputDir, `frame_${card.Image}.png`));
+      //bg.autocrop(0.002, false);
+      bg.crop(135, 165, 526, 769);
+
+      bg.write(path.join(outputDir, `frame_${card.Image}.png`));
+    });
+
   }
 };
 
@@ -692,12 +693,12 @@ const card = new Command({
     const cardsCopy = JSON.parse(JSON.stringify(cards));
 
     // render frames for the website
-    if (config.env != null 
+    if (config.env != null
       && config.env.toLowerCase() === "dev"
       && message.content.split(" ")[1] === "dev-frames") {
 
-        renderFrames(cardsCopy);
-        return;
+      renderFrames(cardsCopy);
+      return;
     }
 
     // legacy command support

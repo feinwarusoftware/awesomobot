@@ -33,11 +33,11 @@ const binding = new Command({
     // embed:
     // bind embed_binding embed --description this is an embed binding
 
-    const args = message.content.split(" ");
+    //const args = message.content.split(" ");
 
     //const bind = args.shift();
-    const name = args.shift();
-    const action = args.shift();
+    //const name = args.shift();
+    //const action = args.shift();
 
     if (match === "unbind-all") {
 
@@ -92,7 +92,7 @@ const binding = new Command({
 
       const args = message.content.split(" ");
 
-      const bind = args.shift();
+      args.shift();
       const name = args.shift();
       const action = args.shift();
 
@@ -243,9 +243,9 @@ const binding = new Command({
     if (match === "unbind") {
       const args = message.content.split(" ");
 
-      const bind = args.shift();
+      args.shift();
       const name = args.shift();
-      const action = args.shift();
+      //const action = args.shift();
 
       if (name == null) {
         return message.reply("script name is not set");
