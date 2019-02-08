@@ -1341,10 +1341,11 @@ const card = new Command({
 
       embed.description += `Cast Area: ${card.CastArea}\n`;
 
+      
       if (card.CharacterType !== "Totem") {
 
-        embed.description += `Max Speed: ${Math.round(card.MaxVelocity * 100) / 100}\n`;
-        embed.description += `Time To Reach Max Speed: ${Math.round(card.TimeToReachMaxVelocity * 100) / 100}\n`;
+        embed.description += `Max MS: ${Math.round(card.MaxVelocity * 100) / 100} Units Per Second\n`;
+        embed.description += `Time To Reach MMS: ${Math.round(card.TimeToReachMaxVelocity * 100) / 100} Seconds\n`;
         embed.description += `Agro Range Multiplier: ${Math.round(card.AgroRangeMultiplier * 100) / 100}\n\n`;
       } else {
 
@@ -1375,13 +1376,13 @@ const card = new Command({
 
           if (field.startsWith("Power")) {
 
-            embed.description += `${field === "PowerRange" ? field : camelPad(field.slice(5, field.length))}: ${typeof stats[field] === "number" ? Math.round(stats[field] * 100) / 100 : stats[field]}\n`;
+            embed.description += `${field === "Range" ? field : camelPad(field.slice(5, field.length))}: ${typeof stats[field] === "number" ? Math.round(stats[field] * 100) / 100 : stats[field]}\n`;
           }
         }
 
         if (/*card.ChargedPowerRadius !== 0 && */card.ChargedPowerRegen !== 0) {
 
-          embed.description += `Charged Power Regen: ${Math.round(card.ChargedPowerRegen * 100) / 100}\n\n`;
+          embed.description += `Charged Power Regen: ${Math.floor(1 / card.ChargedPowerRegen)} Seconds\n First Charged Power Regen: ${Math.floor((1 / card.ChargedPowerRegen) / 2)} Seconds\n\n`;
         } else {
 
           embed.description += "\n";
@@ -1397,7 +1398,7 @@ const card = new Command({
 
         embed.description += "**Can Attack? - Yes**\n";
 
-        embed.description += `Attack Range: ${Math.round(card.AttackRange * 100) / 100}\n`;
+        embed.description += `Attack Range: ${Math.round(card.AttackRange * 100) / 100} Units\n`;
         embed.description += `Knockback: ${Math.round(parseInt(card.KnockbackImpulse) * 100) / 100} at ${Math.round(card.KnockbackAngleDeg * 100) / 100}°\n\n`;
 
       } else {
