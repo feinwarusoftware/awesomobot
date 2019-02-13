@@ -2,8 +2,6 @@
 
 const Command = require("../script");
 
-const discord = require("discord.js");
-
 const males = [
   "Garry",
   "Cartman",
@@ -51,12 +49,6 @@ let shipyaoi = new Command({
   preload: true,
 
   cb: function(client, message) {
-
-    let gayMods = Math.random();
-    if(gayMods > 0.95){
-      message.channel.send(new discord.RichEmbed().setDescription(":heart: !Dragon1320 **x** TowelRoyale :heart:").setImage("https://cdn.discordapp.com/attachments/437671103536824340/462641129188229130/dragon_and_towel_being_gay_by_phinbella_flynn-dcflyqh.png.jpg"));
-      return;
-    }
     const randommale1 = Math.floor(Math.random() * males.length);
     const randommale2 = Math.floor(Math.random() * males.length);
     message.channel.send("**:heart: Here's your yaoi ship:** " + males[randommale1] + " **x** " + males[randommale2] + " :heart:");

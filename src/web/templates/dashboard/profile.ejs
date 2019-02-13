@@ -639,6 +639,14 @@
                         </div>`
             )
         };
+        if (profileyay.trophies.indexOf("big-spender") !== -1) {
+            $("#trophycase").append(
+                `<div class="mx-1 chip white-text" style="background-color: #f89842; box-shadow: 0px 0px 10px 2px #f89842">
+                            <img src="/img/trophy/trophy-money.png">
+                            <%= trans.BIG_SPENDER %>
+                        </div>`
+            )
+        };
         if (profileyay.trophies.indexOf("patron-1") !== -1) {
             $("#trophycase").append(
                 `<div class="mx-1 chip white-text" style="background-color: #fb664e;">

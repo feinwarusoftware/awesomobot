@@ -657,6 +657,15 @@ const levels = new Command({
         })
         .catch(error => reject(error)));
 
+      let trophyMoney;
+      filesLoaded.push(sharp(path.join(__dirname, "..", "assets", "profiles", "trophies", "trophy-money.png"))
+        .png()
+        .toBuffer()
+        .then(image => {
+          trophyMoney = image;
+        })
+        .catch(error => reject(error)));
+
       Promise.all(filesLoaded)
         .then(async () => {
 
@@ -738,17 +747,17 @@ const levels = new Command({
 
           // await sharp(trophyPatreon).tint("#fb664e").toBuffer()
           trophies.push({
-            dbName: "patron-1",
+            dbName: "big-spender",
             importance: 4,
             buffer: await sharp({
               create: {
                 width: 90,
                 height: 90,
                 channels: 4,
-                background: { r: 251, g: 102, b: 78, alpha: 1.0 }
+                background: { r: 248, g: 152, b: 66, alpha: 1.0 }
               }
             })
-              .overlayWith(trophyPatreon, {
+              .overlayWith(trophyMoney, {
                 cutout: true
               })
               .png()
@@ -757,7 +766,7 @@ const levels = new Command({
 
           // await sharp(trophyPatreon).tint("#fb664e").toBuffer()
           trophies.push({
-            dbName: "patron-5",
+            dbName: "patron-1",
             importance: 5,
             buffer: await sharp({
               create: {
@@ -776,8 +785,27 @@ const levels = new Command({
 
           // await sharp(trophyPatreon).tint("#fb664e").toBuffer()
           trophies.push({
-            dbName: "patron-10",
+            dbName: "patron-5",
             importance: 6,
+            buffer: await sharp({
+              create: {
+                width: 90,
+                height: 90,
+                channels: 4,
+                background: { r: 251, g: 102, b: 78, alpha: 1.0 }
+              }
+            })
+              .overlayWith(trophyPatreon, {
+                cutout: true
+              })
+              .png()
+              .toBuffer()
+          });
+
+          // await sharp(trophyPatreon).tint("#fb664e").toBuffer()
+          trophies.push({
+            dbName: "patron-10",
+            importance: 7,
             buffer: await sharp({
               create: {
                 width: 90,
@@ -796,7 +824,7 @@ const levels = new Command({
           // await sharp(trophyTrans).tint("#1c65b8").toBuffer()
           trophies.push({
             dbName: "translator",
-            importance: 7,
+            importance: 8,
             buffer: await sharp({
               create: {
                 width: 90,
@@ -815,7 +843,7 @@ const levels = new Command({
           // await sharp(trophyArt).tint("#df3cb6").toBuffer()
           trophies.push({
             dbName: "artist",
-            importance: 8,
+            importance: 9,
             buffer: await sharp({
               create: {
                 width: 90,
@@ -834,7 +862,7 @@ const levels = new Command({
           // await sharp(trophyChinpokomon).tint("#d67f0e").toBuffer()
           trophies.push({
             dbName: "uchinpokomon",
-            importance: 9,
+            importance: 10,
             buffer: await sharp({
               create: {
                 width: 90,
@@ -853,7 +881,7 @@ const levels = new Command({
           // await sharp(trophyChinpokomon).tint("#fd9a19").toBuffer()
           trophies.push({
             dbName: "rchinpokomon",
-            importance: 10,
+            importance: 11,
             buffer: await sharp({
               create: {
                 width: 90,
@@ -871,7 +899,7 @@ const levels = new Command({
 
           trophies.push({
             dbName: "christmas-comp",
-            importance: 11,
+            importance: 12,
             buffer: await sharp({
               create: {
                 width: 90,
@@ -889,7 +917,7 @@ const levels = new Command({
 
           trophies.push({
             dbName: "1kshits",
-            importance: 12,
+            importance: 13,
             buffer: await sharp({
               create: {
                 width: 90,
@@ -908,7 +936,7 @@ const levels = new Command({
           // await sharp(trophyArt).tint("#fd9a19").toBuffer()
           trophies.push({
             dbName: "ac18_1",
-            importance: 13,
+            importance: 14,
             buffer: await sharp({
               create: {
                 width: 90,
@@ -927,7 +955,7 @@ const levels = new Command({
           // await sharp(trophyArt).tint("#838383").toBuffer()
           trophies.push({
             dbName: "ac18_2",
-            importance: 14,
+            importance: 15,
             buffer: await sharp({
               create: {
                 width: 90,
@@ -946,7 +974,7 @@ const levels = new Command({
           // await sharp(trophyArt).tint("#a55029").toBuffer()
           trophies.push({
             dbName: "ac18_3",
-            importance: 15,
+            importance: 16,
             buffer: await sharp({
               create: {
                 width: 90,
@@ -965,7 +993,7 @@ const levels = new Command({
           // await sharp(trophyArt).tint("#7289DA").toBuffer()
           trophies.push({
             dbName: "ac18_ww",
-            importance: 16,
+            importance: 17,
             buffer: await sharp({
               create: {
                 width: 90,
@@ -984,7 +1012,7 @@ const levels = new Command({
           // await sharp(trophyCrayon).tint("#fd9a19").toBuffer()
           trophies.push({
             dbName: "cc18_1",
-            importance: 17,
+            importance: 18,
             buffer: await sharp({
               create: {
                 width: 90,
@@ -1003,7 +1031,7 @@ const levels = new Command({
           // await sharp(trophyCrayon).tint("#838383").toBuffer()
           trophies.push({
             dbName: "cc18_2",
-            importance: 18,
+            importance: 19,
             buffer: await sharp({
               create: {
                 width: 90,
@@ -1022,7 +1050,7 @@ const levels = new Command({
           // await sharp(trophyCrayon).tint("#a55029").toBuffer()
           trophies.push({
             dbName: "cc18_3",
-            importance: 19,
+            importance: 20,
             buffer: await sharp({
               create: {
                 width: 90,
@@ -1041,7 +1069,7 @@ const levels = new Command({
           // await sharp(trophyCrayon).tint("#7289DA").toBuffer()
           trophies.push({
             dbName: "cc18ww",
-            importance: 20,
+            importance: 21,
             buffer: await sharp({
               create: {
                 width: 90,
@@ -1060,7 +1088,7 @@ const levels = new Command({
           // await sharp(trophy1).tint("#4e9ffb").toBuffer()
           trophies.push({
             dbName: "awesomo-1",
-            importance: 21,
+            importance: 22,
             buffer: await sharp({
               create: {
                 width: 90,
@@ -1079,7 +1107,7 @@ const levels = new Command({
           // await sharp(trophy2).tint("#68358a").toBuffer()
           trophies.push({
             dbName: "awesomo-2",
-            importance: 22,
+            importance: 23,
             buffer: await sharp({
               create: {
                 width: 90,
@@ -1098,7 +1126,7 @@ const levels = new Command({
           // await sharp(trophyCode).tint("#222222").toBuffer()
           trophies.push({
             dbName: "verified-script",
-            importance: 23,
+            importance: 24,
             buffer: await sharp({
               create: {
                 width: 90,
@@ -1117,7 +1145,7 @@ const levels = new Command({
           // await sharp(trophyCode).tint("#222222").toBuffer()
           trophies.push({
             dbName: "featured-script",
-            importance: 24,
+            importance: 25,
             buffer: await sharp({
               create: {
                 width: 90,
