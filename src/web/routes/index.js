@@ -243,6 +243,16 @@ router.get("/api/v3/sloc", (req, res) => {
   return res.json({ code: 0 });
 });
 
+router.get("/401", (req, res) => {
+
+  res.render("401");
+});
+
+router.get("/404", (req, res) => {
+
+  res.render("404");
+});
+
 router.get("/dashboard/profiles/:discord_id", authUser, async (req, res) => {
 
   res.render("dashboard/profile");
@@ -583,6 +593,12 @@ router.get("/dashboard/scripts/marketplace", authUser, async (req, res) => {
   }
 
   res.render("dashboard/marketplace", { user_data: user_res.data });
+});
+
+
+router.get("/dashboard/scripts/:id", authUser, (req, res) => {
+
+  res.render("dashboard/script-share", {id: req.params.id});
 });
 
 router.get("/dashboard/legacy/leaderboards/v1", authUser, async (req, res) => {

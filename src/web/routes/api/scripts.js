@@ -286,7 +286,12 @@ router.route("/@me").get(authUser, (req, res) => {
     });
 });
 
-router.route("/:object_id").get(authUser, (req, res) => {
+router.route("/:object_id").get(authUser, async (req, res) => {
+
+  const client = await getClient();
+
+  // + cond user data
+  const extended = req.query.extended === "true";
 
   let object_id;
   try {
@@ -299,7 +304,7 @@ router.route("/:object_id").get(authUser, (req, res) => {
 
   schemas.ScriptSchema
     .findById(object_id)
-    .then(doc => {
+    .then(async doc => {
       if (doc === null) {
 
         return res.json({ status: 404 });
@@ -312,6 +317,28 @@ router.route("/:object_id").get(authUser, (req, res) => {
 
       const script_obj = doc.toObject();
       delete script_obj.__v;
+
+      if (extended === true) {
+
+        if (script_obj.author_id === "feinwaru-devs") {
+
+          script_obj.author_username = "Feinwaru";
+          script_obj.author_verified = true;
+        } else {
+
+          await client.fetchUser(script_obj.author_id, true)
+            .then(user => {
+
+              script_obj.author_username = user.username;
+            });
+
+          await schemas.UserSchema.findOne({ discord_id: script_obj.author_id })
+            .then(user => {
+
+              script_obj.author_verified = user.verified;
+            });
+        }
+      }
 
       return res.json({ status: 200, script: script_obj });
     })

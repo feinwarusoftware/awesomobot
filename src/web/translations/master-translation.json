@@ -1,5 +1,5 @@
 {
-    "_TRANSLATION_VERSION": "Version 3.0, 06/11/18",
+    "_TRANSLATION_VERSION": "Version 3.2, 15/02/19",
 
     "ERROR_401": "Error 401",
     "ERROR_404": "Error 404",
@@ -356,5 +356,10 @@
     "ROLES": "Roles",
     "SELECT_ROLES": "Select roles",
     "CHANNELS": "Channels",
-    "SELECT_CHANNELS": "Select channels"
+    "SELECT_CHANNELS": "Select channels",
+
+    "BIG_SPENDER": "Wasted $100 on AWESOM-O",
+    "TIMES_RAN": "Times ran",
+    "LIKE_THIS_SCRIPT": "Like this script!",
+    "UNLIKE_THIS_SCRIPT": "Unlike this script!"
 }

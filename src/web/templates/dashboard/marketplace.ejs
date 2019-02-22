@@ -430,7 +430,7 @@
                 prefix = "-";
             } else {
 
-                prefix = currentGuild.prefix.replace(/</g, "&lt").replace(/>/g, "&rt");
+                prefix = currentGuild.prefix.replace(/</g, "&lt").replace(/>/g, "&gt");
             }
 
             for (let i = 0; i < featuredYay.scripts.length; i++) {
@@ -489,11 +489,10 @@
                                 </p>
                                 <p>
                                     <code>${
-                                            featuredYay.scripts[i].match_type === "command" ? prefix + featuredYay.scripts[i].match : 
-                                            featuredYay.scripts[i].match_type === "startswith" ? 'Message must start with "' + featuredYay.scripts[i].match + '"' :
-                                            featuredYay.scripts[i].match_type === "contains" ? 'Message must contain "' + featuredYay.scripts[i].match + '"' :
-                                            featuredYay.scripts[i].match_type === "exactmatch" ? 'Message must only contain "' + featuredYay.scripts[i].match + '"' :
-                                            featuredYay.scripts[i].match_type === "regex" ? 'REGEX "' + featuredYay.scripts[i].match + '"' :
+                                            featuredYay.scripts[i].match_type === "startswith" ? "<%= trans.STARTS_WITH %>" + featuredYay.scripts[i].match :
+                                            featuredYay.scripts[i].match_type === "contains" ? "<%= trans.CONTAINS %>" + featuredYay.scripts[i].match :
+                                            featuredYay.scripts[i].match_type === "exactmatch" ? "<%= trans.EXACT_MATCH %>" + featuredYay.scripts[i].match :
+                                            featuredYay.scripts[i].match_type === "regex" ? "REGEX: " + featuredYay.scripts[i].match :
                                             prefix + featuredYay.scripts[i].match
                                         }</code>
                                 </p>
@@ -518,7 +517,7 @@
                                         </a>
                                     </li>
                                     <li class="list-inline-item pr-2">
-                                        <a id="${featuredYay.scripts[i]._id}" class="white-text ${userYay.user.likes.includes(featuredYay.scripts[i]._id) === true ? "unlike" : "like"}" data-toggle="tooltip" data-placement="top" title="${userYay.user.likes.includes(featuredYay.scripts[i]._id) === true ? "Unlike this script!" : "Like this script!"}">
+                                        <a id="${featuredYay.scripts[i]._id}" class="white-text ${userYay.user.likes.includes(featuredYay.scripts[i]._id) === true ? "unlike" : "like"}" data-toggle="tooltip" data-placement="top" title="${userYay.user.likes.includes(featuredYay.scripts[i]._id) === true ? "<%= trans.UNLIKE_THIS_SCRIPT %>" : "<%= trans.LIKE_THIS_SCRIPT %>"}">
                                             <i class="${userYay.user.likes.includes(featuredYay.scripts[i]._id) === true ? "fas" : "far"} fa-heart red-text pr-1"> </i>${featuredYay.scripts[i].likes}
                                             <%= trans.LIKES %>
                                         </a>
@@ -766,11 +765,10 @@
                                     <p class="mb-0 grey-text">${scriptsYay.scripts[i].description}</p>
                                     <code class="smallboiicode">
                                         ${
-                                            scriptsYay.scripts[i].match_type === "command" ? prefix + scriptsYay.scripts[i].match : 
-                                            scriptsYay.scripts[i].match_type === "startswith" ? 'Message must start with "' + scriptsYay.scripts[i].match + '"' :
-                                            scriptsYay.scripts[i].match_type === "contains" ? 'Message must contain "' + scriptsYay.scripts[i].match + '"' :
-                                            scriptsYay.scripts[i].match_type === "exactmatch" ? 'Message must only contain "' + scriptsYay.scripts[i].match + '"' :
-                                            scriptsYay.scripts[i].match_type === "regex" ? 'REGEX "' + scriptsYay.scripts[i].match + '"' :
+                                            scriptsYay.scripts[i].match_type === "startswith" ? "<%= trans.STARTS_WITH %>" + featuredYay.scripts[i].match :
+                                            scriptsYay.scripts[i].match_type === "contains" ? "<%= trans.CONTAINS %>" + featuredYay.scripts[i].match :
+                                            scriptsYay.scripts[i].match_type === "exactmatch" ? "<%= trans.EXACT_MATCH %>" + featuredYay.scripts[i].match :
+                                            scriptsYay.scripts[i].match_type === "regex" ? "REGEX: " + featuredYay.scripts[i].match :
                                             prefix + scriptsYay.scripts[i].match
                                         }                                       
                                         </code>
@@ -799,7 +797,7 @@
                                             </a>
                                         </li>
                                         <li class="list-item">
-                                            <a id="${scriptsYay.scripts[i]._id}" class="${userYay.user.likes.includes(scriptsYay.scripts[i]._id) === true ? "unlike" : "like"}" data-toggle="tooltip" data-placement="top" title="${userYay.user.likes.includes(scriptsYay.scripts[i]._id) === true ? "Unlike this script!" : "Like this script!"}">
+                                            <a id="${scriptsYay.scripts[i]._id}" class="${userYay.user.likes.includes(scriptsYay.scripts[i]._id) === true ? "unlike" : "like"}" data-toggle="tooltip" data-placement="top" title="${userYay.user.likes.includes(scriptsYay.scripts[i]._id) === true ? "<%= trans.UNLIKE_THIS_SCRIPT %>" : "<%= trans.LIKE_THIS_SCRIPT %>"}">
                                                 <i class="${userYay.user.likes.includes(scriptsYay.scripts[i]._id) === true ? "fas" : "far"} fa-heart red-text pr-1"> </i>${scriptsYay.scripts[i].likes}
                                                 <%= trans.LIKES %>
                                             </a>
@@ -1153,8 +1151,8 @@
                 btn.childNodes[1].classList.add("unlike");
 
                 btn.childNodes[2].nodeValue = (parseInt(btn.childNodes[2].nodeValue.split(" ")[0]) + 1) +
-                    " Likes";
-                btn.title = "Unlike this script";
+                    " <%= trans.LIKES %>";
+                btn.title = "<%= trans.LIKE_THIS_SCRIPT %>";
 
                 $(function () {
                     $('[data-toggle="tooltip"]').tooltip('dispose')

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include ../partials/headers.ejs %>
+  <title>AWESOM-O //
+    <%= trans.PRIVACY_POLICY %>
+  </title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css">
+
+  <style>
+    .intro-2 {
+            background: url("https://cdn.discordapp.com/attachments/456771924639612940/466128291171008522/banner.png")no-repeat top center;
+            background-size: cover;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.85);
+        }
+
+
+        p {
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        h4 {
+            font-size: 1.3rem;
+        }
+
+        h6 {
+            line-height: 1.7;
+        }
+
+        .md-form label {
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        html,
+        body,
+        header,
+        .view {
+          height: 100%;
+        }
+
+        @media (min-width: 851px) and (max-width: 1440px) {
+          html,
+          body,
+          header,
+          .view {
+            height: 850px;
+          }
+        }
+
+        @media (min-width: 800px) and (max-width: 850px) {
+          html,
+          body,
+          header,
+          .view {
+            height: 1000px;
+          }
+        }
+
+        @media (min-width: 451px) and (max-width: 740px) {
+          html,
+          body,
+          header,
+          .view {
+            height: 1200px;
+          }
+        }
+
+        @media (max-width: 450px) {
+          html,
+          body,
+          header,
+          .view {
+            height: 1400px;
+          }
+        }
+        code {
+            display: block;
+            overflow-x: auto;
+            padding: 0.5em;
+            color: #e2e2e2;
+            background: #555658;
+            border-radius: 4px
+        }
+
+    </style>
+</head>
+
+<body class="" style="background: url(https://cdn.discordapp.com/attachments/456771924639612940/466128291171008522/banner.png) no-repeat bottom center; background-attachment: fixed;">
+  <!--
+    <div id="mdb-preloader" class="flex-center">
+        <div id="preloader-markup" class="text-center">
+            <img src="/img/headerlogo.png">
+            <br>
+            <div class="preloader-wrapper active">
+                <div class="spinner-layer spinner-red-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+-->
+  <%- include ../partials/ss-navbar.ejs %>
+
+  <div class="container pt-5">
+    <section id="productDetails" class="pb-5">
+
+      <!--News card-->
+      <div class="card mt-5" style="background-color: white;">
+        <div class="row mt-5">
+          <div class="col-lg-4 px-5">
+            <div id="thumb" class="z-depth-1" style="background-repeat: no-repeat; background-position: center; background-size: cover; padding-top: 100%;"></div>
+
+            <div id="chips" class="pt-4 pb-3">
+
+            </div>
+
+          </div>
+          <div class="col-lg-8 px-5 text-center text-md-left">
+            <h1 id="title" class="h2-responsive text-center text-md-left product-name font-weight-bold dark-grey-text mb-1 ml-xl-0 ml-4">
+
+            </h1>
+            <h2 class="h3-responsive grey-text text-center text-md-left ml-xl-0 ml-4">
+              <%= trans.BY %> <span id="author"></span>
+            </h2>
+
+            <h5 id="description" class="pb-4"></h5>
+
+            <h3 id="help-title" class="h3-responsive grey-text text-center text-md-left mt-0 ml-xl-0 ml-4"></h3>
+
+            <p id="help"></p>
+
+            <h3 class="h3-responsive grey-text text-center text-md-left mt-0 ml-xl-0 ml-4">
+              Usage
+            </h3>
+            <code id="usage"></code>
+            <!-- Add to Cart -->
+            <section class="color">
+              <div class="mt-5">
+                <div class="row mt-3 mb-4">
+                  <div class="col-md-12 text-center">
+                      <button id="like-btn" class="btn btn-red btn-rounded">
+                          <i class="fas fa-heart mr-2" aria-hidden="true"></i>
+                          <%= trans.LIKE_THIS_SCRIPT %></button>
+                    <button class="btn btn-success btn-rounded">
+                      <i class="fas fa-plus mr-2" aria-hidden="true"></i>
+                      <%= trans.ADD_SCRIPT_TO %> Feinwaru Server</button>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- /.Add to Cart -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <%- include ../partials/footer.ejs %>
+
+  <!--/.Footer-->
+
+
+  <!-- SCRIPTS -->
+
+  <!-- JQuery -->
+  <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="/js/popper.min.js"></script>
+
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="/js/mdb.min.js"></script>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
+
+  <script>
+    $('[data-toggle="tooltip"]').tooltip();
+
+
+    let id = "<%= id %>";
+
+    const script = new XMLHttpRequest();
+    script.open("GET", `/api/v3/scripts/${id}?extended=true`, false);
+    script.send();
+    const scriptYay = JSON.parse(script.response);
+    const s = scriptYay.script
+
+    switch (scriptYay.status) {
+      case 200:
+        break;
+
+      default:
+        //window.location.href = "/404";
+        break;
+    }
+
+    //Help Text Markdown
+
+    String.prototype.replaceAll = function (search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    const currentGuild = guildsYay.guilds.find(e => e.discord_id === currentServer);
+    let prefix;
+    if (currentGuild === undefined) {
+      prefix = "-";
+    } else {
+      prefix = currentGuild.prefix.replace(/</g, "&lt").replace(/>/g, "&gt");
+    }
+
+    const cleared = s.help.replaceAll("[prefix]", prefix);
+
+    const help = new showdown.Converter(),
+      helpOut = help.makeHtml(cleared);
+
+    $("#help").html(helpOut === "" ? "<%= trans.NO_HELP %>" : helpOut);
+
+    
+    $("#help-title").html(prefix + "help " + s.match);
+
+    $("#thumb").css("background-image", "url('" + s.thumbnail + "')");
+
+    $("#title").html(s.name + (s.verified === true ? 
+    `<sup><span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" title=""
+          data-original-title="<%= trans.VERIFIED_SCRIPT %>">
+          <i class="fa fa-check pr-1"></i>
+    </span></sup>` : ""));
+
+    $("#author").html(s.author_username);
+    
+    if (s.author_verified === true){
+      $("#author").append(`
+      <sup>
+        <span class="text-info font-weight-bold" data-toggle="tooltip" data-placement="top" title=""
+          data-original-title="<%= trans.VERIFIED_CREATOR %>">
+          <i class="fa fa-check pr-1"></i>
+        </span>
+      </sup>
+      `);
+    };
+    
+    $("#description").html(s.description);
+    $("#usage").html(
+      s.match_type === "startswith" ? "<%= trans.STARTS_WITH %>" + s.match :
+      s.match_type === "contains" ? "<%= trans.CONTAINS %>" + s.match :
+      s.match_type === "exactmatch" ? "<%= trans.EXACT_MATCH %>" + s.match :
+      s.match_type === "regex" ? "REGEX: " + s.match :
+      prefix + s.match
+      );
+
+    $("#chips").append(`
+    ${s.featured === true
+       ? `
+       <div class="chip white-text orange w-100">
+        <i class="fas fa-trophy pr-1"> </i>
+        <%= trans.FEATURED_SCRIPT %>
+      </div>
+       ` 
+       : ""}
+      <div class="chip white-text green w-100">
+        <i class="fas fa-keyboard pr-1"> </i> ${s.use_count}
+        <%= trans.TIMES_RAN %>
+      </div>
+      <div class="chip white-text light-blue lighten-2 w-100">
+        <i class="fas fa-cloud pr-1"> </i> ${s.guild_count}
+        <%= trans.SERVERS %>
+      </div>
+      <div class="chip white-text red w-100">
+        <i class="fas fa-heart pr-1"> </i> ${s.likes}
+        <%= trans.LIKES %>
+      </div>
+      <div class="chip white-text grey darken-3 w-100">
+        <i class="fas fa-code pr-1"> </i>
+        <%= trans.VIEW_SOURCE %>
+      </div>
+    `);
+
+    $("#like-btn").html(`
+      <i class="fas fa-heart mr-2" aria-hidden="true"></i>
+      ${userYay.user.likes.includes(s._id) === true ? "<%= trans.UNLIKE_THIS_SCRIPT %>" : "<%= trans.LIKE_THIS_SCRIPT %>"}
+    `);
+
+    
+  </script>
+</body>
+
+</html>

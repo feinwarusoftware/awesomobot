@@ -16,34 +16,43 @@
                 <a class="list-group-item list-group-item-action waves-effect font-weight-bold">
                     100% Maintained
                 </a>
-                <a href="?hl=en" class="list-group-item list-group-item-action waves-effect">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" width="10%"> English
+                <a onclick="setCookieLang('en')" href="?hl=en" class="list-group-item list-group-item-action waves-effect">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" width="10%">
+                    English
                 </a>
                 <a class="list-group-item list-group-item-action waves-effect font-weight-bold">
-                        Community Made
-                    </a>
-                <a href="?hl=de" class="list-group-item list-group-item-action waves-effect">
+                    Community Made
+                </a>
+                <a onclick="setCookieLang('de')" href="?hl=de" class="list-group-item list-group-item-action waves-effect">
                     <img src="https://upload.wikimedia.org/wikipedia/en/b/ba/Flag_of_Germany.svg" width="10%"> Deutsch
                 </a>
-                <!--
-                <a href="?hl=es" class="list-group-item list-group-item-action waves-effect">
+
+                <a onclick="setCookieLang('es')" href="?hl=es" class="list-group-item list-group-item-action waves-effect">
                     <img src="https://upload.wikimedia.org/wikipedia/en/9/9a/Flag_of_Spain.svg" width="10%"> Español
                 </a>
-                <a href="?hl=fr" class="list-group-item list-group-item-action waves-effect">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/c/c3/Flag_of_France.svg" width="10%"> Français
-                    </a>
+
+                <a onclick="setCookieLang('fr')" href="?hl=fr" class="list-group-item list-group-item-action waves-effect">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/c/c3/Flag_of_France.svg" width="10%"> Français
+                </a>
+                <!--
                 <a href="?hl=ga" class="list-group-item list-group-item-action waves-effect">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Flag_of_Ireland.svg" width="10%"> Gaeilge
                 </a>
                 <a href="?hl=ni" class="list-group-item list-group-item-action waves-effect" style="display: none;">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/f/f6/Flag_of_Northern_Ireland.svg" width="10%"> Norn Irish
                 </a>-->
-                <a href="?hl=pl" class="list-group-item list-group-item-action waves-effect">
+                <a onclick="setCookieLang('pl')" href="?hl=pl" class="list-group-item list-group-item-action waves-effect">
                     <img src="https://upload.wikimedia.org/wikipedia/en/1/12/Flag_of_Poland.svg" width="10%"> Polski
                 </a>
-                <a href="?hl=pt" class="list-group-item list-group-item-action waves-effect">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_Portugal.svg" width="10%"> Português
-                </a><!--
+                <a onclick="setCookieLang('pt-br')" href="?hl=pt-br" class="list-group-item list-group-item-action waves-effect">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/0/05/Flag_of_Brazil.svg" width="10%"> Português
+                    (Brasil)
+                </a>
+                <a onclick="setCookieLang('pt-pt')" href="?hl=pt-pt" class="list-group-item list-group-item-action waves-effect">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_Portugal.svg" width="10%">
+                    Português (Portugal)
+                </a>
+                <!--
                 <a href="?hl=ro" class="list-group-item list-group-item-action waves-effect">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Flag_of_Romania.svg" width="10%"> Română
                 </a>
@@ -56,3 +65,23 @@
         <!--/.Content-->
     </div>
 </div>
+<script>
+    //Set cookie on click
+    function setCookieLang(lang) {
+        document.cookie = "ulang=" + lang
+    }
+    //URL Based Setting
+    const loc = window.location.href.indexOf("hl=") + 3;
+    const hl = window.location.href.substring(loc).slice(0, 5)
+
+    console.log(hl.indexOf("-"))
+
+    if (loc !== 2) {
+        if (hl.indexOf("-") === 2) {
+            document.cookie = "ulang=" + hl
+        } else {
+            document.cookie = "ulang=" + hl.slice(0, 2);
+        }
+
+    }
+</script>

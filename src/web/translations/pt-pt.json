@@ -1,7 +1,7 @@
 {
     "_TRANSLATION_VERSION": "Versão 3.0, 06/11/18",
-    "LANG": "?hl=pt",
-    "INITIALS": "PT",
+    "LANG": "?hl=pt-pt",
+    "INITIALS": "PT-PT",
 
     "ERROR_401": "Erro 401",
     "ERROR_404": "Erro 404",
@@ -73,7 +73,7 @@
 
     "BEST_FRIENDS": "Melhores Amigos",
     "BF_ROLE": "Role dos **Melhores amigos**",
-    "AWESOMO_BETA": "Obtém o Awesom-O BETA no teu servidor!",
+    "AWESOMO_BETA": "Obtém o Awesom-O no teu servidor!",
     "YOUR_NAME": "**O teu nome** no website!",
     "LOWER_TIERS": "Todas as permissões de tiers anteriores",
 
@@ -182,7 +182,7 @@
     "SCRIPT_MANAGER": "Gestor de Scripts",
     "GET_YOUR_AWESOMO": "Obtém o teu AWESOM-O",
     "SELECT_A_SERVER": "Seleciona um Servidor",
-    "WELCOME": "Bem Vindo",
+    "WELCOME": "Bem-vindo(a) ao Painel de Controlo do AWESOM-O, ${userYay.user.username}!",
     "WELCOME_DASH_2": "para o Painel de Controlo do AWESOM-O!",
     "TOTAL_SERVERS": "Total de Servidores",
     "DISCORD_SERVERS": "Discord Servers",
@@ -326,7 +326,7 @@
     "PATRON_MANAGEMENT": "Painel de Patron",
     "PREFIX": "Prefixo",
     "ENTER_PREFIX": "Introduz um prefixo",
-    "PLAN_QUOTA": "De momento estás a utilizar <span class='feinwaru-text'>${quota.current}</span> de <span class='feinwaru-text'>${quota.total}</span>servidores totais do teu Plano",
+    "PLAN_QUOTA": "De momento estás a utilizar <span class='feinwaru-text'>${quota.current}</span> de <span class='feinwaru-text'>${quota.total}</span> servidores totais do teu Plano",
     "OTHER_SERVERS": "Outros Servidores",
     "OTHER_SERVERS_DESC": "Precisas de ser **Dono** ou **Admin** para poderes utlizar esta função",
     "AWESOMO_ADDED":"O AWESOM-O foi Adicionado",

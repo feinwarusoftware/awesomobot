@@ -73,8 +73,8 @@
     "EARLY_FEATURES": "**Zugriff auf die neuesten Funktionen**",
 
     "BEST_FRIENDS": "Beste Freunde",
-    "BF_ROLE": "**Allerbeste Freunde** Rolle",
-    "AWESOMO_BETA": "Hol dir **AWESOM-O Beta** auf deinen Server",
+    "BF_ROLE": "**Beste Freunde** Rolle",
+    "AWESOMO_BETA": "Hol dir **AWESOM-O** auf deinen Server",
     "YOUR_NAME": "**Dein Name** auf der Webseite",
     "LOWER_TIERS": "Alle Vorteile der unteren Tiers",
 
@@ -183,8 +183,7 @@
     "SCRIPT_MANAGER": "Skript-Manager",
     "GET_YOUR_AWESOMO": "Hol dir deinen AWESOM-O",
     "SELECT_A_SERVER": "Wähle einen Server",
-    "WELCOME": "Willkommen",
-    "WELCOME_DASH_2": "zum AWESOM-O Dashboard!",
+    "WELCOME": "Willkommen zum AWESOM-O Dashboard!, ${userYay.user.username}",
     "TOTAL_SERVERS": "Server insgesamt",
     "DISCORD_SERVERS": "Discord Server",
     "TOTAL_ONLINE": "Insgesamt online",

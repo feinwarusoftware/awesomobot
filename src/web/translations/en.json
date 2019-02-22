@@ -36,19 +36,13 @@
     "MUSIC_DESC": "No Discord bot is complete without music, and this bot is no exception!",
     "ONLINE_DASHBOARD_DESC": "No good bot is complete without an online dashboard! Configure AWESOM-O easily through our online dashboard!",
     "ANALYTICS_DESC": "Get in-depth information about your server to help you improve. Don't worry about all the figures, let us handle that and turn that data into fancy graphs!",
-    "PROFILES_DESC": "Have your own space where you can share that artwork of Donald Trump and Kim Jon Un you have been dying for the world to see!",
+    "PROFILES_DESC": "Have your own space where you can share that artwork of Theresa May and Arlene Foster you have been dying for the world to see!",
     "MANY_MORE": "..and many more!",
 
     "OUR_SUBSCRIBERS": "Our Subscribers",
     "SUBSCRIBER_AMOUNT": "$${patron.amount} Subscriber",
     "SUBSCRIBER_SINCE": "Subscriber since",
     "VIEW_PROFILE": "View profile",
-
-    "DATE_ST": "st",
-    "DATE_ND": "nd",
-    "DATE_RD": "rd",
-    "DATE_TH": "th",
-
 
     "JANUARY": "January",
     "FEBRUARY": "February",
@@ -77,8 +71,8 @@
     "EARLY_FEATURES": "**Access to early features**",
 
     "BEST_FRIENDS": "Best Friends",
-    "BF_ROLE": "**Super Best Friends** role",
-    "AWESOMO_BETA": "**Get AWESOM-O Beta** on your server",
+    "BF_ROLE": "**Best Friends** role",
+    "AWESOMO_BETA": "**Get AWESOM-O** on your server",
     "YOUR_NAME": "**Your name** on the website",
     "LOWER_TIERS": "All perks from the lower tiers",
 
@@ -198,8 +192,7 @@
     "SCRIPT_MANAGER": "Script Manager",
     "GET_YOUR_AWESOMO": "Get Your AWESOM-O",
     "SELECT_A_SERVER": "Select a server",
-    "WELCOME": "Welcome",
-    "WELCOME_DASH_2": "to the AWESOM-O Dashboard!",
+    "WELCOME": "Welcome ${userYay.user.username}<br>to the AWESOM-O Dashboard!",
     "TOTAL_SERVERS": "Total Servers",
     "DISCORD_SERVERS": "Discord Servers",
     "TOTAL_ONLINE": "Total Online",
@@ -378,5 +371,12 @@
     "CHANNELS": "Channels",
     "SELECT_CHANNELS": "Select channels",
 
-    "BIG_SPENDER": "Wasted $100 on AWESOM-O"
+    "BIG_SPENDER": "Wasted $100 on AWESOM-O",
+    "TIMES_RAN": "Times ran",
+    "LIKE_THIS_SCRIPT": "Like this script!",
+    "UNLIKE_THIS_SCRIPT": "Unlike this script!",
+    "NO_HELP": "This user hasn't added a help section. Tell them to add one under the advanced script section now and help some bros out!",
+    "STARTS_WITH":"Message must start with: ",
+    "CONTAINS": "Message must contain: ",
+    "EXACT_MATCH": "Message must only contain: "
 }

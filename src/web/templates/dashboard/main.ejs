@@ -44,11 +44,7 @@
         <div class="container-fluid">
             <div class="col-md-12 col-sm-12 pb-2">
                 <div class="text-center" style="width: 100%">
-                    <h1 class="font-weight-bold mb-2 mt-2 mb-5">
-                        <%= trans.WELCOME %>
-                        <%= user_data.username %>
-                        <br>
-                        <%= trans.WELCOME_DASH_2 %>
+                    <h1 id="welcome" class="font-weight-bold mb-2 mt-2 mb-5">
                     </h1>
                 </div>
             </div>
@@ -339,6 +335,8 @@
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
+
+        $("#welcome").html(`<%- trans.WELCOME %>`)
 
         window.onload = () => {
 

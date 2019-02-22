@@ -64,7 +64,7 @@ app.use(cookieParser(config.cookie_secret));
 app.use(i18n({
   defaultLang: "en",
   translationsPath: path.join(__dirname, "translations"),
-  siteLangs: ["en","de","pt", "pl", "en-ni"],
+  siteLangs: ["en","de","fr", "pt-br", "pt-pt", "pl", "en-ni", "es"],
   paramLangName: "hl",
   textsVarName: "trans"
 }));
