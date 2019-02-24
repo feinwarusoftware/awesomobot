@@ -110,17 +110,30 @@ Thanks for making out day easier by contributing code to our cause!
 - [Umustalldie2](https://github.com/Umustalldie2)
 - [Florence](https://github.com/superfloree)
 
+**Translators**
+
+Thanks for making localisations for everyone to enjoy AWESOM-O!
+
+- [Salies (Portuguese (Brazil))](https://github.com/Salies)
+- [Tweeno (Portuguese (Portugal))](https://www.youtube.com/channel/UCLwz8BL15ycQ-8A9KkXQq9g)
+- [Hyrul (French)](https://www.youtube.com/user/Xavsteph)
+- [MrCartmanez90 (German)](https://www.reddit.com/user/MrCartmanez90)
+- [Phin (Polish)](https://www.deviantart.com/phinbella-flynn)
+
 **Patrons**
 
 Thanks to all of our patrons. Your support lets us keep AWESOM-O alive and our servers running.
 - Airborn56
+- Haydos
 - Hector Ramos
+- Kelsey Graves
 - Jackie Miller
 - KlausHeissler
-- LonelyChef
 - Nicole Boutwell
+- ParkSouth4Life
 - Savagekiller115
 - Scotty Patterson
+- Sydney
 - Tom Madden
 
 ## Copyright and license
