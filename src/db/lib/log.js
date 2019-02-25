@@ -2,17 +2,39 @@
 
 const mongoose = require("mongoose");
 
+const logTypes = ["stdout", "warning", "error", "debug"];
+const logClientTypes = ["bot", "web"];
+const logContentTypes = ["string", "json"];
+
+const LogContentSchema = new mongoose.Schema({
+
+  type: {
+    type: String,
+    enum: logContentTypes,
+    required: true
+  },
+  message: {
+    type: String,
+    required: true
+  }
+}, {
+
+  _id: false
+});
+
 const LogSchema = new mongoose.Schema({
-  // _id: ObjectId,
+
+  // _id
+
   client: {
     type: String,
-    required: true,
-    enum: ["bot", "web"]
+    enum: logClientTypes,
+    required: true
   },
   type: {
     type: String,
-    required: true,
-    enum: ["stdout", "warning", "error", "debug"]
+    enum: logTypes,
+    required: true
   },
   content: {
     type: LogContentSchema,
@@ -22,20 +44,6 @@ const LogSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   }
-});
-
-const LogContentSchema = new mongoose.Schema({
-  type: {
-    type: String,
-    required: true,
-    enum: ["string", "json"]
-  },
-  message: {
-    type: String,
-    required: true
-  }
-}, {
-  _id: false
 });
 
 module.exports = mongoose.model("Log", LogSchema);
