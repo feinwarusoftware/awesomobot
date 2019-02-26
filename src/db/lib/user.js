@@ -4,6 +4,34 @@ const mongoose = require("mongoose");
 
 const { ScriptDataSchema } = require("./utils");
 
+const OAuth2Schema = new mongoose.Schema({
+
+  access_token: {
+    type: String,
+    required: true
+  },
+  token_type: {
+    type: String,
+    required: true
+  },
+  refresh_token: {
+    type: String,
+    required: true
+  },
+  scope: {
+    type: String,
+    required: true
+  },
+
+  expires_at: {
+    type: Date,
+    required: true
+  }
+}, {
+
+  _id: false
+});
+
 // Reference to this user's member documents.
 const MemberReferenceSchema = new mongoose.Schema({
 
@@ -34,26 +62,13 @@ const defaultProfile = new ProfileSchema({
   //
 });
 
-// Discord login info.
-const SessionSchema = new mongoose.Schema({
+const PaypalPremiumSchema = new mongoose.Schema({
 
-  access_token: {
+  tier: {
     type: String,
+    enum: ["f", "bf", "sbf", "fortnite"],
     required: true
   },
-  token_type: {
-    type: String,
-    required: true
-  },
-  refresh_token: {
-    type: String,
-    required: true
-  },
-  scope: {
-    type: String,
-    required: true
-  },
-
   expires_at: {
     type: Date,
     required: true
@@ -66,7 +81,15 @@ const SessionSchema = new mongoose.Schema({
 // Patron subscription info.
 const PremiumSchema = new mongoose.Schema({
 
-  //
+  payment_type: {
+    type: String,
+    enum: ["patreon", "paypal"],
+    required: true
+  },
+  payment_info: {
+    type: [PaypalPremiumSchema, OAuth2Schema],
+    required: true
+  }
 }, {
 
   _id: false
@@ -98,7 +121,7 @@ const UserSchema = new mongoose.Schema({
     default: null
   },
   session: {
-    type: SessionSchema,
+    type: OAuth2Schema,
     default: null
   },
 
@@ -106,3 +129,6 @@ const UserSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("User", UserSchema);
+
+// Note: Remove 'session' and 'premium' and
+// have them as generic linked accounts!
