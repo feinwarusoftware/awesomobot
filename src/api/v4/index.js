@@ -6,4 +6,4 @@ const errors = require("./errors");
 
 router.use(errors);
 
-module.exports = errors;
+module.exports = router;

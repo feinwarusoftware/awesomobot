@@ -98,7 +98,7 @@ const panic = (error = "rawrxd") => {
 
 const uniq = a => {
   return Array.from(new Set(a));
-}
+};
 
 // temp db
 

@@ -2,23 +2,20 @@
 
 const router = require("express").Router();
 
+// 404 handler
 router.use((req, res, next) => {
 
-    const error = new Error();
-    error.status = 404;
+  const error = new Error("Not Found");
+  error.status = 404;
 
-    next(error)
+  next(error);
 });
 
-router.use((error, req, res) => {
+// error handler
+router.use((error, req, res, next) => {
 
-    if (error.status === 404) {
-
-        return res.json({ error: 404 });
-    }
-
-    res.status(error.status || 500);
-    res.json({ error });
+  res.status(error.status || 500);
+  res.json({ error });
 });
 
 module.exports = router;
