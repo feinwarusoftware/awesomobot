@@ -432,20 +432,24 @@ const rlBlacklist = [
 ];
 //
 
+const rlGuildId = "486066493801496586";
+const rlTermsChanId = "552718280792735744";
+const rlMemberRoleId = "552723133237297154";
+
 client.on("message", async (message) => {
   if (client.user.id === message.author.id) {
     return;
   }
 
   // redlynx server
-  if (message.guild.id === "486066493801496586") {
+  if (message.guild.id === rlGuildId) {
     // terms of use - 'i agree'
-    if (message.channel.id === "552718280792735744") {
+    if (message.channel.id === rlTermsChanId) {
       // check if the user typed 'i agree'
       if (message.content.toLowerCase() === "i agree") {
         // give the user the 'new kid' role
         message.member
-          .addRole("552723133237297154")
+          .addRole(rlMemberRoleId)
 
           .catch(error);
       } else {
