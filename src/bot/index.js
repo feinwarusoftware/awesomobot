@@ -1,320 +1,477 @@
-const path = require("path");
+"use strict";
+
+/*
+class Executable {
+  constructor(code) {
+
+  }
+}
+
+class Script extends Executable {
+
+}
+
+class Cache {
+
+}
+
+class BotCache extends Cache {
+
+}
+
+class ScriptCache extends BotCache {
+
+}
+
+class DataCache extends BotCache {
+
+}
+
+class Tree {
+
+}
+
+class TreeCache extends Cache {
+
+}
+
+class ExecCache extends TreeCache {
+
+}
+
+class GlobCache extends TreeCache {
+
+}
+
+class Glob {
+
+}
+
+class Drop extends Executable {
+
+}
+
+class ExecChain {
+
+}
+
+class Branch extends Executable {
+
+}
+
+class VM {
+
+*/
+
+// leaf
+// - can use all drops
+// - glob read access only
+// filter
+// - can use some drops
+// - stop execution
+// - read/write glob
+// - event access
+// drop
+// - can use all other drops
+// - provide extra functionality
+// hook
+// - can use some drops
+// - stop execution
+// - read/write glob
+// - event access
+// - script data access
+
+// drops
+// - db
+// - http
+// - sharp
+// - discord
+
+// filter vs hook - data persistence
+// - filter data persists throughout chain
+// - hook data dropped after each script
+
+// temp debug
+const panic = (error = "rawrxd") => {
+  throw error;
+};
+
+const uniq = a => {
+  return Array.from(new Set(a));
+}
+
+// temp db
+
+// NOTE: schema level validation will probably only check data integrity
+// ALSO NOTE: the above statemet is no longer the case
 const mongoose = require("mongoose");
-const discord = require("discord.js");
 
-const config = require("../../config.json");
-
-const {
-  log: {
-    info,
-    warn,
-    error
+// TODO: better error messages
+const scriptOptsSchema = new mongoose.Schema({
+  req_data: {
+    type: [String],
+    default: [],
+    validate: {
+      validator: function(v) {
+        return v != null;
+      },
+      message: () => "array value cannot be null"
+    }
   },
-  Sandbox,
-  loadGuild,
-  loadGuilds,
-  loadLocalScripts,
-  loadGuildScripts,
-  loadUser,
-  matchScript,
-  evalPerms
-} = require("../utils");
+  hook_type: {
+    type: String,
+    enum: ["pre-run", "post-run", "success", "failure", null],
+    default: null
+  },
+  allowed_types: {
+    type: [String],
+    default: [],
+    validate: {
+      validator: function(v) {
+        if (v == null) return false;
 
-process.on("uncaughtException", (exception) => {
-  console.error(exception); // to see your exception details in the console
-  // if you are on production, maybe you can send the exception details to your
-  // email as well ?
-});
-
-//
-mongoose.connect(`mongodb://${config.mongo_user === null && config.mongo_pass === null ? "" : `${config.mongo_user}:${config.mongo_pass}@`}localhost/rawrxd?authSource=admin`, {
-  useNewUrlParser: true,
-  ...config.mongo_user === null && config.mongo_pass === null ? {} : {
-    auth: {
-      authdb: "admin"
+        const enumValues = ["leaf", "branch", "drop", "hook"];
+        return v.reduce((a, c) => a && enumValues.includes(c), true);
+      },
+      message: () => "allowed_types is set incorrectly"
     }
   }
+}, {
+  _id: false
+});
+
+// TODO: better error messages
+const scriptVersionSchema = new mongoose.Schema({
+  // TODO: validate semver
+  version: {
+    type: String,
+    required: true,
+    validate: {
+      validator: function(v) {
+        return true;
+      },
+      message: () => "version set incorrectly"
+    }
+  },
+  // Get the fleg!
+  flag: {
+    type: String,
+    enum: ["release", "beta", "alpha"],
+    required: true
+  },
+  opts: {
+    type: scriptOptsSchema,
+    default: {},
+    validate: {
+      validator: function(v) {
+        return v != null;
+      },
+      message: () => "opts cannot be null"
+    }
+  },
+  code: {
+    type: String,
+    required: true
+  }
+}, {
+  _id: false
+});
+
+// TODO: better error messages
+const scriptSchema = new mongoose.Schema({
+  // _id: ObjectId,
+
+  name: {
+    type: String,
+    required: true
+  },
+
+  type: {
+    type: String,
+    enum: ["leaf", "branch", "drop", "hook"],
+    required: true,
+    validate: {
+      validator: function() {
+        // drop:
+        // this.versions[].opts.req_data.length == 0
+        // this.versions[].opts.hook_type == null
+        // this.versions[].opts.allowed_types != null
+        if (this.type === "drop") {
+          return this.versions.reduce((a, c) => a
+            && c.opts.req_data.length == 0
+            && c.opts.hook_type == null
+            && c.opts.allowed_types != null,
+          true);
+        }
+
+        // hook:
+        // this.versions[].opts.req_data != null
+        // this.versions[].opts.hook_type != null
+        // this.versions[].opts.allowed_types.length == 0
+        if (this.type === "hook") {
+          return this.versions.reduce((a, c) => a
+            && c.opts.req_data != null
+            && c.opts.hook_type != null
+            && c.opts.allowed_types.length == 0,
+          true);
+        }
+
+        return true;
+      },
+      message: () => "version opts not set correctly"
+    }
+  },
+  versions: {
+    type: [scriptVersionSchema],
+    default: [],
+    validate: {
+      validator: function(v) {
+        if (v == null) return false;
+
+        return v.length > 0;
+      },
+      message: () => "There needs to be at least 1 version present."
+    }
+  },
+
+  // if this is set to null, it means root
+  branch: {
+    type: mongoose.Schema.Types.ObjectId
+  },
+  pre: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: [],
+    validate: {
+      validator: function(v) {
+        if (v == null || this.type === "hook") return false;
+
+        // unique
+        if (v.length !== uniq(v).length) return false;
+
+        return true;
+      },
+      message: () => "pre not set correctly"
+    }
+  },
+  post: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: [],
+    validate: {
+      validator: function(v) {
+        if (v == null) return false;
+
+        // unique
+        if (v.length !== uniq(v).length) return false;
+
+        return true;
+      },
+      message: () => "post not set correctly"
+    }
+  },
+  drops: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: [],
+    validate: {
+      validator: function(v) {
+        if (v == null) return false;
+
+        // unique
+        if (v.length !== uniq(v).length) return false;
+
+        return true;
+      },
+      message: () => "drops not set correctly"
+    }
+  },
+
+  data: {
+    type: Map,
+    of: [String, Number, Boolean],
+    default: {},
+    validate: {
+      validator: function(v) {
+        if (v == null) return false;
+
+        return true;
+      },
+      message: () => "data not set correctly"
+    }
+  }
+});
+
+scriptSchema.methods.findPreHooks = function() {
+  return new Promise((resolve, reject) => {
+    if (this.pre.length === 0) return resolve([]);
+
+    this.model("Script").find({ _id: { $in: this.pre } }).then(resolve).catch(reject);
+  });
+};
+
+scriptSchema.methods.findPostHooks = function() {
+  return new Promise((resolve, reject) => {
+    if (this.post.length === 0) return resolve([]);
+
+    this.model("Script").find({ _id: { $in: this.post } }).then(resolve).catch(reject);
+  });
+};
+
+scriptSchema.methods.findDrops = function() {
+  return new Promise((resolve, reject) => {
+    if (this.drops.length === 0) return resolve([]);
+
+    this.model("Script").find({ _id: { $in: this.drops } }).then(resolve).catch(reject);
+  });
+};
+
+// TODO: validation
+// - special validation if branch is null
+// - the drop can be used in this script type
+// - all necessary data is set
+// - all necessary libs are included
+// - no undefined glob is accessed
+// - all tests pass
+// - all _id references are valid
+// - opts for each script type
+
+// What might change/break after schema validation:
+// - pre, post, and drops ids
+
+// What can still go wrong after validation:
+// - someone changes something in the db
+// (should re-check data validity on Script object creation)
+// - any script references could point to incorrect scripts or be invalid
+// - required data might not be set
+
+const ScriptModel = mongoose.model("Script", scriptSchema);
+
+mongoose.connect("mongodb://localhost/rawryd", {
+  useNewUrlParser: true
 });
 mongoose.Promise = global.Promise;
 
 const db = mongoose.connection;
-db.on("error", (err) => {
-  error(`error connecting to mongo: ${err}`);
+db.on("error", error => {
+  panic(error);
 });
 db.on("open", () => {
-  info("connected to mongo");
-});
-//
-
-//
-const sandbox = new Sandbox();
-
-const baseScriptSandbox = {
-
-  RichEmbed: discord.RichEmbed,
-  utils: {
-    RichEmbed: discord.RichEmbed
-  }
-};
-//
-
-//
-let scripts;
-//
-
-//
-const client = new discord.Client();
-client.login(config.discord_token).then(() => {
-  info("logged into discord");
-}).catch((err) => {
-  error(`error logging into discord: ${err}`);
-  return process.exit(-1);
+  console.log("db conn");
 });
 
-client.on("error", (err) => {
-  error(err);
+/*
+const newScript = new ScriptModel({
+  name: "command",
+  type: "branch",
+  versions: [{
+    version: "0.0.1",
+    flag: "alpha",
+    opts: {},
+    code: "some shitty code goes here"
+  }],
+  branch: "5c840542d5338125e4fadf95",
+  pre: [
+    "5c84166b6a9fcb33d00d917b",
+    "5c841b26a63ad21124d798de"
+  ],
+  post: [],
+  drops: [],
+  data: {}
 });
 
-client.on("ready", async () => {
-  try {
-    scripts = await loadLocalScripts(path.join(__dirname, "scripts"));
-  } catch (err) {
-    error(`error loading local scripts: ${err}`);
-    return process.exit(-1);
-  }
-
-  try {
-    await loadGuilds(client.guilds.map(e => e.id));
-  } catch (err) {
-    error(`error loading guilds: ${err}`);
-    return process.exit(-1);
-  }
-
-  try {
-    client.user.setActivity(`AWESOM-O ${config.version}`);
-  } catch (err) {
-    error(`error setting playing status: ${err}`);
-    return process.exit(-1);
-  }
-
-  info("bot ready");
-});
-
-client.on("guildCreate", async (guild) => {
-  try {
-    await loadGuild(guild.id);
-  } catch (err) {
-    return error(`error loading guild: ${guild.name}, ${guild.id}: ${err}`);
-  }
-
-  info(`loaded new guild: ${guild.name}, ${guild.id}`);
-});
-
-client.on("message", async (message) => {
-  if (client.user.id === message.author.id) {
-    return;
-  }
-
-  if (scripts == null) {
-    return warn("received a message event before loading local scripts, ignoring");
-  }
-
-  let dbGuild;
-  try {
-    dbGuild = await loadGuild(message.guild.id);
-  } catch (err) {
-    return error(`error loading guild: ${message.guild.name}, ${message.guild.id}: ${err}`);
-  }
-
-  if (dbGuild.premium === false) {
-    return;
-  }
-
-  let dbUser;
-  try {
-    dbUser = await loadUser(message.author.id);
-  } catch (err) {
-    return error(`error loading user: ${message.author.username}, ${message.author.id}: ${err}`);
-  }
-
-  const userStatsInc = {};
-  let trophiesPush = null;
-
-  if (message.content.includes("shit")) {
-    dbUser.shits += 1;
-    userStatsInc.shits = 1;
-
-    if (dbUser.shits >= 1000 && !dbUser.trophies.includes("1kshits")){
-      trophiesPush = "1kshits";
-    }
-  }
-
-  let xp;
-  if (message.content.length <= 15) {
-    xp = 1;
-  } else {
-    xp = Math.min(25, Math.round(message.content.length / 10));
-  }
-
-  dbUser.xp += xp;
-  userStatsInc.xp = xp;
-
-  // async
-  dbUser.updateOne({
-    $inc: userStatsInc,
-    ... trophiesPush == null ? {} : { $push: { trophies: trophiesPush } }
-  }).catch((err) => {
-    error(`error saving user stats: ${message.author.username}, ${message.author.id}: ${err}`);
-  });
-
-  let guildScripts;
-  try {
-    guildScripts = await loadGuildScripts(dbGuild);
-  } catch (err) {
-    return error(`error loading guild scripts: ${message.guild.name}, ${message.guild.id}: ${err}`);
-  }
-
-  // merge with local script data as weight isnt supported by the database.
-  // assign -1 weight to non local scripts, then sort by weight.
-  guildScripts.forEach(e => {
-    const local = scripts.find(f => f.name === e.name);
-    if (local == null) {
-      return e.weight = -1;
-    }
-    e.weight = local.weight || 0;
-  });
-  guildScripts.sort((a, b) => b.weight - a.weight);
-
-  let matchedScript;
-  let matchedTerm;
-  for (const guildScript of guildScripts) {
-    const { matched, err } = matchScript(dbGuild.prefix,
-      guildScript.match_type_override || guildScript.match_type,
-      guildScript.match_override || guildScript.match,
-      message.content);
-
-    if (err != null) {
-      return error(`error matching script: ${guildScript.name}: ${err}`);
-    }
-
-    if (matched !== false) {
-      matchedScript = guildScript;
-      matchedTerm = matched;
-      break;
-    }
-  }
-
-  if (matchedTerm == null) {
-    return;
-  }
-
-  if (!evalPerms(dbGuild, matchedScript, message.member, message.channel)) {
-    return;
-  }
-
-  matchedScript.updateOne({
-    $inc: { use_count: 1 }
-  }).catch(error => {
-    error(`error updating script use_count: ${message.author.username}, ${message.author.id}, script: ${matchedScript.name}: ${error}`);
-  });
-
-  if (matchedScript.local) {
-    // message.channel.startTyping();
-
-    const localScript = scripts.find(e => e.name === matchedScript.name);
-    if (localScript == null) {
-      return error(`could not find local script: ${matchedScript.name}`);
-    }
-
-    try {
-      localScript.run(
-        client,
-        message,
-        dbGuild,
-        dbUser,
-        matchedScript,
-        matchedTerm
-      );
-    } catch (err) {
-      error(`error running local script: ${localScript.name}: ${err}`);
-    }
-
-    // message.channel.stopTyping();
-  } else if (matchedScript.type === "js") {
-    try {
-      sandbox.exec(matchedScript.code, {
-        ...baseScriptSandbox,
-        message
-      });
-    } catch (err) {
-      error(`error running non local script: ${matchedScript.name}: ${err}`);
-    }
-  } else {
-    // old code
-    warn(`json script parser called, this is old code and may not work as intended: ${matchedScript.name}`);
-
-    // json script handling
-
-    if (matchedScript.data.action === "text") {
-      return message.channel.send(matchedScript.data.args[0].value);
-    }
-
-    if (matchedScript.data.action === "file") {
-      return message.channel.send("", {
-        file: matchedScript.data.args[0].value
-      });
-    }
-
-    if (matchedScript.data.action === "embed") {
-      // author
-      // color
-      // description
-      // footer
-      // image
-      // thumbnail
-      // timestamp
-      // title
-      // url
-
-      const embed = new discord.RichEmbed();
-
-      for (const arg of matchedScript.data.args) {
-        // cos discord embeds have the BIG gay
-        switch (arg.field) {
-        case "author":
-          embed.setAuthor(arg.value);
-          break;
-        case "color":
-          embed.setColor(arg.value);
-          break;
-        case "description":
-          embed.setDescription(arg.value);
-          break;
-        case "footer":
-          embed.setFooter(arg.value);
-          break;
-        case "image":
-          embed.setImage(arg.value);
-          break;
-        case "thumbnail":
-          embed.setThumbnail(arg.value);
-          break;
-        case "timestamp":
-          embed.setTimestamp(arg.value);
-          break;
-        case "title":
-          embed.setTitle(arg.value);
-          break;
-        case "url":
-          embed.setURL(arg.value);
-          break;
-        default:
-          return message.channel.send("invalid embed argument");
-        }
-      }
-
-      return message.channel.send(embed);
-    }
-  }
-});
+newScript.save().then(console.log).catch(console.error);
+*/
 //
+
+class DbController {
+  constructor() {
+
+  }
+  findScriptById(id) {
+    return ScriptModel.findById(id);
+  }
+}
+
+// ISSUE: how do we clear the cache when someone wants to update a script?
+class ScriptCache {
+  constructor(size) {
+    this.size = size;
+    this.cache = [];
+  }
+  add(script) {
+    this.remove(script.id);
+    this.cache.push(script);
+
+    if (this.cache.length > this.size) this.cache.shift();
+  }
+  remove(scriptId) {
+    const index = this.cache.findIndex(e => e.id === scriptId);
+    if (index != null) this.cache.splice(index, 1);
+  }
+  find(scriptId) {
+    const script = this.cache.find(e => e.id === scriptId);
+    if (script != null) return script;
+
+    return null;
+  }
+  clear() {
+    this.cache = [];
+  }
+}
+
+class ScriptManager {
+  constructor(cacheSize) {
+    this.cache = new ScriptCache(cacheSize);
+    this.db = new DbController();
+  }
+  findById(id) {
+    return new Promise((resolve, reject) => {
+      const cached = this.cache.find(id);
+      if (cached != null) return resolve(cached);
+
+      this.db.findScriptById(id)
+        .then(dbScript => {
+          if (dbScript == null) return reject("script is null");
+
+          this.cache.add(dbScript);
+          resolve(dbScript);
+        })
+        .catch(reject);
+    });
+  }
+}
+
+const scriptManager = new ScriptManager(1000);
+
+const testScript = scriptManager.findById("5c841be443ca95161818d36e").then(doc => {
+  console.log(doc);
+
+  const testScript2 = scriptManager.findById("5c841be443ca95161818d36e").then(console.log).catch(console.error);
+
+}).catch(console.error);
+
+/*
+class Event {
+  constructor(type, data = {}) {
+    this.type = type;
+    this.data = data;
+  }
+
+}
+
+class Sandbox {
+  constructor(event) {
+    if (!(event instanceof Event)) panic();
+    this.event = event;
+
+    this.execChain = this._buildExecChain();
+  }
+  _buildExecChain() {
+
+  }
+  fetchNextDep() {
+
+  }
+  reserveVM(VMPool) {
+
+  }
+}
+*/

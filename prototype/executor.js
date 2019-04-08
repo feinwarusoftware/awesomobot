@@ -16,26 +16,26 @@ const { fork } = require("child_process");
 // editable timeout, timeout conditions
 
 class Executor extends Emitter {
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        this.fork = fork();
+    this.fork = fork();
 
-        this.available = true;
-    }
-    executeScript(script) {
-        this.available = false;
+    this.available = true;
+  }
+  executeScript(script) {
+    this.available = false;
 
-        // do stuff...
+    // do stuff...
 
-        // testing
-        const timeout = Math.floor(Math.random() * 5000);
+    // testing
+    const timeout = Math.floor(Math.random() * 5000);
 
-        setTimeout(() => {
-            this.available = true;
-            this.emit("finished", script);
-        }, timeout);
-    }
+    setTimeout(() => {
+      this.available = true;
+      this.emit("finished", script);
+    }, timeout);
+  }
 }
 
 module.exports = Executor;

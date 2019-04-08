@@ -5,11 +5,11 @@ const mongoose = require("mongoose");
 const dataByteLimit = 16384;
 
 const bytes = s => {
-    return ~-encodeURI(s).split(/%..|./).length
+    return ~-encodeURI(s).split(/%..|./).length;
 }
 
-const jsonSize = s => {​
-    return bytes(JSON.stringify(s))
+const jsonSize = s => {
+    return bytes(JSON.stringify(s));
 }
 
 const ScriptDataSchema = new mongoose.Schema({
