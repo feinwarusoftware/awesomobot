@@ -8,14 +8,8 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Bot",
-            "program": "${workspaceFolder}\\index.js"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Web",
-            "program": "${workspaceFolder}\\index.js"
+            "name": "rawryd",
+            "program": "${workspaceFolder}\\src\\bot\\index.js"
         }
     ]
 }
