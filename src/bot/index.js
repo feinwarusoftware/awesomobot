@@ -434,7 +434,7 @@ const rlBlacklist = [
 
 const rlGuildId = "486066493801496586";
 const rlTermsChanId = "552718280792735744";
-const rlMemberRoleId = "552723133237297154";
+const rlMemberRoleId = "540413905332076544";
 
 client.on("message", async (message) => {
   if (client.user.id === message.author.id) {
