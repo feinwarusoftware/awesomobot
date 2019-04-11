@@ -3185,7 +3185,7 @@
     "PowerPoisonAmount": null,
     "PowerHeroPoison": null,
     "PowerAttackBoost": null,
-    "PowerAttackDecrease": 21,
+    "PowerAttackDecrease": 25,
     "AgroRangeMultiplier": 2.86,
     "KnockbackImpulse": "30.0000",
     "KnockbackAngleDeg": 45.0,
@@ -3195,450 +3195,451 @@
     "Rarity": 0,
     "Theme": "Fan",
     "TechTree2": {
-        "Slots": [
-          {
-            "x": 0,
-            "property": "MaxHealth",
-            "value": 6.0
-          },
-          {
-            "x": 1,
-            "property": "Damage",
-            "value": 3.0
-          },
-          {
-            "x": 2,
-            "property": "MaxHealth",
-            "value": 7.0
-          },
-          {
-            "x": 3,
-            "property": "PowerAttackDecreaseAbs",
-            "value": 6.0
-          },
-          {
-            "x": 4,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 5,
-            "property": "MaxHealth",
-            "value": 5.0
-          },
-          {
-            "x": 6,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 7,
-            "property": "MaxHealth",
-            "value": 6.0
-          },
-          {
-            "x": 8,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 9,
-            "property": "MaxHealth",
-            "value": 8.0
-          },
-          {
-            "x": 10,
-            "property": "PowerAttackDecreaseAbs",
-            "value": 13.0
-          },
-          {
-            "x": 11,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 12,
-            "property": "MaxHealth",
-            "value": 10.0
-          },
-          {
-            "x": 13,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 14,
-            "property": "MaxHealth",
-            "value": 4.0
-          },
-          {
-            "x": 15,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 16,
-            "property": "MaxHealth",
-            "value": 4.0
-          },
-          {
-            "x": 17,
-            "property": "PowerAttackDecreaseAbs",
-            "value": 13.0
-          },
-          {
-            "x": 18,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 19,
-            "property": "MaxHealth",
-            "value": 6.0
-          },
-          {
-            "x": 20,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 21,
-            "property": "MaxHealth",
-            "value": 7.0
-          },
-          {
-            "x": 22,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 23,
-            "property": "MaxHealth",
-            "value": 8.0
-          },
-          {
-            "x": 24,
-            "property": "PowerAttackDecreaseAbs",
-            "value": 3.0
-          },
-          {
-            "x": 25,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 26,
-            "property": "MaxHealth",
-            "value": 4.0
-          },
-          {
-            "x": 27,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 28,
-            "property": "MaxHealth",
-            "value": 5.0
-          },
-          {
-            "x": 29,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 30,
-            "property": "MaxHealth",
-            "value": 6.0
-          },
-          {
-            "x": 31,
-            "property": "PowerAttackDecreaseAbs",
-            "value": 6.0
-          },
-          {
-            "x": 32,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 33,
-            "property": "MaxHealth",
-            "value": 8.0
-          },
-          {
-            "x": 34,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 35,
-            "property": "MaxHealth",
-            "value": 10.0
-          },
-          {
-            "x": 36,
-            "property": "Damage",
-            "value": 3.0
-          },
-          {
-            "x": 37,
-            "property": "MaxHealth",
-            "value": 12.0
-          },
-          {
-            "x": 38,
-            "property": "PowerAttackDecreaseAbs",
-            "value": 12.0
-          },
-          {
-            "x": 39,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 40,
-            "property": "MaxHealth",
-            "value": 4.0
-          },
-          {
-            "x": 41,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 42,
-            "property": "MaxHealth",
-            "value": 5.0
-          },
-          {
-            "x": 43,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 44,
-            "property": "MaxHealth",
-            "value": 6.0
-          },
-          {
-            "x": 45,
-            "property": "PowerAttackDecreaseAbs",
-            "value": 7.0
-          },
-          {
-            "x": 46,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 47,
-            "property": "MaxHealth",
-            "value": 8.0
-          },
-          {
-            "x": 48,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 49,
-            "property": "MaxHealth",
-            "value": 10.0
-          },
-          {
-            "x": 50,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 51,
-            "property": "MaxHealth",
-            "value": 12.0
-          },
-          {
-            "x": 52,
-            "property": "PowerAttackDecreaseAbs",
-            "value": 14.0
-          },
-          {
-            "x": 53,
-            "property": "Damage",
-            "value": 3.0
-          },
-          {
-            "x": 54,
-            "property": "MaxHealth",
-            "value": 3.0
-          },
-          {
-            "x": 55,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 56,
-            "property": "MaxHealth",
-            "value": 4.0
-          },
-          {
-            "x": 57,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 58,
-            "property": "MaxHealth",
-            "value": 5.0
-          },
-          {
-            "x": 59,
-            "property": "PowerAttackDecreaseAbs",
-            "value": 7.0
-          },
-          {
-            "x": 60,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 61,
-            "property": "MaxHealth",
-            "value": 6.0
-          },
-          {
-            "x": 62,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 63,
-            "property": "MaxHealth",
-            "value": 7.0
-          },
-          {
-            "x": 64,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 65,
-            "property": "MaxHealth",
-            "value": 9.0
-          },
-          {
-            "x": 66,
-            "property": "PowerAttackDecreaseAbs",
-            "value": 14.0
-          },
-          {
-            "x": 67,
-            "property": "Damage",
-            "value": 3.0
-          },
-          {
-            "x": 68,
-            "property": "MaxHealth",
-            "value": 12.0
-          }
-        ],
-        "Evolve": [
-          {
-            "StarLevel": 0,
-            "Slots": [
-              {
-                "x": 0,
-                "property": "MaxHealth",
-                "value": 19.0
-              },
-              {
-                "x": 0,
-                "property": "Damage",
-                "value": 5.0
-              }
-            ]
-          },
-          {
-            "StarLevel": 1,
-            "Slots": [
-              {
-                "x": 0,
-                "property": "MaxHealth",
-                "value": 29.0
-              },
-              {
-                "x": 0,
-                "property": "Damage",
-                "value": 7.0
-              }
-            ]
-          },
-          {
-            "StarLevel": 2,
-            "Slots": [
-              {
-                "x": 0,
-                "property": "MaxHealth",
-                "value": 39.0
-              },
-              {
-                "x": 0,
-                "property": "Damage",
-                "value": 10.0
-              }
-            ]
-          },
-          {
-            "StarLevel": 3,
-            "Slots": [
-              {
-                "x": 0,
-                "property": "MaxHealth",
-                "value": 48.0
-              },
-              {
-                "x": 0,
-                "property": "Damage",
-                "value": 12.0
-              }
-            ]
-          },
-          {
-            "StarLevel": 4,
-            "Slots": [
-              {
-                "x": 0,
-                "property": "MaxHealth",
-                "value": 78.0
-              },
-              {
-                "x": 0,
-                "property": "Damage",
-                "value": 19.0
-              }
-            ]
-          },
-          {
-            "StarLevel": 5,
-            "Slots": [
-              {
-                "x": 0,
-                "property": "MaxHealth",
-                "value": 97.0
-              },
-              {
-                "x": 0,
-                "property": "Damage",
-                "value": 24.0
-              }
-            ]
-          }
-        ]
-      },
+      "Slots": [
+        {
+          "x": 0,
+          "property": "MaxHealth",
+          "value": 6.0
+        },
+        {
+          "x": 1,
+          "property": "Damage",
+          "value": 3.0
+        },
+        {
+          "x": 2,
+          "property": "MaxHealth",
+          "value": 7.0
+        },
+        {
+          "x": 3,
+          "property": "PowerAttackDecreaseAbs",
+          "value": 6.0
+        },
+        {
+          "x": 4,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 5,
+          "property": "MaxHealth",
+          "value": 5.0
+        },
+        {
+          "x": 6,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 7,
+          "property": "MaxHealth",
+          "value": 6.0
+        },
+        {
+          "x": 8,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 9,
+          "property": "MaxHealth",
+          "value": 8.0
+        },
+        {
+          "x": 10,
+          "property": "PowerAttackDecreaseAbs",
+          "value": 13.0
+        },
+        {
+          "x": 11,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 12,
+          "property": "MaxHealth",
+          "value": 10.0
+        },
+        {
+          "x": 13,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 14,
+          "property": "MaxHealth",
+          "value": 4.0
+        },
+        {
+          "x": 15,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 16,
+          "property": "MaxHealth",
+          "value": 4.0
+        },
+        {
+          "x": 17,
+          "property": "PowerAttackDecreaseAbs",
+          "value": 13.0
+        },
+        {
+          "x": 18,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 19,
+          "property": "MaxHealth",
+          "value": 6.0
+        },
+        {
+          "x": 20,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 21,
+          "property": "MaxHealth",
+          "value": 7.0
+        },
+        {
+          "x": 22,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 23,
+          "property": "MaxHealth",
+          "value": 8.0
+        },
+        {
+          "x": 24,
+          "property": "PowerAttackDecreaseAbs",
+          "value": 3.0
+        },
+        {
+          "x": 25,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 26,
+          "property": "MaxHealth",
+          "value": 4.0
+        },
+        {
+          "x": 27,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 28,
+          "property": "MaxHealth",
+          "value": 5.0
+        },
+        {
+          "x": 29,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 30,
+          "property": "MaxHealth",
+          "value": 6.0
+        },
+        {
+          "x": 31,
+          "property": "PowerAttackDecreaseAbs",
+          "value": 6.0
+        },
+        {
+          "x": 32,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 33,
+          "property": "MaxHealth",
+          "value": 8.0
+        },
+        {
+          "x": 34,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 35,
+          "property": "MaxHealth",
+          "value": 10.0
+        },
+        {
+          "x": 36,
+          "property": "Damage",
+          "value": 3.0
+        },
+        {
+          "x": 37,
+          "property": "MaxHealth",
+          "value": 12.0
+        },
+        {
+          "x": 38,
+          "property": "PowerAttackDecreaseAbs",
+          "value": 12.0
+        },
+        {
+          "x": 39,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 40,
+          "property": "MaxHealth",
+          "value": 4.0
+        },
+        {
+          "x": 41,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 42,
+          "property": "MaxHealth",
+          "value": 5.0
+        },
+        {
+          "x": 43,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 44,
+          "property": "MaxHealth",
+          "value": 6.0
+        },
+        {
+          "x": 45,
+          "property": "PowerAttackDecreaseAbs",
+          "value": 7.0
+        },
+        {
+          "x": 46,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 47,
+          "property": "MaxHealth",
+          "value": 8.0
+        },
+        {
+          "x": 48,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 49,
+          "property": "MaxHealth",
+          "value": 10.0
+        },
+        {
+          "x": 50,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 51,
+          "property": "MaxHealth",
+          "value": 12.0
+        },
+        {
+          "x": 52,
+          "property": "PowerAttackDecreaseAbs",
+          "value": 14.0
+        },
+        {
+          "x": 53,
+          "property": "Damage",
+          "value": 3.0
+        },
+        {
+          "x": 54,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 55,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 56,
+          "property": "MaxHealth",
+          "value": 4.0
+        },
+        {
+          "x": 57,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 58,
+          "property": "MaxHealth",
+          "value": 5.0
+        },
+        {
+          "x": 59,
+          "property": "PowerAttackDecreaseAbs",
+          "value": 7.0
+        },
+        {
+          "x": 60,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 61,
+          "property": "MaxHealth",
+          "value": 6.0
+        },
+        {
+          "x": 62,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 63,
+          "property": "MaxHealth",
+          "value": 7.0
+        },
+        {
+          "x": 64,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 65,
+          "property": "MaxHealth",
+          "value": 9.0
+        },
+        {
+          "x": 66,
+          "property": "PowerAttackDecreaseAbs",
+          "value": 14.0
+        },
+        {
+          "x": 67,
+          "property": "Damage",
+          "value": 3.0
+        },
+        {
+          "x": 68,
+          "property": "MaxHealth",
+          "value": 12.0
+        }
+      ],
+      "Evolve": [
+        {
+          "StarLevel": 0,
+          "Slots": [
+            {
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 19.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 5.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 1,
+          "Slots": [
+            {
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 29.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 7.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 2,
+          "Slots": [
+            {
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 39.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 10.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 3,
+          "Slots": [
+            {
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 48.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 12.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 4,
+          "Slots": [
+            {
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 78.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 19.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 5,
+          "Slots": [
+            {
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 97.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 24.0
+            }
+          ]
+        }
+      ]
+    },
     "Requirements": {
       "MinEpisodeCompleted": 3,
       "MinPlayerLevel": 0,
-      "MinPVPRank": 20
+      "MinPVPRank": 20,
+      "MinPVPArena": 5
     },
     "AOEAttackType": "No",
     "AOEDamagePercentage": 0.0,
@@ -16373,11 +16374,11 @@
     "Visible": true,
     "CanAttack": true,
     "Name": ["Catapult Timmy", "Cata", "Kappa"],
-    "Description": "Charged:  Launches filthy rats at the nearest enemy.",
+    "Description": "Charged:  Launches 2 filthy rats at the nearest enemy.",
     "Image": "TimmyFanCard",
     "ManaCost": 3,
     "Damage": "36",
-    "Health": "96",
+    "Health": "120",
     "HealthLoss": "0",
     "Type": "Character",
     "Targeting": {
@@ -16411,480 +16412,481 @@
     "Rarity": 1,
     "Theme": "Fan",
     "TechTree2": {
-        "Slots": [
-          {
-            "x": 0,
-            "property": "MaxHealth",
-            "value": 4.0
-          },
-          {
-            "x": 1,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 2,
-            "property": "MaxHealth",
-            "value": 4.0
-          },
-          {
-            "x": 3,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 4,
-            "property": "MaxHealth",
-            "value": 2.0
-          },
-          {
-            "x": 5,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 6,
-            "property": "MaxHealth",
-            "value": 3.0
-          },
-          {
-            "x": 7,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 8,
-            "property": "MaxHealth",
-            "value": 4.0
-          },
-          {
-            "x": 9,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 10,
-            "property": "MaxHealth",
-            "value": 4.0
-          },
-          {
-            "x": 11,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 12,
-            "property": "MaxHealth",
-            "value": 5.0
-          },
-          {
-            "x": 13,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 14,
-            "property": "MaxHealth",
-            "value": 2.0
-          },
-          {
-            "x": 15,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 16,
-            "property": "MaxHealth",
-            "value": 3.0
-          },
-          {
-            "x": 17,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 18,
-            "property": "MaxHealth",
-            "value": 4.0
-          },
-          {
-            "x": 19,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 20,
-            "property": "MaxHealth",
-            "value": 4.0
-          },
-          {
-            "x": 21,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 22,
-            "property": "MaxHealth",
-            "value": 5.0
-          },
-          {
-            "x": 23,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 24,
-            "property": "MaxHealth",
-            "value": 2.0
-          },
-          {
-            "x": 25,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 26,
-            "property": "MaxHealth",
-            "value": 2.0
-          },
-          {
-            "x": 27,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 28,
-            "property": "MaxHealth",
-            "value": 2.0
-          },
-          {
-            "x": 29,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 30,
-            "property": "MaxHealth",
-            "value": 3.0
-          },
-          {
-            "x": 31,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 32,
-            "property": "MaxHealth",
-            "value": 4.0
-          },
-          {
-            "x": 33,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 34,
-            "property": "MaxHealth",
-            "value": 4.0
-          },
-          {
-            "x": 35,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 36,
-            "property": "MaxHealth",
-            "value": 5.0
-          },
-          {
-            "x": 37,
-            "property": "Damage",
-            "value": 3.0
-          },
-          {
-            "x": 38,
-            "property": "MaxHealth",
-            "value": 6.0
-          },
-          {
-            "x": 39,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 40,
-            "property": "MaxHealth",
-            "value": 2.0
-          },
-          {
-            "x": 41,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 42,
-            "property": "MaxHealth",
-            "value": 3.0
-          },
-          {
-            "x": 43,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 44,
-            "property": "MaxHealth",
-            "value": 3.0
-          },
-          {
-            "x": 45,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 46,
-            "property": "MaxHealth",
-            "value": 4.0
-          },
-          {
-            "x": 47,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 48,
-            "property": "MaxHealth",
-            "value": 4.0
-          },
-          {
-            "x": 49,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 50,
-            "property": "MaxHealth",
-            "value": 6.0
-          },
-          {
-            "x": 51,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 52,
-            "property": "MaxHealth",
-            "value": 7.0
-          },
-          {
-            "x": 53,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 54,
-            "property": "MaxHealth",
-            "value": 2.0
-          },
-          {
-            "x": 55,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 56,
-            "property": "MaxHealth",
-            "value": 2.0
-          },
-          {
-            "x": 57,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 58,
-            "property": "MaxHealth",
-            "value": 2.0
-          },
-          {
-            "x": 59,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 60,
-            "property": "MaxHealth",
-            "value": 3.0
-          },
-          {
-            "x": 61,
-            "property": "Damage",
-            "value": 1.0
-          },
-          {
-            "x": 62,
-            "property": "MaxHealth",
-            "value": 4.0
-          },
-          {
-            "x": 63,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 64,
-            "property": "MaxHealth",
-            "value": 4.0
-          },
-          {
-            "x": 65,
-            "property": "Damage",
-            "value": 2.0
-          },
-          {
-            "x": 66,
-            "property": "MaxHealth",
-            "value": 5.0
-          },
-          {
-            "x": 67,
-            "property": "Damage",
-            "value": 3.0
-          },
-          {
-            "x": 68,
-            "property": "MaxHealth",
-            "value": 6.0
-          }
-        ],
-        "Evolve": [
-          {
-            "StarLevel": 0,
-            "Slots": [
-              {
-                "x": 0,
-                "property": "MaxHealth",
-                "value": 13.0
-              },
-              {
-                "x": 0,
-                "property": "Damage",
-                "value": 5.0
-              },
-              {
-                "x": 0,
-                "property": "PowerSummonLevelAbs",
-                "value": 1.0
-              }
-            ]
-          },
-          {
-            "StarLevel": 1,
-            "Slots": [
-              {
-                "x": 0,
-                "property": "MaxHealth",
-                "value": 26.0
-              },
-              {
-                "x": 0,
-                "property": "Damage",
-                "value": 10.0
-              },
-              {
-                "x": 0,
-                "property": "PowerSummonLevelAbs",
-                "value": 1.0
-              }
-            ]
-          },
-          {
-            "StarLevel": 2,
-            "Slots": [
-              {
-                "x": 0,
-                "property": "MaxHealth",
-                "value": 39.0
-              },
-              {
-                "x": 0,
-                "property": "Damage",
-                "value": 15.0
-              },
-              {
-                "x": 0,
-                "property": "PowerSummonLevelAbs",
-                "value": 1.0
-              }
-            ]
-          },
-          {
-            "StarLevel": 3,
-            "Slots": [
-              {
-                "x": 0,
-                "property": "MaxHealth",
-                "value": 52.0
-              },
-              {
-                "x": 0,
-                "property": "Damage",
-                "value": 20.0
-              },
-              {
-                "x": 0,
-                "property": "PowerSummonLevelAbs",
-                "value": 1.0
-              }
-            ]
-          },
-          {
-            "StarLevel": 4,
-            "Slots": [
-              {
-                "x": 0,
-                "property": "MaxHealth",
-                "value": 39.0
-              },
-              {
-                "x": 0,
-                "property": "Damage",
-                "value": 15.0
-              },
-              {
-                "x": 0,
-                "property": "PowerSummonLevelAbs",
-                "value": 1.0
-              }
-            ]
-          },
-          {
-            "StarLevel": 5,
-            "Slots": [
-              {
-                "x": 0,
-                "property": "MaxHealth",
-                "value": 26.0
-              },
-              {
-                "x": 0,
-                "property": "Damage",
-                "value": 10.0
-              },
-              {
-                "x": 0,
-                "property": "PowerSummonLevelAbs",
-                "value": 1.0
-              }
-            ]
-          }
-        ]
-      },
+      "Slots": [
+        {
+          "x": 0,
+          "property": "MaxHealth",
+          "value": 4.0
+        },
+        {
+          "x": 1,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 2,
+          "property": "MaxHealth",
+          "value": 5.0
+        },
+        {
+          "x": 3,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 4,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 5,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 6,
+          "property": "MaxHealth",
+          "value": 4.0
+        },
+        {
+          "x": 7,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 8,
+          "property": "MaxHealth",
+          "value": 4.0
+        },
+        {
+          "x": 9,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 10,
+          "property": "MaxHealth",
+          "value": 5.0
+        },
+        {
+          "x": 11,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 12,
+          "property": "MaxHealth",
+          "value": 6.0
+        },
+        {
+          "x": 13,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 14,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 15,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 16,
+          "property": "MaxHealth",
+          "value": 4.0
+        },
+        {
+          "x": 17,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 18,
+          "property": "MaxHealth",
+          "value": 4.0
+        },
+        {
+          "x": 19,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 20,
+          "property": "MaxHealth",
+          "value": 5.0
+        },
+        {
+          "x": 21,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 22,
+          "property": "MaxHealth",
+          "value": 6.0
+        },
+        {
+          "x": 23,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 24,
+          "property": "MaxHealth",
+          "value": 2.0
+        },
+        {
+          "x": 25,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 26,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 27,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 28,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 29,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 30,
+          "property": "MaxHealth",
+          "value": 4.0
+        },
+        {
+          "x": 31,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 32,
+          "property": "MaxHealth",
+          "value": 5.0
+        },
+        {
+          "x": 33,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 34,
+          "property": "MaxHealth",
+          "value": 5.0
+        },
+        {
+          "x": 35,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 36,
+          "property": "MaxHealth",
+          "value": 7.0
+        },
+        {
+          "x": 37,
+          "property": "Damage",
+          "value": 3.0
+        },
+        {
+          "x": 38,
+          "property": "MaxHealth",
+          "value": 8.0
+        },
+        {
+          "x": 39,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 40,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 41,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 42,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 43,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 44,
+          "property": "MaxHealth",
+          "value": 4.0
+        },
+        {
+          "x": 45,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 46,
+          "property": "MaxHealth",
+          "value": 5.0
+        },
+        {
+          "x": 47,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 48,
+          "property": "MaxHealth",
+          "value": 6.0
+        },
+        {
+          "x": 49,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 50,
+          "property": "MaxHealth",
+          "value": 7.0
+        },
+        {
+          "x": 51,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 52,
+          "property": "MaxHealth",
+          "value": 9.0
+        },
+        {
+          "x": 53,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 54,
+          "property": "MaxHealth",
+          "value": 2.0
+        },
+        {
+          "x": 55,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 56,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 57,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 58,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 59,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 60,
+          "property": "MaxHealth",
+          "value": 4.0
+        },
+        {
+          "x": 61,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 62,
+          "property": "MaxHealth",
+          "value": 5.0
+        },
+        {
+          "x": 63,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 64,
+          "property": "MaxHealth",
+          "value": 5.0
+        },
+        {
+          "x": 65,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 66,
+          "property": "MaxHealth",
+          "value": 7.0
+        },
+        {
+          "x": 67,
+          "property": "Damage",
+          "value": 3.0
+        },
+        {
+          "x": 68,
+          "property": "MaxHealth",
+          "value": 8.0
+        }
+      ],
+      "Evolve": [
+        {
+          "StarLevel": 0,
+          "Slots": [
+            {
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 16.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 5.0
+            },
+            {
+              "x": 0,
+              "property": "PowerSummonLevelAbs",
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 1,
+          "Slots": [
+            {
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 33.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 10.0
+            },
+            {
+              "x": 0,
+              "property": "PowerSummonLevelAbs",
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 2,
+          "Slots": [
+            {
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 49.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 15.0
+            },
+            {
+              "x": 0,
+              "property": "PowerSummonLevelAbs",
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 3,
+          "Slots": [
+            {
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 66.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 20.0
+            },
+            {
+              "x": 0,
+              "property": "PowerSummonLevelAbs",
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 4,
+          "Slots": [
+            {
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 49.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 15.0
+            },
+            {
+              "x": 0,
+              "property": "PowerSummonLevelAbs",
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 5,
+          "Slots": [
+            {
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 33.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 10.0
+            },
+            {
+              "x": 0,
+              "property": "PowerSummonLevelAbs",
+              "value": 1.0
+            }
+          ]
+        }
+      ]
+    },
     "Requirements": {
       "MinEpisodeCompleted": 3,
       "MinPlayerLevel": 0,
-      "MinPVPRank": 20
+      "MinPVPRank": 20,
+      "MinPVPArena": 5
     },
     "AOEAttackType": "No",
     "AOEDamagePercentage": 0.0,
@@ -16893,7 +16895,7 @@
     "TargetingType": "Both",
     "PreAttackDelay": 1.1,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 2
   },
   {
     "Id": 92,
@@ -31833,6 +31835,7 @@
     "PowerHeroPoison": null,
     "PowerAttackBoost": null,
     "PowerAttackDecrease": null,
+    "PowerTarget": 1,
     "AgroRangeMultiplier": 1.2,
     "KnockbackImpulse": "0.0000",
     "KnockbackAngleDeg": 45.0,
@@ -33531,7 +33534,7 @@
     "Visible": true,
     "CanAttack": false,
     "Name": ["Chicken Coop", "Coop", "cock box"],
-    "Description": "Spawns a fresh cock every 3.5 sec.",
+    "Description": "Spawns a fresh cock every 4 secs.",
     "Image": "ChickencoopFanTotCard",
     "ManaCost": 4,
     "Damage": "0",
@@ -52094,7 +52097,7 @@
     "Id": 1973,
     "Visible": true,
     "CanAttack": true,
-    "Name": "Classi",
+    "Name": ["Classi"],
     "Description": "Enraged: When at half of base health or less, her base attack triples.",
     "Image": "ClassiGenCard",
     "ManaCost": 5,
@@ -52590,8 +52593,8 @@
     "Id": 1824,
     "Visible": true,
     "CanAttack": true,
-    "Name": "Four-assed Monkey",
-    "Description": "Deathwish: Assplosion damages up to four random enemies.",
+    "Name": ["Four-assed Monkey", "4ass", "Monkey"],
+    "Description": "Deathwish: Creates an assplosion that deals {PowerDamage} damage to four random enemies.",
     "Image": "FourassedmonkeyGenCard",
     "ManaCost": 3,
     "Damage": "60",
@@ -52608,6 +52611,17 @@
     "TimeToReachMaxVelocity": 0.1,
     "MaxVelocity": 1.26,
     "TimeInBetweenAttacks": 0.5,
+    "PowerDuration": null,
+    "PowerHeal": null,
+    "PowerHeroHeal": null,
+    "PowerMaxHPGain": null,
+    "PowerMaxHPLoss": null,
+    "PowerSummonLevel": null,
+    "PowerDamage": 40,
+    "PowerHeroDamage": null,
+    "PowerPoisonAmount": null,
+    "PowerHeroPoison": null,
+    "PowerAttackBoost": null,
     "AgroRangeMultiplier": 1.2,
     "KnockbackImpulse": "40.0000",
     "KnockbackAngleDeg": 45.0,
@@ -53075,7 +53089,7 @@
     "Id": 1972,
     "Visible": true,
     "CanAttack": true,
-    "Name": "Dragonslayer Red",
+    "Name": ["Dragonslayer Red", "DSR", "Slayer"],
     "Description": "Warcry: Halve the health and max health of enemies in front, then halve their attack for {PowerDuration}.",
     "Image": "RedFanCard",
     "ManaCost": 4,
@@ -53564,6 +53578,504 @@
     "AOERadius": 0.0,
     "AOEKnockbackPercentage": 0.0,
     "TargetingType": "Ground",
+    "PreAttackDelay": 0.0,
+    "CastArea": "OwnSide",
+    "ChildUnitLimit": 0
+  },
+  {
+    "Id": 2114,
+    "Visible": true,
+    "CanAttack": true,
+    "Name": ["Sharpshooter Shelly", "Shelly"],
+    "Description": "Charged: Knockback and damage the nearest enemy in front of her.",
+    "Image": "ShellyAdvCard",
+    "ManaCost": 3,
+    "Damage": "24",
+    "Health": "200",
+    "HealthLoss": "0",
+    "Type": "Character",
+    "Targeting": {
+      "AssetId": "AttackPowerRet",
+      "Radius": 1.5
+    },
+    "CharacterType": "Ranged",
+    "Ingame": "ShellyAdvCharPF",
+    "AttackRange": 3.5,
+    "TimeToReachMaxVelocity": 0.1,
+    "MaxVelocity": 0.675,
+    "TimeInBetweenAttacks": 0.5,
+    "PowerDuration": null,
+    "PowerHeal": null,
+    "PowerHeroHeal": null,
+    "PowerMaxHPGain": null,
+    "PowerMaxHPLoss": null,
+    "PowerSummonLevel": null,
+    "PowerDamage": 90,
+    "PowerHeroDamage": null,
+    "PowerPoisonAmount": null,
+    "PowerHeroPoison": null,
+    "PowerAttackBoost": null,
+    "PowerAttackDecrease": null,
+    "AgroRangeMultiplier": 1.14,
+    "KnockbackImpulse": "30.0000",
+    "KnockbackAngleDeg": 45.0,
+    "ChargedPowerRegen": 0.1,
+    "ChargedPowerRadius": 1.0,
+    "ChargedPowerReticle": "ConeSelectorPowerRet",
+    "Rarity": 2,
+    "Theme": "Adv",
+    "TechTree2": {
+      "Slots": [
+        {
+          "x": 0,
+          "property": "MaxHealth",
+          "value": 6.0
+        },
+        {
+          "x": 1,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 2,
+          "property": "MaxHealth",
+          "value": 7.0
+        },
+        {
+          "x": 3,
+          "property": "PowerDamageAbs",
+          "value": 15.0
+        },
+        {
+          "x": 4,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 5,
+          "property": "MaxHealth",
+          "value": 8.0
+        },
+        {
+          "x": 6,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 7,
+          "property": "MaxHealth",
+          "value": 10.0
+        },
+        {
+          "x": 8,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 9,
+          "property": "MaxHealth",
+          "value": 12.0
+        },
+        {
+          "x": 10,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 11,
+          "property": "MaxHealth",
+          "value": 14.0
+        },
+        {
+          "x": 12,
+          "property": "PowerDamageAbs",
+          "value": 50.0
+        },
+        {
+          "x": 13,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 14,
+          "property": "MaxHealth",
+          "value": 6.0
+        },
+        {
+          "x": 15,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 16,
+          "property": "MaxHealth",
+          "value": 7.0
+        },
+        {
+          "x": 17,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 18,
+          "property": "MaxHealth",
+          "value": 8.0
+        },
+        {
+          "x": 19,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 20,
+          "property": "MaxHealth",
+          "value": 10.0
+        },
+        {
+          "x": 21,
+          "property": "PowerDamageAbs",
+          "value": 50.0
+        },
+        {
+          "x": 22,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 23,
+          "property": "MaxHealth",
+          "value": 13.0
+        },
+        {
+          "x": 24,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 25,
+          "property": "MaxHealth",
+          "value": 5.0
+        },
+        {
+          "x": 26,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 27,
+          "property": "MaxHealth",
+          "value": 6.0
+        },
+        {
+          "x": 28,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 29,
+          "property": "MaxHealth",
+          "value": 7.0
+        },
+        {
+          "x": 30,
+          "property": "PowerDamageAbs",
+          "value": 74.0
+        },
+        {
+          "x": 31,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 32,
+          "property": "MaxHealth",
+          "value": 9.0
+        },
+        {
+          "x": 33,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 34,
+          "property": "MaxHealth",
+          "value": 11.0
+        },
+        {
+          "x": 35,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 36,
+          "property": "MaxHealth",
+          "value": 13.0
+        },
+        {
+          "x": 37,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 38,
+          "property": "MaxHealth",
+          "value": 16.0
+        },
+        {
+          "x": 39,
+          "property": "PowerDamageAbs",
+          "value": 11.0
+        },
+        {
+          "x": 40,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 41,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 42,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 43,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 44,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 45,
+          "property": "MaxHealth",
+          "value": 4.0
+        },
+        {
+          "x": 46,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 47,
+          "property": "MaxHealth",
+          "value": 5.0
+        },
+        {
+          "x": 48,
+          "property": "PowerDamageAbs",
+          "value": 24.0
+        },
+        {
+          "x": 49,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 50,
+          "property": "MaxHealth",
+          "value": 7.0
+        },
+        {
+          "x": 51,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 52,
+          "property": "MaxHealth",
+          "value": 8.0
+        },
+        {
+          "x": 53,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 54,
+          "property": "MaxHealth",
+          "value": 1.0
+        },
+        {
+          "x": 55,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 56,
+          "property": "MaxHealth",
+          "value": 2.0
+        },
+        {
+          "x": 57,
+          "property": "PowerDamageAbs",
+          "value": 7.0
+        },
+        {
+          "x": 58,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 59,
+          "property": "MaxHealth",
+          "value": 2.0
+        },
+        {
+          "x": 60,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 61,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 62,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 63,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 64,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 65,
+          "property": "MaxHealth",
+          "value": 4.0
+        },
+        {
+          "x": 66,
+          "property": "PowerDamageAbs",
+          "value": 17.0
+        },
+        {
+          "x": 67,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 68,
+          "property": "MaxHealth",
+          "value": 6.0
+        }
+      ],
+      "Evolve": [
+        {
+          "StarLevel": 0,
+          "Slots": [
+            {
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 37.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 4.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 1,
+          "Slots": [
+            {
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 110.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 13.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 2,
+          "Slots": [
+            {
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 73.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 9.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 3,
+          "Slots": [
+            {
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 37.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 4.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 4,
+          "Slots": [
+            {
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 37.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 4.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 5,
+          "Slots": [
+            {
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 37.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 4.0
+            }
+          ]
+        }
+      ]
+    },
+    "Requirements": {
+      "MinEpisodeCompleted": 0,
+      "MinPlayerLevel": 0,
+      "MinPVPRank": 0,
+      "MinPVPArena": 0
+    },
+    "AOEAttackType": "No",
+    "AOEDamagePercentage": 0.0,
+    "AOERadius": 0.0,
+    "AOEKnockbackPercentage": 0.0,
+    "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
     "ChildUnitLimit": 0
