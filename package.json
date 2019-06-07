@@ -6,9 +6,7 @@
   "scripts": {
     "lint": "./node_modules/.bin/eslint .",
     "lint:fix": "./node_modules/.bin/eslint . --fix",
-    "test": "echo \"There are no tests. They will be added soon:tm:\" && exit 0",
-    "prepush": "npm run lint && npm run test",
-    "postinstall": "rm -rf .git/hooks/pre-push && node node_modules/husky/bin/install.js && rm -rf .git/hooks/pre-commit"
+    "test": "echo \"There are no tests. They will be added soon:tm:\" && exit 0"
   },
   "repository": {
     "type": "git",
