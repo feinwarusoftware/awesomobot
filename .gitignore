@@ -74,3 +74,5 @@ web/config.json
 
 # exclude any temp folders
 temp/
+
+dist/

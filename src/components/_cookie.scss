@@ -1,0 +1,41 @@
+div #cookie {
+  z-index: 999;
+  height: 120px;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  background-color: $darkgrey;
+  display: inline-flex;
+  border-top: solid 2px $lightgrey;
+  display: none;
+
+  .container {
+    padding-top: 17px;
+  }
+
+  button {
+    margin-top: 23px;
+  }
+
+  p {
+    color: white;
+  }
+
+  a {
+    color: $feinwaru;
+    font-weight: 600;
+  }
+
+  a:hover {
+    color: darken($feinwaru, 10);
+    text-decoration: none;
+  }
+
+  @media (min-width: 768px) {
+    height: 86px;
+
+    button {
+      margin-top: 7px;
+    }
+  }
+}
