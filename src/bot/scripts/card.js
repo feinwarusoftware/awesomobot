@@ -305,6 +305,10 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
       card.Description = card.Description.slice(0, card.Description.length - 1) + " seconds.";
     }
 
+    // trap vs spell
+    const typeType = card.type;
+    //
+
     /* --- pasted old code --- */
 
     // Get the frame outline.
@@ -329,6 +333,9 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
       case "Fan":
         x = frameWidth * 4;
         break;
+      case "Sup":
+        x = frameWidth * 5;
+        break;
       case "Gen":
         x = 0;
         break;
@@ -351,6 +358,9 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
         break;
       case "Fan":
         x = frameWidth * 4;
+        break;
+      case "Sup":
+        x = frameWidth * 5;
         break;
       case "Gen":
         x = 0;
@@ -405,7 +415,17 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
       iy = 0;
       break;
     case undefined:
-      iy = iconHeight * 2;
+      // trap vs spell
+      switch (typeType) {
+      case "spell": {
+        iy = iconHeight * 2;
+        break;
+      }
+      case "trap": {
+        iy = iconHeight * 14;
+        break;
+      }
+      }
       break;
     case "Assassin":
       iy = iconHeight * 4;
@@ -438,6 +458,9 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
         break;
       case "Fan":
         ix = iconWidth * 4;
+        break;
+      case "Sup":
+        ix = iconWidth * 5;
         break;
       }
       break;
@@ -502,6 +525,9 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
     case "Fan":
       tx = themeIconWidth * 4;
       break;
+    case "Sup":
+      tx = themeIconWidth * 5;
+      break;
     default:
       //message.reply("theme not found");
       return;
@@ -542,6 +568,9 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
         break;
       case "Fan":
         cx = crystalWidth * 4;
+        break;
+      case "Sup":
+        cx = crystalWidth * 5;
         break;
       default:
         //message.reply("theme not found");
