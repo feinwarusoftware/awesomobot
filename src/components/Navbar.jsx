@@ -61,7 +61,12 @@ class Navbar extends Component {
                 >
                   Dashboard
                 </a>
-                <i className="fas fa-chevron-down" />
+                <i
+                  className="fas fa-chevron-down"
+                  onClick={() => {
+                    this.displayDashboard();
+                  }}
+                />
               </li>
               <li>
                 <Link to={{ pathname: "/" }}>Documentation</Link>

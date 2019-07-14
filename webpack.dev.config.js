@@ -19,7 +19,6 @@ module.exports = merge.smart(baseConfig, {
         historyApiFallback: {
             disableDotRule: true,
             verbose: true,
-            disableDotRule: false
         }
     }
 });
