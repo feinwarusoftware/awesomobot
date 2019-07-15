@@ -992,6 +992,9 @@ const card = new Command({
       case "Fan":
         x = frameWidth * 4;
         break;
+      case "Sup":
+        x = frameWidth * 5;
+        break;
       case "Gen":
         x = 0;
         break;
@@ -1014,6 +1017,9 @@ const card = new Command({
         break;
       case "Fan":
         x = frameWidth * 4;
+        break;
+      case "Sup":
+        x = frameWidth * 5;
         break;
       case "Gen":
         x = 0;
@@ -1068,8 +1074,15 @@ const card = new Command({
       iy = 0;
       break;
     case undefined:
-      iy = iconHeight * 2;
-      break;
+      switch (typeType) {
+        case "spell": {
+          iy = iconHeight * 2;
+          break;
+        }
+        case "trap": {
+          iy = iconHeight * 14;
+          break;
+        }
     case "Assassin":
       iy = iconHeight * 4;
       break;
@@ -1101,6 +1114,9 @@ const card = new Command({
         break;
       case "Fan":
         ix = iconWidth * 4;
+        break;
+      case "Sup":
+        ix = iconWidth * 5;
         break;
       }
       break;
@@ -1165,6 +1181,9 @@ const card = new Command({
     case "Fan":
       tx = themeIconWidth * 4;
       break;
+    case "Sup":
+      tx = themeIconWidth * 5;
+      break;
     default:
       message.reply("theme not found");
       return;
@@ -1205,6 +1224,9 @@ const card = new Command({
         break;
       case "Fan":
         cx = crystalWidth * 4;
+        break;
+      case "Sup":
+        cx = crystalWidth * 5;
         break;
       default:
         message.reply("theme not found");
