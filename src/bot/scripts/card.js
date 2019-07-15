@@ -1391,6 +1391,9 @@ const card = new Command({
         case "Mys":
           embedColour = "#4b9b38";
           break;
+        case "Sup":
+          embedColour = "#fd6cf8";
+          break;
         case "Gen":
           embedColour = "#857468";
           break;
