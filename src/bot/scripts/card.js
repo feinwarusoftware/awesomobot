@@ -7,7 +7,13 @@ const discord = require("discord.js");
 const jimp = require("jimp");
 
 const Command = require("../script");
-const { similarity, jimp: { printCenter, printCenterCenter } } = require("../../utils");
+const {
+  similarity,
+  jimp: {
+    printCenter,
+    printCenterCenter
+  }
+} = require("../../utils");
 
 const config = require("../../../config.json");
 const cards = require("../assets/cards/cards.json");
@@ -26,16 +32,16 @@ let miscIcons = null;
 
 function camelPad(str) {
   return str
-  // Look for long acronyms and filter out the last letter
+    // Look for long acronyms and filter out the last letter
     .replace(/([A-Z]+)([A-Z][a-z])/g, " $1 $2")
-  // Look for lower-case letters followed by upper-case letters
+    // Look for lower-case letters followed by upper-case letters
     .replace(/([a-z\d])([A-Z])/g, "$1 $2")
-  // Look for lower-case letters followed by numbers
+    // Look for lower-case letters followed by numbers
     .replace(/([a-zA-Z])(\d)/g, "$1 $2")
     .replace(/^./, function (str) {
       return str.toUpperCase();
     })
-  // Remove any white space left around the word
+    // Remove any white space left around the word
     .trim();
 }
 
@@ -50,7 +56,7 @@ const getUpgradeStats = (currentCard, upgrade) => {
   };
   for (let k in currentCard) {
     if (k.startsWith("Power") === true && currentCard[k] !== null && currentCard[k] !==
-            "") {
+      "") {
       stats[k] = currentCard[k];
     }
     // exceptions cos redlynx gay
@@ -318,58 +324,58 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
     let x, y, z, w;
 
     switch (card.Rarity) {
-    case 0: // common
-      y = 0;
-      switch (card.Theme) {
-      case "Adv":
-        x = frameWidth;
-        break;
-      case "Sci":
-        x = frameWidth * 2;
-        break;
-      case "Mys":
-        x = frameWidth * 3;
-        break;
-      case "Fan":
-        x = frameWidth * 4;
-        break;
-      case "Sup":
-        x = frameWidth * 5;
-        break;
-      case "Gen":
-        x = 0;
-        break;
-      default:
-        //message.reply("theme not found");
-        return;
-      }
-      break;
-    default:
-      y = frameHeight;
-      switch (card.Theme) {
-      case "Adv":
-        x = frameWidth;
-        break;
-      case "Sci":
-        x = frameWidth * 2;
-        break;
-      case "Mys":
-        x = frameWidth * 3;
-        break;
-      case "Fan":
-        x = frameWidth * 4;
-        break;
-      case "Sup":
-        x = frameWidth * 5;
-        break;
-      case "Gen":
-        x = 0;
+      case 0: // common
+        y = 0;
+        switch (card.Theme) {
+          case "Adv":
+            x = frameWidth;
+            break;
+          case "Sci":
+            x = frameWidth * 2;
+            break;
+          case "Mys":
+            x = frameWidth * 3;
+            break;
+          case "Fan":
+            x = frameWidth * 4;
+            break;
+          case "Sup":
+            x = frameWidth * 5;
+            break;
+          case "Gen":
+            x = 0;
+            break;
+          default:
+            //message.reply("theme not found");
+            return;
+        }
         break;
       default:
-        //message.reply("theme not found");
-        return;
-      }
-      break;
+        y = frameHeight;
+        switch (card.Theme) {
+          case "Adv":
+            x = frameWidth;
+            break;
+          case "Sci":
+            x = frameWidth * 2;
+            break;
+          case "Mys":
+            x = frameWidth * 3;
+            break;
+          case "Fan":
+            x = frameWidth * 4;
+            break;
+          case "Sup":
+            x = frameWidth * 5;
+            break;
+          case "Gen":
+            x = 0;
+            break;
+          default:
+            //message.reply("theme not found");
+            return;
+        }
+        break;
     }
 
     z = frameWidth;
@@ -384,21 +390,21 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
     fx = 0;
 
     switch (card.Rarity) {
-    case 0: // common
-      fy = undefined;
-      break;
-    case 1:
-      fy = 0;
-      break;
-    case 2:
-      fy = topHeight;
-      break;
-    case 3:
-      fy = topHeight * 2;
-      break;
-    default:
-      //message.reply("rarity not found");
-      return;
+      case 0: // common
+        fy = undefined;
+        break;
+      case 1:
+        fy = 0;
+        break;
+      case 2:
+        fy = topHeight;
+        break;
+      case 3:
+        fy = topHeight * 2;
+        break;
+      default:
+        //message.reply("rarity not found");
+        return;
     }
 
     fz = topWidth;
@@ -411,71 +417,71 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
     let ix, iy, iz, iw;
 
     switch (card.CharacterType) {
-    case "Tank":
-      iy = 0;
-      break;
-    case undefined:
-      // trap vs spell
-      switch (typeType) {
-      case "spell": {
-        iy = iconHeight * 2;
+      case "Tank":
+        iy = 0;
         break;
-      }
-      case "trap": {
-        iy = iconHeight * 14;
+      case undefined:
+        // trap vs spell
+        switch (typeType) {
+          case "spell": {
+            iy = iconHeight * 2;
+            break;
+          }
+          case "trap": {
+            iy = iconHeight * 14;
+            break;
+          }
+        }
         break;
-      }
-      }
-      break;
-    case "Assassin":
-      iy = iconHeight * 4;
-      break;
-    case "Ranged":
-      iy = iconHeight * 6;
-      break;
-    case "Melee":
-      iy = iconHeight * 8;
-      break;
-    case "Totem":
-      iy = iconHeight * 10;
-      break;
+      case "Assassin":
+        iy = iconHeight * 4;
+        break;
+      case "Ranged":
+        iy = iconHeight * 6;
+        break;
+      case "Melee":
+        iy = iconHeight * 8;
+        break;
+      case "Totem":
+        iy = iconHeight * 10;
+        break;
     }
 
     switch (card.Rarity) {
-    case 0: // common
-      switch (card.Theme) {
-      case "Gen":
+      case 0: // common
+        switch (card.Theme) {
+          case "Gen":
+            ix = 0;
+            break;
+          case "Adv":
+            ix = iconWidth;
+            break;
+          case "Sci":
+            ix = iconWidth * 2;
+            break;
+          case "Mys":
+            ix = iconWidth * 3;
+            break;
+          case "Fan":
+            ix = iconWidth * 4;
+            break;
+          case "Sup":
+            ix = iconWidth * 5;
+            break;
+        }
+        break;
+      case 1:
+        iy += iconHeight;
         ix = 0;
         break;
-      case "Adv":
+      case 2:
+        iy += iconHeight;
         ix = iconWidth;
         break;
-      case "Sci":
+      case 3:
+        iy += iconHeight;
         ix = iconWidth * 2;
         break;
-      case "Mys":
-        ix = iconWidth * 3;
-        break;
-      case "Fan":
-        ix = iconWidth * 4;
-        break;
-      case "Sup":
-        ix = iconWidth * 5;
-        break;
-      }
-      break;
-    case 1:
-      iy += iconHeight;
-      ix = 0;
-      break;
-    case 2:
-      iy += iconHeight;
-      ix = iconWidth;
-      break;
-    case 3:
-      iy += iconHeight;
-      ix = iconWidth * 2;
-      break;
     }
 
     iz = iconWidth;
@@ -490,12 +496,12 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
     oy = 0;
 
     switch (card.CharacterType) {
-    case undefined:
-      ox = overlayWidth;
-      break;
-    default:
-      ox = 0;
-      break;
+      case undefined:
+        ox = overlayWidth;
+        break;
+      default:
+        ox = 0;
+        break;
     }
 
     oz = overlayWidth;
@@ -510,27 +516,27 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
     ty = 0;
 
     switch (card.Theme) {
-    case "Gen":
-      tx = 0;
-      break;
-    case "Adv":
-      tx = themeIconWidth;
-      break;
-    case "Sci":
-      tx = themeIconWidth * 2;
-      break;
-    case "Mys":
-      tx = themeIconWidth * 3;
-      break;
-    case "Fan":
-      tx = themeIconWidth * 4;
-      break;
-    case "Sup":
-      tx = themeIconWidth * 5;
-      break;
-    default:
-      //message.reply("theme not found");
-      return;
+      case "Gen":
+        tx = 0;
+        break;
+      case "Adv":
+        tx = themeIconWidth;
+        break;
+      case "Sci":
+        tx = themeIconWidth * 2;
+        break;
+      case "Mys":
+        tx = themeIconWidth * 3;
+        break;
+      case "Fan":
+        tx = themeIconWidth * 4;
+        break;
+      case "Sup":
+        tx = themeIconWidth * 5;
+        break;
+      default:
+        //message.reply("theme not found");
+        return;
     }
 
     tz = themeIconWidth;
@@ -552,46 +558,46 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
     cy = crystalSheet.y;
 
     switch (card.Rarity) {
-    case 0: // common
-      switch (card.Theme) {
-      case "Gen":
-        cx = 0;
+      case 0: // common
+        switch (card.Theme) {
+          case "Gen":
+            cx = 0;
+            break;
+          case "Adv":
+            cx = crystalWidth;
+            break;
+          case "Sci":
+            cx = crystalWidth * 2;
+            break;
+          case "Mys":
+            cx = crystalWidth * 3;
+            break;
+          case "Fan":
+            cx = crystalWidth * 4;
+            break;
+          case "Sup":
+            cx = crystalWidth * 5;
+            break;
+          default:
+            //message.reply("theme not found");
+            return;
+        }
         break;
-      case "Adv":
-        cx = crystalWidth;
+      case 1:
+        cy += crystalHeight + 4;
+        cx = 17;
         break;
-      case "Sci":
-        cx = crystalWidth * 2;
+      case 2:
+        cy += crystalHeight + 4;
+        cx = 34 + crystalWidth;
         break;
-      case "Mys":
-        cx = crystalWidth * 3;
-        break;
-      case "Fan":
-        cx = crystalWidth * 4;
-        break;
-      case "Sup":
-        cx = crystalWidth * 5;
+      case 3:
+        cy += crystalHeight + 4;
+        cx = 34 + crystalWidth * 2;
         break;
       default:
-        //message.reply("theme not found");
+        //message.reply("rarity not found");
         return;
-      }
-      break;
-    case 1:
-      cy += crystalHeight + 4;
-      cx = 17;
-      break;
-    case 2:
-      cy += crystalHeight + 4;
-      cx = 34 + crystalWidth;
-      break;
-    case 3:
-      cy += crystalHeight + 4;
-      cx = 34 + crystalWidth * 2;
-      break;
-    default:
-      //message.reply("rarity not found");
-      return;
     }
 
     cz = crystalWidth;
@@ -722,9 +728,9 @@ const card = new Command({
     const cardsCopy = JSON.parse(JSON.stringify(cards));
 
     // render frames for the website
-    if (config.env != null
-      && config.env.toLowerCase() === "dev"
-      && message.content.split(" ")[1] === "dev-frames") {
+    if (config.env != null &&
+      config.env.toLowerCase() === "dev" &&
+      message.content.split(" ")[1] === "dev-frames") {
 
       renderFrames(cardsCopy);
       return;
@@ -977,58 +983,58 @@ const card = new Command({
     let x, y, z, w;
 
     switch (card.Rarity) {
-    case 0: // common
-      y = 0;
-      switch (card.Theme) {
-      case "Adv":
-        x = frameWidth;
-        break;
-      case "Sci":
-        x = frameWidth * 2;
-        break;
-      case "Mys":
-        x = frameWidth * 3;
-        break;
-      case "Fan":
-        x = frameWidth * 4;
-        break;
-      case "Sup":
-        x = frameWidth * 5;
-        break;
-      case "Gen":
-        x = 0;
-        break;
-      default:
-        message.reply("theme not found");
-        return;
-      }
-      break;
-    default:
-      y = frameHeight;
-      switch (card.Theme) {
-      case "Adv":
-        x = frameWidth;
-        break;
-      case "Sci":
-        x = frameWidth * 2;
-        break;
-      case "Mys":
-        x = frameWidth * 3;
-        break;
-      case "Fan":
-        x = frameWidth * 4;
-        break;
-      case "Sup":
-        x = frameWidth * 5;
-        break;
-      case "Gen":
-        x = 0;
+      case 0: // common
+        y = 0;
+        switch (card.Theme) {
+          case "Adv":
+            x = frameWidth;
+            break;
+          case "Sci":
+            x = frameWidth * 2;
+            break;
+          case "Mys":
+            x = frameWidth * 3;
+            break;
+          case "Fan":
+            x = frameWidth * 4;
+            break;
+          case "Sup":
+            x = frameWidth * 5;
+            break;
+          case "Gen":
+            x = 0;
+            break;
+          default:
+            message.reply("theme not found");
+            return;
+        }
         break;
       default:
-        message.reply("theme not found");
-        return;
-      }
-      break;
+        y = frameHeight;
+        switch (card.Theme) {
+          case "Adv":
+            x = frameWidth;
+            break;
+          case "Sci":
+            x = frameWidth * 2;
+            break;
+          case "Mys":
+            x = frameWidth * 3;
+            break;
+          case "Fan":
+            x = frameWidth * 4;
+            break;
+          case "Sup":
+            x = frameWidth * 5;
+            break;
+          case "Gen":
+            x = 0;
+            break;
+          default:
+            message.reply("theme not found");
+            return;
+        }
+        break;
     }
 
     z = frameWidth;
@@ -1043,21 +1049,21 @@ const card = new Command({
     fx = 0;
 
     switch (card.Rarity) {
-    case 0: // common
-      fy = undefined;
-      break;
-    case 1:
-      fy = 0;
-      break;
-    case 2:
-      fy = topHeight;
-      break;
-    case 3:
-      fy = topHeight * 2;
-      break;
-    default:
-      message.reply("rarity not found");
-      return;
+      case 0: // common
+        fy = undefined;
+        break;
+      case 1:
+        fy = 0;
+        break;
+      case 2:
+        fy = topHeight;
+        break;
+      case 3:
+        fy = topHeight * 2;
+        break;
+      default:
+        message.reply("rarity not found");
+        return;
     }
 
     fz = topWidth;
@@ -1069,19 +1075,26 @@ const card = new Command({
 
     let ix, iy, iz, iw;
 
+    //temp
+    const typeType = card.Type;
+    //
+
     switch (card.CharacterType) {
-    case "Tank":
-      iy = 0;
-      break;
-    case undefined:
-      switch (typeType) {
-      case "spell": {
-        iy = iconHeight * 2;
+      case "Tank":
+        iy = 0;
         break;
-      }
-      case "trap": {
-        iy = iconHeight * 14;
-        break;
+      case undefined: {
+        switch (typeType) {
+          case "Spell": {
+            iy = iconHeight * 2;
+            break;
+          }
+          case "Trap": {
+            iy = iconHeight * 14;
+            break;
+          }
+          break;
+        }
       }
       case "Assassin":
         iy = iconHeight * 4;
@@ -1095,29 +1108,29 @@ const card = new Command({
       case "Totem":
         iy = iconHeight * 10;
         break;
-      }
+    }
 
-      switch (card.Rarity) {
+    switch (card.Rarity) {
       case 0: // common
         switch (card.Theme) {
-        case "Gen":
-          ix = 0;
-          break;
-        case "Adv":
-          ix = iconWidth;
-          break;
-        case "Sci":
-          ix = iconWidth * 2;
-          break;
-        case "Mys":
-          ix = iconWidth * 3;
-          break;
-        case "Fan":
-          ix = iconWidth * 4;
-          break;
-        case "Sup":
-          ix = iconWidth * 5;
-          break;
+          case "Gen":
+            ix = 0;
+            break;
+          case "Adv":
+            ix = iconWidth;
+            break;
+          case "Sci":
+            ix = iconWidth * 2;
+            break;
+          case "Mys":
+            ix = iconWidth * 3;
+            break;
+          case "Fan":
+            ix = iconWidth * 4;
+            break;
+          case "Sup":
+            ix = iconWidth * 5;
+            break;
         }
         break;
       case 1:
@@ -1132,40 +1145,40 @@ const card = new Command({
         iy += iconHeight;
         ix = iconWidth * 2;
         break;
-      }
+    }
 
-      iz = iconWidth;
-      iw = iconHeight;
+    iz = iconWidth;
+    iw = iconHeight;
 
-      // Get the overlay.
-      const overlayWidth = 305;
-      const overlayHeight = 418;
+    // Get the overlay.
+    const overlayWidth = 305;
+    const overlayHeight = 418;
 
-      let ox, oy, oz, ow;
+    let ox, oy, oz, ow;
 
-      oy = 0;
+    oy = 0;
 
-      switch (card.CharacterType) {
+    switch (card.CharacterType) {
       case undefined:
         ox = overlayWidth;
         break;
       default:
         ox = 0;
         break;
-      }
+    }
 
-      oz = overlayWidth;
-      ow = overlayHeight;
+    oz = overlayWidth;
+    ow = overlayHeight;
 
-      // Card theme icons.
-      const themeIconWidth = 36;
-      const themeIconHeight = 24;
+    // Card theme icons.
+    const themeIconWidth = 36;
+    const themeIconHeight = 24;
 
-      let tx, ty, tz, tw;
+    let tx, ty, tz, tw;
 
-      ty = 0;
+    ty = 0;
 
-      switch (card.Theme) {
+    switch (card.Theme) {
       case "Gen":
         tx = 0;
         break;
@@ -1187,50 +1200,50 @@ const card = new Command({
       default:
         message.reply("theme not found");
         return;
-      }
+    }
 
-      tz = themeIconWidth;
-      tw = themeIconHeight;
+    tz = themeIconWidth;
+    tw = themeIconHeight;
 
-      // Crystal things.
-      const crystalSheet = {
-        x: 0,
-        y: 24,
-        width: 180,
-        height: 76 // 36 + 4 + 36
-      };
+    // Crystal things.
+    const crystalSheet = {
+      x: 0,
+      y: 24,
+      width: 180,
+      height: 76 // 36 + 4 + 36
+    };
 
-      const crystalWidth = 36;
-      const crystalHeight = 36;
+    const crystalWidth = 36;
+    const crystalHeight = 36;
 
-      let cx, cy, cz, cw;
+    let cx, cy, cz, cw;
 
-      cy = crystalSheet.y;
+    cy = crystalSheet.y;
 
-      switch (card.Rarity) {
+    switch (card.Rarity) {
       case 0: // common
         switch (card.Theme) {
-        case "Gen":
-          cx = 0;
-          break;
-        case "Adv":
-          cx = crystalWidth;
-          break;
-        case "Sci":
-          cx = crystalWidth * 2;
-          break;
-        case "Mys":
-          cx = crystalWidth * 3;
-          break;
-        case "Fan":
-          cx = crystalWidth * 4;
-          break;
-        case "Sup":
-          cx = crystalWidth * 5;
-          break;
-        default:
-          message.reply("theme not found");
-          return;
+          case "Gen":
+            cx = 0;
+            break;
+          case "Adv":
+            cx = crystalWidth;
+            break;
+          case "Sci":
+            cx = crystalWidth * 2;
+            break;
+          case "Mys":
+            cx = crystalWidth * 3;
+            break;
+          case "Fan":
+            cx = crystalWidth * 4;
+            break;
+          case "Sup":
+            cx = crystalWidth * 5;
+            break;
+          default:
+            message.reply("theme not found");
+            return;
         }
         break;
       case 1:
@@ -1248,124 +1261,124 @@ const card = new Command({
       default:
         message.reply("rarity not found");
         return;
-      }
+    }
 
-      cz = crystalWidth;
-      cw = crystalHeight;
+    cz = crystalWidth;
+    cw = crystalHeight;
 
-      if (card.Rarity === 3) {
-        cz += 17;
-      }
-      /* --- end of old code --- */
+    if (card.Rarity === 3) {
+      cz += 17;
+    }
+    /* --- end of old code --- */
 
-      // Make the image.
-      const bgWidth = 455;
-      const bgHeight = 630;
+    // Make the image.
+    const bgWidth = 455;
+    const bgHeight = 630;
 
-      // image overlaying stuff.
-      let bg = await new jimp(800, 1200);
-      let cardArt = await jimp.read(path.join(__dirname, "..", "assets", "cards", "art", card.Image + ".jpg"));
-      let frameOverlay = frameOverlays
+    // image overlaying stuff.
+    let bg = await new jimp(800, 1200);
+    let cardArt = await jimp.read(path.join(__dirname, "..", "assets", "cards", "art", card.Image + ".jpg"));
+    let frameOverlay = frameOverlays
+      .clone()
+      .crop(ox, oy, oz, ow)
+      .resize(bgWidth, bgHeight);
+    let frameOutline = frameOutlines
+      .clone()
+      .crop(x, y, z, w)
+      .resize(bgWidth, bgHeight);
+    let typeIcon = typeIcons.clone().crop(ix, iy, iz, iw).scale(1.5);
+    let themeIcon = miscIcons.clone().crop(tx, ty, tz, tw).scale(1.5);
+    let crystal = miscIcons.clone().crop(cx, cy, cz, cw).scale(1.5);
+
+    let frameTop;
+    if (fy !== undefined) {
+      frameTop = frameTops
         .clone()
-        .crop(ox, oy, oz, ow)
-        .resize(bgWidth, bgHeight);
-      let frameOutline = frameOutlines
-        .clone()
-        .crop(x, y, z, w)
-        .resize(bgWidth, bgHeight);
-      let typeIcon = typeIcons.clone().crop(ix, iy, iz, iw).scale(1.5);
-      let themeIcon = miscIcons.clone().crop(tx, ty, tz, tw).scale(1.5);
-      let crystal = miscIcons.clone().crop(cx, cy, cz, cw).scale(1.5);
+        .crop(fx, fy, fz, fw)
+        .resize(bgWidth + 49, 200);
+    }
 
-      let frameTop;
-      if (fy !== undefined) {
-        frameTop = frameTops
-          .clone()
-          .crop(fx, fy, fz, fw)
-          .resize(bgWidth + 49, 200);
-      }
+    bg.composite(
+      cardArt,
+      bg.bitmap.width / 2 - cardArt.bitmap.width / 2,
+      bg.bitmap.height / 2 - cardArt.bitmap.height / 2
+    );
+    bg.composite(
+      frameOverlay,
+      bg.bitmap.width / 2 - frameOverlay.bitmap.width / 2,
+      bg.bitmap.height / 2 - frameOverlay.bitmap.height / 2
+    );
+    bg.composite(
+      frameOutline,
+      bg.bitmap.width / 2 - frameOutline.bitmap.width / 2,
+      bg.bitmap.height / 2 - frameOutline.bitmap.height / 2
+    );
 
+    if (fy !== undefined) {
       bg.composite(
-        cardArt,
-        bg.bitmap.width / 2 - cardArt.bitmap.width / 2,
-        bg.bitmap.height / 2 - cardArt.bitmap.height / 2
+        frameTop,
+        bg.bitmap.width / 2 - frameTop.bitmap.width / 2 - 8,
+        240
       );
-      bg.composite(
-        frameOverlay,
-        bg.bitmap.width / 2 - frameOverlay.bitmap.width / 2,
-        bg.bitmap.height / 2 - frameOverlay.bitmap.height / 2
-      );
-      bg.composite(
-        frameOutline,
-        bg.bitmap.width / 2 - frameOutline.bitmap.width / 2,
-        bg.bitmap.height / 2 - frameOutline.bitmap.height / 2
-      );
+    }
 
-      if (fy !== undefined) {
-        bg.composite(
-          frameTop,
-          bg.bitmap.width / 2 - frameTop.bitmap.width / 2 - 8,
-          240
-        );
-      }
+    bg.composite(typeIcon, 130, 182);
+    bg.composite(
+      themeIcon,
+      bg.bitmap.width / 2 - themeIcon.bitmap.width / 2 - 168,
+      843
+    );
 
-      bg.composite(typeIcon, 130, 182);
-      bg.composite(
-        themeIcon,
-        bg.bitmap.width / 2 - themeIcon.bitmap.width / 2 - 168,
-        843
-      );
+    // 3 = legendary
+    let xoffset = 0;
+    if (card.Rarity === 3) {
+      xoffset = 25;
+    }
 
-      // 3 = legendary
-      let xoffset = 0;
-      if (card.Rarity === 3) {
-        xoffset = 25;
-      }
+    bg.composite(
+      crystal,
+      bg.bitmap.width / 2 - themeIcon.bitmap.width / 2 - 168 - xoffset,
+      745
+    );
 
-      bg.composite(
-        crystal,
-        bg.bitmap.width / 2 - themeIcon.bitmap.width / 2 - 168 - xoffset,
-        745
-      );
+    if (card.Name instanceof Array) {
+      printCenter(bg, sp25Font, 20, 315, card.Name[0]);
+    } else {
+      printCenter(bg, sp25Font, 20, 315, card.Name);
+    }
 
+    printCenter(bg, sp60Font, -168, 350, card.ManaCost.toString());
+
+    if (ox === 0) {
+      printCenter(bg, sp27Font, -168, 515, stats.Health.toString());
+      printCenter(bg, sp27Font, -168, 640, stats.Damage.toString());
+    }
+
+    printCenter(bg, sp16Font, 17, 358, level === null ? `u ${upgrade}` : `lvl ${level}`);
+
+    printCenterCenter(bg, sp18Font, 20, 510, card.Description, 325);
+
+    //bg.autocrop(0.002, false);
+    bg.crop(135, 165, 526, 769);
+
+    // save + post
+    const saveDate = Date.now();
+
+    bg.write(path.join(__dirname, "temp", `pd-${saveDate}.png`), async () => {
+
+      const embed = new discord.RichEmbed();
+
+      // card name
       if (card.Name instanceof Array) {
-        printCenter(bg, sp25Font, 20, 315, card.Name[0]);
+
+        embed.setAuthor(card.Name[0]);
       } else {
-        printCenter(bg, sp25Font, 20, 315, card.Name);
+
+        embed.setAuthor(card.Name);
       }
 
-      printCenter(bg, sp60Font, -168, 350, card.ManaCost.toString());
-
-      if (ox === 0) {
-        printCenter(bg, sp27Font, -168, 515, stats.Health.toString());
-        printCenter(bg, sp27Font, -168, 640, stats.Damage.toString());
-      }
-
-      printCenter(bg, sp16Font, 17, 358, level === null ? `u ${upgrade}` : `lvl ${level}`);
-
-      printCenterCenter(bg, sp18Font, 20, 510, card.Description, 325);
-
-      //bg.autocrop(0.002, false);
-      bg.crop(135, 165, 526, 769);
-
-      // save + post
-      const saveDate = Date.now();
-
-      bg.write(path.join(__dirname, "temp", `pd-${saveDate}.png`), async () => {
-
-        const embed = new discord.RichEmbed();
-
-        // card name
-        if (card.Name instanceof Array) {
-
-          embed.setAuthor(card.Name[0]);
-        } else {
-
-          embed.setAuthor(card.Name);
-        }
-
-        let embedColour = null;
-        switch (card.Theme) {
+      let embedColour = null;
+      switch (card.Theme) {
         case "Adv":
           embedColour = "#4f80ba";
           break;
@@ -1383,176 +1396,175 @@ const card = new Command({
           break;
         default:
           embedColour = "#857468";
+      }
+      embed.setColor(embedColour);
+
+      embed.setDescription("");
+
+      embed.description += "**General Information**\n";
+
+      embed.description += `Cast Area: ${card.CastArea}\n`;
+
+      if (card.CharacterType !== "Totem") {
+
+        embed.description += `Max Speed: ${Math.round(card.MaxVelocity * 100) / 100}\n`;
+        embed.description += `Time To Reach Max Speed: ${Math.round(card.TimeToReachMaxVelocity * 100) / 100}\n`;
+        embed.description += `Agro Range Multiplier: ${Math.round(card.AgroRangeMultiplier * 100) / 100}\n\n`;
+      } else {
+
+        embed.description += "\n";
+      }
+
+      let hasPower = false;
+      for (let field in card) {
+
+        if (field.startsWith("Power") && card[field] !== null) {
+
+          hasPower = true;
+          break;
         }
-        embed.setColor(embedColour);
+      }
 
-        embed.setDescription("");
+      // enforcer jimmy aura range
+      if (hasPower || card.Name[0] === "Enforcer Jimmy") {
 
-        embed.description += "**General Information**\n";
+        embed.description += "**Power Information? - Yes**\n";
 
-        embed.description += `Cast Area: ${card.CastArea}\n`;
+        for (let field in stats) {
 
-        if (card.CharacterType !== "Totem") {
+          if (field === "PowerRange" && stats[field] === 0) {
 
-          embed.description += `Max Speed: ${Math.round(card.MaxVelocity * 100) / 100}\n`;
-          embed.description += `Time To Reach Max Speed: ${Math.round(card.TimeToReachMaxVelocity * 100) / 100}\n`;
-          embed.description += `Agro Range Multiplier: ${Math.round(card.AgroRangeMultiplier * 100) / 100}\n\n`;
+            continue;
+          }
+
+          if (field.startsWith("Power")) {
+
+            embed.description += `${field === "PowerRange" ? field : camelPad(field.slice(5, field.length))}: ${typeof stats[field] === "number" ? Math.round(stats[field] * 100) / 100 : stats[field]}\n`;
+          }
+        }
+
+        if ( /*card.ChargedPowerRadius !== 0 && */ card.ChargedPowerRegen !== 0) {
+
+          embed.description += `Charged Power Regen: ${Math.round(card.ChargedPowerRegen * 100) / 100}\n\n`;
         } else {
 
           embed.description += "\n";
         }
 
-        let hasPower = false;
-        for (let field in card) {
+      } else {
 
-          if (field.startsWith("Power") && card[field] !== null) {
+        embed.description += "**Power Information? - No**\n\n";
+      }
 
-            hasPower = true;
-            break;
-          }
-        }
-
-        // enforcer jimmy aura range
-        if (hasPower || card.Name[0] === "Enforcer Jimmy") {
-
-          embed.description += "**Power Information? - Yes**\n";
-
-          for (let field in stats) {
-
-            if (field === "PowerRange" && stats[field] === 0) {
-
-              continue;
-            }
-
-            if (field.startsWith("Power")) {
-
-              embed.description += `${field === "PowerRange" ? field : camelPad(field.slice(5, field.length))}: ${typeof stats[field] === "number" ? Math.round(stats[field] * 100) / 100 : stats[field]}\n`;
-            }
-          }
-
-          if (/*card.ChargedPowerRadius !== 0 && */card.ChargedPowerRegen !== 0) {
-
-            embed.description += `Charged Power Regen: ${Math.round(card.ChargedPowerRegen * 100) / 100}\n\n`;
-          } else {
-
-            embed.description += "\n";
-          }
-
-        } else {
-
-          embed.description += "**Power Information? - No**\n\n";
-        }
-
-        if (card.Type === "Character" && card.CanAttack && card.CharacterType !== "Totem") {
+      if (card.Type === "Character" && card.CanAttack && card.CharacterType !== "Totem") {
         // card that can attack
 
-          embed.description += "**Can Attack? - Yes**\n";
+        embed.description += "**Can Attack? - Yes**\n";
 
-          embed.description += `Attack Range: ${Math.round(card.AttackRange * 100) / 100}\n`;
-          embed.description += `Knockback: ${Math.round(parseInt(card.KnockbackImpulse) * 100) / 100} at ${Math.round(card.KnockbackAngleDeg * 100) / 100}°\n\n`;
+        embed.description += `Attack Range: ${Math.round(card.AttackRange * 100) / 100}\n`;
+        embed.description += `Knockback: ${Math.round(parseInt(card.KnockbackImpulse) * 100) / 100} at ${Math.round(card.KnockbackAngleDeg * 100) / 100}°\n\n`;
 
-        } else {
+      } else {
         // spell, totem or card that cant attack
 
-          embed.description += "**Can Attack? - No**\n\n";
-        }
+        embed.description += "**Can Attack? - No**\n\n";
+      }
 
-        if (card.AOEAttackType !== "No" && card.Type !== "Spell") {
+      if (card.AOEAttackType !== "No" && card.Type !== "Spell") {
         // aoe attacks
 
-          embed.description += "**AOE Attacks? - Yes**\n";
+        embed.description += "**AOE Attacks? - Yes**\n";
 
-          embed.description += `AOE Damage Percentage: ${Math.round(card.AOEDamagePercentage * 100) / 100}\n`;
-          embed.description += `AOE Knockback Percentage: ${Math.round(card.AOEKnockbackPercentage * 100) / 100}\n`;
-          embed.description += `AOE Radius: ${Math.round(card.AOERadius * 100) / 100}\n\n`;
+        embed.description += `AOE Damage Percentage: ${Math.round(card.AOEDamagePercentage * 100) / 100}\n`;
+        embed.description += `AOE Knockback Percentage: ${Math.round(card.AOEKnockbackPercentage * 100) / 100}\n`;
+        embed.description += `AOE Radius: ${Math.round(card.AOERadius * 100) / 100}\n\n`;
 
-        } else {
+      } else {
         // no aoe
 
-          embed.description += "**AOE Attacks? - No**\n\n";
-        }
+        embed.description += "**AOE Attacks? - No**\n\n";
+      }
 
-        embed.description += `Full Stats: https://sppd.feinwaru.com/${card.Image}`;
+      embed.description += `Full Stats: https://sppd.feinwaru.com/${card.Image}`;
 
-        embed.setFooter("© 2018 Copyright: Feinwaru Software ");
+      embed.setFooter("© 2018 Copyright: Feinwaru Software ");
 
-        // ***ATTACK INFO***
+      // ***ATTACK INFO***
 
-        // -can attack
-        // -attack range
-        // -time in between attacks
-        // -pre attack delay
-        // -knockback impulse
-        // -aoe attack type
-        // -aoe damage percentage
-        // -aoe radius
-        // -aoe knockback percentage
+      // -can attack
+      // -attack range
+      // -time in between attacks
+      // -pre attack delay
+      // -knockback impulse
+      // -aoe attack type
+      // -aoe damage percentage
+      // -aoe radius
+      // -aoe knockback percentage
 
-        // ***POWER INFO***
+      // ***POWER INFO***
 
-        // -targeting ...
-        // -power duration
+      // -targeting ...
+      // -power duration
 
-        // ***SPEED INFO***
+      // ***SPEED INFO***
 
-        // -time to max velocity
-        // -max velocity
+      // -time to max velocity
+      // -max velocity
 
-        // ***TOTEM ONLY***
+      // ***TOTEM ONLY***
 
-        // -health loss
+      // -health loss
 
-        // ***SPELL ONLY***
+      // ***SPELL ONLY***
 
 
 
-        // *** ??? ***
+      // *** ??? ***
 
-        // -requirements ...
-        // -child unit limit
+      // -requirements ...
+      // -child unit limit
 
-        // *Name
-        // CanAttack
-        // *Description
-        // *Image
-        // -ManaCost
-        // -Damage
-        // -Health
-        // HealthLoss - CharacterType: totem
-        // Type - if !Character, CharacterType === undefined
-        // Targeting ... - power radius
-        // CharacterType
-        // AttackRange
-        // TimeToMaxVelocity
-        // MaxVelocity
-        // TimeInBetweenAttacks
-        // PowerDuration
-        // -PowerPower
-        // -Rarity
-        // -Theme
-        // Requirements
-        // AOEAttackType
-        // AOEDamagePercentage
-        // AOERadius
-        // AOEKnockbackPercentage
-        // PreAttackDelay
-        // CastArea - ownside/anywhere
-        // ChildUnitLimit
+      // *Name
+      // CanAttack
+      // *Description
+      // *Image
+      // -ManaCost
+      // -Damage
+      // -Health
+      // HealthLoss - CharacterType: totem
+      // Type - if !Character, CharacterType === undefined
+      // Targeting ... - power radius
+      // CharacterType
+      // AttackRange
+      // TimeToMaxVelocity
+      // MaxVelocity
+      // TimeInBetweenAttacks
+      // PowerDuration
+      // -PowerPower
+      // -Rarity
+      // -Theme
+      // Requirements
+      // AOEAttackType
+      // AOEDamagePercentage
+      // AOERadius
+      // AOEKnockbackPercentage
+      // PreAttackDelay
+      // CastArea - ownside/anywhere
+      // ChildUnitLimit
 
-        await message.channel.send("", {
-          file: path.join(__dirname, "temp", `pd-${saveDate}.png`)
-        });
-
-        message.channel.send(embed);
-
-        fs.unlink(path.join(__dirname, "temp", `pd-${saveDate}.png`), error => {
-          if (error !== null && error !== undefined) {
-
-            throw `could not delete: pd-${saveDate}.png`;
-          }
-        });
+      await message.channel.send("", {
+        file: path.join(__dirname, "temp", `pd-${saveDate}.png`)
       });
-    }
+
+      message.channel.send(embed);
+
+      fs.unlink(path.join(__dirname, "temp", `pd-${saveDate}.png`), error => {
+        if (error !== null && error !== undefined) {
+
+          throw `could not delete: pd-${saveDate}.png`;
+        }
+      });
+    });
   },
 
   load: function () {
