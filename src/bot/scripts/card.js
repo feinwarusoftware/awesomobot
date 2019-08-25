@@ -1093,8 +1093,8 @@ const card = new Command({
             iy = iconHeight * 14;
             break;
           }
-          break;
         }
+        break;
       }
       case "Assassin":
         iy = iconHeight * 4;
