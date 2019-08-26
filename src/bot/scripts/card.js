@@ -304,11 +304,11 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
     }
     if (card.Name instanceof Array ? card.Name[0] === "Shieldmaiden Wendy" : card.Name === "Shieldmaiden Wendy") {
 
-      card.Description = card.Description.slice(0, card.Description.length - 1) + " seconds.";
+      card.Description = card.Description.slice(0, card.Description.length - 1);
     }
     if (card.Name instanceof Array ? card.Name[0] === "Youth Pastor Craig" : card.Name === "Youth Pastor Craig") {
 
-      card.Description = card.Description.slice(0, card.Description.length - 1) + " seconds.";
+      card.Description = card.Description.slice(0, card.Description.length - 1);
     }
 
     // trap vs spell
@@ -967,11 +967,11 @@ const card = new Command({
     }
     if (card.Name instanceof Array ? card.Name[0] === "Shieldmaiden Wendy" : card.Name === "Shieldmaiden Wendy") {
 
-      card.Description = card.Description.slice(0, card.Description.length - 1) + " seconds.";
+      card.Description = card.Description.slice(0, card.Description.length - 1);
     }
     if (card.Name instanceof Array ? card.Name[0] === "Youth Pastor Craig" : card.Name === "Youth Pastor Craig") {
 
-      card.Description = card.Description.slice(0, card.Description.length - 1) + " seconds.";
+      card.Description = card.Description.slice(0, card.Description.length - 1);
     }
 
     /* --- pasted old code --- */
