@@ -324,58 +324,58 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
     let x, y, z, w;
 
     switch (card.Rarity) {
-      case 0: // common
-        y = 0;
-        switch (card.Theme) {
-          case "Adv":
-            x = frameWidth;
-            break;
-          case "Sci":
-            x = frameWidth * 2;
-            break;
-          case "Mys":
-            x = frameWidth * 3;
-            break;
-          case "Fan":
-            x = frameWidth * 4;
-            break;
-          case "Sup":
-            x = frameWidth * 5;
-            break;
-          case "Gen":
-            x = 0;
-            break;
-          default:
-            //message.reply("theme not found");
-            return;
-        }
+    case 0: // common
+      y = 0;
+      switch (card.Theme) {
+      case "Adv":
+        x = frameWidth;
+        break;
+      case "Sci":
+        x = frameWidth * 2;
+        break;
+      case "Mys":
+        x = frameWidth * 3;
+        break;
+      case "Fan":
+        x = frameWidth * 4;
+        break;
+      case "Sup":
+        x = frameWidth * 5;
+        break;
+      case "Gen":
+        x = 0;
         break;
       default:
-        y = frameHeight;
-        switch (card.Theme) {
-          case "Adv":
-            x = frameWidth;
-            break;
-          case "Sci":
-            x = frameWidth * 2;
-            break;
-          case "Mys":
-            x = frameWidth * 3;
-            break;
-          case "Fan":
-            x = frameWidth * 4;
-            break;
-          case "Sup":
-            x = frameWidth * 5;
-            break;
-          case "Gen":
-            x = 0;
-            break;
-          default:
-            //message.reply("theme not found");
-            return;
-        }
+        //message.reply("theme not found");
+        return;
+      }
+      break;
+    default:
+      y = frameHeight;
+      switch (card.Theme) {
+      case "Adv":
+        x = frameWidth;
         break;
+      case "Sci":
+        x = frameWidth * 2;
+        break;
+      case "Mys":
+        x = frameWidth * 3;
+        break;
+      case "Fan":
+        x = frameWidth * 4;
+        break;
+      case "Sup":
+        x = frameWidth * 5;
+        break;
+      case "Gen":
+        x = 0;
+        break;
+      default:
+        //message.reply("theme not found");
+        return;
+      }
+      break;
     }
 
     z = frameWidth;
@@ -390,21 +390,21 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
     fx = 0;
 
     switch (card.Rarity) {
-      case 0: // common
-        fy = undefined;
-        break;
-      case 1:
-        fy = 0;
-        break;
-      case 2:
-        fy = topHeight;
-        break;
-      case 3:
-        fy = topHeight * 2;
-        break;
-      default:
-        //message.reply("rarity not found");
-        return;
+    case 0: // common
+      fy = undefined;
+      break;
+    case 1:
+      fy = 0;
+      break;
+    case 2:
+      fy = topHeight;
+      break;
+    case 3:
+      fy = topHeight * 2;
+      break;
+    default:
+      //message.reply("rarity not found");
+      return;
     }
 
     fz = topWidth;
@@ -417,71 +417,71 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
     let ix, iy, iz, iw;
 
     switch (card.CharacterType) {
-      case "Tank":
-        iy = 0;
+    case "Tank":
+      iy = 0;
+      break;
+    case undefined:
+      // trap vs spell
+      switch (typeType) {
+      case "spell": {
+        iy = iconHeight * 2;
         break;
-      case undefined:
-        // trap vs spell
-        switch (typeType) {
-          case "spell": {
-            iy = iconHeight * 2;
-            break;
-          }
-          case "trap": {
-            iy = iconHeight * 14;
-            break;
-          }
-        }
+      }
+      case "trap": {
+        iy = iconHeight * 14;
         break;
-      case "Assassin":
-        iy = iconHeight * 4;
-        break;
-      case "Ranged":
-        iy = iconHeight * 6;
-        break;
-      case "Melee":
-        iy = iconHeight * 8;
-        break;
-      case "Totem":
-        iy = iconHeight * 10;
-        break;
+      }
+      }
+      break;
+    case "Assassin":
+      iy = iconHeight * 4;
+      break;
+    case "Ranged":
+      iy = iconHeight * 6;
+      break;
+    case "Melee":
+      iy = iconHeight * 8;
+      break;
+    case "Totem":
+      iy = iconHeight * 10;
+      break;
     }
 
     switch (card.Rarity) {
-      case 0: // common
-        switch (card.Theme) {
-          case "Gen":
-            ix = 0;
-            break;
-          case "Adv":
-            ix = iconWidth;
-            break;
-          case "Sci":
-            ix = iconWidth * 2;
-            break;
-          case "Mys":
-            ix = iconWidth * 3;
-            break;
-          case "Fan":
-            ix = iconWidth * 4;
-            break;
-          case "Sup":
-            ix = iconWidth * 5;
-            break;
-        }
-        break;
-      case 1:
-        iy += iconHeight;
+    case 0: // common
+      switch (card.Theme) {
+      case "Gen":
         ix = 0;
         break;
-      case 2:
-        iy += iconHeight;
+      case "Adv":
         ix = iconWidth;
         break;
-      case 3:
-        iy += iconHeight;
+      case "Sci":
         ix = iconWidth * 2;
         break;
+      case "Mys":
+        ix = iconWidth * 3;
+        break;
+      case "Fan":
+        ix = iconWidth * 4;
+        break;
+      case "Sup":
+        ix = iconWidth * 5;
+        break;
+      }
+      break;
+    case 1:
+      iy += iconHeight;
+      ix = 0;
+      break;
+    case 2:
+      iy += iconHeight;
+      ix = iconWidth;
+      break;
+    case 3:
+      iy += iconHeight;
+      ix = iconWidth * 2;
+      break;
     }
 
     iz = iconWidth;
@@ -496,12 +496,12 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
     oy = 0;
 
     switch (card.CharacterType) {
-      case undefined:
-        ox = overlayWidth;
-        break;
-      default:
-        ox = 0;
-        break;
+    case undefined:
+      ox = overlayWidth;
+      break;
+    default:
+      ox = 0;
+      break;
     }
 
     oz = overlayWidth;
@@ -516,27 +516,27 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
     ty = 0;
 
     switch (card.Theme) {
-      case "Gen":
-        tx = 0;
-        break;
-      case "Adv":
-        tx = themeIconWidth;
-        break;
-      case "Sci":
-        tx = themeIconWidth * 2;
-        break;
-      case "Mys":
-        tx = themeIconWidth * 3;
-        break;
-      case "Fan":
-        tx = themeIconWidth * 4;
-        break;
-      case "Sup":
-        tx = themeIconWidth * 5;
-        break;
-      default:
-        //message.reply("theme not found");
-        return;
+    case "Gen":
+      tx = 0;
+      break;
+    case "Adv":
+      tx = themeIconWidth;
+      break;
+    case "Sci":
+      tx = themeIconWidth * 2;
+      break;
+    case "Mys":
+      tx = themeIconWidth * 3;
+      break;
+    case "Fan":
+      tx = themeIconWidth * 4;
+      break;
+    case "Sup":
+      tx = themeIconWidth * 5;
+      break;
+    default:
+      //message.reply("theme not found");
+      return;
     }
 
     tz = themeIconWidth;
@@ -558,46 +558,46 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
     cy = crystalSheet.y;
 
     switch (card.Rarity) {
-      case 0: // common
-        switch (card.Theme) {
-          case "Gen":
-            cx = 0;
-            break;
-          case "Adv":
-            cx = crystalWidth;
-            break;
-          case "Sci":
-            cx = crystalWidth * 2;
-            break;
-          case "Mys":
-            cx = crystalWidth * 3;
-            break;
-          case "Fan":
-            cx = crystalWidth * 4;
-            break;
-          case "Sup":
-            cx = crystalWidth * 5;
-            break;
-          default:
-            //message.reply("theme not found");
-            return;
-        }
+    case 0: // common
+      switch (card.Theme) {
+      case "Gen":
+        cx = 0;
         break;
-      case 1:
-        cy += crystalHeight + 4;
-        cx = 17;
+      case "Adv":
+        cx = crystalWidth;
         break;
-      case 2:
-        cy += crystalHeight + 4;
-        cx = 34 + crystalWidth;
+      case "Sci":
+        cx = crystalWidth * 2;
         break;
-      case 3:
-        cy += crystalHeight + 4;
-        cx = 34 + crystalWidth * 2;
+      case "Mys":
+        cx = crystalWidth * 3;
+        break;
+      case "Fan":
+        cx = crystalWidth * 4;
+        break;
+      case "Sup":
+        cx = crystalWidth * 5;
         break;
       default:
-        //message.reply("rarity not found");
+        //message.reply("theme not found");
         return;
+      }
+      break;
+    case 1:
+      cy += crystalHeight + 4;
+      cx = 17;
+      break;
+    case 2:
+      cy += crystalHeight + 4;
+      cx = 34 + crystalWidth;
+      break;
+    case 3:
+      cy += crystalHeight + 4;
+      cx = 34 + crystalWidth * 2;
+      break;
+    default:
+      //message.reply("rarity not found");
+      return;
     }
 
     cz = crystalWidth;
@@ -721,6 +721,7 @@ const card = new Command({
 
   preload: true,
 
+  // -card <name>
   cb: async function (client, message, guild) {
 
     // deep copy cards so we can replace shit
@@ -771,6 +772,11 @@ const card = new Command({
 
       level = parseInt(last.slice(1));
 
+      if (last.endsWith("%r")) {
+        const randomlevel = Math.floor(Math.random() * 7) + 1;
+        level = randomlevel;
+      }
+
       if (isNaN(level)) {
 
         level = null;
@@ -783,11 +789,24 @@ const card = new Command({
       }
     }
 
+    //-card butters l%r
+    //-card butters %r
+
+    /*
+    if (last.startsWith("%r")) {
+      const randomlevel = Math.floor(Math.random() * 7) + 1
+      level = randomlevel
+    }
+    */
+
     // upgrade
     if (last.startsWith("u") && name !== "") {
 
       upgrade = parseInt(last.slice(1));
-
+      if (last.endsWith("%r")) {
+        const randomupgrade = Math.floor(Math.random() * 70) + 1;
+        upgrade = randomupgrade;
+      }
       if (isNaN(upgrade)) {
 
         upgrade = null;
@@ -804,7 +823,11 @@ const card = new Command({
     if (last.startsWith("m") && name !== "") {
 
       level = parseInt(last.slice(1));
+      if (last.endsWith("%r")) {
+        const randomMaxlevel = Math.floor(Math.random() * 7) + 1;
+        level = randomMaxlevel;
 
+      }
       if (isNaN(level)) {
 
         level = null;
@@ -821,7 +844,10 @@ const card = new Command({
     if (level === null && upgrade === null) {
 
       level = parseInt(last);
-
+      if (last.startsWith("%r")) {
+        const randomstat = Math.floor(Math.random() * 7) + 1;
+        level = randomstat;
+      }
       // default to 1
       if (isNaN(level)) {
 
@@ -843,22 +869,39 @@ const card = new Command({
       }
     }
 
-    // find the card by % match
+    // card select
+    let card = null;
 
-    const threshold = 0.0;
 
-    let index = null;
-    let current = threshold;
+    // if name is %r, select a random card
+    if (name === "%r" || name === "%r art") {
+      const randomCard = cardsCopy[Math.floor(Math.random() * cardsCopy.length)];
+      card = randomCard;
+    } else {
+      const threshold = 0.0;
 
-    for (let [i, v] of cardsCopy.entries()) {
+      let index = null;
+      let current = threshold;
 
-      let dist = null;
+      for (let [i, v] of cardsCopy.entries()) {
 
-      if (v.Name instanceof Array) {
+        let dist = null;
 
-        for (let vname of v.Name) {
+        if (v.Name instanceof Array) {
 
-          dist = similarity(vname.toLowerCase(), name.toLowerCase());
+          for (let vname of v.Name) {
+
+            dist = similarity(vname.toLowerCase(), name.toLowerCase());
+
+            if (dist > current) {
+
+              current = dist;
+              index = i;
+            }
+          }
+        } else {
+
+          dist = similarity(v.Name.toLowerCase(), name.toLowerCase());
 
           if (dist > current) {
 
@@ -866,24 +909,22 @@ const card = new Command({
             index = i;
           }
         }
-      } else {
-
-        dist = similarity(v.Name.toLowerCase(), name.toLowerCase());
-
-        if (dist > current) {
-
-          current = dist;
-          index = i;
-        }
       }
+
+      if (index === null) {
+
+        return message.reply("card not found");
+      }
+
+      card = cardsCopy[index];
     }
 
-    if (index === null) {
+    // -card <name> (art)
+    // where name is compulsory
+    // and art is optional
 
-      return message.reply("card not found");
-    }
+    // find the card by % match
 
-    const card = cardsCopy[index];
 
     if (last === "art" && name !== "") {
 
@@ -906,8 +947,8 @@ const card = new Command({
     }
 
     let stats = null;
-    if (level === null) {
 
+    if (level === null) {
       stats = getUpgradeStats(card, upgrade);
     } else {
 
@@ -983,58 +1024,58 @@ const card = new Command({
     let x, y, z, w;
 
     switch (card.Rarity) {
-      case 0: // common
-        y = 0;
-        switch (card.Theme) {
-          case "Adv":
-            x = frameWidth;
-            break;
-          case "Sci":
-            x = frameWidth * 2;
-            break;
-          case "Mys":
-            x = frameWidth * 3;
-            break;
-          case "Fan":
-            x = frameWidth * 4;
-            break;
-          case "Sup":
-            x = frameWidth * 5;
-            break;
-          case "Gen":
-            x = 0;
-            break;
-          default:
-            message.reply("theme not found");
-            return;
-        }
+    case 0: // common
+      y = 0;
+      switch (card.Theme) {
+      case "Adv":
+        x = frameWidth;
+        break;
+      case "Sci":
+        x = frameWidth * 2;
+        break;
+      case "Mys":
+        x = frameWidth * 3;
+        break;
+      case "Fan":
+        x = frameWidth * 4;
+        break;
+      case "Sup":
+        x = frameWidth * 5;
+        break;
+      case "Gen":
+        x = 0;
         break;
       default:
-        y = frameHeight;
-        switch (card.Theme) {
-          case "Adv":
-            x = frameWidth;
-            break;
-          case "Sci":
-            x = frameWidth * 2;
-            break;
-          case "Mys":
-            x = frameWidth * 3;
-            break;
-          case "Fan":
-            x = frameWidth * 4;
-            break;
-          case "Sup":
-            x = frameWidth * 5;
-            break;
-          case "Gen":
-            x = 0;
-            break;
-          default:
-            message.reply("theme not found");
-            return;
-        }
+        message.reply("theme not found");
+        return;
+      }
+      break;
+    default:
+      y = frameHeight;
+      switch (card.Theme) {
+      case "Adv":
+        x = frameWidth;
         break;
+      case "Sci":
+        x = frameWidth * 2;
+        break;
+      case "Mys":
+        x = frameWidth * 3;
+        break;
+      case "Fan":
+        x = frameWidth * 4;
+        break;
+      case "Sup":
+        x = frameWidth * 5;
+        break;
+      case "Gen":
+        x = 0;
+        break;
+      default:
+        message.reply("theme not found");
+        return;
+      }
+      break;
     }
 
     z = frameWidth;
@@ -1049,21 +1090,21 @@ const card = new Command({
     fx = 0;
 
     switch (card.Rarity) {
-      case 0: // common
-        fy = undefined;
-        break;
-      case 1:
-        fy = 0;
-        break;
-      case 2:
-        fy = topHeight;
-        break;
-      case 3:
-        fy = topHeight * 2;
-        break;
-      default:
-        message.reply("rarity not found");
-        return;
+    case 0: // common
+      fy = undefined;
+      break;
+    case 1:
+      fy = 0;
+      break;
+    case 2:
+      fy = topHeight;
+      break;
+    case 3:
+      fy = topHeight * 2;
+      break;
+    default:
+      message.reply("rarity not found");
+      return;
     }
 
     fz = topWidth;
@@ -1080,71 +1121,71 @@ const card = new Command({
     //
 
     switch (card.CharacterType) {
-      case "Tank":
-        iy = 0;
-        break;
-      case undefined: {
-        switch (typeType) {
-          case "Spell": {
-            iy = iconHeight * 2;
-            break;
-          }
-          case "Trap": {
-            iy = iconHeight * 14;
-            break;
-          }
-        }
+    case "Tank":
+      iy = 0;
+      break;
+    case undefined: {
+      switch (typeType) {
+      case "Spell": {
+        iy = iconHeight * 2;
         break;
       }
-      case "Assassin":
-        iy = iconHeight * 4;
+      case "Trap": {
+        iy = iconHeight * 14;
         break;
-      case "Ranged":
-        iy = iconHeight * 6;
-        break;
-      case "Melee":
-        iy = iconHeight * 8;
-        break;
-      case "Totem":
-        iy = iconHeight * 10;
-        break;
+      }
+      }
+      break;
+    }
+    case "Assassin":
+      iy = iconHeight * 4;
+      break;
+    case "Ranged":
+      iy = iconHeight * 6;
+      break;
+    case "Melee":
+      iy = iconHeight * 8;
+      break;
+    case "Totem":
+      iy = iconHeight * 10;
+      break;
     }
 
     switch (card.Rarity) {
-      case 0: // common
-        switch (card.Theme) {
-          case "Gen":
-            ix = 0;
-            break;
-          case "Adv":
-            ix = iconWidth;
-            break;
-          case "Sci":
-            ix = iconWidth * 2;
-            break;
-          case "Mys":
-            ix = iconWidth * 3;
-            break;
-          case "Fan":
-            ix = iconWidth * 4;
-            break;
-          case "Sup":
-            ix = iconWidth * 5;
-            break;
-        }
-        break;
-      case 1:
-        iy += iconHeight;
+    case 0: // common
+      switch (card.Theme) {
+      case "Gen":
         ix = 0;
         break;
-      case 2:
-        iy += iconHeight;
+      case "Adv":
         ix = iconWidth;
         break;
-      case 3:
-        iy += iconHeight;
+      case "Sci":
         ix = iconWidth * 2;
         break;
+      case "Mys":
+        ix = iconWidth * 3;
+        break;
+      case "Fan":
+        ix = iconWidth * 4;
+        break;
+      case "Sup":
+        ix = iconWidth * 5;
+        break;
+      }
+      break;
+    case 1:
+      iy += iconHeight;
+      ix = 0;
+      break;
+    case 2:
+      iy += iconHeight;
+      ix = iconWidth;
+      break;
+    case 3:
+      iy += iconHeight;
+      ix = iconWidth * 2;
+      break;
     }
 
     iz = iconWidth;
@@ -1159,12 +1200,12 @@ const card = new Command({
     oy = 0;
 
     switch (card.CharacterType) {
-      case undefined:
-        ox = overlayWidth;
-        break;
-      default:
-        ox = 0;
-        break;
+    case undefined:
+      ox = overlayWidth;
+      break;
+    default:
+      ox = 0;
+      break;
     }
 
     oz = overlayWidth;
@@ -1179,27 +1220,27 @@ const card = new Command({
     ty = 0;
 
     switch (card.Theme) {
-      case "Gen":
-        tx = 0;
-        break;
-      case "Adv":
-        tx = themeIconWidth;
-        break;
-      case "Sci":
-        tx = themeIconWidth * 2;
-        break;
-      case "Mys":
-        tx = themeIconWidth * 3;
-        break;
-      case "Fan":
-        tx = themeIconWidth * 4;
-        break;
-      case "Sup":
-        tx = themeIconWidth * 5;
-        break;
-      default:
-        message.reply("theme not found");
-        return;
+    case "Gen":
+      tx = 0;
+      break;
+    case "Adv":
+      tx = themeIconWidth;
+      break;
+    case "Sci":
+      tx = themeIconWidth * 2;
+      break;
+    case "Mys":
+      tx = themeIconWidth * 3;
+      break;
+    case "Fan":
+      tx = themeIconWidth * 4;
+      break;
+    case "Sup":
+      tx = themeIconWidth * 5;
+      break;
+    default:
+      message.reply("theme not found");
+      return;
     }
 
     tz = themeIconWidth;
@@ -1221,46 +1262,46 @@ const card = new Command({
     cy = crystalSheet.y;
 
     switch (card.Rarity) {
-      case 0: // common
-        switch (card.Theme) {
-          case "Gen":
-            cx = 0;
-            break;
-          case "Adv":
-            cx = crystalWidth;
-            break;
-          case "Sci":
-            cx = crystalWidth * 2;
-            break;
-          case "Mys":
-            cx = crystalWidth * 3;
-            break;
-          case "Fan":
-            cx = crystalWidth * 4;
-            break;
-          case "Sup":
-            cx = crystalWidth * 5;
-            break;
-          default:
-            message.reply("theme not found");
-            return;
-        }
+    case 0: // common
+      switch (card.Theme) {
+      case "Gen":
+        cx = 0;
         break;
-      case 1:
-        cy += crystalHeight + 4;
-        cx = 17;
+      case "Adv":
+        cx = crystalWidth;
         break;
-      case 2:
-        cy += crystalHeight + 4;
-        cx = 34 + crystalWidth;
+      case "Sci":
+        cx = crystalWidth * 2;
         break;
-      case 3:
-        cy += crystalHeight + 4;
-        cx = 34 + crystalWidth * 2;
+      case "Mys":
+        cx = crystalWidth * 3;
+        break;
+      case "Fan":
+        cx = crystalWidth * 4;
+        break;
+      case "Sup":
+        cx = crystalWidth * 5;
         break;
       default:
-        message.reply("rarity not found");
+        message.reply("theme not found");
         return;
+      }
+      break;
+    case 1:
+      cy += crystalHeight + 4;
+      cx = 17;
+      break;
+    case 2:
+      cy += crystalHeight + 4;
+      cx = 34 + crystalWidth;
+      break;
+    case 3:
+      cy += crystalHeight + 4;
+      cx = 34 + crystalWidth * 2;
+      break;
+    default:
+      message.reply("rarity not found");
+      return;
     }
 
     cz = crystalWidth;
@@ -1379,26 +1420,26 @@ const card = new Command({
 
       let embedColour = null;
       switch (card.Theme) {
-        case "Adv":
-          embedColour = "#4f80ba";
-          break;
-        case "Fan":
-          embedColour = "#d34f5f";
-          break;
-        case "Sci":
-          embedColour = "#db571d";
-          break;
-        case "Mys":
-          embedColour = "#4b9b38";
-          break;
-        case "Sup":
-          embedColour = "#fd6cf8";
-          break;
-        case "Gen":
-          embedColour = "#857468";
-          break;
-        default:
-          embedColour = "#857468";
+      case "Adv":
+        embedColour = "#4f80ba";
+        break;
+      case "Fan":
+        embedColour = "#d34f5f";
+        break;
+      case "Sci":
+        embedColour = "#db571d";
+        break;
+      case "Mys":
+        embedColour = "#4b9b38";
+        break;
+      case "Sup":
+        embedColour = "#fd6cf8";
+        break;
+      case "Gen":
+        embedColour = "#857468";
+        break;
+      default:
+        embedColour = "#857468";
       }
       embed.setColor(embedColour);
 
