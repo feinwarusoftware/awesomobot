@@ -1,5 +1,5 @@
 [{
-    "Id": 8,
+    "Id": 1,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Medicine Woman Sharon", "MWS", "Sharon"],
@@ -486,10 +486,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Female", "Adult", "Human", "Indian"]
   },
   {
-    "Id": 10,
+    "Id": 2,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Pocahontas Randy", "Indian Randy", "Poca"],
@@ -1006,10 +1007,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 5
+    "ChildUnitLimit": 5,
+    "CharacterTags": ["Male", "Adult", "Human", "Indian"]
   },
   {
-    "Id": 12,
+    "Id": 3,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Stan of Many Moons", "SOMM"],
@@ -1495,10 +1497,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Indian"]
   },
   {
-    "Id": 15,
+    "Id": 4,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Nathan"],
@@ -1984,10 +1987,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Special Needs"]
   },
   {
-    "Id": 24,
+    "Id": 5,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Fireball", "FB"],
@@ -2127,7 +2131,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 27,
+    "Id": 6,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Deckhand Butters", "DHB"],
@@ -2613,10 +2617,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.2,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Pirate"]
   },
   {
-    "Id": 28,
+    "Id": 7,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Outlaw Tweek", "Outlaw", "OT"],
@@ -3102,10 +3107,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Indian"]
   },
   {
-    "Id": 29,
+    "Id": 8,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Stan the Great", "StG", "Savagekiller115"],
@@ -3592,10 +3598,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 30,
+    "Id": 9,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Program Stan", "Tron", "PS"],
@@ -4081,10 +4088,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Adult", "Human", "Indian"]
   },
   {
-    "Id": 31,
+    "Id": 10,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Poseidon Stan", "PS2", "Poseidon"],
@@ -4570,10 +4578,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 32,
+    "Id": 11,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Grand Wizard Cartman", "GWC", "Grand Wizard"],
@@ -5059,10 +5068,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 35,
+    "Id": 12,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Gunslinger Kyle", "Gunslinger", "GSK"],
@@ -5548,10 +5558,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Cowboy"]
   },
   {
-    "Id": 37,
+    "Id": 13,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Princess Kenny", "PK"],
@@ -6037,10 +6048,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0333333,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Female", "Kid", "Human"]
   },
   {
-    "Id": 38,
+    "Id": 14,
     "Visible": true,
     "CanAttack": true,
     "Name": ["A.W.E.S.O.M.-O 4000", "awesomo", "A4K"],
@@ -6526,13 +6538,14 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 39,
+    "Id": 15,
     "Visible": false,
     "CanAttack": true,
-    "Name": ["Little Choirboy"],
+    "Name": ["Little Choirboy", "Bell Boy", "Summon1"],
     "Description": "Those bells really hurt!",
     "Image": "ChoirBoyMysCard",
     "ManaCost": 2,
@@ -7018,7 +7031,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 40,
+    "Id": 16,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Freeze Ray", "freeze"],
@@ -7122,7 +7135,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 44,
+    "Id": 17,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Sexy Nun Randy", "SNR", "Sexy Nun"],
@@ -7638,10 +7651,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 5
+    "ChildUnitLimit": 5,
+    "CharacterTags": ["Male", "Female", "Adult", "Human", "Holy"]
   },
   {
-    "Id": 45,
+    "Id": 18,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Sheriff Cartman", "Badge Wearer", "Sheriff"],
@@ -8127,10 +8141,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Cowboy"]
   },
   {
-    "Id": 46,
+    "Id": 19,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Warboy Tweek", "Warboy"],
@@ -8616,13 +8631,14 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 47,
+    "Id": 20,
     "Visible": true,
     "CanAttack": true,
-    "Name": ["Robin Tweek", "Robin"],
+    "Name": ["Robin Tweek", "Robin", "Nightwing"],
     "Description": "Warcry:  Give a random ally {PowerMaxHealthBoost} bonus Health.",
     "Image": "TweekFanCard",
     "ManaCost": 4,
@@ -9105,13 +9121,14 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 48,
+    "Id": 21,
     "Visible": true,
     "CanAttack": true,
-    "Name": ["Incan Craig", "Incan"],
+    "Name": ["Incan Craig", "Incan", "IMMA FIRIN' MY LAZER!"],
     "Description": "Warcry:  Shoot laser beam towards Enemy Leader dealing {PowerHeroDamage} damage, and damaging all enemies in the way for {PowerDamage}.",
     "Image": "CraigAdvCard",
     "ManaCost": 5,
@@ -9595,10 +9612,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Indian"]
   },
   {
-    "Id": 49,
+    "Id": 22,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Marine Craig", "Umustalldie2", "Marine"],
@@ -10084,10 +10102,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 50,
+    "Id": 23,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Hookhand Clyde", "HHC", "Hookhand"],
@@ -10573,10 +10592,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Pirate"]
   },
   {
-    "Id": 51,
+    "Id": 24,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Hercules Clyde", "HC", "Hercules"],
@@ -11062,10 +11082,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 52,
+    "Id": 25,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Ice Sniper Wendy", "ISW"],
@@ -11551,10 +11572,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Female", "Kid", "Human"]
   },
   {
-    "Id": 54,
+    "Id": 26,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Rogue Token", "rogue", "rougue"],
@@ -12040,10 +12062,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 55,
+    "Id": 27,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Astronaut Butters", "astro"],
@@ -12529,10 +12552,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 57,
+    "Id": 28,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Paladin Butters", "PB", "Paladin"],
@@ -13018,10 +13042,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 61,
+    "Id": 29,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Dark Mage Craig", "Devil May Cry", "DMC"],
@@ -13507,10 +13532,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 84,
+    "Id": 30,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Choirboy Butters", "CB"],
@@ -13996,10 +14022,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Holy"]
   },
   {
-    "Id": 85,
+    "Id": 31,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Hallelujah"],
@@ -14103,7 +14130,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 86,
+    "Id": 32,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Angel Wendy", "Angel"],
@@ -14589,10 +14616,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Female", "Kid", "Human", "Holy"]
   },
   {
-    "Id": 87,
+    "Id": 33,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Pope Timmy", "PT", "Pope"],
@@ -15108,10 +15136,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.9,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 1
+    "ChildUnitLimit": 1,
+    "CharacterTags": ["Male", "Kid", "Human", "Holy", "Special Needs"]
   },
   {
-    "Id": 88,
+    "Id": 34,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Mecha Timmy", "MT", "Mecha"],
@@ -15597,10 +15626,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.6,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Special Needs"]
   },
   {
-    "Id": 89,
+    "Id": 35,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Kyle of the Drow Elves", "KotDE"],
@@ -16086,10 +16116,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 91,
+    "Id": 36,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Catapult Timmy", "Cata", "Kappa"],
@@ -16606,10 +16637,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 1.1,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 2
+    "ChildUnitLimit": 2,
+    "CharacterTags": ["Male", "Kid", "Human", "Special Needs"]
   },
   {
-    "Id": 92,
+    "Id": 37,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Pirate Ship Timmy", "PST"],
@@ -17095,10 +17127,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 1.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Special Needs"]
   },
   {
-    "Id": 131,
+    "Id": 38,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Smuggler Ike", "Smuggler"],
@@ -17585,13 +17618,14 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0333333,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Pirate", "Canadian"]
   },
   {
-    "Id": 133,
+    "Id": 39,
     "Visible": true,
     "CanAttack": true,
-    "Name": ["Gizmo Ike", "gizmo"],
+    "Name": ["Gizmo Ike", "Gizmo"],
     "Description": "Charged:  Splits into TWO Gizmo Ikes. These clones have half the stats of the spawner.",
     "Image": "IkeSciCard",
     "ManaCost": 3,
@@ -18104,10 +18138,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 12
+    "ChildUnitLimit": 12,
+    "CharacterTags": ["Male", "Kid", "Human", "Canadian"]
   },
   {
-    "Id": 134,
+    "Id": 40,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Inuit Kenny", "eskimo"],
@@ -18593,10 +18628,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Indian"]
   },
   {
-    "Id": 135,
+    "Id": 41,
     "Visible": true,
     "CanAttack": true,
     "Name": ["The Amazingly Randy", "TAR"],
@@ -19112,17 +19148,18 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 5
+    "ChildUnitLimit": 5,
+    "CharacterTags": ["Male", "Adult", "Human"]
   },
   {
-    "Id": 137,
+    "Id": 42,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Sixth Element Randy", "SER"],
     "Description": "Charged:  Pukes and summons a robot vacuum.",
     "Image": "RandySciCard",
     "ManaCost": 5,
-    "Damage": "75",
+    "Damage": "85",
     "Health": "500",
     "HealthLoss": "0",
     "Type": "Character",
@@ -19151,7 +19188,7 @@
     "AgroRangeMultiplier": 2.5,
     "KnockbackImpulse": "15.0000",
     "KnockbackAngleDeg": 45.0,
-    "ChargedPowerRegen": 0.06666667,
+    "ChargedPowerRegen": 0.06849315,
     "ChargedPowerRadius": 2.0,
     "ChargedPowerReticle": "",
     "Rarity": 3,
@@ -19165,7 +19202,7 @@
         {
           "x": 1,
           "property": "Damage",
-          "value": 2.0
+          "value": 3.0
         },
         {
           "x": 2,
@@ -19185,7 +19222,7 @@
         {
           "x": 5,
           "property": "Damage",
-          "value": 2.0
+          "value": 3.0
         },
         {
           "x": 6,
@@ -19215,7 +19252,7 @@
         {
           "x": 11,
           "property": "Damage",
-          "value": 4.0
+          "value": 5.0
         },
         {
           "x": 12,
@@ -19225,7 +19262,7 @@
         {
           "x": 13,
           "property": "Damage",
-          "value": 5.0
+          "value": 6.0
         },
         {
           "x": 14,
@@ -19245,7 +19282,7 @@
         {
           "x": 17,
           "property": "Damage",
-          "value": 4.0
+          "value": 5.0
         },
         {
           "x": 18,
@@ -19255,7 +19292,7 @@
         {
           "x": 19,
           "property": "Damage",
-          "value": 5.0
+          "value": 6.0
         },
         {
           "x": 20,
@@ -19265,7 +19302,7 @@
         {
           "x": 21,
           "property": "Damage",
-          "value": 6.0
+          "value": 7.0
         },
         {
           "x": 22,
@@ -19275,7 +19312,7 @@
         {
           "x": 23,
           "property": "Damage",
-          "value": 7.0
+          "value": 8.0
         },
         {
           "x": 24,
@@ -19295,7 +19332,7 @@
         {
           "x": 27,
           "property": "Damage",
-          "value": 2.0
+          "value": 3.0
         },
         {
           "x": 28,
@@ -19325,7 +19362,7 @@
         {
           "x": 33,
           "property": "Damage",
-          "value": 4.0
+          "value": 5.0
         },
         {
           "x": 34,
@@ -19335,7 +19372,7 @@
         {
           "x": 35,
           "property": "Damage",
-          "value": 5.0
+          "value": 6.0
         },
         {
           "x": 36,
@@ -19345,7 +19382,7 @@
         {
           "x": 37,
           "property": "Damage",
-          "value": 6.0
+          "value": 7.0
         },
         {
           "x": 38,
@@ -19405,7 +19442,7 @@
         {
           "x": 49,
           "property": "Damage",
-          "value": 1.0
+          "value": 2.0
         },
         {
           "x": 50,
@@ -19513,7 +19550,7 @@
             {
               "x": 0,
               "property": "Damage",
-              "value": 15.0
+              "value": 17.0
             },
             {
               "x": 0,
@@ -19532,7 +19569,7 @@
             {
               "x": 0,
               "property": "Damage",
-              "value": 45.0
+              "value": 51.0
             },
             {
               "x": 0,
@@ -19551,7 +19588,7 @@
             {
               "x": 0,
               "property": "Damage",
-              "value": 30.0
+              "value": 34.0
             },
             {
               "x": 0,
@@ -19570,7 +19607,7 @@
             {
               "x": 0,
               "property": "Damage",
-              "value": 15.0
+              "value": 17.0
             },
             {
               "x": 0,
@@ -19589,7 +19626,7 @@
             {
               "x": 0,
               "property": "Damage",
-              "value": 15.0
+              "value": 17.0
             },
             {
               "x": 0,
@@ -19608,7 +19645,7 @@
             {
               "x": 0,
               "property": "Damage",
-              "value": 15.0
+              "value": 17.0
             },
             {
               "x": 0,
@@ -19622,7 +19659,8 @@
     "Requirements": {
       "MinEpisodeCompleted": 3,
       "MinPlayerLevel": 0,
-      "MinPVPRank": 20
+      "MinPVPRank": 20,
+      "MinPVPArena": 5
     },
     "AOEAttackType": "No",
     "AOEDamagePercentage": 0.0,
@@ -19631,10 +19669,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 5
+    "ChildUnitLimit": 5,
+    "CharacterTags": ["Male", "Female", "Adult", "Human"]
   },
   {
-    "Id": 138,
+    "Id": 43,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Hermes Kenny", "HK", "Hermes"],
@@ -20120,10 +20159,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 140,
+    "Id": 44,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Captain Wendy", "Captain", "CW"],
@@ -20609,10 +20649,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Female", "Kid", "Human", "Pirate"]
   },
   {
-    "Id": 141,
+    "Id": 45,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Shieldmaiden Wendy", "SMW"],
@@ -21098,10 +21139,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Female", "Kid", "Human"]
   },
   {
-    "Id": 144,
+    "Id": 46,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Canadian Knight Ike", "CKI", "KlausHeissler"],
@@ -21587,10 +21629,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Canadian"]
   },
   {
-    "Id": 146,
+    "Id": 47,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Cyborg Kenny", "CK", "Cyborg"],
@@ -22076,10 +22119,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 158,
+    "Id": 48,
     "Visible": true,
     "CanAttack": false,
     "Name": ["Zen Cartman", "Zen", "Namaste", "Dr. Normal"],
@@ -22529,10 +22573,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 179,
+    "Id": 49,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Dwarf King Clyde", "DKC", "Warcy"],
@@ -23018,10 +23063,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 186,
+    "Id": 50,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Lightning Bolt", "LB", "Bolt"],
@@ -23161,7 +23207,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 193,
+    "Id": 51,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Alien Clyde", "AC"],
@@ -23647,10 +23693,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 200,
+    "Id": 52,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Shaman Token", "Shaman"],
@@ -24136,10 +24183,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Indian"]
   },
   {
-    "Id": 201,
+    "Id": 53,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Witch Doctor Token", "WDT", "Witch Doctor"],
@@ -24626,10 +24674,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Unholy"]
   },
   {
-    "Id": 203,
+    "Id": 54,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Space Warrior Token", "SWT"],
@@ -25115,10 +25164,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 205,
+    "Id": 55,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Storyteller Jimmy", "STJ", "Storyteller"],
@@ -25604,10 +25654,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Indian", "Special Needs"]
   },
   {
-    "Id": 206,
+    "Id": 56,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Le Bard Jimmy", "Le Tard", "LBJ"],
@@ -26093,10 +26144,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Special Needs"]
   },
   {
-    "Id": 208,
+    "Id": 57,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Friar Jimmy", "Friar"],
@@ -26582,10 +26634,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Holy", "Special Needs"]
   },
   {
-    "Id": 209,
+    "Id": 58,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Enforcer Jimmy", "Enforcer"],
@@ -27071,10 +27124,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Special Needs"]
   },
   {
-    "Id": 1216,
+    "Id": 59,
     "Visible": true,
     "CanAttack": true,
     "Name": ["The Master Ninjew", "Ninjew", "TMN"],
@@ -27560,10 +27614,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 1269,
+    "Id": 60,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Hyperdrive", "hyperspeed"],
@@ -27667,7 +27722,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 1272,
+    "Id": 61,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Mind Control", "MC"],
@@ -27771,7 +27826,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 1273,
+    "Id": 62,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Purify"],
@@ -27875,7 +27930,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 1274,
+    "Id": 63,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Unholy Combustion", "UC"],
@@ -27979,7 +28034,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 1276,
+    "Id": 64,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Arrowstorm", "storm"],
@@ -28083,7 +28138,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 1277,
+    "Id": 65,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Regeneration", "Regen"],
@@ -28187,7 +28242,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 1286,
+    "Id": 66,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Power Bind"],
@@ -28291,7 +28346,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 1288,
+    "Id": 67,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Barrel Dougie", "Barrel", "Barrel boi"],
@@ -28777,10 +28832,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Pirate"]
   },
   {
-    "Id": 1307,
+    "Id": 68,
     "Visible": true,
     "CanAttack": false,
     "Name": ["Energy Staff", "Staff"],
@@ -29233,7 +29289,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 1311,
+    "Id": 69,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Powerfist Dougie", "Powerfist", "McFisty", "The Fister", "Thanos Dougie"],
@@ -29719,10 +29775,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 1407,
+    "Id": 70,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Rat Swarm", "Rats"],
@@ -30208,13 +30265,15 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Animal"]
+
   },
   {
-    "Id": 1441,
+    "Id": 71,
     "Visible": false,
     "CanAttack": true,
-    "Name": ["Indian Brave", "Indian Boy"],
+    "Name": ["Indian Brave", "Indian Boy", "Summon2"],
     "Description": "A mean little fighter with an axe!",
     "Image": "KidmeleeAdvCard",
     "ManaCost": 1,
@@ -30700,10 +30759,10 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 1456,
+    "Id": 72,
     "Visible": false,
     "CanAttack": true,
-    "Name": ["A Cock"],
+    "Name": ["A Cock", "Summon3"],
     "Description": "Just a wee cock.",
     "Image": "RoosterGenCard",
     "ManaCost": 1,
@@ -31189,7 +31248,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 1472,
+    "Id": 73,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Cock Magic"],
@@ -31293,7 +31352,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 1504,
+    "Id": 74,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Prophet Dougie", "prophet"],
@@ -31779,10 +31838,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.3,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Holy"]
   },
   {
-    "Id": 1506,
+    "Id": 75,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Dwarf Engineer Dougie", "DED"],
@@ -32268,10 +32328,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.1,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 1509,
+    "Id": 76,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Alien Queen Red", "AQR"],
@@ -32757,10 +32818,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Female", "Kid", "Human"]
   },
   {
-    "Id": 1655,
+    "Id": 77,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Transmogrify", "trans"],
@@ -32864,7 +32926,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 1656,
+    "Id": 78,
     "Visible": true,
     "CanAttack": false,
     "Name": ["Chicken Coop", "Coop", "cock box"],
@@ -33317,7 +33379,7 @@
     "ChildUnitLimit": 7
   },
   {
-    "Id": 1657,
+    "Id": 79,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Poison"],
@@ -33421,7 +33483,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 1661,
+    "Id": 80,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Mimsy"],
@@ -33907,10 +33969,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Special Needs"]
   },
   {
-    "Id": 1665,
+    "Id": 81,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Terrance Mephesto", "TM", "Mephesto"],
@@ -34396,10 +34459,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Flying"]
   },
   {
-    "Id": 1666,
+    "Id": 82,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Nelly"],
@@ -34885,10 +34949,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.2,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Female", "Kid", "Human"]
   },
   {
-    "Id": 1670,
+    "Id": 83,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Starvin' Marvin", "SM"],
@@ -35374,10 +35439,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Flying"]
   },
   {
-    "Id": 1672,
+    "Id": 84,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Manbearpig", "MBP"],
@@ -35863,10 +35929,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.5,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Adult", "Human", "Animal", "Unholy"]
   },
   {
-    "Id": 1674,
+    "Id": 85,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Dogpoo"],
@@ -36352,10 +36419,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 1680,
+    "Id": 86,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Terrance and Phillip", "TaP", "TnP"],
@@ -36841,10 +36909,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.2,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Adult", "Human", "Canadian"]
   },
   {
-    "Id": 1682,
+    "Id": 87,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Big Gay Al", "BGA"],
@@ -37330,10 +37399,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.3,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Adult", "Human"]
   },
   {
-    "Id": 1683,
+    "Id": 88,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Officer Barbrady", "OfB", "Barbrady"],
@@ -37819,10 +37889,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Adult", "Human"]
   },
   {
-    "Id": 1684,
+    "Id": 89,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Pigeon Gang", "pigeons", "flying rats"],
@@ -38308,10 +38379,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Animal", "Flying"]
   },
   {
-    "Id": 1686,
+    "Id": 90,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Underpants Gnomes", "Gnomes"],
@@ -38797,10 +38869,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Adult"]
   },
   {
-    "Id": 1700,
+    "Id": 91,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Bandita Sally", "Sally", "NaggerGuy"],
@@ -39286,10 +39359,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0666666,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Female", "Kid", "Human", "Cowboy"]
   },
   {
-    "Id": 1701,
+    "Id": 92,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Calamity Heidi", "Heidi"],
@@ -39775,13 +39849,14 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Female", "Kid", "Human", "Cowboy"]
   },
   {
-    "Id": 1702,
+    "Id": 93,
     "Visible": false,
     "CanAttack": true,
-    "Name": ["Auto-Vacuum", "roomba"],
+    "Name": ["Auto-Vacuum", "roomba", "Summon4"],
     "Description": "Tough little robot that loves a clean fight.",
     "Image": "RoombaSciCard",
     "ManaCost": 1,
@@ -40267,7 +40342,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 1804,
+    "Id": 94,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Medusa Bebe", "Mesuda"],
@@ -40783,10 +40858,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 1.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 5
+    "ChildUnitLimit": 5,
+    "CharacterTags": ["Female", "Kid", "Human"]
   },
   {
-    "Id": 1805,
+    "Id": 95,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Robo Bebe", "Robo"],
@@ -41272,10 +41348,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Female", "Kid", "Human"]
   },
   {
-    "Id": 1806,
+    "Id": 96,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Blood Elf Bebe", "BeB", "Belf"],
@@ -41761,10 +41838,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.5,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Female", "Kid", "Human"]
   },
   {
-    "Id": 1808,
+    "Id": 97,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Buccaneer Bebe", "BB", "Bucca"],
@@ -42250,10 +42328,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Female", "Kid", "Human", "Pirate"]
   },
   {
-    "Id": 1813,
+    "Id": 98,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Visitors", "Aliens"],
@@ -42740,13 +42819,14 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Adult"]
   },
   {
-    "Id": 1820,
+    "Id": 99,
     "Visible": false,
     "CanAttack": true,
-    "Name": ["Snake", "Danger Noodle"],
+    "Name": ["Snake", "Danger Noodle", "Summon5"],
     "Description": "Beware of the snek!",
     "Image": "SnakeGenCard",
     "ManaCost": 1,
@@ -43232,7 +43312,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 1869,
+    "Id": 100,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Marcus"],
@@ -43718,10 +43798,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 1872,
+    "Id": 101,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Mr. Hankey", "Shit"],
@@ -44207,10 +44288,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Adult"]
   },
   {
-    "Id": 1886,
+    "Id": 102,
     "Visible": true,
     "CanAttack": true,
     "Name": ["PC Principal", "PCP"],
@@ -44696,10 +44778,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.5,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Adult", "Human"]
   },
   {
-    "Id": 1923,
+    "Id": 103,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Cupid Cartman", "Cupid", "teehee", "BHK2"],
@@ -45185,10 +45268,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Flying"]
   },
   {
-    "Id": 1947,
+    "Id": 104,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Towelie", "Towel", "stoner"],
@@ -45674,10 +45758,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Adult"]
   },
   {
-    "Id": 2043,
+    "Id": 105,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Priest Maxi", "Priest", "PM", "Maxi"],
@@ -46163,10 +46248,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Adult", "Human", "Holy"]
   },
   {
-    "Id": 1949,
+    "Id": 106,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Bounty Hunter Kyle", "BHK", "Bounty", "IMRICKJAMESBISH"],
@@ -46652,10 +46738,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.5,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Flying"]
   },
   {
-    "Id": 1983,
+    "Id": 107,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Imp Tweek", "Imp", "Cobra"],
@@ -47141,10 +47228,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.2,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Unholy", "Flying"]
   },
   {
-    "Id": 176,
+    "Id": 108,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Witch Garrison", "Witch", "Haydos"],
@@ -47152,7 +47240,7 @@
     "Image": "MrgarrisonFanCard",
     "ManaCost": 4,
     "Damage": "34",
-    "Health": "300",
+    "Health": "375",
     "HealthLoss": "0",
     "Type": "Character",
     "Targeting": {
@@ -47180,7 +47268,7 @@
     "AgroRangeMultiplier": 3.13,
     "KnockbackImpulse": "30.0000",
     "KnockbackAngleDeg": 45.0,
-    "ChargedPowerRegen": 0.1,
+    "ChargedPowerRegen": 0.125,
     "ChargedPowerRadius": 2.0,
     "ChargedPowerReticle": "ConeSelectorPowerRet",
     "Rarity": 1,
@@ -47189,7 +47277,7 @@
       "Slots": [{
           "x": 0,
           "property": "MaxHealth",
-          "value": 11.0
+          "value": 14.0
         },
         {
           "x": 1,
@@ -47199,7 +47287,7 @@
         {
           "x": 2,
           "property": "MaxHealth",
-          "value": 14.0
+          "value": 17.0
         },
         {
           "x": 3,
@@ -47209,7 +47297,7 @@
         {
           "x": 4,
           "property": "MaxHealth",
-          "value": 7.0
+          "value": 9.0
         },
         {
           "x": 5,
@@ -47224,7 +47312,7 @@
         {
           "x": 7,
           "property": "MaxHealth",
-          "value": 9.0
+          "value": 12.0
         },
         {
           "x": 8,
@@ -47234,7 +47322,7 @@
         {
           "x": 9,
           "property": "MaxHealth",
-          "value": 11.0
+          "value": 14.0
         },
         {
           "x": 10,
@@ -47244,7 +47332,7 @@
         {
           "x": 11,
           "property": "MaxHealth",
-          "value": 14.0
+          "value": 17.0
         },
         {
           "x": 12,
@@ -47254,7 +47342,7 @@
         {
           "x": 13,
           "property": "MaxHealth",
-          "value": 16.0
+          "value": 20.0
         },
         {
           "x": 14,
@@ -47269,7 +47357,7 @@
         {
           "x": 16,
           "property": "MaxHealth",
-          "value": 11.0
+          "value": 13.0
         },
         {
           "x": 17,
@@ -47279,7 +47367,7 @@
         {
           "x": 18,
           "property": "MaxHealth",
-          "value": 13.0
+          "value": 16.0
         },
         {
           "x": 19,
@@ -47289,7 +47377,7 @@
         {
           "x": 20,
           "property": "MaxHealth",
-          "value": 16.0
+          "value": 19.0
         },
         {
           "x": 21,
@@ -47299,7 +47387,7 @@
         {
           "x": 22,
           "property": "MaxHealth",
-          "value": 19.0
+          "value": 23.0
         },
         {
           "x": 23,
@@ -47314,7 +47402,7 @@
         {
           "x": 25,
           "property": "MaxHealth",
-          "value": 6.0
+          "value": 8.0
         },
         {
           "x": 26,
@@ -47324,7 +47412,7 @@
         {
           "x": 27,
           "property": "MaxHealth",
-          "value": 8.0
+          "value": 10.0
         },
         {
           "x": 28,
@@ -47334,7 +47422,7 @@
         {
           "x": 29,
           "property": "MaxHealth",
-          "value": 9.0
+          "value": 12.0
         },
         {
           "x": 30,
@@ -47344,7 +47432,7 @@
         {
           "x": 31,
           "property": "MaxHealth",
-          "value": 11.0
+          "value": 14.0
         },
         {
           "x": 32,
@@ -47359,7 +47447,7 @@
         {
           "x": 34,
           "property": "MaxHealth",
-          "value": 15.0
+          "value": 18.0
         },
         {
           "x": 35,
@@ -47369,7 +47457,7 @@
         {
           "x": 36,
           "property": "MaxHealth",
-          "value": 18.0
+          "value": 23.0
         },
         {
           "x": 37,
@@ -47379,7 +47467,7 @@
         {
           "x": 38,
           "property": "MaxHealth",
-          "value": 22.0
+          "value": 28.0
         },
         {
           "x": 39,
@@ -47389,7 +47477,7 @@
         {
           "x": 40,
           "property": "MaxHealth",
-          "value": 8.0
+          "value": 10.0
         },
         {
           "x": 41,
@@ -47404,7 +47492,7 @@
         {
           "x": 43,
           "property": "MaxHealth",
-          "value": 11.0
+          "value": 13.0
         },
         {
           "x": 44,
@@ -47414,7 +47502,7 @@
         {
           "x": 45,
           "property": "MaxHealth",
-          "value": 13.0
+          "value": 16.0
         },
         {
           "x": 46,
@@ -47424,7 +47512,7 @@
         {
           "x": 47,
           "property": "MaxHealth",
-          "value": 15.0
+          "value": 19.0
         },
         {
           "x": 48,
@@ -47434,7 +47522,7 @@
         {
           "x": 49,
           "property": "MaxHealth",
-          "value": 18.0
+          "value": 23.0
         },
         {
           "x": 50,
@@ -47449,7 +47537,7 @@
         {
           "x": 52,
           "property": "MaxHealth",
-          "value": 25.0
+          "value": 31.0
         },
         {
           "x": 53,
@@ -47459,7 +47547,7 @@
         {
           "x": 54,
           "property": "MaxHealth",
-          "value": 6.0
+          "value": 8.0
         },
         {
           "x": 55,
@@ -47469,7 +47557,7 @@
         {
           "x": 56,
           "property": "MaxHealth",
-          "value": 8.0
+          "value": 10.0
         },
         {
           "x": 57,
@@ -47479,7 +47567,7 @@
         {
           "x": 58,
           "property": "MaxHealth",
-          "value": 9.0
+          "value": 12.0
         },
         {
           "x": 59,
@@ -47494,7 +47582,7 @@
         {
           "x": 61,
           "property": "MaxHealth",
-          "value": 12.0
+          "value": 15.0
         },
         {
           "x": 62,
@@ -47504,7 +47592,7 @@
         {
           "x": 63,
           "property": "MaxHealth",
-          "value": 14.0
+          "value": 18.0
         },
         {
           "x": 64,
@@ -47514,7 +47602,7 @@
         {
           "x": 65,
           "property": "MaxHealth",
-          "value": 18.0
+          "value": 23.0
         },
         {
           "x": 66,
@@ -47524,7 +47612,7 @@
         {
           "x": 67,
           "property": "MaxHealth",
-          "value": 22.0
+          "value": 28.0
         },
         {
           "x": 68,
@@ -47537,7 +47625,7 @@
           "Slots": [{
               "x": 0,
               "property": "MaxHealth",
-              "value": 41.0
+              "value": 51.0
             },
             {
               "x": 0,
@@ -47551,7 +47639,7 @@
           "Slots": [{
               "x": 0,
               "property": "MaxHealth",
-              "value": 82.0
+              "value": 103.0
             },
             {
               "x": 0,
@@ -47565,7 +47653,7 @@
           "Slots": [{
               "x": 0,
               "property": "MaxHealth",
-              "value": 123.0
+              "value": 154.0
             },
             {
               "x": 0,
@@ -47579,7 +47667,7 @@
           "Slots": [{
               "x": 0,
               "property": "MaxHealth",
-              "value": 164.0
+              "value": 205.0
             },
             {
               "x": 0,
@@ -47593,7 +47681,7 @@
           "Slots": [{
               "x": 0,
               "property": "MaxHealth",
-              "value": 123.0
+              "value": 154.0
             },
             {
               "x": 0,
@@ -47607,7 +47695,7 @@
           "Slots": [{
               "x": 0,
               "property": "MaxHealth",
-              "value": 82.0
+              "value": 103.0
             },
             {
               "x": 0,
@@ -47630,10 +47718,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Female", "Adult", "Human", "Unholy"]
   },
   {
-    "Id": 2074,
+    "Id": 109,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Mr. Mackey", "mkay"],
@@ -48119,10 +48208,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Adult", "Human"]
   },
   {
-    "Id": 1218,
+    "Id": 110,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Youth Pastor Craig", "Pastor", "YPC"],
@@ -48608,10 +48698,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Holy"]
   },
   {
-    "Id": 2080,
+    "Id": 111,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Satan"],
@@ -49097,10 +49188,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.1,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Adult", "Unholy"]
   },
   {
-    "Id": 2035,
+    "Id": 112,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Mr. Slave Executioner", "MSE", "Donger", "Slave"],
@@ -49616,10 +49708,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.2,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 2
+    "ChildUnitLimit": 3,
+    "CharacterTags": ["Male", "Adult", "Human"]
   },
   {
-    "Id": 2101,
+    "Id": 113,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Alien Drone", "Drone"],
@@ -50136,10 +50229,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Flying"]
   },
   {
-    "Id": 2081,
+    "Id": 114,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Santa Claus", "Santa", "SC"],
@@ -50624,10 +50718,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Adult", "Human"]
   },
   {
-    "Id": 2013,
+    "Id": 115,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Swordsman Garrison", "Zoro", "Zoro Garrison", "Swordsman"],
@@ -51112,10 +51207,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Adult", "Human"]
   },
   {
-    "Id": 1973,
+    "Id": 116,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Classi"],
@@ -51600,13 +51696,14 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 5
+    "ChildUnitLimit": 5,
+    "CharacterTags": ["Female", "Adult", "Human"]
   },
   {
-    "Id": 1824,
+    "Id": 117,
     "Visible": true,
     "CanAttack": true,
-    "Name": ["Four-assed Monkey", "4ass", "Monkey"],
+    "Name": ["Four-assed Monkey", "4ass", "Monkey", "Diddy Kong"],
     "Description": "Deathwish: Creates an assplosion that deals {PowerDamage} damage to four random enemies.",
     "Image": "FourassedmonkeyGenCard",
     "ManaCost": 3,
@@ -52088,14 +52185,15 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.1,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Animal"]
   },
   {
-    "Id": 1972,
+    "Id": 118,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Dragonslayer Red", "DSR", "Slayer"],
-    "Description": "Warcry: Halve the health and max health of enemies in front, then halve their attack for {PowerDuration}.",
+    "Description": "Warcry: Halve the health and max health of enemies in front, then halve their attack for {PowerDuration} seconds.",
     "Image": "RedFanCard",
     "ManaCost": 4,
     "Damage": "60",
@@ -52577,10 +52675,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Female", "Kid", "Human"]
   },
   {
-    "Id": 2114,
+    "Id": 119,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Sharpshooter Shelly", "Shelly"],
@@ -53067,10 +53166,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Female", "Kid", "Human", "Cowboy"]
   },
   {
-    "Id": 132,
+    "Id": 120,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Scout Ike", "SI", "Jew Scout Ike"],
@@ -53557,10 +53657,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.1,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Canadian"]
   },
   {
-    "Id": 2042,
+    "Id": 121,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Elven King Bradley"],
@@ -54046,10 +54147,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 2044,
+    "Id": 122,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Swashbuckler Red"],
@@ -54535,10 +54637,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Female", "Kid", "Human", "Pirate"]
   },
   {
-    "Id": 20144,
+    "Id": 123,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Chomper", "Trap"],
@@ -54642,7 +54745,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 2136,
+    "Id": 124,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Call Girl"],
@@ -55128,9 +55231,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
-  }, {
-    "Id": 2132,
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Female", "Kid", "Human"]
+  },
+  {
+    "Id": 125,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Fastpass"],
@@ -55616,10 +55721,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Special Needs"]
   },
   {
-    "Id": 2143,
+    "Id": 126,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Human Kite"],
@@ -56105,10 +56211,11 @@
     "TargetingType": "Both",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human", "Flying"]
   },
   {
-    "Id": 2091,
+    "Id": 127,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Mosquito"],
@@ -56134,7 +56241,7 @@
     "PowerHeroHeal": null,
     "PowerMaxHPGain": null,
     "PowerMaxHPLoss": null,
-    "PowerSummonLevel": 1,
+    "PowerSummonLevel": null,
     "PowerDamage": null,
     "PowerHeroDamage": null,
     "PowerPoisonAmount": null,
@@ -56624,10 +56731,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 2147,
+    "Id": 128,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Mysterion"],
@@ -57113,10 +57221,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 2117,
+    "Id": 129,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Super Fart", "Fart"],
@@ -57220,7 +57329,7 @@
     "ChildUnitLimit": 0
   },
   {
-    "Id": 2141,
+    "Id": 130,
     "Visible": true,
     "CanAttack": true,
     "Name": ["The Coon"],
@@ -57706,10 +57815,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 0
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 2144,
+    "Id": 131,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Toolshed"],
@@ -57735,7 +57845,7 @@
     "PowerHeroHeal": null,
     "PowerMaxHPGain": null,
     "PowerMaxHPLoss": null,
-    "PowerSummonLevel": 1,
+    "PowerSummonLevel": null,
     "PowerDamage": null,
     "PowerHeroDamage": null,
     "PowerPoisonAmount": null,
@@ -58225,10 +58335,11 @@
     "TargetingType": "Ground",
     "PreAttackDelay": 0.0,
     "CastArea": "OwnSide",
-    "ChildUnitLimit": 5
+    "ChildUnitLimit": 5,
+    "CharacterTags": ["Male", "Kid", "Human"]
   },
   {
-    "Id": 2098,
+    "Id": 132,
     "Visible": true,
     "CanAttack": true,
     "Name": ["Tupperware"],
@@ -58706,6 +58817,1093 @@
       "MinPlayerLevel": 0,
       "MinPVPRank": 0,
       "MinPVPArena": 0
+    },
+    "AOEAttackType": "No",
+    "AOEDamagePercentage": 0.0,
+    "AOERadius": 0.0,
+    "AOEKnockbackPercentage": 0.0,
+    "TargetingType": "Ground",
+    "PreAttackDelay": 0.0,
+    "CastArea": "OwnSide",
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
+  },
+  {
+    "Id": 133,
+    "Visible": true,
+    "CanAttack": true,
+    "Name": ["Professor Chaos"],
+    "Description": "Immune to Mind Control. Warcry: Deals {PowerDamage} damage to enemies in front and stuns them for {PowerDuration} seconds.",
+    "Image": "ButtersSupCard",
+    "ManaCost": 3,
+    "Damage": "82",
+    "Health": "77",
+    "HealthLoss": "0",
+    "Type": "Character",
+    "Targeting": {
+      "AssetId": "ConeSelectorPowerRet",
+      "Radius": 0.0
+    },
+    "CharacterType": "Assassin",
+    "Ingame": "ButtersSupCharPF",
+    "AttackRange": 0.6,
+    "TimeToReachMaxVelocity": 0.1,
+    "MaxVelocity": 1.35,
+    "TimeInBetweenAttacks": 0.5,
+    "PowerDuration": 2,
+    "PowerHeal": null,
+    "PowerHeroHeal": null,
+    "PowerMaxHPGain": null,
+    "PowerMaxHPLoss": null,
+    "PowerSummonLevel": null,
+    "PowerDamage": 50,
+    "PowerHeroDamage": null,
+    "PowerPoisonAmount": null,
+    "PowerHeroPoison": null,
+    "PowerAttackBoost": null,
+    "AgroRangeMultiplier": 3.33,
+    "KnockbackImpulse": "0.0000",
+    "KnockbackAngleDeg": 45.0,
+    "ChargedPowerRegen": 0.0,
+    "ChargedPowerRadius": 0.0,
+    "ChargedPowerReticle": "AttackPowerRet",
+    "Rarity": 2,
+    "Theme": "Sup",
+    "TechTree2": {
+      "Slots": [{
+          "x": 0,
+          "property": "MaxHealth",
+          "value": 2.0
+        },
+        {
+          "x": 1,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 2,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 3,
+          "property": "Damage",
+          "value": 3.0
+        },
+        {
+          "x": 4,
+          "property": "PowerDamageAbs",
+          "value": 10.0
+        },
+        {
+          "x": 5,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 6,
+          "property": "Damage",
+          "value": 3.0
+        },
+        {
+          "x": 7,
+          "property": "MaxHealth",
+          "value": 4.0
+        },
+        {
+          "x": 8,
+          "property": "Damage",
+          "value": 4.0
+        },
+        {
+          "x": 9,
+          "property": "MaxHealth",
+          "value": 4.0
+        },
+        {
+          "x": 10,
+          "property": "PowerDamageAbs",
+          "value": 19.0
+        },
+        {
+          "x": 11,
+          "property": "Damage",
+          "value": 5.0
+        },
+        {
+          "x": 12,
+          "property": "MaxHealth",
+          "value": 6.0
+        },
+        {
+          "x": 13,
+          "property": "Damage",
+          "value": 6.0
+        },
+        {
+          "x": 14,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 15,
+          "property": "Damage",
+          "value": 3.0
+        },
+        {
+          "x": 16,
+          "property": "PowerDamageAbs",
+          "value": 11.0
+        },
+        {
+          "x": 17,
+          "property": "MaxHealth",
+          "value": 4.0
+        },
+        {
+          "x": 18,
+          "property": "Damage",
+          "value": 4.0
+        },
+        {
+          "x": 19,
+          "property": "MaxHealth",
+          "value": 5.0
+        },
+        {
+          "x": 20,
+          "property": "Damage",
+          "value": 5.0
+        },
+        {
+          "x": 21,
+          "property": "MaxHealth",
+          "value": 6.0
+        },
+        {
+          "x": 22,
+          "property": "PowerDamageAbs",
+          "value": 19.0
+        },
+        {
+          "x": 23,
+          "property": "Damage",
+          "value": 6.0
+        },
+        {
+          "x": 24,
+          "property": "MaxHealth",
+          "value": 2.0
+        },
+        {
+          "x": 25,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 26,
+          "property": "MaxHealth",
+          "value": 2.0
+        },
+        {
+          "x": 27,
+          "property": "Damage",
+          "value": 3.0
+        },
+        {
+          "x": 28,
+          "property": "PowerDamageAbs",
+          "value": 16.0
+        },
+        {
+          "x": 29,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 30,
+          "property": "Damage",
+          "value": 4.0
+        },
+        {
+          "x": 31,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 32,
+          "property": "Damage",
+          "value": 5.0
+        },
+        {
+          "x": 33,
+          "property": "MaxHealth",
+          "value": 4.0
+        },
+        {
+          "x": 34,
+          "property": "PowerDamageAbs",
+          "value": 28.0
+        },
+        {
+          "x": 35,
+          "property": "Damage",
+          "value": 6.0
+        },
+        {
+          "x": 36,
+          "property": "MaxHealth",
+          "value": 5.0
+        },
+        {
+          "x": 37,
+          "property": "Damage",
+          "value": 7.0
+        },
+        {
+          "x": 38,
+          "property": "MaxHealth",
+          "value": 6.0
+        },
+        {
+          "x": 39,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 40,
+          "property": "PowerDamageAbs",
+          "value": 3.0
+        },
+        {
+          "x": 41,
+          "property": "MaxHealth",
+          "value": 1.0
+        },
+        {
+          "x": 42,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 43,
+          "property": "MaxHealth",
+          "value": 1.0
+        },
+        {
+          "x": 44,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 45,
+          "property": "MaxHealth",
+          "value": 2.0
+        },
+        {
+          "x": 46,
+          "property": "PowerDamageAbs",
+          "value": 6.0
+        },
+        {
+          "x": 47,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 48,
+          "property": "MaxHealth",
+          "value": 2.0
+        },
+        {
+          "x": 49,
+          "property": "Damage",
+          "value": 3.0
+        },
+        {
+          "x": 50,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 51,
+          "property": "Damage",
+          "value": 3.0
+        },
+        {
+          "x": 52,
+          "property": "PowerDamageAbs",
+          "value": 11.0
+        },
+        {
+          "x": 53,
+          "property": "MaxHealth",
+          "value": 3.0
+        },
+        {
+          "x": 54,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 55,
+          "property": "MaxHealth",
+          "value": 1.0
+        },
+        {
+          "x": 56,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 57,
+          "property": "MaxHealth",
+          "value": 1.0
+        },
+        {
+          "x": 58,
+          "property": "PowerDamageAbs",
+          "value": 5.0
+        },
+        {
+          "x": 59,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 60,
+          "property": "MaxHealth",
+          "value": 1.0
+        },
+        {
+          "x": 61,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 62,
+          "property": "MaxHealth",
+          "value": 1.0
+        },
+        {
+          "x": 63,
+          "property": "Damage",
+          "value": 1.0
+        },
+        {
+          "x": 64,
+          "property": "PowerDamageAbs",
+          "value": 9.0
+        },
+        {
+          "x": 65,
+          "property": "MaxHealth",
+          "value": 2.0
+        },
+        {
+          "x": 66,
+          "property": "Damage",
+          "value": 2.0
+        },
+        {
+          "x": 67,
+          "property": "MaxHealth",
+          "value": 2.0
+        },
+        {
+          "x": 68,
+          "property": "Damage",
+          "value": 2.0
+        }
+      ],
+      "Evolve": [{
+          "StarLevel": 0,
+          "Slots": [{
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 14.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 15.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 1,
+          "Slots": [{
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 42.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 45.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 2,
+          "Slots": [{
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 28.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 30.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 3,
+          "Slots": [{
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 14.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 15.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 4,
+          "Slots": [{
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 14.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 15.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 5,
+          "Slots": [{
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 14.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 15.0
+            }
+          ]
+        }
+      ]
+    },
+    "Requirements": {
+      "MinEpisodeCompleted": 3,
+      "MinPlayerLevel": 0,
+      "MinPVPRank": 0,
+      "MinPVPArena": 0
+    },
+    "AOEAttackType": "No",
+    "AOEDamagePercentage": 0.0,
+    "AOERadius": 0.0,
+    "AOEKnockbackPercentage": 0.0,
+    "TargetingType": "Ground",
+    "PreAttackDelay": 0.0,
+    "CastArea": "OwnSide",
+    "ChildUnitLimit": 0,
+    "CharacterTags": ["Male", "Kid", "Human"]
+  },
+  {
+    "Id": 134,
+    "Visible": true,
+    "CanAttack": false,
+    "Name": ["Lava!"],
+    "Description": "Deals {PowerDamage} damage/sec and slows down enemies walking on it. Lasts {PowerDuration} seconds.",
+    "Image": "LavaSupTrapCard",
+    "ManaCost": 3,
+    "Damage": "0",
+    "Health": "30",
+    "HealthLoss": "1",
+    "Type": "Trap",
+    "Targeting": {
+      "AssetId": "AttackPowerRet",
+      "Radius": 1.5
+    },
+    "Ingame": "LavaSupTrapPF",
+    "AttackRange": 0.6,
+    "TimeToReachMaxVelocity": 0.1,
+    "MaxVelocity": 0.0,
+    "TimeInBetweenAttacks": 0.5,
+    "PowerDuration": 30,
+    "PowerHeal": null,
+    "PowerHeroHeal": null,
+    "PowerMaxHPGain": null,
+    "PowerMaxHPLoss": null,
+    "PowerSummonLevel": null,
+    "PowerDamage": 7,
+    "PowerHeroDamage": null,
+    "PowerPoisonAmount": null,
+    "PowerHeroPoison": null,
+    "PowerAttackBoost": null,
+    "AgroRangeMultiplier": 1.2,
+    "KnockbackImpulse": "5",
+    "KnockbackAngleDeg": 45.0,
+    "ChargedPowerRegen": 0.0,
+    "ChargedPowerRadius": 0.0,
+    "ChargedPowerReticle": "",
+    "Rarity": 0,
+    "Theme": "Sup",
+    "TechTree2": {
+      "Slots": [],
+      "Evolve": [{
+          "StarLevel": 0,
+          "Slots": [{
+            "x": 0,
+            "property": "PowerDamageAbs",
+            "value": 2.0
+          }]
+        },
+        {
+          "StarLevel": 1,
+          "Slots": [{
+            "x": 0,
+            "property": "PowerDamageAbs",
+            "value": 2.0
+          }]
+        },
+        {
+          "StarLevel": 2,
+          "Slots": [{
+            "x": 0,
+            "property": "PowerDamageAbs",
+            "value": 3.0
+          }]
+        },
+        {
+          "StarLevel": 3,
+          "Slots": [{
+            "x": 0,
+            "property": "PowerDamageAbs",
+            "value": 4.0
+          }]
+        },
+        {
+          "StarLevel": 4,
+          "Slots": [{
+            "x": 0,
+            "property": "PowerDamageAbs",
+            "value": 7.0
+          }]
+        },
+        {
+          "StarLevel": 5,
+          "Slots": [{
+            "x": 0,
+            "property": "PowerDamageAbs",
+            "value": 8.0
+          }]
+        }
+      ]
+    },
+    "Requirements": {
+      "MinEpisodeCompleted": 3,
+      "MinPlayerLevel": 0,
+      "MinPVPRank": 0,
+      "MinPVPArena": 0
+    },
+    "AOEAttackType": "No",
+    "AOEDamagePercentage": 0.0,
+    "AOERadius": 0.0,
+    "AOEKnockbackPercentage": 0.0,
+    "TargetingType": "Ground",
+    "PreAttackDelay": 0.0,
+    "CastArea": "OwnSide",
+    "ChildUnitLimit": 0
+  },
+  {
+    "Id": 135,
+    "Visible": false,
+    "CanAttack": true,
+    "Name": ["Mosquito Swarm", "Mosquitos", "Summon6"],
+    "Description": "Seriously, screw mosquitos dude.",
+    "Image": "MosquitoSupCard",
+    "ManaCost": 1,
+    "Damage": "12",
+    "Health": "108",
+    "HealthLoss": "0",
+    "Type": "Character",
+    "Targeting": {
+      "AssetId": "TargetSpellRet",
+      "Radius": 0.0
+    },
+    "CharacterType": "Melee",
+    "Ingame": "MosquitoSupCharPF",
+    "AttackRange": 0.4,
+    "TimeToReachMaxVelocity": 0.1,
+    "MaxVelocity": 1.0,
+    "TimeInBetweenAttacks": 0.5,
+    "PowerDuration": null,
+    "PowerHeal": null,
+    "PowerHeroHeal": null,
+    "PowerMaxHPGain": null,
+    "PowerMaxHPLoss": null,
+    "PowerSummonLevel": null,
+    "PowerDamage": null,
+    "PowerHeroDamage": null,
+    "PowerPoisonAmount": null,
+    "PowerHeroPoison": null,
+    "PowerAttackBoost": null,
+    "PowerAttackDecrease": null,
+    "AgroRangeMultiplier": 0.5,
+    "KnockbackImpulse": "0.0000",
+    "KnockbackAngleDeg": 45.0,
+    "ChargedPowerRegen": 0.0,
+    "ChargedPowerRadius": 0.0,
+    "ChargedPowerReticle": "AttackPowerRet",
+    "Rarity": 1,
+    "Theme": "Sup",
+    "TechTree2": {
+      "Slots": [{
+          "x": 0,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 1,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 2,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 3,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 4,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 5,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 6,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 7,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 8,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 9,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 10,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 11,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 12,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 13,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 14,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 15,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 16,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 17,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 18,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 19,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 20,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 21,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 22,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 23,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 24,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 25,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 26,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 27,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 28,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 29,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 30,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 31,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 32,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 33,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 34,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 35,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 36,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 37,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 38,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 39,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 40,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 41,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 42,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 43,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 44,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 45,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 46,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 47,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 48,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 49,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 50,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 51,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 52,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 53,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 54,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 55,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 56,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 57,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 58,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 59,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 60,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 61,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 62,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 63,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 64,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 65,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 66,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 67,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        },
+        {
+          "x": 68,
+          "property": "ChargedPowerRegenRate",
+          "value": 1.0
+        }
+      ],
+      "Evolve": [{
+          "StarLevel": 0,
+          "Slots": [{
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 24.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 4.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 1,
+          "Slots": [{
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 51.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 8.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 2,
+          "Slots": [{
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 65.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 10.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 3,
+          "Slots": [{
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 91.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 14.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 4,
+          "Slots": [{
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 76.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 13.0
+            }
+          ]
+        },
+        {
+          "StarLevel": 5,
+          "Slots": [{
+              "x": 0,
+              "property": "MaxHealth",
+              "value": 62.0
+            },
+            {
+              "x": 0,
+              "property": "Damage",
+              "value": 10.0
+            }
+          ]
+        }
+      ]
+    },
+    "Requirements": {
+      "MinEpisodeCompleted": 0,
+      "MinPlayerLevel": 0,
+      "MinPVPRank": 0
     },
     "AOEAttackType": "No",
     "AOEDamagePercentage": 0.0,
