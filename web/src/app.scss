@@ -1,0 +1,36 @@
+//Colours
+$feinwaru: #ff594f;
+$feinwarudark: #c93d36;
+$feinwarugreen: #14b252;
+$sppd: #1E98A1;
+$lightgrey: #c5c5c5;
+$grey: #707070;
+$darkgrey: #222;
+$dwhite: #eee;
+
+
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700");
+// Required
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+// Optional
+@import "node_modules/bootstrap/scss/reboot";
+@import "node_modules/bootstrap/scss/type";
+//@import "../node_modules/bootstrap/scss/images";
+//@import "../node_modules/bootstrap/scss/code";
+@import "node_modules/bootstrap/scss/grid";
+@import "./components/header";
+@import "./components/footer";
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  /* width */
+  &::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
+  background: $dwhite;
+}
