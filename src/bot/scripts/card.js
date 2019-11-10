@@ -80,7 +80,9 @@ const getUpgradeStats = (currentCard, upgrade) => {
     if (currentCard.TechTree2.Evolve[0].Slots.reduce((p, c) => p || c.property === "PowerTargetAbs", false)) {
       stats["PowerTarget"] = 1;
     }
-    return stats;
+    if (currentCard.Type === "Spell") {
+      return stats;
+    }
   }
   for (let i = 0; i < upgrade - 1; i++) {
     if (currentCard.TechTree2.Slots[i].id !== undefined) {
