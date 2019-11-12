@@ -2,6 +2,7 @@
 
 e.g.
 some_lib.js
+```js
 {
     if (true) {
         // do the thing
@@ -9,15 +10,18 @@ some_lib.js
         warn("couldnt do the thing");
     }
 }
+```
 
 fixed some_lib.js
+```js
 {
     if (true) {
-
+        // do the thing
     } else {
         console.warn("couldnt do the thing");
     }
 }
+```
 
 1. (12/11/2019) See the above? Now take a look at src/db/schemas/log.js. Remove that as well. Remove all references to it and any db reads/writes to the log collection. If there are any api paths trying to access logs, remove the routes completely.
 
