@@ -444,7 +444,7 @@ client.on("message", async (message) => {
   // redlynx server
   if (message.guild.id === rlGuildId) {
     // terms of use - 'i agree'
-    if (message.channel.id === rlTermsChanId) {
+    if (message.channel.id === rlTermsChanId && !(message.member.permissions.bitfield & 8)) {
       // check if the user typed 'i agree'
       if (message.content.toLowerCase() === "i agree") {
         // give the user the 'new kid' role
