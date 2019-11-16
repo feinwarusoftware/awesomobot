@@ -60972,7 +60972,7 @@
     "Visible": true,
     "CanAttack": true,
     "Name": ["Sorceress Liane", "Liane"],
-    "Description": "Deathwish: Randomly transforms {PowerTargetAmount} enemies and {PowerTargetAmount} allies in range into cocks.",
+    "Description": "Deathwish: Randomly transforms {PowerTarget} enemies and {PowerTarget} allies in range into cocks.",
     "Image": "LianeFanCard",
     "ManaCost": 5,
     "Damage": "52",

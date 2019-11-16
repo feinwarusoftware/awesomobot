@@ -74,11 +74,15 @@ const getUpgradeStats = (currentCard, upgrade) => {
     console.log("oof");
     return {};
   }
-  if (currentCard.Type === "Spell") {
-    if (currentCard.Image === "SpellCockMagicCard") {
+  // PowerTarget patch - see sppd for better explanation - if you havent noticed yet,
+  // i dont care about code quality here - if you want better code quality, see sppd
+  if (currentCard.Type === "Spell" || currentCard.TechTree2.Evolve[0].Slots.reduce((p, c) => p || c.property === "PowerTargetAbs", false)) {
+    if (currentCard.TechTree2.Evolve[0].Slots.reduce((p, c) => p || c.property === "PowerTargetAbs", false)) {
       stats["PowerTarget"] = 1;
     }
-    return stats;
+    if (currentCard.Type === "Spell") {
+      return stats;
+    }
   }
   for (let i = 0; i < upgrade - 1; i++) {
     if (currentCard.TechTree2.Slots[i].id !== undefined) {
@@ -279,6 +283,8 @@ const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "car
         continue;
       }
 
+      // again, im not even sorry
+      card.Description = card.Description.replace(`{${stat}}`, typeof stats[stat] === "number" ? Math.round(stats[stat] * 100) / 100 : stats[stat]);
       card.Description = card.Description.replace(`{${stat}}`, typeof stats[stat] === "number" ? Math.round(stats[stat] * 100) / 100 : stats[stat]);
     }
 
@@ -980,9 +986,14 @@ const card = new Command({
       if (stat === "PowerMaxHPGain") {
 
         card.Description = card.Description.replace("{PowerMaxHealthBoost}", typeof stats[stat] === "number" ? Math.round(stats[stat] * 100) / 100 : stats[stat]);
+
+        // these inconsistencies will kill me one day 
+        card.Description = card.Description.replace("{PowerMaxHPGain}", typeof stats[stat] === "number" ? Math.round(stats[stat] * 100) / 100 : stats[stat]);
         continue;
       }
 
+      // im not even sorry
+      card.Description = card.Description.replace(`{${stat}}`, typeof stats[stat] === "number" ? Math.round(stats[stat] * 100) / 100 : stats[stat]);
       card.Description = card.Description.replace(`{${stat}}`, typeof stats[stat] === "number" ? Math.round(stats[stat] * 100) / 100 : stats[stat]);
     }
 
