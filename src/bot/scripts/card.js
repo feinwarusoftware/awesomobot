@@ -17,7 +17,6 @@ const {
 } = require("../../utils");
 
 const config = require("../../../config.json");
-//const cards = require("../assets/cards/cards.json");
 
 let sp16Font = null;
 let sp18Font = null;
@@ -148,9 +147,9 @@ const card = new Command({
                 //checks it has level shit
                 for (let stats of splitWithoutCmd) {
 
-                    if (stats === "ff" || stats === "art" || (stats.startsWith("l") || stats.startsWith("m") || stats.startsWith("u")) && (!isNaN(parseInt(a.slice(1))) || /%r$/g.test(a))) {
+                    if (stats === "ff" || stats === "art" || (stats.startsWith("l") || stats.startsWith("m") || stats.startsWith("u")) && (!isNaN(parseInt(stats.slice(1))) || /%r$/g.test())) {
 
-                        cardstats.push(a)
+                        cardstats.push(stats)
                     }
                 }
 
@@ -158,7 +157,7 @@ const card = new Command({
                 //code handling
                 if (cardstats.length != 0) {
                     if (cardstats.length > 1) {
-                        return console.error("aha")
+                        return message.channel.send("Invalid Parameters")
                     }
 
                     cardValues = cardstats[0]
@@ -207,21 +206,14 @@ const card = new Command({
                     commandValues.value = 1
                 }
 
-                if (commandValues.upgrade === undefined) {
-                    commandValues.upgrade = 1
-                }
 
                 if (commandValues.name === "%r %r") {
                     commandValues.name = cards.data[Math.floor(Math.random() * cards.data.length)].name
                     commandValues.modifier = "l"
                     commandValues.value = Math.floor(Math.random() * 7)
                 }
-                if (commandValues.modifier == "u") {
-                    commandValues.upgrade = commandValues.value
-                    commandValues.value = 1
-                }
+
                 commandValues.value = parseInt(commandValues.value)
-                commandValues.upgrade = parseInt(commandValues.upgrade)
 
                 let highestToDate = 0;
                 let highestCard = null;
@@ -263,28 +255,28 @@ const card = new Command({
                                 result = false;
                             }
                         }
-                        
+
                         if (result) {
                             const response = await Axios({
                                 method: 'GET',
                                 url,
                                 responseType: 'stream'
                             })
-    
+
                             await response.data.pipe(fs.createWriteStream(pathResolve))
-    
+
                             await (new Promise((resolve, reject) => {
                                 response.data.on('end', () => {
                                     resolve()
                                 })
-                                
+
                                 response.data.on('error', error => {
                                     reject(error)
                                 })
                             }));
                         }
                     })
-                    
+
                     .catch(console.error);
 
                 const cardId = commandValues.matchedCards._id
@@ -297,686 +289,13 @@ const card = new Command({
 
                         let cardData = data1.data
 
-                        const getUpgradeStats = (currentCard, upgrade) => {
-                            if (upgrade < 1 || upgrade > 70) {
-                                console.log("oooof");
-                                return {};
-                            }
-                            const stats = {
-                                upgrade
-                            };
-                            if (currentCard.powers.length === "0") {
-                                for (let k in currentCard) {
-
-                                    if (k.powers[0].startsWith("power") === true && currentCard[k] !== null && currentCard[k] !== "") {
-                                        stats[k] = currentCard[k];
-                                    }
-
-                                    // exceptions cos redlynx gay
-                                    if (k.powers[0] === "charged_power_radius") {
-                                        stats["power_range"] = currentCard[k];
-                                    }
-                                }
-                            }
-
-                            stats.health = parseInt(currentCard.health);
-                            if (isNaN(stats.health)) {
-                                console.log("of");
-                                return {};
-                            }
-                            stats.damage = parseInt(currentCard.damage);
-                            if (isNaN(stats.damage)) {
-                                console.log("oof");
-                                return {};
-                            }
-                            // PowerTarget patch - see sppd for better explanation - if you havent noticed yet,
-                            // i dont care about code quality here - if you want better code quality, see sppd
-
-                            if (currentCard.type === "spell" || currentCard.tech_tree.levels[0].slots.reduce((p, c) => p || c.property === "power_target_abs", false)) {
-                                if (currentCard.tech_tree.levels[0].slots.reduce((p, c) => p || c.property === "power_target_abs", false)) {
-                                    stats["power_target"] = 1;
-                                }
-                                if (currentCard.type === "spell") {
-                                    return stats;
-                                }
-                            }
-                            for (let i = 0; i < upgrade - 1; i++) {
-                                if (currentCard.tech_tree.slots[i].id !== undefined) {
-                                    stats.ability = true;
-                                    continue;
-                                }
-                                if (currentCard.tech_tree.slots[i].property === "max_health") {
-                                    stats.health += currentCard.tech_tree.slots[i].value;
-                                }
-                                if (currentCard.tech_tree.slots[i].property === "damage") {
-                                    stats.damage += currentCard.tech_tree.slots[i].value;
-                                }
-                                if (currentCard.tech_tree.slots[i].property.indexOf("abs") !== -1) {
-                                    const propertyAbs = currentCard.tech_tree.slots[i].property;
-                                    const property = propertyAbs.slice(0, propertyAbs.length - 3);
-                                    if (stats[property] === undefined) {
-                                        console.log("ooof");
-                                        return {};
-                                    } else {
-                                        stats[property] += currentCard.tech_tree.slots[i].value;
-                                    }
-                                }
-                            }
-                            let levelModifier = 0;
-                            if (upgrade > 5) {
-                                levelModifier++;
-                            }
-                            if (upgrade > 15) {
-                                levelModifier++;
-                            }
-                            if (upgrade > 25) {
-                                levelModifier++;
-                            }
-                            if (upgrade > 40) {
-                                levelModifier++;
-                            }
-                            if (upgrade > 55) {
-                                levelModifier++;
-                            }
-                            for (let i = 0; i < levelModifier; i++) {
-                                for (let j = 0; j < currentCard.tech_tree.levels[i].slots.length; j++) {
-                                    if (currentCard.tech_tree.levels[i].slots[j].property === "max_health") {
-                                        stats.health += currentCard.tech_tree.levels[i].slots[j].value;
-                                    }
-                                    if (currentCard.tech_tree.levels[i].slots[j].property === "damage") {
-                                        stats.damage += currentCard.tech_tree.levels[i].slots[j].value;
-                                    }
-                                    if (currentCard.tech_tree.levels[i].slots[j].property.indexOf("Abs") !== -1) {
-                                        const propertyAbs = currentCard.tech_tree.levels[i].slots[j].property;
-                                        const property = propertyAbs.slice(0, propertyAbs.length - 3);
-                                        if (stats[property] === undefined) {
-                                            console.log("ooooof");
-                                            return {};
-                                        } else {
-                                            stats[property] += currentCard.tech_tree.levels[i].slots[j].value;
-                                        }
-                                    }
-                                }
-                            }
-                            return stats;
-                        };
-
-                        const getLevelStats = (currentCard, level) => {
-                            if (level < 1 || level > 7) {
-                                console.log("oooooof");
-                                return {};
-                            }
-                            if (level === 1) {
-                                return getUpgradeStats(currentCard, 1);
-                            }
-                            let upgradeModifier = 0;
-                            if (level === 2) {
-                                upgradeModifier += 5;
-                            }
-                            if (level === 3) {
-                                upgradeModifier += 15;
-                            }
-                            if (level === 4) {
-                                upgradeModifier += 25;
-                            }
-                            if (level === 5) {
-                                upgradeModifier += 40;
-                            }
-                            if (level === 6) {
-                                upgradeModifier += 55;
-                            }
-                            if (level === 7) {
-                                upgradeModifier += 70;
-                            }
-                            const stats = getUpgradeStats(currentCard, upgradeModifier);
-                            stats.level = level;
-                            if (currentCard.type === "spell") {
-                                for (let i = 0; i < level - 1; i++) {
-                                    for (let j = 0; j < currentCard.tech_tree.levels[i].slots.length; j++) {
-                                        if (currentCard.tech_tree.levels[i].slots[j].property === "max_health") {
-                                            stats.health += currentCard.tech_tree.levels[i].slots[j].value;
-                                        }
-                                        if (currentCard.tech_tree.levels[i].slots[j].property === "damage") {
-                                            stats.damage += currentCard.tech_tree.levels[i].slots[j].value;
-                                        }
-                                        if (currentCard.tech_tree.levels[i].slots[j].property.indexOf("abs") !== -1) {
-                                            const propertyAbs = currentCard.tech_tree.levels[i].slots[j].property;
-                                            const property = propertyAbs.slice(0, propertyAbs.length - 3);
-                                            if (stats[property] === undefined) {
-                                                console.log("ooooof");
-                                                return {};
-                                            } else {
-                                                stats[property] += currentCard.tech_tree.levels[i].slots[j].value;
-                                            }
-                                        }
-                                    }
-                                }
-                            } else {
-                                const currentLevel = currentCard.tech_tree.levels[level - 2];
-                                for (let i = 0; i < currentLevel.slots.length; i++) {
-                                    if (currentLevel.slots[i].property === "max_health") {
-                                        stats.health += currentLevel.slots[i].value;
-                                    }
-                                    if (currentLevel.slots[i].property === "damage") {
-                                        stats.damage += currentLevel.slots[i].value;
-                                    }
-                                    if (currentLevel.slots[i].property.indexOf("abs") !== -1) {
-                                        const propertyAbs = currentLevel.slots[i].property;
-                                        const property = propertyAbs.slice(0, propertyAbs.length - 3);
-                                        if (stats[property] === undefined || property === "power_target") {
-                                            if (property === "power_target") {
-                                                stats[property] = level;
-                                            } else {
-                                                console.log("ooooooof");
-                                                return {};
-                                            }
-                                        } else {
-                                            stats[property] += currentLevel.slots[i].value;
-                                        }
-                                    }
-                                }
-                            }
-                            return stats;
-                        };
-
-                        const getMaxUpgradeStats = (currentCard, level) => {
-                            if (level < 1 || level > 7) {
-                                console.log("oooooof");
-                                return {};
-                            }
-
-                            if (currentCard.type === "spell" || level === 7) {
-
-                                return getLevelStats(currentCard, level);
-                            }
-
-                            let upgradeModifier = 0;
-                            if (level === 1) {
-                                upgradeModifier += 5;
-                            }
-                            if (level === 2) {
-                                upgradeModifier += 15;
-                            }
-                            if (level === 3) {
-                                upgradeModifier += 25;
-                            }
-                            if (level === 4) {
-                                upgradeModifier += 40;
-                            }
-                            if (level === 5) {
-                                upgradeModifier += 55;
-                            }
-                            if (level === 6) {
-                                upgradeModifier += 70;
-                            }
-
-                            return getUpgradeStats(currentCard, upgradeModifier);
-                        };
-
-                        const renderFrames = async (cards, outputDir = path.join(__dirname, "temp", "cards")) => {
-
-                            for (let card of cards) {
-
-                                const level = 1;
-                                const stats = getLevelStats(card, level);
-
-                                for (let stat in stats) {
-
-                                    if (stat === "damage" || stat == "health") {
-
-                                        continue;
-                                    }
-
-                                    if (stat === "power_hero_damage") {
-
-                                        // scale based on base stats
-                                        stats[stat] = stats["power_damage"] * (card.PowerHerodamage / card.Powerdamage);
-                                    }
-
-                                    if (stat === "power_max_hp_gain") {
-
-                                        card.description = card.description.replace("{power_max_health_boost}", typeof stats[stat] === "number" ? Math.round(stats[stat] * 100) / 100 : stats[stat]);
-                                        continue;
-                                    }
-
-                                    // again, im not even sorry
-                                    card.description = card.description.replace(`{${stat}}`, typeof stats[stat] === "number" ? Math.round(stats[stat] * 100) / 100 : stats[stat]);
-                                    card.description = card.description.replace(`{${stat}}`, typeof stats[stat] === "number" ? Math.round(stats[stat] * 100) / 100 : stats[stat]);
-                                }
-
-                                if (card.description.includes("{[power_duration_min]}-{power_duration_max}")) {
-
-                                    card.description = card.description.replace("{power_duration_min}-{power_duration_max}", `${Math.round(stats["power_duration"] * 100) / 100 - 1}-${Math.round(stats["power_duration"] * 100) / 100 + 1} seconds`);
-                                }
-                                if (card.name instanceof Array ? card.name[0] === "Cock Magic" : card.name === "Cock Magic") {
-
-                                    card.description = card.description.replace("{power_target}", level);
-                                }
-                                if (card.name instanceof Array ? card.name[0] === "Marcus" : card.name === "Marcus") {
-
-                                    card.description = card.description.replace("{power_hero_damage}", card.powers.value);
-                                }
-                                if (card.name instanceof Array ? card.name[0] === "Marine Craig" : card.name === "Marine Craig") {
-
-                                    card.description = card.description.replace("{power_hero_poison}", card.card.powers.value);
-                                }
-
-                                if (card.name instanceof Array ? card.name[0] === "Shieldmaiden Wendy" : card.name === "Shieldmaiden Wendy") {
-
-                                    card.description = card.description.slice(0, card.description.length - 1);
-                                }
-                                if (card.name instanceof Array ? card.name[0] === "Youth Pastor Craig" : card.name === "Youth Pastor Craig") {
-
-                                    card.description = card.description.slice(0, card.description.length - 1);
-                                }
-
-                                // trap vs spell
-                                const typetype = card.type;
-                                //
-
-                                /* --- pasted old code --- */
-
-                                // Get the frame outline.
-                                const frameWidth = 305;
-                                const frameHeight = 418;
-
-                                let x, y, z, w;
-
-                                switch (card.rarity) {
-                                    case 0: // common
-                                        y = 0;
-                                        switch (card.theme) {
-                                            case "adventure":
-                                                x = frameWidth;
-                                                break;
-                                            case "sci-fi":
-                                                x = frameWidth * 2;
-                                                break;
-                                            case "mystical":
-                                                x = frameWidth * 3;
-                                                break;
-                                            case "fantasy":
-                                                x = frameWidth * 4;
-                                                break;
-                                            case "superhero":
-                                                x = frameWidth * 5;
-                                                break;
-                                            case "general":
-                                                x = 0;
-                                                break;
-                                            default:
-                                                //message.reply("theme not found");
-                                                return;
-                                        }
-                                        break;
-                                    default:
-                                        y = frameHeight;
-                                        switch (card.theme) {
-                                            case "adventure":
-                                                x = frameWidth;
-                                                break;
-                                            case "sci-fi":
-                                                x = frameWidth * 2;
-                                                break;
-                                            case "mystical":
-                                                x = frameWidth * 3;
-                                                break;
-                                            case "fantasy":
-                                                x = frameWidth * 4;
-                                                break;
-                                            case "superhero":
-                                                x = frameWidth * 5;
-                                                break;
-                                            case "general":
-                                                x = 0;
-                                                break;
-                                            default:
-                                                //message.reply("theme not found");
-                                                return;
-                                        }
-                                        break;
-                                }
-
-                                z = frameWidth;
-                                w = frameHeight;
-
-                                // Get the frame top.
-                                const topWidth = 338;
-                                const topHeight = 107;
-
-                                let fx, fy, fz, fw;
-
-                                fx = 0;
-
-                                switch (card.rarity) {
-                                    case 0: // common
-                                        fy = undefined;
-                                        break;
-                                    case 1:
-                                        fy = 0;
-                                        break;
-                                    case 2:
-                                        fy = topHeight;
-                                        break;
-                                    case 3:
-                                        fy = topHeight * 2;
-                                        break;
-                                    default:
-                                        //message.reply("rarity not found");
-                                        return;
-                                }
-
-                                fz = topWidth;
-                                fw = topHeight;
-
-                                // Get the icon.
-                                const iconWidth = 116;
-                                const iconHeight = 106;
-
-                                let ix, iy, iz, iw;
-
-                                switch (card.character_type) {
-                                    case "tank":
-                                        iy = 0;
-                                        break;
-                                    case undefined:
-                                        // trap vs spell
-                                        switch (typetype) {
-                                            case "spell": {
-                                                iy = iconHeight * 2;
-                                                break;
-                                            }
-                                            case "trap": {
-                                                iy = iconHeight * 14;
-                                                break;
-                                            }
-                                        }
-                                        break;
-                                    case "assassin":
-                                        iy = iconHeight * 4;
-                                        break;
-                                    case "ranged":
-                                        iy = iconHeight * 6;
-                                        break;
-                                    case "melee":
-                                        iy = iconHeight * 8;
-                                        break;
-                                    case "totem":
-                                        iy = iconHeight * 10;
-                                        break;
-                                }
-
-                                switch (card.rarity) {
-                                    case 0: // common
-                                        switch (card.theme) {
-                                            case "general":
-                                                ix = 0;
-                                                break;
-                                            case "adventure":
-                                                ix = iconWidth;
-                                                break;
-                                            case "sci-fi":
-                                                ix = iconWidth * 2;
-                                                break;
-                                            case "mystical":
-                                                ix = iconWidth * 3;
-                                                break;
-                                            case "fantasy":
-                                                ix = iconWidth * 4;
-                                                break;
-                                            case "superhero":
-                                                ix = iconWidth * 5;
-                                                break;
-                                        }
-                                        break;
-                                    case 1:
-                                        iy += iconHeight;
-                                        ix = 0;
-                                        break;
-                                    case 2:
-                                        iy += iconHeight;
-                                        ix = iconWidth;
-                                        break;
-                                    case 3:
-                                        iy += iconHeight;
-                                        ix = iconWidth * 2;
-                                        break;
-                                }
-
-                                iz = iconWidth;
-                                iw = iconHeight;
-
-                                // Get the overlay.
-                                const overlayWidth = 305;
-                                const overlayHeight = 418;
-
-                                let ox, oy, oz, ow;
-
-                                oy = 0;
-
-                                switch (card.character_type) {
-                                    case undefined:
-                                        ox = overlayWidth;
-                                        break;
-                                    default:
-                                        ox = 0;
-                                        break;
-                                }
-
-                                oz = overlayWidth;
-                                ow = overlayHeight;
-
-                                // Card theme icons.
-                                const themeIconWidth = 36;
-                                const themeIconHeight = 24;
-
-                                let tx, ty, tz, tw;
-
-                                ty = 0;
-
-                                switch (card.theme) {
-                                    case "general":
-                                        tx = 0;
-                                        break;
-                                    case "adventure":
-                                        tx = themeIconWidth;
-                                        break;
-                                    case "sci-fi":
-                                        tx = themeIconWidth * 2;
-                                        break;
-                                    case "mystical":
-                                        tx = themeIconWidth * 3;
-                                        break;
-                                    case "fantasy":
-                                        tx = themeIconWidth * 4;
-                                        break;
-                                    case "superhero":
-                                        tx = themeIconWidth * 5;
-                                        break;
-                                    default:
-                                        //message.reply("theme not found");
-                                        return;
-                                }
-
-                                tz = themeIconWidth;
-                                tw = themeIconHeight;
-
-                                // Crystal things.
-                                const crystalSheet = {
-                                    x: 0,
-                                    y: 24,
-                                    width: 180,
-                                    height: 76 // 36 + 4 + 36
-                                };
-
-                                const crystalWidth = 36;
-                                const crystalHeight = 36;
-
-                                let cx, cy, cz, cw;
-
-                                cy = crystalSheet.y;
-
-                                switch (card.rarity) {
-                                    case 0: // common
-                                        switch (card.theme) {
-                                            case "general":
-                                                cx = 0;
-                                                break;
-                                            case "adventure":
-                                                cx = crystalWidth;
-                                                break;
-                                            case "sci-fi":
-                                                cx = crystalWidth * 2;
-                                                break;
-                                            case "mystical":
-                                                cx = crystalWidth * 3;
-                                                break;
-                                            case "fantasy":
-                                                cx = crystalWidth * 4;
-                                                break;
-                                            case "superhero":
-                                                cx = crystalWidth * 5;
-                                                break;
-                                            default:
-                                                //message.reply("theme not found");
-                                                return;
-                                        }
-                                        break;
-                                    case 1:
-                                        cy += crystalHeight + 4;
-                                        cx = 17;
-                                        break;
-                                    case 2:
-                                        cy += crystalHeight + 4;
-                                        cx = 34 + crystalWidth;
-                                        break;
-                                    case 3:
-                                        cy += crystalHeight + 4;
-                                        cx = 34 + crystalWidth * 2;
-                                        break;
-                                    default:
-                                        //message.reply("rarity not found");
-                                        return;
-                                }
-
-                                cz = crystalWidth;
-                                cw = crystalHeight;
-
-                                if (card.rarity === 3) {
-                                    cz += 17;
-                                }
-                                /* --- end of old code --- */
-
-                                // Make the image.
-                                const bgWidth = 455;
-                                const bgHeight = 630;
-
-                                // image overlaying stuff.
-                                new jimp(800, 1200, (err, bg) => {
-                                    let frameOverlay = frameOverlays
-                                        .clone()
-                                        .crop(ox, oy, oz, ow)
-                                        .resize(bgWidth, bgHeight);
-                                    let frameOutline = frameOutlines
-                                        .clone()
-                                        .crop(x, y, z, w)
-                                        .resize(bgWidth, bgHeight);
-                                    let typeIcon = typeIcons.clone().crop(ix, iy, iz, iw).scale(1.5);
-                                    let themeIcon = miscIcons.clone().crop(tx, ty, tz, tw).scale(1.5);
-                                    let crystal = miscIcons.clone().crop(cx, cy, cz, cw).scale(1.5);
-
-                                    let frameTop;
-                                    if (fy !== undefined) {
-                                        frameTop = frameTops
-                                            .clone()
-                                            .crop(fx, fy, fz, fw)
-                                            .resize(bgWidth + 49, 200);
-                                    }
-
-                                    /*
-                                    bg.composite(
-                                      cardArt,
-                                      bg.bitmap.width / 2 - cardArt.bitmap.width / 2,
-                                      bg.bitmap.height / 2 - cardArt.bitmap.height / 2
-                                    );
-                                    */
-                                    bg.composite(
-                                        frameOverlay,
-                                        bg.bitmap.width / 2 - frameOverlay.bitmap.width / 2,
-                                        bg.bitmap.height / 2 - frameOverlay.bitmap.height / 2
-                                    );
-                                    bg.composite(
-                                        frameOutline,
-                                        bg.bitmap.width / 2 - frameOutline.bitmap.width / 2,
-                                        bg.bitmap.height / 2 - frameOutline.bitmap.height / 2
-                                    );
-
-                                    if (fy !== undefined) {
-                                        bg.composite(
-                                            frameTop,
-                                            bg.bitmap.width / 2 - frameTop.bitmap.width / 2 - 8,
-                                            240
-                                        );
-                                    }
-
-                                    bg.composite(typeIcon, 130, 182);
-                                    bg.composite(
-                                        themeIcon,
-                                        bg.bitmap.width / 2 - themeIcon.bitmap.width / 2 - 168,
-                                        843
-                                    );
-
-                                    // 3 = legendary
-                                    let xoffset = 0;
-                                    if (card.rarity === 3) {
-                                        xoffset = 25;
-                                    }
-
-                                    bg.composite(
-                                        crystal,
-                                        bg.bitmap.width / 2 - themeIcon.bitmap.width / 2 - 168 - xoffset,
-                                        745
-                                    );
-
-                                    if (card.name instanceof Array) {
-                                        printCenter(bg, sp25Font, 20, 315, card.name[0]);
-                                    } else {
-                                        printCenter(bg, sp25Font, 20, 315, card.name);
-                                    }
-
-                                    printCenter(bg, sp60Font, -168, 350, card.ManaCost.toString());
-
-                                    if (ox === 0) {
-                                        printCenter(bg, sp27Font, -168, 515, stats.health.toString());
-                                        printCenter(bg, sp27Font, -168, 640, stats.damage.toString());
-                                    }
-
-                                    printCenter(bg, sp16Font, 17, 358, level === null ? `u ${0}` : `lvl ${level}`);
-
-                                    printCenterCenter(bg, sp18Font, 20, 510, card.description, 325);
-
-                                    //bg.autocrop(0.002, false);
-                                    bg.crop(135, 165, 526, 769);
-
-                                    bg.write(path.join(outputDir, `frame_${card.image}.png`));
-                                });
-
-                            }
-                        };
-
 
                         // deep copy cards so we can replace shit
                         // without worrying about gay object shit
                         const cardsCopy = data1.data
 
                         // render frames for the website
-                        if (config.env != null &&
-                            config.env.toLowerCase() === "dev" &&
-                            message.content.split(" ")[1] === "dev-frames") {
 
-                            renderFrames(cardsCopy);
-                            return;
-                        }
 
                         // legacy command support
 
@@ -984,6 +303,7 @@ const card = new Command({
                         // card <name> <level>
                         // card <name> l<level>
                         // card <name> u<upgrade>
+
 
                         let level = commandValues.value;
                         let upgrade = commandValues.upgrade;
@@ -1016,83 +336,181 @@ const card = new Command({
                         // this needs to be called after card search
                         // as we need the rarity of the card
 
-                        if (commandValues.modifier === "ff") {
 
-                            level = Math.abs(card.rarity - 4);
-                        }
+                        function _calculateCardAugmentData(original, utype, uvalue) {
+                            const card = original;
 
-                        let stats = null;
+                            const upgradeSequence = [4, 10, 10, 15, 15, 15];
 
-                        if (commandValues.modifier === "u") {
-                            stats = getUpgradeStats(card, upgrade);
-                        } else {
+                            const baseLevel = 1;
+                            const baseUpgrade = 1;
 
-                            if (commandValues.modifier === ("m")) {
-
-                                stats = getMaxUpgradeStats(card, level);
-
-                                upgrade = stats.upgrade;
-                            } else {
-
-                                stats = getLevelStats(card, level);
+                            const type = utype;
+                            if (type == null) {
+                                return console.error("no type specified");
                             }
-                        }
-
-                        for (let stat in stats) {
-
-                            if (stat === "damage" || stat == "health") {
-
-                                continue;
+                            if (type !== "u" && type !== "l") {
+                                return console.error("incorrect type specified");
                             }
 
-                            if (stat === "power_hero_damage") {
-
-                                // scale based on base stats
-                                stats[stat] = stats["Powerdamage"] * (card.PowerHerodamage / card.Powerdamage);
+                            const value = parseInt(uvalue);
+                            if (isNaN(value) === true) {
+                                return console.error("no value specified");
+                            }
+                            if (typeof value !== "number") {
+                                return console.error("incorrect value specified");
+                            }
+                            if (value < 1 || (type === "l" && value > 7) || (type === "u" && value > 70)) {
+                                return console.error("out of bounds value specified");
                             }
 
-                            if (stat === "PowerMaxHPGain") {
+                            let requiredLevels = 0;
+                            let requiredUpgrades = 0;
 
-                                card.description = card.description.replace("{PowerMaxhealthBoost}", typeof stats[stat] === "number" ? Math.round(stats[stat] * 100) / 100 : stats[stat]);
+                            if (type === "u") {
+                                let currentLevels = 0;
+                                let currentUpgrades = 0;
 
-                                // these inconsistencies will kill me one day 
-                                card.description = card.description.replace("{PowerMaxHPGain}", typeof stats[stat] === "number" ? Math.round(stats[stat] * 100) / 100 : stats[stat]);
-                                continue;
+                                for (let i = 0; i < upgradeSequence.length; i++) {
+                                    currentUpgrades += upgradeSequence[i];
+
+                                    if (value < (currentUpgrades + baseUpgrade + 1)) {
+                                        break;
+                                    }
+
+                                    currentLevels++;
+                                }
+
+                                requiredLevels = currentLevels;
+                                requiredUpgrades = value - baseUpgrade;
                             }
 
-                            // im not even sorry
-                            card.description = card.description.replace(`{${stat}}`, typeof stats[stat] === "number" ? Math.round(stats[stat] * 100) / 100 : stats[stat]);
-                            card.description = card.description.replace(`{${stat}}`, typeof stats[stat] === "number" ? Math.round(stats[stat] * 100) / 100 : stats[stat]);
-                        }
+                            if (type === "l") {
+                                requiredLevels = value - baseLevel;
+                                requiredUpgrades = upgradeSequence.slice(0, requiredLevels).reduce((a, c) => a + c, 0);
+                            }
 
-                        if (card.description.includes("{power_duration_min}-{power_duration_max}")) {
+                            const addReduceSlot = (a, c) => a[c.property] == null ? {
+                                ...a,
+                                [c.property]: c.value
+                            } : {
+                                ...a,
+                                [c.property]: a[c.property] + c.value
+                            };
+                            const alteredStats = card.tech_tree.slots.slice(0, requiredUpgrades).reduce(addReduceSlot, card.tech_tree.levels.slice(0, requiredLevels).reduce((a, c) => [...a, ...c.slots], []).reduce(addReduceSlot, {}));
 
-                            card.description = card.description.replace("{PowerDurationMin}-{PowerDurationMax}", `${Math.round(stats["PowerDuration"] * 100) / 100 - 1}-${Math.round(stats["PowerDuration"] * 100) / 100 + 1} seconds`);
-                        }
-                        if (card.name instanceof Array ? card.name[0] === "Cock Magic" : card.name === "Cock Magic") {
+                            // stat merge
+                            // deep copy cos gay things
+                            let alteredCard = JSON.parse(JSON.stringify(card));
 
-                            card.description = card.description.replace("{PowerTargetAmount}", level);
-                        }
-                        if (card.name instanceof Array ? card.name[0] === "Marcus" : card.name === "Marcus") {
+                            if (alteredStats.power_unlock != null) {
+                                alteredCard.is_power_locked = false;
+                                delete alteredStats.power_unlock;
+                            }
 
-                            card.description = card.description.replace("{PowerHerodamage}", card.Powerdamage);
-                        }
-                        if (card.name instanceof Array ? card.name[0] === "Marine Craig" : card.name === "Marine Craig") {
+                            alteredCard = [alteredStats].reduce((a, c) => {
+                                for (let [k, v] of Object.entries(c)) {
+                                    if (k.startsWith("stat_")) {
+                                        if (a[k.slice(5)] != null) {
+                                            a[k.slice(5)] += v;
+                                        } else if (a[k.slice(9)] != null) {
+                                            a[k.slice(9)] += v;
+                                            9
+                                        } else {
+                                            return console.error("error applying upgrade stats 1: " + k);
+                                        }
+                                    } else if (k.startsWith("power_")) {
+                                        const powerIndex = a.powers.findIndex(e => e.type === k)
 
-                            card.description = card.description.replace("{PowerHeroPoison}", card.PowerPoisonAmount);
-                        }
-                        if (card.name instanceof Array ? card.name[0] === "Chicken Coop" : card.name === "Chicken Coop") {
+                                        if (powerIndex !== -1) {
+                                            a.powers[powerIndex].amount += v;
+                                        } else {
+                                            // if power duration is specified, assume
+                                            //  that there is only one power
+                                            if (k === "power_duration") {
+                                                a.powers[0].duration += v;
+                                            } else if (k === "power_range") {
+                                                a.powers[0].radius += v;
+                                            } else {
+                                                return console.error("error applying upgrade stats 2: " + k);
+                                            }
+                                        }
 
-                            card.description = card.description.replace("{PowerInterval.1}", "3.5");
-                        }
-                        if (card.name instanceof Array ? card.name[0] === "Shieldmaiden Wendy" : card.name === "Shieldmaiden Wendy") {
+                                    } else {
+                                        return console.error("error applying upgrade stats 3");
+                                    }
+                                }
 
-                            card.description = card.description.slice(0, card.description.length - 1);
-                        }
-                        if (card.name instanceof Array ? card.name[0] === "Youth Pastor Craig" : card.name === "Youth Pastor Craig") {
+                                return a;
+                            }, alteredCard);
 
-                            card.description = card.description.slice(0, card.description.length - 1);
+
+                            alteredCard.description = alteredCard.description.replace(/\{(.*?)\}/g, match => {
+                                const bracketless = match.slice(1, match.length - 1);
+                                //console.log(alteredCard);
+
+                                function getPowerAmount(powerType) {
+                                    return alteredCard.powers.find(power => {
+                                        return power.type === powerType
+                                    }).amount;
+                                }
+
+                                if (alteredCard[bracketless] == null) {
+
+                                    if (bracketless === "power_hero_damage") {
+                                        let powerAmount = getPowerAmount("power_hero_damage");
+                                        if (powerAmount == null) {
+                                            return getPowerAmount("power_damage") / 10;
+                                        } else {
+                                            return powerAmount;
+                                        }
+                                    } else if (bracketless === "power_duration_min") {
+                                        return alteredCard.powers[0].duration - 1;
+                                    } else if (bracketless === "power_duration_max") {
+                                        return alteredCard.powers[0].duration + 1;
+                                    } else if (bracketless === alteredCard.power_type) {
+                                        return alteredCard.power_amount;
+                                    } else if (bracketless === "power_duration") {
+                                        return alteredCard.powers[0].duration;
+                                        //this is fucked up, I know, baby - do an array for these ones, if string - power_ is "poison, damage, attack_boost, heal", just return getPowerAmount - a.k.a. optimze later
+                                    } else if (bracketless === "power_poison") {
+                                        return getPowerAmount('power_poison');
+                                    } else if (bracketless === "power_damage") {
+                                        return getPowerAmount("power_damage");
+                                    } else if (bracketless === "power_attack_boost") {
+                                        return getPowerAmount("power_attack_boost");
+                                    } else if (bracketless === "power_heal") {
+                                        return getPowerAmount("power_heal");
+                                        
+                                    } else if (bracketless === "power_max_hp_gain") {
+                                        return getPowerAmount("power_max_hp_gain");
+                                    } else if (bracketless === "power_target") {
+                                        return getPowerAmount("power_target");
+                                    } else if (bracketless === "power_max_hp_loss") {
+                                        return getPowerAmount("power_max_hp_loss");
+                                    } else if (bracketless === "power_attack_decrease") {
+                                        return getPowerAmount("power_attack_decrease");
+                                    } else {
+                                        return "undefined";
+                                    }
+
+                                } else {
+                                    return alteredCard[bracketless];
+                                }
+                            });
+
+                            // if power is locked, assume only one power present
+                            if ((alteredCard.powers[0] || {}).locked === true) {
+                                alteredCard.description = "Power locked at this level/upgrade."
+                            }
+
+                            return alteredCard;
                         }
+                        let stats = _calculateCardAugmentData(cardData, commandValues.modifier, commandValues.value)
+
+
+
+                        
 
                         /* --- pasted old code --- */
 
@@ -1211,10 +629,11 @@ const card = new Command({
                                         iy = iconHeight * 2;
                                         break;
                                     }
-                                    case "trap": {
-                                        iy = iconHeight * 14;
-                                        break;
-                                    }
+                                    
+                                case "trap": {
+                                    iy = iconHeight * 14;
+                                    break;
+                                }
                                 }
                                 break;
                             }
@@ -1453,7 +872,7 @@ const card = new Command({
 
                         // 3 = legendary
                         let xoffset = 0;
-                        if (card.rarity === 3) {
+                        if (stats.rarity === 3) {
                             xoffset = 25;
                         }
 
@@ -1463,22 +882,22 @@ const card = new Command({
                             745
                         );
 
-                        if (card.name instanceof Array) {
-                            printCenter(bg, sp25Font, 20, 315, card.name[0]);
+                        if (stats.name instanceof Array) {
+                            printCenter(bg, sp25Font, 20, 315, stats.name[0]);
                         } else {
-                            printCenter(bg, sp25Font, 20, 315, card.name);
+                            printCenter(bg, sp25Font, 20, 315, stats.name);
                         }
 
-                        printCenter(bg, sp60Font, -168, 350, card.mana_cost.toString());
+                        printCenter(bg, sp60Font, -168, 350, stats.mana_cost.toString());
 
                         if (ox === 0) {
                             printCenter(bg, sp27Font, -168, 515, stats.health.toString());
                             printCenter(bg, sp27Font, -168, 640, stats.damage.toString());
                         }
 
-                        printCenter(bg, sp16Font, 17, 358, level === null ? `u ${upgrade}` : `lvl ${level}`);
+                        printCenter(bg, sp16Font, 17, 358, commandValues.modifier === "u" ? `u ${level}` : `lvl ${level}`);
 
-                        printCenterCenter(bg, sp18Font, 20, 510, card.description, 325);
+                        printCenterCenter(bg, sp18Font, 20, 510, stats.description, 325);
 
                         //bg.autocrop(0.002, false);
                         bg.crop(135, 165, 526, 769);
@@ -1487,11 +906,6 @@ const card = new Command({
                         const saveDate = Date.now();
 
                         bg.write(path.join(__dirname, "temp", `pd-${saveDate}.png`), async () => {
-
-                            //const x = "https://sppd.feinwaru.com/backgrounds/" + card.image + ".jpg"
-                            //await message.channel.send({
-                            //files: [x]
-                            //})
 
 
                             const embed = new discord.RichEmbed();
