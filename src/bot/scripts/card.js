@@ -3,7 +3,6 @@
 const rp = require("request-promise-native");
 const path = require("path");
 const fs = require("fs");
-const prefix = "!"
 const Axios = require('axios')
 const discord = require("discord.js");
 const jimp = require("jimp");
@@ -289,30 +288,23 @@ const card = new Command({
 
                         let cardData = data1.data
 
-
                         // deep copy cards so we can replace shit
-                        // without worrying about gay object shit
-                        const cardsCopy = data1.data
 
                         // render frames for the website
-
 
                         // legacy command support
 
                         // card <name>
                         // card <name> <level>
                         // card <name> l<level>
-                        // card <name> u<upgrade>
-
+                        // card <name> u<upgrade, which is level but goes from 1-70>
 
                         let level = commandValues.value;
-                        let upgrade = commandValues.upgrade;
 
                         // card select
                         let card = data1.data;
 
                         // if name is %r, select a random card
-
 
                         // -card <name> (art)
                         // where name is compulsory
@@ -429,8 +421,10 @@ const card = new Command({
                                             //  that there is only one power
                                             if (k === "power_duration") {
                                                 a.powers[0].duration += v;
-                                            } else if (k === "power_range") {
+                                            } else if (k === "power_range" && cardData._id != "5caba684c83b14195097bf24") {
                                                 a.powers[0].radius += v;
+                                            } else if (cardData._id === "5caba684c83b14195097bf24") {
+
                                             } else {
                                                 return console.error("error applying upgrade stats 2: " + k);
                                             }
@@ -481,7 +475,7 @@ const card = new Command({
                                         return getPowerAmount("power_attack_boost");
                                     } else if (bracketless === "power_heal") {
                                         return getPowerAmount("power_heal");
-                                        
+
                                     } else if (bracketless === "power_max_hp_gain") {
                                         return getPowerAmount("power_max_hp_gain");
                                     } else if (bracketless === "power_target") {
@@ -507,10 +501,6 @@ const card = new Command({
                             return alteredCard;
                         }
                         let stats = _calculateCardAugmentData(cardData, commandValues.modifier, commandValues.value)
-
-
-
-                        
 
                         /* --- pasted old code --- */
 
@@ -629,11 +619,11 @@ const card = new Command({
                                         iy = iconHeight * 2;
                                         break;
                                     }
-                                    
-                                case "trap": {
-                                    iy = iconHeight * 14;
-                                    break;
-                                }
+
+                                    case "trap": {
+                                        iy = iconHeight * 14;
+                                        break;
+                                    }
                                 }
                                 break;
                             }
@@ -972,20 +962,17 @@ const card = new Command({
 
                                 embed.description += "**Power Information? - Yes**\n";
 
-                                for (let field in stats) {
+                                for (let field in cardData.powers[0]) {
 
-                                    if (field === "PowerRange" && stats[field] === 0) {
+                                    if (typeof cardData.powers[0][field] === "number" && field !== "charged_regen") {
 
-                                        continue;
+                                        embed.description += `${field === "" ? field : camelPad(field.slice(5, field.length))}: ${typeof cardData.powers[0][field] === "number" ? Math.round(cardData.powers[0][field] * 100) / 100 : cardData.powers[0][field]}\n`;
+                                        
                                     }
-
-                                    if (field.startsWith("Power")) {
-
-                                        embed.description += `${field === "PowerRange" ? field : camelPad(field.slice(5, field.length))}: ${typeof stats[field] === "number" ? Math.round(stats[field] * 100) / 100 : stats[field]}\n`;
-                                    }
+                                    
                                 }
 
-                                if ( /*card.ChargedPowerRadius !== 0 && */ cardData.powers[0].charged_regen !== 0) {
+                                if (cardData.powers[0].charged_regen !== 0) {
 
                                     embed.description += `Charged Power Regen: ${Math.round(cardData.powers[0].charged_regen * 100) / 100}\n\n`;
                                 } else {
