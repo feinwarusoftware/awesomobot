@@ -27,15 +27,15 @@ let typeIcons = null;
 let miscIcons = null;
 
 const removeUnderscores = string => {
-  string = string.replace(/_/g, " ").replace(/\w\S*/g, function (txt) {
+  string = string.replace(/_/g, " ").replace(/\w\S*/g, txt =>{
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
   return string;
 };
 
 let cache = {
-  date: 2,
-  cachedData: "",
+  date: 0,
+  cachedData: null,
   cachedCard: []
 };
 
@@ -68,7 +68,7 @@ const downloadImage = async (pdfURL, outputFilename) => {
   fs.writeFileSync(outputFilename, response);
 };
 
-const _calculateCardAugmentData = (original, utype, uvalue) => {
+const calculateCardAugmentData = (original, utype, uvalue) => {
   const card = original;
 
   const upgradeSequence = [4, 10, 10, 15, 15, 15];
@@ -278,7 +278,7 @@ const cb = async (client, message) => {
 
   let commandValues = [];
 
-  let cardValues = "";
+  let cardValues = null;
 
   //gets name
   for (let cmdWord of splitWithoutCmd) {
@@ -321,7 +321,7 @@ const cb = async (client, message) => {
       cardstats.push(stats);
     }
   }
-  console.log(cardstats);
+
   //code handling
   if (cardstats.length != 0) {
     if (cardstats.length > 1) {
@@ -411,7 +411,7 @@ const cb = async (client, message) => {
     }
     //if (simAliases > highestToDate) {
     //highestToDate = simAliases;
-    //highestCard = card;
+    //highestCard = aliases;
     //}
     //}
   }
@@ -426,15 +426,14 @@ const cb = async (client, message) => {
 
   let cardId = commandValues.matchedCards._id;
 
-  if (cache.cachedCard[cardId] == undefined ||
+  if (cache.cachedCard[cardId] == null ||
     cache.cachedCard[cardId].data.updated_at !==
     commandValues.matchedCards.updated_at) {
     await rp(`https://sppd.feinwaru.com/api/v1/cards/${cardId}`)
       .then(async response => {
         const data1 = JSON.parse(response);
         cache.cachedCard[cardId] = data1;
-        console.log(cache.cachedCard[cardId].data.updated_at);
-        console.log(commandValues.matchedCards.updated_at);
+
       })
 
       .catch(error => {
@@ -514,7 +513,7 @@ const cb = async (client, message) => {
   // this needs to be called after card search
   // as we need the rarity of the card
 
-  let stats = _calculateCardAugmentData(
+  let stats = calculateCardAugmentData(
     cardData,
     commandValues.modifier,
     commandValues.value
@@ -1062,7 +1061,6 @@ const cb = async (client, message) => {
     embed.description += `Full Stats: https://sppd.feinwaru.com/${cardData.image}`;
 
     embed.setFooter("© 2018 Copyright: Feinwaru Software ");
-    console.log(commandValues);
     // ***ATTACK INFO***
 
     // -can attack
@@ -1129,7 +1127,7 @@ const cb = async (client, message) => {
     });
     message.channel.send(embed);
     fs.unlink(path.join(__dirname, "temp", `pd-${saveDate}.png`), error => {
-      if (error != null && error != undefined) {
+      if (error != null) {
         throw `could not delete: pd-${saveDate}.png`;
       }
     });
