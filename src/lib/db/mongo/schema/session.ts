@@ -1,8 +1,6 @@
-"use strict";
+import { Schema } from "mongoose";
 
-const mongoose = require("mongoose");
-
-const SessionSchema = new mongoose.Schema({
+const SessionSchema = new Schema({
 
   //  _id: ObjectId,
   nonce: { type: String, default: null },
@@ -17,4 +15,4 @@ const SessionSchema = new mongoose.Schema({
   }
 });
 
-module.exports = SessionSchema;
+export default SessionSchema;

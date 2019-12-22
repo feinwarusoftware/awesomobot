@@ -1,13 +1,8 @@
 footer {
-  margin-top: -111px;
   width: 100%;
   overflow: hidden;
   position: relative;
   color: $darkgrey;
-
-  @include media-breakpoint-down(md) {
-    margin-top: -200px;
-  }
 
   .row {
     align-items: center;
@@ -63,7 +58,7 @@ footer {
     font-weight: 500;
 
     &:hover {
-      color: $feinwaru !important;
+      color: $awesomo !important;
       text-decoration: none;
     }
   }

@@ -1,31 +1,13 @@
-"use strict";
+import { Schema } from "mongoose";
 
-const mongoose = require("mongoose");
+import * as GuildScriptPermsSchema from "./guildScriptPerms";
 
-const permNodeSchema = new mongoose.Schema({
-
-  whitelist: { type: Boolean, default: false },
-  list: [ String ]
-}, {
-  _id: false
-});
-
-const scriptPermSchema = new mongoose.Schema({
-
-  enabled: { type: String, default: false },
-  members: permNodeSchema,
-  channels: permNodeSchema,
-  roles: permNodeSchema
-}, {
-  _id: false
-});
-
-const GuildScriptSchema = new mongoose.Schema({
+const GuildScriptSchema = new Schema({
 
   object_id: { type: Schema.Types.ObjectId, required: true },
-  permissions: scriptPermSchema
+  permissions: GuildScriptPermsSchema
 }, {
   _id: false
 });
 
-module.exports = GuildScriptSchema;
+export default GuildScriptSchema;

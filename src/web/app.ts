@@ -1,5 +1,3 @@
-"use strict";
-
 // All the other imports (basically react lol)
 import React from "react";
 import ReactDOM from "react-dom";
@@ -9,7 +7,4 @@ import "./app.scss";
 import "./i18n";
 import Home from "./views/Home";
 
-ReactDOM.render(
-  <Home />,
-  document.getElementById("root")
-);
+ReactDOM.render(React.createElement(Home), document.getElementById("root"));

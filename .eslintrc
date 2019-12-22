@@ -1,4 +1,11 @@
 {
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".ts"]
+      }
+    }
+  },
   "extends": ["airbnb-base"],
   "plugins": ["@typescript-eslint", "jest"],
   "parser": "@typescript-eslint/parser",

@@ -15,23 +15,40 @@ export default function Header() {
     ));
 
   return (
-    <div className="swoosh-container" style={{ backgroundImage: `url(${require("../static/img/header.svg")})` }}>
-      <div>
-        <div className="container language">
-          <div className="selector">
-            <p>{i18n.language.toUpperCase()}</p>
-            <img className="icon" src={require("../static/img/language.svg")} />
-            <img className="arrow" src={require("../static/img/arrow_down.svg")} />
+    <nav>
+      <div className="container">
+        <div className="row">
+          <div className="col logo">
+            <img src={require("../static/img/awesomo_logo.svg")} />
           </div>
-          <div className="dropdown">
-            <ul>
-              {translationListElements}
+          <div className="col language">
+            <ul className="nav-items">
+              <li className="active">
+                <a>Home</a>
+              </li>
+              <li>
+                <a>Dashboard</a>
+              </li>
+              <li>
+                <a>Documentation</a>
+              </li>
+              <li>
+                <a>Support Us</a>
+              </li>
             </ul>
+            <div className="selector">
+              <p>{i18n.language.toUpperCase()}</p>
+              <img className="icon" src={require("../static/img/language.svg")} />
+              <img className="arrow" src={require("../static/img/arrow_down.svg")} />
+            </div>
+            <div className="dropdown">
+              <ul>
+                {translationListElements}
+              </ul>
+            </div>
           </div>
         </div>
-        <img className="logo" src={require("../static/img/header_logo.svg")} />
-        <h1 dangerouslySetInnerHTML={{__html: t("Slogan")}}></h1>
       </div>
-    </div>
+    </nav>
   );
 }

@@ -1,9 +1,5 @@
-"use strict";
+import { model } from "mongoose";
 
-const mongoose = require("mongoose");
+import { SessionSchema } from "../schema";
 
-const { SessionSchema } = require("../schema");
-// why? - so the imported objects' names actually make sense
-const SessionModel = SessionSchema;
-
-module.exports = mongoose.model("Guild", SessionModel);
+export default model("Session", SessionSchema);

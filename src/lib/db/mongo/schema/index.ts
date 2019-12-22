@@ -1,12 +1,10 @@
-"use strict";
+import GuildSchema from "./guild";
+import GuildScriptSchema from "./guildScript";
+import ScriptSchema from "./script";
+import SessionSchema from "./session";
+import UserSchema from "./user";
 
-const GuildSchema = require("./guild");
-const GuildScriptSchema = require("./guildScript");
-const ScriptSchema = require("./script");
-const SessionSchema = require("./session");
-const UserSchema = require("./user");
-
-module.exports = {
+export {
   GuildSchema,
   GuildScriptSchema,
   ScriptSchema,

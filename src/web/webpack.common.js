@@ -20,7 +20,7 @@ module.exports = merge.smart(baseConfig, {
   entry: {
     app: [
       "@babel/polyfill",
-      path.resolve(__dirname, "./src/app.ts")
+      path.resolve(__dirname, "./app.ts")
     ]
   },
   module: {

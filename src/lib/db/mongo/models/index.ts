@@ -1,12 +1,10 @@
-"use strict";
+import GuildModel from "./guild";
+import GuildScriptModel from "./guildScript";
+import ScriptModel from "./script";
+import SessionModel from "./session";
+import UserModel from "./user";
 
-const GuildModel = require("./guild");
-const GuildScriptModel = require("./guildScript");
-const ScriptModel = require("./script");
-const SessionModel = require("./session");
-const UserModel = require("./user");
-
-module.exports = {
+export {
   GuildModel,
   GuildScriptModel,
   ScriptModel,

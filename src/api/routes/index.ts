@@ -1,3 +1,3 @@
 export default async (fastify, opts) => {
-  fastify.register(require("./v3"), { prefix: "/v3" });
+  fastify.register(import("./v3"), { prefix: "/v3" });
 };

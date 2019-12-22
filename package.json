@@ -2,7 +2,6 @@
   "name": "awesomobot",
   "version": "4.0.0",
   "description": "A discord bot made by feinwaru software.",
-  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/feinwarusoftware/awesomobot.git"
@@ -13,12 +12,22 @@
     "url": "https://github.com/feinwarusoftware/awesomobot/issues"
   },
   "homepage": "https://github.com/feinwarusoftware/awesomobot#readme",
+  "scripts": {
+    "web:dev": "npx webpack-dev-server --config ./src/web/webpack.dev.js"
+  },
   "dependencies": {
-    "fastify": "^2.11.0",
     "bootstrap": "^4.3.1",
+    "fastify": "^2.11.0",
+    "i18next": "^17.0.12",
+    "i18next-browser-languagedetector": "^3.0.3",
+    "mongoose": "^5.8.2",
     "query-string": "^6.9.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-i18next": "^10.12.2",
+    "react-meta-tags": "^0.7.4",
+    "react-router": "^5.0.1",
+    "react-router-dom": "^5.0.1",
     "react-toastify": "^5.4.1",
     "typescript": "^3.6.4"
   },
@@ -31,6 +40,7 @@
     "@babel/preset-react": "^7.7.4",
     "@babel/preset-typescript": "^7.6.0",
     "@types/jest": "^24.0.18",
+    "@types/mongoose": "^5.5.34",
     "@types/react": "^16.9.13",
     "@typescript-eslint/eslint-plugin": "^2.3.3",
     "@typescript-eslint/parser": "^2.3.3",
