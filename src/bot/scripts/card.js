@@ -27,7 +27,7 @@ let typeIcons = null;
 let miscIcons = null;
 
 const removeUnderscores = string => {
-  string = string.replace(/_/g, " ").replace(/\w\S*/g, txt =>{
+  string = string.replace(/_/g, " ").replace(/\w\S*/g, txt => {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
   return string;
@@ -396,26 +396,24 @@ const cb = async (client, message) => {
   // card name - similarity
   //remove comment once aliases field gets introduced
   for (let card of cards.data) {
-    //for (let aliases of card.aliases) {
-
     const lowerArray = card.name.toLowerCase();
-    //const lowerArrayAliases = aliases.toLowerCase();
-
     let sim = similarity(lowerArray, commandValues.name);
-    //let simAliases = similarity(lowerArrayAliases, commandValues.name);
-
-
     if (sim > highestToDate) {
       highestToDate = sim;
       highestCard = card;
     }
+    //for (let alias of card.aliases) {
+    
+    //const lowerArrayAliases = alias.toLowerCase();
+
+    //let simAliases = similarity(lowerArrayAliases, commandValues.name);
+
     //if (simAliases > highestToDate) {
     //highestToDate = simAliases;
-    //highestCard = aliases;
+    //highestCard = card;
     //}
     //}
   }
-
 
   if (highestToDate < 0.4) {
     return message.channel.send("Card Not Found");
