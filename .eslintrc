@@ -1,0 +1,47 @@
+{
+  "extends": ["airbnb-base"],
+  "plugins": ["@typescript-eslint", "jest"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+  "rules": {
+    "no-async-promise-executor": "warn",
+    "no-await-in-loop": "warn",
+    "no-extra-parens": "warn",
+    "no-misleading-character-class": "warn",
+    "no-prototype-builtins": "warn",
+    "no-template-curly-in-string": "warn",
+    "require-atomic-updates": "warn",
+
+    "no-var": "warn",
+    "no-const-assign": "warn",
+    "no-unneeded-ternary": "warn",
+    "no-trailing-spaces": "warn",
+    "no-nested-ternary": "warn",
+    "no-unused-vars": "warn",
+    "no-console": "off",
+    "arrow-parens": "off",
+    "linebreak-style": ["warn", "windows"],
+
+    "quotes": ["warn", "double"],
+    "quote-props": ["warn", "as-needed"],
+    "jsx-quotes": ["warn", "prefer-double"],
+
+    "semi": "warn",
+    "indent": ["warn", 2],
+    "brace-style": ["warn", "1tbs"],
+    "comma-dangle": ["warn", "never"],
+
+    "max-len": ["warn", {
+      "code": 200,
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true,
+      "ignoreUrls": true
+    }]
+  },
+  "env": {
+    "jest/globals": true,
+    "es6": true
+  }
+}
