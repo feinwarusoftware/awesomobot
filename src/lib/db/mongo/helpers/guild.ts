@@ -1,33 +1,34 @@
-import { Schema } from "mongoose";
+import { Types } from "mongoose";
 
 import { GuildModel } from "../models";
+import { IGuild } from "../../types";
 
 const defaultGuildLimit = 10;
 const defaultPage = 0;
 
-const getOneById = (id: Schema.Types.ObjectId) => GuildModel
+const getOneById = (id: Types.ObjectId) => GuildModel
   .findById(id)
   .select({ __v: 0 });
 
-const getOne = (filters: object) => GuildModel
+const getOne = (filters: IGuild) => GuildModel
   .findOne(filters)
   .select({ __v: 0 });
 
-const getMany = (filters: object, sortField: string, sortDirection: number, limit = defaultGuildLimit, page = defaultPage) => GuildModel
+const getMany = (filters: IGuild, sortField: string, sortDirection: number, limit = defaultGuildLimit, page = defaultPage) => GuildModel
   .find(filters)
   .sort(sortField == null ? {} : { [sortField]: sortDirection })
   .skip(page * limit)
   .limit(limit)
   .select({ __v: 0 });
 
-const saveOne = (props: object) => new GuildModel(props)
+const saveOne = (props: IGuild) => new GuildModel(props)
   .save();
 
-const updateOne = (id: Schema.Types.ObjectId, props: object) => GuildModel
+const updateOne = (id: Types.ObjectId, props: IGuild) => GuildModel
   .updateOne({ _id: id }, props)
   .select({ __v: 0 });
 
-const deleteOne = (id: Schema.Types.ObjectId) => GuildModel
+const deleteOne = (id: Types.ObjectId) => GuildModel
   .deleteOne({ _id: id })
   .select({ __v: 0 });
 

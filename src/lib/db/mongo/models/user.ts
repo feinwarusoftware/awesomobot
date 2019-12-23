@@ -1,5 +1,6 @@
 import { model } from "mongoose";
 
 import { UserSchema } from "../schema";
+import { IUser } from "../../types";
 
-export default model("User", UserSchema);
+export default model<IUser>("User", UserSchema);

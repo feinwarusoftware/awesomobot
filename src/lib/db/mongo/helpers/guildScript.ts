@@ -1,39 +1,39 @@
-import { Schema } from "mongoose";
+import { Types } from "mongoose";
 
 import { GuildScriptModel } from "../models";
-import { GuildScriptSchema } from "../schema";
+import { IGuild, IGuildScript } from "../../types";
 import * as guildHelpers from "./guild";
 
 const defaultGuildScriptLimit = 10;
 const defaultPage = 0;
 
-const getOneById = (guildId: Schema.Types.ObjectId, id: Schema.Types.ObjectId) => guildHelpers
+const getOneById = (guildId: Types.ObjectId, id: Types.ObjectId) => guildHelpers
   .getOneById(guildId)
-  .then(guild => {
+  .then((guild: IGuild | null) => {
     if (guild == null) {
       return null;
     }
     return guild.scripts.find(e => e.object_id.equals(id));
   });
 
-const getOne = (guildId: Schema.Types.ObjectId, filters) => guildHelpers
+const getOne = (guildId: Types.ObjectId, filters: IGuildScript) => guildHelpers
   .getOneById(guildId)
-  .then(guild => {
+  .then((guild: IGuild | null) => {
     if (guild == null) {
       return null;
     }
-    return guild.scripts.find(e => filters.reduce((a, c) => a && filters[c] === e[c], true));
+    return guild.scripts.find(e => Object.entries(filters).reduce((a: boolean, c) => a && c[1] === e.get(c[0]), true));
   });
 
-const getMany = (guildId: Schema.Types.ObjectId, filters: object, sortField: string, sortDirection: number, limit = defaultGuildScriptLimit, page = defaultPage) => guildHelpers
+const getMany = (guildId: Types.ObjectId, filters: IGuildScript, sortField: string, sortDirection: number, limit = defaultGuildScriptLimit, page = defaultPage) => guildHelpers
   .getOneById(guildId)
-  .then(guild => {
+  .then((guild: IGuild | null) => {
     if (guild == null) {
       return [];
     }
 
     // Filter guild scripts based on 'filters' props
-    let filteredScripts = guild.scripts.filter(e => filters.reduce((a, c) => a && filters[c] === e[c], true));
+    let filteredScripts = guild.scripts.filter(e => Object.entries(filters).reduce((a: boolean, c) => a && c[1] === e.get(c[0]), true));
 
     // Sort filtered scripts if 'sortField' specified
     // Note: sort: a - b, (1) => ascending
@@ -42,11 +42,11 @@ const getMany = (guildId: Schema.Types.ObjectId, filters: object, sortField: str
         switch (sortDirection) {
         // ascending
         case 1: {
-          return a[sortField] - b[sortField];
+          return a.get(sortField) - b.get(sortField);
         }
         // descending
         case -1: {
-          return b[sortField] - a[sortField];
+          return b.get(sortField) - a.get(sortField);
         }
         // dont sort
         default: {
@@ -62,9 +62,9 @@ const getMany = (guildId: Schema.Types.ObjectId, filters: object, sortField: str
     return filteredScripts;
   });
 
-const saveOne = (guildId: Schema.Types.ObjectId, props: object) => guildHelpers
+const saveOne = (guildId: Types.ObjectId, props: IGuildScript) => guildHelpers
   .getOneById(guildId)
-  .then(guild => {
+  .then((guild: IGuild | null) => {
     if (guild == null) {
       return null;
     }
@@ -78,28 +78,32 @@ const saveOne = (guildId: Schema.Types.ObjectId, props: object) => guildHelpers
       .then(() => guildScript);
   });
 
-const updateOne = (guildId: Schema.Types.ObjectId, id: Schema.Types.ObjectId, props: object) => guildHelpers
+const updateOne = (guildId: Types.ObjectId, id: Types.ObjectId, props: IGuildScript) => guildHelpers
   .getOneById(guildId)
-  .then(guild => {
+  .then((guild: IGuild | null) => {
     if (guild == null) {
       return null;
     }
 
     // delete it if it exists, just in case
-    Reflect.deleteProperty(props.object_id);
+    Reflect.deleteProperty(props, "object_id");
 
-    let script = guild.scripts.find(e => e.object_id.equals(id));
+    // TODO: figure out a way to set this to an actual type instead of being a lazy shit
+    let script: any = guild.scripts.find(e => e.object_id.equals(id));
+    if (script == null) {
+      return null;
+    }
 
-    script = { ...script, ...props };
+    script = { ...script, ...props }
 
     return guild
       .save()
       .then(() => script);
   });
 
-const deleteOne = (guildId: Schema.Types.ObjectId, id: Schema.Types.ObjectId) => guildHelpers
+const deleteOne = (guildId: Types.ObjectId, id: Types.ObjectId) => guildHelpers
   .getOneById(guildId)
-  .then(guild => {
+  .then((guild: IGuild | null) => {
     if (guild == null) {
       return null;
     }
@@ -110,7 +114,7 @@ const deleteOne = (guildId: Schema.Types.ObjectId, id: Schema.Types.ObjectId) =>
     }
 
     // Used to return what was deleted
-    const scriptCopy = JSON.parse(JSON.stringify(guild[scriptIndex]));
+    const scriptCopy = JSON.parse(JSON.stringify(guild.scripts[scriptIndex]));
 
     guild.scripts.splice(scriptIndex, 1);
 

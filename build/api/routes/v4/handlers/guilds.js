@@ -10,5 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (fastify) => __awaiter(void 0, void 0, void 0, function* () {
-    fastify.get("/test", (request, reply) => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: true }); }));
+    fastify.get("/", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: "get guilds" }); }));
+    fastify.post("/", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: "post guild" }); }));
+    fastify.get("/:guildId", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: "get guild by id" }); }));
+    fastify.patch("/:guildId", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: "patch guild" }); }));
+    fastify.delete("/:guildId", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: "delete guild" }); }));
 });

@@ -1,19 +1,15 @@
 "use strict";
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const GuildModel = __importStar(require("./guild"));
-exports.GuildModel = GuildModel;
-const GuildScriptModel = __importStar(require("./guildScript"));
-exports.GuildScriptModel = GuildScriptModel;
-const ScriptModel = __importStar(require("./script"));
-exports.ScriptModel = ScriptModel;
-const SessionModel = __importStar(require("./session"));
-exports.SessionModel = SessionModel;
-const UserModel = __importStar(require("./user"));
-exports.UserModel = UserModel;
+const guild_1 = __importDefault(require("./guild"));
+exports.GuildModel = guild_1.default;
+const guildScript_1 = __importDefault(require("./guildScript"));
+exports.GuildScriptModel = guildScript_1.default;
+const script_1 = __importDefault(require("./script"));
+exports.ScriptModel = script_1.default;
+const session_1 = __importDefault(require("./session"));
+exports.SessionModel = session_1.default;
+const user_1 = __importDefault(require("./user"));
+exports.UserModel = user_1.default;

@@ -10,5 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (fastify) => __awaiter(void 0, void 0, void 0, function* () {
-    fastify.get("/test", (request, reply) => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: true }); }));
+    fastify.get("/", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: "get scripts" }); }));
+    fastify.post("/", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: "post script" }); }));
+    fastify.get("/:scriptId", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: "get script by id" }); }));
+    fastify.patch("/:scriptId", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: "patch script" }); }));
+    fastify.delete("/:scriptId", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: "delete script" }); }));
 });

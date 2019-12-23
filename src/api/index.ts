@@ -1,5 +1,7 @@
 import fastify from "fastify";
 
+import routes from "./routes";
+
 const config = {
   webServerSettings: {
     logger: true,
@@ -9,7 +11,7 @@ const config = {
 
 const server = fastify(config.webServerSettings);
 
-server.register(import("./routes"), { prefix: "/" });
+server.register(routes, { prefix: "/" });
 
 const start = async () => {
   try {

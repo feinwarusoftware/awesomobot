@@ -42,4 +42,4 @@ const UserSchema = new mongoose_1.Schema({
     trophies: [String],
     likes: [mongoose_1.Schema.Types.ObjectId]
 });
-module.exports = UserSchema;
+exports.default = UserSchema;
