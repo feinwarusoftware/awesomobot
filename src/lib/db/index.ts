@@ -33,6 +33,7 @@ const guildScriptService = mongo.helpers.guildScriptHelpers;
 const scriptService = mongo.helpers.scriptHelpers;
 const sessionService = mongo.helpers.sessionHelpers;
 const userService = mongo.helpers.userHelpers;
+const connect = mongo.connect;
 
 export {
   guildService,
@@ -40,4 +41,5 @@ export {
   scriptService,
   sessionService,
   userService,
+  connect,
 }

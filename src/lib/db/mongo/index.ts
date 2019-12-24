@@ -1,4 +1,4 @@
-import * as mongoose from "mongoose";
+import mongoose from "mongoose";
 
 import * as schema from "./schema";
 import * as models from "./models";
@@ -34,7 +34,7 @@ const connect = (database: string, address: string = kDefaultAddress, port: numb
 
     const connectionOptions = {
       useNewUrlParser: true,
-      authSource: (username == null || password == null) ?? authSource
+      authSource: authSource
     };
 
     mongoose.connect(connectionString, connectionOptions);

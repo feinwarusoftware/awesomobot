@@ -15,8 +15,20 @@ exports.default = (fastify) => __awaiter(void 0, void 0, void 0, function* () {
         const users = yield db_1.userService.getMany();
         return users;
     }));
-    fastify.post("/", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: "post user" }); }));
-    fastify.get("/:userId", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: "get user by id" }); }));
-    fastify.patch("/:userId", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: "patch user" }); }));
-    fastify.delete("/:userId", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: "delete user" }); }));
+    fastify.post("/", (request) => __awaiter(void 0, void 0, void 0, function* () {
+        const user = yield db_1.userService.saveOne(request.body);
+        return user;
+    }));
+    fastify.get("/:userId", (request) => __awaiter(void 0, void 0, void 0, function* () {
+        const user = yield db_1.userService.getOneById(request.params.userId);
+        return user;
+    }));
+    fastify.patch("/:userId", (request) => __awaiter(void 0, void 0, void 0, function* () {
+        const user = yield db_1.userService.updateOne(request.params.userId, request.body);
+        return user;
+    }));
+    fastify.delete("/:userId", (request) => __awaiter(void 0, void 0, void 0, function* () {
+        const user = yield db_1.userService.deleteOne(request.params.userId);
+        return user;
+    }));
 });

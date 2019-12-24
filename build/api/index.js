@@ -13,17 +13,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fastify_1 = __importDefault(require("fastify"));
+const db_1 = require("../lib/db");
 const routes_1 = __importDefault(require("./routes"));
 const config = {
     webServerSettings: {
         logger: true,
     },
     port: 80,
+    database: "awnext",
 };
 const server = fastify_1.default(config.webServerSettings);
 server.register(routes_1.default, { prefix: "/" });
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        yield db_1.connect(config.database);
         yield server.listen(config.port);
         server.log.info(`magic happens on port ${config.webServerSettings}`);
     }

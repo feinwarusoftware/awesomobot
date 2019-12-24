@@ -42,3 +42,5 @@ const sessionService = mongo.helpers.sessionHelpers;
 exports.sessionService = sessionService;
 const userService = mongo.helpers.userHelpers;
 exports.userService = userService;
+const connect = mongo.connect;
+exports.connect = connect;

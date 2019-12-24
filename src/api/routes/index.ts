@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 
-import apiV4 from "./v4";
+import apiV3 from "./v3";
 
 export default async (fastify: FastifyInstance) => {
-  fastify.register(apiV4, { prefix: "/v4" });
+  fastify.register(apiV3, { prefix: "/v3" });
 };
