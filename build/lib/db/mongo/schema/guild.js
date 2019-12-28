@@ -27,3 +27,4 @@ const GuildSchema = new mongoose_1.Schema({
     scripts: [GuildScriptSchema]
 });
 exports.default = GuildSchema;
+//# sourceMappingURL=guild.js.map

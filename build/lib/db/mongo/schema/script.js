@@ -87,3 +87,4 @@ const ScriptSchema = new mongoose_1.Schema({
     updated_at: { type: Date, default: Date.now }
 });
 exports.default = ScriptSchema;
+//# sourceMappingURL=script.js.map

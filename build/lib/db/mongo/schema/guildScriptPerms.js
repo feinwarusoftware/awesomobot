@@ -16,3 +16,4 @@ const ScriptPermSchema = new mongoose_1.Schema({
     _id: false
 });
 exports.default = ScriptPermSchema;
+//# sourceMappingURL=guildScriptPerms.js.map

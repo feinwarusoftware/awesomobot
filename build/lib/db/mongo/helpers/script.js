@@ -29,3 +29,4 @@ const deleteOne = (id) => models_1.ScriptModel
     .deleteOne({ _id: id })
     .select({ __v: 0 });
 exports.deleteOne = deleteOne;
+//# sourceMappingURL=script.js.map

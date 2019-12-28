@@ -112,3 +112,4 @@ const deleteOne = (guildId, id) => guildHelpers
         .then(() => scriptCopy);
 });
 exports.deleteOne = deleteOne;
+//# sourceMappingURL=guildScript.js.map

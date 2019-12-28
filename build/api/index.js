@@ -36,3 +36,4 @@ const start = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 start();
+//# sourceMappingURL=index.js.map

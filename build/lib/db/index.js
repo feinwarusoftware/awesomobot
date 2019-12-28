@@ -44,3 +44,4 @@ const userService = mongo.helpers.userHelpers;
 exports.userService = userService;
 const connect = mongo.connect;
 exports.connect = connect;
+//# sourceMappingURL=index.js.map

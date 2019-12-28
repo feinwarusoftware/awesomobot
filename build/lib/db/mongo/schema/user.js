@@ -43,3 +43,4 @@ const UserSchema = new mongoose_1.Schema({
     likes: [mongoose_1.Schema.Types.ObjectId]
 });
 exports.default = UserSchema;
+//# sourceMappingURL=user.js.map

@@ -59,3 +59,4 @@ const connect = (database, address = kDefaultAddress, port = kDefaultPort, authS
     });
 };
 exports.connect = connect;
+//# sourceMappingURL=index.js.map

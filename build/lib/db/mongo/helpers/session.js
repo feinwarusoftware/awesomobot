@@ -27,3 +27,4 @@ exports.updateOne = updateOne;
 const deleteOne = (id) => models_1.SessionModel
     .deleteOne({ _id: id });
 exports.deleteOne = deleteOne;
+//# sourceMappingURL=session.js.map

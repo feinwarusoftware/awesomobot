@@ -27,3 +27,4 @@ exports.updateOne = updateOne;
 const deleteOne = (id) => models_1.UserModel
     .deleteOne({ _id: id });
 exports.deleteOne = deleteOne;
+//# sourceMappingURL=user.js.map

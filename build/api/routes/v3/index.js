@@ -9,6 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const handlers_1 = require("./handlers");
 exports.default = (fastify) => __awaiter(void 0, void 0, void 0, function* () {
-    fastify.get("/test", (request, reply) => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: true }); }));
+    fastify.register(handlers_1.guildHandler, { prefix: "/guilds" });
+    fastify.register(handlers_1.guildScriptHandler, { prefix: "/guilds/:guildId/scripts" });
+    fastify.register(handlers_1.scriptHandler, { prefix: "/scripts" });
+    fastify.register(handlers_1.userHandler, { prefix: "/users" });
+    fastify.get("/test", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: true }); }));
 });
+//# sourceMappingURL=index.js.map
