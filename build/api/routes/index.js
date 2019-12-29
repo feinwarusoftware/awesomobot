@@ -14,6 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const v3_1 = __importDefault(require("./v3"));
 exports.default = (fastify) => __awaiter(void 0, void 0, void 0, function* () {
-    fastify.register(v3_1.default, { prefix: "/v3" });
+    fastify.register(v3_1.default, { prefix: "/api/v3" });
 });
 //# sourceMappingURL=index.js.map

@@ -16,16 +16,16 @@ const getOneById = (guildId: Types.ObjectId, id: Types.ObjectId) => guildHelpers
     return guild.scripts.find(e => e.object_id.equals(id));
   });
 
-const getOne = (guildId: Types.ObjectId, filters: IGuildScript) => guildHelpers
+const getOne = (guildId: Types.ObjectId, filters?: IGuildScript) => guildHelpers
   .getOneById(guildId)
   .then((guild: IGuild | null) => {
     if (guild == null) {
       return null;
     }
-    return guild.scripts.find(e => Object.entries(filters).reduce((a: boolean, c) => a && c[1] === e.get(c[0]), true));
+    return guild.scripts.find(e => Object.entries(filters ?? {}).reduce((a: boolean, c) => a && c[1] === e.get(c[0]), true));
   });
 
-const getMany = (guildId: Types.ObjectId, filters: IGuildScript, sortField: string, sortDirection: number, limit = defaultGuildScriptLimit, page = defaultPage) => guildHelpers
+const getMany = (guildId: Types.ObjectId, filters?: IGuildScript, sortField?: string, sortDirection?: number, limit = defaultGuildScriptLimit, page = defaultPage) => guildHelpers
   .getOneById(guildId)
   .then((guild: IGuild | null) => {
     if (guild == null) {
@@ -33,7 +33,7 @@ const getMany = (guildId: Types.ObjectId, filters: IGuildScript, sortField: stri
     }
 
     // Filter guild scripts based on 'filters' props
-    let filteredScripts = guild.scripts.filter(e => Object.entries(filters).reduce((a: boolean, c) => a && c[1] === e.get(c[0]), true));
+    let filteredScripts = guild.scripts.filter(e => Object.entries(filters ?? {}).reduce((a: boolean, c) => a && c[1] === e.get(c[0]), true));
 
     // Sort filtered scripts if 'sortField' specified
     // Note: sort: a - b, (1) => ascending
@@ -89,16 +89,25 @@ const updateOne = (guildId: Types.ObjectId, id: Types.ObjectId, props: IGuildScr
     Reflect.deleteProperty(props, "object_id");
 
     // TODO: figure out a way to set this to an actual type instead of being a lazy shit
+    // Since were doing a search by a unique id field, this will never return more than one
     let script: any = guild.scripts.find(e => e.object_id.equals(id));
     if (script == null) {
-      return null;
+      // dont save the guild if theres no need to
+      return {
+        matched: 0,
+        modified: 0,
+      };
     }
 
-    script = { ...script, ...props }
+    // this should work? cos copy by reference?... unless mongo does some gay shit ofc
+    script = { ...script, ...props };
 
     return guild
       .save()
-      .then(() => script);
+      .then(() => ({
+        matched: 1,
+        modified: 1,
+      }));
   });
 
 const deleteOne = (guildId: Types.ObjectId, id: Types.ObjectId) => guildHelpers
@@ -108,19 +117,23 @@ const deleteOne = (guildId: Types.ObjectId, id: Types.ObjectId) => guildHelpers
       return null;
     }
 
+    // Since were doing a search by a unique id field, this will never return more than one
     const scriptIndex = guild.scripts.findIndex(e => e.object_id.equals(id));
     if (scriptIndex === -1) {
-      return null;
+      return {
+        matched: 0,
+        deleted: 0,
+      };
     }
-
-    // Used to return what was deleted
-    const scriptCopy = JSON.parse(JSON.stringify(guild.scripts[scriptIndex]));
 
     guild.scripts.splice(scriptIndex, 1);
 
     return guild
       .save()
-      .then(() => scriptCopy);
+      .then(() => ({
+        matched: 1,
+        deleted: 1,
+      }));
   });
 
 export {

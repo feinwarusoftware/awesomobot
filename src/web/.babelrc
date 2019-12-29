@@ -1,10 +1,6 @@
 {
   "presets": [
-    "next/babel"
-  ],
-  "plugins": [
-    [
-      "graphql-tag"
-    ]
+    "next/babel",
+    "@zeit/next-typescript/babel"
   ]
 }

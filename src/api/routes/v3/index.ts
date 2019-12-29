@@ -8,18 +8,9 @@ import {
   userHandler,
 } from "./handlers";
 
-import { schema } from "./graphql";
+import { schema, resolvers } from "./graphql";
 
-const resolvers = {
-  Query: {
-    test: async (_: any, { input }: any) => input,
-  },
-  Mutation: {
-    test: async (_: any, { input }: any) => input,
-  },
-};
-
-export default async (fastify: FastifyInstance) => {
+export default async (fastify: FastifyInstance) => {  
   fastify.register(guildHandler, { prefix: "/guilds" });
   fastify.register(guildScriptHandler, { prefix: "/guilds/:guildId/scripts" });
   fastify.register(scriptHandler, { prefix: "/scripts" });
@@ -31,6 +22,4 @@ export default async (fastify: FastifyInstance) => {
 
     return reply.graphql(query);
   });
-
-  fastify.get("/test", async () => ({ urma: true }));
 };

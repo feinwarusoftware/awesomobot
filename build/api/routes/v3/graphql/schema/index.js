@@ -12,15 +12,11 @@ const schema = `
   }
 
   type Query {
-    test(input: Int!): Int
-
     users: [User]
     user(userId: ID!): User
   }
 
   type Mutation {
-    test(input: Int!): Int
-
     addUser(userData: UserInput): User
     updateUser(userId: ID!, userData: UserInput!): User
     deleteUser(userId: ID!, userData: UserInput!): User

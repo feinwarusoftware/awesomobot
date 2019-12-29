@@ -26,7 +26,7 @@ const getOne = (guildId, filters) => guildHelpers
     if (guild == null) {
         return null;
     }
-    return guild.scripts.find(e => Object.entries(filters).reduce((a, c) => a && c[1] === e.get(c[0]), true));
+    return guild.scripts.find(e => Object.entries((filters !== null && filters !== void 0 ? filters : {})).reduce((a, c) => a && c[1] === e.get(c[0]), true));
 });
 exports.getOne = getOne;
 const getMany = (guildId, filters, sortField, sortDirection, limit = defaultGuildScriptLimit, page = defaultPage) => guildHelpers
@@ -36,7 +36,7 @@ const getMany = (guildId, filters, sortField, sortDirection, limit = defaultGuil
         return [];
     }
     // Filter guild scripts based on 'filters' props
-    let filteredScripts = guild.scripts.filter(e => Object.entries(filters).reduce((a, c) => a && c[1] === e.get(c[0]), true));
+    let filteredScripts = guild.scripts.filter(e => Object.entries((filters !== null && filters !== void 0 ? filters : {})).reduce((a, c) => a && c[1] === e.get(c[0]), true));
     // Sort filtered scripts if 'sortField' specified
     // Note: sort: a - b, (1) => ascending
     if (sortField != null) {
@@ -84,14 +84,23 @@ const updateOne = (guildId, id, props) => guildHelpers
     // delete it if it exists, just in case
     Reflect.deleteProperty(props, "object_id");
     // TODO: figure out a way to set this to an actual type instead of being a lazy shit
+    // Since were doing a search by a unique id field, this will never return more than one
     let script = guild.scripts.find(e => e.object_id.equals(id));
     if (script == null) {
-        return null;
+        // dont save the guild if theres no need to
+        return {
+            matched: 0,
+            modified: 0,
+        };
     }
+    // this should work? cos copy by reference?... unless mongo does some gay shit ofc
     script = Object.assign(Object.assign({}, script), props);
     return guild
         .save()
-        .then(() => script);
+        .then(() => ({
+        matched: 1,
+        modified: 1,
+    }));
 });
 exports.updateOne = updateOne;
 const deleteOne = (guildId, id) => guildHelpers
@@ -100,16 +109,21 @@ const deleteOne = (guildId, id) => guildHelpers
     if (guild == null) {
         return null;
     }
+    // Since were doing a search by a unique id field, this will never return more than one
     const scriptIndex = guild.scripts.findIndex(e => e.object_id.equals(id));
     if (scriptIndex === -1) {
-        return null;
+        return {
+            matched: 0,
+            deleted: 0,
+        };
     }
-    // Used to return what was deleted
-    const scriptCopy = JSON.parse(JSON.stringify(guild.scripts[scriptIndex]));
     guild.scripts.splice(scriptIndex, 1);
     return guild
         .save()
-        .then(() => scriptCopy);
+        .then(() => ({
+        matched: 1,
+        deleted: 1,
+    }));
 });
 exports.deleteOne = deleteOne;
 //# sourceMappingURL=guildScript.js.map

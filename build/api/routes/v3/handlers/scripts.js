@@ -9,11 +9,42 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const db_1 = require("../../../../lib/db");
 exports.default = (fastify) => __awaiter(void 0, void 0, void 0, function* () {
-    fastify.get("/", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: "get scripts" }); }));
-    fastify.post("/", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: "post script" }); }));
-    fastify.get("/:scriptId", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: "get script by id" }); }));
-    fastify.patch("/:scriptId", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: "patch script" }); }));
-    fastify.delete("/:scriptId", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: "delete script" }); }));
+    fastify.get("/", () => __awaiter(void 0, void 0, void 0, function* () {
+        const scripts = yield db_1.scriptService.getMany();
+        return {
+            success: true,
+            data: scripts,
+        };
+    }));
+    fastify.post("/", (request) => __awaiter(void 0, void 0, void 0, function* () {
+        const script = yield db_1.scriptService.saveOne(request.body);
+        return {
+            success: true,
+            data: script,
+        };
+    }));
+    fastify.get("/:scriptId", (request) => __awaiter(void 0, void 0, void 0, function* () {
+        const script = yield db_1.scriptService.getOneById(request.params.userId);
+        return {
+            success: true,
+            data: script,
+        };
+    }));
+    fastify.patch("/:scriptId", (request) => __awaiter(void 0, void 0, void 0, function* () {
+        const info = yield db_1.scriptService.updateOne(request.params.userId, request.body);
+        return {
+            success: true,
+            data: info,
+        };
+    }));
+    fastify.delete("/:scriptId", (request) => __awaiter(void 0, void 0, void 0, function* () {
+        const info = yield db_1.scriptService.deleteOne(request.params.userId);
+        return {
+            success: true,
+            data: info,
+        };
+    }));
 });
 //# sourceMappingURL=scripts.js.map

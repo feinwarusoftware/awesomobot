@@ -1,10 +1,47 @@
 import { FastifyInstance } from "fastify";
 
-export default async (fastify: FastifyInstance) => {
-  fastify.get("/", async () => ({ urma: "get guilds" }));
-  fastify.post("/", async () => ({ urma: "post guild" }));
+import { guildService } from "../../../../lib/db";
 
-  fastify.get("/:guildId", async () => ({ urma: "get guild by id" }));
-  fastify.patch("/:guildId", async () => ({ urma: "patch guild" }));
-  fastify.delete("/:guildId", async () => ({ urma: "delete guild" }));
+export default async (fastify: FastifyInstance) => {
+  fastify.get("/", async () => {
+    const guilds = await guildService.getMany();
+
+    return {
+      success: true,
+      data: guilds,
+    };
+  });
+  fastify.post("/", async request => {
+    const guild = await guildService.saveOne(request.body);
+
+    return {
+      success: true,
+      data: guild,
+    };
+  });
+
+  fastify.get("/:guildId", async request => {
+    const guild = await guildService.getOneById(request.params.userId);
+
+    return {
+      success: true,
+      data: guild,
+    };
+  });
+  fastify.patch("/:guildId", async request => {
+    const info = await guildService.updateOne(request.params.userId, request.body);
+
+    return {
+      success: true,
+      data: info,
+    };
+  });
+  fastify.delete("/:guildId", async request => {
+    const info = await guildService.deleteOne(request.params.userId);
+
+    return {
+      success: true,
+      data: info,
+    };
+  });
 };

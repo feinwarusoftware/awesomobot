@@ -15,24 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fastify_gql_1 = __importDefault(require("fastify-gql"));
 const handlers_1 = require("./handlers");
 const graphql_1 = require("./graphql");
-const resolvers = {
-    Query: {
-        test: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () { return input; }),
-    },
-    Mutation: {
-        test: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () { return input; }),
-    },
-};
 exports.default = (fastify) => __awaiter(void 0, void 0, void 0, function* () {
     fastify.register(handlers_1.guildHandler, { prefix: "/guilds" });
     fastify.register(handlers_1.guildScriptHandler, { prefix: "/guilds/:guildId/scripts" });
     fastify.register(handlers_1.scriptHandler, { prefix: "/scripts" });
     fastify.register(handlers_1.userHandler, { prefix: "/users" });
-    fastify.register(fastify_gql_1.default, { schema: graphql_1.schema, resolvers });
+    fastify.register(fastify_gql_1.default, { schema: graphql_1.schema, resolvers: graphql_1.resolvers });
     fastify.post("/gql", (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
         const { query } = request.body;
         return reply.graphql(query);
     }));
-    fastify.get("/test", () => __awaiter(void 0, void 0, void 0, function* () { return ({ urma: true }); }));
 });
 //# sourceMappingURL=index.js.map

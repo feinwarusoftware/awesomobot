@@ -31,7 +31,7 @@ const connect = (database, address = kDefaultAddress, port = kDefaultPort, authS
         connectionString += address;
         connectionString += `:${port}`;
         connectionString += `/${database}`;
-        connectionString += `authSource=${authSource}`;
+        connectionString += `?authSource=${authSource}`;
         // Set the connection options
         // const connectionOptions = {
         //   useNewUrlParser: true,

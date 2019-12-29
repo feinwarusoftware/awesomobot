@@ -22,13 +22,40 @@ const getMany = (filters?: IUser, sortField?: string, sortDirection?: number, li
   .select({ __v: 0 });
 
 const saveOne = (props: IUser) => new UserModel(props)
-  .save();
+  .save()
+  .then(guild => {
+    if (guild !== null) {
+      Reflect.deleteProperty(guild, "__v");
+    }
+
+    return guild;
+  });
 
 const updateOne = (id: Types.ObjectId, props: IUser) => UserModel
-  .updateOne({ _id: id }, props);
+  .updateOne({ _id: id }, props)
+  .then(({n: matched, nModified: modified, ok}) => {
+    if (ok !== 1) {
+      throw `'ok' (current: ${ok}) was not set to 1 in mongodb response, idk what that means, but it cant be good, right? No but rly, it means theres an error somewhere...`;
+    }
+
+    return {
+      matched,
+      modified,
+    };
+  });
 
 const deleteOne = (id: Types.ObjectId) => UserModel
-  .deleteOne({ _id: id });
+  .deleteOne({ _id: id })
+  .then(({n: matched, deletedCount: deleted, ok}) => {
+    if (ok !== 1) {
+      throw `'ok' (current: ${ok}) was not set to 1 in mongodb response, idk what that means, but it cant be good, right? No but rly, it means theres an error somewhere...`;
+    }
+
+    return {
+      matched,
+      deleted,
+    };
+  });
 
 export {
   getOneById,

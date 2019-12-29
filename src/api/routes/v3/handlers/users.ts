@@ -6,27 +6,42 @@ export default async (fastify: FastifyInstance) => {
   fastify.get("/", async () => {
     const users = await userService.getMany();
 
-    return users;
+    return {
+      success: true,
+      data: users,
+    };
   });
   fastify.post("/", async request => {
     const user = await userService.saveOne(request.body);
 
-    return user;
+    return {
+      success: true,
+      data: user,
+    };
   });
 
   fastify.get("/:userId", async request => {
     const user = await userService.getOneById(request.params.userId);
 
-    return user;
+    return {
+      success: true,
+      data: user,
+    };
   });
   fastify.patch("/:userId", async request => {
-    const user = await userService.updateOne(request.params.userId, request.body);
+    const info = await userService.updateOne(request.params.userId, request.body);
 
-    return user;
+    return {
+      success: true,
+      data: info,
+    };
   });
   fastify.delete("/:userId", async request => {
-    const user = await userService.deleteOne(request.params.userId);
+    const info = await userService.deleteOne(request.params.userId);
 
-    return user;
+    return {
+      success: true,
+      data: info,
+    };
   });
 };

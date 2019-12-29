@@ -20,7 +20,7 @@ const connect = (database: string, address: string = kDefaultAddress, port: numb
     connectionString += address;
     connectionString += `:${port}`;
     connectionString += `/${database}`;
-    connectionString += `authSource=${authSource}`
+    connectionString += `?authSource=${authSource}`
 
     // Set the connection options
     // const connectionOptions = {

@@ -19,14 +19,36 @@ const getMany = (filters, sortField, sortDirection, limit = defaultGuildLimit, p
     .select({ __v: 0 });
 exports.getMany = getMany;
 const saveOne = (props) => new models_1.GuildModel(props)
-    .save();
+    .save()
+    .then(guild => {
+    if (guild !== null) {
+        Reflect.deleteProperty(guild, "__v");
+    }
+    return guild;
+});
 exports.saveOne = saveOne;
 const updateOne = (id, props) => models_1.GuildModel
     .updateOne({ _id: id }, props)
-    .select({ __v: 0 });
+    .then(({ n: matched, deletedCount: deleted, ok }) => {
+    if (ok !== 1) {
+        throw `'ok' (current: ${ok}) was not set to 1 in mongodb response, idk what that means, but it cant be good, right? No but rly, it means theres an error somewhere...`;
+    }
+    return {
+        matched,
+        deleted,
+    };
+});
 exports.updateOne = updateOne;
 const deleteOne = (id) => models_1.GuildModel
     .deleteOne({ _id: id })
-    .select({ __v: 0 });
+    .then(({ n: matched, deletedCount: deleted, ok }) => {
+    if (ok !== 1) {
+        throw `'ok' (current: ${ok}) was not set to 1 in mongodb response, idk what that means, but it cant be good, right? No but rly, it means theres an error somewhere...`;
+    }
+    return {
+        matched,
+        deleted,
+    };
+});
 exports.deleteOne = deleteOne;
 //# sourceMappingURL=guild.js.map

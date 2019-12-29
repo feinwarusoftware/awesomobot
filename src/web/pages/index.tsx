@@ -1,8 +1,24 @@
-import App from "../components/App";
-import withApollo from "../lib/apollo";
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 
-const IndexPage = props => (
-  <App>
-  </App>
-);
-export default withApollo(IndexPage);
+const USERS_DATA = gql`
+    query {
+      users {
+        _id
+        discord_id
+      }
+    }
+`;
+
+function IndexPage() {
+  const { loading, error, data } = useQuery(USERS_DATA);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+    console.log(data)
+  return (
+    <h1>it werk</h1>
+  );
+}
+
+export default IndexPage;
