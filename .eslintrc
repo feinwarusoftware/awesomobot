@@ -36,7 +36,7 @@
     "jsx-quotes": ["warn", "prefer-double"],
 
     "semi": "warn",
-    "indent": ["warn", 2],
+    "indent": ["off"],
     "brace-style": ["warn", "1tbs"],
     "comma-dangle": ["warn", "never"],
 

@@ -12,8 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const v3_1 = __importDefault(require("./v3"));
-exports.default = (fastify) => __awaiter(void 0, void 0, void 0, function* () {
-    fastify.register(v3_1.default, { prefix: "/v3" });
-});
+const user_1 = __importDefault(require("./user"));
+exports.default = {
+    Query: Object.assign({
+        test: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () { return input; }),
+    }, user_1.default.Query),
+    Mutation: Object.assign({
+        test: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () { return input; }),
+    }, user_1.default.Mutation),
+};
 //# sourceMappingURL=index.js.map
