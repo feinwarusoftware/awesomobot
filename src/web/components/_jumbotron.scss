@@ -1,0 +1,17 @@
+.jumbotron {
+  &-container {
+    position: relative;
+    height: 1082px;
+  }
+  &-image {
+    z-index: -10;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  &-gradient {
+    position: absolute;
+    top: 0;
+    z-index: -9;
+  }
+}

@@ -1,0 +1,62 @@
+//Colours
+$feinwaru: #ff594f;
+$feinwarudark: #c93d36;
+$feinwarugreen: #14b252;
+$awesomo: #F26D85;
+$sppd: #1E98A1;
+$lightgrey: #c5c5c5;
+$grey: #707070;
+$darkgrey: #222;
+$dwhite: #eee;
+
+
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700");
+
+@font-face {
+  font-family: "Uni Sans";
+  src: url("./static/font/UniSansHeavyCAPS.eot");
+  src: url("./static/font/UniSansHeavyCAPS.eot?#iefix") format("embedded-opentype"),
+      url("./static/font/UniSansHeavyCAPS.woff2") format("woff2"),
+      url("./static/font/UniSansHeavyCAPS.woff") format("woff"),
+      url("./static/font/UniSansHeavyCAPS.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";
+@import "node_modules/bootstrap/scss/reboot";
+@import "node_modules/bootstrap/scss/type";
+//@import "../node_modules/bootstrap/scss/images";
+//@import "../node_modules/bootstrap/scss/code";
+@import "node_modules/bootstrap/scss/grid";
+
+
+@import "./components/navbar";
+@import "./components/jumbotron";
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: $dwhite;
+}
+
+// Typography
+
+h1,h2 {
+  font-family: "Uni Sans";
+}
+
+.outline {
+  color: transparent;
+  &-1 {
+    -webkit-text-stroke: white 1px;
+  }
+  &-2 {
+    -webkit-text-stroke: white 2px;
+  }
+  &-3 {
+    -webkit-text-stroke: white 3px;
+  }
+}

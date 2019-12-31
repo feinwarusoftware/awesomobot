@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="1082.129" viewBox="0 0 1920 1082.129">
+  <defs>
+    <pattern id="pattern" width="1" height="1" viewBox="204.271 0 1920 1082.129">
+      <image preserveAspectRatio="xMidYMid slice" width="2308.542" height="1082.129" xlink:href=""/>
+    </pattern>
+  </defs>
+  <path id="NoPath_-_Copy" data-name="NoPath - Copy" d="M0,0H1920V1082.129L0,877.653Z" fill="url(#pattern)"/>
+</svg>
