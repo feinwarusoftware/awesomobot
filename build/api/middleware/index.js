@@ -10,14 +10,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const helpers_1 = require("../helpers");
-const requireDiscordAuth = (request) => __awaiter(void 0, void 0, void 0, function* () {
-    // const accessToken = request.headers["xxx-access-token"];
-    const session = yield helpers_1.fetchSession(request.cookies.session);
-    if (session == null /* && accessToken == null */) {
-        throw new Error("session does not exist");
-    }
-    session.discord.
-    ;
-});
-exports.requireDiscordAuth = requireDiscordAuth;
+const verifyDiscordAuth = function (request, reply) {
+    return __awaiter(this, void 0, void 0, function* () {
+        // On why this shouldnt redirect if the session doesnt exist or is invalid;
+        // This is the api only, as so, the fetch requests will expect json responses.
+        // In that case, a 403 response will suffice.
+        console.log(request.cookies);
+        const jwt = request.headers["xxx-access-token"] || request.cookies.session;
+        if (jwt == null) {
+            return reply
+                .code(403)
+                .send({
+                success: false,
+                error: "You are not authorised to access this path."
+            });
+        }
+        const session = yield helpers_1.decodeSession(jwt);
+        this.session = session;
+    });
+};
+exports.verifyDiscordAuth = verifyDiscordAuth;
 //# sourceMappingURL=index.js.map

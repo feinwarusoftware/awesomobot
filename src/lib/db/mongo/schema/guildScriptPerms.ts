@@ -10,7 +10,7 @@ const permNodeSchema = new Schema({
 
 const ScriptPermSchema = new Schema({
 
-  enabled: { type: String, default: false },
+  enabled: { type: Boolean, default: false },
   members: permNodeSchema,
   channels: permNodeSchema,
   roles: permNodeSchema

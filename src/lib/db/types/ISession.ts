@@ -15,4 +15,16 @@ interface ISession extends Document {
   }
 }
 
-export default ISession;
+interface ISessionFilters {
+  _id?: Types.ObjectId,
+
+  discord?: {
+    id?: string,
+    expiresIn?: string,
+  }
+}
+
+export {
+  ISession,
+  ISessionFilters,
+};

@@ -1,6 +1,8 @@
 import { FastifyInstance } from "fastify";
 import fastifyCookie from "fastify-cookie";
 
+import { verifyDiscordAuth } from "../middleware";
+
 import apiV3 from "./api/v3";
 import discordAuth from "./auth/discord";
 
@@ -11,4 +13,7 @@ export default async (fastify: FastifyInstance) => {
   fastify.register(discordAuth, { prefix: "/auth/discord" });
 
   fastify.get("/", async () => "rawrxd");
+  fastify.get("/p", { preHandler: verifyDiscordAuth }, async function () {
+    return this.session;
+  });
 };

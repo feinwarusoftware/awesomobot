@@ -1,12 +1,28 @@
 import fetch from "node-fetch";
 import jwt from "jsonwebtoken";
 
-import { sessionService } from "../../lib/db";
+// import { sessionService } from "../../lib/db";
 
 const kTempJwtSecret = "rawrxd";
+const kDiscordUserUrl = "https://discordapp.com/api/v6/users/@me";
 
-const jwtVerify = (token: string, secret: string) => new Promise((resolve, reject) => {
-    jwt.verify(token, secret, (error: any, decoded: any) => {
+// temp
+interface ISession extends Object {
+  id: string,
+  access_token: string,
+  token_type: string,
+  expires_in: string,
+  refresh_token: string,
+  scope: string,
+}
+
+const isString = (toCheck: any) => Object.prototype.toString.call(toCheck) === "[object String]";
+//
+
+const jwtSign = (payload: string | object, secret: string = kTempJwtSecret) => jwt.sign(payload, secret);
+
+const jwtVerify = (token: string, secret: string = kTempJwtSecret) => new Promise<string | object>((resolve, reject) => {
+    jwt.verify(token, secret, (error, decoded) => {
       if (error == null) {
         return resolve(decoded);
       }
@@ -14,22 +30,42 @@ const jwtVerify = (token: string, secret: string) => new Promise((resolve, rejec
     });
   });
 
-const fetchSession = (token: string) => {
-  jwtVerify(token, kTempJwtSecret)
-    .then(async (decoded: any) => {
-      const session = await sessionService
-        .getOne({
-          discord: {
-            id: decoded.id
-          }
-        });
+// const fetchSession = (token: string, secret: string = kTempJwtSecret) => {
+//   jwtVerify(token, secret)
+//     .then(async decoded => {
+//       if (isString("string")) {
+//         throw new Error("session was a string, should be an object");
+//       }
 
-        return session;
-    });
-};
+//       const decodedSession = decoded as ISession;
 
-const fetchDiscordUser = (accessToken: string) => {
-  fetch("https://discordapp.com/api/v6/users/@me", {
+//       const session = await sessionService
+//         .getOne({
+//           discord: {
+//             id: decodedSession.id,
+//           },
+//         });
+
+//         return session;
+//     });
+// };
+
+const decodeSession = (token: string, secret: string = kTempJwtSecret) => jwtVerify(token, secret)
+  .then(async decoded => {
+    if (isString(decoded)) {
+      throw new Error("session was a string, should be an object");
+    }
+
+    return decoded as ISession;
+  });
+
+const fetchDiscordUser = (accessToken?: string) => {
+  if (accessToken == null) {
+    // fetch using client
+    throw new Error("TODO: implement this!");
+  }
+
+  return fetch(kDiscordUserUrl, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
@@ -37,6 +73,8 @@ const fetchDiscordUser = (accessToken: string) => {
 };
 
 export {
+  jwtSign,
+  jwtVerify,
+  decodeSession,
   fetchDiscordUser,
-  fetchSession,
 };

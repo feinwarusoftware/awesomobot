@@ -1,15 +1,11 @@
 "use strict";
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
-const GuildScriptSchema = __importStar(require("./guildScript"));
-const GuildScriptPermsSchema = __importStar(require("./guildScriptPerms"));
+const guildScript_1 = __importDefault(require("./guildScript"));
+const guildScriptPerms_1 = __importDefault(require("./guildScriptPerms"));
 const memberPermSchema = new mongoose_1.Schema({
     member_id: { type: String, required: true },
     list: [String]
@@ -23,8 +19,8 @@ const GuildSchema = new mongoose_1.Schema({
     prefix: { type: String, default: "-" },
     premium: { type: Boolean, default: false },
     member_perms: [memberPermSchema],
-    script_perms: GuildScriptPermsSchema,
-    scripts: [GuildScriptSchema]
+    script_perms: guildScriptPerms_1.default,
+    scripts: [guildScript_1.default]
 });
 exports.default = GuildSchema;
 //# sourceMappingURL=guild.js.map

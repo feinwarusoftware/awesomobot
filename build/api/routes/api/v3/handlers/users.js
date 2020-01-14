@@ -18,8 +18,9 @@ exports.default = (fastify) => __awaiter(void 0, void 0, void 0, function* () {
             data: users,
         };
     }));
-    fastify.post("/", (request) => __awaiter(void 0, void 0, void 0, function* () {
+    fastify.post("/", (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
         const user = yield db_1.userService.saveOne(request.body);
+        reply.code(201);
         return {
             success: true,
             data: user,

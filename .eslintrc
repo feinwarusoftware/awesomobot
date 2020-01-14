@@ -13,6 +13,10 @@
     "ecmaVersion": 2017
   },
   "rules": {
+    "import/prefer-default-export": "warn",
+    "comma-dangle": ["warn", "always-multiline"],
+    "camelcase": "warn",
+
     "no-async-promise-executor": "warn",
     "no-await-in-loop": "warn",
     "no-extra-parens": "warn",
@@ -38,7 +42,6 @@
     "semi": "warn",
     "indent": ["off"],
     "brace-style": ["warn", "1tbs"],
-    "comma-dangle": ["warn", "never"],
 
     "max-len": ["warn", {
       "code": 200,

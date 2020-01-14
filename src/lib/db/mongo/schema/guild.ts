@@ -1,7 +1,7 @@
 import { Schema } from "mongoose";
 
-import * as GuildScriptSchema from "./guildScript";
-import * as GuildScriptPermsSchema from "./guildScriptPerms";
+import GuildScriptSchema from "./guildScript";
+import GuildScriptPermsSchema from "./guildScriptPerms";
 
 const memberPermSchema = new Schema({
 

@@ -8,7 +8,7 @@ const permNodeSchema = new mongoose_1.Schema({
     _id: false
 });
 const ScriptPermSchema = new mongoose_1.Schema({
-    enabled: { type: String, default: false },
+    enabled: { type: Boolean, default: false },
     members: permNodeSchema,
     channels: permNodeSchema,
     roles: permNodeSchema

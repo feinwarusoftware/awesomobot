@@ -11,8 +11,10 @@ export default async (fastify: FastifyInstance) => {
       data: guilds,
     };
   });
-  fastify.post("/", async request => {
+  fastify.post("/", async (request, reply) => {
     const guild = await guildService.saveOne(request.body);
+
+    reply.code(201);
 
     return {
       success: true,

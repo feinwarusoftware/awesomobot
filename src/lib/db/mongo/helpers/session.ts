@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 
 import { SessionModel } from "../models";
-import { ISession } from "../../types";
+import { ISession, ISessionFilters } from "../../types";
 
 const defaultSessionLimit = 10;
 const defaultPage = 0;
@@ -10,11 +10,11 @@ const getOneById = (id: Types.ObjectId) => SessionModel
   .findById(id)
   .select({ __v: 0 });
 
-const getOne = (filters: ISession) => SessionModel
+const getOne = (filters: ISessionFilters) => SessionModel
   .findOne(filters)
   .select({ __v: 0 });
 
-const getMany = (filters?: ISession, sortField?: string, sortDirection?: number, limit = defaultSessionLimit, page = defaultPage) => SessionModel
+const getMany = (filters?: ISessionFilters, sortField?: string, sortDirection?: number, limit = defaultSessionLimit, page = defaultPage) => SessionModel
   .find(filters)
   .sort(sortField == null ? {} : { [sortField]: sortDirection })
   .skip(page * limit)

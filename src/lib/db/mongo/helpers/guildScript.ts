@@ -13,6 +13,7 @@ const getOneById = (guildId: Types.ObjectId, id: Types.ObjectId) => guildHelpers
     if (guild == null) {
       return null;
     }
+
     return guild.scripts.find(e => e.object_id.equals(id));
   });
 

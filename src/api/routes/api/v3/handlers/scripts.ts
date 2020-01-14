@@ -11,8 +11,10 @@ export default async (fastify: FastifyInstance) => {
       data: scripts,
     };
   });
-  fastify.post("/", async request => {
+  fastify.post("/", async (request, reply) => {
     const script = await scriptService.saveOne(request.body);
+
+    reply.code(201);
 
     return {
       success: true,
@@ -30,7 +32,7 @@ export default async (fastify: FastifyInstance) => {
   });
   fastify.patch("/:scriptId", async request => {
     const info = await scriptService.updateOne(request.params.userId, request.body);
-    
+
     return {
       success: true,
       data: info,

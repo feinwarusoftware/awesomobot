@@ -18,8 +18,9 @@ exports.default = (fastify) => __awaiter(void 0, void 0, void 0, function* () {
             data: guilds,
         };
     }));
-    fastify.post("/", (request) => __awaiter(void 0, void 0, void 0, function* () {
+    fastify.post("/", (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
         const guild = yield db_1.guildService.saveOne(request.body);
+        reply.code(201);
         return {
             success: true,
             data: guild,

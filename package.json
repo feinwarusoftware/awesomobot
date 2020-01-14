@@ -13,9 +13,18 @@
   },
   "homepage": "https://github.com/feinwarusoftware/awesomobot#readme",
   "scripts": {
+    "test": "cross-env NODE_ENV=test jest",
+    "pretest": "cross-env NODE_ENV=test yarn db:reset",
+    "db:reset": "bash ./scripts/db-reset.bash",
     "web:dev": "next ./src/web",
     "web:build": "next build ./src/web",
     "web:start": "next start ./src/web"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.3",
@@ -26,7 +35,7 @@
     "apollo-link-http": "^1.5.9",
     "bootstrap": "^4.3.1",
     "fastify": "^2.11.0",
-    "fastify-cookie": "^3.4.0",
+    "fastify-cookie": "^3.4.1",
     "fastify-gql": "^2.0.4",
     "fastify-oauth2": "^3.0.0",
     "graphql": "^14.0.2",
@@ -47,12 +56,14 @@
     "@types/cookie": "^0.3.2",
     "@types/graphql": "^14.0.5",
     "@types/jest": "^24.0.18",
+    "@types/jsonwebtoken": "^8.3.5",
     "@types/mongoose": "^5.5.34",
     "@types/next": "^7.0.6",
     "@types/node": "^12.12.21",
     "@types/react": "^16.9.13",
     "@typescript-eslint/eslint-plugin": "^2.3.3",
     "@typescript-eslint/parser": "^2.3.3",
+    "cross-env": "^6.0.3",
     "eslint": "6.1.0",
     "eslint-config-airbnb": "18.0.1",
     "eslint-plugin-import": "2.18.2",

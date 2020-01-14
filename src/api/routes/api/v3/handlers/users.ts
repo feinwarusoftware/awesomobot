@@ -11,8 +11,10 @@ export default async (fastify: FastifyInstance) => {
       data: users,
     };
   });
-  fastify.post("/", async request => {
+  fastify.post("/", async (request, reply) => {
     const user = await userService.saveOne(request.body);
+
+    reply.code(201);
 
     return {
       success: true,

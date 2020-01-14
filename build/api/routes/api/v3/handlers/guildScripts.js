@@ -18,8 +18,9 @@ exports.default = (fastify) => __awaiter(void 0, void 0, void 0, function* () {
             data: guildScripts,
         };
     }));
-    fastify.post("/", (request) => __awaiter(void 0, void 0, void 0, function* () {
+    fastify.post("/", (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
         const guildScript = yield db_1.guildScriptService.saveOne(request.params.guildId, request.body);
+        reply.code(201);
         return {
             success: true,
             data: guildScript,

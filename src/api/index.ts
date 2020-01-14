@@ -1,24 +1,21 @@
-import fastify from "fastify";
-
 import { connect as connectDb } from "../lib/db";
-import routes from "./routes";
+import buildFastify from "./buildFastify";
 
 const config = {
   webServerSettings: {
     logger: true,
   },
   port: 80,
+  address: "0.0.0.0",
   database: "awnext",
 };
 
-const server = fastify(config.webServerSettings);
-
-server.register(routes, { prefix: "/" });
-
 const start = async () => {
+  const server = buildFastify(config.webServerSettings);
+
   try {
     await connectDb(config.database);
-    await server.listen(config.port);
+    await server.listen(config.port, config.address);
     server.log.info(`magic happens on port ${config.webServerSettings}`);
   } catch (error) {
     server.log.error(error);

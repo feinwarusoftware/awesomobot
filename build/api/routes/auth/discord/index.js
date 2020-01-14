@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fastify_oauth2_1 = __importDefault(require("fastify-oauth2"));
-const db_1 = require("../../../../lib/db");
 const helpers_1 = require("../../../helpers");
 exports.default = (fastify) => __awaiter(void 0, void 0, void 0, function* () {
     fastify.register(fastify_oauth2_1.default, {
@@ -31,17 +30,22 @@ exports.default = (fastify) => __awaiter(void 0, void 0, void 0, function* () {
             }
         },
         startRedirectPath: "/",
-        callbackUri: "http://localhost/auth/discord/callback",
+        callbackUri: "http://qa-dragon.feinwaru.com/auth/discord/callback",
         scope: "guilds.join identify",
     });
     fastify.get("/callback", function (request, response) {
         return __awaiter(this, void 0, void 0, function* () {
             const token = yield this.discordOAuth2.getAccessTokenFromAuthorizationCodeFlow(request);
+            Reflect.deleteProperty(token, "iat");
             const user = yield helpers_1.fetchDiscordUser(token.access_token);
-            db_1.sessionService.saveOne({
-                nonce: "urma",
-                complete: true,
-                discord: Object.assign({ id: user.id }, token),
+            // For maxAge; use the discord expires_in date (provided in seconds)
+            // and take an hour away just to be sure (discord doesnt document
+            // how strict they are with this)
+            response.setCookie("session", helpers_1.jwtSign(Object.assign({ id: user.id }, token)), {
+                maxAge: token.expires_in - 60,
+                httpOnly: true,
+                sameSite: true,
+                path: "/",
             });
             response.redirect("/");
         });
