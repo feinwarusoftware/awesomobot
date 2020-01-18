@@ -14,6 +14,6 @@ const buildFastify = (settings = {}) => {
   fastify.register(routes, { prefix: "/" });
 
   return fastify;
-}
+};
 
 export default buildFastify;
