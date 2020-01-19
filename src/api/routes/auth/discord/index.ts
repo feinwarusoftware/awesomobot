@@ -20,7 +20,7 @@ export default async (fastify: FastifyInstance) => {
       }
     },
     startRedirectPath: "/",
-    callbackUri: "http://qa-dragon.feinwaru.com/auth/discord/callback",
+    callbackUri: "http://localhost/auth/discord/callback",
     scope: "guilds.join identify",
   });
 

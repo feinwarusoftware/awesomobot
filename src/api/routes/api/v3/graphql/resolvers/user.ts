@@ -12,6 +12,14 @@ export default {
       const user = await userService.getOneById(userId);
 
       return user;
+    },
+    me: async (_: any, variables: any, context: any) => {
+      const userId = context.app.session.id;
+      const user = await userService.getOne({
+        discord_id: userId,
+      });
+
+      return user;
     }
   },
   Mutation: {

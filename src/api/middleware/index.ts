@@ -7,8 +7,6 @@ const verifyDiscordAuth = async function (request: FastifyRequest, reply: Fastif
   // This is the api only, as so, the fetch requests will expect json responses.
   // In that case, a 403 response will suffice.
 
-  console.log(request.cookies);
-
   const jwt = request.headers["xxx-access-token"] || request.cookies.session;
   if (jwt == null) {
     return reply

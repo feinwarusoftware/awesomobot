@@ -4,7 +4,7 @@ export default `
     permissions: IGuildScriptPerms
   }
 
-  type GuildScriptInput {
+  input GuildScriptInput {
     permissions: IGuildScriptPermsInput
   }
 
@@ -15,7 +15,7 @@ export default `
     roles: IPermNode
   }
 
-  type IGuildScriptPermsInput {
+  input IGuildScriptPermsInput {
     enabled: Boolean,
     members: IPermNodeInput,
     channels: IPermNodeInput,
@@ -27,7 +27,7 @@ export default `
     list: [String]
   }
 
-  type IPermNodeInput {
+  input IPermNodeInput {
     whitelist: Boolean,
     list: [String]
   }
