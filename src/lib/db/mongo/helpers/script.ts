@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 
 import { ScriptModel } from "../models";
-import { IScript } from "../../types";
+import { IScript } from "../types";
 
 const defaultScriptLimit = 10;
 const defaultPage = 0;

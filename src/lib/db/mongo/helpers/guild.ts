@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 
 import { GuildModel } from "../models";
-import { IGuild } from "../../types";
+import { IGuild } from "../types";
 
 const defaultGuildLimit = 10;
 const defaultPage = 0;

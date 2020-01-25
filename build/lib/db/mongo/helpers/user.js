@@ -20,11 +20,11 @@ const getMany = (filters, sortField, sortDirection, limit = defaultUserLimit, pa
 exports.getMany = getMany;
 const saveOne = (props) => new models_1.UserModel(props)
     .save()
-    .then(guild => {
-    if (guild !== null) {
-        Reflect.deleteProperty(guild, "__v");
+    .then(user => {
+    if (user !== null) {
+        Reflect.deleteProperty(user, "__v");
     }
-    return guild;
+    return user;
 });
 exports.saveOne = saveOne;
 const updateOne = (id, props) => models_1.UserModel

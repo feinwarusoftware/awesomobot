@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 
 import { SessionModel } from "../models";
-import { ISession, ISessionFilters } from "../../types";
+import { ISession, ISessionFilters } from "../types";
 
 const defaultSessionLimit = 10;
 const defaultPage = 0;

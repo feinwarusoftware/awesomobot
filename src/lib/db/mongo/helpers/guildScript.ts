@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 
 import { GuildScriptModel } from "../models";
-import { IGuild, IGuildScript } from "../../types";
+import { IGuild, IGuildScript } from "../types";
 import * as guildHelpers from "./guild";
 
 const defaultGuildScriptLimit = 10;

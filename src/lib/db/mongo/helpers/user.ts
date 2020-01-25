@@ -1,7 +1,8 @@
 import { Types } from "mongoose";
 
 import { UserModel } from "../models";
-import { IUser } from "../../types";
+import { IUser } from "../types";
+import { IUserInput } from "../../types";
 
 const defaultUserLimit = 10;
 const defaultPage = 0;
@@ -10,28 +11,28 @@ const getOneById = (id: Types.ObjectId) => UserModel
   .findById(id)
   .select({ __v: 0 });
 
-const getOne = (filters: IUser) => UserModel
+const getOne = (filters: IUserInput) => UserModel
   .findOne(filters)
   .select({ __v: 0 });
 
-const getMany = (filters?: IUser, sortField?: string, sortDirection?: number, limit = defaultUserLimit, page = defaultPage) => UserModel
+const getMany = (filters?: IUserInput, sortField?: string, sortDirection?: number, limit = defaultUserLimit, page = defaultPage) => UserModel
   .find(filters)
   .sort(sortField == null ? {} : { [sortField]: sortDirection })
   .skip(page * limit)
   .limit(limit)
   .select({ __v: 0 });
 
-const saveOne = (props: IUser) => new UserModel(props)
+const saveOne = (props: IUserInput): Promise<IUser> => new UserModel(props)
   .save()
-  .then(guild => {
-    if (guild !== null) {
-      Reflect.deleteProperty(guild, "__v");
+  .then(user => {
+    if (user !== null) {
+      Reflect.deleteProperty(user, "__v");
     }
 
-    return guild;
+    return user;
   });
 
-const updateOne = (id: Types.ObjectId, props: IUser) => UserModel
+const updateOne = (id: Types.ObjectId, props: IUserInput) => UserModel
   .updateOne({ _id: id }, props)
   .then(({n: matched, nModified: modified, ok}) => {
     if (ok !== 1) {

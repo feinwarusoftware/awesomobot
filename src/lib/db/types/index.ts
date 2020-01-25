@@ -1,18 +1,5 @@
-import IGuild from "./IGuild";
-import IGuildScript from "./IGuildScript";
-import IScript from "./IScript";
-import { ISession, ISessionFilters } from "./ISession";
-import IUser from "./IUser";
+import IUserInput from "./IUserInput";
 
 export {
-  IGuild,
-
-  IGuildScript,
-
-  IScript,
-
-  ISession,
-  ISessionFilters,
-
-  IUser,
+  IUserInput,
 };
