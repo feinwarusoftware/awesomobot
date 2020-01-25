@@ -10,7 +10,7 @@ export default `
     scripts: [GuildScript]
   }
 
-  type GuildInput {
+  input GuildInput {
     discord_id: String,
     prefix: String,
     premium: Boolean,
@@ -24,7 +24,7 @@ export default `
     list: [String]
   }
 
-  type IMemberPermInput {
+  input IMemberPermInput {
     member_id: String,
     list: [String]
   }

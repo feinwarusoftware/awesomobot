@@ -17,14 +17,14 @@ export default {
     }
   },
   Mutation: {
-    addguildScript: async (_: any, variables: any, context: any) => {
+    addGuildScript: async (_: any, variables: any, context: any) => {
       const guildId = context.reply.request.body.variables.guildId ?? variables.guildId;
       const guildScriptData = context.reply.request.body.variables.guildScriptData ?? variables.guildScriptData;
       const guildScript = await guildScriptService.saveOne(guildId, guildScriptData);
 
       return guildScript;
     },
-    updateguildScript: async (_: any, variables: any, context: any) => {
+    updateGuildScript: async (_: any, variables: any, context: any) => {
       const guildId = context.reply.request.body.variables.guildId ?? variables.guildId;
       const guildScriptId = context.reply.request.body.variables.guildScriptId ?? variables.guildScriptId;
       const guildScriptData = context.reply.request.body.variables.guildScriptData ?? variables.guildScriptData;
@@ -32,7 +32,7 @@ export default {
 
       return info;
     },
-    deleteguildScript: async (_: any, variables: any, context: any) => {
+    deleteGuildScript: async (_: any, variables: any, context: any) => {
       const guildId = context.reply.request.body.variables.guildId ?? variables.guildId;
       const guildScriptId = context.reply.request.body.variables.guildScriptId ?? variables.guildScriptId;
       const info = await guildScriptService.deleteOne(guildId, guildScriptId);
