@@ -1,0 +1,14 @@
+[
+  {
+    "displayCode": "EN",
+    "i18nCode": "en",
+    "flag": "United_Kingdom",
+    "language": "English"
+  },
+  {
+    "displayCode": "PL",
+    "i18nCode": "pl",
+    "flag": "Poland",
+    "language": "Polski"
+  }
+]

@@ -2,6 +2,9 @@
   &-container {
     position: relative;
     height: 1082px;
+    &.overlap {
+      margin-bottom: -300px;
+    }
   }
   &-image {
     z-index: -10;

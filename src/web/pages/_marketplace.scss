@@ -1,0 +1,19 @@
+.marketplace {
+  .jumbotron-container {
+    .container, .row {
+      height: 100%;
+    }
+    .row {
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 200px;
+    }
+
+    h1 {
+      font-size: 145px;
+      color: white;
+      text-align: right;
+      line-height: 1;
+    }
+  }
+}

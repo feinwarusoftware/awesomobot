@@ -1,0 +1,28 @@
+.trophy {
+  padding: 11px 17px 12px 67px;
+  border: 3px solid;
+  margin: 15px 0;
+
+  .icon {
+    position: relative;
+  }
+
+  img,
+  i {
+    position: absolute;
+    max-height: 37px;
+    left: -33px;
+    transform: translateX(-50%);
+    font-size: 30px;
+  }
+
+  i {
+    transform: translate(-50%, 2px);
+  }
+
+  p {
+    margin-bottom: 0;
+    font-weight: 600;
+    font-size: 22px;
+  }
+}

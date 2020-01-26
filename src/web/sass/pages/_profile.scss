@@ -1,0 +1,17 @@
+.profile {
+  .name {
+    margin-top: 28px;
+  }
+
+  .bio {
+    font-size: 22px;
+    font-weight: 600;
+    padding-left: 10px;
+    border-left: solid 2px $awesomo;
+    margin-bottom: 30px;
+  }
+
+  .about {
+    font-size: 18px;
+  }
+}

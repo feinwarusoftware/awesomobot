@@ -1,0 +1,99 @@
+.featured-script {
+  padding-top: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  position: relative;
+
+  .gradient {
+    background-image: linear-gradient(180deg, transparent 25%, #111);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    transition: opacity 250ms ease-out;
+  }
+
+  .fill {
+    background-color: rgba(#111, 0.7);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 250ms ease-out;
+  }
+
+  .content {
+    position: absolute;
+    bottom: 0;
+    padding: 30px;
+
+    h4 {
+      font-size: 28px;
+      color: white;
+      font-weight: 700;
+    }
+    h5 {
+      font-size: 20px;
+      color: $lightgrey;
+      font-weight: 700;
+
+      i {
+        color: #00B9FF;
+      }
+    }
+    p {
+      color: white;
+    }
+
+    .likes-servers {
+      display: inline-flex;
+      margin-top: 10px;
+      p:first-of-type {
+        padding-right: 20px;
+      }
+      p {
+        margin-bottom: 0;
+      }
+    }
+
+    code {
+      margin-top: 10px;
+    }
+
+    button:first-of-type {
+      margin: 20px 20px 0 0;
+    }
+
+    .overflow-content {
+      overflow: hidden;
+      height: 100%;
+      max-height: 0px;
+      transition: max-height 250ms ease;
+    }
+  }
+
+  &:hover {
+    .gradient {
+      opacity: 0;
+    }
+    .fill {
+      opacity: 1;
+    }
+    .overflow-content {
+      max-height: 250px;
+    }
+  }
+}
+.overflow-scroll-container {
+  overflow-x: auto;
+}
+
+.fixed-width {
+  width: 1320px;
+}

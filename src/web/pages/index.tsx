@@ -2,36 +2,53 @@ import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import Navbar from "../components/Navbar";
 import Jumbotron from "../components/Jumbotron";
+import FeaturedScript from "../components/FeaturedScript";
+import { withApollo } from "../lib/apollo";
 
-// const USERS_DATA = gql`
-//     query {
-//       users {
-//         _id
-//         discord_id
-//       }
-//     }
-// `;
+const USERS_DATA = gql`
+    query {
+      users {
+        discord_id
+      }
+    }
+`;
 
 function IndexPage() {
-  // const { loading, error, data } = useQuery(USERS_DATA);
+  const { loading, error, data } = useQuery(USERS_DATA);
 
-  // if (loading) return <p>Loading...</p>;
-  // if (error) return <p>Error :(</p>;
-  //   console.log(data)
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+    console.log(data)
+
+
   return (
-    <>
+    <div className="marketplace">
       <Navbar transparent />
-      <Jumbotron image="https://cdn.discordapp.com/attachments/606503584372097035/656250053513445434/banner_emma-min.png">
+      <Jumbotron
+        overlap
+        image="https://cdn.discordapp.com/attachments/456771924639612940/466128291171008522/banner.png"
+      >
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <h1><span className="outline outline-3">The</span><br />Marketplace</h1>
+              <h1>
+                  <span className="outline outline-3">Home</span>
+                  <br />
+                  Screen
+              </h1>
             </div>
           </div>
         </div>
       </Jumbotron>
-      <h1>it werk</h1>
-    </>
+
+      <div className="container overlap-jumbotron">
+        <div className="row">
+            <div className="col-12">
+              <h1 className="white"><a href="http://localhost/auth/discord">Login</a></h1>
+            </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

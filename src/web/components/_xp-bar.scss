@@ -1,0 +1,46 @@
+.xp-bar {
+  .text {
+    display: inline-flex;
+    align-items: flex-end;
+    width: 100%;
+    margin-bottom: 10px;
+    p {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 0;
+      color: white;
+      &:last-of-type {
+        margin-left: auto;
+        font-size: 18px;
+        font-weight: 600;
+      }
+    }
+  }
+  .outer {
+    height: 40px;
+    padding: 4px;
+    border: white solid 3px;
+    .inner {
+      position: relative;
+      background-color: white;
+      height: 100%;
+      mix-blend-mode: screen;
+
+      .value {
+        position: absolute;
+        margin-bottom: 0;
+        font-size: 18px;
+        font-weight: 600;
+
+        &.inside {
+          right: 7px;
+        }
+        &.outside {
+          right: -7px;
+          transform: translateX(100%);
+          color: white;
+        }
+      }
+    }
+  }
+}

@@ -2,39 +2,40 @@
 $feinwaru: #ff594f;
 $feinwarudark: #c93d36;
 $feinwarugreen: #14b252;
-$awesomo: #F26D85;
-$sppd: #1E98A1;
+$awesomo: #f26d85;
+$sppd: #1e98a1;
 $lightgrey: #c5c5c5;
 $grey: #707070;
 $darkgrey: #222;
 $dwhite: #eee;
 
-
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700");
+@import "./fontawesome.scss";
 
 @font-face {
   font-family: "Uni Sans";
-  src: url("./static/font/UniSansHeavyCAPS.eot");
-  src: url("./static/font/UniSansHeavyCAPS.eot?#iefix") format("embedded-opentype"),
-      url("./static/font/UniSansHeavyCAPS.woff2") format("woff2"),
-      url("./static/font/UniSansHeavyCAPS.woff") format("woff"),
-      url("./static/font/UniSansHeavyCAPS.ttf") format("truetype");
+  src: url("/static/font/UniSans/UniSansHeavyCAPS.eot");
+  src: url("/static/font/UniSans/UniSansHeavyCAPS.eot?#iefix")
+      format("embedded-opentype"),
+    url("/static/font/UniSans/UniSansHeavyCAPS.woff2") format("woff2"),
+    url("/static/font/UniSans/UniSansHeavyCAPS.woff") format("woff"),
+    url("/static/font/UniSans/UniSansHeavyCAPS.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
-@import "node_modules/bootstrap/scss/functions";
-@import "node_modules/bootstrap/scss/variables";
-@import "node_modules/bootstrap/scss/mixins";
-@import "node_modules/bootstrap/scss/reboot";
-@import "node_modules/bootstrap/scss/type";
-//@import "../node_modules/bootstrap/scss/images";
-//@import "../node_modules/bootstrap/scss/code";
-@import "node_modules/bootstrap/scss/grid";
+@import "node_modules/bootstrap/scss/bootstrap";
 
-
+// Components
 @import "./components/navbar";
 @import "./components/jumbotron";
+@import "./components/featured-script";
+@import "./components/xp-bar";
+@import "./components/trophy";
+
+// Pages
+@import "./pages/marketplace";
+@import "./sass/pages/profile";
 
 body {
   margin: 0;
@@ -42,21 +43,127 @@ body {
   background: $dwhite;
 }
 
+.container {
+  @include media-breakpoint-up(xl) {
+    max-width: 1320px;
+  }
+}
+
 // Typography
 
-h1,h2 {
-  font-family: "Uni Sans";
+h1,
+h2 {
+  font-family: "Uni Sans", "Roboto";
+  color: $awesomo;
+  &.white {
+    color: white;
+  }
+}
+
+h1 {
+  font-size: 50px;
 }
 
 .outline {
   color: transparent;
   &-1 {
     -webkit-text-stroke: white 1px;
+    &.pink {
+      -webkit-text-stroke: $awesomo 1px;
+    }
   }
   &-2 {
     -webkit-text-stroke: white 2px;
+    &.pink {
+      -webkit-text-stroke: $awesomo 2px;
+    }
   }
   &-3 {
     -webkit-text-stroke: white 3px;
+    &.pink {
+      -webkit-text-stroke: $awesomo 3px;
+    }
+  }
+}
+
+code {
+  padding: 12px 15px 11px;
+  background-color: $darkgrey;
+  border-radius: 5px;
+  color: white;
+  font-family: "Consolas";
+  width: 100%;
+  white-space: nowrap;
+  overflow-x: auto;
+  display: block;
+}
+
+.btn-outline {
+  display: inline-block;
+  border: white solid 3px;
+  padding: 8px 12px 7px;
+  font-size: 18px;
+  font-weight: 500;
+  color: white;
+  text-align: center;
+  letter-spacing: 0.45;
+  background-color: transparent;
+  transition: background-color 200ms ease-out;
+  mix-blend-mode: screen;
+
+  &:hover,
+  &:active,
+  &:focus {
+    text-decoration: none;
+    color: black;
+    border: white solid 3px;
+    background-color: white;
+    box-shadow: none !important;
+  }
+
+  &.green {
+    border: #5fd687 solid 3px;
+    color: #5fd687;
+    &:hover,
+    &:active,
+    &:focus {
+      background: #5fd687;
+      border: #5fd687 solid 3px;
+      color: black;
+    }
+  }
+  &.pink {
+    border: $awesomo solid 3px;
+    color: $awesomo;
+    &:hover,
+    &:active,
+    &:focus {
+      background: $awesomo;
+      border: $awesomo solid 3px;
+      color: black;
+    }
+  }
+}
+
+.mb-60 {
+  margin-bottom: 60px;
+}
+
+.mb-120 {
+  margin-bottom: 120px;
+}
+
+.carousel {
+  margin-left: -15px;
+  margin-right: -126px;
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 126px;
+    height: 100%;
+    background: linear-gradient(-90deg, #eee, transparent);
   }
 }
