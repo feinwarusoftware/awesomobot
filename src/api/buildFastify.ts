@@ -3,13 +3,13 @@ import fastifyCookie from "fastify-cookie";
 
 import routes from "./routes";
 
-const kTempCookieSecret = "rawrxd";
+const cookieSecret = process.env.COOKIE_SECRET;
 
 const buildFastify = (settings = {}) => {
   const fastify = Fastify(settings);
 
   fastify.register(fastifyCookie, {
-    secret: kTempCookieSecret,
+    secret: cookieSecret,
   });
   fastify.register(routes, { prefix: "/" });
 

@@ -1,11 +1,13 @@
 import { connect as connectDb } from "../lib/db";
 import buildFastify from "./buildFastify";
 
+const port = process.env.WEBSERVER_PORT;
+
 const config = {
   webServerSettings: {
     logger: true,
   },
-  port: 80,
+  port,
   address: "0.0.0.0",
   database: "awnext",
 };

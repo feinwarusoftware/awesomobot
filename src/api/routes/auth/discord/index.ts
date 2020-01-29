@@ -4,13 +4,17 @@ import oauthPlugin from "fastify-oauth2";
 import { sessionService } from "../../../../lib/db";
 import { fetchDiscordUser, jwtSign } from "../../../helpers";
 
+const discordId = process.env.DISCORD_BOT_ID;
+const discordSecret = process.env.DISCORD_BOT_SECRET;
+const discordCallback = process.env.DISCORD_BOT_CALLBACK;
+
 export default async (fastify: FastifyInstance) => {
   fastify.register(oauthPlugin, {
     name: "discordOAuth2",
     credentials: {
       client: {
-        id: "372462428690055169",
-        secret: "pJ0RL8O8KeOka2q4DCrvqnaJK6IGaW8Z",
+        id: discordId,
+        secret: discordSecret,
       },
       auth: {
         authorizeHost: "https://discordapp.com",
@@ -20,7 +24,7 @@ export default async (fastify: FastifyInstance) => {
       }
     },
     startRedirectPath: "/",
-    callbackUri: "http://localhost/auth/discord/callback",
+    callbackUri: discordCallback,
     scope: "guilds.join identify",
   });
 
