@@ -21,6 +21,13 @@ exports.default = {
             const userId = (_a = context.reply.request.body.variables.userId, (_a !== null && _a !== void 0 ? _a : variables.userId));
             const user = yield db_1.userService.getOneById(userId);
             return user;
+        }),
+        me: (_, variables, context) => __awaiter(void 0, void 0, void 0, function* () {
+            const userId = context.app.session.id;
+            const user = yield db_1.userService.getOne({
+                discord_id: userId,
+            });
+            return user;
         })
     },
     Mutation: {

@@ -17,6 +17,7 @@ const schema = `
   type Query {
     users: [User]
     user(userId: ID!): User
+    me: User
 
     scripts: [Script]
     script(scriptId: ID!): Script
@@ -29,21 +30,21 @@ const schema = `
   }
 
   type Mutation {
-    addUser(userData: UserInput!): User
-    updateUser(userId: ID!, userData: UserInput!): UpdateInfo
-    deleteUser(userId: ID!, userData: UserInput!): DeleteInfo
+    addUser(userData: UserInput): User
+    updateUser(userId: ID!, userData: UserInput): UpdateInfo
+    deleteUser(userId: ID!, userData: UserInput): DeleteInfo
 
-    addScript(scriptData: ScriptInput!): Script
-    updateScript(scriptId: ID!, scriptData: ScriptInput!): UpdateInfo
-    deleteScript(scriptId: ID!, scriptData: ScriptInput!): DeleteInfo
+    addScript(scriptData: ScriptInput): Script
+    updateScript(scriptId: ID!, scriptData: ScriptInput): UpdateInfo
+    deleteScript(scriptId: ID!, scriptData: ScriptInput): DeleteInfo
 
-    addGuild(guildData: GuildInput!): Guild
-    updateGuild(guildId: ID!, guildData: GuildInput!): UpdateInfo
-    deleteGuild(guildId: ID!, guildData: GuildInput!): DeleteInfo
+    addGuild(guildData: GuildInput): Guild
+    updateGuild(guildId: ID!, guildData: GuildInput): UpdateInfo
+    deleteGuild(guildId: ID!, guildData: GuildInput): DeleteInfo
 
-    addGuildScript(guildId: ID!, guildScriptData: GuildScriptInput!): GuildScript
-    updateGuildScript(guildId: ID!, scriptId: ID!, guildScriptData: GuildScriptInput!): UpdateInfo
-    deleteGuildScript(guildId: ID!, scriptId: ID!, guildScriptData: GuildScriptInput!): DeleteInfo
+    addGuildScript(guildId: ID!, guildScriptData: GuildScriptInput): GuildScript
+    updateGuildScript(guildId: ID!, scriptId: ID!, guildScriptData: GuildScriptInput): UpdateInfo
+    deleteGuildScript(guildId: ID!, scriptId: ID!, guildScriptData: GuildScriptInput): DeleteInfo
   }
 
   type UpdateInfo {

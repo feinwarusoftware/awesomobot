@@ -8,7 +8,10 @@ const kDefaultAddress = "127.0.0.1";
 const kDefaultPort = 27017;
 const kDefaultAuthSource = "admin";
 
-const connect = (database: string, address: string = kDefaultAddress, port: number = kDefaultPort, authSource: string = kDefaultAuthSource, username?: string, password?: string) => {
+const mongoUsername = process.env.MONGO_USERNAME;
+const mongoPassword = process.env.MONGO_PASSWORD;
+
+const connect = (database: string, address: string = kDefaultAddress, port: number = kDefaultPort, authSource: string = kDefaultAuthSource, username = mongoUsername, password = mongoPassword) => {
   return new Promise((resolve, reject) => {
 
     // Build the connection string, yes this way is more readable than a million ternary operators

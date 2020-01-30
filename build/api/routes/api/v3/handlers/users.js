@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = require("../../../../../lib/db");
+const helpers_1 = require("../../../../helpers");
+const middleware_1 = require("../../../../middleware");
 exports.default = (fastify) => __awaiter(void 0, void 0, void 0, function* () {
     fastify.get("/", () => __awaiter(void 0, void 0, void 0, function* () {
         const users = yield db_1.userService.getMany();
@@ -47,5 +49,20 @@ exports.default = (fastify) => __awaiter(void 0, void 0, void 0, function* () {
             data: info,
         };
     }));
+    // temp
+    fastify.get("/@me", { preHandler: middleware_1.verifyDiscordAuth }, function () {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield db_1.userService.getOne({
+                discord_id: this.session.id,
+            });
+            const discordUserData = yield helpers_1.fetchDiscordUser(this.session.access_token);
+            // Remove the 'id' property as were calling it 'discord_id' instead
+            Reflect.deleteProperty(discordUserData, "id");
+            return {
+                success: true,
+                data: Object.assign(Object.assign({}, user), discordUserData),
+            };
+        });
+    });
 });
 //# sourceMappingURL=users.js.map

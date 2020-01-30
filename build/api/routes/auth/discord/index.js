@@ -14,13 +14,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fastify_oauth2_1 = __importDefault(require("fastify-oauth2"));
 const helpers_1 = require("../../../helpers");
+const discordId = process.env.DISCORD_BOT_ID;
+const discordSecret = process.env.DISCORD_BOT_SECRET;
+const discordCallback = process.env.DISCORD_BOT_CALLBACK;
 exports.default = (fastify) => __awaiter(void 0, void 0, void 0, function* () {
     fastify.register(fastify_oauth2_1.default, {
         name: "discordOAuth2",
         credentials: {
             client: {
-                id: "372462428690055169",
-                secret: "pJ0RL8O8KeOka2q4DCrvqnaJK6IGaW8Z",
+                id: discordId,
+                secret: discordSecret,
             },
             auth: {
                 authorizeHost: "https://discordapp.com",
@@ -30,7 +33,7 @@ exports.default = (fastify) => __awaiter(void 0, void 0, void 0, function* () {
             }
         },
         startRedirectPath: "/",
-        callbackUri: "http://qa-dragon.feinwaru.com/auth/discord/callback",
+        callbackUri: discordCallback,
         scope: "guilds.join identify",
     });
     fastify.get("/callback", function (request, response) {

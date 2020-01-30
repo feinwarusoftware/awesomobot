@@ -32,7 +32,7 @@ exports.default = `
     updated_at: String
   }
 
-  type ScriptInput {
+  input ScriptInput {
     author_id: String
 
     name: String
@@ -66,7 +66,7 @@ exports.default = `
     args: [IArgs]
   }
 
-  type IDataInput {
+  input IDataInput {
     action: String
     args: [IArgsInput]
   }
@@ -76,7 +76,7 @@ exports.default = `
     value: String
   }
 
-  type IArgsInput {
+  input IArgsInput {
     field: String
     value: String
   }

@@ -13,9 +13,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fastify_gql_1 = __importDefault(require("fastify-gql"));
+const fastify_cors_1 = __importDefault(require("fastify-cors"));
 const handlers_1 = require("./handlers");
 const graphql_1 = require("./graphql");
 exports.default = (fastify) => __awaiter(void 0, void 0, void 0, function* () {
+    fastify.register(fastify_cors_1.default, {
+        origin: "*",
+    });
+    // disable auth for testing
+    // fastify.addHook("preHandler", verifyDiscordAuth);
     fastify.register(handlers_1.guildHandler, { prefix: "/guilds" });
     fastify.register(handlers_1.guildScriptHandler, { prefix: "/guilds/:guildId/scripts" });
     fastify.register(handlers_1.scriptHandler, { prefix: "/scripts" });
