@@ -15,7 +15,9 @@ import { schema, resolvers } from "./graphql";
 
 export default async (fastify: FastifyInstance) => {
   fastify.register(fastifyCors, {
-    origin: "*",
+    origin: [
+      "https://beta-awesomo.feinwaru.com",
+    ],
   });
 
   // disable auth for testing

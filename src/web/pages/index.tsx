@@ -25,7 +25,6 @@ function IndexPage() {
     <div className="marketplace">
       <Navbar transparent />
       <Jumbotron
-        overlap
         image="https://cdn.discordapp.com/attachments/456771924639612940/466128291171008522/banner.png"
       >
         <div className="container">

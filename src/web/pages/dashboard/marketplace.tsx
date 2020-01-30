@@ -5,6 +5,8 @@ import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { NetworkStatus } from "apollo-client";
 
+const tempTestVar = 1 + "gay" + `d${1}cks`;
+
 const GQL_TEST_QUERY = gql`
   query {
     scripts {
@@ -36,8 +38,6 @@ function IndexPage() {
   }
 
   const { scripts } = data;
-
-  console.log(scripts);
 
   return (
     <div className="marketplace">
@@ -90,6 +90,8 @@ function IndexPage() {
           </div>
         </div>
       </div>
+
+      <div>{tempTestVar}</div>
     </div>
   );
 }
