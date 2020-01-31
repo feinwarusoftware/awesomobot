@@ -14,8 +14,25 @@ const getOne = (filters: IScript) => ScriptModel
   .findOne(filters)
   .select({ __v: 0 });
 
-const getMany = (filters?: IScript, sortField?: string, sortDirection?: number, limit = defaultScriptLimit, page = defaultPage) => ScriptModel
-  .find(filters)
+// TODO: remove this!!! (temp shitty filters)
+interface ScriptFilters {
+  author?: string,
+  name?: string,
+  featured?: boolean,
+  marketplace_enabled?: boolean,
+  verified?: boolean,
+}
+
+const getMany = (filters?: ScriptFilters, sortField?: string, sortDirection?: number, limit = defaultScriptLimit, page = defaultPage) => ScriptModel
+  .find({
+    ...(filters == null ? {} : {
+      ...(filters.author == null ? {} : { author: filters.author }),
+      ...(filters.name == null ? {} : { name: { $regex: `.*${filters.name}.*`, $options: "i" } }),
+      ...(filters.featured == null ? {} : { featured: filters.featured }),
+      ...(filters.marketplace_enabled == null ? {} : { marketplace_enabled: filters.marketplace_enabled }),
+      ...(filters.verified == null ? {} : { verified: filters.verified }),
+    }),
+  })
   .sort(sortField == null ? {} : { [sortField]: sortDirection })
   .skip(page * limit)
   .limit(limit)

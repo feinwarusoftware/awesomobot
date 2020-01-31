@@ -15,7 +15,7 @@ const schema = `
     user(userId: ID!): User
     me: User
 
-    scripts: [Script]
+    scripts(author: String, name: String, featured: Boolean, marketplace_enabled: Boolean, verified: Boolean): [Script]
     script(scriptId: ID!): Script
 
     guilds: [Guild]

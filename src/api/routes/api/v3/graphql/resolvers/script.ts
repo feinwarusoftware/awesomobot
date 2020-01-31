@@ -2,8 +2,21 @@ import { scriptService } from "../../../../../../lib/db";
 
 export default {
   Query: {
-    scripts: async () => {
-      const scripts = await scriptService.getMany();
+    scripts: async (_: any, variables: any, context: any) => {
+      // TODO: remove this!!! (temp shitty filters)
+      const author = context.reply.request.body.variables.author ?? variables.author;
+      const name = context.reply.request.body.variables.name ?? variables.name;
+      const featured = context.reply.request.body.variables.featured ?? variables.featured;
+      const marketplace_enabled = context.reply.request.body.variables.marketplace_enabled ?? variables.marketplace_enabled;
+      const verified = context.reply.request.body.variables.verified ?? variables.verified;
+
+      const scripts = await scriptService.getMany({
+        author,
+        name,
+        featured,
+        marketplace_enabled,
+        verified,
+      });
 
       return scripts;
     },
