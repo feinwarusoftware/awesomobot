@@ -3,6 +3,7 @@ $feinwaru: #ff594f;
 $feinwarudark: #c93d36;
 $feinwarugreen: #14b252;
 $awesomo: #f26d85;
+$awesomodark: #a13045;
 $sppd: #1e98a1;
 $lightgrey: #c5c5c5;
 $grey: #707070;
@@ -30,8 +31,10 @@ $dwhite: #eee;
 @import "./components/navbar";
 @import "./components/jumbotron";
 @import "./components/featured-script";
+@import "./components/script";
 @import "./components/xp-bar";
 @import "./components/trophy";
+@import "./components/filters";
 
 // Pages
 @import "./pages/marketplace";
@@ -132,6 +135,19 @@ code {
       color: black;
     }
   }
+
+  &.red {
+    border: $feinwaru solid 3px;
+    color: $feinwaru;
+    &:hover,
+    &:active,
+    &:focus {
+      background: $feinwaru;
+      border: $feinwaru solid 3px;
+      color: black;
+    }
+  }
+
   &.pink {
     border: $awesomo solid 3px;
     color: $awesomo;

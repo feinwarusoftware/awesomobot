@@ -5,6 +5,51 @@
     &.overlap {
       margin-bottom: -300px;
     }
+    .container,
+    .row {
+      height: 100%;
+    }
+    .row {
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 200px;
+
+      &.full-height {
+        padding-bottom: 0px;
+      }
+    }
+
+    h1 {
+      font-size: 145px;
+      color: white;
+      text-align: right;
+      line-height: 1;
+
+      @include media-breakpoint-down(lg) {
+        font-size: 110px;
+      }
+      @include media-breakpoint-down(md) {
+        font-size: 90px;
+      }
+      @include media-breakpoint-down(sm) {
+        font-size: 70px;
+      }
+      @include media-breakpoint-down(xs) {
+        font-size: 42px;
+      }
+    }
+
+    h2 {
+      font-size: 40px;
+      color: white;
+      text-align: right;
+      line-height: 1;
+    }
+
+    button {
+      float: right;
+      margin-top: 20px;
+    }
   }
   &-image {
     z-index: -10;

@@ -1,20 +1,15 @@
-export default function FeaturedScript({
+export default function Script({
   id,
   name,
   author,
   image,
-  usage,
   likes,
   servers,
   verifiedScript,
-  verifiedAuthor,
-  addFn
+  verifiedAuthor
 }) {
   return (
-    <div
-      className="featured-script"
-      style={{ backgroundImage: `url(${image})` }}
-    >
+    <div className="script" style={{ backgroundImage: `url(${image})` }}>
       <div className="gradient" />
       <div className="fill" />
       <div className="content">
@@ -28,12 +23,6 @@ export default function FeaturedScript({
           )}
         </h5>
         <div className="overflow-content">
-          <code>{usage}</code>
-          <button className="btn-outline green" onClick={() => addFn()}>
-            Add this script
-          </button>
-          <button className="btn-outline">View details</button>
-
           <div className="likes-servers">
             <p>
               <i className="fas fa-heart" /> {likes} likes
@@ -42,6 +31,13 @@ export default function FeaturedScript({
               <i className="fas fa-server" /> {servers} servers
             </p>
           </div>
+          <button
+            className="btn-outline green"
+            onClick={() => console.log("lol")}
+          >
+            Add this script
+          </button>
+          <button className="btn-outline">View details</button>
         </div>
       </div>
     </div>

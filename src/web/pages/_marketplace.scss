@@ -1,19 +1,92 @@
 .marketplace {
-  .jumbotron-container {
-    .container, .row {
-      height: 100%;
-    }
-    .row {
-      align-items: center;
-      justify-content: center;
-      padding-bottom: 200px;
-    }
+  .vote-cta {
+    position: relative;
+    padding: 71px 30px;
+    background: linear-gradient(90deg, $awesomodark, $awesomo);
 
     h1 {
-      font-size: 145px;
-      color: white;
-      text-align: right;
       line-height: 1;
+    }
+
+    img {
+      position: absolute;
+      animation: float 6s ease-in-out infinite;
+
+      &:nth-of-type(1) {
+        bottom: -30px;
+        left: 30px;
+        height: 204px;
+        width: 204px;
+      }
+      &:nth-of-type(2) {
+        top: -20px;
+        left: 210px;
+        height: 142px;
+        width: 142px;
+      }
+      &:nth-of-type(3) {
+        bottom: -10px;
+        left: 330px;
+        height: 184px;
+        width: 184px;
+      }
+    }
+
+    i {
+      position: absolute;
+      color: white;
+      animation: float 6s ease-in-out infinite;
+      &.fa-trophy {
+        font-size: 54px;
+        left: 59px;
+        top: 30px;
+        animation: float-rotate 6s ease-in-out infinite;
+      }
+      &.fa-square {
+        font-size: 95px;
+        left: 286px;
+        bottom: -26px;
+      }
+      &.fa-star {
+        font-size: 54px;
+        left: 486px;
+        top: 53px;
+      }
+      &.fa-times {
+        font-size: 34px;
+        left: 577px;
+        bottom: 40px;
+        animation: float-rotate 6s ease-in-out infinite;
+      }
+      &.fa-circle {
+        font-size: 69px;
+        left: 630px;
+        top: 38px;
+      }
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(-2px);
+      }
+      50% {
+        transform: translateY(2px);
+      }
+      100% {
+        transform: translateY(-2px);
+      }
+    }
+
+    @keyframes float-rotate {
+      0% {
+        transform: translateY(-2px) rotate(-13deg);
+      }
+      50% {
+        transform: translateY(2px) rotate(-13deg);
+      }
+      100% {
+        transform: translateY(-2px) rotate(-13deg);
+      }
     }
   }
 }

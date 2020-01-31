@@ -4,12 +4,30 @@ import FeaturedScript from "../../components/FeaturedScript";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { NetworkStatus } from "apollo-client";
+import VoteCTA from "../../components/VoteCTA";
+import Script from "../../components/Script";
+import Filters from "../../components/Filters";
 
 const tempTestVar = 1 + "gay" + `d${1}cks`;
 
-const GQL_TEST_QUERY = gql`
+const featuredScriptQuery = gql`
   query {
-    scripts {
+    scripts(featured: true) {
+      _id
+      name
+      author_id
+      thumbnail
+      match
+      likes
+      guild_count
+      verified
+    }
+  }
+`;
+
+const scriptQuery = gql`
+  query {
+    scripts(featured:false) {
       _id
       name
       author_id
@@ -23,21 +41,31 @@ const GQL_TEST_QUERY = gql`
 `;
 
 function IndexPage() {
-  const { loading, error, data, fetchMore, networkStatus } = useQuery(
-    GQL_TEST_QUERY
-  );
+  const {
+    loading: featuredLoading,
+    error: featuredError,
+    data: featuredScriptData,
+    networkStatus: featuredNetworkStatus
+  } = useQuery(featuredScriptQuery);
 
-  const loadingMore = networkStatus === NetworkStatus.fetchMore;
+  const {
+    loading: scriptLoading,
+    error: scriptError,
+    data: scriptData,
+    networkStatus: scriptNetworkStatus
+  } = useQuery(scriptQuery);
 
-  if (error) {
+  const loadingMore = featuredNetworkStatus || scriptNetworkStatus === NetworkStatus.fetchMore;
+
+  if (featuredError || scriptError) {
     return <div>error :(</div>;
   }
 
-  if (loading && !loadingMore) {
+  if (scriptLoading || featuredLoading) {
     return <div>loading...</div>;
   }
-
-  const { scripts } = data;
+  const { scripts:featuredScripts } = featuredScriptData;
+  const { scripts } = scriptData;
 
   return (
     <div className="marketplace">
@@ -71,7 +99,7 @@ function IndexPage() {
       <div className="overflow-scroll-container mb-120">
         <div className="container">
           <div className="row fixed-width">
-            {scripts.map(e => (
+            {featuredScripts.map(e => (
               <div className="col-4">
                 <FeaturedScript
                   id={e._id}
@@ -91,7 +119,39 @@ function IndexPage() {
         </div>
       </div>
 
-      <div>{tempTestVar}</div>
+      {/* Voting CTA */}
+      <div className="container mb-120">
+        <div className="row">
+          <div className="col-12">
+            <VoteCTA />
+          </div>
+        </div>
+      </div>
+
+      {/* All Scripts */}
+      <div className="container mb-120">
+        <div className="row mb-60">
+          <div className="col-12">
+            <Filters />
+          </div>
+        </div>
+        <div className="row">
+          {scripts.map(e => (
+            <div className="col-sm-6 col-lg-4 col-xl-3">
+              <Script
+                id={e._id}
+                name={e.name}
+                author="Mattheous"
+                image={e.thumbnail}
+                likes={e.likes}
+                servers={e.guild_count}
+                verifiedScript={e.verified}
+                verifiedAuthor={true}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

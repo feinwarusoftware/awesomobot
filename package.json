@@ -16,7 +16,7 @@
     "test": "cross-env NODE_ENV=test jest",
     "pretest": "cross-env NODE_ENV=test yarn db:reset",
     "db:reset": "bash ./scripts/db-reset.bash",
-    "web:dev": "cross-env API_ROOT=api-beta-awesomo.feinwaru.com next ./src/web",
+    "web:dev": "cross-env next ./src/web",
     "web:build": "next build ./src/web",
     "web:start": "next start ./src/web"
   },

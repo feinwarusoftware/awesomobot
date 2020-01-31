@@ -16,7 +16,7 @@ const getOne = (filters: IScript) => ScriptModel
 
 // TODO: remove this!!! (temp shitty filters)
 interface ScriptFilters {
-  author?: string,
+  author_id?: string,
   name?: string,
   featured?: boolean,
   marketplace_enabled?: boolean,
@@ -26,7 +26,7 @@ interface ScriptFilters {
 const getMany = (filters?: ScriptFilters, sortField?: string, sortDirection?: number, limit = defaultScriptLimit, page = defaultPage) => ScriptModel
   .find({
     ...(filters == null ? {} : {
-      ...(filters.author == null ? {} : { author: filters.author }),
+      ...(filters.author_id == null ? {} : { author: filters.author_id }),
       ...(filters.name == null ? {} : { name: { $regex: `.*${filters.name}.*`, $options: "i" } }),
       ...(filters.featured == null ? {} : { featured: filters.featured }),
       ...(filters.marketplace_enabled == null ? {} : { marketplace_enabled: filters.marketplace_enabled }),

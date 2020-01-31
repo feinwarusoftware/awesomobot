@@ -14,11 +14,14 @@ function createApolloClient(initialState = {}) {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
     link: new HttpLink({
-      uri: apiRoot == null || apiRoot === "localhost" ? "http://localhost/api/v3/gql" : `https://${apiRoot}/api/v3/gql`,
-      credentials: "include",
-      fetch,
+      uri:
+        apiRoot == null || apiRoot === "localhost"
+          ? "http://localhost/api/v3/gql"
+          : `https://${apiRoot}/api/v3/gql`,
+      credentials: "same-origin",
+      fetch
     }),
-    cache: new InMemoryCache().restore(initialState),
+    cache: new InMemoryCache().restore(initialState)
   });
 }
 
@@ -36,7 +39,8 @@ function initApolloClient(initalState = {}) {
   return globalApolloClient;
 }
 
-export function withApollo(PageComponent, { ssr = true } = {}) { // eslint-disable-line import/prefer-default-export
+export function withApollo(PageComponent, { ssr = true } = {}) {
+  // eslint-disable-line import/prefer-default-export
   const WithApollo = ({ apolloClient, apolloState, ...pageProps }) => {
     const client = apolloClient || initApolloClient(apolloState);
 
@@ -48,7 +52,8 @@ export function withApollo(PageComponent, { ssr = true } = {}) { // eslint-disab
   };
 
   if (process.env.NODE_ENV !== "production") {
-    const displayName = PageComponent.displayName || PageComponent.name || "Component";
+    const displayName =
+      PageComponent.displayName || PageComponent.name || "Component";
 
     if (displayName === "App") {
       console.warn("This withApollo HOC only works with PageComponents.");
@@ -81,12 +86,12 @@ export function withApollo(PageComponent, { ssr = true } = {}) { // eslint-disab
               <AppTree
                 pageProps={{
                   ...pageProps,
-                  apolloClient,
+                  apolloClient
                 }}
               />
             );
           } catch (error) {
-            console.error('Error while running `getDataFromTree`', error);
+            console.error("Error while running `getDataFromTree`", error);
           }
 
           Head.rewind();
@@ -97,9 +102,9 @@ export function withApollo(PageComponent, { ssr = true } = {}) { // eslint-disab
 
       return {
         ...pageProps,
-        apolloState,
+        apolloState
       };
-    }
+    };
   }
 
   return WithApollo;
