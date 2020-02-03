@@ -69,34 +69,31 @@ const downloadImage = async (pdfURL, outputFilename) => {
 };
 
 const calculateCardAugmentData = (original, utype, uvalue) => {
+
   const card = original;
+
+  let type = utype;
+
+  let value = parseInt(uvalue);
 
   const upgradeSequence = [4, 10, 10, 15, 15, 15];
 
   const baseLevel = 1;
   const baseUpgrade = 1;
 
-  const type = utype;
   if (type == null) {
     return console.error("no type specified");
   }
+
   if (type !== "u" && type !== "l") {
     return console.error("incorrect type specified");
   }
 
-  const value = parseInt(uvalue);
   if (isNaN(value) === true) {
     return console.error("no value specified");
   }
   if (typeof value !== "number") {
     return console.error("incorrect value specified");
-  }
-  if (
-    value < 1 ||
-    type === "l" && value > 7 ||
-    type === "u" && value > 70
-  ) {
-    return console.error("out of bounds value specified");
   }
 
   let requiredLevels = 0;
@@ -184,7 +181,7 @@ const calculateCardAugmentData = (original, utype, uvalue) => {
         return console.error("error applying upgrade stats 3");
       }
     }
-
+    9;
     return a;
   }, alteredCard);
 
@@ -403,7 +400,7 @@ const cb = async (client, message) => {
       highestCard = card;
     }
     //for (let alias of card.aliases) {
-    
+
     //const lowerArrayAliases = alias.toLowerCase();
 
     //let simAliases = similarity(lowerArrayAliases, commandValues.name);
@@ -431,7 +428,6 @@ const cb = async (client, message) => {
       .then(async response => {
         const data1 = JSON.parse(response);
         cache.cachedCard[cardId] = data1;
-
       })
 
       .catch(error => {
@@ -473,12 +469,70 @@ const cb = async (client, message) => {
 
     .catch(console.error);
 
-  let cardData = cache.cachedCard[cardId].data;
+  // card select
+
+  let card = cache.cachedCard[cardId].data;
 
   let level = commandValues.value;
 
-  // card select
-  let card = cache.cachedCard[cardId].data;
+  let commandModifier = commandValues.modifier;
+
+  if (commandValues.modifier === "ff") {
+    switch (card.rarity) {
+    case 3:
+      commandModifier = "l";
+      level = "1";
+      break;
+    case 2:
+      commandModifier = "l";
+      level = "2";
+      break;
+    case 1:
+      commandModifier = "l";
+      level = "3";
+      break;
+    case 0:
+      commandModifier = "l";
+      level = "4";
+      break;
+    }
+  }
+
+  if (commandValues.modifier === "m") {
+    switch (commandValues.value) {
+    case 1: {
+      commandModifier = "u";
+      level = "5";
+      break;
+    }
+    case 2: {
+      commandModifier = "u";
+      level = "15";
+      break;
+    }
+    case 3: {
+      commandModifier = "u";
+      level = "25";
+      break;
+    }
+    case 4: {
+      commandModifier = "u";
+      level = "40";
+      break;
+    }
+    case 5: {
+      commandModifier = "u";
+      level = "55";
+      break;
+    }
+    case 6: {
+      commandModifier = "u";
+      level = "70";
+      break;
+    }
+    }
+  }
+
 
   // if name is %r, select a random card
 
@@ -512,9 +566,9 @@ const cb = async (client, message) => {
   // as we need the rarity of the card
 
   let stats = calculateCardAugmentData(
-    cardData,
-    commandValues.modifier,
-    commandValues.value
+    card,
+    commandModifier,
+    level
   );
 
   /* --- pasted old code --- */
@@ -620,26 +674,12 @@ const cb = async (client, message) => {
 
   //temp
   const typetype = card.type;
-  //
 
   switch (card.character_type) {
   case "tank":
     iy = 0;
     break;
-  case undefined: {
-    switch (typetype) {
-    case "spell": {
-      iy = iconHeight * 2;
-      break;
-    }
 
-    case "trap": {
-      iy = iconHeight * 14;
-      break;
-    }
-    }
-    break;
-  }
   case "assassin":
     iy = iconHeight * 4;
     break;
@@ -652,6 +692,18 @@ const cb = async (client, message) => {
   case "totem":
     iy = iconHeight * 10;
     break;
+  }
+
+  switch (typetype) {
+  case "spell": {
+    iy = iconHeight * 2;
+    break;
+  }
+
+  case "trap": {
+    iy = iconHeight * 14;
+    break;
+  }
   }
 
   switch (card.rarity) {
@@ -701,15 +753,12 @@ const cb = async (client, message) => {
   let ox, oy, oz, ow;
 
   oy = 0;
-
-  switch (card.character_type) {
-  case undefined:
+  if (typetype === "spell" || typetype === "trap") {
     ox = overlayWidth;
-    break;
-  default:
+  } else {
     ox = 0;
-    break;
   }
+
 
   oz = overlayWidth;
   ow = overlayHeight;
@@ -838,7 +887,7 @@ const cb = async (client, message) => {
     .resize(bgWidth, bgHeight);
   let typeIcon = typeIcons
     .clone()
-    .crop(ix, iy, iz, iw)
+    .crop(ix, iy, iz, iw) //error
     .scale(1.5);
   let themeIcon = miscIcons
     .clone()
@@ -933,14 +982,14 @@ const cb = async (client, message) => {
     const embed = new discord.RichEmbed();
 
     // card name
-    if (cardData.name instanceof Array) {
-      embed.setAuthor(cardData.name[0]);
+    if (card.name instanceof Array) {
+      embed.setAuthor(card.name[0]);
     } else {
-      embed.setAuthor(cardData.name);
+      embed.setAuthor(card.name);
     }
 
     let embedColour = null;
-    switch (cardData.theme) {
+    switch (card.theme) {
     case "adventure":
       embedColour = "#4f80ba";
       break;
@@ -967,88 +1016,89 @@ const cb = async (client, message) => {
     embed.setDescription("");
 
     embed.description += "**General Information**\n";
-    if (cardData.cast_area === "own_side") {
+    if (card.cast_area === "own_side") {
       embed.description += "Cast Area: Own Side\n";
     } else {
-      embed.description += `Cast Area: ${cardData.cast_area}\n`;
+      embed.description += `Cast Area: ${card.cast_area}\n`;
     }
-    if (cardData.character_type !== "totem") {
+    if (card.character_type !== "totem") {
       embed.description += `Max Speed: ${Math.round(
-        cardData.max_velocity * 100
+        card.max_velocity * 100
       ) / 100}\n`;
       embed.description += `Time To Reach Max Speed: ${Math.round(
-        cardData.time_to_reach_max_velocity * 100
+        card.time_to_reach_max_velocity * 100
       ) / 100}\n`;
       embed.description += `Agro Range Multiplier: ${Math.round(
-        cardData.agro_range_multiplier * 100
+        card.agro_range_multiplier * 100
       ) / 100}\n\n`;
     } else {
       embed.description += "\n";
     }
 
     let powers = [];
-    if ((cardData.powers == null ? 0 : cardData.powers.length) !== 0) {
+    if ((card.powers == null ? 0 : card.powers.length) !== 0) {
       embed.description += "**Power Information? - Yes**\n";
 
-      cardData.powers.forEach(e => {
-        let power = {};
-
-        if (e.type !== null) {
+      let power = {};
+      for (let statpowers of stats.powers) {
+        if (statpowers.type !== null) {
           embed.description += `Power Type: ${removeUnderscores(
-            e.type
-          )} \nPower Amount: ${e.amount}\n`;
+            statpowers.type
+          )} \nPower Amount: ${statpowers.amount}\n`;
         }
 
-        if (e.duration != null) {
-          embed.description += `Power Duration: ${e.duration} \n`;
+        if (statpowers.duration != null) {
+          embed.description += `Power Duration: ${statpowers.duration} \n`;
         }
 
-        if (e.is_charged) {
-          embed.description += `Charged Power Regen: ${e.charged_regen}\n`;
-          embed.description += `Charged Power Radius: ${e.radius} \n`;
+        if (statpowers.is_charged && card._id !== "5caba68cc83b14195097bf4a" && card._id !== "5caba68ec83b14195097bf57") {
+          embed.description += `Charged Power Regen: ${statpowers.charged_regen}\n`;
+          embed.description += `Charged Power Radius: ${statpowers.radius} \n`;
         }
 
         powers.push(power);
-      });
+
+
+      }
       embed.description += "\n";
     } else {
       embed.description += "**Power Information? - No**\n\n";
     }
 
     if (
-      cardData.type === "character" &&
-      cardData.can_attack &&
-      cardData.character_type !== "totem"
+      card.type === "character" &&
+      card.can_attack &&
+      card.character_type !== "totem"
     ) {
       // card that can attack
 
       embed.description += "**Can Attack? - Yes**\n";
 
       embed.description += `Attack Range: ${Math.round(
-        cardData.attack_range * 100
+        card.attack_range * 100
       ) / 100}\n`;
       embed.description += `Knockback: ${Math.round(
-        parseInt(cardData.knockback) * 100
-      ) / 100} at ${Math.round(cardData.knockback_angle * 100) / 100}°\n\n`;
+        parseInt(card.knockback) * 100
+      ) / 100} at ${Math.round(card.knockback_angle * 100) / 100}°\n\n`;
     } else {
       // spell, totem or card that cant attack
 
       embed.description += "**Can Attack? - No**\n\n";
     }
 
-    if (cardData.has_aoe && cardData.type !== "spell") {
+    if (card.has_aoe && card.type !== "spell") {
       // aoe attacks
 
       embed.description += "**AOE Attacks? - Yes**\n";
 
       embed.description += `AOE damage Percentage: ${Math.round(
-        cardData.aoe_damage_percentage * 100
+        card.aoe_damage_percentage * 100
       ) / 100}\n`;
       embed.description += `AOE Knockback Percentage: ${Math.round(
-        cardData.aoe_knockback_percentage * 100
+        card.aoe_knockback_percentage * 100
       ) / 100}\n`;
       embed.description += `AOE Radius: ${Math.round(
-        cardData.aoe_radius * 100
+        card.aoe_radius * 100
       ) / 100}\n\n`;
     } else {
       // no aoe
@@ -1056,7 +1106,7 @@ const cb = async (client, message) => {
       embed.description += "**AOE Attacks? - No**\n\n";
     }
 
-    embed.description += `Full Stats: https://sppd.feinwaru.com/${cardData.image}`;
+    embed.description += `Full Stats: https://sppd.feinwaru.com/${card.image}`;
 
     embed.setFooter("© 2018 Copyright: Feinwaru Software ");
     // ***ATTACK INFO***
