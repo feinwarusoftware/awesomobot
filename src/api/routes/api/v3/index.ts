@@ -17,6 +17,7 @@ export default async (fastify: FastifyInstance) => {
   fastify.register(fastifyCors, {
     origin: [
       "https://beta-awesomo.feinwaru.com",
+      "http://localhost:3000",
     ],
   });
 

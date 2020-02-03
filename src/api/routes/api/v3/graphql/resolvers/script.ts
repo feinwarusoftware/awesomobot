@@ -9,16 +9,22 @@ export default {
       const featured = context.reply.request.body.variables?.featured ?? variables?.featured;
       const marketplace_enabled = context.reply.request.body.variables?.marketplace_enabled ?? variables?.marketplace_enabled;
       const verified = context.reply.request.body.variables?.verified ?? variables?.verified;
+      const page = context.reply.request.body.variables?.page ?? variables?.page;
+      const limit = context.reply.request.body.variables?.limit ?? variables?.limit;
+      const sortField = context.reply.request.body.variables?.sortField ?? variables?.sortField;
+      const sortDirection = context.reply.request.body.variables?.sortDirection ?? variables?.sortDirection; 
 
-      const scripts = await scriptService.getMany({
+      const filters = {
         author_id,
         name,
         featured,
         marketplace_enabled,
         verified,
-      });
+      };
 
-      return scripts;
+      const res = await scriptService.getMany(filters, sortField, sortDirection, limit, page);
+
+      return res;
     },
     script: async (_: any, variables: any, context: any) => {
       const scriptId = context.reply.request.body.variables.scriptId ?? variables.scriptId;

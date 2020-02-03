@@ -23,20 +23,60 @@ interface ScriptFilters {
   verified?: boolean,
 }
 
+/*
 const getMany = (filters?: ScriptFilters, sortField?: string, sortDirection?: number, limit = defaultScriptLimit, page = defaultPage) => ScriptModel
-  .find({
-    ...(filters == null ? {} : {
+  .count({
+      ...(filters == null ? {} : {
       ...(filters.author_id == null ? {} : { author: filters.author_id }),
       ...(filters.name == null ? {} : { name: { $regex: `.*${filters.name}.*`, $options: "i" } }),
       ...(filters.featured == null ? {} : { featured: filters.featured }),
       ...(filters.marketplace_enabled == null ? {} : { marketplace_enabled: filters.marketplace_enabled }),
       ...(filters.verified == null ? {} : { verified: filters.verified }),
     }),
+  }, (total: number) => ScriptModel
+    .find({
+      ...(filters == null ? {} : {
+        ...(filters.author_id == null ? {} : { author: filters.author_id }),
+        ...(filters.name == null ? {} : { name: { $regex: `.*${filters.name}.*`, $options: "i" } }),
+        ...(filters.featured == null ? {} : { featured: filters.featured }),
+        ...(filters.marketplace_enabled == null ? {} : { marketplace_enabled: filters.marketplace_enabled }),
+        ...(filters.verified == null ? {} : { verified: filters.verified }),
+      }),
+    })
+    .sort(sortField == null ? {} : { [sortField]: sortDirection })
+    .skip(page * limit)
+    .limit(limit)
+    .select({ __v: 0 })
+    .then((scripts: IScript) => ({
+      list: scripts,
+      total,
+    })));
+*/
+
+const getMany = (filters?: ScriptFilters, sortField?: string, sortDirection?: number, limit = defaultScriptLimit, page = defaultPage) => ScriptModel
+  .count({
+    ...(filters?.author_id == null ? {} : { author: filters.author_id }),
+    ...(filters?.name == null ? {} : { name: { $regex: `.*${filters.name}.*`, $options: "i" } }),
+    ...(filters?.featured == null ? {} : { featured: filters.featured }),
+    ...(filters?.marketplace_enabled == null ? {} : { marketplace_enabled: filters.marketplace_enabled }),
+    ...(filters?.verified == null ? {} : { verified: filters.verified }),
   })
-  .sort(sortField == null ? {} : { [sortField]: sortDirection })
-  .skip(page * limit)
-  .limit(limit)
-  .select({ __v: 0 });
+  .then((total: number) => ScriptModel
+    .find({
+      ...(filters?.author_id == null ? {} : { author: filters.author_id }),
+      ...(filters?.name == null ? {} : { name: { $regex: `.*${filters.name}.*`, $options: "i" } }),
+      ...(filters?.featured == null ? {} : { featured: filters.featured }),
+      ...(filters?.marketplace_enabled == null ? {} : { marketplace_enabled: filters.marketplace_enabled }),
+      ...(filters?.verified == null ? {} : { verified: filters.verified }),
+    })
+    .sort(sortField == null ? {} : { [sortField]: sortDirection })
+    .skip(page * limit)
+    .limit(limit)
+    .select({ __v: 0 })
+    .then((scripts: IScript) => ({
+      list: scripts,
+      total,
+    })));
 
 const saveOne = (props: IScript) => new ScriptModel(props)
   .save()

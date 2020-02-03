@@ -1,0 +1,39 @@
+.pagination-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: lighten($awesomo, 20);
+  margin: 40px 5px;
+  padding-top: 13px;
+  font-size: 18px;
+  text-align: center;
+  color: $awesomo!important;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 150ms ease-out;
+  display: none;
+
+  @include media-breakpoint-down(sm) {
+    margin: 0 5px;
+  }
+
+  &:hover {
+    color: white!important;
+    background-color: $awesomo;
+  }
+
+  &[data-current-page="true"] {
+    color: white!important;
+    background-color: $awesomo;
+  }
+  &[data-visible="true"], &[data-first-last-page="true"] {
+    display: block;
+  }
+
+  &.elipsis {
+    display: block;
+    background: transparent;
+    color: $lightgrey!important;
+    cursor: default;
+  }
+}

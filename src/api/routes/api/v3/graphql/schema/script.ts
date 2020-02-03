@@ -1,4 +1,9 @@
 export default `
+  type Scripts {
+    list: [Script]
+    total: Int
+  }
+
   type Script {
     _id: ID
 

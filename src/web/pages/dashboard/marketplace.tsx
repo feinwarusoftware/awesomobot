@@ -7,65 +7,116 @@ import { NetworkStatus } from "apollo-client";
 import VoteCTA from "../../components/VoteCTA";
 import Script from "../../components/Script";
 import Filters from "../../components/Filters";
+import Pagination from "../../components/Pagination";
+import { useState, useEffect } from "react";
 
 const tempTestVar = 1 + "gay" + `d${1}cks`;
+
+const scriptPageSize = 12;
 
 const featuredScriptQuery = gql`
   query {
     scripts(featured: true) {
-      _id
-      name
-      author_id
-      thumbnail
-      match
-      likes
-      guild_count
-      verified
+      list {
+        _id
+        name
+        author_id
+        thumbnail
+        match
+        likes
+        guild_count
+        verified
+      }
+      total
     }
   }
 `;
 
 const scriptQuery = gql`
-  query {
-    scripts(featured:false) {
-      _id
-      name
-      author_id
-      thumbnail
-      match
-      likes
-      guild_count
-      verified
+  query($page: Int) {
+    scripts(featured: false, limit: ${scriptPageSize}, page: $page) {
+      list {
+        _id
+        name
+        author_id
+        thumbnail
+        match
+        likes
+        guild_count
+        verified
+      }
+      total
     }
   }
 `;
 
-function IndexPage() {
-  const {
-    loading: featuredLoading,
-    error: featuredError,
-    data: featuredScriptData,
-    networkStatus: featuredNetworkStatus
-  } = useQuery(featuredScriptQuery);
+let firstLoad = true;
 
-  const {
-    loading: scriptLoading,
-    error: scriptError,
-    data: scriptData,
-    networkStatus: scriptNetworkStatus
-  } = useQuery(scriptQuery);
+const queryMultiple = scriptPage => {
 
-  const loadingMore = featuredNetworkStatus || scriptNetworkStatus === NetworkStatus.fetchMore;
+  const scripts = useQuery(scriptQuery, {
+    variables: {
+      page: scriptPage,
+      notifyOnNetworkStatusChange: true,
+    },
+  });
+  const featuredScripts = useQuery(featuredScriptQuery);
 
-  if (featuredError || scriptError) {
+  return [scripts, featuredScripts];
+};
+
+function Marketplace() {
+  const [scriptPage = 0, setScriptPage] = useState(0);
+
+  const [scripts, featuredScripts] = queryMultiple(scriptPage);
+
+  useEffect(() => {
+    if (!firstLoad) {
+      scripts.refetch();
+    }
+
+    firstLoad = false;
+  }, [scriptPage]);
+
+  if (scripts.error || featuredScripts.error) {
     return <div>error :(</div>;
   }
 
-  if (scriptLoading || featuredLoading) {
+  const refetch = scripts.networkStatus === NetworkStatus.setVariables;
+
+  // console.log(refetch, scripts.networkStatus, NetworkStatus.setVariables);
+
+  // console.log(refetch);
+
+  if ((scripts.loading || featuredScripts.loading) && !refetch) {
     return <div>loading...</div>;
   }
-  const { scripts:featuredScripts } = featuredScriptData;
-  const { scripts } = scriptData;
+
+  // const {
+  //   loading: featuredLoading,
+  //   error: featuredError,
+  //   data: featuredScriptData,
+  //   networkStatus: featuredNetworkStatus
+  // } = useQuery(featuredScriptQuery);
+
+  // const {
+  //   loading: scriptLoading,
+  //   error: scriptError,
+  //   data: scriptData,
+  //   networkStatus: scriptNetworkStatus
+  // } = useQuery(scriptQuery);
+
+  // const loadingMore = featuredNetworkStatus || scriptNetworkStatus === NetworkStatus.fetchMore;
+
+  // if (featuredError || scriptError) {
+  //   return <div>error :(</div>;
+  // }
+
+  // if (scriptLoading || featuredLoading) {
+  //   return <div>loading...</div>;
+  // }
+  // const { scripts:featuredScripts } = featuredScriptData;
+  // const { scripts } = scriptData;
 
   return (
     <div className="marketplace">
@@ -99,7 +150,7 @@ function IndexPage() {
       <div className="overflow-scroll-container mb-120">
         <div className="container">
           <div className="row fixed-width">
-            {featuredScripts.map(e => (
+            {featuredScripts.data.scripts.list.map(e => (
               <div className="col-4">
                 <FeaturedScript
                   id={e._id}
@@ -136,7 +187,7 @@ function IndexPage() {
           </div>
         </div>
         <div className="row">
-          {scripts.map(e => (
+          {scripts.data.scripts.list.map(e => (
             <div className="col-sm-6 col-lg-4 col-xl-3">
               <Script
                 id={e._id}
@@ -150,10 +201,17 @@ function IndexPage() {
               />
             </div>
           ))}
+
+          <Pagination
+            totalItems={scripts.data.scripts.total}
+            pageSize={scriptPageSize}
+            updatePage={setScriptPage}
+            currentPage={scriptPage + 1}
+          />
         </div>
       </div>
     </div>
   );
 }
 
-export default IndexPage;
+export default Marketplace;
