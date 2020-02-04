@@ -181,7 +181,6 @@ const calculateCardAugmentData = (original, utype, uvalue) => {
         return console.error("error applying upgrade stats 3");
       }
     }
-    9;
     return a;
   }, alteredCard);
 
@@ -438,6 +437,7 @@ const cb = async (client, message) => {
         return message.channel.send(discordEmbed);
       });
   }
+  
   //const cars = ["ford-lemon",
   //"lambo-range",
   //"ferra-pple",
@@ -887,7 +887,7 @@ const cb = async (client, message) => {
     .resize(bgWidth, bgHeight);
   let typeIcon = typeIcons
     .clone()
-    .crop(ix, iy, iz, iw) //error
+    .crop(ix, iy, iz, iw)
     .scale(1.5);
   let themeIcon = miscIcons
     .clone()
@@ -1051,7 +1051,7 @@ const cb = async (client, message) => {
           embed.description += `Power Duration: ${statpowers.duration} \n`;
         }
 
-        if (statpowers.is_charged && card._id !== "5caba68cc83b14195097bf4a" && card._id !== "5caba68ec83b14195097bf57") {
+        if (statpowers.is_charged) {
           embed.description += `Charged Power Regen: ${statpowers.charged_regen}\n`;
           embed.description += `Charged Power Radius: ${statpowers.radius} \n`;
         }
