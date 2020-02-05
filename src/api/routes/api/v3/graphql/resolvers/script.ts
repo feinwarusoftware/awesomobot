@@ -56,7 +56,7 @@ export default {
       //     data: null,
       //   }
       // }
-  
+
       const dbUser = script.author_id === "feinwaru-devs" ? { verified: true } : await userService.getOne({ discord_id: script.author_id });
       const discordUser = script.author_id === "feinwaru-devs" ? { id: "feinwaru-devs", username: "Feinwaru" } : await fetchUser(script.author_id).catch(() => ({ id: "unknown", username: "unknown" }));
 
@@ -65,7 +65,7 @@ export default {
         ...objectSelect(discordUser, responseUserProps),
         ...{ user_verified: dbUser?.verified || false },
       };
-    }
+    },
   },
   Mutation: {
     addScript: async (_: any, variables: any, context: any) => {
@@ -86,6 +86,53 @@ export default {
       const info = await scriptService.deleteOne(scriptId);
 
       return info;
-    }
-  }
+    },
+
+    likeScript: async (_: any, variables: any, context: any) => {
+      const { id: userId } = context.app.session;
+      const scriptId = context.reply.request.body.variables.scriptId ?? variables.scriptId;
+
+      const [script, user] = await Promise.all([scriptService.getOneById(scriptId).then(res => res?._doc), userService.getOne({ discord_id: userId })]);
+
+      if (user.likes.includes(script._id)) {
+        return {
+          matched: 0,
+          modified: 0,
+        };
+      }
+
+      script.likes += 1;
+      user.likes.push(script._id);
+
+      await Promise.all([scriptService.updateOne(script._id, script), userService.updateOne(user._id, user)]);
+
+      return {
+        matched: 1,
+        modified: 1,
+      };
+    },
+    unlikeScript: async (_: any, variables: any, context: any) => {
+      const { id: userId } = context.app.session;
+      const scriptId = context.reply.request.body.variables.scriptId ?? variables.scriptId;
+
+      const [script, user] = await Promise.all([scriptService.getOneById(scriptId).then(res => res?._doc), userService.getOne({ discord_id: userId })]);
+
+      if (user.likes.includes(script._id)) {
+        return {
+          matched: 0,
+          deleted: 0,
+        };
+      }
+
+      script.likes -= 1;
+      user.likes.splice(user.likes.findIndex(e => e === script._id), 1);
+
+      await Promise.all([scriptService.updateOne(script._id, script), userService.updateOne(user._id, user)]);
+
+      return {
+        matched: 1,
+        deleted: 1,
+      };
+    },
+  },
 };
