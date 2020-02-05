@@ -22,6 +22,7 @@ export default async (fastify: FastifyInstance) => {
       limit,
       sortField,
       sortDirection,
+      with_ids,
     } = request.query;
 
     const filters = {
@@ -30,14 +31,16 @@ export default async (fastify: FastifyInstance) => {
       featured,
       marketplace_enabled,
       verified,
+      with_ids,
     };
 
     let scripts = await scriptService.getMany(filters, sortField, sortDirection, limit, page);
 
     // HOLY SHIT WHY IS 'feinwaru-devs' A THING?!?!
 
-    // const [...dbUsers] = await Promise.all(scripts.list.map((e: any) => e.author_id === "feinwaru-devs" ? new Promise(resolve => resolve({ discord_id: "feinwaru-devs" })) : userService.getOneById(e.author_id)));
-    const [...discordUsers] = await Promise.all(scripts.list.map((e: any) => e.author_id === "feinwaru-devs" ? { id: "feinwaru-devs", username: "Feinwaru" } : fetchUser(e.author_id)));
+    // yes these can be fetched simultaneously, i know
+    const [...dbUsers] = await Promise.all(scripts.list.map((e: any) => e.author_id === "feinwaru-devs" ? { verified: true } : userService.getOne({ discord_id: e.author_id })));
+    const [...discordUsers] = await Promise.all(scripts.list.map((e: any) => e.author_id === "feinwaru-devs" ? { id: "feinwaru-devs", username: "Feinwaru" } : fetchUser(e.author_id).catch(() => ({ id: "unknown", username: "unknown" }))));
 
     return {
       success: true,
@@ -45,7 +48,7 @@ export default async (fastify: FastifyInstance) => {
       // since promise.all data should be returned in the correct order,
       // we can just merge the discord user and script data
       data: {
-        list: scripts.list.map((e: any, i: number) => ({ ...e, ...objectSelect(discordUsers[i], responseUserProps) })),
+        list: scripts.list.map((e: any, i: number) => ({ ...e, ...objectSelect(discordUsers[i], responseUserProps), ...{ user_verified: dbUsers[i]?.verified || false } })),
         total: scripts.total,
       }
     };
@@ -74,13 +77,15 @@ export default async (fastify: FastifyInstance) => {
       }
     }
 
-    const discordUser = script.author_id === "feinwaru-devs" ? { id: "feinwaru-devs", username: "Feinwaru" } : await fetchUser(script.author_id);
+    const dbUser = script.author_id === "feinwaru-devs" ? { verified: true } : await userService.getOne({ discord_id: script.author_id });
+    const discordUser = script.author_id === "feinwaru-devs" ? { id: "feinwaru-devs", username: "Feinwaru" } : await fetchUser(script.author_id).catch(() => ({ id: "unknown", username: "unknown" }));
 
     return {
       success: true,
       data: {
         ...script,
-        ...objectSelect(discordUser, responseUserProps)
+        ...objectSelect(discordUser, responseUserProps),
+        ...{ user_verified: dbUser?.verified || false },
       },
     };
   });

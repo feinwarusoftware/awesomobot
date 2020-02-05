@@ -10,13 +10,13 @@ import Filters from "../../components/Filters";
 import Pagination from "../../components/Pagination";
 import { useState, useEffect } from "react";
 
-const tempTestVar = 1 + "gay" + `d${1}cks`;
+const tempTestVar = 1 + "gay" + `d${1}ck(s)`;
 
 const scriptPageSize = 12;
 
 const featuredScriptQuery = gql`
   query {
-    scripts(featured: true) {
+    scripts(featured: true, marketplace_enabled: true) {
       list {
         _id
         name
@@ -27,6 +27,7 @@ const featuredScriptQuery = gql`
         likes
         guild_count
         verified
+        user_verified
       }
       total
     }
@@ -34,8 +35,8 @@ const featuredScriptQuery = gql`
 `;
 
 const scriptQuery = gql`
-  query($page: Int) {
-    scripts(featured: false, limit: ${scriptPageSize}, page: $page) {
+  query($limit: Int, $page: Int, $verified: Boolean, $with_ids: [ID], $author_id: ID, $name: String, $sortField: String, $sortDirection: Int) {
+    scripts(featured: false, marketplace_enabled: true, limit: $limit, page: $page, verified: $verified, with_ids: $with_ids, author_id: $author_id, name: $name, sortField: $sortField, sortDirection: $sortDirection) {
       list {
         _id
         name
@@ -46,6 +47,7 @@ const scriptQuery = gql`
         likes
         guild_count
         verified
+        user_verified
       }
       total
     }
@@ -55,10 +57,16 @@ const scriptQuery = gql`
 let firstLoad = true;
 
 const queryMultiple = scriptPage => {
-
   const scripts = useQuery(scriptQuery, {
     variables: {
+      limit: scriptPageSize,
       page: scriptPage,
+      verified: null,
+      with_ids: null,
+      author_id: null,
+      name: null,
+      sortField: "use_count",
+      sortDirection: -1,
       notifyOnNetworkStatusChange: true,
     },
   });
@@ -163,7 +171,7 @@ function Marketplace() {
                   likes={e.likes}
                   servers={e.guild_count}
                   verifiedScript={e.verified}
-                  verifiedAuthor={true}
+                  verifiedAuthor={e.user_verified}
                   addFn={() => console.log("add")}
                 />
               </div>
@@ -199,7 +207,7 @@ function Marketplace() {
                 likes={e.likes}
                 servers={e.guild_count}
                 verifiedScript={e.verified}
-                verifiedAuthor={true}
+                verifiedAuthor={e.user_verified}
               />
             </div>
           ))}

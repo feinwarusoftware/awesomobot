@@ -33,9 +33,11 @@ export default async (fastify: FastifyInstance) => {
   fastify.get("/", async () => {
     const users = await userService.getMany();
 
+    const [...discordUsers] = await Promise.all(users.map((e: any) => fetchUser(e.discord_id).catch(() => ({ id: "unknown", username: "unknown" }))));
+
     return {
       success: true,
-      data: users,
+      data: users.map((e: any, i: number) => ({ ...e, ...objectSelect(discordUsers[i], responseUserProps) })),
     };
   });
   fastify.post("/", async (request, reply) => {
@@ -58,13 +60,14 @@ export default async (fastify: FastifyInstance) => {
     // a mongo id is 24 chars
     const isDiscordId = userId.length === kDiscordIdLength;
 
-    let dbUser = null, discordUser = null;
+    let dbUser = null;
+    let discordUser = null;
 
     if (isDiscordId) {
       const dbUserPromise = userService.getOne({
         discord_id: userId, 
       });
-      const discordUserPromise = fetchUser(userId);
+      const discordUserPromise = fetchUser(userId).catch(() => ({ id: "unknown", username: "unknown" }));
 
       [dbUser, discordUser] = await Promise.all([dbUserPromise, discordUserPromise]);
     } else {
@@ -79,7 +82,7 @@ export default async (fastify: FastifyInstance) => {
         }
       }
 
-      discordUser = await fetchUser(dbUser.discord_id);
+      discordUser = await fetchUser(dbUser.discord_id).catch(() => ({ id: "unknown", username: "unknown" }));
     }
 
     return {

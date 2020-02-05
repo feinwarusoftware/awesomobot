@@ -30,6 +30,7 @@ export default `
     featured: Boolean
     preload: Boolean
     verified: Boolean
+    user_verified: Boolean
     likes: Int
     guild_count: Int
     use_count: Int

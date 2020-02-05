@@ -21,6 +21,7 @@ interface ScriptFilters {
   featured?: boolean,
   marketplace_enabled?: boolean,
   verified?: boolean,
+  with_ids?: string[],
 }
 
 /*
@@ -60,6 +61,7 @@ const getMany = (filters?: ScriptFilters, sortField?: string, sortDirection?: nu
     ...(filters?.featured == null ? {} : { featured: filters.featured }),
     ...(filters?.marketplace_enabled == null ? {} : { marketplace_enabled: filters.marketplace_enabled }),
     ...(filters?.verified == null ? {} : { verified: filters.verified }),
+    ...(filters?.with_ids == null ? {} : { _id: { $in: filters.with_ids } }),
   })
   .then((total: number) => ScriptModel
     .find({
@@ -68,6 +70,7 @@ const getMany = (filters?: ScriptFilters, sortField?: string, sortDirection?: nu
       ...(filters?.featured == null ? {} : { featured: filters.featured }),
       ...(filters?.marketplace_enabled == null ? {} : { marketplace_enabled: filters.marketplace_enabled }),
       ...(filters?.verified == null ? {} : { verified: filters.verified }),
+      ...(filters?.with_ids == null ? {} : { _id: { $in: filters.with_ids } }),
     })
     .sort(sortField == null ? {} : { [sortField]: sortDirection })
     .skip(page * limit)

@@ -1,4 +1,4 @@
-import { scriptService } from "../../../../../../lib/db";
+import { scriptService, userService } from "../../../../../../lib/db";
 import { fetchUser } from "../../../../../../bot/client";
 
 // COPIED CODE FROM USERS.js- REFACTOR
@@ -20,7 +20,8 @@ export default {
       const page = context.reply.request.body.variables?.page ?? variables?.page;
       const limit = context.reply.request.body.variables?.limit ?? variables?.limit;
       const sortField = context.reply.request.body.variables?.sortField ?? variables?.sortField;
-      const sortDirection = context.reply.request.body.variables?.sortDirection ?? variables?.sortDirection; 
+      const sortDirection = context.reply.request.body.variables?.sortDirection ?? variables?.sortDirection;
+      const with_ids = context.reply.request.body.variables?.with_ids ?? variables?.with_ids;
 
       const filters = {
         author_id,
@@ -28,17 +29,18 @@ export default {
         featured,
         marketplace_enabled,
         verified,
+        with_ids,
       };
 
       const res = await scriptService.getMany(filters, sortField, sortDirection, limit, page);
 
       // HOLY SHIT WHY IS 'feinwaru-devs' A THING?!?!
 
-      // const [...dbUsers] = await Promise.all(scripts.list.map((e: any) => e.author_id === "feinwaru-devs" ? new Promise(resolve => resolve({ discord_id: "feinwaru-devs" })) : userService.getOneById(e.author_id)));
-      const [...discordUsers] = await Promise.all(res.list.map((e: any) => e.author_id === "feinwaru-devs" ? { id: "feinwaru-devs", username: "Feinwaru" } : fetchUser(e.author_id)));
+      const [...dbUsers] = await Promise.all(res.list.map((e: any) => e.author_id === "feinwaru-devs" ? { verified: true } : userService.getOne({ discord_id: e.author_id })));
+      const [...discordUsers] = await Promise.all(res.list.map((e: any) => e.author_id === "feinwaru-devs" ? { id: "feinwaru-devs", username: "Feinwaru" } : fetchUser(e.author_id).catch(() => ({ id: "unknown", username: "unknown" }))));
 
       return {
-        list: res.list.map((e: any, i: number) => ({ ...e, ...objectSelect(discordUsers[i], responseUserProps) })),
+        list: res.list.map((e: any, i: number) => ({ ...e, ...objectSelect(discordUsers[i], responseUserProps), ...{ user_verified: dbUsers[i]?.verified || false } })),
         total: res.total,
       };
     },
@@ -55,11 +57,13 @@ export default {
       //   }
       // }
   
-      const discordUser = script.author_id === "feinwaru-devs" ? { id: "feinwaru-devs", username: "Feinwaru" } : await fetchUser(script.author_id);
+      const dbUser = script.author_id === "feinwaru-devs" ? { verified: true } : await userService.getOne({ discord_id: script.author_id });
+      const discordUser = script.author_id === "feinwaru-devs" ? { id: "feinwaru-devs", username: "Feinwaru" } : await fetchUser(script.author_id).catch(() => ({ id: "unknown", username: "unknown" }));
 
       return {
         ...script,
-        ...objectSelect(discordUser, responseUserProps)
+        ...objectSelect(discordUser, responseUserProps),
+        ...{ user_verified: dbUser?.verified || false },
       };
     }
   },
