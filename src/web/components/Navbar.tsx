@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 // import { useTranslation } from "../i18n";
 
 export default function Navbar({ transparent = false }) {
@@ -10,9 +12,12 @@ export default function Navbar({ transparent = false }) {
   //       <img src={`http://www.sciencekids.co.nz/images/pictures/flags120/${e[1].flag}.jpg`} />
   //       {e[1].language}
   //     </li>
-  //   )): null;
+  //   )): null
+
+  const [dashboardVisibility, setDashboardVisibility] = useState(false);
 
   return (
+    <>
     <nav className={transparent ? "transparent" : ""}>
       <div className="container">
         <div className="row">
@@ -24,8 +29,9 @@ export default function Navbar({ transparent = false }) {
               <li className="active">
                 <a>Home</a>
               </li>
-              <li>
+              <li onClick={() => setDashboardVisibility(!dashboardVisibility)}>
                 <a>Dashboard</a>
+                <i className="fas fa-chevron-down ml-2" />
               </li>
               <li>
                 <a>Documentation</a>
@@ -48,5 +54,46 @@ export default function Navbar({ transparent = false }) {
         </div>
       </div>
     </nav>
+    <div className={`dashboard-dropdown ${dashboardVisibility && "visible"}`}>
+      <div className="container">
+        <div className="row">
+          <div className="col-12 col-md-6 col-lg-3">
+            <i className="fas fa-star" />
+            <h3>Favourites</h3>
+            <div className="divider" />
+
+          </div>
+          <div className="col-12 col-md-6 col-lg-3">
+            <i className="fas fa-server" />
+            <h3>Server</h3>
+            <div className="divider" />
+            <ul>
+              <li>Server Manager</li>
+              <li>Legacy Stats</li>
+            </ul>
+          </div>
+          <div className="col-12 col-md-6 col-lg-3">
+            <i className="fas fa-code" />
+            <h3>Scripts</h3>
+            <div className="divider" />
+            <ul>
+              <li>Marketplace</li>
+              <li>Basic Editor</li>
+              <li>Advanced Editor</li>
+            </ul>
+          </div>
+          <div className="col-12 col-md-6 col-lg-3">
+            <i className="fas fa-user" />
+            <h3>Mattheous</h3>
+            <div className="divider" />
+            <ul>
+              <li>View Profile</li>
+              <li>Logout</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    </>
   );
 }

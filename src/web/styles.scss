@@ -113,7 +113,7 @@ code {
   letter-spacing: 0.45;
   background-color: transparent;
   transition: background-color 200ms ease-out;
-  mix-blend-mode: screen;
+  mix-blend-mode: lighten;
 
   &:hover,
   &:active,

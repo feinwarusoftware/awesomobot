@@ -3,7 +3,8 @@ export default function Jumbotron({
   children = null,
   overlap = 0,
   gradient = true,
-  height = 1082.129
+  height = 1082.129,
+  blur = false
 }) {
   return (
     <div
@@ -21,11 +22,24 @@ export default function Jumbotron({
       >
         <defs>
           <pattern id="a" width="1" height="1" viewBox="0 0 1920 1082.129">
+            {blur && (
+              <filter id="svgFilter" width="100%" height="100%" x="-0%" y="-0%">
+                <feGaussianBlur
+                  id="svgGaussBlur"
+                  in="SourceGraphic"
+                  stdDeviation={8}
+                />
+                <feComponentTransfer>
+                  <feFuncA type="discrete" tableValues="1 1" />
+                </feComponentTransfer>
+              </filter>
+            )}
             <image
               preserveAspectRatio="xMidYMin slice"
               width="100%"
               height="100%"
               xlinkHref={image}
+              {...blur && {filter: "url(#svgFilter)"}}
             ></image>
           </pattern>
         </defs>

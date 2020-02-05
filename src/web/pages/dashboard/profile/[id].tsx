@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import Jumbotron from "../../../components/Jumbotron";
 import Navbar from "../../../components/Navbar";
 import XpBar from "../../../components/XpBar";
-import FeaturedScript from "../../../components/FeaturedScript";
+import Script from "../../../components/Script";
 import "slick-carousel/slick/slick.scss";
 import Slider from "react-slick";
 import Trophy from "../../../components/Trophy";
@@ -79,17 +79,15 @@ const Profile = () => {
 
             <Slider {...scriptCarouselSettings}>
               <div style={{ width: "300px" }}>
-                <FeaturedScript
+                <Script
                   id={1}
                   name="Alex Jones Quotes"
                   author={null}
                   image=""
-                  usage="-gay"
                   likes={1}
                   servers={1}
                   verifiedScript={true}
                   verifiedAuthor={true}
-                  addFn={() => console.log("add")}
                 />
               </div>
             </Slider>

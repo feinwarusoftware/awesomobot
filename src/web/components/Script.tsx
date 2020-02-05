@@ -1,3 +1,5 @@
+import Router from "next/router";
+
 export default function Script({
   id,
   name,
@@ -32,12 +34,12 @@ export default function Script({
             </p>
           </div>
           <button
-            className="btn-outline green"
+            className="btn-outline red"
             onClick={() => console.log("lol")}
           >
-            Add this script
+            Like this script
           </button>
-          <button className="btn-outline">View details</button>
+          <button className="btn-outline" onClick={() => Router.push("/dashboard/script/[id]", `/dashboard/script/${id}`).then(() => window.scrollTo(0, 0))}>View details</button>
         </div>
       </div>
     </div>

@@ -1,9 +1,13 @@
+import displayMatchType from "../utils/displayMatchType";
+import Router from "next/router";
+
 export default function FeaturedScript({
   id,
   name,
   author,
   image,
   usage,
+  matchType,
   likes,
   servers,
   verifiedScript,
@@ -28,11 +32,11 @@ export default function FeaturedScript({
           )}
         </h5>
         <div className="overflow-content">
-          <code>{usage}</code>
-          <button className="btn-outline green" onClick={() => addFn()}>
-            Add this script
+          <code>{displayMatchType(usage, matchType)}</code>
+          <button className="btn-outline red" onClick={() => addFn()}>
+            Like this script
           </button>
-          <button className="btn-outline">View details</button>
+          <button className="btn-outline" onClick={() => Router.push("/dashboard/script/[id]", `/dashboard/script/${id}`).then(() => window.scrollTo(0, 0))}>View details</button>
 
           <div className="likes-servers">
             <p>

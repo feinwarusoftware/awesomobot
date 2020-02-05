@@ -24,6 +24,7 @@ const featuredScriptQuery = gql`
         username
         thumbnail
         match
+        match_type
         likes
         guild_count
         verified
@@ -161,13 +162,15 @@ function Marketplace() {
         <div className="container">
           <div className="row fixed-width">
             {featuredScripts.data.scripts.list.map(e => (
-              <div className="col-4">
+              <div className="col-4 mb-4">
                 <FeaturedScript
+                  key={e._id}
                   id={e._id}
                   name={e.name}
                   author={e.username}
                   image={e.thumbnail}
                   usage={e.match}
+                  matchType={e.match_type}
                   likes={e.likes}
                   servers={e.guild_count}
                   verifiedScript={e.verified}
@@ -198,8 +201,9 @@ function Marketplace() {
         </div>
         <div className="row">
           {scripts.data.scripts.list.map(e => (
-            <div className="col-sm-6 col-lg-4 col-xl-3">
+            <div className="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
               <Script
+                key={e._id}
                 id={e._id}
                 name={e.name}
                 author={e.username}

@@ -25,7 +25,10 @@
     top: 0;
     left: 0;
     opacity: 0;
-    transition: opacity 250ms ease-out;
+    transition: opacity 250ms ease-out, backdrop-filter 250ms ease-out;
+    @supports (backdrop-filter: blur(0px)) {
+      backdrop-filter: blur(8px);
+    }
   }
 
   .content {
@@ -84,6 +87,10 @@
     }
     .fill {
       opacity: 1;
+      @supports (backdrop-filter: blur(8px)) {
+        backdrop-filter: blur(8px);
+        background-color: rgba(black, 0.6);
+      }
     }
     .overflow-content {
       max-height: 250px;

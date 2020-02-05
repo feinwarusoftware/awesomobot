@@ -135,3 +135,62 @@ nav {
     }
   }
 }
+
+.dashboard-dropdown {
+  position: absolute;
+  width: 100%;
+  padding: 125px 0 28px;
+  background-color: rgba(black, 0.75);
+  pointer-events: none;
+  transform: translateY(-100%);
+  backdrop-filter: blur(8px);
+  z-index: 998;
+  transition: all 0.5s ease;
+
+  @supports (backdrop-filter: blur(8px)) {
+    backdrop-filter: blur(8px);
+    background-color: rgba(black, 0.45);
+  }
+
+  &.visible {
+    transform: translateY(0%);
+  }
+
+  h3, li, i {
+    color: white
+  }
+
+  h3 {
+    font-family: "Uni Sans", "Roboto";
+    display: inline;
+    font-size: 30px;
+    margin-left: 35px;
+  }
+
+  i {
+    font-size: 20px;
+    transform: translateY(8px);
+    position: absolute;
+
+    &.fa-star {
+      color: #FFB029;
+    }
+  }
+
+  .divider {
+    margin: 20px 0;
+    height: 5px;
+    width: 60px;
+    background-color: $awesomo;
+    margin-left: 35px;
+  }
+
+  ul {
+    padding-left: 35px;
+    li {
+      list-style: none;
+      font-size: 18px;
+      line-height: 2;
+    }
+  }
+}
