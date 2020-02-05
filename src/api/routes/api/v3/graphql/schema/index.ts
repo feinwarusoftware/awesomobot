@@ -34,6 +34,9 @@ const schema = `
     updateScript(scriptId: ID!, scriptData: ScriptInput): UpdateInfo
     deleteScript(scriptId: ID!, scriptData: ScriptInput): DeleteInfo
 
+    likeScript(scriptId: ID!): UpdateInfo
+    unlikeScript(scriptId: ID!): DeleteInfo
+
     addGuild(guildData: GuildInput): Guild
     updateGuild(guildId: ID!, guildData: GuildInput): UpdateInfo
     deleteGuild(guildId: ID!, guildData: GuildInput): DeleteInfo

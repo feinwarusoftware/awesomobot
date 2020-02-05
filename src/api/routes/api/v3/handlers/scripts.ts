@@ -105,4 +105,73 @@ export default async (fastify: FastifyInstance) => {
       data: info,
     };
   });
+
+  fastify.post("/:scriptId/likes", async function (request, reply) {
+    const { scriptId } = request.params;
+
+    const [script, user] = await Promise.all([scriptService.getOneById(scriptId).then(res => res?._doc), userService.getOne({ discord_id: this.session.id })]);
+
+    if (user.likes.includes(script._id)) {
+      reply.code(400);
+
+      return {
+        success: false,
+        error,
+      };
+    }
+
+    script.likes += 1;
+    user.likes.push(script._id);
+
+    try {
+      await Promise.all([scriptService.updateOne(script._id, script), userService.updateOne(user._id, user)]);
+    } catch(error) {
+      reply.code(500);
+
+      return {
+        success: false,
+        error,
+      };
+    }
+
+    reply.code(201);
+
+    return {
+      success: true,
+    };
+  });
+  fastify.delete("/:scriptId/likes", async function (request) {
+    const { scriptId } = request.params;
+
+    // cool ts, but this shit returns something else sooo...
+    // const script = (await scriptService.getOneById(scriptId))?._doc;
+    const [script, user] = await Promise.all([scriptService.getOneById(scriptId).then(res => res?._doc), userService.getOne({ discord_id: this.session.id })]);
+
+    if (!user.likes.includes(script._id)) {
+      reply.code(400);
+
+      return {
+        success: false,
+        error,
+      };
+    }
+
+    script.likes -= 1;
+    user.likes.splice(user.likes.findIndex(e => e === script._id), 1);
+
+    try {
+      await Promise.all([scriptService.updateOne(script._id, script), userService.updateOne(user._id, user)]);
+    } catch(error) {
+      reply.code(500);
+
+      return {
+        success: false,
+        error,
+      };
+    }
+
+    return {
+      success: true,
+    };
+  });
 };
