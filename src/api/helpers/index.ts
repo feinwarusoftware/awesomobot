@@ -1,5 +1,6 @@
 import fetch from "node-fetch";
 import jwt from "jsonwebtoken";
+import { User } from "discord.js";
 
 // import { sessionService } from "../../lib/db";
 
@@ -59,7 +60,7 @@ const decodeSession = (token: string, secret: string = kTempJwtSecret) => jwtVer
     return decoded as ISession;
   });
 
-const fetchDiscordUser = (accessToken?: string) => {
+const fetchDiscordUser = (accessToken?: string): Promise<User> => {
   if (accessToken == null) {
     // fetch using client
     throw new Error("TODO: implement this!");

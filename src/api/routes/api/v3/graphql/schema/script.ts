@@ -1,3 +1,6 @@
+// Note: the username field is taken from the discord api,
+// its the username of the author
+
 export default `
   type Scripts {
     list: [Script]
@@ -8,6 +11,7 @@ export default `
     _id: ID
 
     author_id: String
+    username: String
 
     name: String
     description: String

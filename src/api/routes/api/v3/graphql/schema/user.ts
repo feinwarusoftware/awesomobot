@@ -1,8 +1,11 @@
+// Note: the username field is taken from the discord api
+
 export default `
   type User {
     _id: ID
 
     discord_id: String
+    username: String
 
     banner: String
     bio: String

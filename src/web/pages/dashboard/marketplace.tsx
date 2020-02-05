@@ -21,6 +21,7 @@ const featuredScriptQuery = gql`
         _id
         name
         author_id
+        username
         thumbnail
         match
         likes
@@ -39,6 +40,7 @@ const scriptQuery = gql`
         _id
         name
         author_id
+        username
         thumbnail
         match
         likes
@@ -155,7 +157,7 @@ function Marketplace() {
                 <FeaturedScript
                   id={e._id}
                   name={e.name}
-                  author="Mattheous"
+                  author={e.username}
                   image={e.thumbnail}
                   usage={e.match}
                   likes={e.likes}
@@ -192,7 +194,7 @@ function Marketplace() {
               <Script
                 id={e._id}
                 name={e.name}
-                author="Mattheous"
+                author={e.username}
                 image={e.thumbnail}
                 likes={e.likes}
                 servers={e.guild_count}

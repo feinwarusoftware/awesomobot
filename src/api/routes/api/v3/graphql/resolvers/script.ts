@@ -1,4 +1,12 @@
 import { scriptService } from "../../../../../../lib/db";
+import { fetchUser } from "../../../../../../bot/client";
+
+// COPIED CODE FROM USERS.js- REFACTOR
+// Props of the user object returned from discord to send with the api response
+const responseUserProps = ["username"];
+
+const objectSelect = (source: object, props: string[]): object => Object.fromEntries(Object.entries(source).filter(([key]) => props.includes(key)));
+// END OF COPIED CODE
 
 export default {
   Query: {
@@ -24,13 +32,35 @@ export default {
 
       const res = await scriptService.getMany(filters, sortField, sortDirection, limit, page);
 
-      return res;
+      // HOLY SHIT WHY IS 'feinwaru-devs' A THING?!?!
+
+      // const [...dbUsers] = await Promise.all(scripts.list.map((e: any) => e.author_id === "feinwaru-devs" ? new Promise(resolve => resolve({ discord_id: "feinwaru-devs" })) : userService.getOneById(e.author_id)));
+      const [...discordUsers] = await Promise.all(res.list.map((e: any) => e.author_id === "feinwaru-devs" ? { id: "feinwaru-devs", username: "Feinwaru" } : fetchUser(e.author_id)));
+
+      return {
+        list: res.list.map((e: any, i: number) => ({ ...e, ...objectSelect(discordUsers[i], responseUserProps) })),
+        total: res.total,
+      };
     },
     script: async (_: any, variables: any, context: any) => {
-      const scriptId = context.reply.request.body.variables.scriptId ?? variables.scriptId;
-      const script = await scriptService.getOneById(scriptId);
+      const scriptId = context.reply.request.body.variables?.scriptId ?? variables?.scriptId;
 
-      return script;
+      // cool ts, but this shit returns something else sooo...
+      const script = (await scriptService.getOneById(scriptId))?._doc;
+
+      // if (script == null) {
+      //   return {
+      //     success: false,
+      //     data: null,
+      //   }
+      // }
+  
+      const discordUser = script.author_id === "feinwaru-devs" ? { id: "feinwaru-devs", username: "Feinwaru" } : await fetchUser(script.author_id);
+
+      return {
+        ...script,
+        ...objectSelect(discordUser, responseUserProps)
+      };
     }
   },
   Mutation: {

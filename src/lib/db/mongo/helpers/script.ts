@@ -74,7 +74,7 @@ const getMany = (filters?: ScriptFilters, sortField?: string, sortDirection?: nu
     .limit(limit)
     .select({ __v: 0 })
     .then((scripts: IScript) => ({
-      list: scripts,
+      list: scripts.map(e => e._doc),
       total,
     })));
 
