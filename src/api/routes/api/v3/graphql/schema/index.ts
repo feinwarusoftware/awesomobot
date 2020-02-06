@@ -12,7 +12,7 @@ const schema = `
 
   type Query {
     users: [User]
-    user(userId: ID!): User
+    user(userId: ID): User
     me: User
 
     scripts(author_id: ID, name: String, featured: Boolean, marketplace_enabled: Boolean, verified: Boolean, page: Int, limit: Int, sortField: String, sortDirection: Int, with_ids: [ID]): Scripts

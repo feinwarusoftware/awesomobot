@@ -168,6 +168,7 @@ function Marketplace() {
                   id={e._id}
                   name={e.name}
                   author={e.username}
+                  authorId={e.author_id}
                   image={e.thumbnail}
                   usage={e.match}
                   matchType={e.match_type}
@@ -207,6 +208,7 @@ function Marketplace() {
                 id={e._id}
                 name={e.name}
                 author={e.username}
+                authorId={e.author_id}
                 image={e.thumbnail}
                 likes={e.likes}
                 servers={e.guild_count}
@@ -215,7 +217,8 @@ function Marketplace() {
               />
             </div>
           ))}
-
+        </div>
+        <div className="row justify-content-center">
           <Pagination
             totalItems={scripts.data.scripts.total}
             pageSize={scriptPageSize}

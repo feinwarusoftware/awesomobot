@@ -71,7 +71,7 @@ export default {
       }
 
       return {
-        ...dbUser || {},
+        ...JSON.parse(JSON.stringify(dbUser)) || {},
         ...objectSelect(discordUser || {}, responseUserProps),
       };
     },

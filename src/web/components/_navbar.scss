@@ -35,6 +35,21 @@ nav {
           margin-right: 30px;
           font-size: 18px;
           font-weight: 500;
+          a {
+            color: inherit;
+            transition: color 150ms ease;
+            &:hover {
+              text-decoration: none;
+              color: $awesomo;
+            }
+
+            i {
+              transition: transform 250ms ease-out;
+              &[data-active="true"] {
+                transform: rotateX(180deg)
+              }
+            }
+          }
         }
       }
       .dropdown {
@@ -141,7 +156,6 @@ nav {
   width: 100%;
   padding: 125px 0 28px;
   background-color: rgba(black, 0.75);
-  pointer-events: none;
   transform: translateY(-100%);
   backdrop-filter: blur(8px);
   z-index: 998;
@@ -191,6 +205,15 @@ nav {
       list-style: none;
       font-size: 18px;
       line-height: 2;
+
+      a {
+        color: inherit;
+        transition: color 150ms ease;
+        &:hover {
+          text-decoration: none;
+          color: $awesomo;
+        }
+      }
     }
   }
 }

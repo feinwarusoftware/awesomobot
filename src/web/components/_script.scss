@@ -46,6 +46,16 @@
       color: $lightgrey;
       font-weight: 700;
 
+      a {
+        color: inherit;
+        text-decoration: none;
+        transition: color 150ms ease;
+
+        &:hover {
+          color: $awesomo;
+        }
+      }
+
       i {
         color: #00b9ff;
       }

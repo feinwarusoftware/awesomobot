@@ -2,6 +2,7 @@
   &-container {
     position: relative;
     height: 1082px;
+    overflow: hidden;
     &.overlap {
       margin-bottom: -300px;
     }

@@ -11,6 +11,7 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 150ms ease-out;
+  user-select: none;
   display: none;
 
   @include media-breakpoint-down(sm) {

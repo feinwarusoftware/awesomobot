@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Link from "next/link";
 
 // import { useTranslation } from "../i18n";
 
@@ -27,17 +28,17 @@ export default function Navbar({ transparent = false }) {
           <div className="col language">
             <ul className="nav-items">
               <li className="active">
-                <a>Home</a>
+                <Link href="/">Home</Link>
               </li>
               <li onClick={() => setDashboardVisibility(!dashboardVisibility)}>
-                <a>Dashboard</a>
-                <i className="fas fa-chevron-down ml-2" />
+                <a>Dashboard <i className="fas fa-chevron-down ml-2" data-active={dashboardVisibility} /></a>
+                
               </li>
               <li>
-                <a>Documentation</a>
+                <Link href="/docs">Documentation</Link>
               </li>
               <li>
-                <a>Support Us</a>
+                <a href="https://patreon.com/awesomo">Support Us</a>
               </li>
             </ul>
             {/* <div className="selector">
@@ -77,9 +78,9 @@ export default function Navbar({ transparent = false }) {
             <h3>Scripts</h3>
             <div className="divider" />
             <ul>
-              <li>Marketplace</li>
-              <li>Basic Editor</li>
-              <li>Advanced Editor</li>
+              <li><Link href="/dashboard/marketplace">Marketplace</Link></li>
+              <li><Link href="/dashboard/editor/basic">Basic Editor</Link></li>
+              <li><Link href="/dashboard/editor/advanced">Advanced Editor</Link></li>
             </ul>
           </div>
           <div className="col-12 col-md-6 col-lg-3">
@@ -87,7 +88,7 @@ export default function Navbar({ transparent = false }) {
             <h3>Mattheous</h3>
             <div className="divider" />
             <ul>
-              <li>View Profile</li>
+              <li><Link href="/dashboard/profile/@me">View Profile</Link></li>
               <li>Logout</li>
             </ul>
           </div>

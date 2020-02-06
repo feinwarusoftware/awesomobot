@@ -1,9 +1,11 @@
 import Router from "next/router";
+import Link from "next/link";
 
 export default function Script({
   id,
   name,
   author,
+  authorId,
   image,
   likes,
   servers,
@@ -17,7 +19,7 @@ export default function Script({
       <div className="content">
         <h4>{name}</h4>
         <h5>
-          by {author}{" "}
+          by <Link href={authorId === "feinwaru-devs" ? "https://github.com/feinwarusoftware" : `/dashboard/profile/${authorId}`}>{author}</Link>{" "}
           {verifiedAuthor && (
             <sup>
               <i className="fas fa-check-circle" />
@@ -34,7 +36,7 @@ export default function Script({
             </p>
           </div>
           <button
-            className="btn-outline red"
+            className="btn-outline pink"
             onClick={() => console.log("lol")}
           >
             Like this script

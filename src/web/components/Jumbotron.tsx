@@ -16,8 +16,8 @@ export default function Jumbotron({
         xmlnsXlink="http://www.w3.org/1999/xlink"
         preserveAspectRatio="xMidYMax slice"
         width="1920"
-        height={height}
-        viewBox="0 0 1920 1082.129"
+        height="1082.129"
+        viewBox={`0 ${1082.129 - height} 1920 1082.129`}
         className="jumbotron-image"
       >
         <defs>
