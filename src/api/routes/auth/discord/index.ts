@@ -108,8 +108,6 @@ export default async (fastify: FastifyInstance) => {
         },
       });
 
-      console.log(userRequest);
-
       if (!userRequest.ok) {
         throw userRequest.status;
       }

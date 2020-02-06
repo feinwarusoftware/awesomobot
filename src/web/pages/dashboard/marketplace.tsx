@@ -90,11 +90,10 @@ interface IMarketplaceContext extends NextPageContext {
 }
 
 const Marketplace: NextPage<any> = (props) => {
-
   const isAuthenticated = props?.pageProps?.isAuthenticated;
 
   if (!isAuthenticated) {
-    return <div>not authenticated :(</div>
+    return <div>not authenticated :(</div>;
   }
 
   const [scriptPage = 0, setScriptPage] = useState(0);

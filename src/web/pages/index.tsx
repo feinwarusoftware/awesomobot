@@ -7,13 +7,13 @@ import { withApollo } from "../lib/apollo";
 import { useState, useEffect } from "react";
 import { setCookie} from "nookies";
 
-const USERS_DATA = gql`
-    query {
-      users {
-        discord_id
-      }
-    }
-`;
+// const USERS_DATA = gql`
+//     query {
+//       users {
+//         discord_id
+//       }
+//     }
+// `;
 
 // fuck knows what ctx does, but here we are...
 const loginClick = (ctx, redirect) => {
@@ -23,11 +23,11 @@ const loginClick = (ctx, redirect) => {
 };
 
 function IndexPage({ ctx }) {
-  const { loading, error, data } = useQuery(USERS_DATA);
+  // const { loading, error, data } = useQuery(USERS_DATA);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-    console.log(data)
+  // if (loading) return <p>Loading...</p>;
+  // if (error) return <p>Error :(</p>;
+  //   console.log(data)
 
 
   return (

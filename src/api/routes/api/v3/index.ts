@@ -19,6 +19,7 @@ export default async (fastify: FastifyInstance) => {
       "https://beta-awesomo.feinwaru.com",
       "http://localhost:3000",
     ],
+    credentials: true,
   });
 
   // disable auth for testing
@@ -30,7 +31,7 @@ export default async (fastify: FastifyInstance) => {
   fastify.register(userHandler, { prefix: "/users" });
 
   fastify.register(gql, { schema, resolvers });
-  fastify.post("/gql", async (request, reply) => {
+  fastify.post("/gql", { preHandler: verifyDiscordAuth }, async (request, reply) => {
     const { query } = request.body;
 
     return reply.graphql(query);

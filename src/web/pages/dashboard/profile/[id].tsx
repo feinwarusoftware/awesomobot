@@ -103,10 +103,10 @@ const Profile = () => {
     return <div>AHHHHHHHHHHHHHHHHHHHHHH</div>;
   }
 
-  const { user } = data;
+  const user = data.user ?? data.me;
 
-  const aboutModule = user.modules.find(x => x.name === "about");
-  const artworkModule = user.modules.find(x => x.name === "artwork");
+  const aboutModule = user.modules?.find(x => x.name === "about");
+  const artworkModule = user.modules?.find(x => x.name === "artwork");
 
   const scriptCarouselSettings = {
     dots: false,
@@ -141,7 +141,7 @@ const Profile = () => {
         <div className="row justify-content-center mt-5">
           <div className="col-12 col-md-4 col-xl-3">
             <p className="bio">{user.bio}</p>
-            {user.trophies.map((e: string) => (
+            {user.trophies?.map((e: string) => (
               <Trophy key={e} name={e} />
             ))}
           </div>

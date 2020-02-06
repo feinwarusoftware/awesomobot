@@ -18,7 +18,7 @@ function createApolloClient(initialState = {}) {
         apiRoot == null || apiRoot === "localhost"
           ? "http://localhost/api/v3/gql"
           : `https://${apiRoot}/api/v3/gql`,
-      credentials: "same-origin",
+      credentials: "include",
       fetch
     }),
     cache: new InMemoryCache().restore(initialState)
