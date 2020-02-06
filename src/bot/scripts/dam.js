@@ -4,7 +4,7 @@ const Command = require("../script");
 
 const dam = new Command({
 
-  name: "I broke that dam",
+  name: "I broke the dam",
   description: "No, I broke the dam",
   help: "Say **'I broke the dam'** and AWESOM-O will respond!",
   thumbnail: "https://cdn.discordapp.com/attachments/379432139856412682/509104533906128909/giphy.gif",
