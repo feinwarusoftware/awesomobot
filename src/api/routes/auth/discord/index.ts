@@ -71,7 +71,10 @@ export default async (fastify: FastifyInstance) => {
       };
     }
 
+    let tokenRequest;
+
     try {
+      // ############################## THIS RESPONSE NEEDS TO ACTUALLY BE SAVED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       const query = querystring.encode({
         client_id: process.env.DISCORD_BOT_ID,
         client_secret: process.env.DISCORD_BOT_SECRET,
@@ -81,7 +84,7 @@ export default async (fastify: FastifyInstance) => {
         scope: "guilds.join identify",
       });
 
-      const discordResponse = await fetch(`${kDiscordOauthUrl}`, {
+      tokenRequest = await fetch(`${kDiscordOauthUrl}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -89,7 +92,7 @@ export default async (fastify: FastifyInstance) => {
         body: query,
       });
 
-      if (!discordResponse.ok) {
+      if (!tokenRequest.ok) {
         throw response.status;
       }
     } catch (error) {
@@ -100,11 +103,14 @@ export default async (fastify: FastifyInstance) => {
       };
     }
 
+    const token = await tokenRequest.json();
+
     // TEMPORARY!!!
     const apiToken = randomBytes(20).toString("hex");
     tempApiTokenStore.push({
       apiToken,
       accessToken,
+      token,
     });
 
     return {
