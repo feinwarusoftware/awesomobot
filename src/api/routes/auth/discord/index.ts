@@ -13,6 +13,7 @@ import tempApiTokenStore from "../../../tempApiTokenStore";
 // const discordCallback = process.env.DISCORD_BOT_CALLBACK;
 
 const kDiscordOauthUrl = "https://discordapp.com/api/v6/oauth2/token";
+const kDiscordUserUrl = "https://discordapp.com/api/v6/users/@me";
 
 export default async (fastify: FastifyInstance) => {
   // fastify.register(oauthPlugin, {
@@ -72,6 +73,9 @@ export default async (fastify: FastifyInstance) => {
     }
 
     let tokenRequest;
+    let userRequest;
+
+    let token;
 
     try {
       // ############################## THIS RESPONSE NEEDS TO ACTUALLY BE SAVED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -84,7 +88,7 @@ export default async (fastify: FastifyInstance) => {
         scope: "guilds.join identify",
       });
 
-      tokenRequest = await fetch(`${kDiscordOauthUrl}`, {
+      tokenRequest = await fetch(kDiscordOauthUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -93,7 +97,21 @@ export default async (fastify: FastifyInstance) => {
       });
 
       if (!tokenRequest.ok) {
-        throw response.status;
+        throw tokenRequest.status;
+      }
+
+      token = await tokenRequest.json();
+
+      userRequest = await fetch(kDiscordUserUrl, {
+        headers: {
+          Authorization: `Bearer ${token.access_token}`
+        },
+      });
+
+      console.log(userRequest);
+
+      if (!userRequest.ok) {
+        throw userRequest.status;
       }
     } catch (error) {
       response.status(400);
@@ -103,14 +121,17 @@ export default async (fastify: FastifyInstance) => {
       };
     }
 
-    const token = await tokenRequest.json();
+    const user = await userRequest.json();
 
     // TEMPORARY!!!
     const apiToken = randomBytes(20).toString("hex");
     tempApiTokenStore.push({
       apiToken,
       accessToken,
-      token,
+      token: {
+        id: user.id,
+        ...token,
+      },
     });
 
     return {

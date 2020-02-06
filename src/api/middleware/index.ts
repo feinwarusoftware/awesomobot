@@ -32,6 +32,8 @@ const verifyDiscordAuth = async function (request: FastifyRequest, reply: Fastif
     throw new Error("bad apiToken");
   }
 
+  console.log(token);
+
   this.session = token;
 };
 
