@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 
-import { decodeSession } from "../helpers";
+import { decodeSession, fetchDiscordUser } from "../helpers";
 
 const verifyDiscordAuth = async function (request: FastifyRequest, reply: FastifyReply) {
   // On why this shouldnt redirect if the session doesnt exist or is invalid;

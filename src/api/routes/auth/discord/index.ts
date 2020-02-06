@@ -45,8 +45,13 @@ export default async (fastify: FastifyInstance) => {
       httpOnly: true,
       sameSite: true,
       path: "/",
+      // needs to be replaced by awesomo.feinwaru.com
+      // allows for cookies to be shared between the api and frontend servers
+      domain: "localhost"
     });
 
-    response.redirect("/");
+    const redirect = request.cookies.redirect;
+
+    response.redirect(redirect == null ? "/" : `http://localhost:3000${redirect}`);
   });
 };

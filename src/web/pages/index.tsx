@@ -4,6 +4,8 @@ import Navbar from "../components/Navbar";
 import Jumbotron from "../components/Jumbotron";
 import FeaturedScript from "../components/FeaturedScript";
 import { withApollo } from "../lib/apollo";
+import { useState, useEffect } from "react";
+import { setCookie} from "nookies";
 
 const USERS_DATA = gql`
     query {
@@ -13,7 +15,14 @@ const USERS_DATA = gql`
     }
 `;
 
-function IndexPage() {
+// fuck knows what ctx does, but here we are...
+const loginClick = (ctx, redirect) => {
+  setCookie(ctx, "redirect", redirect, {
+    domain: "localhost",
+  });
+};
+
+function IndexPage({ ctx }) {
   const { loading, error, data } = useQuery(USERS_DATA);
 
   if (loading) return <p>Loading...</p>;
@@ -43,7 +52,7 @@ function IndexPage() {
       <div className="container overlap-jumbotron">
         <div className="row">
             <div className="col-12">
-              <h1 className="white"><a href="http://localhost/auth/discord">Login</a></h1>
+              <h1 className="white"><a onClick={() => loginClick(ctx, "/dashboard/marketplace")} href="http://localhost/auth/discord">Login</a></h1>
             </div>
         </div>
       </div>

@@ -9,6 +9,9 @@ import Script from "../../components/Script";
 import Filters from "../../components/Filters";
 import Pagination from "../../components/Pagination";
 import { useState, useEffect } from "react";
+import { parseCookies } from "nookies";
+import { NextPage, NextPageContext } from "next";
+import fetch from "isomorphic-unfetch";
 
 const tempTestVar = 1 + "gay" + `d${1}ck(s)`;
 
@@ -76,7 +79,24 @@ const queryMultiple = scriptPage => {
   return [scripts, featuredScripts];
 };
 
-function Marketplace() {
+interface IMarketplaceProps {
+  cookies: {
+    [key: string]: string,
+  },
+}
+
+interface IMarketplaceContext extends NextPageContext {
+
+}
+
+const Marketplace: NextPage<any> = (props) => {
+
+  const isAuthenticated = props?.pageProps?.isAuthenticated;
+
+  if (!isAuthenticated) {
+    return <div>not authenticated :(</div>
+  }
+
   const [scriptPage = 0, setScriptPage] = useState(0);
 
   const [scripts, featuredScripts] = queryMultiple(scriptPage);
@@ -230,5 +250,18 @@ function Marketplace() {
     </div>
   );
 }
+
+Marketplace.getInitialProps = async (ctx: IMarketplaceContext) => {
+  const cookies = parseCookies(ctx);
+
+  const res = await fetch("http://localhost/api/v3/users/me").then(res => res.json());
+  console.log(res);
+
+  const isAuthenticated = false;
+
+  return {
+    isAuthenticated,
+  };
+};
 
 export default Marketplace;
