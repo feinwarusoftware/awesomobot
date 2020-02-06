@@ -254,10 +254,11 @@ const Marketplace: NextPage<any> = (props) => {
 Marketplace.getInitialProps = async (ctx: IMarketplaceContext) => {
   const cookies = parseCookies(ctx);
 
-  const res = await fetch("http://localhost/api/v3/users/me").then(res => res.json());
-  console.log(res);
+  const { apiToken } = cookies;
 
-  const isAuthenticated = false;
+  // console.log(res);
+
+  const isAuthenticated = apiToken != null;
 
   return {
     isAuthenticated,

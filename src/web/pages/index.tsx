@@ -52,7 +52,7 @@ function IndexPage({ ctx }) {
       <div className="container overlap-jumbotron">
         <div className="row">
             <div className="col-12">
-              <h1 className="white"><a onClick={() => loginClick(ctx, "/dashboard/marketplace")} href="http://localhost/auth/discord">Login</a></h1>
+              <h1 className="white"><a onClick={() => loginClick(ctx, "/dashboard/marketplace")} href="https://discordapp.com/api/oauth2/authorize?client_id=372462428690055169&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fdiscord%2Fcallback&scope=guilds.join%20identify">Login</a></h1>
             </div>
         </div>
       </div>

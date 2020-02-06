@@ -70,8 +70,15 @@ export default {
         discordUser = await fetchUser(dbUser.discord_id).catch(() => ({ id: "unknown", username: "unknown" }));
       }
 
+      console.log("*********", dbUser);
+
+      // return {
+      //   ...dbUser || {},
+      //   ...objectSelect(discordUser || {}, responseUserProps),
+      // };
+
       return {
-        ...JSON.parse(JSON.stringify(dbUser)) || {},
+        ...JSON.parse(JSON.stringify(dbUser || {})),
         ...objectSelect(discordUser || {}, responseUserProps),
       };
     },
@@ -104,7 +111,6 @@ export default {
           fetched_at: new Date(),
         });
       } else {
-
         discordUserData = cachedDiscordUser;
       }
 
