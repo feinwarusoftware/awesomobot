@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import { parseCookies } from "nookies";
 import { NextPage, NextPageContext } from "next";
 import fetch from "isomorphic-unfetch";
+import SkeletonScript from "../../components/SkeletonScript";
 
 const tempTestVar = 1 + "gay" + `d${1}ck(s)`;
 
@@ -114,39 +115,9 @@ const Marketplace: NextPage<any> = (props) => {
 
   const refetch = scripts.networkStatus === NetworkStatus.setVariables;
 
-  // console.log(refetch, scripts.networkStatus, NetworkStatus.setVariables);
-
-  // console.log(refetch);
-
-  if ((scripts.loading || featuredScripts.loading) && !refetch) {
-    return <div>loading...</div>;
-  }
-
-  // const {
-  //   loading: featuredLoading,
-  //   error: featuredError,
-  //   data: featuredScriptData,
-  //   networkStatus: featuredNetworkStatus
-  // } = useQuery(featuredScriptQuery);
-
-  // const {
-  //   loading: scriptLoading,
-  //   error: scriptError,
-  //   data: scriptData,
-  //   networkStatus: scriptNetworkStatus
-  // } = useQuery(scriptQuery);
-
-  // const loadingMore = featuredNetworkStatus || scriptNetworkStatus === NetworkStatus.fetchMore;
-
-  // if (featuredError || scriptError) {
-  //   return <div>error :(</div>;
-  // }
-
-  // if (scriptLoading || featuredLoading) {
+  // if ((scripts.loading || featuredScripts.loading) && !refetch) {
   //   return <div>loading...</div>;
   // }
-  // const { scripts:featuredScripts } = featuredScriptData;
-  // const { scripts } = scriptData;
 
   return (
     <div className="marketplace">
@@ -180,7 +151,7 @@ const Marketplace: NextPage<any> = (props) => {
       <div className="overflow-scroll-container mb-120">
         <div className="container">
           <div className="row fixed-width">
-            {featuredScripts.data.scripts.list.map(e => (
+            {featuredScripts?.data?.scripts.list.map(e => (
               <div className="col-4 mb-4">
                 <FeaturedScript
                   key={e._id}
@@ -197,6 +168,10 @@ const Marketplace: NextPage<any> = (props) => {
                   verifiedAuthor={e.user_verified}
                   addFn={() => console.log("add")}
                 />
+              </div>
+            )) ?? [...Array(3)].map((e, i) => (
+              <div key={i} className="col-4 mb-4">
+                <SkeletonScript />
               </div>
             ))}
           </div>
@@ -220,10 +195,9 @@ const Marketplace: NextPage<any> = (props) => {
           </div>
         </div>
         <div className="row">
-          {scripts.data.scripts.list.map(e => (
-            <div className="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+          {scripts?.data?.scripts.list.map(e => (
+            <div key={e._id} className="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
               <Script
-                key={e._id}
                 id={e._id}
                 name={e.name}
                 author={e.username}
@@ -235,15 +209,21 @@ const Marketplace: NextPage<any> = (props) => {
                 verifiedAuthor={e.user_verified}
               />
             </div>
+          )) ?? [...Array(12)].map((e, i) => (
+            <div key={i} className="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+              <SkeletonScript />
+            </div>
           ))}
         </div>
         <div className="row justify-content-center">
+          {scripts.data && (
           <Pagination
             totalItems={scripts.data.scripts.total}
             pageSize={scriptPageSize}
             updatePage={setScriptPage}
             currentPage={scriptPage + 1}
           />
+          )}
         </div>
       </div>
     </div>

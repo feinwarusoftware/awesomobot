@@ -8,7 +8,7 @@ import {
   guildHandler,
   guildScriptHandler,
   scriptHandler,
-  userHandler,
+  userHandler
 } from "./handlers";
 
 import { schema, resolvers } from "./graphql";

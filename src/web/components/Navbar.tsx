@@ -1,20 +1,48 @@
 import { useState } from "react";
 import Link from "next/link";
-
-// import { useTranslation } from "../i18n";
+import { useQuery } from "@apollo/react-hooks";
+import gql from "graphql-tag";
 
 export default function Navbar({ transparent = false }) {
 
-  // const { i18n }:any = useTranslation(["common", "languageInfo"]);
-
-  // // Note: e[0] is the key, e[1] is the value
-  // const translationListElements = i18n.store.data.en?.languageInfo ? Object.entries(i18n.store.data.en.languageInfo).map((e:any, i) => (
-  //     <li key={i} onClick={() => i18n.changeLanguage(e[1].i18nCode)} >
-  //       <img src={`http://www.sciencekids.co.nz/images/pictures/flags120/${e[1].flag}.jpg`} />
-  //       {e[1].language}
-  //     </li>
-  //   )): null
-
+  const meQuery = gql`
+  query {
+    me {
+      _id
+      discord_id
+      username
+      banner
+      bio
+      socials {
+        name
+        icon
+        url
+      }
+      modules {
+        name
+        enabled
+        content
+        __typename
+      }
+      colours {
+        progress
+        level
+        name
+        rank
+      }
+      admin
+      verified
+      developer
+      tier
+      premium
+      xp
+      shits
+      trophies
+      likes
+    }
+  }
+`;
+  const { loading, error, data } = useQuery(meQuery);
   const [dashboardVisibility, setDashboardVisibility] = useState(false);
 
   return (
@@ -23,7 +51,7 @@ export default function Navbar({ transparent = false }) {
       <div className="container">
         <div className="row">
           <div className="col logo">
-            <img src={require("../static/img/awesomo_logo.svg")} />
+          <Link href="/"><img src={require("../static/img/awesomo_logo.svg")} /></Link>
           </div>
           <div className="col language">
             <ul className="nav-items">
@@ -85,7 +113,7 @@ export default function Navbar({ transparent = false }) {
           </div>
           <div className="col-12 col-md-6 col-lg-3">
             <i className="fas fa-user" />
-            <h3>Mattheous</h3>
+          <h3>{data?.me.username ?? "User"}</h3>
             <div className="divider" />
             <ul>
               <li><Link href="/dashboard/profile/@me">View Profile</Link></li>

@@ -68,6 +68,14 @@ h1 {
   font-size: 50px;
 }
 
+.pink {
+  color: $awesomo;
+}
+
+.white {
+  color: white;
+}
+
 .outline {
   color: transparent;
   &-1 {
@@ -160,6 +168,51 @@ code {
       color: black;
     }
   }
+
+  &.thicc {
+    width: 100%;
+    font-size: 22px;
+    &:hover,
+    &:active,
+    &:focus {
+      color: #eee;
+    }
+  }
+}
+
+.button-dropdown {
+overflow: hidden;
+height: auto;
+max-height: 0%;
+transition: max-height 1s ease;
+
+&.green li {
+  background-color: #5fd687;
+}
+
+&[data-expanded="true"] {
+  max-height: 100%;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  li {
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 4px 12px;
+    cursor: pointer;
+
+    &:first-of-type {
+      padding-top: 8px;
+    }
+    &:last-of-type {
+      padding-bottom: 8px;
+    }
+  }
+}
 }
 
 .mb-60 {
@@ -183,4 +236,12 @@ code {
     height: 100%;
     background: linear-gradient(-90deg, #eee, transparent);
   }
+}
+
+.square-div {
+  padding-top: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
 }

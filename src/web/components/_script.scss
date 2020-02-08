@@ -113,6 +113,52 @@
       max-height: 250px;
     }
   }
+
+  &.skeleton {
+    @mixin background-gradient {
+      background-image: linear-gradient(
+        90deg,
+        #ddd 0px,
+        #ccc 20px,
+        #ddd 140px
+      );
+      background-size: 600px;
+      background-color: #ddd;
+    }
+
+    @keyframes shine-lines {
+      0% {
+        background-position: -100px;
+      }
+      40%,
+      100% {
+        background-position: 500px;
+      }
+    }
+
+    @include background-gradient;
+    animation: shine-lines 2s infinite ease-out;
+
+    width: 100%;
+
+    .content {
+      width: 100%;
+    }
+  
+    h4 {
+      width: 100%;
+      height: 24px;
+      background-color: white;
+      border-radius: 100px;
+    }
+  
+    h5 {
+      width: 50%;
+      height: 18px;
+      background-color: $lightgrey;
+      border-radius: 100px;
+    }
+  }
 }
 .overflow-scroll-container {
   overflow-x: auto;

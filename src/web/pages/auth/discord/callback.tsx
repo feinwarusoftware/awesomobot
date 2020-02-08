@@ -21,6 +21,7 @@ const Callback: NextPage<any> = props => {
         // 1 week
         maxAge: 60 * 60 * 24,
         path: "/",
+        domain: "localhost"
       });
 
       const { redirect } = parseCookies({});
