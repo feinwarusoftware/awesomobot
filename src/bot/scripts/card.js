@@ -68,6 +68,13 @@ const downloadImage = async (pdfURL, outputFilename) => {
   fs.writeFileSync(outputFilename, response);
 };
 
+const messageEndswith = (message) => {
+
+  const split = message.content.split(" ");
+
+  return split[split.length - 1];
+};
+
 const calculateCardAugmentData = (original, utype, uvalue) => {
 
   const card = original;
@@ -370,6 +377,10 @@ const cb = async (client, message) => {
   ) {
     return message.channel.send("out of bounds");
   }
+  if (!isNaN(messageEndswith(message))) {
+    commandValues.modifier = "l";
+    commandValues.value = messageEndswith(message);
+  }
   if (commandValues.modifier === undefined) {
     commandValues.modifier = "l";
   }
@@ -383,6 +394,7 @@ const cb = async (client, message) => {
     commandValues.modifier = "l";
     commandValues.value = Math.floor(Math.random() * 7);
   }
+
 
   commandValues.value = parseInt(commandValues.value);
 
@@ -398,22 +410,22 @@ const cb = async (client, message) => {
       highestToDate = sim;
       highestCard = card;
     }
-    //for (let alias of card.aliases) {
+    for (let alias of card.aliases) {
 
-    //const lowerArrayAliases = alias.toLowerCase();
+      const lowerArrayAliases = alias.toLowerCase();
 
-    //let simAliases = similarity(lowerArrayAliases, commandValues.name);
+      let simAliases = similarity(lowerArrayAliases, commandValues.name);
 
-    //if (simAliases > highestToDate) {
-    //highestToDate = simAliases;
-    //highestCard = card;
-    //}
-    //}
+      if (simAliases > highestToDate) {
+        highestToDate = simAliases;
+        highestCard = card;
+      }
+    }
   }
 
-  if (highestToDate < 0.4) {
-    return message.channel.send("Card Not Found");
-  }
+  //if (highestToDate < 0.4) {
+  //return message.channel.send("Card Not Found");
+  //}
 
   commandValues.matchedCards = highestCard;
   commandValues.similarity = highestToDate;
@@ -437,7 +449,7 @@ const cb = async (client, message) => {
         return message.channel.send(discordEmbed);
       });
   }
-  
+
   //const cars = ["ford-lemon",
   //"lambo-range",
   //"ferra-pple",
@@ -1039,27 +1051,34 @@ const cb = async (client, message) => {
     if ((card.powers == null ? 0 : card.powers.length) !== 0) {
       embed.description += "**Power Information? - Yes**\n";
 
-      let power = {};
       for (let statpowers of stats.powers) {
-        if (statpowers.type !== null) {
+        if (statpowers.type !== null &&
+          !powers.map(e => e.type).includes(statpowers.type)) {
           embed.description += `Power Type: ${removeUnderscores(
             statpowers.type
           )} \nPower Amount: ${statpowers.amount}\n`;
         }
 
-        if (statpowers.duration != null) {
+        if (statpowers.duration != null &&
+          !powers.map(e => e.duration).includes(statpowers.duration)) {
+
           embed.description += `Power Duration: ${statpowers.duration} \n`;
         }
 
         if (statpowers.is_charged) {
-          embed.description += `Charged Power Regen: ${statpowers.charged_regen}\n`;
-          embed.description += `Charged Power Radius: ${statpowers.radius} \n`;
+          if (!powers.map(e => e.radius).includes(statpowers.radius)) {
+
+            embed.description += `Charged Power Radius: ${statpowers.radius} \n`;
+          }
         }
 
-        powers.push(power);
-
-
+        powers.push(statpowers);
       }
+      if (stats.powers[0].is_charged) {
+
+        embed.description += `Charged Power Regen: ${stats.powers[0].charged_regen}\n`;
+      }
+
       embed.description += "\n";
     } else {
       embed.description += "**Power Information? - No**\n\n";
