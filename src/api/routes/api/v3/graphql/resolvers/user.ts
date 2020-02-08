@@ -70,7 +70,7 @@ export default {
         discordUser = await fetchUser(dbUser.discord_id).catch(() => ({ id: "unknown", username: "unknown" }));
       }
 
-      console.log("*********", dbUser);
+      // console.log("*********", dbUser);
 
       // return {
       //   ...dbUser || {},
@@ -90,9 +90,9 @@ export default {
 
       // if we cant find a user in the database, proceed as normal but
       // only display the stuff that we can get from the discord api
-      const user = await userService.getOne({
+      const user = (await userService.getOne({
         discord_id: userId,
-      }) || { discord_id: userId };
+      }))?._doc || { discord_id: userId };
 
       // remove outdated cache items
       discordUserCache = discordUserCache.filter(e => new Date().getTime() - new Date(e.fetched_at).getTime() < discordUserCacheDuration); 

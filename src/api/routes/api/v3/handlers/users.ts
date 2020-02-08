@@ -115,9 +115,9 @@ export default async (fastify: FastifyInstance) => {
 
     // if we cant find a user in the database, proceed as normal but
     // only display the stuff that we can get from the discord api
-    const user = await userService.getOne({
+    const user = (await userService.getOne({
       discord_id: this.session.id,
-    }) || { discord_id: this.session.id };
+    }))?._doc || { discord_id: this.session.id };
 
     // remove outdated cache items
     discordUserCache = discordUserCache.filter(e => new Date().getTime() - new Date(e.fetched_at).getTime() < discordUserCacheDuration); 
