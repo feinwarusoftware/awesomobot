@@ -48,7 +48,9 @@
       "ignoreStrings": true,
       "ignoreTemplateLiterals": true,
       "ignoreUrls": true
-    }]
+    }],
+
+    "no-underscore-dangle": false,
   },
   "env": {
     "jest/globals": true,
