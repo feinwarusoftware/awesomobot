@@ -56,7 +56,7 @@ class DataType implements IDataType {
 }
 
 const createDataTypeService = <T extends IDataType>(objectTypeCls: ClassType<T>) => {
-  abstract class DataTypeService {
+  class DataTypeService {
     public findOne(uuid: string): Promise<T> {
       return new Promise(async (resolve, reject) => {
         try {
@@ -76,18 +76,18 @@ const createDataTypeService = <T extends IDataType>(objectTypeCls: ClassType<T>)
       });
     }
 
-    // public findMany(): Promise<T[]> {
-    //   return new Promise((resolve, reject) => {
-    //     try {
-    //       // const DataTypeModel = getModelForClass();
+    public findMany(): Promise<T[]> {
+      return new Promise((resolve, reject) => {
+        try {
+          // const DataTypeModel = getModelForClass();
   
-    //       resolve();
+          resolve();
   
-    //     } catch (error) {
-    //       reject(`Error executing findMultiple ${error}`);
-    //     }
-    //   });
-    // }
+        } catch (error) {
+          reject(`Error executing findMultiple ${error}`);
+        }
+      });
+    }
   }
 
   return DataTypeService;
@@ -210,12 +210,14 @@ interface IDataTypeInput {
 // }
 
 const createDataTypeResolver = <T extends IDataType>(suffix: string, objectTypeCls: ClassType<T>) => {
+  class DataTypeService extends createDataTypeService(objectTypeCls) {}
+
   @Resolver({
     isAbstract: true,
   })
   abstract class DataTypeResolver {
     constructor(
-      private readonly _dataTypeService: ,
+      private readonly _dataTypeService: DataTypeService,
     ) {}
 
     @Query(() => objectTypeCls, { name: `getOne${suffix}` })
@@ -234,21 +236,48 @@ const createDataTypeResolver = <T extends IDataType>(suffix: string, objectTypeC
 
 @ObjectType()
 class User extends DataType {
-
+  @prop()
+  @Field()
+  public test?: string;
 }
 
 const UserBaseService = createDataTypeService(User);
 
 @Service()
 class UserService extends UserBaseService {
+  public findOneByTest(test: string): Promise<User> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const UserModel = getModelForClass(User);
 
+        const user: User = (await UserModel.findOne({ test }))?.toObject();
+        if (user == null) {
+          return reject(`No user found with test: ${test}`);
+        }
+
+        resolve(user);
+
+      } catch (error) {
+        reject(`Error finding user by test: ${error}`);
+      }
+    });
+  }
 }
 
 const UserBaseResolver = createDataTypeResolver("User", User);
 
 @Resolver(() => User)
 class UserResolver extends UserBaseResolver {
+  constructor(
+    private readonly _userService: UserService,
+  ) {
+    super(_userService);
+  }
 
+  @Query(() => User)
+  async getUserByTest(@Arg("test", () => String) test: string): Promise<User> {
+    return await this._userService.findOneByTest(test);
+  }
 }
 
 // @ObjectType()
@@ -281,6 +310,12 @@ import fastify from "fastify";
 import { ApolloServer, gql } from "apollo-server-fastify";
 
 (async () => {
+  await mongoose.connect("mongodb://localhost:27017/", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: "awnext-test",
+  });
+
   const schema = await buildSchema({
     resolvers: [UserResolver],
     container: Container,

@@ -68,3 +68,15 @@ guid
 icon
 colour
 text
+
+***
+
+types:
+
+output:
+- schema (internal mongo) - cannot use ts, at least not easily :(
+- model (filtered schema) (internal dblib) - also NEED TO CLEAN THIS SO IT DOESNT CONTAIN GAY MONGO SHIT
+
+input:
+- input - when creating new db objects
+- filters (db search - need to be transformed to match db lib) - helper fn for this?
