@@ -1,7 +1,8 @@
+import "reflect-metadata"
 import { Guild, Script, User } from "./types";
 import { GuildInput, ScriptInput, UserInput } from "./inputs";
 import { GuildArgs, ScriptArgs, UserArgs } from "./args";
-import { Resolver, Query, Arg, Mutation, Args } from "type-graphql";
+import { Resolver, Query, Arg, Mutation, Args, ID } from "type-graphql";
 import { Types } from "mongoose";
 
 @Resolver(Guild)
@@ -12,12 +13,12 @@ class GuildResolver {
   ) {}
 
   @Query(() => Guild)
-  async getGuildById(@Arg("id") id: Types.ObjectId) {
+  async getGuildById(@Arg("id", () => ID) id: Types.ObjectId) {
 
   }
 
   @Query(() => Guild)
-  async getGuildByDiscordId(@Arg("id") discordId: string) {
+  async getGuildByDiscordId(@Arg("discordID", () => ID) discordId: string) {
 
   }
 
@@ -32,33 +33,33 @@ class GuildResolver {
   }
 
   @Mutation(() => [Boolean])
-  async updateGuild(@Arg("id") id: Types.ObjectId, @Arg("guildData") guildData: GuildInput) {
+  async updateGuild(@Arg("id", () => ID) id: Types.ObjectId, @Arg("guildData") guildData: GuildInput) {
 
   }
 
   @Mutation(() => [Boolean])
-  async deleteGuild(@Arg("id") id: Types.ObjectId) {
+  async deleteGuild(@Arg("id", () => ID) id: Types.ObjectId) {
 
   }
 
   // Adding scripts
   @Mutation(() => [Boolean])
-  async addGuildScript(@Arg("id") id: Types.ObjectId, @Arg("scriptId") scriptId: string) {
+  async addGuildScript(@Arg("id", () => ID) id: Types.ObjectId, @Arg("scriptId") scriptId: string) {
 
   }
 
   @Mutation(() => [Boolean])
-  async removeGuildScript(@Arg("id") id: Types.ObjectId, @Arg("scriptId") scriptId: string) {
+  async removeGuildScript(@Arg("id", () => ID) id: Types.ObjectId, @Arg("scriptId") scriptId: string) {
 
   }
 
   @Mutation(() => [Boolean])
-  async addGuildScriptByDiscordId(@Arg("discordId") discordId: string, @Arg("scriptId") scriptId: string) {
+  async addGuildScriptByDiscordId(@Arg("discordId", () => ID) discordId: string, @Arg("scriptId") scriptId: string) {
 
   }
 
   @Mutation(() => [Boolean])
-  async removeGuildScriptByDiscordId(@Arg("discordId") discordId: string, @Arg("scriptId") scriptId: string) {
+  async removeGuildScriptByDiscordId(@Arg("discordId", () => ID) discordId: string, @Arg("scriptId") scriptId: string) {
 
   }
 }
@@ -71,7 +72,7 @@ class ScriptResolver {
   ) {}
 
   @Query(() => Guild)
-  async getScriptById(@Arg("id") id: Types.ObjectId) {
+  async getScriptById(@Arg("id", () => ID) id: Types.ObjectId) {
 
   }
 
@@ -86,12 +87,12 @@ class ScriptResolver {
   }
 
   @Mutation(() => [Boolean])
-  async updateScript(@Arg("id") id: Types.ObjectId, @Arg("scriptData") scriptData: ScriptInput) {
+  async updateScript(@Arg("id", () => ID) id: Types.ObjectId, @Arg("scriptData") scriptData: ScriptInput) {
 
   }
 
   @Mutation(() => [Boolean])
-  async deleteScript(@Arg("id") id: Types.ObjectId) {
+  async deleteScript(@Arg("id", () => ID) id: Types.ObjectId) {
 
   }
 }
@@ -104,12 +105,12 @@ class UserResolver {
   ) {}
 
   @Query(() => Guild)
-  async getUserById(@Arg("id") id: Types.ObjectId) {
+  async getUserById(@Arg("id", () => ID) id: Types.ObjectId) {
 
   }
 
   @Query(() => Guild)
-  async getUserByDiscordId(@Arg("id") discordId: string) {
+  async getUserByDiscordId(@Arg("discordId", () => ID) discordId: string) {
 
   }
 
@@ -124,33 +125,33 @@ class UserResolver {
   }
 
   @Mutation(() => [Boolean])
-  async updateUser(@Arg("id") id: Types.ObjectId, @Arg("userData") userData: UserInput) {
+  async updateUser(@Arg("id", () => ID) id: Types.ObjectId, @Arg("userData") userData: UserInput) {
 
   }
 
   @Mutation(() => [Boolean])
-  async deleteUser(@Arg("id") id: Types.ObjectId) {
+  async deleteUser(@Arg("id", () => ID) id: Types.ObjectId) {
 
   }
 
   // Liking scripts
   @Mutation(() => [Boolean])
-  async addUserScriptLike(@Arg("id") id: Types.ObjectId, @Arg("scriptId") scriptId: string) {
+  async addUserScriptLike(@Arg("id", () => ID) id: Types.ObjectId, @Arg("scriptId") scriptId: string) {
 
   }
 
   @Mutation(() => [Boolean])
-  async removeUserScriptLike(@Arg("id") id: Types.ObjectId, @Arg("scriptId") scriptId: string) {
+  async removeUserScriptLike(@Arg("id", () => ID) id: Types.ObjectId, @Arg("scriptId") scriptId: string) {
 
   }
 
   @Mutation(() => [Boolean])
-  async addUserScriptLikeByDiscordId(@Arg("discordId") discordId: string, @Arg("scriptId") scriptId: string) {
+  async addUserScriptLikeByDiscordId(@Arg("discordId", () => ID) discordId: string, @Arg("scriptId") scriptId: string) {
 
   }
 
   @Mutation(() => [Boolean])
-  async removeUserScriptLikeByDiscordId(@Arg("discordId") discordId: string, @Arg("scriptId") scriptId: string) {
+  async removeUserScriptLikeByDiscordId(@Arg("discordId", () => ID) discordId: string, @Arg("scriptId") scriptId: string) {
 
   }
 }

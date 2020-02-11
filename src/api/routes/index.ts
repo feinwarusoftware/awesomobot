@@ -22,7 +22,7 @@ export default async (fastify: FastifyInstance) => {
     resolvers: [
       GuildResolver,
       ScriptResolver,
-      UserResolver,
+      // UserResolver,
     ],
     container: Container,
   });

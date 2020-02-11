@@ -47,7 +47,7 @@ class ScriptInput implements Partial<IScript> {
 }
 
 @InputType()
-class Social implements Partial<ISocial> {
+class SocialInput implements Partial<ISocial> {
   @Field(() => String, { nullable: true })
   public name?: string;
 
@@ -59,7 +59,7 @@ class Social implements Partial<ISocial> {
 }
 
 @InputType()
-class Module implements Partial<IModule> {
+class ModuleInput implements Partial<IModule> {
   @Field(() => String, { nullable: true })
   public name?: string;
 
@@ -71,7 +71,7 @@ class Module implements Partial<IModule> {
 }
 
 @InputType()
-class Colour implements Partial<IColour> {
+class ColourInput implements Partial<IColour> {
   @Field(() => String, { nullable: true })
   public progress?: string;
 
@@ -93,13 +93,13 @@ class UserInput implements Partial<IUser> {
   @Field(() => String, { nullable: true })
   public bio?: string;
 
-  @Field(() => [Social], { nullable: true })
+  @Field(() => [SocialInput], { nullable: true })
   public socials?: ISocial[];
 
-  @Field(() => [Module], { nullable: true })
+  @Field(() => [ModuleInput], { nullable: true })
   public modules?: IModule[];
 
-  @Field(() => Colour, { nullable: true })
+  @Field(() => ColourInput, { nullable: true })
   public colours?: IColour;
 }
 
