@@ -2,7 +2,7 @@ import IGuild from "./IGuild";
 import IGuildScript from "./IGuildScript";
 import IScript from "./IScript";
 import { ISession, ISessionFilters } from "./ISession";
-import IUser from "./IUser";
+import { ISocial, IModule, IColour, IUser } from "./IUser";
 
 export {
   IGuild,
@@ -10,5 +10,8 @@ export {
   IScript,
   ISession,
   ISessionFilters,
+  ISocial,
+  IModule,
+  IColour,
   IUser,
 };

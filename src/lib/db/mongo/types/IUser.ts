@@ -43,4 +43,9 @@ interface IUser extends Document {
   likes: Types.ObjectId[]
 }
 
-export default IUser;
+export {
+  ISocial,
+  IModule,
+  IColour,
+  IUser,
+};
