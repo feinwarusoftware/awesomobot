@@ -27,6 +27,15 @@ class Guild implements Partial<IGuild> {
 }
 
 @ObjectType()
+class GuildCollection {
+  @Field(() => Int)
+  public count!: number;
+
+  @Field(() => [Guild])
+  public data!: Guild[];
+}
+
+@ObjectType()
 class Script implements Partial<IScript> {
   @Field(() => ID)
   public _id!: Types.ObjectId;
@@ -97,6 +106,15 @@ class Script implements Partial<IScript> {
 
   @Field(() => Boolean)
   public authorVerified!: boolean;
+}
+
+@ObjectType()
+class ScriptCollection {
+  @Field(() => Int)
+  public count!: number;
+
+  @Field(() => [Script])
+  public data!: Script[];
 }
 
 @ObjectType()
@@ -196,8 +214,20 @@ class User implements Partial<IUser> {
   public avatarUrl!: string;
 }
 
+@ObjectType()
+class UserCollection {
+  @Field(() => Int)
+  public count!: number;
+
+  @Field(() => [User])
+  public data!: User[];
+}
+
 export {
   Guild,
+  GuildCollection,
   Script,
+  ScriptCollection,
   User,
+  UserCollection,
 };

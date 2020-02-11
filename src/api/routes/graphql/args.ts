@@ -14,18 +14,6 @@ enum ScriptSortField {
   USE_COUNT,
 }
 
-enum DiscordUserFields {
-  NONE = 0x0,
-  USERNAME = 0x1,
-  AVATAR_URL = 0x2,
-}
-
-enum DiscordScriptUserFields {
-  NONE = 0x0,
-  USERNAME = 0x1,
-  VERIFIED = 0x2,
-}
-
 enum UserSortField {
   XP,
   SHITS,
@@ -139,4 +127,5 @@ export {
   GuildArgs,
   ScriptArgs,
   UserArgs,
+  SortDirection,
 }

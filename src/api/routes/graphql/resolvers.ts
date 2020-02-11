@@ -1,66 +1,77 @@
 import "reflect-metadata"
-import { Guild, Script, User } from "./types";
+import { Guild, GuildCollection, Script, ScriptCollection, User, UserCollection } from "./types";
 import { GuildInput, ScriptInput, UserInput } from "./inputs";
 import { GuildArgs, ScriptArgs, UserArgs } from "./args";
 import { Resolver, Query, Arg, Mutation, Args, ID } from "type-graphql";
 import { Types } from "mongoose";
+import { GuildService, ScriptService, UserService } from "../../../lib/db/mongo/services";
 
 @Resolver(Guild)
 class GuildResolver {
   // TODO: Add service type
   constructor(
-    private readonly guildService: any,
+    private readonly guildService: GuildService,
   ) {}
 
   @Query(() => Guild)
   async getGuildById(@Arg("id", () => ID) id: Types.ObjectId) {
-
+    const guild = await this.guildService.getOneById(id);
+    return guild;
   }
 
   @Query(() => Guild)
   async getGuildByDiscordId(@Arg("discordID", () => ID) discordId: string) {
-
+    const guild = await this.guildService.getOneByDiscordId(discordId);
+    return guild;
   }
 
-  @Query(() => [Guild])
+  @Query(() => GuildCollection)
   async getGuilds(@Args() { take, skip, sort, ids, discordIds, premium, scripts }: GuildArgs) {
-
+    const guilds = await this.guildService.getMany(take, skip, sort, {ids, discordIds, premium, scripts});
+    return guilds;
   }
 
-  @Mutation(() => [Guild])
+  @Mutation(() => Guild)
   async createGuild(@Arg("guildData") guildData: GuildInput) {
-
+    const guild = await this.guildService.createOne(guildData);
+    return guild;
   }
 
   @Mutation(() => [Boolean])
   async updateGuild(@Arg("id", () => ID) id: Types.ObjectId, @Arg("guildData") guildData: GuildInput) {
-
+    const guild = await this.guildService.updateOne(id, guildData);
+    return guild;
   }
 
   @Mutation(() => [Boolean])
   async deleteGuild(@Arg("id", () => ID) id: Types.ObjectId) {
-
+    const guild = await this.guildService.deleteOne(id);
+    return guild;
   }
 
   // Adding scripts
   @Mutation(() => [Boolean])
   async addGuildScript(@Arg("id", () => ID) id: Types.ObjectId, @Arg("scriptId") scriptId: string) {
-
+    const guild = await this.guildService.addGuildScript(id, scriptId)
+    return guild;
   }
 
   @Mutation(() => [Boolean])
   async removeGuildScript(@Arg("id", () => ID) id: Types.ObjectId, @Arg("scriptId") scriptId: string) {
-
+    const guild = await this.guildService.removeGuildScript(id, scriptId);
+    return guild;
   }
 
   @Mutation(() => [Boolean])
   async addGuildScriptByDiscordId(@Arg("discordId", () => ID) discordId: string, @Arg("scriptId") scriptId: string) {
-
+    const guild = await this.guildService.removeGuildScriptByDiscordId(discordId, scriptId);
+    return guild;
   }
 
   @Mutation(() => [Boolean])
   async removeGuildScriptByDiscordId(@Arg("discordId", () => ID) discordId: string, @Arg("scriptId") scriptId: string) {
-
+    const guild = await this.guildService.removeGuildScriptByDiscordId(discordId, scriptId);
+    return guild;
   }
 }
 
@@ -68,32 +79,37 @@ class GuildResolver {
 class ScriptResolver {
   // TODO: Add service type
   constructor(
-    private readonly scriptService: any,
+    private readonly scriptService: ScriptService,
   ) {}
 
-  @Query(() => Guild)
-  async getScriptById(@Arg("id", () => ID) id: Types.ObjectId) {
-
+  @Query(() => Script)
+  async getScriptById(@Arg("id", () => ID) id: Types.ObjectId, @Arg("discordUserFields") discordUserFields: number) {
+    const script = await this.scriptService.getOneByIdWithDiscordUserFields(id, discordUserFields);
+    return script;
   }
 
-  @Query(() => [Guild])
+  @Query(() => ScriptCollection)
   async getScripts(@Args() { take, skip, sort, ids, authorIds, name, local, featured, preload, verified, likedById, likedByDiscordId, discordUserFields, sortField }: ScriptArgs) {
-
+    const script = await this.scriptService.getManyWithDiscordUserFields(take, skip, sort, sortField, {ids, authorIds, name, local, featured, preload, verified, likedById, likedByDiscordId}, discordUserFields);
+    return script;
   }
 
-  @Mutation(() => [Guild])
+  @Mutation(() => Script)
   async createScript(@Arg("scriptData") scriptData: ScriptInput) {
-
+    const script = await this.scriptService.createOne(scriptData);
+    return script;
   }
 
   @Mutation(() => [Boolean])
   async updateScript(@Arg("id", () => ID) id: Types.ObjectId, @Arg("scriptData") scriptData: ScriptInput) {
-
+    const script = await this.scriptService.updateOne(id, scriptData);
+    return script;
   }
 
   @Mutation(() => [Boolean])
   async deleteScript(@Arg("id", () => ID) id: Types.ObjectId) {
-
+    const script = await this.scriptService.deleteOne(id);
+    return script;
   }
 }
 
@@ -101,58 +117,68 @@ class ScriptResolver {
 class UserResolver {
   // TODO: Add service type
   constructor(
-    private readonly userService: any,
+    private readonly userService: UserService,
   ) {}
 
-  @Query(() => Guild)
-  async getUserById(@Arg("id", () => ID) id: Types.ObjectId) {
-
+  @Query(() => User)
+  async getUserById(@Arg("id", () => ID) id: Types.ObjectId, @Arg("discordFields") discordFields: number) {
+    const user = await this.userService.getOneByIdWithDiscordFields(id, discordFields)
+    return user;
   }
 
-  @Query(() => Guild)
-  async getUserByDiscordId(@Arg("discordId", () => ID) discordId: string) {
-
+  @Query(() => User)
+  async getUserByDiscordId(@Arg("discordId", () => ID) discordId: string, @Arg("discordFields") discordFields: number) {
+    const user = await this.userService.getOneByDiscordIdWithDiscordFields(discordId, discordFields);
+    return user;
   }
 
-  @Query(() => [Guild])
+  @Query(() => UserCollection)
   async getUsers(@Args() { take, skip, sort, ids, discordIds, admin, verified, developer, premium, discordFields, sortField }: UserArgs) {
-
+    const user = await this.userService.getManyWithDiscordFields(take, skip, sort, sortField, {discordIds, admin, verified, developer, premium}, discordFields)
+    return user;
   }
 
-  @Mutation(() => [Guild])
+  @Mutation(() => User)
   async createUser(@Arg("userData") userData: UserInput) {
-
+    const user = await this.userService.createOne(userData);
+    return user;
   }
 
   @Mutation(() => [Boolean])
   async updateUser(@Arg("id", () => ID) id: Types.ObjectId, @Arg("userData") userData: UserInput) {
-
+    const user = await this.userService.updateOne(id, userData);
+    return user;
   }
 
   @Mutation(() => [Boolean])
   async deleteUser(@Arg("id", () => ID) id: Types.ObjectId) {
-
+    const user = await this.userService.deleteOne(id);
+    return user;
   }
 
   // Liking scripts
   @Mutation(() => [Boolean])
   async addUserScriptLike(@Arg("id", () => ID) id: Types.ObjectId, @Arg("scriptId") scriptId: string) {
-
+    const like = await this.userService.addUserScriptLike(id, scriptId)
+    return like;
   }
 
   @Mutation(() => [Boolean])
   async removeUserScriptLike(@Arg("id", () => ID) id: Types.ObjectId, @Arg("scriptId") scriptId: string) {
-
+    const like = await this.userService.removeUserScriptLike(id, scriptId)
+    return like;
   }
 
   @Mutation(() => [Boolean])
   async addUserScriptLikeByDiscordId(@Arg("discordId", () => ID) discordId: string, @Arg("scriptId") scriptId: string) {
-
+    const like = await this.userService.addUserScriptLikeByDiscordId(discordId, scriptId)
+    return like;
   }
 
   @Mutation(() => [Boolean])
   async removeUserScriptLikeByDiscordId(@Arg("discordId", () => ID) discordId: string, @Arg("scriptId") scriptId: string) {
-
+    const like = await this.userService.removeUserScriptLikeByDiscordId(discordId, scriptId)
+    return like;
   }
 }
 
