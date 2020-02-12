@@ -27,7 +27,14 @@ class GuildResolver {
 
   @Query(() => GuildCollection)
   async getGuilds(@Args() { take, skip, sort, ids, discordIds, premium, scripts }: GuildArgs) {
-    const guilds = await this.guildService.getMany(take, skip, sort, {ids, discordIds, premium, scripts});
+    const filters = {
+      ...(ids == null ? {} : { _id: { $in: ids } }),
+      ...(discordIds == null ? {} : { discord_id: { $in: discordIds } }),
+      ...(premium == null ? {} : { premium }),
+      ...(scripts == null ? {} : { "scripts.object_id": { $in: scripts } }),
+    };
+    
+    const guilds = await this.guildService.getMany(take, skip, sort, undefined, filters);
     return guilds;
   }
 
@@ -89,9 +96,19 @@ class ScriptResolver {
   }
 
   @Query(() => ScriptCollection)
-  async getScripts(@Args() { take, skip, sort, ids, authorIds, name, local, featured, preload, verified, likedById, likedByDiscordId, discordUserFields, sortField }: ScriptArgs) {
-    const script = await this.scriptService.getManyWithDiscordUserFields(take, skip, sort, sortField, {ids, authorIds, name, local, featured, preload, verified, likedById, likedByDiscordId}, discordUserFields);
-    return script;
+  async getScripts(@Args() { take, skip, sort, ids, authorIds, name, local, featured, preload, verified, discordUserFields, sortField }: ScriptArgs) {    
+    const filters = {
+      ...(ids == null ? {} : { _id: { $in: ids } }),
+      ...(authorIds == null ? {} : { author_id: { $in: authorIds } }),
+      ...(name == null ? {} : { name: { $regex: `.*${name}.*`, $options: "i" } }),
+      ...(local == null ? {} : { local }),
+      ...(featured == null ? {} : { featured }),
+      ...(preload == null ? {} : { preload }),
+      ...(verified == null ? {} : { verified }),
+    };
+    
+    const scripts = await this.scriptService.getManyWithDiscordUserFields(take, skip, sort, sortField, filters, discordUserFields);
+    return scripts;
   }
 
   @Mutation(() => Script)
@@ -134,7 +151,16 @@ class UserResolver {
 
   @Query(() => UserCollection)
   async getUsers(@Args() { take, skip, sort, ids, discordIds, admin, verified, developer, premium, discordFields, sortField }: UserArgs) {
-    const user = await this.userService.getManyWithDiscordFields(take, skip, sort, sortField, {discordIds, admin, verified, developer, premium}, discordFields)
+    const filters = {
+      ...(ids == null ? {} : { _id: { $in: ids } }),
+      ...(discordIds == null ? {} : { discord_id: { $in: discordIds } }),
+      ...(admin == null ? {} : { admin }),
+      ...(verified == null ? {} : { verified }),
+      ...(developer == null ? {} : { developer }),
+      ...(premium == null ? {} : { premium }),
+    };
+    
+    const user = await this.userService.getManyWithDiscordFields(take, skip, sort, sortField, filters, discordFields)
     return user;
   }
 
@@ -154,6 +180,17 @@ class UserResolver {
   async deleteUser(@Arg("id", () => ID) id: Types.ObjectId) {
     const user = await this.userService.deleteOne(id);
     return user;
+  }
+
+  // Fetching liked scripts
+  @Query(() => User)
+  async getLikedScriptsByUserId(@Arg("id", () => ID) id: Types.ObjectId, @Arg("discordFields") discordFields: number) {
+
+  }
+
+  @Query(() => User)
+  async getLikedScriptsByUserDiscordId(@Arg("discordId", () => ID) discordId: string, @Arg("discordFields") discordFields: number) {
+
   }
 
   // Liking scripts

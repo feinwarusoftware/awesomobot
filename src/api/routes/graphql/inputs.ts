@@ -15,6 +15,9 @@ class GuildInput implements Partial<IGuild> {
 // on updates, I will fix that in the next api version
 @InputType()
 class ScriptInput implements Partial<IScript> {
+  @Field(() => ID, { nullable: true })
+  public author_id?: string;
+
   @Field(() => String, { nullable: true })
   public name?: string;
 

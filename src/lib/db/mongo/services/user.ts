@@ -116,6 +116,14 @@ class UserService extends BaseUserService {
     });
   }
 
+  public getLikedScriptsById(id: Types.ObjectId, discordUserFields: number) {
+
+  }
+
+  public getLikedScriptsByDiscordId(discordId: string, discordUserFields: number) {
+
+  }
+
   public addUserScriptLike(id: Types.ObjectId, scriptId: string) {
 
   }

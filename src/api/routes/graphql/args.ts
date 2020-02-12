@@ -9,27 +9,27 @@ enum SortDirection {
 }
 
 enum ScriptSortField {
-  LIKES,
-  GUILD_COUNT,
-  USE_COUNT,
+  LIKES = "likes",
+  GUILD_COUNT = "guild_count",
+  USE_COUNT = "use_count",
 }
 
 enum UserSortField {
-  XP,
-  SHITS,
+  XP = "xd",
+  SHITS = "shits",
 }
 
 registerEnumType(SortDirection, {
   name: "SortDirection",
-})
+});
 
 registerEnumType(ScriptSortField, {
   name: "ScriptSortField",
-})
+});
 
 registerEnumType(UserSortField, {
   name: "UserSortField",
-})
+});
 
 @ArgsType()
 abstract class BaseArgs {
@@ -80,12 +80,6 @@ class ScriptArgs extends BaseArgs {
 
   @Field(() => Boolean, { nullable: true })
   public verified?: boolean;
-
-  @Field(() => ID, { nullable: true })
-  public likedById?: Types.ObjectId;
-
-  @Field(() => ID, { nullable: true })
-  public likedByDiscordId?: string;
 
   @Field(() => Int, { nullable: true })
   public discordUserFields?: number;
