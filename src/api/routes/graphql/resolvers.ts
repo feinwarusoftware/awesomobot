@@ -96,7 +96,7 @@ class ScriptResolver {
   }
 
   @Query(() => ScriptCollection)
-  async getScripts(@Args() { take, skip, sort, ids, authorIds, name, local, featured, preload, verified, discordUserFields, sortField }: ScriptArgs) {    
+  async getScripts(@Args() { take, skip, sort, ids, authorIds, name, local, featured, preload, verified, marketplaceEnabled, discordUserFields, sortField }: ScriptArgs) {    
     const filters = {
       ...(ids == null ? {} : { _id: { $in: ids } }),
       ...(authorIds == null ? {} : { author_id: { $in: authorIds } }),
@@ -105,6 +105,7 @@ class ScriptResolver {
       ...(featured == null ? {} : { featured }),
       ...(preload == null ? {} : { preload }),
       ...(verified == null ? {} : { verified }),
+      ...(marketplaceEnabled == null ? {} : { marketplace_enabled: marketplaceEnabled }),
     };
     
     const scripts = await this.scriptService.getManyWithDiscordUserFields(take, skip, sort, sortField, filters, discordUserFields);
@@ -136,6 +137,12 @@ class UserResolver {
   constructor(
     private readonly userService: UserService,
   ) {}
+
+  // TODO: Implement
+  @Query(() => User)
+  async getLoggedInUser(discordFields: number) {
+
+  }
 
   @Query(() => User)
   async getUserById(@Arg("id", () => ID) id: Types.ObjectId, @Arg("discordFields") discordFields: number) {

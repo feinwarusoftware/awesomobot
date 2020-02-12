@@ -20,41 +20,41 @@ const scriptPageSize = 12;
 
 const featuredScriptQuery = gql`
   query {
-    scripts(featured: true, marketplace_enabled: true) {
-      list {
+    getScripts(featured: true, marketplaceEnabled: true) {
+      data {
         _id
         name
         author_id
-        username
+        authorUsername
         thumbnail
         match
         match_type
         likes
         guild_count
         verified
-        user_verified
+        authorVerified
       }
-      total
+      count
     }
   }
 `;
 
 const scriptQuery = gql`
-  query($limit: Int, $page: Int, $verified: Boolean, $with_ids: [ID], $author_id: ID, $name: String, $sortField: String, $sortDirection: Int) {
-    scripts(featured: false, marketplace_enabled: true, limit: $limit, page: $page, verified: $verified, with_ids: $with_ids, author_id: $author_id, name: $name, sortField: $sortField, sortDirection: $sortDirection) {
-      list {
+  query($take: Int, $skip: Int, $verified: Boolean, $ids: [ID!], $authorIds: [ID!], $name: String, $sortField: ScriptSortField, $sort: SortDirection) {
+    getScripts(featured: false, marketplaceEnabled: true, take: $take, skip: $skip, verified: $verified, ids: $ids, authorIds: $authorIds, name: $name, sortField: $sortField, sort: $sort) {
+      data {
         _id
         name
         author_id
-        username
+        authorUsername
         thumbnail
         match
         likes
         guild_count
         verified
-        user_verified
+        authorVerified
       }
-      total
+      count
     }
   }
 `;
@@ -64,14 +64,14 @@ let firstLoad = true;
 const queryMultiple = scriptPage => {
   const scripts = useQuery(scriptQuery, {
     variables: {
-      limit: scriptPageSize,
-      page: scriptPage,
+      take: scriptPageSize,
+      skip: scriptPage,
       verified: null,
-      with_ids: null,
-      author_id: null,
+      ids: null,
+      authorIds: null,
       name: null,
-      sortField: "use_count",
-      sortDirection: -1,
+      sortField: "USE_COUNT",
+      sort: "DESCENDING",
       notifyOnNetworkStatusChange: true,
     },
   });
@@ -151,7 +151,7 @@ const Marketplace: NextPage<any> = (props) => {
       <div className="overflow-scroll-container mb-120">
         <div className="container">
           <div className="row fixed-width">
-            {featuredScripts?.data?.scripts.list.map(e => (
+            {featuredScripts?.data?.scripts.data.map(e => (
               <div className="col-4 mb-4">
                 <FeaturedScript
                   key={e._id}
@@ -195,7 +195,7 @@ const Marketplace: NextPage<any> = (props) => {
           </div>
         </div>
         <div className="row">
-          {scripts?.data?.scripts.list.map(e => (
+          {scripts?.data?.scripts.data.map(e => (
             <div key={e._id} className="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
               <Script
                 id={e._id}
@@ -218,7 +218,7 @@ const Marketplace: NextPage<any> = (props) => {
         <div className="row justify-content-center">
           {scripts.data && (
           <Pagination
-            totalItems={scripts.data.scripts.total}
+            totalItems={scripts.data.scripts.count}
             pageSize={scriptPageSize}
             updatePage={setScriptPage}
             currentPage={scriptPage + 1}

@@ -28,15 +28,15 @@ class GuildService extends BaseGuildService {
   }
 
   public removeGuildScript(id: Types.ObjectId, scriptId: string) {
-    
+
   }
 
   public addGuildScriptByDiscordId(discordId: string, scriptId: string) {
-    
+
   }
 
   public removeGuildScriptByDiscordId(discordId: string, scriptId: string) {
-    
+
   }
 }
 

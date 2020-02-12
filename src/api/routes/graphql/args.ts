@@ -81,6 +81,9 @@ class ScriptArgs extends BaseArgs {
   @Field(() => Boolean, { nullable: true })
   public verified?: boolean;
 
+  @Field(() => Boolean, { nullable: true })
+  public marketplaceEnabled?: boolean;
+
   @Field(() => Int, { nullable: true })
   public discordUserFields?: number;
 

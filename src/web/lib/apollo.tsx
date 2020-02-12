@@ -16,8 +16,8 @@ function createApolloClient(initialState = {}) {
     link: new HttpLink({
       uri:
         apiRoot == null || apiRoot === "localhost"
-          ? "http://localhost/api/v3/gql"
-          : `https://${apiRoot}/api/v3/gql`,
+          ? "http://localhost/graphql"
+          : `https://${apiRoot}/graphql`,
       credentials: "include",
       fetch
     }),

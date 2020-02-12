@@ -13,10 +13,19 @@ import { buildSchema } from "type-graphql";
 import { Container } from "typedi";
 
 import { GuildResolver, ScriptResolver, UserResolver } from "./graphql";
+import fastifyCors from "fastify-cors";
 
 // const cookieSecret = process.env.COOKIE_SECRET;
 
 export default async (fastify: FastifyInstance) => {
+
+  fastify.register(fastifyCors, {
+    origin: [
+      "https://beta-awesomo.feinwaru.com",
+      "http://localhost:3000",
+    ],
+    credentials: true,
+  });
 
   const schema = await buildSchema({
     resolvers: [

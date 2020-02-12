@@ -101,11 +101,11 @@ class Script implements Partial<IScript> {
   public updated_at!: Date;
 
   // Discord fields
-  @Field(() => String)
-  public authorUsername!: string;
+  @Field(() => String, { nullable: true })
+  public authorUsername?: string;
 
-  @Field(() => Boolean)
-  public authorVerified!: boolean;
+  @Field(() => Boolean, { nullable: true })
+  public authorVerified?: boolean;
 }
 
 @ObjectType()
@@ -207,11 +207,11 @@ class User implements Partial<IUser> {
   public likes!: Types.ObjectId[];
 
   // Discord fields
-  @Field(() => String)
-  public username!: string;
+  @Field(() => String, { nullable: true })
+  public username?: string;
   
-  @Field(() => String)
-  public avatarUrl!: string;
+  @Field(() => String, { nullable: true })
+  public avatarUrl?: string;
 }
 
 @ObjectType()
