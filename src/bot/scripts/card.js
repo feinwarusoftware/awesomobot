@@ -198,11 +198,12 @@ const calculateCardAugmentData = (original, utype, uvalue) => {
 
       if (alteredCard[bracketless] == null) {
         if (bracketless === "power_hero_damage") {
-          let powerAmount = getPowerAmount("power_hero_damage", alteredCard);
-          if (powerAmount == null) {
-            return getPowerAmount("power_damage", alteredCard) / 10;
+          if (original.image === "CraigAdvCard") {
+            return Math.floor(getPowerAmount("power_damage")/5);
+          } else if (original.image === "TimmyAdvCard") {
+            return Math.floor(getPowerAmount("power_damage")/2);
           } else {
-            return powerAmount;
+            return Math.floor(getPowerAmount("power_damage")/10);
           }
         } else if (bracketless === "power_duration_min") {
           return alteredCard.powers[0].duration - 1;
@@ -223,6 +224,8 @@ const calculateCardAugmentData = (original, utype, uvalue) => {
           return getPowerAmount("power_damage", alteredCard);
         } else if (bracketless === "power_attack_boost") {
           return getPowerAmount("power_attack_boost", alteredCard);
+        } else if (bracketless === "power_hero_heal") {
+          return Math.floor(getPowerAmount("power_heal")/10);
         } else if (bracketless === "power_heal") {
           return getPowerAmount("power_heal", alteredCard);
         } else if (bracketless === "power_max_hp_gain") {
