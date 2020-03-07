@@ -338,7 +338,7 @@ router.get("/auth/discord", async (req, res) => {
   }
 
   res.cookie("session", jwt.sign({ id: new_session_doc._id }, config.jwt_secret), { maxAge: 604800000, httpOnly: true });
-  res.redirect(`https://discordapp.com/api/v6/oauth2/authorize?client_id=${config.discord_id}&redirect_uri=${encodeURIComponent(config.discord_redirect)}&response_type=code&scope=guilds.join%20identify&state=${nonce}`);
+  res.redirect(`https://discordapp.com/api/v6/oauth2/authorize?client_id=${config.discord_id}&redirect_uri=${encodeURIComponent(config.discord_redirect)}&response_type=code&scope=guilds%20guilds.join%20identify&state=${nonce}`);
 });
 
 router.get("/auth/discord/callback", async (req, res) => {
@@ -361,7 +361,7 @@ router.get("/auth/discord/callback", async (req, res) => {
   let token_res;
   try {
 
-    token_res = await axios.post("https://discordapp.com/api/v6/oauth2/token", `client_id=${config.discord_id}&client_secret=${config.discord_secret}&grant_type=authorization_code&code=${req.query.code}&redirect_uri=${encodeURIComponent(config.discord_redirect)}&scope=guilds.join%20identify`);
+    token_res = await axios.post("https://discordapp.com/api/v6/oauth2/token", `client_id=${config.discord_id}&client_secret=${config.discord_secret}&grant_type=authorization_code&code=${req.query.code}&redirect_uri=${encodeURIComponent(config.discord_redirect)}&scope=guilds%20guilds.join%20identify`);
   } catch(err) {
 
     error(err);
