@@ -9,7 +9,7 @@
             "type": "node",
             "request": "launch",
             "name": "rawryd",
-            "program": "${workspaceFolder}\\src\\bot\\index.js"
+            "program": "${workspaceFolder}\\index.js"
         }
     ]
 }
