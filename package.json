@@ -33,7 +33,7 @@
     "jsonwebtoken": "^8.4.0",
     "lodash": "^4.17.15",
     "moment-timezone": "^0.5.23",
-    "mongoose": "^5.4.4",
+    "mongoose": "^5.7.5",
     "morgan": "^1.9.1",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.8",
