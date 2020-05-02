@@ -1195,7 +1195,10 @@ const cb = async (client, message) => {
     await message.channel.send("", {
       file: path.join(__dirname, "temp", `pd-${saveDate}.png`)
     });
-    message.channel.send(embed);
+    if (messageEndswith(message) !== "img") {
+
+      message.channel.send(embed);
+    }
     fs.unlink(path.join(__dirname, "temp", `pd-${saveDate}.png`), error => {
       if (error != null) {
         throw `could not delete: pd-${saveDate}.png`;
