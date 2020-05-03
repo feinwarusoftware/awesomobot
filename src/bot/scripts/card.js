@@ -39,6 +39,8 @@ let cache = {
   cachedCard: []
 };
 
+let popped;
+
 const hourInMs = 1000 * 60 * 60;
 
 const readDir = dirPath => {
@@ -291,6 +293,7 @@ const cb = async (client, message) => {
     if (
       cmdWord === "ff" ||
       cmdWord === "art" ||
+      cmdWord === "img" ||
       (cmdWord.startsWith("l") ||
         cmdWord.startsWith("m") ||
         cmdWord.startsWith("u")) &&
@@ -383,6 +386,13 @@ const cb = async (client, message) => {
   if (!isNaN(messageEndswith(message))) {
     commandValues.modifier = "l";
     commandValues.value = messageEndswith(message);
+  }
+  if (messageEndswith(message) === "img" && !isNaN(split[split.length - 2])) {
+    commandValues.modifier = "l";
+    commandValues.value = split[split.length - 2];
+    commandValues.name = commandValues.name.split(" ")
+    popped = commandValues.name.pop()
+    commandValues.name = commandValues.name.join(" ")
   }
   if (commandValues.modifier === undefined) {
     commandValues.modifier = "l";
