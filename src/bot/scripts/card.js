@@ -39,6 +39,8 @@ let cache = {
   cachedCard: []
 };
 
+let popped;
+
 const hourInMs = 1000 * 60 * 60;
 
 const readDir = dirPath => {
@@ -179,7 +181,16 @@ const calculateCardAugmentData = (original, utype, uvalue) => {
           if (k === "power_duration") {
             a.powers[0].duration += v;
           } else if (k === "power_range") {
-            a.powers[0].radius += v;
+            if(a.powers.length === 0) {
+              //Specific cards like enforcer jimmy and dark angel red have the 
+              //radius attribute but don't have a power 
+              //(its a passive and there is no power radius attribute),
+              // so the bot crashes trying to apply the radius upgrade 
+              //because it will get the radius in the power array.
+              //fix this cuz this is a temporary fix
+            } else {
+              a.powers[0].radius += v;
+            }
           } else {
             return console.error("error applying upgrade stats 2: " + k);
           }
@@ -291,6 +302,7 @@ const cb = async (client, message) => {
     if (
       cmdWord === "ff" ||
       cmdWord === "art" ||
+      cmdWord === "img" ||
       (cmdWord.startsWith("l") ||
         cmdWord.startsWith("m") ||
         cmdWord.startsWith("u")) &&
@@ -383,6 +395,13 @@ const cb = async (client, message) => {
   if (!isNaN(messageEndswith(message))) {
     commandValues.modifier = "l";
     commandValues.value = messageEndswith(message);
+  }
+  if (messageEndswith(message) === "img" && !isNaN(split[split.length - 2])) {
+    commandValues.modifier = "l";
+    commandValues.value = split[split.length - 2];
+    commandValues.name = commandValues.name.split(" ")
+    popped = commandValues.name.pop()
+    commandValues.name = commandValues.name.join(" ")
   }
   if (commandValues.modifier === undefined) {
     commandValues.modifier = "l";
