@@ -181,7 +181,16 @@ const calculateCardAugmentData = (original, utype, uvalue) => {
           if (k === "power_duration") {
             a.powers[0].duration += v;
           } else if (k === "power_range") {
-            a.powers[0].radius += v;
+            if(a.powers.length === 0) {
+              //Specific cards like enforcer jimmy and dark angel red have the 
+              //radius attribute but don't have a power 
+              //(its a passive and there is no power radius attribute),
+              // so the bot crashes trying to apply the radius upgrade 
+              //because it will get the radius in the power array.
+              //fix this cuz this is a temporary fix
+            } else {
+              a.powers[0].radius += v;
+            }
           } else {
             return console.error("error applying upgrade stats 2: " + k);
           }
