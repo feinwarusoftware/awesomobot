@@ -39,7 +39,7 @@
     "request-promise-native": "^1.0.8",
     "sharp": "^0.21.2",
     "showdown": "^1.9.1",
-    "vm2": "^3.6.6"
+    "vm2": "^3.9.6"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
