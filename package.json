@@ -26,7 +26,7 @@
     "crypto": "^1.0.1",
     "discord.js": "^11.4.2",
     "ejs": "^2.6.1",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "forever": "^1.0.0",
     "i18n-express": "^1.1.3",
     "jimp": "^0.6.0",
